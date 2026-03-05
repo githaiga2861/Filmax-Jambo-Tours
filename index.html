@@ -99,49 +99,85 @@
   opacity: 1;                          /* appears only when scrolled */
   pointer-events: all;
 }
-  .nav-brand-idle {
+ .nav-brand-idle {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
   opacity: 1;
-  transition: opacity 0.6s ease;
+  transition: opacity 0.8s ease;
   pointer-events: none;
-  position: absolute;   /* sits in same spot as logo */
+  position: absolute;
   left: 48px;
 }
 
-.nav-idle-icon {
-  color: var(--gold);
-  font-size: 18px;
-  animation: idleRotate 8s linear infinite;
-  display: inline-block;
-  filter: drop-shadow(0 0 6px rgba(212,175,55,0.6));
+.nav-idle-compass {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.nav-idle-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 13px;
+.compass-ring {
+  color: var(--gold);
+  font-size: 26px;
+  display: inline-block;
+  animation: compassSpin 10s linear infinite;
+  filter: drop-shadow(0 0 8px rgba(212,175,55,0.7))
+          drop-shadow(0 0 16px rgba(212,175,55,0.3));
+  line-height: 1;
+}
+
+.compass-dot {
+  position: absolute;
+  color: var(--gold);
+  font-size: 20px;
+  line-height: 1;
+  animation: dotPulse 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px rgba(212,175,55,0.9));
+}
+
+.nav-idle-words {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.nav-idle-top {
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
   font-weight: 300;
-  letter-spacing: 4px;
+  letter-spacing: 5px;
   text-transform: uppercase;
   color: var(--muted);
 }
 
-.nav-idle-text em {
-  font-style: normal;
+.nav-idle-bottom {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 3px;
+  text-transform: uppercase;
   color: var(--gold);
-  font-weight: 400;
+  font-style: italic;
 }
 
-@keyframes idleRotate {
-  0%   { transform: rotate(0deg) scale(1);    }
-  25%  { transform: rotate(90deg) scale(1.1); }
-  50%  { transform: rotate(180deg) scale(1);  }
-  75%  { transform: rotate(270deg) scale(1.1);}
-  100% { transform: rotate(360deg) scale(1);  }
+.nav-idle-bottom em {
+  font-style: normal;
+  font-weight: 600;
 }
 
-/* Hide it once scrolling starts */
+@keyframes compassSpin {
+  0%   { transform: rotate(0deg);   }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 1;   transform: scale(1);    }
+  50%       { opacity: 0.3; transform: scale(0.6);  }
+}
+
 nav.scrolled .nav-brand-idle {
   opacity: 0;
   pointer-events: none;
@@ -1250,10 +1286,16 @@ nav.scrolled .nav-brand-idle {
     class="nav-logo-img"
   />
 </a>
- <div class="nav-brand-idle">
-  <span class="nav-idle-icon">⟡</span>
-  <span class="nav-idle-text">Est. Kenya <em>2024</em></span>
- </div>
+<div class="nav-brand-idle">
+  <div class="nav-idle-compass">
+    <span class="compass-ring">◈</span>
+    <span class="compass-dot">·</span>
+  </div>
+  <div class="nav-idle-words">
+    <span class="nav-idle-top">Nairobi, Kenya</span>
+    <span class="nav-idle-bottom">Est. <em>2025</em></span>
+  </div>
+</div>
  <button class="menu-btn" id="menuBtn" aria-label="Menu">
   <span></span><span></span><span></span>
  </button>
@@ -1655,6 +1697,15 @@ nav.scrolled .nav-brand-idle {
 const loader       = document.getElementById('loader');
 const loaderLogo   = document.querySelector('.loader-logo');
 const heroLogo     = document.getElementById('hero-logo');
+const navbar       = document.getElementById('navbar');
+  
+  window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+});
 
 // 3 heartbeats at 2.2s each = 6.6s, then trigger on the 4th
 setTimeout(() => {
