@@ -286,9 +286,24 @@
     drop-shadow(0 0 180px rgba(0, 0, 0, 0.95))
     drop-shadow(0 0 12px rgba(212, 175, 55, 0.45))
     drop-shadow(0 0 30px rgba(212, 175, 55, 0.2));
-}
+  }
+  #hero-logo {
+  position: relative;
+  }
 
-#hero-logo.visible {
+  #hero-logo::before {
+  content: '';
+  position: absolute;
+  inset: -20px;                /* slightly bigger than the logo */
+  background: radial-gradient(ellipse at center, 
+    rgba(0,0,0,0.95) 0%, 
+    rgba(0,0,0,0.7) 40%, 
+    transparent 70%
+  );
+  z-index: -1;
+  border-radius: 50%;
+}
+  #hero-logo.visible {
   opacity: 1;
 }
 
