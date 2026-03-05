@@ -322,8 +322,13 @@ nav.scrolled .nav-brand-idle {
   background-size: cover;
   background-position: center 30%;
   background-repeat: no-repeat;
-  filter: blur(1px) brightness(0.1);  /* slight blur + darkened */
-  transform: scale(1.02);             /* prevents white edges from blur */
+  filter: blur(0px) brightness(1);     /* starts bright and sharp */
+  transform: scale(1.02);
+  transition: filter 3s cubic-bezier(0.4, 0, 0.2, 1); /* slow cinematic settle */
+}
+
+.hero-sky.settled {
+  filter: blur(2px) brightness(0.35);  /* your final dark blurred state */
 }
 
 .hero-overlay {
@@ -474,10 +479,6 @@ nav.scrolled .nav-brand-idle {
   40%  { background-position: -20% center; }
   65%  { background-position: -20% center; }
   100% { background-position: 200% center; }
-}
-  
-#hero-logo.visible {
-  opacity: 1;
 }
 
   .btn-primary {
@@ -1694,43 +1695,49 @@ nav.scrolled .nav-brand-idle {
 </a>
 
 <script>
-const loader       = document.getElementById('loader');
-const loaderLogo   = document.querySelector('.loader-logo');
-const heroLogo     = document.getElementById('hero-logo');
-const navbar       = document.getElementById('navbar');
-  
-  window.addEventListener('scroll', () => {
+  // Nav scroll
+const navbar = document.getElementById('navbar');
+
+window.addEventListener('scroll', () => {
   if (window.scrollY > 50) {
     navbar.classList.add('scrolled');
   } else {
     navbar.classList.remove('scrolled');
   }
 });
+  
+const loader     = document.getElementById('loader');
+const loaderLogo = document.querySelector('.loader-logo');
+const heroLogo   = document.getElementById('hero-logo');
+const heroSky    = document.querySelector('.hero-sky');
 
-// 3 heartbeats at 2.2s each = 6.6s, then trigger on the 4th
 setTimeout(() => {
 
-  // Stop heartbeat, begin morphing
+  // Stop heartbeat, grow logo to hero size
   loaderLogo.classList.add('morph-to-hero');
 
-  // Start clearing the blur slowly
+  // Start fading out the loader blur
   loader.classList.add('fade-out');
 
-  // Show hero logo underneath immediately
+  // Show hero logo underneath
   heroLogo.style.display = 'block';
 
-  // Fade hero logo in after blur starts clearing
   setTimeout(() => {
     heroLogo.classList.add('visible');
   }, 400);
 
-  // Remove loader from DOM after full transition completes
+  // Wait for loader to fully fade out THEN start darkening+blurring
+  setTimeout(() => {
+    heroSky.classList.add('settled'); // ← triggers after loader is gone
+  }, 2000); // ← adjust this: how long after fade starts before darkening begins
+
+  // Remove loader from DOM
   setTimeout(() => {
     loaderLogo.classList.add('gone');
     loader.style.display = 'none';
   }, 3200);
 
-}, 6600); // exactly 3 full heartbeats
+}, 6600);
   
 // Custom Cursor
 const cursor = document.getElementById('cursor');
@@ -1769,11 +1776,6 @@ document.querySelectorAll('a, button, .highlight-card, .wildlife-cell, .package-
   });
 });
 
-// Nav scroll
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 60);
-});
 
 // Menu
 const menuBtn = document.getElementById('menuBtn');
