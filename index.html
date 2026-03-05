@@ -324,7 +324,7 @@ nav.scrolled .nav-brand-idle {
   background-repeat: no-repeat;
   filter: blur(0px) brightness(1);     /* starts bright and sharp */
   transform: scale(1.02);
-  transition: filter 3s cubic-bezier(0.4, 0, 0.2, 1); /* slow cinematic settle */
+  transition: filter 5s cubic-bezier(0.4, 0, 0.2, 1); /* slow cinematic settle */
 }
 
 .hero-sky.settled {
@@ -1737,7 +1737,7 @@ setTimeout(() => {
   // Wait for loader to fully fade out THEN start darkening+blurring
   setTimeout(() => {
     heroSky.classList.add('settled'); // ← triggers after loader is gone
-  }, 2000); // ← adjust this: how long after fade starts before darkening begins
+  }, 2500); // ← adjust this: how long after fade starts before darkening begins
 
   // Remove loader from DOM
   setTimeout(() => {
