@@ -393,6 +393,19 @@ nav.scrolled .nav-brand-idle {
 
   #hero-logo.visible {
   opacity: 1;
+}  
+  .hero-sun { display: none; }
+.silhouette-layer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.silhouette-layer svg {
+  display: block;
+  width: 100%;
 }
 
   .hero-eyebrow {
@@ -1266,6 +1279,15 @@ nav.scrolled .nav-brand-idle {
 .loader-logo.gone {
   display: none;
 }
+  @keyframes hardPulse {
+  0%   { transform: scale(1)    translate(0, 0)        rotate(0deg);    }
+  4%   { transform: scale(1.09) translate(0.5px,-0.5px)  rotate(0.1deg);  }
+  8%   { transform: scale(0.98) translate(-0.5px,0.5px)  rotate(-0.1deg); }
+  13%  { transform: scale(1.06) translate(0.3px,-0.3px)  rotate(0.08deg); }
+  18%  { transform: scale(1)    translate(-0.3px,0.2px)  rotate(-0.05deg);}
+  20%  { transform: scale(0.995) translate(0.2px,-0.2px) rotate(0.03deg); }
+  100% { transform: scale(1)    translate(0, 0)        rotate(0deg);    }
+}
 </style>
 </head>
 <body>
@@ -1695,14 +1717,24 @@ nav.scrolled .nav-brand-idle {
 </a>
 
 <script>
-  // Nav scroll
+// Nav scroll + Parallax hero — merged
 const navbar = document.getElementById('navbar');
 
 window.addEventListener('scroll', () => {
-  if (window.scrollY > 50) {
+  const scrollY = window.scrollY;
+
+  // Nav scroll
+  if (scrollY > 50) {
     navbar.classList.add('scrolled');
   } else {
     navbar.classList.remove('scrolled');
+  }
+
+  // Parallax hero
+  if (scrollY < window.innerHeight) {
+    document.querySelector('.hero-content').style.transform = `translateY(${scrollY * 0.3}px)`;
+    document.querySelector('.hero-content').style.opacity = 1 - (scrollY / 500);
+    document.querySelector('.hero-sun').style.transform = `translateX(-50%) translateY(${scrollY * 0.1}px)`;
   }
 });
   
@@ -1811,17 +1843,6 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
 reveals.forEach(el => observer.observe(el));
-
-// Parallax hero
-window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
-  const hero = document.getElementById('hero');
-  if (scrollY < window.innerHeight) {
-    document.querySelector('.hero-content').style.transform = `translateY(${scrollY * 0.3}px)`;
-    document.querySelector('.hero-content').style.opacity = 1 - (scrollY / 500);
-    document.querySelector('.hero-sun').style.transform = `translateX(-50%) translateY(${scrollY * 0.1}px)`;
-  }
-});
 
 // Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
