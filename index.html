@@ -85,16 +85,7 @@
     border-bottom: none;
   }
 
-  .nav-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 14px;
-    font-weight: 400;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--gold);
-    opacity: 0.8;
- }
-.nav-logo-link {
+  .nav-logo-link {
   display: flex;
   align-items: center;
   text-decoration: none; 
@@ -107,6 +98,53 @@
   nav.scrolled .nav-logo-link {
   opacity: 1;                          /* appears only when scrolled */
   pointer-events: all;
+}
+  .nav-brand-idle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+  position: absolute;   /* sits in same spot as logo */
+  left: 48px;
+}
+
+.nav-idle-icon {
+  color: var(--gold);
+  font-size: 18px;
+  animation: idleRotate 8s linear infinite;
+  display: inline-block;
+  filter: drop-shadow(0 0 6px rgba(212,175,55,0.6));
+}
+
+.nav-idle-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.nav-idle-text em {
+  font-style: normal;
+  color: var(--gold);
+  font-weight: 400;
+}
+
+@keyframes idleRotate {
+  0%   { transform: rotate(0deg) scale(1);    }
+  25%  { transform: rotate(90deg) scale(1.1); }
+  50%  { transform: rotate(180deg) scale(1);  }
+  75%  { transform: rotate(270deg) scale(1.1);}
+  100% { transform: rotate(360deg) scale(1);  }
+}
+
+/* Hide it once scrolling starts */
+nav.scrolled .nav-brand-idle {
+  opacity: 0;
+  pointer-events: none;
 }
   @keyframes goldenPulse {
   0%, 100% {
@@ -138,10 +176,10 @@
 }
   @media (max-width: 600px) {
   .nav-logo-img {
-    height: 90px;
+    height: 70px;
   }
   nav.scrolled .nav-logo-img {
-    height: 70px;
+    height: 55px;
   }
 }
 
@@ -1212,9 +1250,13 @@
     class="nav-logo-img"
   />
 </a>
-   <button class="menu-btn" id="menuBtn" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+ <div class="nav-brand-idle">
+  <span class="nav-idle-icon">⟡</span>
+  <span class="nav-idle-text">Est. Kenya <em>2024</em></span>
+ </div>
+ <button class="menu-btn" id="menuBtn" aria-label="Menu">
+  <span></span><span></span><span></span>
+ </button>
 </nav>
 
 <!-- Dropdown -->
