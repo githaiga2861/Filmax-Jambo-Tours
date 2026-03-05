@@ -226,31 +226,7 @@
     overflow: hidden;
   }
 
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-  }
-
   /* Cinematic landscape with CSS */
-  .hero-bg::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 40% at 50% 60%, rgba(180,100,20,0.18) 0%, transparent 70%),
-      radial-gradient(ellipse 80% 60% at 20% 80%, rgba(139,69,19,0.12) 0%, transparent 60%),
-      linear-gradient(180deg,
-        #080808 0%,
-        #0f0c08 15%,
-        #1a1208 30%,
-        #0d1a0d 50%,
-        #0a0a08 70%,
-        #080808 100%
-      );
-    z-index: 1;
-  }
-
 .hero-bg {
   position: absolute;
   inset: 0;
@@ -261,7 +237,7 @@
 .hero-sky {
   position: absolute;
   inset: 0;
-  background-image: url('assets/landscape.jpg'); /* ← your image path here */
+  background-image: url('assets/landscape.jpg');
   background-size: cover;
   background-position: center 30%;
   background-repeat: no-repeat;
@@ -272,10 +248,10 @@
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(8, 8, 8, 0.55) 0%,       /* darkens top */
-    rgba(8, 8, 8, 0.35) 40%,      /* lighter in middle so image breathes */
-    rgba(8, 8, 8, 0.75) 80%,      /* darkens toward bottom */
-    rgba(8, 8, 8, 0.95) 100%      /* nearly solid at footer edge */
+    rgba(8, 8, 8, 0.55) 0%,
+    rgba(8, 8, 8, 0.35) 40%,
+    rgba(8, 8, 8, 0.75) 80%,
+    rgba(8, 8, 8, 0.95) 100%
   );
 }
 
