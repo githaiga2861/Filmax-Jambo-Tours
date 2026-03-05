@@ -254,31 +254,6 @@
     rgba(8, 8, 8, 0.95) 100%
   );
 }
-
-  /* Wildlife silhouettes floating */
-  .animal-float {
-    position: absolute;
-    z-index: 3;
-    opacity: 0.08;
-    filter: blur(0.5px);
-  }
-  .animal-float.elephant {
-    bottom: 28%;
-    right: 8%;
-    width: 180px;
-    animation: drift 20s ease-in-out infinite;
-  }
-  .animal-float.giraffe {
-    bottom: 28%;
-    left: 6%;
-    width: 80px;
-    animation: drift 25s ease-in-out infinite reverse;
-  }
-  @keyframes drift {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(-20px); }
-  }
-
   .hero-content {
     position: relative;
     z-index: 5;
@@ -296,42 +271,6 @@
     animation: fadeUp 1s 0.3s forwards;
     margin-bottom: 4px;
     display: block;
-  }
-
-  .hero-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(52px, 9vw, 110px);
-    font-weight: 900;
-    line-height: 0.95;
-    opacity: 0;
-    animation: fadeUp 1.2s 0.6s forwards;
-    margin-bottom: 8px;
-  }
-  .hero-title .line1 { display: block; color: var(--text); }
-  .hero-title .line2 {
-    display: block;
-    color: var(--gold-dim);
-    -webkit-text-stroke: 1px rgba(212,175,55,0.6);
-    font-style: italic;
-  }
-  .hero-title .line3 { display: block; color: var(--text); }
-
-  .paw-o {
-    display: inline-block;
-    position: relative;
-  }
-  .paw-svg {
-    display: inline-block;
-    vertical-align: -0.08em;
-    width: 0.75em;
-    height: 0.75em;
-    fill: var(--gold);
-    filter: drop-shadow(0 0 8px rgba(212,175,55,0.6));
-    animation: pawGlow 3s ease-in-out infinite;
-  }
-  @keyframes pawGlow {
-    0%, 100% { filter: drop-shadow(0 0 6px rgba(212,175,55,0.4)); }
-    50% { filter: drop-shadow(0 0 16px rgba(212,175,55,0.8)); }
   }
 
   .hero-subtitle {
@@ -359,7 +298,7 @@
   #hero-logo {
   width: 600px;
   max-width: 85vw; /* scales down on mobile automatically */
-  margin: -100px auto -100px; 
+  margin: 0px auto 8px; 
   margin: 0 auto 4px;
   display: block;
   opacity: 0;
