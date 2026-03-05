@@ -1129,11 +1129,51 @@
     .wildlife-mosaic { grid-template-columns: 1fr; grid-template-rows: repeat(5, 200px); }
     nav.scrolled { padding: 14px 24px; }
   }
+  /* LOADING SCREEN */
+#loader {
+  position: fixed;
+  inset: 0;
+  background: #080808;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: loaderFadeOut 0.8s ease forwards 4s; /* fades out after 4s */
+}
+
+#loader.hidden {
+  pointer-events: none;
+}
+
+@keyframes loaderFadeOut {
+  to { opacity: 0; visibility: hidden; }
+}
+
+.loader-logo {
+  width: 220px;
+  animation: hardPulse 0.8s ease-in-out infinite;
+}
+
+@keyframes hardPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 30px rgba(212,175,55,0.9)) drop-shadow(0 0 60px rgba(212,175,55,0.6));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 6px rgba(212,175,55,0.2)) drop-shadow(0 0 12px rgba(212,175,55,0.1));
+    transform: scale(0.95);
+  }
+}
 </style>
 </head>
 <body>
 
-<!-- Custom cursor -->
+  <!-- LOADING SCREEN — must be the FIRST element inside <body> -->
+<div id="loader">
+  <img src="assets/images/filmax-jambo-tours-logo.png" alt="Filmax Jambo Tours" class="loader-logo" />
+</div>
+  
+  <!-- Custom cursor -->
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
@@ -1548,6 +1588,11 @@
 </a>
 
 <script>
+  // Remove loader from DOM after animation completes
+setTimeout(() => {
+  document.getElementById('loader').classList.add('hidden');
+}, 4800);
+  
 // Custom Cursor
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
