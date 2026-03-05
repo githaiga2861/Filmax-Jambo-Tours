@@ -1124,7 +1124,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 2.8s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Blurred hero as background */
   background-image: url('assets/landscape.jpg');
@@ -1150,11 +1150,13 @@
   );
   box-shadow: inset 0 0 250px rgba(180, 130, 10, 0.08);
   z-index: 0;
+  transition: backdrop-filter 2.8s ease, -webkit-backdrop-filter 2.8s ease;
 }
 
-#loader.fade-out {
-  opacity: 0;
-  pointer-events: none;
+
+  #loader.fade-out::before {
+  backdrop-filter: blur(0px) brightness(1) saturate(1);
+  -webkit-backdrop-filter: blur(0px) brightness(1) saturate(1);
 }
 
 .loader-logo {
@@ -1165,10 +1167,10 @@
   z-index: 99999;
   width: 300px;               /* match your hero-logo width exactly */
   max-width: 75vw;
-  animation: hardPulse 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1),
-              top 1.2s cubic-bezier(0.4, 0, 0.2, 1),
-              translate 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: hardPulse 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transition: width 1.8s cubic-bezier(0.4, 0, 0.2, 1),
+              top 1.8s cubic-bezier(0.4, 0, 0.2, 1),
+              translate 1.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .loader-logo.morph-to-hero {
@@ -1603,25 +1605,30 @@ const loader       = document.getElementById('loader');
 const loaderLogo   = document.querySelector('.loader-logo');
 const heroLogo     = document.getElementById('hero-logo');
 
+// 3 heartbeats at 2.2s each = 6.6s, then trigger on the 4th
 setTimeout(() => {
-  // Stop heartbeat, glide logo toward hero position
+
+  // Stop heartbeat, begin morphing
   loaderLogo.classList.add('morph-to-hero');
 
+  // Start clearing the blur slowly
+  loader.classList.add('fade-out');
+
+  // Show hero logo underneath immediately
+  heroLogo.style.display = 'block';
+
+  // Fade hero logo in after blur starts clearing
   setTimeout(() => {
-    // Fade out dark overlay
-    loader.classList.add('fade-out');
+    heroLogo.classList.add('visible');
+  }, 400);
 
-    // Show hero logo at same position
-    heroLogo.style.display = 'block';
+  // Remove loader from DOM after full transition completes
+  setTimeout(() => {
+    loaderLogo.classList.add('gone');
+    loader.style.display = 'none';
+  }, 3200);
 
-    setTimeout(() => {
-      heroLogo.classList.add('visible'); // fade it in
-      loaderLogo.classList.add('gone'); // remove loader logo
-    }, 150);
-
-  }, 1200);
-
-}, 4000);
+}, 6600); // exactly 3 full heartbeats
   
 // Custom Cursor
 const cursor = document.getElementById('cursor');
