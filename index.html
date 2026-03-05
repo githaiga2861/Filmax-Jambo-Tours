@@ -251,62 +251,33 @@
     z-index: 1;
   }
 
-  /* Savanna silhouette sky */
-  .hero-sky {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 100% 50% at 50% 0%, rgba(180,80,10,0.25) 0%, transparent 60%),
-                radial-gradient(ellipse 40% 30% at 70% 10%, rgba(210,120,0,0.15) 0%, transparent 50%);
-    z-index: 1;
-  }
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
 
-  /* Animated "sun glow" */
-  .hero-sun {
-    position: absolute;
-    width: 200px; height: 200px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,160,30,0.3) 0%, transparent 70%);
-    top: 15%; left: 50%;
-    transform: translateX(-50%);
-    z-index: 2;
-    animation: sunPulse 6s ease-in-out infinite;
-  }
-  @keyframes sunPulse {
-    0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
-    50% { opacity: 1; transform: translateX(-50%) scale(1.15); }
-  }
+.hero-sky {
+  position: absolute;
+  inset: 0;
+  background-image: url('assets/landscape.jpg'); /* ← your image path here */
+  background-size: cover;
+  background-position: center 30%;
+  background-repeat: no-repeat;
+}
 
-  /* Tree silhouettes */
-  .silhouette-layer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 45%;
-    z-index: 3;
-    overflow: hidden;
-  }
-
-  .silhouette-layer svg {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  /* Overlay */
-  .hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to bottom,
-      rgba(8,8,8,0.55) 0%,
-      rgba(8,8,8,0.3) 40%,
-      rgba(8,8,8,0.5) 70%,
-      rgba(8,8,8,0.95) 100%
-    );
-    z-index: 4;
-  }
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(8, 8, 8, 0.55) 0%,       /* darkens top */
+    rgba(8, 8, 8, 0.35) 40%,      /* lighter in middle so image breathes */
+    rgba(8, 8, 8, 0.75) 80%,      /* darkens toward bottom */
+    rgba(8, 8, 8, 0.95) 100%      /* nearly solid at footer edge */
+  );
+}
 
   /* Wildlife silhouettes floating */
   .animal-float {
