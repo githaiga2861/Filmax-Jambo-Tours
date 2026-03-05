@@ -409,6 +409,21 @@
     animation: fadeUp 1s 1.3s forwards;
   }
 
+  #hero-logo {
+  width: 420px;
+  max-width: 85vw;       /* scales down on mobile automatically */
+  margin: 0 auto 24px;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  filter: drop-shadow(0 0 10px rgba(212,175,55,0.35)) drop-shadow(0 0 22px rgba(212,175,55,0.15));
+  animation: goldenPulse 4s ease-in-out infinite;
+}
+
+#hero-logo.visible {
+  opacity: 1;
+}
+
   .btn-primary {
     font-family: 'Jost', sans-serif;
     font-size: 11px;
@@ -1129,7 +1144,7 @@
     .wildlife-mosaic { grid-template-columns: 1fr; grid-template-rows: repeat(5, 200px); }
     nav.scrolled { padding: 14px 24px; }
   }
-  /* LOADING SCREEN */
+/* === LOADER === */
 #loader {
   position: fixed;
   inset: 0;
@@ -1138,52 +1153,62 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: loaderFadeOut 0.8s ease forwards 4s; /* fades out after 4s */
+  transition: opacity 0.8s ease;
 }
 
-#loader.hidden {
+#loader.fade-out {
+  opacity: 0;
   pointer-events: none;
-}
-
-@keyframes loaderFadeOut {
-  to { opacity: 0; visibility: hidden; }
 }
 
 .loader-logo {
   width: 380px;
+  max-width: 80vw;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: 99999;
   animation: hardPulse 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1),
+              top 1.2s cubic-bezier(0.4, 0, 0.2, 1),
+              translate 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.loader-logo.morph-to-hero {
+  animation: none;
+  width: 420px;
+  top: 44%;
+}
+
+.loader-logo.gone {
+  display: none;
 }
 
 @keyframes hardPulse {
-  0% {
-    transform: scale(1) translate(0, 0) rotate(0deg);
+  0%   { transform: scale(1)    translate(0, 0)       rotate(0deg);    }
+  4%   { transform: scale(1.09) translate(0.5px,-0.5px) rotate(0.1deg);  }
+  8%   { transform: scale(0.98) translate(-0.5px,0.5px) rotate(-0.1deg); }
+  13%  { transform: scale(1.06) translate(0.3px,-0.3px) rotate(0.08deg); }
+  18%  { transform: scale(1)    translate(-0.3px,0.2px) rotate(-0.05deg);}
+  20%  { transform: scale(0.995) translate(0.2px,-0.2px) rotate(0.03deg);}
+  100% { transform: scale(1)    translate(0, 0)       rotate(0deg);    }
+}
+
+@keyframes goldenPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px rgba(212,175,55,0.35)) drop-shadow(0 0 22px rgba(212,175,55,0.15));
   }
-  4% {
-    transform: scale(1.09) translate(0.5px, -0.5px) rotate(0.1deg);
-  }
-  8% {
-    transform: scale(0.98) translate(-0.5px, 0.5px) rotate(-0.1deg);
-  }
-  13% {
-    transform: scale(1.06) translate(0.3px, -0.3px) rotate(0.08deg);
-  }
-  18% {
-    transform: scale(1) translate(-0.3px, 0.2px) rotate(-0.05deg);
-  }
-  20% {
-    transform: scale(0.995) translate(0.2px, -0.2px) rotate(0.03deg);
-  }
-  100% {
-    transform: scale(1) translate(0, 0) rotate(0deg);
+  50% {
+    filter: drop-shadow(0 0 4px rgba(212,175,55,0.1)) drop-shadow(0 0 8px rgba(212,175,55,0.05));
   }
 }
 </style>
 </head>
 <body>
 
-  <!-- LOADING SCREEN — must be the FIRST element inside <body> -->
 <div id="loader">
-  <img src="assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.png" alt="Filmax Jambo Tours" class="loader-logo" />
+  <img class="loader-logo" src="assets/images/filmax-jambo-tours-logo.png" alt="Filmax Jambo Tours"/>
 </div>
   
   <!-- Custom cursor -->
@@ -1246,11 +1271,7 @@
 
   <div class="hero-content">
     <span class="hero-eyebrow">Kenya's Finest Safari House</span>
-    <h1 class="hero-title">
-      <span class="line1">Filmax</span>
-      <span class="line2">Jamb<span class="paw-o"><svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="78" rx="22" ry="18"/><ellipse cx="20" cy="58" rx="10" ry="13" transform="rotate(-20 20 58)"/><ellipse cx="80" cy="58" rx="10" ry="13" transform="rotate(20 80 58)"/><ellipse cx="32" cy="38" rx="9" ry="12" transform="rotate(-10 32 38)"/><ellipse cx="68" cy="38" rx="9" ry="12" transform="rotate(10 68 38)"/></svg></span></span>
-      <span class="line3">Tours</span>
-    </h1>
+    <img id="hero-logo" src="assets/images/filmax-jambo-tours-logo.png" alt="Filmax Jambo Tours" />
     <p class="hero-subtitle">The wild calls, will you answer?</p>
     <div class="hero-actions">
       <a href="#packages" class="btn-primary">Book Your Safari</a>
@@ -1601,10 +1622,29 @@
 </a>
 
 <script>
-  // Remove loader from DOM after animation completes
+const loader       = document.getElementById('loader');
+const loaderLogo   = document.querySelector('.loader-logo');
+const heroLogo     = document.getElementById('hero-logo');
+
 setTimeout(() => {
-  document.getElementById('loader').classList.add('hidden');
-}, 4800);
+  // Stop heartbeat, glide logo toward hero position
+  loaderLogo.classList.add('morph-to-hero');
+
+  setTimeout(() => {
+    // Fade out dark overlay
+    loader.classList.add('fade-out');
+
+    // Show hero logo at same position
+    heroLogo.style.display = 'block';
+
+    setTimeout(() => {
+      heroLogo.classList.add('visible'); // fade it in
+      loaderLogo.classList.add('gone'); // remove loader logo
+    }, 150);
+
+  }, 1200);
+
+}, 4000);
   
 // Custom Cursor
 const cursor = document.getElementById('cursor');
