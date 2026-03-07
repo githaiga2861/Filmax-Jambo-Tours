@@ -1853,8 +1853,10 @@ const heroLogo   = document.getElementById('hero-logo');
 const heroSky    = document.querySelector('.hero-sky');
 
 setTimeout(() => {
+
   loaderLogo.classList.add('morph-to-hero');
   loader.classList.add('fade-out');
+
   heroLogo.style.display = 'block';
 
   setTimeout(() => {
@@ -1871,6 +1873,84 @@ setTimeout(() => {
   }, 3200);
 
 }, 6600);
+
+// Hero logo flies to nav on scroll
+const heroLogoEl = document.getElementById('hero-logo');
+const navLogoLink = document.querySelector('.nav-logo-link');
+const navLogoImg = document.querySelector('.nav-logo-img');
+
+let hasFlown = false;
+
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+
+  if (scrollY > 80 && !hasFlown) {
+    hasFlown = true;
+
+    // Get positions
+    const heroRect = heroLogoEl.getBoundingClientRect();
+    const navRect = navLogoLink.getBoundingClientRect();
+
+    // Create a flying clone
+    const clone = heroLogoEl.cloneNode(true);
+    clone.removeAttribute('id');
+    clone.style.cssText = `
+      position: fixed;
+      top: ${heroRect.top}px;
+      left: ${heroRect.left}px;
+      width: ${heroRect.width}px;
+      height: ${heroRect.height}px;
+      opacity: 1;
+      z-index: 9997;
+      pointer-events: none;
+      transition: top 0.7s cubic-bezier(0.77,0,0.175,1),
+                  left 0.7s cubic-bezier(0.77,0,0.175,1),
+                  width 0.7s cubic-bezier(0.77,0,0.175,1),
+                  height 0.7s cubic-bezier(0.77,0,0.175,1),
+                  opacity 0.4s ease 0.5s;
+      filter: drop-shadow(0 0 12px rgba(212,175,55,0.5)) drop-shadow(0 0 28px rgba(212,175,55,0.2));
+      animation: goldenPulse 4s ease-in-out infinite;
+      margin: 0;
+    `;
+    document.body.appendChild(clone);
+
+    // Hide the hero logo
+    heroLogoEl.style.opacity = '0';
+    heroLogoEl.style.transition = 'opacity 0.3s ease';
+
+    // Trigger the fly after a paint frame
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const targetHeight = 70; // matches nav.scrolled .nav-logo-img height
+        const aspectRatio = heroRect.width / heroRect.height;
+        const targetWidth = targetHeight * aspectRatio;
+
+        clone.style.top = `${navRect.top + (navRect.height - targetHeight) / 2}px`;
+        clone.style.left = `${navRect.left}px`;
+        clone.style.width = `${targetWidth}px`;
+        clone.style.height = `${targetHeight}px`;
+      });
+    });
+
+    // Once landed, remove clone and reveal real nav logo
+    setTimeout(() => {
+      clone.style.opacity = '0';
+      setTimeout(() => {
+        clone.remove();
+        navLogoLink.style.opacity = '1';
+        navLogoLink.style.pointerEvents = 'all';
+      }, 400);
+    }, 750);
+  }
+
+  // Reset if scrolled back to top
+  if (scrollY <= 80 && hasFlown) {
+    hasFlown = false;
+    heroLogoEl.style.opacity = '1';
+    navLogoLink.style.opacity = '0';
+    navLogoLink.style.pointerEvents = 'none';
+  }
+});
   
 // Custom Cursor
 const cursor = document.getElementById('cursor');
