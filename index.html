@@ -664,6 +664,35 @@ nav.scrolled .nav-brand-idle {
   .highlight-card:hover .card-number {
     -webkit-text-stroke: 1px rgba(212,175,55,0.5);
   }
+  .highlight-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,0.03) 30%,
+    rgba(255,255,255,0.09) 50%,
+    rgba(255,255,255,0.03) 70%,
+    transparent 100%
+  );
+  transform: skewX(-15deg);
+  transition: none;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.highlight-card:hover::after {
+  animation: highlightMetalShine 0.55s ease forwards;
+}
+
+@keyframes highlightMetalShine {
+  0%   { left: -100%; }
+  100% { left: 160%;  }
+}
 
   .card-icon {
     font-size: 28px;
