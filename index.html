@@ -1877,9 +1877,14 @@ setTimeout(() => {
 // Hero logo flies to nav on scroll
 const heroLogoEl = document.getElementById('hero-logo');
 const navLogoLink = document.querySelector('.nav-logo-link');
-const navLogoImg = document.querySelector('.nav-logo-img');
 
 let hasFlown = false;
+let heroStartRect = null;
+
+// Capture hero logo position before any scrolling happens
+window.addEventListener('load', () => {
+  heroStartRect = heroLogoEl.getBoundingClientRect();
+});
 
 window.addEventListener('scroll', () => {
   const scrollY = window.scrollY;
@@ -1887,68 +1892,78 @@ window.addEventListener('scroll', () => {
   if (scrollY > 80 && !hasFlown) {
     hasFlown = true;
 
-    // Get positions
-    const heroRect = heroLogoEl.getBoundingClientRect();
-    const navRect = navLogoLink.getBoundingClientRect();
+    // Use pre-captured rect + scroll offset for true original position
+    const fromTop = heroStartRect.top + scrollY - scrollY;
+    const fromLeft = heroStartRect.left;
+    const fromWidth = heroStartRect.width;
+    const fromHeight = heroStartRect.height;
 
-    // Create a flying clone
+    const navRect = navLogoLink.getBoundingClientRect();
+    const targetHeight = 70;
+    const targetWidth = targetHeight * (fromWidth / fromHeight);
+    const targetTop = navRect.top + (navRect.height - targetHeight) / 2;
+    const targetLeft = navRect.left;
+
+    // Hide real hero logo instantly
+    heroLogoEl.style.transition = 'none';
+    heroLogoEl.style.opacity = '0';
+
+    // Build clone starting AT current visible position
+    const currentHeroRect = heroLogoEl.getBoundingClientRect();
     const clone = heroLogoEl.cloneNode(true);
     clone.removeAttribute('id');
     clone.style.cssText = `
       position: fixed;
-      top: ${heroRect.top}px;
-      left: ${heroRect.left}px;
-      width: ${heroRect.width}px;
-      height: ${heroRect.height}px;
+      top: ${currentHeroRect.top}px;
+      left: ${currentHeroRect.left}px;
+      width: ${currentHeroRect.width}px;
+      height: ${currentHeroRect.height}px;
       opacity: 1;
       z-index: 9997;
       pointer-events: none;
-      transition: top 0.7s cubic-bezier(0.77,0,0.175,1),
-                  left 0.7s cubic-bezier(0.77,0,0.175,1),
-                  width 0.7s cubic-bezier(0.77,0,0.175,1),
-                  height 0.7s cubic-bezier(0.77,0,0.175,1),
-                  opacity 0.4s ease 0.5s;
-      filter: drop-shadow(0 0 12px rgba(212,175,55,0.5)) drop-shadow(0 0 28px rgba(212,175,55,0.2));
-      animation: goldenPulse 4s ease-in-out infinite;
       margin: 0;
+      transition: none;
+      filter: drop-shadow(0 0 12px rgba(212,175,55,0.5)) drop-shadow(0 0 28px rgba(212,175,55,0.2));
     `;
     document.body.appendChild(clone);
 
-    // Hide the hero logo
-    heroLogoEl.style.opacity = '0';
-    heroLogoEl.style.transition = 'opacity 0.3s ease';
-
-    // Trigger the fly after a paint frame
+    // Force a paint, then begin transition
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        const targetHeight = 70; // matches nav.scrolled .nav-logo-img height
-        const aspectRatio = heroRect.width / heroRect.height;
-        const targetWidth = targetHeight * aspectRatio;
-
-        clone.style.top = `${navRect.top + (navRect.height - targetHeight) / 2}px`;
-        clone.style.left = `${navRect.left}px`;
+        clone.style.transition = `
+          top 0.65s cubic-bezier(0.76, 0, 0.24, 1),
+          left 0.65s cubic-bezier(0.76, 0, 0.24, 1),
+          width 0.65s cubic-bezier(0.76, 0, 0.24, 1),
+          height 0.65s cubic-bezier(0.76, 0, 0.24, 1),
+          opacity 0.3s ease 0.45s
+        `;
+        clone.style.top = `${targetTop}px`;
+        clone.style.left = `${targetLeft}px`;
         clone.style.width = `${targetWidth}px`;
         clone.style.height = `${targetHeight}px`;
       });
     });
 
-    // Once landed, remove clone and reveal real nav logo
+    // Land: fade out clone, snap in real nav logo
     setTimeout(() => {
       clone.style.opacity = '0';
       setTimeout(() => {
         clone.remove();
+        navLogoLink.style.transition = 'none';
         navLogoLink.style.opacity = '1';
         navLogoLink.style.pointerEvents = 'all';
-      }, 400);
-    }, 750);
+      }, 300);
+    }, 650);
   }
 
-  // Reset if scrolled back to top
+  // Reset on scroll back to top
   if (scrollY <= 80 && hasFlown) {
     hasFlown = false;
-    heroLogoEl.style.opacity = '1';
+    navLogoLink.style.transition = 'opacity 0.3s ease';
     navLogoLink.style.opacity = '0';
     navLogoLink.style.pointerEvents = 'none';
+    heroLogoEl.style.transition = 'opacity 0.4s ease';
+    heroLogoEl.style.opacity = '1';
   }
 });
   
