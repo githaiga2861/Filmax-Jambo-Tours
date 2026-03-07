@@ -1985,6 +1985,232 @@ if (statsBar) statsObserver.observe(statsBar);
     });
   });
 })();
+  // PACKAGES SLIDESHOW
+const allPackages = [
+  {
+    badge: null,
+    duration: '4 Days · 3 Nights',
+    name: 'Mara<br>Awakening',
+    price: '$2,800',
+    features: [
+      'Maasai Mara Game Reserve',
+      'Private 4x4 Land Cruiser',
+      'Luxury Tented Camp',
+      'Expert Naturalist Guide',
+      'All Meals Included',
+      'Sundowner Cocktails',
+    ],
+  },
+  {
+    badge: 'Most Exclusive',
+    duration: '7 Days · 6 Nights',
+    name: 'Grand<br>Odyssey',
+    price: '$6,500',
+    features: [
+      'Mara + Amboseli + Samburu',
+      'Private Charter Flights',
+      '5-Star Lodge & Tented Camps',
+      'Sunrise Balloon Safari',
+      'Cultural Maasai Immersion',
+      'Butler & Concierge Service',
+      'All-Inclusive Premium',
+    ],
+  },
+  {
+    badge: null,
+    duration: '10 Days · 9 Nights',
+    name: 'Ultimate<br>Kenya',
+    price: '$11,200',
+    features: [
+      '5 Iconic National Parks',
+      'Private Conservancy Access',
+      'Exclusive Use Bush Camp',
+      'Night Safari Drives',
+      'Marine Excursion, Diani',
+      'Photography Guide Included',
+      'Bespoke Farewell Dinner',
+    ],
+  },
+  {
+    badge: 'New',
+    duration: '3 Days · 2 Nights',
+    name: 'Amboseli<br>Escape',
+    price: '$1,950',
+    features: [
+      'Amboseli National Park',
+      'Kilimanjaro Panorama Views',
+      'Private Game Drives',
+      'Bush Breakfast Experience',
+      'All Meals Included',
+      'Expert Naturalist Guide',
+    ],
+  },
+  {
+    badge: null,
+    duration: '5 Days · 4 Nights',
+    name: 'Samburu<br>Wilderness',
+    price: '$3,400',
+    features: [
+      'Samburu National Reserve',
+      'Rare Northern Species',
+      'Private Tented Camp',
+      'Camel Safari Experience',
+      'Cultural Village Visit',
+      'All Meals & Transfers',
+    ],
+  },
+  {
+    badge: 'Popular',
+    duration: '6 Days · 5 Nights',
+    name: 'Coastal<br>Safari Blend',
+    price: '$4,200',
+    features: [
+      'Tsavo East & West',
+      'Diani Beach Extension',
+      'Ocean-View Lodge',
+      'Snorkelling & Marine Park',
+      'Private Game Drives',
+      'All-Inclusive Package',
+    ],
+  },
+  {
+    badge: null,
+    duration: '8 Days · 7 Nights',
+    name: 'Lakes &<br>Highlands',
+    price: '$5,100',
+    features: [
+      'Lake Nakuru & Naivasha',
+      'Aberdare Forest Walks',
+      'Flamingo Boat Excursion',
+      'Mount Kenya Foothills',
+      'Luxury Lodge Stays',
+      'All Meals & Flights',
+    ],
+  },
+  {
+    badge: 'Signature',
+    duration: '12 Days · 11 Nights',
+    name: 'Kenya<br>Mastery',
+    price: '$14,500',
+    features: [
+      '6 Parks & Conservancies',
+      'Private Helicopter Transfer',
+      'Exclusive Bush Camp',
+      'Hot Air Balloon Safari',
+      'Michelin-Inspired Bush Dining',
+      'Dedicated Personal Guide',
+      'Fully Bespoke Itinerary',
+    ],
+  },
+];
+
+function buildCard(pkg, isFeatured) {
+  return `
+    ${pkg.badge ? `<span class="pkg-badge">${pkg.badge}</span>` : ''}
+    <span class="pkg-duration">${pkg.duration}</span>
+    <h3 class="pkg-name">${pkg.name}</h3>
+    <div class="divider"></div>
+    <div class="pkg-price">${pkg.price} <span>/ person</span></div>
+    <ul class="pkg-features">
+      ${pkg.features.map(f => `<li>${f}</li>`).join('')}
+    </ul>
+    <a href="#contact" class="pkg-cta">Enquire Now</a>
+  `;
+}
+
+// Track which packages are currently showing
+let currentSet = [0, 1, 2];
+
+function getNextSet(current) {
+  const total = allPackages.length;
+  // Rotate: each slot advances independently so cards don't all change at once
+  return [
+    (current[0] + 3) % total,
+    (current[1] + 3) % total,
+    (current[2] + 3) % total,
+  ];
+}
+
+function renderCards(indices, animate) {
+  indices.forEach((pkgIndex, cardIndex) => {
+    const card = document.getElementById(`pkgCard${cardIndex}`);
+    const pkg = allPackages[pkgIndex];
+    const isFeatured = cardIndex === 1;
+
+    if (animate) {
+      // Fade out
+      card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(16px)';
+
+      setTimeout(() => {
+        card.innerHTML = buildCard(pkg, isFeatured);
+        // Fade in
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+      }, 500);
+    } else {
+      card.innerHTML = buildCard(pkg, isFeatured);
+    }
+  });
+}
+
+// Initial render — no animation
+renderCards(currentSet, false);
+
+// Stagger each card rotating at a different time so they don't all flip at once
+function startStaggeredRotation() {
+  // Card 0 rotates every 6s
+  setInterval(() => {
+    const next0 = (currentSet[0] + 3) % allPackages.length;
+    currentSet[0] = next0;
+    const card = document.getElementById('pkgCard0');
+    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(16px)';
+    setTimeout(() => {
+      card.innerHTML = buildCard(allPackages[next0], false);
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    }, 500);
+  }, 6000);
+
+  // Card 1 rotates every 6s but starts 2s later
+  setTimeout(() => {
+    setInterval(() => {
+      const next1 = (currentSet[1] + 3) % allPackages.length;
+      currentSet[1] = next1;
+      const card = document.getElementById('pkgCard1');
+      card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(16px)';
+      setTimeout(() => {
+        card.innerHTML = buildCard(allPackages[next1], true);
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+      }, 500);
+    }, 6000);
+  }, 2000);
+
+  // Card 2 rotates every 6s but starts 4s later
+  setTimeout(() => {
+    setInterval(() => {
+      const next2 = (currentSet[2] + 3) % allPackages.length;
+      currentSet[2] = next2;
+      const card = document.getElementById('pkgCard2');
+      card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(16px)';
+      setTimeout(() => {
+        card.innerHTML = buildCard(allPackages[next2], false);
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+      }, 500);
+    }, 6000);
+  }, 4000);
+}
+
+startStaggeredRotation();
 </script>
 </body>
 </html>
