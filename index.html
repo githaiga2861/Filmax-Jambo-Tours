@@ -91,12 +91,12 @@
   text-decoration: none; 
   flex-shrink: 0; 
   line-height: 0;
-  opacity: 0;                          /* hidden by default */
-  transition: opacity 0.6s ease;      /* smooth fade in */
+  opacity: 0;
+  transition: opacity 0.6s ease;
   pointer-events: none;
  }
   nav.scrolled .nav-logo-link {
-  opacity: 1;                          /* appears only when scrolled */
+  opacity: 1;
   pointer-events: all;
 }
  .nav-brand-idle {
@@ -186,7 +186,7 @@ nav.scrolled .nav-brand-idle {
    0%, 100% { opacity: 1; }
    50%       { opacity: 0.85; }
  }
-}
+
   .nav-logo-img {
     height: 90px;
     width: auto;    
@@ -214,19 +214,15 @@ nav.scrolled .nav-brand-idle {
   nav.scrolled .nav-logo-img {
     height: 70px;
   }
-  /* existing rules above... */
 
-  /* Loader logo — smaller on mobile */
   .loader-logo {
     width: 55px;
   }
 
   .loader-logo.morph-to-hero {
-    width: 2
-      200px !important;
+    width: 200px !important;
   }
 
-  /* Hero logo — matches morph target size */
   #hero-logo {
     width: 200px !important;
   }
@@ -324,42 +320,41 @@ nav.scrolled .nav-brand-idle {
     overflow: hidden;
   }
 
-  /* Cinematic landscape with CSS */
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-}
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
 
-.hero-sky {
-  position: absolute;
-  inset: 0;
-  background-image: url('assets/landscape.jpg');
-  background-size: cover;
-  background-position: center 30%;
-  background-repeat: no-repeat;
-  filter: blur(0px) brightness(1);     /* starts bright and sharp */
-  transform: scale(1.02);
-  transition: filter 5s cubic-bezier(0.4, 0, 0.2, 1); /* slow cinematic settle */
-}
+  .hero-sky {
+    position: absolute;
+    inset: 0;
+    background-image: url('assets/landscape.jpg');
+    background-size: cover;
+    background-position: center 30%;
+    background-repeat: no-repeat;
+    filter: blur(0px) brightness(1);
+    transform: scale(1.02);
+    transition: filter 5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-.hero-sky.settled {
-  filter: blur(2px) brightness(0.3);  /* your final dark blurred state */
-}
+  .hero-sky.settled {
+    filter: blur(2px) brightness(0.3);
+  }
 
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(8, 8, 8, 0.6) 0%,
-    rgba(5, 4, 2, 0.45) 35%,        /* near black with warm undertone */
-    rgba(20, 14, 2, 0.55) 65%,      /* very dark amber tint */
-    rgba(8, 8, 8, 0.92) 100%
-  );
-   box-shadow: inset 0 0 200px rgba(180, 130, 10, 0.12);
-}
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(8, 8, 8, 0.6) 0%,
+      rgba(5, 4, 2, 0.45) 35%,
+      rgba(20, 14, 2, 0.55) 65%,
+      rgba(8, 8, 8, 0.92) 100%
+    );
+     box-shadow: inset 0 0 200px rgba(180, 130, 10, 0.12);
+  }
   .hero-content {
     position: relative;
     z-index: 5;
@@ -367,7 +362,6 @@ nav.scrolled .nav-brand-idle {
     max-width: 900px;
     padding: 0 14px;
   }
-
 
   .hero-actions {
     display: flex;
@@ -389,7 +383,6 @@ nav.scrolled .nav-brand-idle {
   animation: goldenPulse 4s ease-in-out infinite;
 }
 
-
   #hero-logo::before {
   content: '';
   position: absolute;
@@ -403,7 +396,6 @@ nav.scrolled .nav-brand-idle {
   z-index: -1;
   border-radius: 50%;
 }
-
 
   #hero-logo.visible {
   opacity: 1;
@@ -431,15 +423,11 @@ nav.scrolled .nav-brand-idle {
   animation: fadeUp 1s 0.3s forwards, eyebrowShine 5s 1.5s ease-in-out infinite;
   margin-bottom: 4px;
   display: block;
-
-  /* Base gold color */
   color: var(--gold);
   text-shadow:
     0 0 12px rgba(212, 175, 55, 0.6),
     0 0 24px rgba(212, 175, 55, 0.3),
     0 2px 8px rgba(0, 0, 0, 0.95);
-
-  /* Moving shine overlay via background-clip */
   background: linear-gradient(
     90deg,
     var(--gold) 0%,
@@ -457,14 +445,12 @@ nav.scrolled .nav-brand-idle {
   background-position: 200% center;
 }
 
-
   @keyframes eyebrowShine {
   0%   { background-position: 200% center; }
   35%  { background-position: -20% center; }
   70%  { background-position: -20% center; }
   100% { background-position: 200% center; }
 }
-
 
   .hero-subtitle {
   font-family: 'Cormorant Garamond', serif;
@@ -476,14 +462,10 @@ nav.scrolled .nav-brand-idle {
   margin-top: 4px;
   margin-bottom: 32px;
   font-style: italic;
-
-  /* Base muted warm color */
   color: var(--muted);
   text-shadow:
     0 0 16px rgba(240, 236, 228, 0.25),
     0 2px 12px rgba(0, 0, 0, 0.95);
-
-  /* Moving shine — cooler silver tone to contrast eyebrow gold */
   background: linear-gradient(
     90deg,
     #8a8074 0%,
@@ -701,7 +683,7 @@ nav.scrolled .nav-brand-idle {
     font-weight: 300;
   }
 
-  /* WILDLIFE */
+  /* DESTINATIONS (formerly WILDLIFE) */
   #wildlife { background: var(--black); }
 
   .wildlife-header {
@@ -723,9 +705,17 @@ nav.scrolled .nav-brand-idle {
     overflow: hidden;
     background: var(--charcoal);
     cursor: none;
+    border-radius: 4px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    transition: transform 0.35s cubic-bezier(0.22,1,0.36,1),
+                box-shadow 0.35s cubic-bezier(0.22,1,0.36,1);
   }
   .wildlife-cell:first-child {
     grid-row: 1 / 3;
+  }
+  .wildlife-cell:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(212,175,55,0.15);
   }
 
   .wildlife-bg {
@@ -735,25 +725,12 @@ nav.scrolled .nav-brand-idle {
   }
   .wildlife-cell:hover .wildlife-bg { transform: scale(1.06); }
 
-  .wildlife-bg.lion {
-    background: radial-gradient(ellipse at 50% 60%, rgba(200,130,30,0.35) 0%, rgba(10,10,10,0) 70%),
-                linear-gradient(160deg, #1a1208 0%, #0d0a05 100%);
+  /* Image zoom on hover */
+  .wildlife-cell img {
+    transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
   }
-  .wildlife-bg.elephant {
-    background: radial-gradient(ellipse at 30% 70%, rgba(80,100,80,0.3) 0%, rgba(10,10,10,0) 70%),
-                linear-gradient(160deg, #0d1208 0%, #080a08 100%);
-  }
-  .wildlife-bg.giraffe {
-    background: radial-gradient(ellipse at 70% 40%, rgba(180,130,50,0.25) 0%, rgba(10,10,10,0) 70%),
-                linear-gradient(160deg, #141008 0%, #0a0808 100%);
-  }
-  .wildlife-bg.cheetah {
-    background: radial-gradient(ellipse at 50% 50%, rgba(160,100,20,0.3) 0%, rgba(10,10,10,0) 70%),
-                linear-gradient(160deg, #121008 0%, #090808 100%);
-  }
-  .wildlife-bg.leopard {
-    background: radial-gradient(ellipse at 40% 60%, rgba(120,80,20,0.25) 0%, rgba(10,10,10,0) 70%),
-                linear-gradient(160deg, #100e08 0%, #080808 100%);
+  .wildlife-cell:hover img {
+    transform: scale(1.1);
   }
 
   .wildlife-animal {
@@ -774,25 +751,38 @@ nav.scrolled .nav-brand-idle {
   .wildlife-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(8,8,8,0.9) 0%, transparent 50%);
+    background: linear-gradient(to top, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.2) 50%, transparent 100%);
+    transition: background 0.35s ease;
+  }
+  .wildlife-cell:hover .wildlife-overlay {
+    background: linear-gradient(to top, rgba(8,8,8,0.96) 0%, rgba(8,8,8,0.3) 55%, rgba(212,175,55,0.04) 100%);
   }
 
   .wildlife-label {
     position: absolute;
     bottom: 24px;
     left: 28px;
+    z-index: 3;
+    transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+  }
+  .wildlife-cell:hover .wildlife-label {
+    transform: translateY(-4px);
   }
   .wildlife-label h3 {
     font-family: 'Playfair Display', serif;
     font-size: 20px;
     font-weight: 700;
     color: var(--text);
+    margin-bottom: 4px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.8);
   }
   .wildlife-label span {
     font-size: 10px;
     letter-spacing: 3px;
     text-transform: uppercase;
     color: var(--gold);
+    display: block;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.8);
   }
 
   /* Gold divider */
@@ -1218,6 +1208,10 @@ nav.scrolled .nav-brand-idle {
     .stat-item:nth-child(2) { border-right: none; }
     .wildlife-header { flex-direction: column; align-items: flex-start; gap: 20px; }
     .dropdown { width: 100vw; }
+
+    /* Disable 3D tilt on mobile */
+    .wildlife-cell { transform: none !important; }
+    .wildlife-cell:hover { transform: none !important; }
   }
 
   @media (max-width: 600px) {
@@ -1225,9 +1219,10 @@ nav.scrolled .nav-brand-idle {
     .hero-actions { flex-direction: column; align-items: center; }
     .btn-primary, .btn-ghost { width: 100%; text-align: center; }
     .stats-bar { grid-template-columns: 1fr 1fr; }
-    .wildlife-mosaic { grid-template-columns: 1fr; grid-template-rows: repeat(5, 200px); }
+    .wildlife-mosaic { grid-template-columns: 1fr; grid-template-rows: repeat(5, 220px); }
     nav.scrolled { padding: 14px 24px; }
   }
+
 #loader {
   position: fixed;
   inset: 0;
@@ -1236,13 +1231,9 @@ nav.scrolled .nav-brand-idle {
   align-items: center;
   justify-content: center;
   transition: opacity 2.8s cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* Blurred hero as background */
   background-image: url('assets/landscape.jpg');
   background-size: cover;
   background-position: center 30%;
-
-  /* Dark overlay on top of blurred image */
   isolation: isolate;
 }
 
@@ -1264,7 +1255,6 @@ nav.scrolled .nav-brand-idle {
   transition: backdrop-filter 2.8s ease, -webkit-backdrop-filter 2.8s ease;
 }
 
-
   #loader.fade-out::before {
   backdrop-filter: blur(0px) brightness(1) saturate(1);
   -webkit-backdrop-filter: blur(0px) brightness(1) saturate(1);
@@ -1276,7 +1266,7 @@ nav.scrolled .nav-brand-idle {
   left: 50%;
   translate: -50% -50%;
   z-index: 99999;
-  width: 200px;               /* match your hero-logo width exactly */
+  width: 200px;
   max-width: 75vw;
   animation: hardPulse 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   transition: width 1.8s cubic-bezier(0.16, 1, 0.3, 1),
@@ -1286,7 +1276,7 @@ nav.scrolled .nav-brand-idle {
 
 .loader-logo.morph-to-hero {
   animation: none;
-  width: 300px;               /* match hero-logo width exactly */
+  width: 300px;
   top: 44%;
 }
 
@@ -1302,6 +1292,53 @@ nav.scrolled .nav-brand-idle {
   20%  { transform: scale(0.995) translate(0.2px,-0.2px) rotate(0.03deg); }
   100% { transform: scale(1)    translate(0, 0)        rotate(0deg);    }
 }
+
+  /* ============================= */
+  /* DESTINATIONS SHOWCASE EFFECTS */
+  /* ============================= */
+
+  /* Gold shimmer on destination name */
+  .wildlife-label h3 {
+    position: relative;
+  }
+  .wildlife-label h3::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: linear-gradient(to right, var(--gold), transparent);
+    transition: width 0.4s cubic-bezier(0.22,1,0.36,1);
+  }
+  .wildlife-cell:hover .wildlife-label h3::after {
+    width: 100%;
+  }
+
+  /* First (large) destination card label — bigger type */
+  .wildlife-cell:first-child .wildlife-label h3 {
+    font-size: 26px;
+  }
+  .wildlife-cell:first-child .wildlife-label span {
+    font-size: 11px;
+    letter-spacing: 4px;
+  }
+
+  /* Destination corner accent */
+  .wildlife-cell::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 0 40px 40px 0;
+    border-color: transparent rgba(212,175,55,0.0) transparent transparent;
+    z-index: 4;
+    transition: border-color 0.35s ease;
+  }
+  .wildlife-cell:hover::before {
+    border-color: transparent rgba(212,175,55,0.25) transparent transparent;
+  }
 </style>
 </head>
 <body>
@@ -1310,7 +1347,7 @@ nav.scrolled .nav-brand-idle {
   <img class="loader-logo" src="assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.png" alt="Filmax Jambo Tours"/>
 </div>
   
-  <!-- Custom cursor -->
+<!-- Custom cursor -->
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
@@ -1423,80 +1460,83 @@ nav.scrolled .nav-brand-idle {
   </div>
 </section>
 
-<!-- WILDLIFE -->
+<!-- ============================= -->
+<!-- KENYAN DESTINATIONS SHOWCASE  -->
+<!-- REPLACED WILDLIFE SECTION     -->
+<!-- ============================= -->
 <section id="wildlife">
   <div class="container">
     <div class="wildlife-header reveal">
       <div>
         <span class="section-label">Kenya's Icons</span>
-        <h2 class="section-title">Encounter the <br><em style="color: var(--gold);">Extraordinary</em></h2>
+        <h2 class="section-title">Discover <br><em style="color: var(--gold);">Extraordinary</em> Places</h2>
       </div>
-      <p class="section-sub" style="max-width: 300px; font-size: 15px;">From the Great Migration to solitary leopards — witness Africa's most powerful stories unfold before you.</p>
+      <p class="section-sub" style="max-width: 300px; font-size: 15px;">From the sweeping plains of the Mara to the flamingo-fringed shores of Nakuru — Kenya's most iconic destinations await.</p>
     </div>
     <div class="wildlife-mosaic reveal">
 
-      <!-- LION -->
-      <div class="wildlife-cell">
+      <!-- MAASAI MARA -->
+      <div class="wildlife-cell" data-tilt>
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Lion_waiting_in_Namibia.jpg/800px-Lion_waiting_in_Namibia.jpg"
-          alt="African Lion"
+          alt="Maasai Mara"
           style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; display:block; z-index:1;">
         <div class="wildlife-overlay" style="z-index:2;"></div>
         <div class="wildlife-label" style="z-index:3;">
-          <span>Panthera leo</span>
-          <h3>The Lion</h3>
+          <span>Wild Majesty</span>
+          <h3>Maasai Mara</h3>
         </div>
       </div>
 
-      <!-- ELEPHANTS -->
-      <div class="wildlife-cell">
+      <!-- DIANI BEACH -->
+      <div class="wildlife-cell" data-tilt>
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/African_Bush_Elephant.jpg/800px-African_Bush_Elephant.jpg"
-          alt="African Elephant"
+          alt="Diani Beach"
           style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; display:block; z-index:1;">
         <div class="wildlife-overlay" style="z-index:2;"></div>
         <div class="wildlife-label" style="z-index:3;">
-          <span>Amboseli Herds</span>
-          <h3>Elephants</h3>
+          <span>Coastal Paradise</span>
+          <h3>Diani Beach</h3>
         </div>
       </div>
 
-      <!-- CHEETAH -->
-      <div class="wildlife-cell">
+      <!-- AMBOSELI -->
+      <div class="wildlife-cell" data-tilt>
         <img
           src="https://images.unsplash.com/photo-1551969014-7d2c4cddf0b6?w=800&h=800&fit=crop&q=95&auto=format"
-          alt="Cheetah"
+          alt="Amboseli"
           style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; display:block; z-index:1;">
         <div class="wildlife-overlay" style="z-index:2;"></div>
         <div class="wildlife-label" style="z-index:3;">
-          <span>Lightning on Paws</span>
-          <h3>Cheetah</h3>
+          <span>Elephant Kingdom</span>
+          <h3>Amboseli</h3>
         </div>
       </div>
 
-      <!-- GIRAFFE -->
-      <div class="wildlife-cell">
+      <!-- MOUNT KENYA -->
+      <div class="wildlife-cell" data-tilt>
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Giraffe_Mikumi_National_Park.jpg/800px-Giraffe_Mikumi_National_Park.jpg"
-          alt="Giraffe"
+          alt="Mount Kenya"
           style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top; display:block; z-index:1;">
         <div class="wildlife-overlay" style="z-index:2;"></div>
         <div class="wildlife-label" style="z-index:3;">
-          <span>Nairobi's Gentle Giants</span>
-          <h3>Giraffe</h3>
+          <span>Alpine Crown</span>
+          <h3>Mount Kenya</h3>
         </div>
       </div>
 
-      <!-- WILDEBEEST MIGRATION -->
-      <div class="wildlife-cell">
+      <!-- LAKE NAKURU -->
+      <div class="wildlife-cell" data-tilt>
         <img
           src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=800&q=90"
-          alt="Wildebeest Migration"
+          alt="Lake Nakuru"
           style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; display:block; z-index:1;">
         <div class="wildlife-overlay" style="z-index:2;"></div>
         <div class="wildlife-label" style="z-index:3;">
-          <span>The Migration</span>
-          <h3>Wildebeest</h3>
+          <span>Flamingo Haven</span>
+          <h3>Lake Nakuru</h3>
         </div>
       </div>
 
@@ -1679,7 +1719,7 @@ nav.scrolled .nav-brand-idle {
       <div class="footer-col">
         <h4>Explore</h4>
         <a href="#highlights">Safaris</a>
-        <a href="#wildlife">Wildlife</a>
+        <a href="#wildlife">Destinations</a>
         <a href="#packages">Packages</a>
         <a href="#testimonials">About</a>
         <a href="#contact">Contact</a>
@@ -1736,26 +1776,18 @@ const heroLogo   = document.getElementById('hero-logo');
 const heroSky    = document.querySelector('.hero-sky');
 
 setTimeout(() => {
-
-  // Stop heartbeat, grow logo to hero size
   loaderLogo.classList.add('morph-to-hero');
-
-  // Start fading out the loader blur
   loader.classList.add('fade-out');
-
-  // Show hero logo underneath
   heroLogo.style.display = 'block';
 
   setTimeout(() => {
     heroLogo.classList.add('visible');
   }, 400);
 
-  // Wait for loader to fully fade out THEN start darkening+blurring
   setTimeout(() => {
-    heroSky.classList.add('settled'); // ← triggers after loader is gone
-  }, 2500); // ← adjust this: how long after fade starts before darkening begins
+    heroSky.classList.add('settled');
+  }, 2500);
 
-  // Remove loader from DOM
   setTimeout(() => {
     loaderLogo.classList.add('gone');
     loader.style.display = 'none';
@@ -1879,8 +1911,37 @@ const statsObserver = new IntersectionObserver((entries) => {
 
 const statsBar = document.querySelector('.stats-bar');
 if (statsBar) statsObserver.observe(statsBar);
+
+// DESTINATIONS SHOWCASE TILT EFFECT
+// Subtle 3D tilt — desktop only, max 4 degrees
+(function() {
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
+  if (isMobile) return;
+
+  const tiltCards = document.querySelectorAll('[data-tilt]');
+
+  tiltCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (e.clientX - cx) / (rect.width / 2);
+      const dy = (e.clientY - cy) / (rect.height / 2);
+
+      // Clamp rotation to max 4 degrees
+      const rotX = Math.max(-4, Math.min(4, dy * -4));
+      const rotY = Math.max(-4, Math.min(4, dx * 4));
+
+      card.style.transform = `translateY(-6px) perspective(600px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+      card.style.transition = 'transform 0.1s ease-out, box-shadow 0.35s ease';
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.transition = 'transform 0.5s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease';
+    });
+  });
+})();
 </script>
 </body>
 </html>
-
-
