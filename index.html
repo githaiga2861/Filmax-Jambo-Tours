@@ -1080,6 +1080,27 @@ nav.scrolled .nav-brand-idle {
     gap: 24px;
     margin-top: 80px;
   }
+  .packages-grid {
+    align-items: stretch;
+  }
+
+  .packages-grid .package-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 580px;
+  }
+
+  .packages-grid .package-card.featured {
+    min-height: 660px;
+  }
+
+  .packages-grid .package-card .pkg-features {
+    flex: 1;
+  }
+
+  .packages-grid .package-card .pkg-cta {
+    margin-top: auto;
+  }
 
   .package-card {
     background: var(--card);
@@ -2546,30 +2567,28 @@ const allPackages = [
 ];
 
 function buildCard(pkg, isFeatured) {
+  const maxFeatures = isFeatured ? 7 : 6;
+  const features = [...pkg.features];
+
+  // Pad with empty invisible items if fewer than max
+  while (features.length < maxFeatures) {
+    features.push(null);
+  }
+
   return `
-    ${pkg.badge ? `<span class="pkg-badge">${pkg.badge}</span>` : ''}
+    ${pkg.badge ? `<span class="pkg-badge">${pkg.badge}</span>` : '<span style="display:block;height:29px;"></span>'}
     <span class="pkg-duration">${pkg.duration}</span>
     <h3 class="pkg-name">${pkg.name}</h3>
     <div class="divider"></div>
     <div class="pkg-price">${pkg.price} <span>/ person</span></div>
     <ul class="pkg-features">
-      ${pkg.features.map(f => `<li>${f}</li>`).join('')}
+      ${features.map(f => f
+        ? `<li>${f}</li>`
+        : `<li style="visibility:hidden;border-bottom-color:transparent;">placeholder</li>`
+      ).join('')}
     </ul>
     <a href="#contact" class="pkg-cta">Enquire Now</a>
   `;
-}
-
-// Track which packages are currently showing
-let currentSet = [0, 1, 2];
-
-function getNextSet(current) {
-  const total = allPackages.length;
-  // Rotate: each slot advances independently so cards don't all change at once
-  return [
-    (current[0] + 3) % total,
-    (current[1] + 3) % total,
-    (current[2] + 3) % total,
-  ];
 }
 
 function renderCards(indices, animate) {
