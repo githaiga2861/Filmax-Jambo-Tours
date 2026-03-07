@@ -720,6 +720,275 @@
   @media (max-width: 600px) {
     nav.scrolled { padding: 14px 24px; }
   }
+  /* ADVANCED FILTER SYSTEM */
+  .filter-system {
+    background: var(--charcoal);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 0;
+  }
+
+  .filter-toggle-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    cursor: none;
+    transition: background 0.3s;
+  }
+  .filter-toggle-bar:hover { background: rgba(212,175,55,0.03); }
+
+  .filter-toggle-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .filter-toggle-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .filter-active-count {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--gold);
+    padding: 3px 10px;
+    display: none;
+  }
+  .filter-active-count.visible { display: inline-block; }
+
+  .filter-toggle-right {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+  .filter-results-count {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .filter-results-count span { color: var(--gold); }
+
+  .filter-toggle-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 10px 24px;
+    cursor: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .filter-toggle-btn:hover { color: var(--gold); border-color: var(--gold); }
+  .filter-toggle-btn svg {
+    transition: transform 0.4s cubic-bezier(0.77,0,0.175,1);
+  }
+  .filter-toggle-btn.open svg { transform: rotate(180deg); }
+
+  .filter-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.77,0,0.175,1);
+    border-top: 1px solid transparent;
+  }
+  .filter-panel.open {
+    max-height: 600px;
+    border-top-color: var(--border);
+  }
+
+  .filter-panel-inner {
+    padding: 40px 48px 48px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 40px;
+  }
+
+  .filter-group { display: flex; flex-direction: column; gap: 14px; }
+
+  .filter-group-label {
+    font-size: 9px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(212,175,55,0.15);
+  }
+
+  .filter-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: none;
+    padding: 2px 0;
+  }
+  .filter-option input[type="checkbox"] { display: none; }
+
+  .filter-checkbox {
+    width: 14px;
+    height: 14px;
+    border: 1px solid rgba(212,175,55,0.3);
+    flex-shrink: 0;
+    position: relative;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .filter-checkbox::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    background: var(--gold);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .filter-option input:checked + .filter-checkbox {
+    border-color: var(--gold);
+  }
+  .filter-option input:checked + .filter-checkbox::after { opacity: 1; }
+
+  .filter-option-label {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    transition: color 0.3s;
+    user-select: none;
+  }
+  .filter-option:hover .filter-option-label { color: var(--text); }
+  .filter-option input:checked ~ .filter-option-label { color: var(--text); }
+
+  /* Price range slider */
+  .filter-range-wrap { padding-top: 4px; }
+  .filter-range {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, var(--gold) 0%, var(--gold) 50%, rgba(212,175,55,0.2) 50%);
+    outline: none;
+    cursor: none;
+    margin-bottom: 10px;
+  }
+  .filter-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--gold);
+    border-radius: 50%;
+    cursor: none;
+    box-shadow: 0 0 8px rgba(212,175,55,0.5);
+    transition: box-shadow 0.3s;
+  }
+  .filter-range::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 16px rgba(212,175,55,0.8);
+  }
+  .filter-range-labels {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .filter-range-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: var(--gold);
+  }
+  .filter-range-max {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 2px;
+  }
+
+  .filter-panel-footer {
+    padding: 0 48px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    padding-top: 24px;
+  }
+
+  .filter-clear-btn {
+    background: none;
+    border: none;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: none;
+    transition: color 0.3s;
+    padding: 0;
+  }
+  .filter-clear-btn:hover { color: var(--text); }
+
+  .filter-apply-btn {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 14px 36px;
+    background: linear-gradient(135deg, var(--gold), var(--amber));
+    color: var(--black);
+    border: none;
+    cursor: none;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .filter-apply-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.2);
+    transform: translateX(-100%) skewX(-15deg);
+    transition: transform 0.5s;
+  }
+  .filter-apply-btn:hover::before { transform: translateX(200%) skewX(-15deg); }
+  .filter-apply-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 28px rgba(212,175,55,0.4); }
+
+  /* No results state */
+  .no-results {
+    display: none;
+    text-align: center;
+    padding: 100px 0;
+  }
+  .no-results.visible { display: block; }
+  .no-results h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .no-results p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 32px;
+  }
+
+  /* Card hidden state */
+  .pkg-card.filtered-out {
+    display: none;
+  }
+
+  @media (max-width: 900px) {
+    .filter-panel-inner { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+    .filter-toggle-bar { padding: 18px 24px; }
+    .filter-panel-inner { padding: 32px 24px 40px; }
+    .filter-panel-footer { padding: 20px 24px 28px; }
+  }
+  @media (max-width: 600px) {
+    .filter-panel-inner { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -752,14 +1021,194 @@
   <div class="page-hero-deco" aria-hidden="true">12+</div>
 </div>
 
-<!-- FILTER BAR -->
-<div class="filter-bar reveal">
-  <button class="filter-btn active" data-filter="all">All Packages</button>
-  <button class="filter-btn" data-filter="classic">Classic Safaris</button>
-  <button class="filter-btn" data-filter="luxury">Ultra Luxury</button>
-  <button class="filter-btn" data-filter="coastal">Coastal & Beach</button>
-  <button class="filter-btn" data-filter="specialist">Specialist</button>
-  <button class="filter-btn" data-filter="short">Short Breaks</button>
+<!-- ADVANCED FILTER SYSTEM -->
+<div class="filter-system reveal">
+
+  <div class="filter-toggle-bar" id="filterToggleBar">
+    <div class="filter-toggle-left">
+      <span class="filter-toggle-label">Refine Your Safari</span>
+      <span class="filter-active-count" id="filterActiveCount">0 filters</span>
+    </div>
+    <div class="filter-toggle-right">
+      <span class="filter-results-count">Showing <span id="resultsCount">14</span> packages</span>
+      <button class="filter-toggle-btn" id="filterToggleBtn">
+        Filters
+        <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+          <path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="filter-panel" id="filterPanel">
+    <div class="filter-panel-inner">
+
+      <!-- Budget -->
+      <div class="filter-group">
+        <span class="filter-group-label">Budget</span>
+        <div class="filter-range-wrap">
+          <input type="range" class="filter-range" id="budgetRange" min="500" max="17000" value="17000" step="100">
+          <div class="filter-range-labels">
+            <span class="filter-range-value" id="budgetDisplay">Up to $17,000</span>
+          </div>
+        </div>
+        <label class="filter-option">
+          <input type="checkbox" name="budget" value="budget-low" data-max="2000">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">Under $2,000</span>
+        </label>
+        <label class="filter-option">
+          <input type="checkbox" name="budget" value="budget-mid" data-min="2000" data-max="6000">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">$2,000 – $6,000</span>
+        </label>
+        <label class="filter-option">
+          <input type="checkbox" name="budget" value="budget-high" data-min="6000">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">$6,000+</span>
+        </label>
+      </div>
+
+      <!-- Duration -->
+      <div class="filter-group">
+        <span class="filter-group-label">Duration</span>
+        <label class="filter-option">
+          <input type="checkbox" name="duration" value="1-3">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">1 – 3 Days</span>
+        </label>
+        <label class="filter-option">
+          <input type="checkbox" name="duration" value="4-6">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">4 – 6 Days</span>
+        </label>
+        <label class="filter-option">
+          <input type="checkbox" name="duration" value="7-9">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">7 – 9 Days</span>
+        </label>
+        <label class="filter-option">
+          <input type="checkbox" name="duration" value="10+">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">10+ Days</span>
+        </label>
+      </div>
+
+      <!-- Destination -->
+      <div class="filter-group">
+        <span class="filter-group-label">Destination</span>
+        <label class="filter-option">
+          <input type="checkbox" name="destination" value="mara">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">Maasai Mara</span>
+        </label>
+        <label class="filter-option">
+          <input type="checkbox" name="destination" value="amboseli">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">Amboseli</span>
+        </label>
+        <label class="filter-option">
+          <input type="checkbox" name="destination" value="samburu">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">Samburu</span>
+        </label>
+        <label class="filter-option">
+          <input type="checkbox" name="destination" value="coastal">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">Coastal / Beach</span>
+        </label>
+        <label class="filter-option">
+          <input type="checkbox" name="destination" value="nairobi">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">Nairobi</span>
+        </label>
+        <label class="filter-option">
+          <input type="checkbox" name="destination" value="lakes">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">Rift Valley Lakes</span>
+        </label>
+      </div>
+
+      <!-- Travel Style -->
+      <div class="filter-group">
+        <span class="filter-group-label">Travel Style</span>
+        <label class="filter-option">
+          <input type="checkbox" name="style" value="classic">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">Classic Safari</span>
+        </label>
+        <label class="filter-option">
+          <input type="checkbox" name="style" value="luxury">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">Ultra Luxury</span>
+        </label>
+        <label class="filter-option">
+          <input type="checkbox" name="style" value="photography">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">Photography</span>
+        </label>
+        <label class="filter-option">
+          <input type="checkbox" name="style" value="birding">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">Birding</span>
+        </label>
+        <label class="filter-option">
+          <input type="checkbox" name="style" value="coastal">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">Beach & Ocean</span>
+        </label>
+        <label class="filter-option">
+          <input type="checkbox" name="style" value="walking">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">Walking / Active</span>
+        </label>
+      </div>
+
+      <!-- Group Type -->
+      <div class="filter-group">
+        <span class="filter-group-label">Group Type</span>
+        <label class="filter-option">
+          <input type="checkbox" name="group" value="couple">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">Couples</span>
+        </label>
+        <label class="filter-option">
+          <input type="checkbox" name="group" value="family">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">Families</span>
+        </label>
+        <label class="filter-option">
+          <input type="checkbox" name="group" value="solo">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">Solo Traveller</span>
+        </label>
+        <label class="filter-option">
+          <input type="checkbox" name="group" value="small-group">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">Small Group</span>
+        </label>
+        <label class="filter-option">
+          <input type="checkbox" name="group" value="private">
+          <span class="filter-checkbox"></span>
+          <span class="filter-option-label">Private / Exclusive</span>
+        </label>
+      </div>
+
+    </div>
+
+    <div class="filter-panel-footer">
+      <button class="filter-clear-btn" id="filterClearBtn">Clear All Filters</button>
+      <button class="filter-apply-btn" id="filterApplyBtn">Apply Filters</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- NO RESULTS -->
+<div class="no-results container" id="noResults">
+  <h3>No packages match your filters</h3>
+  <p>Try adjusting your selection — or let us craft something entirely bespoke for you.</p>
+  <a href="index.html#contact" class="btn-primary" style="display:inline-block;padding:18px 44px;">Start a Conversation</a>
 </div>
 
 <!-- ALL PACKAGES -->
@@ -1232,26 +1681,208 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
 reveals.forEach(el => observer.observe(el));
 
-// Filter
-const filterBtns = document.querySelectorAll('.filter-btn');
-const categoryBlocks = document.querySelectorAll('.category-block');
+// ── ADVANCED FILTER SYSTEM ──────────────────────────────
 
-filterBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    filterBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const filter = btn.dataset.filter;
-    categoryBlocks.forEach(block => {
-      if (filter === 'all' || block.dataset.category === filter) {
-        block.style.display = '';
-        // Re-trigger reveal
-        block.classList.remove('visible');
-        setTimeout(() => block.classList.add('visible'), 10);
-      } else {
-        block.style.display = 'none';
-      }
-    });
+// Data tags on each card — maps card names to filter attributes
+const cardData = [
+  // Classic
+  { name: 'Grand Odyssey',               price: 6500,  days: 7,  destinations: ['mara','amboseli','samburu'], styles: ['classic','luxury'],     groups: ['couple','private','small-group'] },
+  { name: 'Mara Awakening',              price: 2800,  days: 4,  destinations: ['mara'],                      styles: ['classic'],              groups: ['couple','solo','family','small-group'] },
+  { name: 'Ultimate Kenya',              price: 11200, days: 10, destinations: ['mara','amboseli','samburu'], styles: ['classic','luxury'],     groups: ['couple','private'] },
+  { name: 'Tsavo Red Earth',             price: 3400,  days: 5,  destinations: ['tsavo'],                     styles: ['classic'],              groups: ['couple','family','small-group'] },
+  { name: 'Samburu Secrets',             price: 3100,  days: 4,  destinations: ['samburu'],                   styles: ['classic'],              groups: ['couple','solo','small-group'] },
+  // Luxury
+  { name: 'Private Conservancy Sojourn', price: 14800, days: 6,  destinations: ['mara'],                      styles: ['luxury'],               groups: ['couple','private'] },
+  { name: 'Migration Witness',           price: 8900,  days: 5,  destinations: ['mara'],                      styles: ['luxury'],               groups: ['couple','private','small-group'] },
+  { name: 'Aerial Kenya',                price: 16500, days: 8,  destinations: ['mara','amboseli','coastal'], styles: ['luxury'],               groups: ['couple','private'] },
+  // Coastal
+  { name: 'Safari & Sea',                price: 5600,  days: 8,  destinations: ['mara','coastal'],            styles: ['classic','coastal'],    groups: ['couple','family','small-group'] },
+  { name: 'Lamu Archipelago',            price: 4200,  days: 5,  destinations: ['coastal'],                   styles: ['coastal'],              groups: ['couple','solo'] },
+  // Specialist
+  { name: 'Photography Expedition',      price: 7400,  days: 7,  destinations: ['mara','amboseli'],           styles: ['photography'],          groups: ['solo','small-group'] },
+  { name: 'Birding Kenya',               price: 4800,  days: 6,  destinations: ['lakes','nairobi'],           styles: ['birding'],              groups: ['solo','small-group'] },
+  { name: 'Family Wild',                 price: 4100,  days: 6,  destinations: ['mara','nairobi'],            styles: ['classic'],              groups: ['family'] },
+  // Short
+  { name: 'Nairobi Wild',                price: 680,   days: 2,  destinations: ['nairobi'],                   styles: ['classic'],              groups: ['solo','couple','family'] },
+  { name: 'Lake Nakuru Escape',          price: 1240,  days: 3,  destinations: ['lakes'],                     styles: ['classic'],              groups: ['solo','couple','family'] },
+  { name: 'Amboseli Express',            price: 1480,  days: 3,  destinations: ['amboseli'],                  styles: ['classic'],              groups: ['solo','couple','family'] },
+  { name: "Hell's Gate Trek",            price: 590,   days: 2,  destinations: ['nairobi','lakes'],           styles: ['walking'],              groups: ['solo','couple','small-group'] },
+];
+
+// Attach data to cards by matching h3 text
+document.querySelectorAll('.pkg-card').forEach(card => {
+  const nameEl = card.querySelector('.pkg-name');
+  if (!nameEl) return;
+  const cardName = nameEl.innerText.replace(/\n/g, ' ').trim();
+  const match = cardData.find(d => d.name.toLowerCase() === cardName.toLowerCase());
+  if (match) {
+    card.dataset.price       = match.price;
+    card.dataset.days        = match.days;
+    card.dataset.destinations = match.destinations.join(',');
+    card.dataset.styles      = match.styles.join(',');
+    card.dataset.groups      = match.groups.join(',');
+  }
+});
+
+// Filter panel toggle
+const filterToggleBtn = document.getElementById('filterToggleBtn');
+const filterPanel     = document.getElementById('filterPanel');
+
+filterToggleBtn.addEventListener('click', () => {
+  filterToggleBtn.classList.toggle('open');
+  filterPanel.classList.toggle('open');
+});
+
+// Budget slider
+const budgetRange   = document.getElementById('budgetRange');
+const budgetDisplay = document.getElementById('budgetDisplay');
+
+budgetRange.addEventListener('input', () => {
+  const val = parseInt(budgetRange.value);
+  budgetDisplay.textContent = val >= 17000 ? 'No limit' : `Up to $${val.toLocaleString()}`;
+  const pct = ((val - 500) / (17000 - 500)) * 100;
+  budgetRange.style.background = `linear-gradient(to right, var(--gold) 0%, var(--gold) ${pct}%, rgba(212,175,55,0.2) ${pct}%)`;
+});
+
+// Count active filters
+function countActiveFilters() {
+  const checked = document.querySelectorAll('.filter-panel input[type="checkbox"]:checked').length;
+  const sliderActive = parseInt(budgetRange.value) < 17000 ? 1 : 0;
+  return checked + sliderActive;
+}
+
+function updateActiveCount() {
+  const count = countActiveFilters();
+  const badge = document.getElementById('filterActiveCount');
+  if (count > 0) {
+    badge.textContent = count + (count === 1 ? ' filter' : ' filters');
+    badge.classList.add('visible');
+  } else {
+    badge.classList.remove('visible');
+  }
+}
+
+document.querySelectorAll('.filter-panel input[type="checkbox"]').forEach(cb => {
+  cb.addEventListener('change', updateActiveCount);
+});
+budgetRange.addEventListener('input', updateActiveCount);
+
+// Apply filters
+function applyFilters() {
+  const maxBudget      = parseInt(budgetRange.value);
+  const budgetNoLimit  = maxBudget >= 17000;
+
+  const checkedDurations    = [...document.querySelectorAll('input[name="duration"]:checked')].map(i => i.value);
+  const checkedDestinations = [...document.querySelectorAll('input[name="destination"]:checked')].map(i => i.value);
+  const checkedStyles       = [...document.querySelectorAll('input[name="style"]:checked')].map(i => i.value);
+  const checkedGroups       = [...document.querySelectorAll('input[name="group"]:checked')].map(i => i.value);
+  const checkedBudgets      = [...document.querySelectorAll('input[name="budget"]:checked')].map(i => i.value);
+
+  const noFilters = budgetNoLimit && !checkedDurations.length && !checkedDestinations.length
+                    && !checkedStyles.length && !checkedGroups.length && !checkedBudgets.length;
+
+  let visibleCount = 0;
+
+  document.querySelectorAll('.pkg-card').forEach(card => {
+    if (noFilters) {
+      card.classList.remove('filtered-out');
+      visibleCount++;
+      return;
+    }
+
+    const price       = parseInt(card.dataset.price || 0);
+    const days        = parseInt(card.dataset.days  || 0);
+    const destinations = (card.dataset.destinations || '').split(',');
+    const styles      = (card.dataset.styles       || '').split(',');
+    const groups      = (card.dataset.groups       || '').split(',');
+
+    let pass = true;
+
+    // Budget slider
+    if (!budgetNoLimit && price > maxBudget) pass = false;
+
+    // Budget checkboxes (OR logic within group)
+    if (pass && checkedBudgets.length) {
+      const budgetPass = checkedBudgets.some(b => {
+        if (b === 'budget-low')  return price < 2000;
+        if (b === 'budget-mid')  return price >= 2000 && price <= 6000;
+        if (b === 'budget-high') return price > 6000;
+        return false;
+      });
+      if (!budgetPass) pass = false;
+    }
+
+    // Duration (OR logic)
+    if (pass && checkedDurations.length) {
+      const durPass = checkedDurations.some(d => {
+        if (d === '1-3')  return days <= 3;
+        if (d === '4-6')  return days >= 4 && days <= 6;
+        if (d === '7-9')  return days >= 7 && days <= 9;
+        if (d === '10+')  return days >= 10;
+        return false;
+      });
+      if (!durPass) pass = false;
+    }
+
+    // Destinations (OR logic)
+    if (pass && checkedDestinations.length) {
+      const destPass = checkedDestinations.some(d => destinations.includes(d));
+      if (!destPass) pass = false;
+    }
+
+    // Style (OR logic)
+    if (pass && checkedStyles.length) {
+      const stylePass = checkedStyles.some(s => styles.includes(s));
+      if (!stylePass) pass = false;
+    }
+
+    // Group (OR logic)
+    if (pass && checkedGroups.length) {
+      const groupPass = checkedGroups.some(g => groups.includes(g));
+      if (!groupPass) pass = false;
+    }
+
+    if (pass) {
+      card.classList.remove('filtered-out');
+      visibleCount++;
+    } else {
+      card.classList.add('filtered-out');
+    }
   });
+
+  // Show/hide category blocks with no visible cards
+  document.querySelectorAll('.category-block').forEach(block => {
+    const visibleCards = block.querySelectorAll('.pkg-card:not(.filtered-out)').length;
+    block.style.display = visibleCards > 0 ? '' : 'none';
+  });
+
+  // Results count
+  document.getElementById('resultsCount').textContent = visibleCount;
+
+  // No results state
+  const noResults = document.getElementById('noResults');
+  if (visibleCount === 0) {
+    noResults.classList.add('visible');
+  } else {
+    noResults.classList.remove('visible');
+  }
+
+  updateActiveCount();
+
+  // Close panel after applying
+  filterPanel.classList.remove('open');
+  filterToggleBtn.classList.remove('open');
+}
+
+document.getElementById('filterApplyBtn').addEventListener('click', applyFilters);
+
+// Clear all
+document.getElementById('filterClearBtn').addEventListener('click', () => {
+  document.querySelectorAll('.filter-panel input[type="checkbox"]').forEach(cb => cb.checked = false);
+  budgetRange.value = 17000;
+  budgetDisplay.textContent = 'No limit';
+  budgetRange.style.background = `linear-gradient(to right, var(--gold) 0%, var(--gold) 100%, rgba(212,175,55,0.2) 100%)`;
+  applyFilters();
 });
 </script>
 </body>
