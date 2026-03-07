@@ -85,7 +85,7 @@
     border-bottom: none;
   }
 
-  .nav-logo-link {
+.nav-logo-link {
   display: flex;
   align-items: center;
   text-decoration: none; 
@@ -94,7 +94,9 @@
   opacity: 0;
   transition: opacity 0.6s ease;
   pointer-events: none;
- }
+  height: 70px;
+  width: auto;
+}
   nav.scrolled .nav-logo-link {
   opacity: 1;
   pointer-events: all;
@@ -187,15 +189,15 @@ nav.scrolled .nav-brand-idle {
    50%       { opacity: 0.85; }
  }
 
-  .nav-logo-img {
-    height: 90px;
+.nav-logo-img {
+    height: 70px;
     width: auto;    
     object-fit: contain;
     display: block;
     filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.5)) drop-shadow(0 0 28px rgba(212, 175, 55, 0.2));
     animation: goldenPulse 4s ease-in-out infinite;
     transition: height 0.4s ease;
-  }   
+  } 
    nav.scrolled .nav-logo-img {
     height: 70px;
   }
