@@ -2570,13 +2570,15 @@ function buildCard(pkg, isFeatured) {
   const maxFeatures = isFeatured ? 7 : 6;
   const features = [...pkg.features];
 
-  // Pad with empty invisible items if fewer than max
   while (features.length < maxFeatures) {
     features.push(null);
   }
 
   return `
-    ${pkg.badge ? `<span class="pkg-badge">${pkg.badge}</span>` : '<span style="display:block;height:29px;"></span>'}
+    ${pkg.badge
+      ? `<span class="pkg-badge">${pkg.badge}</span>`
+      : `<span style="display:block;height:29px;margin-bottom:28px;"></span>`
+    }
     <span class="pkg-duration">${pkg.duration}</span>
     <h3 class="pkg-name">${pkg.name}</h3>
     <div class="divider"></div>
@@ -2584,7 +2586,7 @@ function buildCard(pkg, isFeatured) {
     <ul class="pkg-features">
       ${features.map(f => f
         ? `<li>${f}</li>`
-        : `<li style="visibility:hidden;border-bottom-color:transparent;">placeholder</li>`
+        : `<li style="visibility:hidden;border-bottom-color:transparent;">—</li>`
       ).join('')}
     </ul>
     <a href="#contact" class="pkg-cta">Enquire Now</a>
@@ -2614,8 +2616,6 @@ function renderCards(indices, animate) {
     }
   });
 }
-
-// Initial render — no animation
 renderCards(currentSet, false);
 
 // Stagger each card rotating at a different time so they don't all flip at once
