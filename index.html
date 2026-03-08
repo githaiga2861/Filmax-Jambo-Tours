@@ -2391,6 +2391,20 @@ nav.scrolled .nav-brand-idle {
 </a>
 
 <script>
+  // Skip loader if already seen this session
+const loaderEl = document.getElementById('loader');
+const loaderLogoEl = document.querySelector('.loader-logo');
+const heroLogoElCheck = document.getElementById('hero-logo');
+
+if (sessionStorage.getItem('loaderSeen')) {
+  // Already played — skip instantly
+  loaderEl.style.display = 'none';
+  heroLogoElCheck.style.opacity = '1';
+  heroLogoElCheck.style.display = 'block';
+  document.querySelector('.hero-sky').classList.add('settled');
+} else {
+  sessionStorage.setItem('loaderSeen', 'true');
+}
 // Nav scroll + Parallax hero — merged
 const navbar = document.getElementById('navbar');
 
@@ -2412,32 +2426,35 @@ window.addEventListener('scroll', () => {
   }
 });
   
-const loader     = document.getElementById('loader');
-const loaderLogo = document.querySelector('.loader-logo');
-const heroLogo   = document.getElementById('hero-logo');
-const heroSky    = document.querySelector('.hero-sky');
+const loaderEl      = document.getElementById('loader');
+const loaderLogoEl  = document.querySelector('.loader-logo');
+const heroLogoEl    = document.getElementById('hero-logo');
+const heroSkyEl     = document.querySelector('.hero-sky');
 
-setTimeout(() => {
-
-  loaderLogo.classList.add('morph-to-hero');
-  loader.classList.add('fade-out');
-
-  heroLogo.style.display = 'block';
-
-  setTimeout(() => {
-    heroLogo.classList.add('visible');
-  }, 400);
-
-  setTimeout(() => {
-    heroSky.classList.add('settled');
-  }, 2500);
+if (sessionStorage.getItem('loaderSeen')) {
+  // Skip loader — already played this session
+  loaderEl.style.display = 'none';
+  heroLogoEl.style.display = 'block';
+  heroLogoEl.style.opacity = '1';
+  heroSkyEl.classList.add('settled');
+} else {
+  // First visit — play the full animation
+  sessionStorage.setItem('loaderSeen', 'true');
 
   setTimeout(() => {
-    loaderLogo.classList.add('gone');
-    loader.style.display = 'none';
-  }, 3200);
+    loaderLogoEl.classList.add('morph-to-hero');
+    loaderEl.classList.add('fade-out');
+    heroLogoEl.style.display = 'block';
 
-}, 6600);
+    setTimeout(() => { heroLogoEl.classList.add('visible'); }, 400);
+    setTimeout(() => { heroSkyEl.classList.add('settled'); }, 2500);
+    setTimeout(() => {
+      loaderLogoEl.classList.add('gone');
+      loaderEl.style.display = 'none';
+    }, 3200);
+
+  }, 6600);
+}
 
 // Hero logo flies to nav on scroll
 const heroLogoEl = document.getElementById('hero-logo');
