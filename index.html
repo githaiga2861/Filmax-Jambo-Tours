@@ -2946,12 +2946,60 @@ startStaggeredRotation();
   slideshow.addEventListener('mouseenter', () => { isHovered = true; });
   slideshow.addEventListener('mouseleave', () => { isHovered = false; });
 
-  // Swipe
-  let tx = 0;
-  slideshow.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+// Touch drag — live finger tracking
+  let tx = 0, ty = 0, dragging = false, dragOffset = 0;
+
+  slideshow.addEventListener('touchstart', e => {
+    tx = e.touches[0].clientX;
+    ty = e.touches[0].clientY;
+    dragging = true;
+    dragOffset = 0;
+    clearInterval(timer);
+  }, { passive: true });
+
+  slideshow.addEventListener('touchmove', e => {
+    if (!dragging) return;
+    const dx = e.touches[0].clientX - tx;
+    const dy = e.touches[0].clientY - ty;
+
+    // Only hijack horizontal swipes
+    if (Math.abs(dx) < Math.abs(dy) && Math.abs(dragOffset) === 0) {
+      dragging = false;
+      return;
+    }
+
+    dragOffset = dx;
+
+    // Live drag — shift track with finger in real time
+    track.style.transition = 'none';
+    track.style.transform  = `translateX(${trackOffset + dx}px)`;
+  }, { passive: true });
+
   slideshow.addEventListener('touchend', e => {
+    if (!dragging) return;
+    dragging = false;
+
+    // Restore transition
+    track.style.transition = '';
+
     const dx = e.changedTouches[0].clientX - tx;
-    if (Math.abs(dx) > 40) { dx < 0 ? next() : prev(); startTimer(); }
+
+    if (Math.abs(dx) > 50) {
+      // Enough drag — commit to next/prev
+      dx < 0 ? next() : prev();
+    } else {
+      // Not enough — snap back to current
+      track.style.transform = `translateX(${trackOffset}px)`;
+    }
+
+    startTimer();
+  }, { passive: true });
+
+  slideshow.addEventListener('touchcancel', () => {
+    dragging = false;
+    track.style.transition = '';
+    track.style.transform  = `translateX(${trackOffset}px)`;
+    startTimer();
   }, { passive: true });
 
   // Keyboard
