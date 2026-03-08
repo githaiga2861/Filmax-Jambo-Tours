@@ -392,7 +392,7 @@ nav.scrolled .nav-brand-idle {
 
   #hero-logo {
   width: 300px;
-  max-width: 75vw;
+  max-width: none;
   margin: 0 auto;
   display: block;
   opacity: 0;
@@ -2453,7 +2453,10 @@ window.addEventListener('scroll', () => {
     const currentRect  = heroLogoEl.getBoundingClientRect();
     const navRect      = navLogoLink.getBoundingClientRect();
     const targetHeight = window.innerWidth <= 600 ? 44 : 70;
-    const targetWidth  = targetHeight * (currentRect.width / currentRect.height);
+    const ratio        = heroLogoEl.naturalWidth && heroLogoEl.naturalHeight
+                         ? heroLogoEl.naturalWidth / heroLogoEl.naturalHeight
+                         : currentRect.width / currentRect.height;
+    const targetWidth  = targetHeight * ratio;
     const targetTop    = navRect.top + (navRect.height - targetHeight) / 2;
     const targetLeft   = navRect.left;
 
