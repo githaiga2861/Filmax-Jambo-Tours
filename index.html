@@ -327,6 +327,38 @@ nav.scrolled .nav-brand-idle {
     opacity: 0;
     transition: opacity 0.4s 0.3s;
   }
+  .dropdown-back {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: color 0.3s;
+  cursor: none;
+  margin-bottom: 32px;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.4s;
+}
+.dropdown-back::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--muted);
+  transition: width 0.3s, background 0.3s;
+}
+.dropdown-back:hover { color: var(--gold); }
+.dropdown-back:hover::before { width: 36px; background: var(--gold); }
+.dropdown.open .dropdown-back {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.08s;
+}
   .dropdown.open .dropdown-tagline { opacity: 1; }
 
   /* HERO */
@@ -1950,6 +1982,7 @@ nav.scrolled .nav-brand-idle {
 
 <!-- Dropdown -->
 <div class="dropdown" id="dropdown">
+  <a href="index.html" class="dropdown-back">Back to Home</a>
   <a href="#highlights" class="dropdown-link">Safaris</a>
   <a href="#packages" class="dropdown-link">Packages</a>
   <a href="#testimonials" class="dropdown-link">About</a>
