@@ -1987,12 +1987,10 @@ nav.scrolled .nav-brand-idle {
       <p class="section-sub">Distinct expressions of the African wild. Each meticulously crafted for a different desire.</p>
     </div>
 
-    <div class="packages-grid" id="packagesGrid">
-
+<div class="packages-grid" id="packagesGrid">
   <div class="package-card reveal" id="pkgCard0"></div>
   <div class="package-card featured reveal" id="pkgCard1" style="transition-delay:0.1s"></div>
   <div class="package-card reveal" id="pkgCard2" style="transition-delay:0.2s"></div>
-
 </div>
 
 <!-- View More button stays here unchanged -->
@@ -2511,7 +2509,7 @@ if (statsBar) statsObserver.observe(statsBar);
     });
   });
 })();
-  // PACKAGES SLIDESHOW
+// PACKAGES SLIDESHOW
 const allPackages = [
   {
     badge: null,
@@ -2633,10 +2631,7 @@ const allPackages = [
 function buildCard(pkg, isFeatured) {
   const maxFeatures = isFeatured ? 7 : 6;
   const features = [...pkg.features];
-
-  while (features.length < maxFeatures) {
-    features.push(null);
-  }
+  while (features.length < maxFeatures) features.push(null);
 
   return `
     ${pkg.badge
@@ -2657,82 +2652,61 @@ function buildCard(pkg, isFeatured) {
   `;
 }
 
-function renderCards(indices, animate) {
-  indices.forEach((pkgIndex, cardIndex) => {
-    const card = document.getElementById(`pkgCard${cardIndex}`);
+// Wait for DOM to be fully ready
+document.addEventListener('DOMContentLoaded', function() {
+  const card0 = document.getElementById('pkgCard0');
+  const card1 = document.getElementById('pkgCard1');
+  const card2 = document.getElementById('pkgCard2');
+
+  // Safety check
+  if (!card0 || !card1 || !card2) return;
+
+  let currentSet = [0, 1, 2];
+
+  function renderCard(cardEl, pkgIndex, isFeatured, animate) {
     const pkg = allPackages[pkgIndex];
-    const isFeatured = cardIndex === 1;
-
-    if (animate) {
-      // Fade out
-      card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(16px)';
-
-      setTimeout(() => {
-        card.innerHTML = buildCard(pkg, isFeatured);
-        // Fade in
-        card.style.opacity = '1';
-        card.style.transform = 'translateY(0)';
-      }, 500);
-    } else {
-      card.innerHTML = buildCard(pkg, isFeatured);
+    if (!animate) {
+      cardEl.innerHTML = buildCard(pkg, isFeatured);
+      return;
     }
-  });
-}
-renderCards(currentSet, false);
-
-// Stagger each card rotating at a different time so they don't all flip at once
-function startStaggeredRotation() {
-  // Card 0 rotates every 6s
-  setInterval(() => {
-    const next0 = (currentSet[0] + 3) % allPackages.length;
-    currentSet[0] = next0;
-    const card = document.getElementById('pkgCard0');
-    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(16px)';
+    cardEl.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    cardEl.style.opacity = '0';
+    cardEl.style.transform = 'translateY(16px)';
     setTimeout(() => {
-      card.innerHTML = buildCard(allPackages[next0], false);
-      card.style.opacity = '1';
-      card.style.transform = 'translateY(0)';
+      cardEl.innerHTML = buildCard(pkg, isFeatured);
+      cardEl.style.opacity = '1';
+      cardEl.style.transform = 'translateY(0)';
     }, 500);
+  }
+
+  // Initial render — no animation
+  renderCard(card0, currentSet[0], false, false);
+  renderCard(card1, currentSet[1], true,  false);
+  renderCard(card2, currentSet[2], false, false);
+
+  // Staggered rotation — each card independently every 6s
+  // Card 0 starts immediately
+  setInterval(() => {
+    currentSet[0] = (currentSet[0] + 3) % allPackages.length;
+    renderCard(card0, currentSet[0], false, true);
   }, 6000);
 
-  // Card 1 rotates every 6s but starts 2s later
+  // Card 1 starts after 2s
   setTimeout(() => {
     setInterval(() => {
-      const next1 = (currentSet[1] + 3) % allPackages.length;
-      currentSet[1] = next1;
-      const card = document.getElementById('pkgCard1');
-      card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(16px)';
-      setTimeout(() => {
-        card.innerHTML = buildCard(allPackages[next1], true);
-        card.style.opacity = '1';
-        card.style.transform = 'translateY(0)';
-      }, 500);
+      currentSet[1] = (currentSet[1] + 3) % allPackages.length;
+      renderCard(card1, currentSet[1], true, true);
     }, 6000);
   }, 2000);
 
-  // Card 2 rotates every 6s but starts 4s later
+  // Card 2 starts after 4s
   setTimeout(() => {
     setInterval(() => {
-      const next2 = (currentSet[2] + 3) % allPackages.length;
-      currentSet[2] = next2;
-      const card = document.getElementById('pkgCard2');
-      card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(16px)';
-      setTimeout(() => {
-        card.innerHTML = buildCard(allPackages[next2], false);
-        card.style.opacity = '1';
-        card.style.transform = 'translateY(0)';
-      }, 500);
+      currentSet[2] = (currentSet[2] + 3) % allPackages.length;
+      renderCard(card2, currentSet[2], false, true);
     }, 6000);
   }, 4000);
-}
+});
 
 startStaggeredRotation();
 // DESTINATIONS SLIDESHOW
