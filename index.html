@@ -2437,15 +2437,13 @@ let hasFlown = false;
 let heroStartRect = null;
 
 window.addEventListener('load', () => {
-  if (heroLogoEl) {
-    heroStartRect = heroLogoEl.getBoundingClientRect();
-    heroLogoEl.dataset.naturalRatio = heroLogoEl.offsetWidth / heroLogoEl.offsetHeight;
-  }
+  if (heroLogoEl) heroStartRect = heroLogoEl.getBoundingClientRect();
 });
 
 window.addEventListener('scroll', () => {
   const scrollY = window.scrollY;
 
+  // Fade idle words
   if (navIdleWords) {
     navIdleWords.style.opacity       = scrollY > 80 ? '0' : '1';
     navIdleWords.style.pointerEvents = scrollY > 80 ? 'none' : '';
@@ -2453,56 +2451,75 @@ window.addEventListener('scroll', () => {
 
   if (scrollY > 80 && !hasFlown) {
     hasFlown = true;
-    const currentRect  = heroLogoEl.getBoundingClientRect();
-    const navRect      = navLogoLink.getBoundingClientRect();
-    const targetHeight = window.innerWidth <= 600 ? 44 : 70;
-    const ratio        = parseFloat(heroLogoEl.dataset.naturalRatio) || (heroStartRect.width / heroStartRect.height);
-    const targetWidth  = targetHeight * ratio;
+
+    const currentHeroRect = heroLogoEl.getBoundingClientRect();
+    const navRect         = navLogoLink.getBoundingClientRect();
+
+    // Target size — match nav slot height, preserve natural ratio
+    const targetHeight = navRect.height * 0.85;
+    const targetWidth  = targetHeight * (heroStartRect.width / heroStartRect.height);
     const targetTop    = navRect.top + (navRect.height - targetHeight) / 2;
     const targetLeft   = navRect.left;
 
+    // Hide real hero logo
     heroLogoEl.style.transition = 'none';
-    heroLogoEl.style.position   = 'fixed';
-    heroLogoEl.style.top        = `${currentRect.top}px`;
-    heroLogoEl.style.left       = `${currentRect.left}px`;
-    heroLogoEl.style.width      = `${currentRect.width}px`;
-    heroLogoEl.style.height     = `${currentRect.height}px`;
-    heroLogoEl.style.margin     = '0';
-    heroLogoEl.style.zIndex     = '9997';
-    heroLogoEl.style.opacity    = '1';
-    heroLogoEl.style.filter     = 'drop-shadow(0 0 12px rgba(212,175,55,0.5))';
+    heroLogoEl.style.opacity    = '0';
 
+    // Clone from exact current screen position
+    const clone = heroLogoEl.cloneNode(true);
+    clone.removeAttribute('id');
+    clone.style.cssText = `
+      position: fixed;
+      top: ${currentHeroRect.top}px;
+      left: ${currentHeroRect.left}px;
+      width: ${currentHeroRect.width}px;
+      height: ${currentHeroRect.height}px;
+      opacity: 1;
+      z-index: 9997;
+      pointer-events: none;
+      margin: 0;
+      transition: none;
+      filter: drop-shadow(0 0 12px rgba(212,175,55,0.5));
+    `;
+    document.body.appendChild(clone);
+
+    // Animate clone to nav position
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        heroLogoEl.style.transition = `top 0.65s cubic-bezier(0.76,0,0.24,1), left 0.65s cubic-bezier(0.76,0,0.24,1), width 0.65s cubic-bezier(0.76,0,0.24,1), height 0.65s cubic-bezier(0.76,0,0.24,1), filter 0.65s ease`;
-        heroLogoEl.style.top    = `${targetTop}px`;
-        heroLogoEl.style.left   = `${targetLeft}px`;
-        heroLogoEl.style.width  = `${targetWidth}px`;
-        heroLogoEl.style.height = `${targetHeight}px`;
-        heroLogoEl.style.filter = 'drop-shadow(0 0 6px rgba(212,175,55,0.3))';
+        clone.style.transition = `
+          top    0.65s cubic-bezier(0.76, 0, 0.24, 1),
+          left   0.65s cubic-bezier(0.76, 0, 0.24, 1),
+          width  0.65s cubic-bezier(0.76, 0, 0.24, 1),
+          height 0.65s cubic-bezier(0.76, 0, 0.24, 1),
+          opacity 0.3s ease 0.45s
+        `;
+        clone.style.top    = `${targetTop}px`;
+        clone.style.left   = `${targetLeft}px`;
+        clone.style.width  = `${targetWidth}px`;
+        clone.style.height = `${targetHeight}px`;
       });
     });
+
+    // Land: remove clone, show nav logo
+    setTimeout(() => {
+      clone.style.opacity = '0';
+      setTimeout(() => {
+        clone.remove();
+        navLogoLink.style.transition    = 'none';
+        navLogoLink.style.opacity       = '1';
+        navLogoLink.style.pointerEvents = 'all';
+      }, 300);
+    }, 650);
   }
 
+  // Scroll back to top — reset
   if (scrollY <= 80 && hasFlown) {
     hasFlown = false;
-    heroLogoEl.style.transition = `top 0.65s cubic-bezier(0.76,0,0.24,1), left 0.65s cubic-bezier(0.76,0,0.24,1), width 0.65s cubic-bezier(0.76,0,0.24,1), height 0.65s cubic-bezier(0.76,0,0.24,1), filter 0.65s ease`;
-    heroLogoEl.style.top    = `${heroStartRect.top}px`;
-    heroLogoEl.style.left   = `${heroStartRect.left}px`;
-    heroLogoEl.style.width  = `${heroStartRect.width}px`;
-    heroLogoEl.style.height = `${heroStartRect.height}px`;
-    heroLogoEl.style.filter = 'none';
-
-    setTimeout(() => {
-      heroLogoEl.style.transition = 'none';
-      heroLogoEl.style.position   = '';
-      heroLogoEl.style.top        = '';
-      heroLogoEl.style.left       = '';
-      heroLogoEl.style.width      = '';
-      heroLogoEl.style.height     = '';
-      heroLogoEl.style.zIndex     = '';
-      heroLogoEl.style.margin     = '';
-    }, 700);
+    navLogoLink.style.transition    = 'opacity 0.3s ease';
+    navLogoLink.style.opacity       = '0';
+    navLogoLink.style.pointerEvents = 'none';
+    heroLogoEl.style.transition     = 'opacity 0.4s ease';
+    heroLogoEl.style.opacity        = '1';
   }
 });
 
