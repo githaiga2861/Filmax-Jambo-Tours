@@ -2391,52 +2391,26 @@ nav.scrolled .nav-brand-idle {
 </a>
 
 <script>
-  // Skip loader if already seen this session
-const loaderEl = document.getElementById('loader');
-const loaderLogoEl = document.querySelector('.loader-logo');
-const heroLogoElCheck = document.getElementById('hero-logo');
-
-if (sessionStorage.getItem('loaderSeen')) {
-  // Already played — skip instantly
-  loaderEl.style.display = 'none';
-  heroLogoElCheck.style.opacity = '1';
-  heroLogoElCheck.style.display = 'block';
-  document.querySelector('.hero-sky').classList.add('settled');
-} else {
-  sessionStorage.setItem('loaderSeen', 'true');
-}
-// Nav scroll + Parallax hero — merged
-const navbar = document.getElementById('navbar');
-
-window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
-
-  // Nav scroll
-  if (scrollY > 50) {
-    navbar.classList.add('scrolled');
-  } else {
-    navbar.classList.remove('scrolled');
-  }
-
-  // Parallax hero
-  if (scrollY < window.innerHeight) {
-    document.querySelector('.hero-content').style.transform = `translateY(${scrollY * 0.3}px)`;
-    document.querySelector('.hero-content').style.opacity = 1 - (scrollY / 500);
-    document.querySelector('.hero-sun').style.transform = `translateX(-50%) translateY(${scrollY * 0.1}px)`;
-  }
-});
-  
 const loaderEl      = document.getElementById('loader');
 const loaderLogoEl  = document.querySelector('.loader-logo');
 const heroLogoEl    = document.getElementById('hero-logo');
 const heroSkyEl     = document.querySelector('.hero-sky');
 
 if (sessionStorage.getItem('loaderSeen')) {
-  // Skip loader — already played this session
+  // Skip loader — force everything visible immediately
   loaderEl.style.display = 'none';
   heroLogoEl.style.display = 'block';
   heroLogoEl.style.opacity = '1';
   heroSkyEl.classList.add('settled');
+
+  const heroEyebrow  = document.querySelector('.hero-eyebrow');
+  const heroSubtitle = document.querySelector('.hero-subtitle');
+  const heroActions  = document.querySelector('.hero-actions');
+
+  if (heroEyebrow)  { heroEyebrow.style.opacity  = '1'; heroEyebrow.style.transform  = 'translateY(0)'; heroEyebrow.style.animation  = 'none'; }
+  if (heroSubtitle) { heroSubtitle.style.opacity = '1'; heroSubtitle.style.transform = 'translateY(0)'; heroSubtitle.style.animation = 'none'; }
+  if (heroActions)  { heroActions.style.opacity  = '1'; heroActions.style.transform  = 'translateY(0)'; heroActions.style.animation  = 'none'; }
+
 } else {
   // First visit — play the full animation
   sessionStorage.setItem('loaderSeen', 'true');
