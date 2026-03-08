@@ -216,15 +216,18 @@ nav.scrolled .nav-brand-idle {
   .nav-logo-img {
     height: 44px;
     width: auto;
+    max-width: 120px;
   }
   nav.scrolled .nav-logo-img {
     height: 44px;
     width: auto;
+    max-width: 120px;
   }
   .nav-logo-link {
     height: 44px;
     width: auto;
   }
+}
 }
 
   .loader-logo {
@@ -2449,7 +2452,7 @@ window.addEventListener('scroll', () => {
     hasFlown = true;
     const currentRect  = heroLogoEl.getBoundingClientRect();
     const navRect      = navLogoLink.getBoundingClientRect();
-    const targetHeight = 44;
+    const targetHeight = window.innerWidth <= 600 ? 44 : 70;
     const targetWidth  = targetHeight * (currentRect.width / currentRect.height);
     const targetTop    = navRect.top + (navRect.height - targetHeight) / 2;
     const targetLeft   = navRect.left;
