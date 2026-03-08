@@ -749,7 +749,7 @@ nav.scrolled .nav-brand-idle {
     will-change: transform;
   }
 
-  /* Base slide */
+/* Base slide */
   .ds-slide {
     flex: 0 0 auto;
     width: 56vw;
@@ -761,39 +761,45 @@ nav.scrolled .nav-brand-idle {
     border-radius: 3px;
     cursor: none;
     transition:
-      transform 0.9s cubic-bezier(0.76, 0, 0.24, 1),
-      filter 0.9s ease,
-      box-shadow 0.9s ease;
-    transform: scale(0.88);
-    filter: blur(3px) brightness(0.35) saturate(0.4);
+      transform 1s cubic-bezier(0.76, 0, 0.24, 1),
+      filter 1s ease,
+      box-shadow 1s ease,
+      opacity 1s ease;
+    transform: scale(0.72) translateY(40px);
+    filter: blur(8px) brightness(0.2) saturate(0.2);
     box-shadow: none;
+    opacity: 0.4;
   }
 
-  /* Active — pops forward */
+  /* Active — floats forward */
   .ds-slide.ds-active {
-    transform: scale(1);
+    transform: scale(1) translateY(-18px);
     filter: blur(0px) brightness(1) saturate(1);
+    opacity: 1;
     box-shadow:
-      0 50px 120px rgba(0,0,0,0.9),
-      0 0 0 1px rgba(212,175,55,0.15),
-      0 0 60px rgba(0,0,0,0.4);
+      0 60px 140px rgba(0,0,0,0.95),
+      0 30px 60px rgba(0,0,0,0.6),
+      0 0 0 1px rgba(212,175,55,0.14),
+      0 -4px 40px rgba(212,175,55,0.06);
     z-index: 3;
     cursor: none;
   }
 
-  /* Immediate neighbours */
+  /* Immediate neighbours — just peeking, heavily blurred */
   .ds-slide.ds-next,
   .ds-slide.ds-prev-slide {
-    transform: scale(0.91);
-    filter: blur(2px) brightness(0.3) saturate(0.35);
+    transform: scale(0.78) translateY(28px);
+    filter: blur(6px) brightness(0.22) saturate(0.25);
+    opacity: 0.55;
     z-index: 2;
     cursor: none;
   }
 
-  /* Far slides */
+  /* Far slides — barely visible */
   .ds-slide.ds-far {
-    transform: scale(0.86);
-    filter: blur(4px) brightness(0.18) saturate(0.2);
+    transform: scale(0.68) translateY(44px);
+    filter: blur(10px) brightness(0.1) saturate(0.1);
+    opacity: 0.2;
     z-index: 1;
     cursor: none;
   }
@@ -2038,9 +2044,9 @@ nav.scrolled .nav-brand-idle {
         </div>
       </div>
 
-      <!-- SLIDE 4 — Lake Naivasha -->
-      <div class="ds-slide ds-far" data-index="3" data-title="Lake Naivasha" data-tagline="Hippos at the water's edge, flamingos on the horizon, silence all around.">
-        <img class="ds-slide-img" src="assets/lakenaivasha.jpg" alt="Lake Naivasha" loading="lazy">
+      <!-- SLIDE 4 — Lake Nakuru -->
+      <div class="ds-slide ds-far" data-index="3" data-title="Lake Nakuru" data-tagline="Hippos at the water's edge, flamingos on the horizon, silence all around.">
+        <img class="ds-slide-img" src="assets/lakenakuru.jpg" alt="Lake Nakuru" loading="lazy">
         <div class="ds-slide-overlay"></div>
         <div class="ds-magnify">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -2050,7 +2056,7 @@ nav.scrolled .nav-brand-idle {
         </div>
         <div class="ds-slide-content">
           <span class="ds-slide-label">Rift Valley Jewel</span>
-          <h2 class="ds-slide-title">Lake Naivasha</h2>
+          <h2 class="ds-slide-title">Lake Nakuru</h2>
           <p class="ds-slide-tagline">Hippos at the water's edge, flamingos on the horizon, silence all around.</p>
           <a href="#contact" class="ds-slide-btn">Explore Destination
             <svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M1 4h12M8.5 1L12 4l-3.5 3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
