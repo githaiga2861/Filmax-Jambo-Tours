@@ -1952,121 +1952,159 @@ nav.scrolled .nav-brand-idle {
   </div>
 </section>
 
-<!-- ============================= -->
-<!-- KENYAN DESTINATIONS SLIDESHOW -->
-<!-- ============================= -->
-<section id="wildlife">
-  <div class="container">
-    <div class="wildlife-header reveal">
-      <div>
-        <span class="section-label">Kenya's Icons</span>
-        <h2 class="section-title">Discover the <br><em style="color: var(--gold);">Destinations</em></h2>
-      </div>
-      <p class="section-sub" style="max-width:300px;font-size:15px;">From the sweeping Maasai Mara to the pristine Diani coast — each destination a world unto itself.</p>
-    </div>
-  </div>
-
 <div class="destinations-slideshow reveal" id="destSlideshow">
 
-    <!-- Slide track -->
+    <!-- Scroll hints — replaces arrow buttons -->
+    <div class="ds-scroll-hint ds-scroll-hint-left" id="dsHintLeft">
+      <div class="ds-scroll-hint-chevron">
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none">
+          <path d="M8 2L2 8l6 6" stroke="rgba(212,175,55,0.7)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="ds-scroll-hint-line"></div>
+      <span class="ds-scroll-hint-text">Prev</span>
+    </div>
+
+    <div class="ds-scroll-hint ds-scroll-hint-right" id="dsHintRight">
+      <div class="ds-scroll-hint-chevron">
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none">
+          <path d="M2 2l6 6-6 6" stroke="rgba(212,175,55,0.7)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="ds-scroll-hint-line"></div>
+      <span class="ds-scroll-hint-text">Next</span>
+    </div>
+
+    <!-- Track -->
     <div class="ds-track" id="dsTrack">
 
       <!-- SLIDE 1 — Maasai Mara -->
-      <div class="ds-slide ds-active" data-index="0">
-        <img class="ds-slide-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Lion_waiting_in_Namibia.jpg/1600px-Lion_waiting_in_Namibia.jpg" alt="Maasai Mara" loading="eager">
+      <div class="ds-slide ds-active" data-index="0" data-title="Maasai Mara" data-tagline="Where the Great Migration rewrites the laws of nature every year.">
+        <img class="ds-slide-img" src="assets/maasaimara.jpg" alt="Maasai Mara" loading="eager">
         <div class="ds-slide-overlay"></div>
+        <div class="ds-magnify" title="View full size">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <circle cx="6" cy="6" r="4.5" stroke="rgba(212,175,55,0.8)" stroke-width="1.1"/>
+            <path d="M10 10l2.5 2.5" stroke="rgba(212,175,55,0.8)" stroke-width="1.1" stroke-linecap="round"/>
+          </svg>
+        </div>
         <div class="ds-slide-content">
           <span class="ds-slide-label">Kenya's Crown Jewel</span>
           <h2 class="ds-slide-title">Maasai Mara</h2>
           <p class="ds-slide-tagline">Where the Great Migration rewrites the laws of nature every year.</p>
           <a href="#contact" class="ds-slide-btn">Explore Destination
-            <svg width="16" height="9" viewBox="0 0 16 9" fill="none"><path d="M1 4.5h14M10 1l4.5 3.5L10 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M1 4h12M8.5 1L12 4l-3.5 3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
-        <span class="ds-peek-label">Maasai Mara</span>
       </div>
 
       <!-- SLIDE 2 — Diani Beach -->
-      <div class="ds-slide ds-next" data-index="1">
-        <img class="ds-slide-img" src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=90&auto=format&fit=crop" alt="Diani Beach" loading="lazy">
+      <div class="ds-slide ds-next" data-index="1" data-title="Diani Beach" data-tagline="Ivory sands, turquoise waters, and the warmth of coastal Kenya.">
+        <img class="ds-slide-img" src="assets/dianibeach.jpg" alt="Diani Beach" loading="lazy">
         <div class="ds-slide-overlay"></div>
+        <div class="ds-magnify">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <circle cx="6" cy="6" r="4.5" stroke="rgba(212,175,55,0.8)" stroke-width="1.1"/>
+            <path d="M10 10l2.5 2.5" stroke="rgba(212,175,55,0.8)" stroke-width="1.1" stroke-linecap="round"/>
+          </svg>
+        </div>
         <div class="ds-slide-content">
           <span class="ds-slide-label">Indian Ocean Coast</span>
           <h2 class="ds-slide-title">Diani Beach</h2>
           <p class="ds-slide-tagline">Ivory sands, turquoise waters, and the warmth of coastal Kenya.</p>
           <a href="#contact" class="ds-slide-btn">Explore Destination
-            <svg width="16" height="9" viewBox="0 0 16 9" fill="none"><path d="M1 4.5h14M10 1l4.5 3.5L10 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M1 4h12M8.5 1L12 4l-3.5 3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
-        <span class="ds-peek-label">Diani Beach</span>
       </div>
 
       <!-- SLIDE 3 — Amboseli -->
-      <div class="ds-slide ds-far" data-index="2">
-        <img class="ds-slide-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/African_Bush_Elephant.jpg/1600px-African_Bush_Elephant.jpg" alt="Amboseli" loading="lazy">
+      <div class="ds-slide ds-far" data-index="2" data-title="Amboseli" data-tagline="Kilimanjaro at dawn, elephant herds at dusk — pure iconic Africa.">
+        <img class="ds-slide-img" src="assets/amboseli.jpg" alt="Amboseli" loading="lazy">
         <div class="ds-slide-overlay"></div>
+        <div class="ds-magnify">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <circle cx="6" cy="6" r="4.5" stroke="rgba(212,175,55,0.8)" stroke-width="1.1"/>
+            <path d="M10 10l2.5 2.5" stroke="rgba(212,175,55,0.8)" stroke-width="1.1" stroke-linecap="round"/>
+          </svg>
+        </div>
         <div class="ds-slide-content">
           <span class="ds-slide-label">Elephant Kingdom</span>
           <h2 class="ds-slide-title">Amboseli</h2>
           <p class="ds-slide-tagline">Kilimanjaro at dawn, elephant herds at dusk — pure iconic Africa.</p>
           <a href="#contact" class="ds-slide-btn">Explore Destination
-            <svg width="16" height="9" viewBox="0 0 16 9" fill="none"><path d="M1 4.5h14M10 1l4.5 3.5L10 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M1 4h12M8.5 1L12 4l-3.5 3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
-        <span class="ds-peek-label">Amboseli</span>
       </div>
 
       <!-- SLIDE 4 — Lake Naivasha -->
-      <div class="ds-slide ds-far" data-index="3">
-        <img class="ds-slide-img" src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1600&q=90&auto=format&fit=crop" alt="Lake Naivasha" loading="lazy">
+      <div class="ds-slide ds-far" data-index="3" data-title="Lake Naivasha" data-tagline="Hippos at the water's edge, flamingos on the horizon, silence all around.">
+        <img class="ds-slide-img" src="assets/lakenaivasha.jpg" alt="Lake Naivasha" loading="lazy">
         <div class="ds-slide-overlay"></div>
+        <div class="ds-magnify">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <circle cx="6" cy="6" r="4.5" stroke="rgba(212,175,55,0.8)" stroke-width="1.1"/>
+            <path d="M10 10l2.5 2.5" stroke="rgba(212,175,55,0.8)" stroke-width="1.1" stroke-linecap="round"/>
+          </svg>
+        </div>
         <div class="ds-slide-content">
           <span class="ds-slide-label">Rift Valley Jewel</span>
           <h2 class="ds-slide-title">Lake Naivasha</h2>
           <p class="ds-slide-tagline">Hippos at the water's edge, flamingos on the horizon, silence all around.</p>
           <a href="#contact" class="ds-slide-btn">Explore Destination
-            <svg width="16" height="9" viewBox="0 0 16 9" fill="none"><path d="M1 4.5h14M10 1l4.5 3.5L10 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M1 4h12M8.5 1L12 4l-3.5 3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
-        <span class="ds-peek-label">Lake Naivasha</span>
       </div>
 
       <!-- SLIDE 5 — Mount Kenya -->
-      <div class="ds-slide ds-far" data-index="4">
-        <img class="ds-slide-img" src="https://images.unsplash.com/photo-1551969014-7d2c4cddf0b6?w=1600&q=90&auto=format&fit=crop" alt="Mount Kenya" loading="lazy">
+      <div class="ds-slide ds-far" data-index="4" data-title="Mount Kenya" data-tagline="Africa's second peak — ancient glaciers, cedar forests, rare mountain wildlife.">
+        <img class="ds-slide-img" src="assets/mountkenya.jpg" alt="Mount Kenya" loading="lazy">
         <div class="ds-slide-overlay"></div>
+        <div class="ds-magnify">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <circle cx="6" cy="6" r="4.5" stroke="rgba(212,175,55,0.8)" stroke-width="1.1"/>
+            <path d="M10 10l2.5 2.5" stroke="rgba(212,175,55,0.8)" stroke-width="1.1" stroke-linecap="round"/>
+          </svg>
+        </div>
         <div class="ds-slide-content">
           <span class="ds-slide-label">Alpine Crown</span>
           <h2 class="ds-slide-title">Mount Kenya</h2>
           <p class="ds-slide-tagline">Africa's second peak — ancient glaciers, cedar forests, rare mountain wildlife.</p>
           <a href="#contact" class="ds-slide-btn">Explore Destination
-            <svg width="16" height="9" viewBox="0 0 16 9" fill="none"><path d="M1 4.5h14M10 1l4.5 3.5L10 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M1 4h12M8.5 1L12 4l-3.5 3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
-        <span class="ds-peek-label">Mount Kenya</span>
       </div>
 
     </div>
 
     <!-- Controls -->
     <div class="ds-controls">
-      <div class="ds-controls-left" id="dsDots"></div>
-      <div class="ds-controls-right">
-        <div class="ds-counter">
-          <span class="ds-counter-current" id="dsCountCurrent">1</span>
-          <span>/</span>
-          <span id="dsCountTotal">5</span>
-        </div>
-        <div class="ds-arrows">
-          <button class="ds-arrow ds-arrow-prev" id="dsArrowPrev" aria-label="Previous">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <button class="ds-arrow ds-arrow-next" id="dsArrowNext" aria-label="Next">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </div>
+      <div class="ds-counter">
+        <span class="ds-counter-current" id="dsCountCurrent">1</span>
+        <span>/</span>
+        <span id="dsCountTotal">5</span>
       </div>
+      <div class="ds-dots" id="dsDots"></div>
+      <div style="width:52px;"></div>
     </div>
+
+    <!-- Progress -->
+    <div class="ds-progress" id="dsProgress"></div>
+
+  </div>
+
+  <!-- Lightbox -->
+  <div class="ds-lightbox" id="dsLightbox">
+    <button class="ds-lightbox-close" id="dsLightboxClose">Close</button>
+    <img class="ds-lightbox-img" id="dsLightboxImg" src="" alt="">
+    <div class="ds-lightbox-caption">
+      <h3 id="dsLightboxTitle"></h3>
+      <span id="dsLightboxTagline"></span>
+    </div>
+  </div>
 
     <!-- Progress line -->
     <div class="ds-progress" id="dsProgress"></div>
