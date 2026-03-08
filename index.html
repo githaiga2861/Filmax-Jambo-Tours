@@ -758,48 +758,53 @@ nav.scrolled .nav-brand-idle {
     max-height: 720px;
     position: relative;
     overflow: hidden;
-    border-radius: 3px;
+    border-radius: 2px;
     cursor: none;
     transition:
       transform 1s cubic-bezier(0.76, 0, 0.24, 1),
       filter 1s ease,
       box-shadow 1s ease,
-      opacity 1s ease;
-    transform: scale(0.72) translateY(40px);
-    filter: blur(8px) brightness(0.2) saturate(0.2);
+      opacity 1s ease,
+      width 1s cubic-bezier(0.76, 0, 0.24, 1);
+    transform: scale(0.62) translateY(52px);
+    filter: blur(12px) brightness(0.1) saturate(0.1);
     box-shadow: none;
-    opacity: 0.4;
+    opacity: 0;
+    width: 56vw;
   }
 
-  /* Active — floats forward */
+  /* Active — floats forward, fully revealed */
   .ds-slide.ds-active {
-    transform: scale(1) translateY(-18px);
+    transform: scale(1) translateY(-20px);
     filter: blur(0px) brightness(1) saturate(1);
     opacity: 1;
+    width: 56vw;
     box-shadow:
-      0 60px 140px rgba(0,0,0,0.95),
-      0 30px 60px rgba(0,0,0,0.6),
-      0 0 0 1px rgba(212,175,55,0.14),
-      0 -4px 40px rgba(212,175,55,0.06);
+      0 70px 160px rgba(0,0,0,0.98),
+      0 32px 64px rgba(0,0,0,0.65),
+      0 0 0 1px rgba(212,175,55,0.13),
+      0 -6px 48px rgba(0,0,0,0.5);
+    z-index: 5;
+    cursor: none;
+  }
+
+  /* Immediate left and right neighbours — symmetrical peek */
+  .ds-slide.ds-next,
+  .ds-slide.ds-prev-slide {
+    transform: scale(0.82) translateY(22px);
+    filter: blur(5px) brightness(0.18) saturate(0.15);
+    opacity: 0.65;
+    width: 56vw;
     z-index: 3;
     cursor: none;
   }
 
-  /* Immediate neighbours — just peeking, heavily blurred */
-  .ds-slide.ds-next,
-  .ds-slide.ds-prev-slide {
-    transform: scale(0.78) translateY(28px);
-    filter: blur(6px) brightness(0.22) saturate(0.25);
-    opacity: 0.55;
-    z-index: 2;
-    cursor: none;
-  }
-
-  /* Far slides — barely visible */
+  /* Second neighbours — barely a whisper */
   .ds-slide.ds-far {
-    transform: scale(0.68) translateY(44px);
-    filter: blur(10px) brightness(0.1) saturate(0.1);
-    opacity: 0.2;
+    transform: scale(0.7) translateY(40px);
+    filter: blur(10px) brightness(0.08) saturate(0.08);
+    opacity: 0.3;
+    width: 56vw;
     z-index: 1;
     cursor: none;
   }
@@ -2848,7 +2853,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 4000);
 });
 
-startStaggeredRotation();
 // DESTINATIONS SLIDESHOW
 (function () {
   const slideshow  = document.getElementById('destSlideshow');
@@ -2858,13 +2862,19 @@ startStaggeredRotation();
   const progress   = document.getElementById('dsProgress');
   const countCur   = document.getElementById('dsCountCurrent');
   const countTotal = document.getElementById('dsCountTotal');
-  const arrowPrev  = document.getElementById('dsArrowPrev');
-  const arrowNext  = document.getElementById('dsArrowNext');
+  const hintLeft   = document.getElementById('dsHintLeft');
+  const hintRight  = document.getElementById('dsHintRight');
+  const lightbox   = document.getElementById('dsLightbox');
+  const lbImg      = document.getElementById('dsLightboxImg');
+  const lbTitle    = document.getElementById('dsLightboxTitle');
+  const lbTagline  = document.getElementById('dsLightboxTagline');
+  const lbClose    = document.getElementById('dsLightboxClose');
   const total      = slides.length;
   const INTERVAL   = 4500;
   let current      = 0;
   let timer        = null;
   let isHovered    = false;
+  let trackOffset  = 0;
 
   countTotal.textContent = total;
 
@@ -2876,35 +2886,48 @@ startStaggeredRotation();
     dotsWrap.appendChild(dot);
   });
 
-  function getClass(pos, total) {
-    if (pos === 0) return 'ds-active';
-    if (pos === 1) return 'ds-next';
-    if (pos === total - 1) return 'ds-prev-slide';
+  function getClass(pos) {
+    if (pos === 0)                       return 'ds-active';
+    if (pos === 1)                       return 'ds-next';
+    if (pos === total - 1)               return 'ds-prev-slide';
+    if (pos === 2 || pos === total - 2)  return 'ds-far';
     return 'ds-far';
+  }
+
+  function centerActiveSlide() {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const slideshowW = slideshow.offsetWidth;
+        const activeEl   = slides[current];
+        const activeW    = activeEl.offsetWidth;
+        const gap        = 20;
+        const paddingL   = slideshowW * 0.18;
+
+        let offsetBefore = 0;
+        slides.forEach((s, i) => {
+          if (i < current) offsetBefore += s.offsetWidth + gap;
+        });
+
+        const targetLeft = (slideshowW - activeW) / 2;
+        trackOffset      = targetLeft - offsetBefore - paddingL;
+        track.style.transform = `translateX(${trackOffset}px)`;
+      });
+    });
   }
 
   function updateSlides() {
     slides.forEach((slide, i) => {
-      slide.classList.remove('ds-active','ds-next','ds-prev-slide','ds-far');
+      slide.classList.remove('ds-active', 'ds-next', 'ds-prev-slide', 'ds-far');
       const pos = (i - current + total) % total;
-      slide.classList.add(getClass(pos, total));
+      slide.classList.add(getClass(pos));
     });
 
-    // Shift track so active slide is always visually centred-left
-    // (padding-left of track is 7vw, active width 62vw — keep it anchored)
-    const activeSlide = slides[current];
-    const trackLeft   = track.getBoundingClientRect().left;
-    const slideLeft   = activeSlide.getBoundingClientRect().left;
-    const currentOffset = parseFloat(track.style.transform?.replace('translateX(','') || '0');
-    const needed = currentOffset - (slideLeft - trackLeft);
-    track.style.transform = `translateX(${needed}px)`;
-
-    // Dots
     dotsWrap.querySelectorAll('.ds-dot').forEach((d, i) => {
       d.classList.toggle('active', i === current);
     });
 
     countCur.textContent = current + 1;
+    centerActiveSlide();
   }
 
   function goTo(index) {
@@ -2930,23 +2953,57 @@ startStaggeredRotation();
     timer = setInterval(() => { if (!isHovered) next(); }, INTERVAL);
   }
 
-  // Click inactive slide to advance
+  // Click inactive slides to navigate
   slides.forEach(slide => {
-    slide.addEventListener('click', () => {
-      if (slide.classList.contains('ds-next')) { next(); startTimer(); }
+    slide.addEventListener('click', (e) => {
+      if (e.target.closest('.ds-magnify') || e.target.closest('.ds-slide-btn')) return;
+      if (slide.classList.contains('ds-next'))       { next(); startTimer(); }
       if (slide.classList.contains('ds-prev-slide')) { prev(); startTimer(); }
     });
   });
 
-  // Arrows
-  arrowNext.addEventListener('click', () => { next(); startTimer(); });
-  arrowPrev.addEventListener('click', () => { prev(); startTimer(); });
+  // Scroll hints
+  if (hintLeft)  hintLeft.addEventListener('click',  () => { prev(); startTimer(); });
+  if (hintRight) hintRight.addEventListener('click', () => { next(); startTimer(); });
+
+  // Lightbox
+  if (lightbox) {
+    slides.forEach(slide => {
+      const magnify = slide.querySelector('.ds-magnify');
+      const img     = slide.querySelector('.ds-slide-img');
+      if (!magnify || !img) return;
+
+      function openLightbox() {
+        lbImg.src             = img.src;
+        lbImg.alt             = img.alt;
+        lbTitle.textContent   = slide.dataset.title   || '';
+        lbTagline.textContent = slide.dataset.tagline || '';
+        lightbox.classList.add('open');
+        clearInterval(timer);
+      }
+
+      magnify.addEventListener('click', (e) => { e.stopPropagation(); openLightbox(); });
+      img.addEventListener('click', (e) => {
+        if (!slide.classList.contains('ds-active')) return;
+        e.stopPropagation();
+        openLightbox();
+      });
+    });
+
+    lbClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    startTimer();
+  }
 
   // Hover pause
   slideshow.addEventListener('mouseenter', () => { isHovered = true; });
   slideshow.addEventListener('mouseleave', () => { isHovered = false; });
 
-// Touch drag — live finger tracking
+  // Touch drag
   let tx = 0, ty = 0, dragging = false, dragOffset = 0;
 
   slideshow.addEventListener('touchstart', e => {
@@ -2961,16 +3018,11 @@ startStaggeredRotation();
     if (!dragging) return;
     const dx = e.touches[0].clientX - tx;
     const dy = e.touches[0].clientY - ty;
-
-    // Only hijack horizontal swipes
     if (Math.abs(dx) < Math.abs(dy) && Math.abs(dragOffset) === 0) {
       dragging = false;
       return;
     }
-
     dragOffset = dx;
-
-    // Live drag — shift track with finger in real time
     track.style.transition = 'none';
     track.style.transform  = `translateX(${trackOffset + dx}px)`;
   }, { passive: true });
@@ -2978,20 +3030,13 @@ startStaggeredRotation();
   slideshow.addEventListener('touchend', e => {
     if (!dragging) return;
     dragging = false;
-
-    // Restore transition
     track.style.transition = '';
-
     const dx = e.changedTouches[0].clientX - tx;
-
     if (Math.abs(dx) > 50) {
-      // Enough drag — commit to next/prev
       dx < 0 ? next() : prev();
     } else {
-      // Not enough — snap back to current
       track.style.transform = `translateX(${trackOffset}px)`;
     }
-
     startTimer();
   }, { passive: true });
 
@@ -3004,11 +3049,15 @@ startStaggeredRotation();
 
   // Keyboard
   document.addEventListener('keydown', e => {
+    if (lightbox && lightbox.classList.contains('open')) return;
     if (e.key === 'ArrowRight') { next(); startTimer(); }
     if (e.key === 'ArrowLeft')  { prev(); startTimer(); }
   });
 
-  // Boot — wait one frame so layout is painted
+  // Resize
+  window.addEventListener('resize', () => centerActiveSlide());
+
+  // Boot
   requestAnimationFrame(() => {
     updateSlides();
     restartProgress();
