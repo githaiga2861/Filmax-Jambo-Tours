@@ -1219,15 +1219,34 @@ nav.scrolled .nav-brand-idle {
     .ds-scroll-hint { display: none; }
     .ds-progress { max-width: 76vw; }
     .ds-progress.running { width: 76vw; }
+    .ds-track { justify-content: center; }
   }
   @media (max-width: 600px) {
-    .ds-track { padding: 24px 10vw; gap: 10px; }
-    .ds-slide { width: 84vw; height: 70vh; min-height: 380px; }
+    .destinations-slideshow { overflow: hidden; width: 100%; }
+    .ds-track {
+        padding: 24px 0;
+        gap: 10px;
+        justify-content: flex-start;
+    }
+    .ds-slide {
+        width: 84vw;
+        height: 70vh;
+        min-height: 380px;
+        margin: 0 8vw;
+    }
+    .ds-slide.ds-next,
+    .ds-slide.ds-prev-slide {
+        width: 84vw;
+        margin: 0 8vw;
+    }
+    .ds-slide.ds-far {
+        width: 84vw;
+        margin: 0 8vw;
+    }
     .ds-slide-content { padding: 0 20px 32px; }
     .ds-progress { max-width: 84vw; }
     .ds-progress.running { width: 84vw; }
-    .destinations-slideshow { overflow: hidden; width: 100%; }
-  }
+}
 
   .wildlife-bg {
     position: absolute;
