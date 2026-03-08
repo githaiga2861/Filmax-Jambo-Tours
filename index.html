@@ -2437,7 +2437,10 @@ let hasFlown = false;
 let heroStartRect = null;
 
 window.addEventListener('load', () => {
-  if (heroLogoEl) heroStartRect = heroLogoEl.getBoundingClientRect();
+  if (heroLogoEl) {
+    heroStartRect = heroLogoEl.getBoundingClientRect();
+    heroLogoEl.dataset.naturalRatio = heroLogoEl.offsetWidth / heroLogoEl.offsetHeight;
+  }
 });
 
 window.addEventListener('scroll', () => {
@@ -2453,9 +2456,7 @@ window.addEventListener('scroll', () => {
     const currentRect  = heroLogoEl.getBoundingClientRect();
     const navRect      = navLogoLink.getBoundingClientRect();
     const targetHeight = window.innerWidth <= 600 ? 44 : 70;
-    const ratio        = heroLogoEl.naturalWidth && heroLogoEl.naturalHeight
-                         ? heroLogoEl.naturalWidth / heroLogoEl.naturalHeight
-                         : currentRect.width / currentRect.height;
+    const ratio        = parseFloat(heroLogoEl.dataset.naturalRatio) || (heroStartRect.width / heroStartRect.height);
     const targetWidth  = targetHeight * ratio;
     const targetTop    = navRect.top + (navRect.height - targetHeight) / 2;
     const targetLeft   = navRect.left;
