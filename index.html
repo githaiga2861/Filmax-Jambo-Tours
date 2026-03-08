@@ -2431,96 +2431,111 @@ if (sessionStorage.getItem('loaderSeen')) {
   }, 6600);
 }
 
-// Hero logo flies to nav on scroll
+const heroLogoEl  = document.getElementById('hero-logo');
 const navLogoLink = document.querySelector('.nav-logo-link');
+const navIdleWords = document.querySelector('.nav-idle-words');
+
 let hasFlown = false;
 let heroStartRect = null;
 
 window.addEventListener('load', () => {
-  if (heroLogoEl) heroStartRect = heroLogoEl.getBoundingClientRect();
+  heroStartRect = heroLogoEl.getBoundingClientRect();
 });
 
 window.addEventListener('scroll', () => {
-  if (!heroLogoEl) return;
   const scrollY = window.scrollY;
+
+  // Fade idle words
+  if (navIdleWords) {
+    navIdleWords.style.opacity  = scrollY > 80 ? '0' : '1';
+    navIdleWords.style.pointerEvents = scrollY > 80 ? 'none' : '';
+  }
 
   if (scrollY > 80 && !hasFlown) {
     hasFlown = true;
 
+    const currentRect  = heroLogoEl.getBoundingClientRect();
     const navRect      = navLogoLink.getBoundingClientRect();
     const targetHeight = 70;
-    const currentHeroRect = heroLogoEl.getBoundingClientRect();
-    const targetWidth  = targetHeight * (currentHeroRect.width / currentHeroRect.height);
-    const targetTop    = navRect.top + (navRect.height - targetHeight) / 2;
+    const targetWidth  = targetHeight * (currentRect.width / currentRect.height);
+    const targetTop    = navRect.top  + (navRect.height - targetHeight) / 2;
     const targetLeft   = navRect.left;
 
-    heroLogoEl.style.transition = 'none';
-    heroLogoEl.style.opacity    = '0';
+    // Pull logo out of document flow and fix it at its current screen position
+    heroLogoEl.style.transition  = 'none';
+    heroLogoEl.style.position    = 'fixed';
+    heroLogoEl.style.top         = `${currentRect.top}px`;
+    heroLogoEl.style.left        = `${currentRect.left}px`;
+    heroLogoEl.style.width       = `${currentRect.width}px`;
+    heroLogoEl.style.height      = `${currentRect.height}px`;
+    heroLogoEl.style.margin      = '0';
+    heroLogoEl.style.zIndex      = '9997';
+    heroLogoEl.style.opacity     = '1';
+    heroLogoEl.style.filter      = 'drop-shadow(0 0 12px rgba(212,175,55,0.5))';
 
-    const clone = heroLogoEl.cloneNode(true);
-    clone.removeAttribute('id');
-    clone.style.cssText = `
-      position: fixed;
-      top: ${currentHeroRect.top}px;
-      left: ${currentHeroRect.left}px;
-      width: ${currentHeroRect.width}px;
-      height: ${currentHeroRect.height}px;
-      opacity: 1;
-      z-index: 9997;
-      pointer-events: none;
-      margin: 0;
-      transition: none;
-      filter: drop-shadow(0 0 12px rgba(212,175,55,0.5)) drop-shadow(0 0 28px rgba(212,175,55,0.2));
-    `;
-    document.body.appendChild(clone);
-
+    // Force paint then animate to nav position
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        clone.style.transition = `
-          top 0.65s cubic-bezier(0.76, 0, 0.24, 1),
-          left 0.65s cubic-bezier(0.76, 0, 0.24, 1),
-          width 0.65s cubic-bezier(0.76, 0, 0.24, 1),
+        heroLogoEl.style.transition = `
+          top    0.65s cubic-bezier(0.76, 0, 0.24, 1),
+          left   0.65s cubic-bezier(0.76, 0, 0.24, 1),
+          width  0.65s cubic-bezier(0.76, 0, 0.24, 1),
           height 0.65s cubic-bezier(0.76, 0, 0.24, 1),
-          opacity 0.3s ease 0.45s
+          opacity 0.3s ease 0.45s,
+          filter 0.65s ease
         `;
-        clone.style.top    = `${targetTop}px`;
-        clone.style.left   = `${targetLeft}px`;
-        clone.style.width  = `${targetWidth}px`;
-        clone.style.height = `${targetHeight}px`;
+        heroLogoEl.style.top    = `${targetTop}px`;
+        heroLogoEl.style.left   = `${targetLeft}px`;
+        heroLogoEl.style.width  = `${targetWidth}px`;
+        heroLogoEl.style.height = `${targetHeight}px`;
+        heroLogoEl.style.filter = 'drop-shadow(0 0 6px rgba(212,175,55,0.3))';
       });
     });
 
+    // Once landed, hand off to nav slot
     setTimeout(() => {
-      clone.style.opacity = '0';
-      setTimeout(() => {
-        clone.remove();
-        navLogoLink.style.transition    = 'none';
-        navLogoLink.style.opacity       = '1';
-        navLogoLink.style.pointerEvents = 'all';
-      }, 300);
-    }, 650);
+      heroLogoEl.style.transition = 'none';
+      navLogoLink.style.opacity       = '0';
+      navLogoLink.style.pointerEvents = 'none';
+    }, 700);
   }
-window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
-  
-  // Hide/show nav idle words on scroll
-  const navIdleWords = document.querySelector('.nav-idle-words');
-  if (navIdleWords) {
-    if (scrollY > 80) {
-      navIdleWords.style.opacity = '0';
-      navIdleWords.style.pointerEvents = 'none';
-    } else {
-      navIdleWords.style.opacity = '1';
-      navIdleWords.style.pointerEvents = '';
-    }
-  }
+
+  // Scroll back to top — return logo to hero
   if (scrollY <= 80 && hasFlown) {
     hasFlown = false;
-    navLogoLink.style.transition    = 'opacity 0.3s ease';
-    navLogoLink.style.opacity       = '0';
-    navLogoLink.style.pointerEvents = 'none';
-    heroLogoEl.style.transition     = 'opacity 0.4s ease';
-    heroLogoEl.style.opacity        = '1';
+
+    const heroSection  = document.getElementById('hero');
+    const heroContent  = document.querySelector('.hero-content');
+    const heroRect     = heroContent ? heroContent.getBoundingClientRect() : { top: 200, left: window.innerWidth / 2 };
+
+    heroLogoEl.style.transition = `
+      top    0.65s cubic-bezier(0.76, 0, 0.24, 1),
+      left   0.65s cubic-bezier(0.76, 0, 0.24, 1),
+      width  0.65s cubic-bezier(0.76, 0, 0.24, 1),
+      height 0.65s cubic-bezier(0.76, 0, 0.24, 1),
+      opacity 0.4s ease,
+      filter 0.65s ease
+    `;
+    heroLogoEl.style.top    = `${heroStartRect.top}px`;
+    heroLogoEl.style.left   = `${heroStartRect.left}px`;
+    heroLogoEl.style.width  = `${heroStartRect.width}px`;
+    heroLogoEl.style.height = `${heroStartRect.height}px`;
+    heroLogoEl.style.filter = 'none';
+    heroLogoEl.style.opacity = '1';
+
+    // Restore to normal flow after animation
+    setTimeout(() => {
+      heroLogoEl.style.transition = 'none';
+      heroLogoEl.style.position   = '';
+      heroLogoEl.style.top        = '';
+      heroLogoEl.style.left       = '';
+      heroLogoEl.style.width      = '';
+      heroLogoEl.style.height     = '';
+      heroLogoEl.style.zIndex     = '';
+      heroLogoEl.style.margin     = '';
+      navLogoLink.style.opacity       = '0';
+      navLogoLink.style.pointerEvents = 'none';
+    }, 700);
   }
 });
 
