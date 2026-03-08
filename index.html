@@ -120,6 +120,9 @@
   align-items: center;
   justify-content: center;
 }
+  .nav-idle-words {
+  transition: opacity 0.4s ease;
+}
 
 .compass-ring {
   color: var(--gold);
@@ -2498,7 +2501,20 @@ window.addEventListener('scroll', () => {
       }, 300);
     }, 650);
   }
-
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  
+  // Hide/show nav idle words on scroll
+  const navIdleWords = document.querySelector('.nav-idle-words');
+  if (navIdleWords) {
+    if (scrollY > 80) {
+      navIdleWords.style.opacity = '0';
+      navIdleWords.style.pointerEvents = 'none';
+    } else {
+      navIdleWords.style.opacity = '1';
+      navIdleWords.style.pointerEvents = '';
+    }
+  }
   if (scrollY <= 80 && hasFlown) {
     hasFlown = false;
     navLogoLink.style.transition    = 'opacity 0.3s ease';
