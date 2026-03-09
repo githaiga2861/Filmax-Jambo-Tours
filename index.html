@@ -2729,6 +2729,7 @@ function buildCard(pkg, isFeatured) {
     <ul class="pkg-features">
       ${features.map(f => f ? `<li>${f}</li>` : `<li style="visibility:hidden;border-bottom-color:transparent;">—</li>`).join('')}
     </ul><a href="${pkg.page || '#contact'}" class="pkg-cta">Unveil This Journey</a>
+   `;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -2924,29 +2925,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   requestAnimationFrame(() => { updateSlides(); restartProgress(); startTimer(); });
 })();
-
-const pkgDetailMapIdx = {
-  'Grand Odyssey':        'pkg-grand-odyssey.html',
-  'Mara Awakening':       'pkg-mara-awakening.html',
-  'Ultimate Kenya':       'pkg-ultimate-kenya.html',
-  'Amboseli Escape':      'pkg-amboseli-express.html',
-  'Samburu Wilderness':   'pkg-samburu-secrets.html',
-  'Coastal Safari Blend': 'pkg-safari-and-sea.html',
-  'Lakes & Highlands':    'pkg-lake-nakuru-escape.html',
-  'Kenya Mastery':        'pkg-grand-odyssey.html',
-};
-
-document.querySelectorAll('.package-card').forEach(card => {
-  const nameEl = card.querySelector('.pkg-name');
-  const ctaEl  = card.querySelector('.pkg-cta');
-  if (!nameEl || !ctaEl) return;
-  const rawName = nameEl.innerText.replace(/\n/g,' ').replace(/\s+/g,' ').trim();
-  const href = pkgDetailMapIdx[rawName];
-  if (href) {
-    ctaEl.href        = href;
-    ctaEl.textContent = 'Unveil This Journey';
-  }
-});
 </script>
 </body>
 </html>
