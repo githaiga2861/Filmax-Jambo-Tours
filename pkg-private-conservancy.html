@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Private Conservancy Sojourn — 6 Days — Filmax Jambo Tours</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:wght@300;400;600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808; --deep: #0d0d0d; --charcoal: #141414; --card: #111111;
+    --gold: #d4af37; --gold-light: #e8c84a; --gold-dim: rgba(212,175,55,0.12);
+    --amber: #b8860b; --text: #f0ece4; --muted: #8a8074;
+    --border: rgba(212,175,55,0.2); --border-subtle: rgba(255,255,255,0.05);
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--black);color:var(--text);font-family:'Jost',sans-serif;font-weight:300;overflow-x:hidden;cursor:none}
+  ::-webkit-scrollbar{width:3px} ::-webkit-scrollbar-track{background:var(--black)} ::-webkit-scrollbar-thumb{background:var(--gold)}
+  .cursor{width:12px;height:12px;background:var(--gold);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .3s,height .3s;mix-blend-mode:difference}
+  .cursor-ring{width:40px;height:40px;border:1px solid rgba(212,175,55,.5);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .15s ease-out,width .4s,height .4s}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:28px 48px;transition:background .4s,padding .4s}
+  nav.scrolled{background:rgba(8,8,8,.95);backdrop-filter:blur(20px);padding:18px 48px;border-bottom:1px solid var(--border)}
+  .nav-logo-link{display:flex;align-items:center;text-decoration:none;flex-shrink:0;line-height:0}
+  .nav-logo-img{height:60px;width:auto;object-fit:contain;display:block;filter:drop-shadow(0 0 12px rgba(212,175,55,.5));animation:goldenPulse 4s ease-in-out infinite;transition:height .4s}
+  nav.scrolled .nav-logo-img{height:46px}
+  @keyframes goldenPulse{0%,100%{opacity:1}50%{opacity:.85}}
+  .nav-back{font-family:'Jost',sans-serif;font-size:10px;font-weight:400;letter-spacing:4px;text-transform:uppercase;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:10px;transition:color .3s;cursor:none}
+  .nav-back::before{content:'';width:24px;height:1px;background:var(--muted);transition:width .3s,background .3s}
+  .nav-back:hover{color:var(--gold)} .nav-back:hover::before{width:36px;background:var(--gold)}
+  .pkg-hero{position:relative;height:92vh;min-height:600px;display:flex;align-items:flex-end;overflow:hidden}
+  .pkg-hero-bg{position:absolute;inset:0}
+  .pkg-hero-img{width:100%;height:100%;object-fit:cover;object-position:center 40%;transform:scale(1.04);animation:heroKenBurns 14s ease-in-out infinite alternate}
+  @keyframes heroKenBurns{from{transform:scale(1.04) translateX(0)}to{transform:scale(1.08) translateX(-1%)}}
+  .pkg-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,8,.97) 0%,rgba(8,8,8,.55) 40%,rgba(8,8,8,.2) 70%,rgba(8,8,8,.5) 100%)}
+  .pkg-hero-overlay-gold{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 80%,rgba(212,175,55,.08) 0%,transparent 60%)}
+  .pkg-hero-content{position:relative;z-index:5;padding:0 48px 72px;width:100%}
+  .pkg-hero-breadcrumb{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+  .pkg-hero-breadcrumb span{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--muted)}
+  .pkg-hero-breadcrumb .sep{color:var(--border)} .pkg-hero-breadcrumb .cur{color:var(--gold)}
+  .pkg-hero-badge{display:inline-block;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--black);background:var(--gold);padding:5px 14px;margin-bottom:20px}
+  .pkg-hero-title{font-family:'Playfair Display',serif;font-size:clamp(52px,8vw,108px);font-weight:900;line-height:.96;letter-spacing:-2px;margin-bottom:24px}
+  .pkg-hero-title em{font-style:italic;font-weight:400;color:var(--gold);display:block}
+  .pkg-hero-meta{display:flex;align-items:center;gap:40px;flex-wrap:wrap}
+  .pkg-hero-meta-item{display:flex;flex-direction:column;gap:4px}
+  .pkg-hero-meta-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--muted)}
+  .pkg-hero-meta-value{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--text)}
+  .pkg-hero-meta-sep{width:1px;height:36px;background:var(--border)}
+  .pkg-hero-price-hero{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:600;color:var(--gold);line-height:1}
+  .pkg-hero-price-hero span{font-size:14px;font-family:'Jost',sans-serif;color:var(--muted);font-weight:300}
+  .scroll-cue{position:absolute;right:52px;bottom:60px;z-index:5;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .scroll-cue span{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--muted);writing-mode:vertical-rl}
+  .scroll-line{width:1px;height:60px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollAnim 2s ease-in-out infinite}
+  @keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+  .pkg-main{display:grid;grid-template-columns:1fr 380px;gap:0;max-width:1400px;margin:0 auto;padding:0 48px}
+  .pkg-content{padding:80px 64px 120px 0;border-right:1px solid var(--border-subtle)}
+  .sec-label{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:16px}
+  .sec-title{font-family:'Playfair Display',serif;font-size:clamp(28px,3vw,40px);font-weight:700;line-height:1.15;margin-bottom:20px}
+  .sec-divider{width:60px;height:1px;background:linear-gradient(to right,var(--gold),transparent);margin:32px 0}
+  .pkg-overview{margin-bottom:72px}
+  .pkg-overview p{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--muted);line-height:1.85;font-style:italic;margin-bottom:20px}
+  .pkg-highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border-subtle);margin-bottom:72px}
+  .pkg-highlight-item{background:var(--card);padding:28px 24px;position:relative;overflow:hidden}
+  .pkg-highlight-item::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+  .pkg-highlight-item:hover::after{transform:scaleX(1)}
+  .phi-icon{font-size:22px;margin-bottom:12px;display:block}
+  .phi-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:block}
+  .phi-value{font-family:'Playfair Display',serif;font-size:16px;color:var(--text)}
+  .pkg-itinerary{margin-bottom:72px}
+  .itinerary-day{border-left:1px solid var(--border);padding:0 0 48px 32px;position:relative}
+  .itinerary-day::before{content:'';position:absolute;top:6px;left:-5px;width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px rgba(212,175,55,.5)}
+  .itinerary-day:last-child{padding-bottom:0;border-left-color:transparent}
+  .day-number{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:block}
+  .day-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:12px}
+  .day-location{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+  .day-location::before{content:'';width:20px;height:1px;background:var(--gold);flex-shrink:0}
+  .day-desc{font-size:14px;color:var(--muted);line-height:1.85;margin-bottom:16px}
+  .day-activities{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+  .day-activities li{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);border:1px solid var(--border-subtle);padding:5px 12px;transition:border-color .3s,color .3s}
+  .day-activities li:hover{border-color:var(--border);color:var(--text)}
+  .pkg-inclusions{margin-bottom:72px;display:grid;grid-template-columns:1fr 1fr;gap:48px}
+  .inclusion-group h4{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:20px}
+  .inclusion-list{list-style:none}
+  .inclusion-list li{font-size:13px;color:var(--muted);padding:10px 0;border-bottom:1px solid var(--border-subtle);display:flex;align-items:flex-start;gap:12px;line-height:1.5}
+  .inclusion-list li::before{content:'';width:16px;height:1px;background:var(--gold);flex-shrink:0;margin-top:8px}
+  .inclusion-list.excl li::before{background:rgba(180,60,60,.6)}
+  .pkg-practical{margin-bottom:72px}
+  .practical-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:28px}
+  .practical-item{background:var(--charcoal);padding:24px;border:1px solid var(--border-subtle)}
+  .practical-item-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:block}
+  .practical-item-value{font-size:14px;color:var(--text);line-height:1.6}
+  .seasons-bar{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;margin-top:28px}
+  .season-month{text-align:center}
+  .season-month-label{font-size:7px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px}
+  .season-indicator{height:6px;border-radius:1px}
+  .season-peak{background:var(--gold)} .season-good{background:rgba(212,175,55,.4)} .season-off{background:rgba(255,255,255,.1)}
+  .pkg-sidebar{padding:80px 0 80px 48px}
+  .sidebar-card{position:sticky;top:100px;background:var(--charcoal);border:1px solid var(--border);padding:44px 36px}
+  .sidebar-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 0% 0%,rgba(212,175,55,.06) 0%,transparent 60%);pointer-events:none}
+  .sidebar-price{font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:600;color:var(--gold);line-height:1;margin-bottom:6px;position:relative;z-index:1}
+  .sidebar-price span{font-size:14px;font-family:'Jost',sans-serif;color:var(--muted);font-weight:300}
+  .sidebar-per{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:32px;position:relative;z-index:1}
+  .sidebar-divider{height:1px;background:var(--border);margin:24px 0}
+  .sidebar-detail{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border-subtle);position:relative;z-index:1}
+  .sidebar-detail:last-of-type{border-bottom:none}
+  .sidebar-detail-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+  .sidebar-detail-value{font-size:13px;color:var(--text);text-align:right}
+  .sidebar-details{margin-bottom:32px}
+  .btn-book-now{display:block;text-align:center;font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;padding:20px;background:linear-gradient(135deg,var(--gold),var(--amber));color:var(--black);text-decoration:none;cursor:none;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;margin-bottom:12px}
+  .btn-book-now::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.2);transform:translateX(-100%) skewX(-15deg);transition:transform .5s}
+  .btn-book-now:hover::before{transform:translateX(200%) skewX(-15deg)}
+  .btn-book-now:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(212,175,55,.4)}
+  .btn-whatsapp{display:flex;align-items:center;justify-content:center;gap:10px;text-align:center;font-family:'Jost',sans-serif;font-size:10px;font-weight:400;letter-spacing:4px;text-transform:uppercase;padding:16px;background:transparent;color:var(--gold);border:1px solid var(--border);text-decoration:none;cursor:none;transition:background .3s,border-color .3s}
+  .btn-whatsapp:hover{background:var(--gold-dim);border-color:var(--gold)}
+  .btn-whatsapp svg{width:16px;height:16px;fill:var(--gold)}
+  .sidebar-note{margin-top:20px;font-size:11px;color:var(--muted);line-height:1.7;text-align:center;font-style:italic;font-family:'Cormorant Garamond',serif;position:relative;z-index:1}
+  .reveal{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+  .pkg-related{background:var(--charcoal);padding:100px 0}
+  .pkg-related-inner{max-width:1400px;margin:0 auto;padding:0 48px}
+  .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+  .related-card{background:var(--card);border:1px solid var(--border-subtle);padding:36px 28px;cursor:none;transition:transform .4s,border-color .4s,box-shadow .4s;text-decoration:none;display:block;color:inherit;position:relative;overflow:hidden}
+  .related-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold-dim),transparent);opacity:0;transition:opacity .4s}
+  .related-card:hover{transform:translateY(-6px);border-color:var(--border);box-shadow:0 24px 60px rgba(0,0,0,.5)}
+  .related-card:hover::after{opacity:1}
+  .related-duration{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:10px;position:relative;z-index:1}
+  .related-name{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;line-height:1.2;margin-bottom:12px;position:relative;z-index:1}
+  .related-price{font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--gold);position:relative;z-index:1}
+  .related-price span{font-size:13px;color:var(--muted);font-family:'Jost',sans-serif;font-weight:300}
+  .related-cta-text{margin-top:20px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px;position:relative;z-index:1}
+  .related-cta-text::after{content:'';width:20px;height:1px;background:var(--gold);transition:width .3s}
+  .related-card:hover .related-cta-text::after{width:36px}
+  footer{background:var(--black);border-top:1px solid var(--border);padding:60px 0 40px}
+  .footer-inner-wrap{max-width:1400px;margin:0 auto;padding:0 48px}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;margin-bottom:40px}
+  .footer-brand h2{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);margin-bottom:12px}
+  .footer-brand p{font-size:13px;color:var(--muted);line-height:1.8;max-width:280px}
+  .footer-col h4{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+  .footer-col a{display:block;font-size:13px;color:var(--muted);text-decoration:none;margin-bottom:8px;transition:color .3s;cursor:none}
+  .footer-col a:hover{color:var(--text)}
+  .footer-bottom{border-top:1px solid var(--border-subtle);padding-top:24px;display:flex;justify-content:space-between}
+  .footer-bottom span{font-size:11px;color:var(--muted)}
+  .whatsapp-fab{position:fixed;bottom:36px;right:36px;width:60px;height:60px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:90;text-decoration:none;box-shadow:0 8px 30px rgba(37,211,102,.4);cursor:none;transition:transform .3s,box-shadow .3s}
+  .whatsapp-fab:hover{transform:scale(1.1);box-shadow:0 12px 40px rgba(37,211,102,.6)}
+  .whatsapp-fab svg{width:28px;height:28px;fill:white}
+  .wa-tooltip{position:absolute;right:70px;white-space:nowrap;background:rgba(10,10,10,.9);border:1px solid var(--border);color:var(--text);font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;opacity:0;transform:translateX(10px);transition:opacity .3s,transform .3s;pointer-events:none}
+  .whatsapp-fab:hover .wa-tooltip{opacity:1;transform:translateX(0)}
+  @media(max-width:1100px){.pkg-main{grid-template-columns:1fr}.pkg-content{padding-right:0;border-right:none}.pkg-sidebar{padding:48px 0 80px}.sidebar-card{position:relative;top:auto}}
+  @media(max-width:900px){nav{padding:20px 24px}.pkg-hero-content{padding:0 24px 56px}.pkg-hero-title{font-size:48px}.pkg-main{padding:0 24px}.pkg-highlights{grid-template-columns:1fr}.pkg-inclusions{grid-template-columns:1fr}.practical-grid{grid-template-columns:1fr}.related-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr;gap:40px}.footer-inner-wrap{padding:0 24px}.footer-bottom{flex-direction:column;gap:8px}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo-link">
+    <img src="assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.png" alt="Filmax Jambo Tours" class="nav-logo-img">
+  </a>
+  <a href="packages.html" class="nav-back">All Packages</a>
+</nav>
+
+<div class="pkg-hero">
+  <div class="pkg-hero-bg">
+    <img class="pkg-hero-img" src="assets/maasaimara.webp" alt="Private Conservancy Sojourn — 6 Days">
+    <div class="pkg-hero-overlay"></div>
+    <div class="pkg-hero-overlay-gold"></div>
+  </div>
+  <div class="pkg-hero-content">
+    <div class="pkg-hero-breadcrumb">
+      <span>Packages</span><span class="sep">—</span>
+      <span>Ultra Luxury</span><span class="sep">—</span>
+      <span class="cur">Private Conservancy Sojourn</span>
+    </div>
+    <span class="pkg-hero-badge">Private Exclusive</span>
+    <h1 class="pkg-hero-title">Private Conservancy<br><em>Sojourn</em></h1>
+    <div class="pkg-hero-meta">
+      <div class="pkg-hero-meta-item">
+        <span class="pkg-hero-meta-label">Duration</span>
+        <span class="pkg-hero-meta-value">6 Days · 5 Nights</span>
+      </div>
+      <div class="pkg-hero-meta-sep"></div>
+      <div class="pkg-hero-meta-item">
+        <span class="pkg-hero-meta-label">Destinations</span>
+        <span class="pkg-hero-meta-value">Mara Conservancy — Exclusive Buyout</span>
+      </div>
+      <div class="pkg-hero-meta-sep"></div>
+      <div class="pkg-hero-meta-item">
+        <span class="pkg-hero-meta-label">Category</span>
+        <span class="pkg-hero-meta-value">Ultra Luxury</span>
+      </div>
+      <div class="pkg-hero-meta-sep"></div>
+      <div class="pkg-hero-meta-item">
+        <span class="pkg-hero-meta-label">From</span>
+        <div class="pkg-hero-price-hero">$14,800 <span>/ couple</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><div class="scroll-line"></div></div>
+</div>
+
+<div class="pkg-main">
+  <div class="pkg-content">
+
+    <div class="pkg-overview reveal">
+      <span class="sec-label">The Journey</span>
+      <h2 class="sec-title">Your Private Kenya. No Compromise.</h2>
+      <p>Imagine Kenya entirely without strangers. No other vehicles. No shared sundowners. A conservancy bordering the Maasai Mara — with its own elephant herds, its own lion prides, its own leopards — bought out entirely for you.</p><p>The Private Conservancy Sojourn is the ultimate expression of Filmax Jambo Tours' philosophy: that the finest wildlife experiences happen when luxury and wilderness meet without interruption. Your dedicated private ranger, tracker, butler and chef attend to every dimension of the experience. This is Kenya as it existed before tourism — wild, intimate, and entirely yours.</p>
+      <div class="sec-divider"></div>
+    </div>
+
+    <div class="pkg-highlights reveal"><div class="pkg-highlight-item"><span class="phi-icon">🏞️</span><span class="phi-label">Exclusive</span><span class="phi-value">Full Conservancy Buyout</span></div><div class="pkg-highlight-item"><span class="phi-icon">👨‍🦯</span><span class="phi-label">Service</span><span class="phi-value">Dedicated Private Ranger & Tracker</span></div><div class="pkg-highlight-item"><span class="phi-icon">🚁</span><span class="phi-label">Optional</span><span class="phi-value">Helicopter Game Viewing</span></div><div class="pkg-highlight-item"><span class="phi-icon">⭐</span><span class="phi-label">Experience</span><span class="phi-value">Starbed Sleep-Out Night</span></div><div class="pkg-highlight-item"><span class="phi-icon">🍽️</span><span class="phi-label">Dining</span><span class="phi-value">In-Bush Private Dining</span></div><div class="pkg-highlight-item"><span class="phi-icon">🛎️</span><span class="phi-label">Service</span><span class="phi-value">Full Butler Throughout</span></div></div>
+
+    <div class="pkg-itinerary reveal">
+      <span class="sec-label">Day by Day</span>
+      <h2 class="sec-title">Your Itinerary</h2>
+      <div class="sec-divider"></div>
+      
+      <div class="itinerary-day">
+        <span class="day-number">Day 01</span>
+        <h3 class="day-title">Arrival by Charter</h3>
+        <span class="day-location">Wilson Airport · Private Conservancy airstrip</span>
+        <p class="day-desc">Your private charter delivers you directly to the conservancy airstrip. No waiting, no other guests — your ranger and butler greet you at the aircraft steps. A welcome drive through your private wilderness before your tented villa is revealed. Champagne overlooking the plains as the first golden hour begins.</p>
+        <ul class="day-activities"><li>Private charter flight</li><li>Welcome drive</li><li>Villa orientation</li><li>Champagne sundowner</li></ul>
+      </div>
+      <div class="itinerary-day">
+        <span class="day-number">Day 02</span>
+        <h3 class="day-title">Your Conservancy — Day 1</h3>
+        <span class="day-location">Private Mara Conservancy</span>
+        <p class="day-desc">Dawn game drive in an ecosystem that is entirely yours. Your ranger has been monitoring the lion pride's movements since the previous day. In the Mara ecosystem without vehicle competition, the big cats behave naturally — unguarded, unperturbed. Bush breakfast beside a termite mound. Afternoon helicopter flight option offers a completely different perspective of the conservancy.</p>
+        <ul class="day-activities"><li>Dawn lion drive</li><li>Bush breakfast</li><li>Helicopter flight (optional)</li><li>Guided bush walk</li><li>Private sundowner</li></ul>
+      </div>
+      <div class="itinerary-day">
+        <span class="day-number">Day 03</span>
+        <h3 class="day-title">Walking Safari Day</h3>
+        <span class="day-location">Private Conservancy · Mara boundary</span>
+        <p class="day-desc">A full day on foot with your private ranger and armed tracker — the most intimate wildlife experience Kenya offers. Walking safari reveals what vehicles cannot: the ant colonies beneath your feet, the tracks that tell a story, the impala frozen five metres away, the sudden sprint of a hyena. Lunch served in the field beneath a fig tree. Evening: private in-bush dining experience — white linen, candlelight, and a hyena calling in the distance.</p>
+        <ul class="day-activities"><li>Full-day walking safari</li><li>Tracker-led tracking session</li><li>Field lunch</li><li>Private bush dinner</li></ul>
+      </div>
+      <div class="itinerary-day">
+        <span class="day-number">Day 04</span>
+        <h3 class="day-title">Sleep-Out Night</h3>
+        <span class="day-location">Starbed Platform · Open Wilderness</span>
+        <p class="day-desc">The centrepiece experience of the Sojourn. As darkness falls, your butler accompanies you to a raised starbed platform deep in the conservancy. No tent, no walls — just you beneath the Kenyan sky, elevated above the ground, listening to the symphony of the African night. Hippos grunt below. Lions call in the distance. Dawn finds you having slept under more stars than you thought existed.</p>
+        <ul class="day-activities"><li>Sunset guided walk to starbed</li><li>Sleep-out night experience</li><li>Dawn wake with lion chorus</li><li>Private breakfast at starbed</li></ul>
+      </div>
+      <div class="itinerary-day">
+        <span class="day-number">Day 05</span>
+        <h3 class="day-title">Helicopter & Mara River</h3>
+        <span class="day-location">Aerial game viewing · Mara River</span>
+        <p class="day-desc">Morning helicopter flight along the Mara River and over the open plains — this perspective reveals the sheer scale of the ecosystem and the patterns of wildlife movement visible only from altitude. Land at the Mara River for a private champagne picnic. Afternoon game drive focusing on leopard in the riverine forest.</p>
+        <ul class="day-activities"><li>Helicopter scenic flight</li><li>Mara River champagne picnic</li><li>Leopard tracking</li><li>Private farewell dinner</li></ul>
+      </div>
+      <div class="itinerary-day">
+        <span class="day-number">Day 06</span>
+        <h3 class="day-title">Final Morning → Departure</h3>
+        <span class="day-location">Conservancy · Charter Nairobi</span>
+        <p class="day-desc">A last unhurried morning in your private kingdom. Breakfast wherever you choose — the ranger's favourite rock outcrop, the fig tree by the river. Then your charter returns you to Nairobi, carrying memories that require no photograph to last a lifetime.</p>
+        <ul class="day-activities"><li>Farewell morning drive</li><li>Breakfast of your choosing</li><li>Private charter departure</li><li>Nairobi transfer</li></ul>
+      </div>
+    </div>
+
+    <div class="pkg-inclusions reveal">
+      <div class="inclusion-group">
+        <span class="sec-label">What's Included</span>
+        <h3 class="sec-title" style="font-size:22px">Included</h3>
+        <ul class="inclusion-list"><li>Exclusive-use buyout of private Mara conservancy for the duration</li><li>5 nights luxury exclusive-use tented villa</li><li>Dedicated private ranger and Maasai tracker throughout</li><li>All meals, sundowners, premium wines and spirits</li><li>Full butler and private chef service</li><li>All game drives in private 4x4 with exclusive use</li><li>Guided walking safaris (all days)</li><li>Starbed sleep-out night (1 night)</li><li>In-bush private dining experiences</li><li>Helicopter scenic flight (1 flight, 1 hour)</li><li>Champagne Mara River picnic</li><li>All conservancy fees and levies</li><li>Private charter flights Nairobi–Conservancy–Nairobi</li><li>AMREF emergency evacuation</li></ul>
+      </div>
+      <div class="inclusion-group">
+        <span class="sec-label">Not Included</span>
+        <h3 class="sec-title" style="font-size:22px">Excluded</h3>
+        <ul class="inclusion-list excl"><li>International flights</li><li>Kenya visa fees</li><li>Additional helicopter flights beyond included allocation</li><li>Personal shopping</li><li>Gratuities</li></ul>
+      </div>
+    </div>
+
+    <div class="pkg-practical reveal">
+      <span class="sec-label">Good to Know</span>
+      <h2 class="sec-title">Practical Information</h2>
+      <div class="practical-grid"><div class="practical-item"><span class="practical-item-label">Best Season</span><span class="practical-item-value">Year-round · Peak: Jul–Oct for migration backdrop</span></div><div class="practical-item"><span class="practical-item-label">Fitness Level</span><span class="practical-item-value">Low–Moderate. Walking safaris are optional.</span></div><div class="practical-item"><span class="practical-item-label">Exclusivity</span><span class="practical-item-value">Conservancy is 100% private. No other guests.</span></div><div class="practical-item"><span class="practical-item-label">Accommodation</span><span class="practical-item-value">Exclusive-use luxury tented villa</span></div><div class="practical-item"><span class="practical-item-label">Minimum Stay</span><span class="practical-item-value">5 nights minimum for the full experience</span></div><div class="practical-item"><span class="practical-item-label">Booking Lead Time</span><span class="practical-item-value">Minimum 90 days. Peak season 6 months.</span></div><div class="practical-item"><span class="practical-item-label">Deposit</span><span class="practical-item-value">40% at confirmation due to exclusive-use nature</span></div><div class="practical-item"><span class="practical-item-label">What to Pack</span><span class="practical-item-value">Smart casual evening, neutral safari wear, binoculars</span></div></div>
+      <div class="sec-divider"></div>
+      <span class="sec-label">Seasonal Calendar</span>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Best months for this itinerary based on wildlife and weather.</p>
+      <div class="seasons-bar"><div class="season-month"><span class="season-month-label">J</span><div class="season-indicator season-good"></div></div><div class="season-month"><span class="season-month-label">F</span><div class="season-indicator season-good"></div></div><div class="season-month"><span class="season-month-label">M</span><div class="season-indicator season-good"></div></div><div class="season-month"><span class="season-month-label">A</span><div class="season-indicator season-good"></div></div><div class="season-month"><span class="season-month-label">M</span><div class="season-indicator season-good"></div></div><div class="season-month"><span class="season-month-label">J</span><div class="season-indicator season-peak"></div></div><div class="season-month"><span class="season-month-label">J</span><div class="season-indicator season-peak"></div></div><div class="season-month"><span class="season-month-label">A</span><div class="season-indicator season-peak"></div></div><div class="season-month"><span class="season-month-label">S</span><div class="season-indicator season-peak"></div></div><div class="season-month"><span class="season-month-label">O</span><div class="season-indicator season-peak"></div></div><div class="season-month"><span class="season-month-label">N</span><div class="season-indicator season-good"></div></div><div class="season-month"><span class="season-month-label">D</span><div class="season-indicator season-good"></div></div></div>
+      <div style="display:flex;gap:20px;margin-top:12px;">
+        <div style="display:flex;align-items:center;gap:8px;"><div style="width:20px;height:4px;background:var(--gold);border-radius:1px;"></div><span style="font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;">Peak</span></div>
+        <div style="display:flex;align-items:center;gap:8px;"><div style="width:20px;height:4px;background:rgba(212,175,55,.4);border-radius:1px;"></div><span style="font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;">Good</span></div>
+        <div style="display:flex;align-items:center;gap:8px;"><div style="width:20px;height:4px;background:rgba(255,255,255,.1);border-radius:1px;"></div><span style="font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;">Low</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="pkg-sidebar">
+    <div class="sidebar-card reveal">
+      <div class="sidebar-price">$14,800 <span>/ couple</span></div>
+      <div class="sidebar-per">Exclusive-use · All-inclusive</div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-details">
+        <div class="sidebar-detail"><span class="sidebar-detail-label">Duration</span><span class="sidebar-detail-value">6 Days · 5 Nights</span></div><div class="sidebar-detail"><span class="sidebar-detail-label">Exclusivity</span><span class="sidebar-detail-value">Full Conservancy Buyout</span></div><div class="sidebar-detail"><span class="sidebar-detail-label">Accommodation</span><span class="sidebar-detail-value">Exclusive-Use Tented Villa</span></div><div class="sidebar-detail"><span class="sidebar-detail-label">Price Basis</span><span class="sidebar-detail-value">Per Couple — Private</span></div><div class="sidebar-detail"><span class="sidebar-detail-label">Transfers</span><span class="sidebar-detail-value">Private Charter Flights</span></div><div class="sidebar-detail"><span class="sidebar-detail-label">Board Basis</span><span class="sidebar-detail-value">All-Inclusive Premium</span></div>
+      </div>
+      <div class="sidebar-divider"></div>
+      <a href="PAYMENT_LINK_PRIVATE_CONSERVANCY" class="btn-book-now">Reserve This Journey</a>
+      <a href="https://wa.me/34672304384?text=Hello%2C%20I%27d%20like%20to%20book%20the%20Private%20Conservancy%20Sojourn%20at%20%2414%2C800%20per%20couple." class="btn-whatsapp" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Enquire via WhatsApp
+      </a>
+      <p class="sidebar-note">Secure your dates with a 30% deposit. Full flexibility on rebooking up to 45 days before departure.</p>
+    </div>
+  </div>
+</div>
+
+<div class="pkg-related">
+  <div class="pkg-related-inner">
+    <span class="sec-label">You May Also Love</span>
+    <h2 class="sec-title">Similar Journeys</h2>
+    <div class="related-grid"><a href="pkg-migration-witness.html" class="related-card reveal" >
+        <span class="related-duration">5 Days · 4 Nights</span>
+        <div class="related-name">Migration<br>Witness</div>
+        <div class="related-price">$8,900 <span>/ person</span></div>
+        <div class="related-cta-text">Unveil this journey</div>
+      </a><a href="pkg-aerial-kenya.html" class="related-card reveal" style="transition-delay:0.1s">
+        <span class="related-duration">8 Days · 7 Nights</span>
+        <div class="related-name">Aerial<br>Kenya</div>
+        <div class="related-price">$16,500 <span>/ person</span></div>
+        <div class="related-cta-text">Unveil this journey</div>
+      </a><a href="pkg-grand-odyssey.html" class="related-card reveal" style="transition-delay:0.2s">
+        <span class="related-duration">7 Days · 6 Nights</span>
+        <div class="related-name">Grand<br>Odyssey</div>
+        <div class="related-price">$6,500 <span>/ person</span></div>
+        <div class="related-cta-text">Unveil this journey</div>
+      </a></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner-wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h2>Filmax Jambo Tours</h2>
+        <p>Kenya's most exclusive safari house. Crafting extraordinary wilderness encounters since 2025.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="index.html#highlights">Safaris</a>
+        <a href="packages.html">All Packages</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Destinations</h4>
+        <a href="index.html#contact">Maasai Mara</a>
+        <a href="index.html#contact">Amboseli</a>
+        <a href="index.html#contact">Samburu</a>
+        <a href="index.html#contact">Diani Coast</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Filmax Jambo Tours · All rights reserved</span>
+      <span>Crafted with passion in Nairobi 🌍</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/34672304384?text=Hello%20Filmax%20Jambo%20Tours!" class="whatsapp-fab" target="_blank" rel="noopener">
+  <span class="wa-tooltip">Book via WhatsApp</span>
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+const cursor=document.getElementById('cursor');
+const ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+function animateRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animateRing);}
+animateRing();
+document.querySelectorAll('a,button,.pkg-highlight-item,.related-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='20px';cursor.style.height='20px';ring.style.width='60px';ring.style.height='60px';ring.style.borderColor='rgba(212,175,55,.8)';});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='12px';cursor.style.height='12px';ring.style.width='40px';ring.style.height='40px';ring.style.borderColor='rgba(212,175,55,.5)';});
+});
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>{navbar.classList.toggle('scrolled',window.scrollY>50);});
+const reveals=document.querySelectorAll('.reveal');
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.06,rootMargin:'0px 0px -30px 0px'});
+reveals.forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
