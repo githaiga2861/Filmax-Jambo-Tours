@@ -1885,5 +1885,38 @@ document.getElementById('filterClearBtn').addEventListener('click', () => {
   applyFilters();
 });
 </script>
+  <script>
+const pkgDetailMap = {
+  'Grand Odyssey':                'pkg-grand-odyssey.html',
+  'Mara Awakening':               'pkg-mara-awakening.html',
+  'Ultimate Kenya':               'pkg-ultimate-kenya.html',
+  'Tsavo Red Earth':              'pkg-tsavo-red-earth.html',
+  'Samburu Secrets':              'pkg-samburu-secrets.html',
+  'Private Conservancy Sojourn':  'pkg-private-conservancy.html',
+  'Migration Witness':            'pkg-migration-witness.html',
+  'Aerial Kenya':                 'pkg-aerial-kenya.html',
+  'Safari & Sea':                 'pkg-safari-and-sea.html',
+  'Lamu Archipelago':             'pkg-lamu-archipelago.html',
+  'Photography Expedition':       'pkg-photography-expedition.html',
+  'Birding Kenya':                'pkg-birding-kenya.html',
+  'Family Wild':                  'pkg-family-wild.html',
+  'Nairobi Wild':                 'pkg-nairobi-wild.html',
+  'Lake Nakuru Escape':           'pkg-lake-nakuru-escape.html',
+  'Amboseli Express':             'pkg-amboseli-express.html',
+  "Hell's Gate Trek":             'pkg-hells-gate-trek.html',
+};
+
+document.querySelectorAll('.pkg-card').forEach(card => {
+  const nameEl = card.querySelector('.pkg-name');
+  const ctaEl  = card.querySelector('.pkg-cta');
+  if (!nameEl || !ctaEl) return;
+  const rawName = nameEl.innerText.replace(/\n/g,' ').replace(/\s+/g,' ').trim();
+  const href = pkgDetailMap[rawName];
+  if (href) {
+    ctaEl.href        = href;
+    ctaEl.textContent = 'Unveil This Journey';
+  }
+});
+</script>
 </body>
 </html>
