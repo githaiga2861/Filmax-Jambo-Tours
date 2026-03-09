@@ -2928,5 +2928,45 @@ document.addEventListener('DOMContentLoaded', function() {
   requestAnimationFrame(() => { updateSlides(); restartProgress(); startTimer(); });
 })();
 </script>
+  <script>
+const pkgDetailMapIdx = {
+  'Grand Odyssey':        'pkg-grand-odyssey.html',
+  'Mara Awakening':       'pkg-mara-awakening.html',
+  'Ultimate Kenya':       'pkg-ultimate-kenya.html',
+  'Amboseli Escape':      'pkg-amboseli-express.html',
+  'Samburu Wilderness':   'pkg-samburu-secrets.html',
+  'Coastal Safari Blend': 'pkg-safari-and-sea.html',
+  'Lakes & Highlands':    'pkg-lake-nakuru-escape.html',
+  'Kenya Mastery':        'pkg-grand-odyssey.html',
+};
+
+document.querySelectorAll('.package-card').forEach(card => {
+  const nameEl = card.querySelector('.pkg-name');
+  const ctaEl  = card.querySelector('.pkg-cta');
+  if (!nameEl || !ctaEl) return;
+  const rawName = nameEl.innerText.replace(/\n/g,' ').replace(/\s+/g,' ').trim();
+  const href = pkgDetailMapIdx[rawName];
+  if (href) {
+    ctaEl.href        = href;
+    ctaEl.textContent = 'Unveil This Journey';
+  }
+});
+</script>
+```
+
+Save the file.
+
+---
+
+**Step 6: Add your payment links**
+
+Open each `pkg-*.html` file one by one. Press **Ctrl+F** and search for `PAYMENT_LINK_`. You'll find one per file, for example in `pkg-grand-odyssey.html` you'll see:
+```
+href="PAYMENT_LINK_GRAND_ODYSSEY"
+```
+
+Replace the placeholder with your actual link from Stripe, Flutterwave, Paystack or wherever:
+```
+href="https://buy.stripe.com/your-link-here"
 </body>
 </html>
