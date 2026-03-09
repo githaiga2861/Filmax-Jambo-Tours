@@ -2705,16 +2705,15 @@ if (statsBar) statsObserver.observe(statsBar);
   });
 })();
 
-// PACKAGES
 const allPackages = [
-  { badge: null,            duration: '4 Days · 3 Nights',   name: 'Mara<br>Awakening',      price: '$2,800',  features: ['Maasai Mara Game Reserve','Private 4x4 Land Cruiser','Luxury Tented Camp','Expert Naturalist Guide','All Meals Included','Sundowner Cocktails'] },
-  { badge: 'Most Exclusive',duration: '7 Days · 6 Nights',   name: 'Grand<br>Odyssey',        price: '$6,500',  features: ['Mara + Amboseli + Samburu','Private Charter Flights','5-Star Lodge & Tented Camps','Sunrise Balloon Safari','Cultural Maasai Immersion','Butler & Concierge Service','All-Inclusive Premium'] },
-  { badge: null,            duration: '10 Days · 9 Nights',  name: 'Ultimate<br>Kenya',       price: '$11,200', features: ['5 Iconic National Parks','Private Conservancy Access','Exclusive Use Bush Camp','Night Safari Drives','Marine Excursion, Diani','Photography Guide Included','Bespoke Farewell Dinner'] },
-  { badge: 'New',           duration: '3 Days · 2 Nights',   name: 'Amboseli<br>Escape',      price: '$1,950',  features: ['Amboseli National Park','Kilimanjaro Panorama Views','Private Game Drives','Bush Breakfast Experience','All Meals Included','Expert Naturalist Guide'] },
-  { badge: null,            duration: '5 Days · 4 Nights',   name: 'Samburu<br>Wilderness',   price: '$3,400',  features: ['Samburu National Reserve','Rare Northern Species','Private Tented Camp','Camel Safari Experience','Cultural Village Visit','All Meals & Transfers'] },
-  { badge: 'Popular',       duration: '6 Days · 5 Nights',   name: 'Coastal<br>Safari Blend', price: '$4,200',  features: ['Tsavo East & West','Diani Beach Extension','Ocean-View Lodge','Snorkelling & Marine Park','Private Game Drives','All-Inclusive Package'] },
-  { badge: null,            duration: '8 Days · 7 Nights',   name: 'Lakes &<br>Highlands',    price: '$5,100',  features: ['Lake Nakuru & Naivasha','Aberdare Forest Walks','Flamingo Boat Excursion','Mount Kenya Foothills','Luxury Lodge Stays','All Meals & Flights'] },
-  { badge: 'Signature',     duration: '12 Days · 11 Nights', name: 'Kenya<br>Mastery',        price: '$14,500', features: ['6 Parks & Conservancies','Private Helicopter Transfer','Exclusive Bush Camp','Hot Air Balloon Safari','Michelin-Inspired Bush Dining','Dedicated Personal Guide','Fully Bespoke Itinerary'] },
+  { badge: null,        duration: '4 Days · 3 Nights',   name: 'Mara<br>Awakening',      price: '$2,800',  page: 'pkg-mara-awakening.html',        features: ['Maasai Mara Game Reserve','Private 4x4 Land Cruiser','Luxury Tented Camp','Expert Naturalist Guide','All Meals Included','Sundowner Cocktails'] },
+  { badge: 'Most Exclusive', duration: '7 Days · 6 Nights', name: 'Grand<br>Odyssey',    price: '$6,500',  page: 'pkg-grand-odyssey.html',         features: ['Mara + Amboseli + Samburu','Private Charter Flights','5-Star Lodge & Tented Camps','Sunrise Balloon Safari','Cultural Maasai Immersion','Butler & Concierge Service','All-Inclusive Premium'] },
+  { badge: null,        duration: '10 Days · 9 Nights',  name: 'Ultimate<br>Kenya',       price: '$11,200', page: 'pkg-ultimate-kenya.html',        features: ['5 Iconic National Parks','Private Conservancy Access','Exclusive Use Bush Camp','Night Safari Drives','Marine Excursion, Diani','Photography Guide Included','Bespoke Farewell Dinner'] },
+  { badge: 'New',       duration: '3 Days · 2 Nights',   name: 'Amboseli<br>Escape',      price: '$1,950',  page: 'pkg-amboseli-express.html',      features: ['Amboseli National Park','Kilimanjaro Panorama Views','Private Game Drives','Bush Breakfast Experience','All Meals Included','Expert Naturalist Guide'] },
+  { badge: null,        duration: '5 Days · 4 Nights',   name: 'Samburu<br>Wilderness',   price: '$3,400',  page: 'pkg-samburu-secrets.html',       features: ['Samburu National Reserve','Rare Northern Species','Private Tented Camp','Camel Safari Experience','Cultural Village Visit','All Meals & Transfers'] },
+  { badge: 'Popular',   duration: '6 Days · 5 Nights',   name: 'Coastal<br>Safari Blend', price: '$4,200',  page: 'pkg-safari-and-sea.html',        features: ['Tsavo East & West','Diani Beach Extension','Ocean-View Lodge','Snorkelling & Marine Park','Private Game Drives','All-Inclusive Package'] },
+  { badge: null,        duration: '8 Days · 7 Nights',   name: 'Lakes &<br>Highlands',    price: '$5,100',  page: 'pkg-lake-nakuru-escape.html',    features: ['Lake Nakuru & Naivasha','Aberdare Forest Walks','Flamingo Boat Excursion','Mount Kenya Foothills','Luxury Lodge Stays','All Meals & Flights'] },
+  { badge: 'Signature', duration: '12 Days · 11 Nights', name: 'Kenya<br>Mastery',        price: '$14,500', page: 'pkg-grand-odyssey.html',         features: ['6 Parks & Conservancies','Private Helicopter Transfer','Exclusive Bush Camp','Hot Air Balloon Safari','Michelin-Inspired Bush Dining','Dedicated Personal Guide','Fully Bespoke Itinerary'] },
 ];
 
 function buildCard(pkg, isFeatured) {
@@ -2729,9 +2728,7 @@ function buildCard(pkg, isFeatured) {
     <div class="pkg-price">${pkg.price} <span>/ person</span></div>
     <ul class="pkg-features">
       ${features.map(f => f ? `<li>${f}</li>` : `<li style="visibility:hidden;border-bottom-color:transparent;">—</li>`).join('')}
-    </ul>
-    <a href="#contact" class="pkg-cta">Enquire Now</a>
-  `;
+    </ul><a href="${pkg.page || '#contact'}" class="pkg-cta">Unveil This Journey</a>
 }
 
 document.addEventListener('DOMContentLoaded', function() {
