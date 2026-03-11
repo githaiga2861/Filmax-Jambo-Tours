@@ -1762,41 +1762,7 @@ document.querySelectorAll('.pkg-card').forEach(card => {
     card.dataset.groups      = match.groups.join(',');
   }
 });
-const urlParams = new URLSearchParams(window.location.search);
-const destFilter = urlParams.get('destination');
 
-const destinationMap = {
-  'maasai-mara':  ['mara'],
-  'diani-beach':  ['coastal'],
-  'amboseli':     ['amboseli'],
-  'lake-nakuru':  ['lakes'],
-  'mount-kenya':  ['lakes'],
-  'samburu':      ['samburu'],
-  'tsavo':        ['tsavo'],
-};
-
-const destLabels = {
-  'maasai-mara': 'Maasai Mara',
-  'diani-beach': 'Diani Beach',
-  'amboseli':    'Amboseli',
-  'lake-nakuru': 'Lake Nakuru',
-  'mount-kenya': 'Mount Kenya',
-  'samburu':     'Samburu',
-  'tsavo':       'Tsavo',
-};
-  if (destFilter) {
-  const labels = {
-    'maasai-mara': 'Maasai Mara',
-    'diani-beach': 'Diani Beach',
-    'amboseli':    'Amboseli',
-    'lake-nakuru': 'Lake Nakuru',
-    'mount-kenya': 'Mount Kenya',
-    'samburu':     'Samburu',
-    'tsavo':       'Tsavo',
-  };
-  document.getElementById('filterLabel').textContent = labels[destFilter] || destFilter;
-  document.getElementById('activeFilter').style.display = 'block';
-}
 // Filter panel toggle
 const filterToggleBtn = document.getElementById('filterToggleBtn');
 const filterPanel     = document.getElementById('filterPanel');
