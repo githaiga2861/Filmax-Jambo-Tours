@@ -705,31 +705,46 @@ nav.scrolled .nav-brand-idle {
   .highlight-card:hover { background: #161616; }
 
 .card-number {
-    font-family: 'Playfair Display', serif;
-    font-size: 72px;
-    font-weight: 900;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 80px;
+    font-weight: 300;
     line-height: 1;
     margin-bottom: 24px;
     position: relative;
     z-index: 2;
-    color: #c9a84c;
-    text-shadow:
-      0 0 8px  rgba(212, 175, 55, 0.55),
-      0 0 18px rgba(212, 175, 55, 0.28),
-      0 0 40px rgba(212, 175, 55, 0.12),
-      0 1px 2px rgba(0, 0, 0, 0.8);
-    transition: color 0.5s ease, text-shadow 0.5s ease;
     -webkit-text-stroke: 0px transparent;
-    -webkit-text-fill-color: unset;
+    background: linear-gradient(
+      160deg,
+      #8a6e2f 0%,
+      #c9a84c 28%,
+      #f5e199 48%,
+      #fffdf0 50%,
+      #f5e199 52%,
+      #c9a84c 72%,
+      #8a6e2f 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 100% 100%;
+    animation: cardNumFlash 5s ease-in-out infinite;
+    transition: opacity 0.4s ease;
   }
 
+  @keyframes cardNumFlash {
+    0%   { filter: brightness(0.75); }
+    45%  { filter: brightness(0.75); }
+    50%  { filter: brightness(1.35); }
+    55%  { filter: brightness(0.75); }
+    100% { filter: brightness(0.75); }
+  }
+
+  .highlight-card:nth-child(2) .card-number { animation-delay: 1.6s; }
+  .highlight-card:nth-child(3) .card-number { animation-delay: 3.2s; }
+
   .highlight-card:hover .card-number {
-    color: #e2c46a;
-    text-shadow:
-      0 0 10px rgba(212, 175, 55, 0.75),
-      0 0 28px rgba(212, 175, 55, 0.45),
-      0 0 55px rgba(212, 175, 55, 0.2),
-      0 1px 2px rgba(0, 0, 0, 0.9);
+    filter: brightness(1.2);
+    animation: none;
   }
   .highlight-card .hc-bg {
   position: absolute;
