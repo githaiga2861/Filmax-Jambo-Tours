@@ -2314,6 +2314,8 @@ nav.scrolled .nav-brand-idle {
   margin: 52px auto 0;
   position: relative;
   width: fit-content;
+  max-width: calc(100vw - 48px);
+  flex-wrap: nowrap;
 }
 
 .pkg-filter-bar::before {
@@ -2339,6 +2341,9 @@ nav.scrolled .nav-brand-idle {
   position: relative;
   overflow: hidden;
   transition: color 0.4s ease, background 0.4s ease;
+  flex: 1 1 0;
+  min-width: 0;
+  text-align: center;
 }
 
 .pkg-filter-btn:last-child {
