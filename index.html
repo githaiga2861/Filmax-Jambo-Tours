@@ -2328,6 +2328,94 @@ nav.scrolled .nav-brand-idle {
   .view-all-btn:hover .btn-arrow {
     transform: translateX(6px);
   }
+  /* OUR TEAM */
+#team { background: var(--charcoal); }
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  margin-top: 80px;
+}
+
+.team-card {
+  background: var(--card);
+  padding: 52px 40px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s;
+  text-align: center;
+}
+
+.team-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.5s cubic-bezier(0.77,0,0.175,1);
+}
+.team-card:hover::before { transform: scaleX(1); }
+.team-card:hover { background: #161616; }
+
+.team-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--amber));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--black);
+  margin: 0 auto 24px;
+  position: relative;
+}
+
+.team-avatar::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1px solid rgba(212,175,55,0.25);
+  transition: border-color 0.4s;
+}
+.team-card:hover .team-avatar::after {
+  border-color: rgba(212,175,55,0.6);
+}
+
+.team-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.team-role {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 20px;
+}
+
+.team-bio {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+@media (max-width: 900px) {
+  .team-grid { grid-template-columns: 1fr; gap: 0; }
+}
 </style>
 
 <div style="display:flex;align-items:center;justify-content:center;margin-top:52px;padding-top:40px;border-top:1px solid rgba(212,175,55,0.1);">
@@ -2385,6 +2473,38 @@ nav.scrolled .nav-brand-idle {
             <span class="author-loc">Dubai, UAE</span>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+  
+  <!-- TEAM -->
+<section id="team">
+  <div class="container">
+    <div class="reveal">
+      <div class="gold-line"><span>The People Behind the Magic</span></div>
+      <span class="section-label">Our Team</span>
+      <h2 class="section-title">Guided by <br><em style="color: var(--gold);">Passion</em></h2>
+      <p class="section-sub">Every journey is shaped by people who genuinely love the wild — and Kenya.</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card reveal">
+        <div class="team-avatar">F</div>
+        <h3 class="team-name">Filmax Odhiambo</h3>
+        <span class="team-role">Founder & Lead Guide</span>
+        <p class="team-bio">Over a decade navigating Kenya's finest reserves. Filmax brings an intimate knowledge of the land and an unshakeable love for every creature within it.</p>
+      </div>
+      <div class="team-card reveal" style="transition-delay:0.1s">
+        <div class="team-avatar">A</div>
+        <h3 class="team-name">Amara Wanjiku</h3>
+        <span class="team-role">Safari Experience Director</span>
+        <p class="team-bio">A master of logistics and luxury, Amara ensures every detail — from arrival transfers to sunset dinners — is orchestrated to perfection.</p>
+      </div>
+      <div class="team-card reveal" style="transition-delay:0.2s">
+        <div class="team-avatar">J</div>
+        <h3 class="team-name">James Kipchoge</h3>
+        <span class="team-role">Wildlife Naturalist</span>
+        <p class="team-bio">Born in the shadow of the Mara, James reads the wilderness like a living book — anticipating migrations, tracking the Big Five, and sharing stories the bush whispers.</p>
       </div>
     </div>
   </div>
