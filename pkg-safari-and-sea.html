@@ -147,6 +147,231 @@
   .whatsapp-fab:hover .wa-tooltip{opacity:1;transform:translateX(0)}
   @media(max-width:1100px){.pkg-main{grid-template-columns:1fr}.pkg-content{padding-right:0;border-right:none}.pkg-sidebar{padding:48px 0 80px}.sidebar-card{position:relative;top:auto}}
   @media(max-width:900px){nav{padding:20px 24px}.pkg-hero-content{padding:0 24px 56px}.pkg-hero-title{font-size:48px}.pkg-main{padding:0 24px}.pkg-highlights{grid-template-columns:1fr}.pkg-inclusions{grid-template-columns:1fr}.practical-grid{grid-template-columns:1fr}.related-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr;gap:40px}.footer-inner-wrap{padding:0 24px}.footer-bottom{flex-direction:column;gap:8px}}
+  @media (max-width: 1100px) {
+  .sidebar-card {
+    position: relative;
+    top: auto;
+  }
+}
+
+@media (min-width: 1101px) {
+  .mobile-book-bar { display: none; }
+  .mobile-float-btn { display: none; }
+}
+
+@media (max-width: 1100px) {
+  body { padding-bottom: 90px; }
+
+  /* ── FLOATING PILL (visible from top, hides near bottom) ── */
+  .mobile-float-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: fixed;
+    bottom: 110px;
+    right: 20px;
+    z-index: 210;
+    background: linear-gradient(135deg, var(--gold), var(--amber));
+    color: var(--black);
+    text-decoration: none;
+    padding: 13px 22px;
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    box-shadow:
+      0 8px 32px rgba(212,175,55,0.45),
+      0 2px 8px rgba(0,0,0,0.6);
+    cursor: none;
+    overflow: hidden;
+    /* Pop in animation */
+    opacity: 0;
+    transform: translateY(16px) scale(0.95);
+    transition:
+      opacity 0.5s cubic-bezier(0.22,1,0.36,1),
+      transform 0.5s cubic-bezier(0.22,1,0.36,1),
+      bottom 0.4s ease;
+    pointer-events: none;
+  }
+  .mobile-float-btn.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+  }
+  .mobile-float-btn.hide {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+    pointer-events: none;
+  }
+
+  /* Metal shine sweep on float btn */
+  .mobile-float-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+      120deg,
+      transparent 0%,
+      rgba(255,255,255,0.08) 30%,
+      rgba(255,255,255,0.5) 50%,
+      rgba(255,255,255,0.08) 70%,
+      transparent 100%
+    );
+    transform: skewX(-15deg);
+    animation: mobileFloatShine 3s ease-in-out infinite 1.5s;
+  }
+  @keyframes mobileFloatShine {
+    0%   { left: -100%; }
+    40%  { left: 160%; }
+    100% { left: 160%; }
+  }
+
+  .mobile-float-btn-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    position: relative;
+    z-index: 1;
+  }
+  .mobile-float-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    font-weight: 500;
+    line-height: 1;
+  }
+  .mobile-float-sub {
+    font-size: 7px;
+    letter-spacing: 2px;
+    opacity: 0.7;
+    font-weight: 300;
+  }
+  .mobile-float-icon {
+    position: relative;
+    z-index: 1;
+    font-size: 14px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  /* ── BOTTOM BAR (transitions in when near footer) ── */
+  .mobile-book-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 200;
+    background: rgba(8,8,8,0.97);
+    border-top: 1px solid var(--border);
+    padding: 14px 20px;
+    backdrop-filter: blur(20px);
+    gap: 16px;
+    transform: translateY(100%);
+    transition: transform 0.5s cubic-bezier(0.77,0,0.175,1);
+    overflow: hidden;
+  }
+  .mobile-book-bar.visible {
+    transform: translateY(0);
+  }
+
+  /* Metal shine on bottom bar */
+  .mobile-book-bar::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+      120deg,
+      transparent 0%,
+      rgba(255,255,255,0.04) 30%,
+      rgba(255,255,255,0.12) 50%,
+      rgba(255,255,255,0.04) 70%,
+      transparent 100%
+    );
+    transform: skewX(-15deg);
+    animation: mobileBarShine 4s ease-in-out infinite 2s;
+  }
+  @keyframes mobileBarShine {
+    0%   { left: -100%; }
+    35%  { left: 160%; }
+    100% { left: 160%; }
+  }
+
+  .mobile-book-price {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+  }
+  .mobile-book-price-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .mobile-book-price-label {
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .mobile-book-btn {
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, var(--gold), var(--amber));
+    color: var(--black);
+    text-decoration: none;
+    cursor: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .mobile-book-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+      120deg,
+      transparent 0%,
+      rgba(255,255,255,0.1) 30%,
+      rgba(255,255,255,0.5) 50%,
+      rgba(255,255,255,0.1) 70%,
+      transparent 100%
+    );
+    transform: skewX(-15deg);
+    animation: mobileFloatShine 3s ease-in-out infinite 2.5s;
+  }
+  .mobile-book-btn-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    font-weight: 500;
+    line-height: 1;
+  }
+  .mobile-book-btn-sub {
+    font-size: 7px;
+    letter-spacing: 2px;
+    opacity: 0.7;
+    font-weight: 300;
+  }
+}
 </style>
 </head>
 <body>
@@ -378,7 +603,26 @@
   <span class="wa-tooltip">Book via WhatsApp</span>
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
+<!-- Mobile floating pill -->
+<a href="PAYMENT_LINK_AERIAL_KENYA" class="mobile-float-btn" id="mobileFloatBtn">
+  <div class="mobile-float-btn-inner">
+    <span class="mobile-float-label">Reserve This Journey</span>
+    <span class="mobile-float-sub">Secure with 30% Deposit</span>
+  </div>
+  <span class="mobile-float-icon">✦</span>
+</a>
 
+<!-- Mobile bottom bar -->
+<div class="mobile-book-bar" id="mobileBookBar">
+  <div class="mobile-book-price">
+    <span class="mobile-book-price-num">$5,600</span>
+    <span class="mobile-book-price-label">per person</span>
+  </div>
+  <a href="PAYMENT_LINK_AERIAL_KENYA" class="mobile-book-btn">
+    <span class="mobile-book-btn-label">Reserve This Journey</span>
+    <span class="mobile-book-btn-sub">Secure with 30% Deposit</span>
+  </a>
+</div>
 <script>
 const cursor=document.getElementById('cursor');
 const ring=document.getElementById('cursorRing');
@@ -395,6 +639,39 @@ window.addEventListener('scroll',()=>{navbar.classList.toggle('scrolled',window.
 const reveals=document.querySelectorAll('.reveal');
 const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.06,rootMargin:'0px 0px -30px 0px'});
 reveals.forEach(el=>observer.observe(el));
+// Mobile float + bar scroll behaviour
+const mobileFloatBtn = document.getElementById('mobileFloatBtn');
+const mobileBookBar  = document.getElementById('mobileBookBar');
+const bespokeBanner  = document.querySelector('.pkg-related');
+
+if (mobileFloatBtn && mobileBookBar) {
+
+  // Pop in the float pill after 1.2s on page load
+  setTimeout(() => {
+    mobileFloatBtn.classList.add('visible');
+  }, 1200);
+
+  window.addEventListener('scroll', () => {
+    if (window.innerWidth > 1100) return;
+
+    const scrollY      = window.scrollY;
+    const docHeight    = document.body.scrollHeight;
+    const windowHeight = window.innerHeight;
+
+    // When user is within 600px of the bottom — show bar, hide pill
+    const nearBottom = scrollY + windowHeight >= docHeight - 600;
+
+    if (nearBottom) {
+      mobileBookBar.classList.add('visible');
+      mobileFloatBtn.classList.add('hide');
+      mobileFloatBtn.classList.remove('visible');
+    } else {
+      mobileBookBar.classList.remove('visible');
+      mobileFloatBtn.classList.remove('hide');
+      mobileFloatBtn.classList.add('visible');
+    }
+  });
+}  
 </script>
 </body>
 </html>
