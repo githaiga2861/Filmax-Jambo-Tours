@@ -3302,12 +3302,13 @@ document.addEventListener('DOMContentLoaded', function() {
     dotsWrap.appendChild(dot);
   });
 
-  function getClass(pos) {
-    if (pos === 0)                      return 'ds-active';
-    if (pos === 1)                      return 'ds-next';
-    if (pos === total - 1)              return 'ds-prev-slide';
-    if (pos === 2 || pos === total - 2) return 'ds-far';
-    return 'ds-far';
+    function getClass(pos) {
+    if (pos === 0)             return 'ds-active';
+    if (pos === 1)             return 'ds-next';
+    if (pos === total - 1)     return 'ds-prev-slide';
+    if (pos === 2)             return 'ds-far';
+    if (pos === total - 2)     return 'ds-far';
+    return '';
   }
 
   function centerActiveSlide() {
@@ -3326,10 +3327,14 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  function updateSlides() {
+function updateSlides() {
     slides.forEach((slide, i) => {
       slide.classList.remove('ds-active', 'ds-next', 'ds-prev-slide', 'ds-far');
-      slide.classList.add(getClass((i - current + total) % total));
+      const pos = (i - current + total) % total;
+      const cls = getClass(pos);
+      if (cls) slide.classList.add(cls);
+      slide.style.visibility = (pos > 2 && pos < total - 2) ? 'hidden' : 'visible';
+      slide.style.pointerEvents = (pos > 2 && pos < total - 2) ? 'none' : '';
     });
     dotsWrap.querySelectorAll('.ds-dot').forEach((d, i) => d.classList.toggle('active', i === current));
     countCur.textContent = current + 1;
