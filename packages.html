@@ -1665,6 +1665,8 @@ const destinationMap = {
   'amboseli':     ['Amboseli Escape', 'Grand Odyssey', 'Ultimate Kenya'],
   'lake-nakuru':  ['Lakes & Highlands', 'Grand Odyssey'],
   'mount-kenya':  ['Lakes & Highlands', 'Kenya Mastery'],
+  'samburu':      ['Samburu Wilderness', 'Grand Odyssey', 'Kenya Mastery'],
+  'tsavo':        ['Coastal Safari Blend', 'Ultimate Kenya'],
 };
   // Filter packages if destination param exists
 let filteredPackages = allPackages;
@@ -1682,6 +1684,8 @@ if (destFilter && destinationMap[destFilter]) {
     'amboseli':    'Amboseli',
     'lake-nakuru': 'Lake Nakuru',
     'mount-kenya': 'Mount Kenya',
+    'samburu':     'Samburu',
+    'tsavo':       'Tsavo',
   };
   document.getElementById('filterLabel').textContent = labels[destFilter] || destFilter;
   document.getElementById('activeFilter').style.display = 'block';
