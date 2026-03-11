@@ -1365,7 +1365,7 @@ nav.scrolled .nav-brand-idle {
     will-change: transform;
   }
 
-  .ds-slide {
+ .ds-slide {
     flex: 0 0 78vw;
     width: 78vw;
     height: 78vw;
@@ -1373,9 +1373,13 @@ nav.scrolled .nav-brand-idle {
     max-height: unset;
     margin: 0;
     border-radius: 10px;
-    filter: none !important;
     opacity: 1 !important;
     transform: scale(1) translateY(0) !important;
+    filter: none !important;
+  }
+
+  .ds-slide .ds-slide-img {
+    filter: brightness(0.72) saturate(0.88) !important;
   }
 
   .ds-slide.ds-active {
