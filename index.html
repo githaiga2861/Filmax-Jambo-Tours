@@ -932,7 +932,7 @@ nav.scrolled .nav-brand-idle {
     cursor: none;
   }
 
-  /* Image — Ken Burns only on active */
+/* Image — Ken Burns only on active */
   .ds-slide-img {
     position: absolute;
     inset: 0;
@@ -946,18 +946,20 @@ nav.scrolled .nav-brand-idle {
     pointer-events: none;
     user-select: none;
     display: block;
+    filter: brightness(1);
   }
   .ds-slide.ds-active .ds-slide-img {
     transform: scale(1);
+    filter: brightness(1);
   }
 
-  /* Gradient overlay */
+/* Gradient overlay */
   .ds-slide-overlay {
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(to top,    rgba(8,8,8,0.96) 0%, rgba(8,8,8,0.2) 50%, transparent 72%),
-      linear-gradient(to bottom, rgba(8,8,8,0.4)  0%, transparent 28%);
+      linear-gradient(to top,    rgba(8,8,8,0.82) 0%, rgba(8,8,8,0.08) 45%, transparent 68%),
+      linear-gradient(to bottom, rgba(8,8,8,0.25) 0%, transparent 22%);
     z-index: 1;
     opacity: 0;
     transition: opacity 0.9s ease;
