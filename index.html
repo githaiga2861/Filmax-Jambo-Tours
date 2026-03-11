@@ -1459,6 +1459,37 @@ nav.scrolled .nav-brand-idle {
     transition: border-color 0.4s, transform 0.4s, box-shadow 0.4s;
     overflow: hidden;
   }
+  .package-card .pkg-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+  opacity: 1;
+  pointer-events: none;
+  display: block;
+  filter: brightness(0.18) saturate(0.7);
+  transition: filter 0.5s ease;
+}
+
+.package-card:hover .pkg-bg {
+  filter: brightness(0.22) saturate(0.8);
+}
+
+.package-card .pkg-bg-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(8,8,8,0.55) 0%,
+    rgba(8,8,8,0.3) 40%,
+    rgba(8,8,8,0.65) 100%
+  );
+  pointer-events: none;
+}
   .package-card::after {
     content: '';
     position: absolute;
@@ -1466,6 +1497,7 @@ nav.scrolled .nav-brand-idle {
     background: linear-gradient(135deg, var(--gold-dim), transparent);
     opacity: 0;
     transition: opacity 0.4s;
+    z-index: 2;
   }
   .package-card:hover { border-color: var(--border); transform: translateY(-8px); box-shadow: 0 30px 80px rgba(0,0,0,0.5); }
   .package-card:hover::after { opacity: 1; }
