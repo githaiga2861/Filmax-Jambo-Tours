@@ -1655,41 +1655,28 @@
 </a>
 
 <script>
-  // Read destination filter from URL
-const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = new URLSearchParams(window.location.search);
 const destFilter = urlParams.get('destination');
 
 const destinationMap = {
-  'maasai-mara':  ['Mara Awakening', 'Grand Odyssey', 'Kenya Mastery'],
-  'diani-beach':  ['Coastal Safari Blend', 'Ultimate Kenya'],
-  'amboseli':     ['Amboseli Escape', 'Grand Odyssey', 'Ultimate Kenya'],
-  'lake-nakuru':  ['Lakes & Highlands', 'Grand Odyssey'],
-  'mount-kenya':  ['Lakes & Highlands', 'Kenya Mastery'],
-  'samburu':      ['Samburu Wilderness', 'Grand Odyssey', 'Kenya Mastery'],
-  'tsavo':        ['Coastal Safari Blend', 'Ultimate Kenya'],
+  'maasai-mara':  ['mara'],
+  'diani-beach':  ['coastal'],
+  'amboseli':     ['amboseli'],
+  'lake-nakuru':  ['lakes'],
+  'mount-kenya':  ['lakes'],
+  'samburu':      ['samburu'],
+  'tsavo':        ['tsavo'],
 };
-  // Filter packages if destination param exists
-let filteredPackages = allPackages;
-if (destFilter && destinationMap[destFilter]) {
-  filteredPackages = allPackages.filter(pkg =>
-    destinationMap[destFilter].some(name =>
-      pkg.name.replace('<br>', ' ').includes(name.split(' ')[0])
-    )
-  );
-}
-  if (destFilter) {
-  const labels = {
-    'maasai-mara': 'Maasai Mara',
-    'diani-beach': 'Diani Beach',
-    'amboseli':    'Amboseli',
-    'lake-nakuru': 'Lake Nakuru',
-    'mount-kenya': 'Mount Kenya',
-    'samburu':     'Samburu',
-    'tsavo':       'Tsavo',
-  };
-  document.getElementById('filterLabel').textContent = labels[destFilter] || destFilter;
-  document.getElementById('activeFilter').style.display = 'block';
-}
+
+const destLabels = {
+  'maasai-mara': 'Maasai Mara',
+  'diani-beach': 'Diani Beach',
+  'amboseli':    'Amboseli',
+  'lake-nakuru': 'Lake Nakuru',
+  'mount-kenya': 'Mount Kenya',
+  'samburu':     'Samburu',
+  'tsavo':       'Tsavo',
+};
 // Cursor
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
@@ -1775,7 +1762,41 @@ document.querySelectorAll('.pkg-card').forEach(card => {
     card.dataset.groups      = match.groups.join(',');
   }
 });
+const urlParams = new URLSearchParams(window.location.search);
+const destFilter = urlParams.get('destination');
 
+const destinationMap = {
+  'maasai-mara':  ['mara'],
+  'diani-beach':  ['coastal'],
+  'amboseli':     ['amboseli'],
+  'lake-nakuru':  ['lakes'],
+  'mount-kenya':  ['lakes'],
+  'samburu':      ['samburu'],
+  'tsavo':        ['tsavo'],
+};
+
+const destLabels = {
+  'maasai-mara': 'Maasai Mara',
+  'diani-beach': 'Diani Beach',
+  'amboseli':    'Amboseli',
+  'lake-nakuru': 'Lake Nakuru',
+  'mount-kenya': 'Mount Kenya',
+  'samburu':     'Samburu',
+  'tsavo':       'Tsavo',
+};
+  if (destFilter) {
+  const labels = {
+    'maasai-mara': 'Maasai Mara',
+    'diani-beach': 'Diani Beach',
+    'amboseli':    'Amboseli',
+    'lake-nakuru': 'Lake Nakuru',
+    'mount-kenya': 'Mount Kenya',
+    'samburu':     'Samburu',
+    'tsavo':       'Tsavo',
+  };
+  document.getElementById('filterLabel').textContent = labels[destFilter] || destFilter;
+  document.getElementById('activeFilter').style.display = 'block';
+}
 // Filter panel toggle
 const filterToggleBtn = document.getElementById('filterToggleBtn');
 const filterPanel     = document.getElementById('filterPanel');
@@ -1969,6 +1990,27 @@ document.querySelectorAll('.pkg-card').forEach(card => {
     ctaEl.textContent = 'Unveil This Journey';
   }
 });
+    // Auto-apply destination filter from URL param
+if (destFilter && destinationMap[destFilter]) {
+  const destValues = destinationMap[destFilter];
+
+  // Tick the matching destination checkboxes
+  destValues.forEach(val => {
+    const cb = document.querySelector(`input[name="destination"][value="${val}"]`);
+    if (cb) cb.checked = true;
+  });
+
+  // Show the active filter badge
+  const badge = document.getElementById('activeFilter');
+  const label = document.getElementById('filterLabel');
+  if (badge && label) {
+    label.textContent = destLabels[destFilter] || destFilter;
+    badge.style.display = 'block';
+  }
+
+  // Run the filter
+  applyFilters();
+}
 </script>
 </body>
 </html>
