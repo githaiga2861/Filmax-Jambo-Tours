@@ -147,6 +147,52 @@
   .whatsapp-fab:hover .wa-tooltip{opacity:1;transform:translateX(0)}
   @media(max-width:1100px){.pkg-main{grid-template-columns:1fr}.pkg-content{padding-right:0;border-right:none}.pkg-sidebar{padding:48px 0 80px}.sidebar-card{position:relative;top:auto}}
   @media(max-width:900px){nav{padding:20px 24px}.pkg-hero-content{padding:0 24px 56px}.pkg-hero-title{font-size:48px}.pkg-main{padding:0 24px}.pkg-highlights{grid-template-columns:1fr}.pkg-inclusions{grid-template-columns:1fr}.practical-grid{grid-template-columns:1fr}.related-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr;gap:40px}.footer-inner-wrap{padding:0 24px}.footer-bottom{flex-direction:column;gap:8px}}
+  /* Itinerary collapse */
+.itinerary-days-wrapper {
+  position: relative;
+}
+.itinerary-days-wrapper.collapsed .itinerary-day:nth-child(n+4) {
+  display: none;
+}
+.itinerary-fade {
+  display: none;
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, transparent, var(--black));
+  pointer-events: none;
+}
+.itinerary-days-wrapper.collapsed .itinerary-fade {
+  display: block;
+}
+.itinerary-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 32px;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--gold);
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  padding: 14px 28px;
+  cursor: none;
+  transition: background 0.3s, border-color 0.3s;
+}
+.itinerary-toggle-btn:hover {
+  background: var(--gold-dim);
+  border-color: var(--gold);
+}
+.itinerary-toggle-btn svg {
+  transition: transform 0.4s cubic-bezier(0.77,0,0.175,1);
+  flex-shrink: 0;
+}
+.itinerary-toggle-btn.expanded svg {
+  transform: rotate(180deg);
+}
 </style>
 </head>
 <body>
@@ -215,6 +261,9 @@
       <span class="sec-label">Day by Day</span>
       <h2 class="sec-title">Your Itinerary</h2>
       <div class="sec-divider"></div>
+
+      <div class="itinerary-days-wrapper collapsed" id="itineraryWrapper">
+      <div class="itinerary-fade"></div>
       
       <div class="itinerary-day">
         <span class="day-number">Day 01</span>
