@@ -193,6 +193,166 @@
 .itinerary-toggle-btn.expanded svg {
   transform: rotate(180deg);
 }
+  /* Itinerary collapse */
+.itinerary-body {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.7s cubic-bezier(0.77, 0, 0.175, 1);
+}
+.itinerary-body.open {
+  max-height: 4000px;
+}
+
+.itinerary-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: none;
+  border: 1px solid var(--border);
+  padding: 14px 28px;
+  cursor: none;
+  transition: background 0.3s, border-color 0.3s, color 0.3s;
+  margin-top: 8px;
+}
+.itinerary-toggle-btn:hover {
+  background: var(--gold-dim);
+  border-color: var(--gold);
+}
+.itinerary-toggle-btn .toggle-icon {
+  width: 14px;
+  height: 14px;
+  position: relative;
+  flex-shrink: 0;
+}
+.itinerary-toggle-btn .toggle-icon::before,
+.itinerary-toggle-btn .toggle-icon::after {
+  content: '';
+  position: absolute;
+  background: var(--gold);
+  transition: transform 0.4s, opacity 0.4s;
+}
+.itinerary-toggle-btn .toggle-icon::before {
+  width: 14px; height: 1px;
+  top: 50%; left: 0;
+  transform: translateY(-50%);
+}
+.itinerary-toggle-btn .toggle-icon::after {
+  width: 1px; height: 14px;
+  left: 50%; top: 0;
+  transform: translateX(-50%);
+}
+.itinerary-toggle-btn.open .toggle-icon::after {
+  transform: translateX(-50%) rotate(90deg);
+  opacity: 0;
+}
+
+/* Sidebar sticky fix */
+.pkg-sidebar {
+  position: relative;
+}
+.sidebar-card {
+  position: sticky;
+  top: 100px;
+}
+
+/* Book Now button */
+.btn-book-now {
+  position: relative;
+  overflow: hidden;
+}
+.btn-book-now-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.btn-book-now-label {
+  font-size: 11px;
+  letter-spacing: 4px;
+}
+.btn-book-now-sub {
+  font-size: 8px;
+  letter-spacing: 3px;
+  opacity: 0.7;
+  font-weight: 300;
+}
+
+/* Mobile fixed Book Now bar */
+@media (max-width: 1100px) {
+  .sidebar-card {
+    position: relative;
+    top: auto;
+  }
+  .mobile-book-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 200;
+    background: rgba(8, 8, 8, 0.97);
+    border-top: 1px solid var(--border);
+    padding: 14px 24px;
+    backdrop-filter: blur(20px);
+    gap: 16px;
+  }
+  .mobile-book-price {
+    display: flex;
+    flex-direction: column;
+  }
+  .mobile-book-price-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .mobile-book-price-label {
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .mobile-book-btn {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, var(--gold), var(--amber));
+    color: var(--black);
+    text-decoration: none;
+    cursor: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .mobile-book-btn-sub {
+    font-size: 7px;
+    letter-spacing: 2px;
+    opacity: 0.7;
+    font-weight: 300;
+  }
+  /* Add bottom padding so content isn't hidden behind bar */
+  body {
+    padding-bottom: 80px;
+  }
+}
+@media (min-width: 1101px) {
+  .mobile-book-bar {
+    display: none;
+  }
+}
 </style>
 </head>
 <body>
@@ -257,15 +417,18 @@
 
     <div class="pkg-highlights reveal"><div class="pkg-highlight-item"><span class="phi-icon">🌋</span><span class="phi-label">View</span><span class="phi-value">Kilimanjaro at Dawn</span></div><div class="pkg-highlight-item"><span class="phi-icon">🐘</span><span class="phi-label">Wildlife</span><span class="phi-value">Large Elephant Herds</span></div><div class="pkg-highlight-item"><span class="phi-icon">🌅</span><span class="phi-label">Experience</span><span class="phi-value">Observation Hill Sundowner</span></div><div class="pkg-highlight-item"><span class="phi-icon">🏨</span><span class="phi-label">Stay</span><span class="phi-value">Amboseli Luxury Lodge</span></div><div class="pkg-highlight-item"><span class="phi-icon">🚗</span><span class="phi-label">Transfers</span><span class="phi-value">Private 4x4 Land Cruiser</span></div><div class="pkg-highlight-item"><span class="phi-icon">✦</span><span class="phi-label">Board Basis</span><span class="phi-value">Full Board Included</span></div></div>
 
-    <div class="pkg-itinerary reveal">
+      <div class="pkg-itinerary reveal">
       <span class="sec-label">Day by Day</span>
       <h2 class="sec-title">Your Itinerary</h2>
       <div class="sec-divider"></div>
 
-      <div class="itinerary-days-wrapper collapsed" id="itineraryWrapper">
-      <div class="itinerary-fade"></div>
-      
-      <div class="itinerary-day">
+      <button class="itinerary-toggle-btn" id="itineraryToggle">
+    <span class="toggle-icon"></span>
+    <span id="itineraryToggleLabel">View Full Itinerary</span>
+  </button>
+
+  <div class="itinerary-body" id="itineraryBody">
+    <div style="height: 32px;"></div>
         <span class="day-number">Day 01</span>
         <h3 class="day-title">Nairobi → Amboseli</h3>
         <span class="day-location">Charter or road · Amboseli arrival</span>
@@ -327,7 +490,12 @@
         <div class="sidebar-detail"><span class="sidebar-detail-label">Duration</span><span class="sidebar-detail-value">3 Days · 2 Nights</span></div><div class="sidebar-detail"><span class="sidebar-detail-label">Destination</span><span class="sidebar-detail-value">Amboseli National Park</span></div><div class="sidebar-detail"><span class="sidebar-detail-label">Backdrop</span><span class="sidebar-detail-value">Mount Kilimanjaro</span></div><div class="sidebar-detail"><span class="sidebar-detail-label">Group Size</span><span class="sidebar-detail-value">2–6 guests</span></div><div class="sidebar-detail"><span class="sidebar-detail-label">Transfers</span><span class="sidebar-detail-value">Charter or Private 4x4</span></div><div class="sidebar-detail"><span class="sidebar-detail-label">Board Basis</span><span class="sidebar-detail-value">Full Board</span></div>
       </div>
       <div class="sidebar-divider"></div>
-      <a href="PAYMENT_LINK_AMBOSELI_EXPRESS" class="btn-book-now">Reserve This Journey</a>
+      <a href="PAYMENT_LINK_AERIAL_KENYA" class="btn-book-now">
+  <div class="btn-book-now-inner">
+    <span class="btn-book-now-label">Book Now</span>
+    <span class="btn-book-now-sub">Secure with 30% deposit</span>
+  </div>
+</a>
       <a href="https://wa.me/34672304384?text=Hello%2C%20I%27d%20like%20to%20book%20the%20Amboseli%20Express%203-Day%20at%20%241%2C480%20per%20person." class="btn-whatsapp" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         Enquire via WhatsApp
@@ -392,7 +560,17 @@
   <span class="wa-tooltip">Book via WhatsApp</span>
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
-
+<!-- Mobile fixed Book Now bar -->
+<div class="mobile-book-bar">
+  <div class="mobile-book-price">
+    <span class="mobile-book-price-num">$16,500</span>
+    <span class="mobile-book-price-label">per person</span>
+  </div>
+  <a href="PAYMENT_LINK_AERIAL_KENYA" class="mobile-book-btn">
+    Book Now
+    <span class="mobile-book-btn-sub">30% deposit to secure</span>
+  </a>
+</div>
 <script>
 const cursor=document.getElementById('cursor');
 const ring=document.getElementById('cursorRing');
@@ -409,6 +587,15 @@ window.addEventListener('scroll',()=>{navbar.classList.toggle('scrolled',window.
 const reveals=document.querySelectorAll('.reveal');
 const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.06,rootMargin:'0px 0px -30px 0px'});
 reveals.forEach(el=>observer.observe(el));
+const itineraryToggle = document.getElementById('itineraryToggle');
+const itineraryBody = document.getElementById('itineraryBody');
+const itineraryToggleLabel = document.getElementById('itineraryToggleLabel');
+
+itineraryToggle.addEventListener('click', () => {
+  const isOpen = itineraryBody.classList.toggle('open');
+  itineraryToggle.classList.toggle('open', isOpen);
+  itineraryToggleLabel.textContent = isOpen ? 'Collapse Itinerary' : 'View Full Itinerary';
+});
 </script>
 </body>
 </html>
