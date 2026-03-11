@@ -1285,31 +1285,69 @@ nav.scrolled .nav-brand-idle {
     .ds-progress.running { width: 76vw; }
     .ds-track { justify-content: center; }
   }
-  @media (max-width: 600px) {
-    .destinations-slideshow { overflow: hidden; width: 100%; }
-    .ds-track {
-        padding: 24px 0;
-        gap: 10px;
-        justify-content: flex-start;
-    }
-    .ds-slide {
-        width: 84vw;
-        height: 70vh;
-        min-height: 380px;
-        margin: 0 8vw;
-    }
-    .ds-slide.ds-next,
-    .ds-slide.ds-prev-slide {
-        width: 84vw;
-        margin: 0 8vw;
-    }
-    .ds-slide.ds-far {
-        width: 84vw;
-        margin: 0 8vw;
-    }
-    .ds-slide-content { padding: 0 20px 32px; }
-    .ds-progress { max-width: 84vw; }
-    .ds-progress.running { width: 84vw; }
+@media (max-width: 600px) {
+  .destinations-slideshow {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .ds-track {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 0;
+    will-change: transform;
+  }
+
+  .ds-slide {
+    flex: 0 0 78vw;
+    width: 78vw;
+    height: 78vw; /* square */
+    min-height: unset;
+    max-height: unset;
+    margin: 0;
+    border-radius: 10px;
+  }
+
+  .ds-slide.ds-active {
+    transform: scale(1) translateY(0);
+    filter: blur(0px) brightness(1) saturate(1);
+    opacity: 1;
+  }
+
+  .ds-slide.ds-next,
+  .ds-slide.ds-prev-slide {
+    transform: scale(0.88) translateY(0);
+    filter: blur(3px) brightness(0.35) saturate(0.2);
+    opacity: 0.7;
+  }
+
+  .ds-slide.ds-far {
+    transform: scale(0.78) translateY(0);
+    filter: blur(6px) brightness(0.12) saturate(0.1);
+    opacity: 0.3;
+  }
+
+  .ds-slide-content {
+    padding: 0 18px 22px;
+  }
+
+  .ds-slide-title {
+    font-size: 24px;
+  }
+
+  .ds-slide-tagline {
+    font-size: 13px;
+    margin-bottom: 14px;
+  }
+
+  .ds-progress {
+    max-width: 78vw;
+  }
+
+  .ds-progress.running {
+    width: 78vw;
+  }
 }
 
   .wildlife-bg {
