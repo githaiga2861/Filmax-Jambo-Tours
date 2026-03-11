@@ -2288,7 +2288,14 @@ nav.scrolled .nav-brand-idle {
       <h2 class="section-title">Safari <em style="color: var(--gold);">Collections</em></h2>
       <p class="section-sub">Distinct expressions of the African wild. Each meticulously crafted for a different desire.</p>
     </div>
-
+   <div class="pkg-filter-bar reveal" id="pkgFilterBar">
+  <div class="pkg-filter-glow" id="pkgFilterGlow"></div>
+  <button class="pkg-filter-btn active" data-filter="all">All</button>
+  <button class="pkg-filter-btn" data-filter="luxury">Luxury</button>
+  <button class="pkg-filter-btn" data-filter="mid-range">Mid-Range</button>
+  <button class="pkg-filter-btn" data-filter="budget">Budget</button>
+</div>
+<p class="pkg-filter-label" id="pkgFilterLabel">Showing all collections</p>
 <div class="packages-grid" id="packagesGrid">
   <div class="package-card reveal" id="pkgCard0"></div>
   <div class="package-card featured reveal" id="pkgCard1" style="transition-delay:0.1s"></div>
@@ -2298,6 +2305,121 @@ nav.scrolled .nav-brand-idle {
 <!-- View More button stays here unchanged -->
 <!-- VIEW MORE -->
 <style>
+  /* PACKAGE FILTER */
+.pkg-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 52px auto 0;
+  position: relative;
+  width: fit-content;
+}
+
+.pkg-filter-bar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(212,175,55,0.15);
+  pointer-events: none;
+}
+
+.pkg-filter-btn {
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  padding: 16px 36px;
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  border-right: 1px solid rgba(212,175,55,0.12);
+  cursor: none;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.4s ease, background 0.4s ease;
+}
+
+.pkg-filter-btn:last-child {
+  border-right: none;
+}
+
+.pkg-filter-btn::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  transform: scaleX(0);
+  transition: transform 0.5s cubic-bezier(0.77,0,0.175,1);
+}
+
+.pkg-filter-btn::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,0.02) 30%,
+    rgba(255,255,255,0.07) 50%,
+    rgba(255,255,255,0.02) 70%,
+    transparent 100%
+  );
+  transform: skewX(-15deg);
+  pointer-events: none;
+}
+
+.pkg-filter-btn:hover::after {
+  animation: filterShine 0.55s ease forwards;
+}
+
+@keyframes filterShine {
+  0%   { left: -100%; }
+  100% { left: 160%; }
+}
+
+.pkg-filter-btn:hover {
+  color: var(--text);
+  background: rgba(212,175,55,0.04);
+}
+
+.pkg-filter-btn.active {
+  color: var(--gold);
+  background: rgba(212,175,55,0.07);
+  text-shadow:
+    0 0 12px rgba(212,175,55,0.5),
+    0 0 24px rgba(212,175,55,0.2);
+}
+
+.pkg-filter-btn.active::before {
+  transform: scaleX(1);
+}
+
+.pkg-filter-glow {
+  position: absolute;
+  bottom: -1px; left: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  filter: blur(3px);
+  transition: left 0.5s cubic-bezier(0.77,0,0.175,1), width 0.5s cubic-bezier(0.77,0,0.175,1);
+  pointer-events: none;
+}
+
+.pkg-filter-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  font-style: italic;
+  color: var(--muted);
+  letter-spacing: 3px;
+  text-align: center;
+  margin-top: 18px;
+  opacity: 0.6;
+  transition: opacity 0.4s;
+}
   .view-all-btn {
     font-family: 'Jost', sans-serif;
     font-size: 11px;
@@ -2865,14 +2987,14 @@ if (statsBar) statsObserver.observe(statsBar);
 })();
 
 const allPackages = [
-  { badge: null,        duration: '4 Days · 3 Nights',   name: 'Mara<br>Awakening',      price: '$2,800',  page: 'pkg-mara-awakening.html',        features: ['Maasai Mara Game Reserve','Private 4x4 Land Cruiser','Luxury Tented Camp','Expert Naturalist Guide','All Meals Included','Sundowner Cocktails'] },
-  { badge: 'Most Exclusive', duration: '7 Days · 6 Nights', name: 'Grand<br>Odyssey',    price: '$6,500',  page: 'pkg-grand-odyssey.html',         features: ['Mara + Amboseli + Samburu','Private Charter Flights','5-Star Lodge & Tented Camps','Sunrise Balloon Safari','Cultural Maasai Immersion','Butler & Concierge Service','All-Inclusive Premium'] },
-  { badge: null,        duration: '10 Days · 9 Nights',  name: 'Ultimate<br>Kenya',       price: '$11,200', page: 'pkg-ultimate-kenya.html',        features: ['5 Iconic National Parks','Private Conservancy Access','Exclusive Use Bush Camp','Night Safari Drives','Marine Excursion, Diani','Photography Guide Included','Bespoke Farewell Dinner'] },
-  { badge: 'New',       duration: '3 Days · 2 Nights',   name: 'Amboseli<br>Escape',      price: '$1,950',  page: 'pkg-amboseli-express.html',      features: ['Amboseli National Park','Kilimanjaro Panorama Views','Private Game Drives','Bush Breakfast Experience','All Meals Included','Expert Naturalist Guide'] },
-  { badge: null,        duration: '5 Days · 4 Nights',   name: 'Samburu<br>Wilderness',   price: '$3,400',  page: 'pkg-samburu-secrets.html',       features: ['Samburu National Reserve','Rare Northern Species','Private Tented Camp','Camel Safari Experience','Cultural Village Visit','All Meals & Transfers'] },
-  { badge: 'Popular',   duration: '6 Days · 5 Nights',   name: 'Coastal<br>Safari Blend', price: '$4,200',  page: 'pkg-safari-and-sea.html',        features: ['Tsavo East & West','Diani Beach Extension','Ocean-View Lodge','Snorkelling & Marine Park','Private Game Drives','All-Inclusive Package'] },
-  { badge: null,        duration: '8 Days · 7 Nights',   name: 'Lakes &<br>Highlands',    price: '$5,100',  page: 'pkg-lake-nakuru-escape.html',    features: ['Lake Nakuru & Naivasha','Aberdare Forest Walks','Flamingo Boat Excursion','Mount Kenya Foothills','Luxury Lodge Stays','All Meals & Flights'] },
-  { badge: 'Signature', duration: '12 Days · 11 Nights', name: 'Kenya<br>Mastery',        price: '$14,500', page: 'pkg-grand-odyssey.html',         features: ['6 Parks & Conservancies','Private Helicopter Transfer','Exclusive Bush Camp','Hot Air Balloon Safari','Michelin-Inspired Bush Dining','Dedicated Personal Guide','Fully Bespoke Itinerary'] },
+  { badge: null,        duration: '4 Days · 3 Nights',   name: 'Mara<br>Awakening',      price: '$2,800',  page: 'pkg-mara-awakening.html',     tier: 'mid-range', features: ['Maasai Mara Game Reserve','Private 4x4 Land Cruiser','Luxury Tented Camp','Expert Naturalist Guide','All Meals Included','Sundowner Cocktails'] },
+  { badge: 'Most Exclusive', duration: '7 Days · 6 Nights', name: 'Grand<br>Odyssey',    price: '$6,500',  page: 'pkg-grand-odyssey.html',      tier: 'luxury',    features: ['Mara + Amboseli + Samburu','Private Charter Flights','5-Star Lodge & Tented Camps','Sunrise Balloon Safari','Cultural Maasai Immersion','Butler & Concierge Service','All-Inclusive Premium'] },
+  { badge: null,        duration: '10 Days · 9 Nights',  name: 'Ultimate<br>Kenya',       price: '$11,200', page: 'pkg-ultimate-kenya.html',     tier: 'luxury',    features: ['5 Iconic National Parks','Private Conservancy Access','Exclusive Use Bush Camp','Night Safari Drives','Marine Excursion, Diani','Photography Guide Included','Bespoke Farewell Dinner'] },
+  { badge: 'New',       duration: '3 Days · 2 Nights',   name: 'Amboseli<br>Escape',      price: '$1,950',  page: 'pkg-amboseli-express.html',   tier: 'budget',    features: ['Amboseli National Park','Kilimanjaro Panorama Views','Private Game Drives','Bush Breakfast Experience','All Meals Included','Expert Naturalist Guide'] },
+  { badge: null,        duration: '5 Days · 4 Nights',   name: 'Samburu<br>Wilderness',   price: '$3,400',  page: 'pkg-samburu-secrets.html',    tier: 'mid-range', features: ['Samburu National Reserve','Rare Northern Species','Private Tented Camp','Camel Safari Experience','Cultural Village Visit','All Meals & Transfers'] },
+  { badge: 'Popular',   duration: '6 Days · 5 Nights',   name: 'Coastal<br>Safari Blend', price: '$4,200',  page: 'pkg-safari-and-sea.html',     tier: 'mid-range', features: ['Tsavo East & West','Diani Beach Extension','Ocean-View Lodge','Snorkelling & Marine Park','Private Game Drives','All-Inclusive Package'] },
+  { badge: null,        duration: '8 Days · 7 Nights',   name: 'Lakes &<br>Highlands',    price: '$5,100',  page: 'pkg-lake-nakuru-escape.html', tier: 'mid-range', features: ['Lake Nakuru & Naivasha','Aberdare Forest Walks','Flamingo Boat Excursion','Mount Kenya Foothills','Luxury Lodge Stays','All Meals & Flights'] },
+  { badge: 'Signature', duration: '12 Days · 11 Nights', name: 'Kenya<br>Mastery',        price: '$14,500', page: 'pkg-grand-odyssey.html',      tier: 'luxury',    features: ['6 Parks & Conservancies','Private Helicopter Transfer','Exclusive Bush Camp','Hot Air Balloon Safari','Michelin-Inspired Bush Dining','Dedicated Personal Guide','Fully Bespoke Itinerary'] },
 ];
 
 function buildCard(pkg, isFeatured) {
@@ -2892,6 +3014,49 @@ function buildCard(pkg, isFeatured) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+  // Filter logic
+  const filterBtns  = document.querySelectorAll('.pkg-filter-btn');
+  const filterLabel = document.getElementById('pkgFilterLabel');
+  const filterGlow  = document.getElementById('pkgFilterGlow');
+  let   activeFilter = 'all';
+
+  const labelMap = {
+    all:       'Showing all collections',
+    luxury:    'Showing luxury experiences',
+    'mid-range': 'Showing mid-range journeys',
+    budget:    'Showing budget-friendly safaris',
+  };
+
+  function positionGlow(btn) {
+    filterGlow.style.left  = btn.offsetLeft + 'px';
+    filterGlow.style.width = btn.offsetWidth + 'px';
+  }
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      filterLabel.textContent = labelMap[activeFilter] || '';
+      positionGlow(btn);
+      currentSet = getFilteredSet(activeFilter);
+      renderCard(card0, currentSet[0], false, true);
+      renderCard(card1, currentSet[1], true,  true);
+      renderCard(card2, currentSet[2], false, true);
+    });
+  });
+
+  function getFilteredSet(filter) {
+    const pool = filter === 'all'
+      ? allPackages.map((_, i) => i)
+      : allPackages.map((p, i) => p.tier === filter ? i : null).filter(i => i !== null);
+    while (pool.length < 3) pool.push(...pool);
+    return [pool[0], pool[1], pool[2]];
+  }
+
+  // Init glow on active button
+  const initActive = document.querySelector('.pkg-filter-btn.active');
+  if (initActive) positionGlow(initActive);
   const card0 = document.getElementById('pkgCard0');
   const card1 = document.getElementById('pkgCard1');
   const card2 = document.getElementById('pkgCard2');
