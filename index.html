@@ -1313,18 +1313,19 @@ nav.scrolled .nav-brand-idle {
     transform: scale(1) translateY(0) !important;
     filter: none !important;
     opacity: 1 !important;
+    z-index: 5;
   }
 
   .ds-slide.ds-next,
   .ds-slide.ds-prev-slide {
     transform: scale(0.88) translateY(0);
-    filter: blur(3px) brightness(0.35) saturate(0.2);
+    filter: none !important;
     opacity: 0.7;
   }
 
   .ds-slide.ds-far {
     transform: scale(0.78) translateY(0);
-    filter: blur(6px) brightness(0.12) saturate(0.1);
+    filter: none !important;
     opacity: 0.3;
   }
 
