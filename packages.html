@@ -1210,6 +1210,23 @@
   <p>Try adjusting your selection — or let us craft something entirely bespoke for you.</p>
   <a href="index.html#contact" class="btn-primary" style="display:inline-block;padding:18px 44px;">Start a Conversation</a>
 </div>
+  
+  <div id="activeFilter" style="display:none; margin-bottom:24px;">
+  <span style="
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--gold);
+    padding: 6px 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  ">
+    <span id="filterLabel"></span>
+    <a href="packages.html" style="color:var(--black); text-decoration:none; opacity:0.6;">✕ clear</a>
+  </span>
+</div>
 
 <!-- ALL PACKAGES -->
 <section class="all-packages-section">
@@ -1638,6 +1655,37 @@
 </a>
 
 <script>
+  // Read destination filter from URL
+const urlParams = new URLSearchParams(window.location.search);
+const destFilter = urlParams.get('destination');
+
+const destinationMap = {
+  'maasai-mara':  ['Mara Awakening', 'Grand Odyssey', 'Kenya Mastery'],
+  'diani-beach':  ['Coastal Safari Blend', 'Ultimate Kenya'],
+  'amboseli':     ['Amboseli Escape', 'Grand Odyssey', 'Ultimate Kenya'],
+  'lake-nakuru':  ['Lakes & Highlands', 'Grand Odyssey'],
+  'mount-kenya':  ['Lakes & Highlands', 'Kenya Mastery'],
+};
+  // Filter packages if destination param exists
+let filteredPackages = allPackages;
+if (destFilter && destinationMap[destFilter]) {
+  filteredPackages = allPackages.filter(pkg =>
+    destinationMap[destFilter].some(name =>
+      pkg.name.replace('<br>', ' ').includes(name.split(' ')[0])
+    )
+  );
+}
+  if (destFilter) {
+  const labels = {
+    'maasai-mara': 'Maasai Mara',
+    'diani-beach': 'Diani Beach',
+    'amboseli':    'Amboseli',
+    'lake-nakuru': 'Lake Nakuru',
+    'mount-kenya': 'Mount Kenya',
+  };
+  document.getElementById('filterLabel').textContent = labels[destFilter] || destFilter;
+  document.getElementById('activeFilter').style.display = 'block';
+}
 // Cursor
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
