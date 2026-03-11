@@ -895,9 +895,9 @@ nav.scrolled .nav-brand-idle {
       opacity 1s ease,
       width 1s cubic-bezier(0.76, 0, 0.24, 1);
     transform: scale(0.62) translateY(52px);
-    filter: blur(6px) brightness(0.35) saturate(0.4);
+    filter: blur(6px) brightness(1) saturate(1);
     box-shadow: none;
-    opacity: 0.5;
+    opacity: 0;
   }
 
   /* Active — floats forward, fully revealed */
@@ -1369,11 +1369,14 @@ nav.scrolled .nav-brand-idle {
   .ds-slide {
     flex: 0 0 78vw;
     width: 78vw;
-    height: 78vw; /* square */
+    height: 78vw;
     min-height: unset;
     max-height: unset;
     margin: 0;
     border-radius: 10px;
+    filter: none !important;
+    opacity: 1 !important;
+    transform: scale(1) translateY(0) !important;
   }
 
   .ds-slide.ds-active {
@@ -1381,19 +1384,31 @@ nav.scrolled .nav-brand-idle {
     filter: none !important;
     opacity: 1 !important;
     z-index: 5;
+    box-shadow: none !important;
   }
 
   .ds-slide.ds-next,
   .ds-slide.ds-prev-slide {
-    transform: scale(0.88) translateY(0);
-    filter: brightness(0.55) saturate(0.6) !important;
-    opacity: 0.75;
+    transform: scale(1) translateY(0) !important;
+    filter: none !important;
+    opacity: 1 !important;
+    z-index: 3;
   }
 
   .ds-slide.ds-far {
-    transform: scale(0.78) translateY(0);
-    filter: brightness(0.3) saturate(0.3) !important;
-    opacity: 0.4;
+    transform: scale(1) translateY(0) !important;
+    filter: none !important;
+    opacity: 1 !important;
+    z-index: 1;
+  }
+
+  .ds-slide-overlay {
+    display: none !important;
+  }
+
+  .ds-slide-img {
+    filter: none !important;
+    brightness: unset !important;
   }
 
   .ds-slide-content {
