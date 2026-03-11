@@ -697,10 +697,14 @@ nav.scrolled .nav-brand-idle {
     transform-origin: left;
     transition: transform 0.5s cubic-bezier(0.77,0,0.175,1);
   }
+  .highlight-card svg {
+    position: relative;
+    z-index: 2;
+  }
   .highlight-card:hover::before { transform: scaleX(1); }
   .highlight-card:hover { background: #161616; }
 
-  .card-number {
+.card-number {
     font-family: 'Playfair Display', serif;
     font-size: 72px;
     font-weight: 900;
@@ -709,10 +713,69 @@ nav.scrolled .nav-brand-idle {
     line-height: 1;
     margin-bottom: 24px;
     transition: -webkit-text-stroke 0.4s, color 0.4s;
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(
+      90deg,
+      rgba(212,175,55,0.4) 0%,
+      rgba(212,175,55,0.4) 25%,
+      #fff8dc 44%,
+      #fffbe8 48%,
+      #ffffff 50%,
+      #fffbe8 52%,
+      #fff8dc 56%,
+      rgba(212,175,55,0.4) 75%,
+      rgba(212,175,55,0.4) 100%
+    );
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 0px transparent;
+    background-position: 200% center;
+    animation: cardNumShine 6s ease-in-out infinite;
   }
+
+  @keyframes cardNumShine {
+    0%   { background-position: 200% center; }
+    40%  { background-position: -20% center; }
+    70%  { background-position: -20% center; }
+    100% { background-position: 200% center; }
+  }
+
   .highlight-card:hover .card-number {
-    -webkit-text-stroke: 1px rgba(212,175,55,0.5);
+    -webkit-text-stroke: 0px transparent;
   }
+  .highlight-card .hc-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+  display: block;
+  pointer-events: none;
+  filter: brightness(0.13) saturate(0.6);
+  transition: filter 0.5s ease;
+}
+
+.highlight-card:hover .hc-bg {
+  filter: brightness(0.18) saturate(0.7);
+}
+
+.highlight-card .hc-bg-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(8,8,8,0.5) 0%,
+    rgba(8,8,8,0.25) 40%,
+    rgba(8,8,8,0.6) 100%
+  );
+}
   .highlight-card::after {
   content: '';
   position: absolute;
@@ -743,10 +806,12 @@ nav.scrolled .nav-brand-idle {
   100% { left: 160%;  }
 }
 
-  .card-icon {
+.card-icon {
     font-size: 28px;
     margin-bottom: 20px;
     display: block;
+    position: relative;
+    z-index: 2;
   }
 
   .card-title {
@@ -755,6 +820,8 @@ nav.scrolled .nav-brand-idle {
     font-weight: 700;
     margin-bottom: 14px;
     color: var(--text);
+    position: relative;
+    z-index: 2;
   }
 
   .card-text {
@@ -762,6 +829,8 @@ nav.scrolled .nav-brand-idle {
     line-height: 1.8;
     color: var(--muted);
     font-weight: 300;
+    position: relative;
+    z-index: 2;
   }
   .stats-bar {
   margin-top: 40px;
@@ -2104,7 +2173,9 @@ nav.scrolled .nav-brand-idle {
     </div>
   </div>
   <div class="highlights-grid">
-<div class="highlight-card reveal">
+    <div class="highlight-card reveal">
+      <img class="hc-bg" src="assets/maasaimen.webp" alt="" aria-hidden="true">
+      <div class="hc-bg-overlay"></div>
       <div class="card-number">01</div>
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:20px;display:block;opacity:0.7;">
         <path d="M4 14h20M14 4l10 10-10 10" stroke="#d4af37" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
@@ -2113,6 +2184,8 @@ nav.scrolled .nav-brand-idle {
       <p class="card-text">Every itinerary is thoughtfully designed to balance iconic wildlife encounters with hidden experiences, creating a safari that feels entirely your own.</p>
     </div>
     <div class="highlight-card reveal" style="transition-delay:0.1s">
+      <img class="hc-bg" src="assets/jwmarriott.webp" alt="" aria-hidden="true">
+      <div class="hc-bg-overlay"></div>
       <div class="card-number">02</div>
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:20px;display:block;opacity:0.7;">
         <circle cx="14" cy="14" r="10" stroke="#d4af37" stroke-width="1"/>
@@ -2122,8 +2195,11 @@ nav.scrolled .nav-brand-idle {
       <h3 class="card-title">Local Mastery</h3>
       <p class="card-text">Our guides and partners possess deep knowledge of Kenya's landscapes and rhythms of the wild — allowing you to experience moments most travelers never see.</p>
     </div>
-    <div class="highlight-card reveal" style="transition-delay:0.2s">
+     <div class="highlight-card reveal" style="transition-delay:0.2s">
+      <img class="hc-bg" src="assets/girraffefeeding.webp" alt="" aria-hidden="true">
+      <div class="hc-bg-overlay"></div>
       <div class="card-number">03</div>
+      <svg width="28" height="28"
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:20px;display:block;opacity:0.7;">
         <path d="M14 3v4M14 21v4M3 14h4M21 14h4M6.2 6.2l2.8 2.8M19 19l2.8 2.8M19 9l2.8-2.8M6.2 21.8l2.8-2.8" stroke="#d4af37" stroke-width="1" stroke-linecap="round"/>
         <circle cx="14" cy="14" r="4.5" stroke="#d4af37" stroke-width="1"/>
