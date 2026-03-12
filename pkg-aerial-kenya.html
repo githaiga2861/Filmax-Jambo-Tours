@@ -66,18 +66,180 @@
   .phi-icon{font-size:22px;margin-bottom:12px;display:block}
   .phi-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:block}
   .phi-value{font-family:'Playfair Display',serif;font-size:16px;color:var(--text)}
-  .pkg-itinerary{margin-bottom:72px}
-  .itinerary-day{border-left:1px solid var(--border);padding:0 0 48px 32px;position:relative}
-  .itinerary-day::before{content:'';position:absolute;top:6px;left:-5px;width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px rgba(212,175,55,.5)}
-  .itinerary-day:last-child{padding-bottom:0;border-left-color:transparent}
-  .day-number{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:block}
-  .day-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:12px}
-  .day-location{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:8px}
-  .day-location::before{content:'';width:20px;height:1px;background:var(--gold);flex-shrink:0}
-  .day-desc{font-size:14px;color:var(--muted);line-height:1.85;margin-bottom:16px}
-  .day-activities{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
-  .day-activities li{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);border:1px solid var(--border-subtle);padding:5px 12px;transition:border-color .3s,color .3s}
-  .day-activities li:hover{border-color:var(--border);color:var(--text)}
+.pkg-itinerary{margin-bottom:72px}
+
+  /* Timeline spine */
+  .itinerary-days-wrapper {
+    border-left: 1px solid var(--border);
+    padding-left: 0;
+    margin-top: 8px;
+  }
+
+  /* Each accordion day row */
+  .itinerary-day {
+    position: relative;
+    margin-bottom: 0;
+  }
+
+  /* Gold dot on the spine */
+  .itinerary-day::before {
+    content: '';
+    position: absolute;
+    top: 22px;
+    left: -5px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--charcoal);
+    border: 1px solid rgba(212,175,55,0.3);
+    box-shadow: 0 0 8px rgba(212,175,55,0.2);
+    transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+    z-index: 2;
+  }
+
+  .itinerary-day.open::before {
+    background: var(--gold);
+    border-color: var(--gold);
+    box-shadow: 0 0 14px rgba(212,175,55,0.6);
+  }
+
+  /* Clickable header row */
+  .day-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0 20px 32px;
+    cursor: none;
+    gap: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.3s;
+    position: relative;
+  }
+
+  .day-header:hover {
+    background: rgba(212,175,55,0.03);
+  }
+
+  .itinerary-day.open .day-header {
+    border-bottom-color: transparent;
+  }
+
+  .day-header-left {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    flex: 1;
+  }
+
+  .day-number {
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    flex-shrink: 0;
+    display: block;
+  }
+
+  .day-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 0;
+    transition: color 0.3s;
+  }
+
+  .itinerary-day.open .day-title {
+    color: var(--gold);
+  }
+
+  .day-chevron {
+    width: 28px;
+    height: 28px;
+    border: 1px solid rgba(212,175,55,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-right: 4px;
+    transition: border-color 0.3s, background 0.3s, transform 0.4s cubic-bezier(0.22,1,0.36,1);
+  }
+
+  .itinerary-day.open .day-chevron {
+    border-color: rgba(212,175,55,0.6);
+    background: rgba(212,175,55,0.08);
+    transform: rotate(180deg);
+  }
+
+  .day-chevron svg {
+    display: block;
+  }
+
+  /* Collapsible body */
+  .day-body {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.55s cubic-bezier(0.22,1,0.36,1),
+                opacity 0.4s ease,
+                padding 0.4s ease;
+    opacity: 0;
+    padding: 0 0 0 32px;
+  }
+
+  .itinerary-day.open .day-body {
+    max-height: 600px;
+    opacity: 1;
+    padding: 4px 0 36px 32px;
+  }
+
+  .day-location {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .day-location::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .day-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.85;
+    margin-bottom: 16px;
+  }
+
+  .day-activities {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .day-activities li {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--border-subtle);
+    padding: 5px 12px;
+    transition: border-color .3s, color .3s;
+  }
+
+  .day-activities li:hover {
+    border-color: var(--border);
+    color: var(--text);
+  }
   .pkg-inclusions{margin-bottom:72px;display:grid;grid-template-columns:1fr 1fr;gap:48px}
   .inclusion-group h4{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:20px}
   .inclusion-list{list-style:none}
@@ -440,67 +602,147 @@
   <span class="sec-label">Day by Day</span>
   <h2 class="sec-title">Your Itinerary</h2>
   <div class="sec-divider"></div>
-  <div class="itinerary-body" id="itineraryBody">
-    <div style="height: 32px;"></div>
-        <span class="day-number">Day 01</span>
-        <h3 class="day-title">Nairobi → Maasai Mara</h3>
+
+  <div class="itinerary-days-wrapper">
+
+    <div class="itinerary-day open">
+      <div class="day-header">
+        <div class="day-header-left">
+          <span class="day-number">Day 01</span>
+          <h3 class="day-title">Nairobi → Maasai Mara</h3>
+        </div>
+        <div class="day-chevron">
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="rgba(212,175,55,0.7)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="day-body">
         <span class="day-location">Wilson Airport · Mara</span>
         <p class="day-desc">Private aircraft to the Mara. Ultra-luxury lodge with infinity pool overlooking the plains. Your personal photographer joins for the first two days — they work alongside your guide to position the vehicle, read the light, and ensure your Mara moments are documented at the level they deserve.</p>
         <ul class="day-activities"><li>Private aircraft</li><li>Photographer briefing</li><li>Afternoon drive</li><li>Lodge dinner</li></ul>
       </div>
-      <div class="itinerary-day">
-        <span class="day-number">Day 02</span>
-        <h3 class="day-title">Mara with Photographer</h3>
+    </div>
+
+    <div class="itinerary-day">
+      <div class="day-header">
+        <div class="day-header-left">
+          <span class="day-number">Day 02</span>
+          <h3 class="day-title">Mara with Photographer</h3>
+        </div>
+        <div class="day-chevron">
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="rgba(212,175,55,0.7)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="day-body">
         <span class="day-location">Maasai Mara National Reserve</span>
         <p class="day-desc">A full day with your photographer. Dawn drive for big cats and first light on the plains. The photographer manages light, position and timing while your guide manages wildlife — together they deliver images that are genuinely gallery-worthy. Balloon option available.</p>
         <ul class="day-activities"><li>Dawn photography drive</li><li>Balloon option</li><li>Edited session afternoon</li><li>Fine dining</li></ul>
       </div>
-      <div class="itinerary-day">
-        <span class="day-number">Day 03</span>
-        <h3 class="day-title">Mara → Amboseli</h3>
+    </div>
+
+    <div class="itinerary-day">
+      <div class="day-header">
+        <div class="day-header-left">
+          <span class="day-number">Day 03</span>
+          <h3 class="day-title">Mara → Amboseli</h3>
+        </div>
+        <div class="day-chevron">
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="rgba(212,175,55,0.7)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="day-body">
         <span class="day-location">Amboseli · Kilimanjaro</span>
         <p class="day-desc">Morning drive then aircraft south to Amboseli. The approach by air reveals Kilimanjaro in full — an overwhelming view. Ultra-luxury lodge with rooms oriented to the mountain. Elephant herds move below the volcano.</p>
         <ul class="day-activities"><li>Morning drive</li><li>Aircraft to Amboseli</li><li>Kilimanjaro views</li><li>Elephant drives</li></ul>
       </div>
-      <div class="itinerary-day">
-        <span class="day-number">Day 04</span>
-        <h3 class="day-title">Full Amboseli · Mountain at Dawn</h3>
+    </div>
+
+    <div class="itinerary-day">
+      <div class="day-header">
+        <div class="day-header-left">
+          <span class="day-number">Day 04</span>
+          <h3 class="day-title">Full Amboseli · Mountain at Dawn</h3>
+        </div>
+        <div class="day-chevron">
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="rgba(212,175,55,0.7)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="day-body">
         <span class="day-location">Amboseli National Park</span>
         <p class="day-desc">Kilimanjaro is clearest at dawn — set your alarm. The mountain reveals itself above the treetops as the light changes from purple to amber to white gold. Elephant herds in the foreground. This is the single most iconic image in East African photography.</p>
         <ul class="day-activities"><li>Kilimanjaro dawn</li><li>Elephant herd drives</li><li>Swamp walk</li><li>Observation Hill</li></ul>
       </div>
-      <div class="itinerary-day">
-        <span class="day-number">Day 05</span>
-        <h3 class="day-title">Amboseli → Samburu</h3>
+    </div>
+
+    <div class="itinerary-day">
+      <div class="day-header">
+        <div class="day-header-left">
+          <span class="day-number">Day 05</span>
+          <h3 class="day-title">Amboseli → Samburu</h3>
+        </div>
+        <div class="day-chevron">
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="rgba(212,175,55,0.7)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="day-body">
         <span class="day-location">Northern Kenya</span>
         <p class="day-desc">Aircraft north to Samburu. Landscape transforms completely. The Samburu Five — endemic species found nowhere south of here — await in the riverine forest along the Ewaso Ng'iro.</p>
         <ul class="day-activities"><li>Aircraft north</li><li>Samburu Five drive</li><li>River sundowner</li><li>Camp dinner</li></ul>
       </div>
-      <div class="itinerary-day">
-        <span class="day-number">Day 06</span>
-        <h3 class="day-title">Full Samburu Day</h3>
+    </div>
+
+    <div class="itinerary-day">
+      <div class="day-header">
+        <div class="day-header-left">
+          <span class="day-number">Day 06</span>
+          <h3 class="day-title">Full Samburu Day</h3>
+        </div>
+        <div class="day-chevron">
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="rgba(212,175,55,0.7)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="day-body">
         <span class="day-location">Samburu Reserve</span>
         <p class="day-desc">A complete Samburu day. Lion in the riverine trees. Grevy's zebra at dawn. Reticulated giraffe browsing across the horizon. Cultural village visit. Night drive along the river.</p>
         <ul class="day-activities"><li>Dawn endemic drive</li><li>Cultural village</li><li>Night drive</li><li>Riverside dining</li></ul>
       </div>
-      <div class="itinerary-day">
-        <span class="day-number">Day 07</span>
-        <h3 class="day-title">Samburu → Diani Beach</h3>
+    </div>
+
+    <div class="itinerary-day">
+      <div class="day-header">
+        <div class="day-header-left">
+          <span class="day-number">Day 07</span>
+          <h3 class="day-title">Samburu → Diani Beach</h3>
+        </div>
+        <div class="day-chevron">
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="rgba(212,175,55,0.7)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="day-body">
         <span class="day-location">Mombasa · Indian Ocean</span>
         <p class="day-desc">Aircraft via Mombasa to Diani Beach — Kenya's finest Indian Ocean coast. The transition from arid north to turquoise ocean is deliberately dramatic. Your private beach villa, the Indian Ocean at your door, and a sunset Dhow cocktail cruise awaiting.</p>
         <ul class="day-activities"><li>Aircraft to coast</li><li>Beach villa arrival</li><li>Dhow sunset cruise</li><li>Seafood dinner</li></ul>
       </div>
-      <div class="itinerary-day">
-        <span class="day-number">Day 08</span>
-        <h3 class="day-title">Diani Coastal Day → Departure</h3>
+    </div>
+
+    <div class="itinerary-day">
+      <div class="day-header">
+        <div class="day-header-left">
+          <span class="day-number">Day 08</span>
+          <h3 class="day-title">Diani Coastal Day → Departure</h3>
+        </div>
+        <div class="day-chevron">
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="rgba(212,175,55,0.7)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="day-body">
         <span class="day-location">Diani Beach · Mombasa airport</span>
         <p class="day-desc">A final morning: snorkel the Kisite-Mpunguti marine park with its turtles and dolphins, or simply be still on the finest beach in East Africa. Aircraft to Mombasa for international departures.</p>
         <ul class="day-activities"><li>Marine snorkel or leisure</li><li>Beach breakfast</li><li>Aircraft to Mombasa</li><li>Departure</li></ul>
       </div>
-         </div><!-- end last itinerary-day -->
-
-  </div><!-- end itinerary-days-wrapper -->
     </div>
+
+  </div>
+</div>
 
     <div class="pkg-inclusions reveal">
       <div class="inclusion-group">
