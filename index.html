@@ -42,10 +42,90 @@ body.light-mode {
     --border: rgba(154,111,0,0.28);
   }
 
-  body.light-mode {
+body.light-mode {
     background: var(--black);
     color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+
+  body.light-mode h1,
+  body.light-mode h2,
+  body.light-mode h3,
+  body.light-mode h4,
+  body.light-mode h5,
+  body.light-mode h6 {
+    font-weight: calc(var(--fw, 400) + 100);
+    filter: none;
+  }
+
+  body.light-mode .section-title        { font-weight: 800; }
+  body.light-mode .section-label        { font-weight: 600; }
+  body.light-mode .section-sub          { font-weight: 400; }
+
+  body.light-mode p,
+  body.light-mode li,
+  body.light-mode span,
+  body.light-mode a,
+  body.light-mode label,
+  body.light-mode input,
+  body.light-mode textarea,
+  body.light-mode button {
+    font-weight: calc(var(--fw, 400) + 100);
+  }
+
+  body.light-mode .nav-link             { font-weight: 600; }
+  body.light-mode .dropdown-link        { font-weight: 500; }
+
+  body.light-mode .hero-eyebrow         { font-weight: 600; }
+  body.light-mode .hero-subtitle        { font-weight: 400; }
+
+  body.light-mode .pkg-name             { font-weight: 400; }
+  body.light-mode .pkg-features li      { font-weight: 400; }
+  body.light-mode .pkg-duration         { font-weight: 400; }
+  body.light-mode .pkg-cta              { font-weight: 500; }
+
+  body.light-mode .card-title           { font-weight: 400; }
+  body.light-mode .card-text            { font-weight: 400; }
+
+  body.light-mode .stat-num             { font-weight: 700; }
+  body.light-mode .stat-label           { font-weight: 500; }
+
+  body.light-mode .testimonial-text     { font-weight: 400; }
+  body.light-mode .author-name          { font-weight: 600; }
+  body.light-mode .author-loc           { font-weight: 500; }
+
+  body.light-mode .team-name            { font-weight: 700; }
+  body.light-mode .team-role            { font-weight: 500; }
+  body.light-mode .team-bio             { font-weight: 400; }
+
+  body.light-mode .blog-card-title      { font-weight: 700; }
+  body.light-mode .blog-card-excerpt    { font-weight: 400; }
+  body.light-mode .blog-card-date,
+  body.light-mode .blog-card-read       { font-weight: 500; }
+
+  body.light-mode .footer-col a         { font-weight: 500; }
+  body.light-mode .footer-bottom span   { font-weight: 500; }
+
+  body.light-mode .quiz-question        { font-weight: 700; }
+  body.light-mode .quiz-sub             { font-weight: 400; }
+  body.light-mode .quiz-option          { font-weight: 500; }
+  body.light-mode .quiz-step-label      { font-weight: 600; }
+  body.light-mode .quiz-result-name     { font-weight: 600; }
+  body.light-mode .quiz-result-meta     { font-weight: 500; }
+
+  body.light-mode .contact-detail-label { font-weight: 600; }
+  body.light-mode .contact-detail-value { font-weight: 500; }
+  body.light-mode .contact-info p       { font-weight: 400; }
+
+  body.light-mode .day-title            { font-weight: 600; }
+  body.light-mode .day-desc             { font-weight: 400; }
+  body.light-mode .day-number           { font-weight: 600; }
+
+  body.light-mode .gallery-caption-title { font-weight: 700; }
+  body.light-mode .gallery-caption-sub   { font-weight: 500; }
+
+  body.light-mode .pkg-filter-btn       { font-weight: 600; }
 
 body.light-mode .hero-sky {
     filter: blur(0px) brightness(1) saturate(1);
