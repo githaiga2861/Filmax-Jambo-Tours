@@ -3870,6 +3870,45 @@ nav.scrolled .nav-brand-idle {
     text-align: center;
   }
 }
+
+  /* ============================= */
+/* SHUTTER EFFECT                */
+/* ============================= */
+
+.shutter-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: 99997;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.shutter-panel {
+  flex: 1;
+  background: #080808;
+  transform: scaleY(1);
+  transform-origin: top;
+  transition: transform 0s;
+}
+
+.shutter-panel:nth-child(even) {
+  transform-origin: bottom;
+}
+
+.shutter-wrap.closing .shutter-panel {
+  transform: scaleY(0);
+}
+
+.shutter-wrap.closing .shutter-panel:nth-child(1)  { transition: transform 0.38s 0.00s cubic-bezier(0.76, 0, 0.24, 1); }
+.shutter-wrap.closing .shutter-panel:nth-child(2)  { transition: transform 0.38s 0.04s cubic-bezier(0.76, 0, 0.24, 1); }
+.shutter-wrap.closing .shutter-panel:nth-child(3)  { transition: transform 0.38s 0.08s cubic-bezier(0.76, 0, 0.24, 1); }
+.shutter-wrap.closing .shutter-panel:nth-child(4)  { transition: transform 0.38s 0.12s cubic-bezier(0.76, 0, 0.24, 1); }
+.shutter-wrap.closing .shutter-panel:nth-child(5)  { transition: transform 0.38s 0.16s cubic-bezier(0.76, 0, 0.24, 1); }
+.shutter-wrap.closing .shutter-panel:nth-child(6)  { transition: transform 0.38s 0.20s cubic-bezier(0.76, 0, 0.24, 1); }
+.shutter-wrap.closing .shutter-panel:nth-child(7)  { transition: transform 0.38s 0.24s cubic-bezier(0.76, 0, 0.24, 1); }
+.shutter-wrap.closing .shutter-panel:nth-child(8)  { transition: transform 0.38s 0.28s cubic-bezier(0.76, 0, 0.24, 1); }
+    
 #loader {
   position: fixed;
   inset: 0;
@@ -4001,7 +4040,19 @@ nav.scrolled .nav-brand-idle {
     <div id="quizStepContainer"></div>
   </div>
 </div>
-  
+
+<!-- Shutter panels -->
+<div class="shutter-wrap" id="shutterWrap">
+  <div class="shutter-panel"></div>
+  <div class="shutter-panel"></div>
+  <div class="shutter-panel"></div>
+  <div class="shutter-panel"></div>
+  <div class="shutter-panel"></div>
+  <div class="shutter-panel"></div>
+  <div class="shutter-panel"></div>
+  <div class="shutter-panel"></div>
+</div>
+    
 <div id="loader">
   <img class="loader-logo" src="assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.webp" alt="Filmax Jambo Tours"/>
 </div>
@@ -5438,6 +5489,18 @@ const heroSkyEl    = document.querySelector('.hero-sky');
 const navLogoLink  = document.querySelector('.nav-logo-link');
 const navIdleWords = document.querySelector('.nav-idle-words');
 
+const shutterWrap = document.getElementById('shutterWrap');
+
+function fireShutter(onComplete) {
+  if (!shutterWrap) { onComplete && onComplete(); return; }
+  shutterWrap.classList.add('closing');
+  const totalDuration = 380 + (7 * 40) + 60;
+  setTimeout(() => {
+    shutterWrap.style.display = 'none';
+    onComplete && onComplete();
+  }, totalDuration);
+}
+
 if (sessionStorage.getItem('loaderSeen')) {
   loaderEl.style.display = 'none';
   if (heroLogoEl) { heroLogoEl.style.display = 'block'; heroLogoEl.style.opacity = '1'; }
@@ -5448,6 +5511,7 @@ if (sessionStorage.getItem('loaderSeen')) {
   if (heroEyebrow)  { heroEyebrow.style.opacity  = '1'; heroEyebrow.style.transform  = 'translateY(0)'; heroEyebrow.style.animation  = 'none'; }
   if (heroSubtitle) { heroSubtitle.style.opacity = '1'; heroSubtitle.style.transform = 'translateY(0)'; heroSubtitle.style.animation = 'none'; }
   if (heroActions)  { heroActions.style.opacity  = '1'; heroActions.style.transform  = 'translateY(0)'; heroActions.style.animation  = 'none'; }
+  setTimeout(() => fireShutter(), 200);
 } else {
   sessionStorage.setItem('loaderSeen', 'true');
   setTimeout(() => {
@@ -5456,7 +5520,11 @@ if (sessionStorage.getItem('loaderSeen')) {
     if (heroLogoEl) heroLogoEl.style.display = 'block';
     setTimeout(() => { if (heroLogoEl) heroLogoEl.classList.add('visible'); }, 400);
     setTimeout(() => { heroSkyEl.classList.add('settled'); }, 2500);
-    setTimeout(() => { loaderLogoEl.classList.add('gone'); loaderEl.style.display = 'none'; }, 3200);
+    setTimeout(() => {
+      loaderLogoEl.classList.add('gone');
+      loaderEl.style.display = 'none';
+      fireShutter();
+    }, 3200);
   }, 4200);
 }
 
