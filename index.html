@@ -4313,9 +4313,9 @@ document.addEventListener('DOMContentLoaded', function() {
   renderCard(card1, currentSet[1], true,  false, 1);
   renderCard(card2, currentSet[2], false, false, 2);
   
-  setInterval(() => { currentSet[0] = (currentSet[0] + 3) % allPackages.length; renderCard(card0, currentSet[0], false, true, 0); }, 6000);
-  setTimeout(() => { setInterval(() => { currentSet[1] = (currentSet[1] + 3) % allPackages.length; renderCard(card1, currentSet[1], true, true, 1); }, 6000); }, 2000);
-  setTimeout(() => { setInterval(() => { currentSet[2] = (currentSet[2] + 3) % allPackages.length; renderCard(card2, currentSet[2], false, true, 2); }, 6000); }, 4000);
+  setInterval(() => { currentSet[0] = (currentSet[0] + 3) % allPackages.length; renderCard(card0, currentSet[0], false, true, 0); }, 18000);
+  setTimeout(() => { setInterval(() => { currentSet[1] = (currentSet[1] + 3) % allPackages.length; renderCard(card1, currentSet[1], true, true, 1); }, 18000); }, 6000);
+  setTimeout(() => { setInterval(() => { currentSet[2] = (currentSet[2] + 3) % allPackages.length; renderCard(card2, currentSet[2], false, true, 2); }, 18000); }, 12000);
 });
 
 // DESTINATIONS SLIDESHOW
