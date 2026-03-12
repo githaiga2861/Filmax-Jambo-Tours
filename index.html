@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" style="scroll-behavior: auto;">
+<html lang="en" style="scroll-behavior: auto;" onbeforeunload="window.scrollTo(0,0)">
 <head>
+<script>window.scrollTo(0,0);document.documentElement.scrollTop=0;</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Filmax Jamb🐾 Tours — Premium Kenyan Safaris</title>
@@ -5518,7 +5519,7 @@ nav.scrolled .nav-brand-idle {
 </section>
     
       <!-- INLINE QUIZ -->
-<section id="inline-quiz" style="background: var(--black); padding: 120px 0;">
+<section id="inline-quiz" data-noscroll="true" style="background: var(--black); padding: 120px 0;">
   <div class="container">
 
     <div class="reveal" style="text-align:center; margin-bottom: 64px;">
@@ -5871,10 +5872,16 @@ nav.scrolled .nav-brand-idle {
 function closeQuiz() {
     sessionStorage.setItem('quizDone', 'true');
     document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
     overlay.classList.add('hiding');
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
     setTimeout(() => {
       overlay.style.display = 'none';
-      window.scrollTo({ top: 0, behavior: 'instant' });
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
     }, 600);
   }
 
@@ -5882,14 +5889,21 @@ function closeQuiz() {
 
   // Show after loader
 function initQuiz() {
-    // Silently scroll back to top before showing overlay
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    // Triple-lock scroll to top before overlay appears
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
     document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
     overlay.style.display = 'flex';
     renderStep(0);
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         overlay.classList.add('visible');
+        // Enforce top one more time after paint
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
       });
     });
   }
@@ -5934,11 +5948,17 @@ toggle.addEventListener('click', () => {
     }
   });
 })();
-    // Force page to always start at top on load
-if (window.location.hash) {
-  history.replaceState(null, null, window.location.pathname);
-}
-window.scrollTo({ top: 0, behavior: 'instant' });
+// DEFINITIVE TOP-LOCK — runs before anything else
+(function () {
+  // Strip any hash from URL immediately
+  if (window.location.hash) {
+    history.replaceState(null, null, window.location.pathname + window.location.search);
+  }
+  // Force scroll to top instantly
+  window.scrollTo(0, 0);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+})();
     
 const loaderEl     = document.getElementById('loader');
 const loaderLogoEl = document.querySelector('.loader-logo');
@@ -5986,11 +6006,23 @@ if (sessionStorage.getItem('loaderSeen')) {
   }, 4200);
 }
 
-// Guarantee top position after all DOM is ready
+// Lock scroll to top at every stage of page lifecycle
+document.addEventListener('DOMContentLoaded', () => {
+  window.scrollTo(0, 0);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+});
+
 window.addEventListener('load', () => {
-  setTimeout(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
-  }, 0);
+  window.scrollTo(0, 0);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+});
+
+window.addEventListener('beforeunload', () => {
+  window.scrollTo(0, 0);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
 });
     
 // Hero logo flies to nav on scroll
