@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="scroll-behavior: auto;">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -5757,6 +5757,12 @@ toggle.addEventListener('click', () => {
     }
   });
 })();
+    // Force page to always start at top on load
+if (window.location.hash) {
+  history.replaceState(null, null, window.location.pathname);
+}
+window.scrollTo({ top: 0, behavior: 'instant' });
+    
 const loaderEl     = document.getElementById('loader');
 const loaderLogoEl = document.querySelector('.loader-logo');
 const heroLogoEl   = document.getElementById('hero-logo');
@@ -5803,6 +5809,13 @@ if (sessionStorage.getItem('loaderSeen')) {
   }, 4200);
 }
 
+// Guarantee top position after all DOM is ready
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, 0);
+});
+    
 // Hero logo flies to nav on scroll
 let hasFlown = false;
 let heroStartRect = null;
