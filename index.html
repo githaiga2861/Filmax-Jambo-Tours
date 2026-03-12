@@ -167,22 +167,26 @@ body.light-mode #hero-logo {
       brightness(1.02);
   }
 
-  body.light-mode .hero-eyebrow {
+body.light-mode .hero-eyebrow {
     text-shadow:
-      0 0 4px rgba(60,35,0,0.99),
-      0 0 12px rgba(100,65,0,0.95),
-      0 0 28px rgba(154,111,0,0.75),
-      0 0 55px rgba(154,111,0,0.35),
-      0 2px 6px rgba(0,0,0,0.8);
+      0 0 2px rgba(255,255,255,0.99),
+      0 0 4px rgba(255,220,80,0.98),
+      0 0 8px rgba(212,175,55,0.99),
+      0 0 18px rgba(180,130,0,0.95),
+      0 0 36px rgba(154,111,0,0.8),
+      0 0 65px rgba(120,80,0,0.5),
+      0 2px 4px rgba(0,0,0,0.95);
   }
 
   body.light-mode .hero-subtitle {
     text-shadow:
-      0 0 5px rgba(60,35,0,0.98),
-      0 0 14px rgba(100,65,0,0.88),
-      0 0 32px rgba(154,111,0,0.6),
-      0 0 60px rgba(154,111,0,0.25),
-      0 2px 8px rgba(0,0,0,0.75);
+      0 0 2px rgba(255,255,255,0.95),
+      0 0 5px rgba(255,220,80,0.92),
+      0 0 12px rgba(212,175,55,0.9),
+      0 0 24px rgba(180,130,0,0.8),
+      0 0 48px rgba(154,111,0,0.55),
+      0 0 80px rgba(120,80,0,0.3),
+      0 2px 6px rgba(0,0,0,0.9);
   }
 
 body.light-mode .nav-logo-img {
@@ -200,27 +204,70 @@ body.light-mode .nav-logo-img {
       drop-shadow(0 0 40px rgba(154,111,0,0.5));
   }}
 
-  body.light-mode .hero-actions .btn-primary {
+body.light-mode .hero-actions .btn-primary {
+    background: var(--gold) !important;
+    color: #080808 !important;
+    border-color: var(--gold) !important;
     box-shadow:
-      0 8px 32px rgba(100,65,0,0.55),
-      0 2px 8px rgba(0,0,0,0.35);
+      0 0 0 1px rgba(212,175,55,0.4),
+      0 8px 32px rgba(100,65,0,0.45),
+      0 2px 8px rgba(0,0,0,0.25);
+    -webkit-text-fill-color: #080808 !important;
+    background-clip: unset !important;
+    -webkit-background-clip: unset !important;
+    font-family: inherit;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-size: 10px;
+    transition:
+      background 0.4s ease,
+      box-shadow 0.4s ease,
+      transform 0.3s ease,
+      letter-spacing 0.4s ease;
+  }
+
+  body.light-mode .hero-actions .btn-primary:hover {
+    background: transparent !important;
+    color: var(--gold) !important;
+    -webkit-text-fill-color: var(--gold) !important;
+    border-color: var(--gold) !important;
+    letter-spacing: 5px;
+    box-shadow:
+      0 0 0 1px rgba(212,175,55,0.6),
+      0 12px 40px rgba(100,65,0,0.5),
+      0 4px 16px rgba(0,0,0,0.3);
   }
 
   body.light-mode .hero-actions .btn-ghost {
-    border-color: rgba(100,65,0,0.55);
-    color: #5a3800;
-    text-shadow:
-      0 0 8px rgba(60,35,0,0.7),
-      0 1px 4px rgba(0,0,0,0.4);
+    background: transparent !important;
+    border-color: rgba(212,175,55,0.55) !important;
+    color: var(--gold) !important;
+    -webkit-text-fill-color: var(--gold) !important;
+    background-clip: unset !important;
+    -webkit-background-clip: unset !important;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-size: 10px;
+    transition:
+      background 0.4s ease,
+      border-color 0.4s ease,
+      letter-spacing 0.4s ease,
+      box-shadow 0.4s ease;
   }
 
   body.light-mode .hero-actions .btn-ghost:hover {
-    border-color: var(--gold);
-    background: rgba(154,111,0,0.1);
+    background: var(--gold) !important;
+    color: #080808 !important;
+    -webkit-text-fill-color: #080808 !important;
+    border-color: var(--gold) !important;
+    letter-spacing: 5px;
+    box-shadow:
+      0 0 0 1px rgba(212,175,55,0.4),
+      0 8px 32px rgba(100,65,0,0.45);
   }
 
   body.light-mode .scroll-cue span {
-    color: #3a2810;
+    color: rgba(240,236,228,0.7);
     text-shadow:
       0 0 8px rgba(60,35,0,0.7),
       0 1px 4px rgba(0,0,0,0.5);
