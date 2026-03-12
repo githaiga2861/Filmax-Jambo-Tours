@@ -38,29 +38,29 @@
   }
 
   /* Custom Cursor */
-  .cursor {
-    width: 12px; height: 12px;
-    background: var(--gold);
-    border-radius: 50%;
-    position: fixed;
-    top: 0; left: 0;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
-    mix-blend-mode: difference;
-  }
-  .cursor-ring {
-    width: 40px; height: 40px;
-    border: 1px solid rgba(212,175,55,0.5);
-    border-radius: 50%;
-    position: fixed;
-    top: 0; left: 0;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: transform 0.15s ease-out, width 0.4s, height 0.4s, opacity 0.3s;
-  }
+.cursor {
+  width: 12px; height: 12px;
+  background: var(--gold);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 999999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+  mix-blend-mode: difference;
+}
+.cursor-ring {
+  width: 40px; height: 40px;
+  border: 1px solid rgba(212,175,55,0.5);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 999998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease-out, width 0.4s, height 0.4s, opacity 0.3s;
+}
   body:hover .cursor-ring { opacity: 1; }
 
   /* Scrollbar */
@@ -2083,6 +2083,14 @@ nav.scrolled .nav-brand-idle {
   padding: 8px 4px;
   transition: color 0.3s;
 }
+.quiz-option,
+.quiz-btn-next,
+.quiz-btn-back,
+.quiz-enter-btn,
+.quiz-result-link,
+#quiz-overlay * {
+  cursor: none !important;
+}  
 .quiz-skip:hover { color: var(--gold); }
 .quiz-skip::after {
   content: '';
