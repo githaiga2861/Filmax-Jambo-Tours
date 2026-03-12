@@ -5366,18 +5366,23 @@ nav.scrolled .nav-brand-idle {
     document.getElementById('quizEnter').addEventListener('click', closeQuiz);
   }
 
-  function closeQuiz() {
+function closeQuiz() {
     sessionStorage.setItem('quizDone', 'true');
+    document.body.style.overflow = '';
     overlay.classList.add('hiding');
     setTimeout(() => {
       overlay.style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }, 600);
   }
 
   skipBtn.addEventListener('click', closeQuiz);
 
   // Show after loader
-  function initQuiz() {
+function initQuiz() {
+    // Silently scroll back to top before showing overlay
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    document.body.style.overflow = 'hidden';
     overlay.style.display = 'flex';
     renderStep(0);
     requestAnimationFrame(() => {
@@ -5390,7 +5395,7 @@ nav.scrolled .nav-brand-idle {
   if (sessionStorage.getItem('loaderSeen')) {
     setTimeout(initQuiz, 400);
   } else {
-    setTimeout(initQuiz, 5200);
+    setTimeout(initQuiz, 5800);
   }
 
 })();  
