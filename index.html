@@ -2762,43 +2762,6 @@ nav.scrolled .nav-brand-idle {
     padding: 60px 0 40px;
   }
 
-  .footer-inner {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 60px;
-    margin-bottom: 60px;
-  }
-
-  .footer-brand h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--gold);
-    margin-bottom: 16px;
-  }
-  .footer-brand p {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.8;
-    max-width: 280px;
-  }
-
-  .footer-col h4 {
-    font-size: 10px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 20px;
-  }
-  .footer-col a {
-    display: block;
-    font-size: 13px;
-    color: var(--muted);
-    text-decoration: none;
-    margin-bottom: 10px;
-    transition: color 0.3s;
-  }
-  .footer-col a:hover { color: var(--text); }
 
   .footer-bottom {
     border-top: 1px solid rgba(255,255,255,0.04);
@@ -5422,31 +5385,34 @@ nav.scrolled .nav-brand-idle {
 <!-- FOOTER -->
 <footer>
   <div class="container">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <h2>Filmax Jambo Tours</h2>
-        <p>Kenya's most exclusive safari house. Crafting extraordinary wilderness encounters for the world's most discerning travellers since 2025.</p>
-        <div class="divider" style="margin-top: 24px;"></div>
+    <div class="footer-bottom" style="
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    ">
+      <div style="display:flex; align-items:center; gap:32px; flex-wrap:wrap;">
+        <img
+          src="assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.webp"
+          alt="Filmax Jambo Tours"
+          style="height:44px; width:auto; opacity:0.85; filter:drop-shadow(0 0 8px rgba(212,175,55,0.3));"
+        >
+        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+          <a href="#highlights" style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;cursor:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Safaris</a>
+          <a href="#wildlife"   style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;cursor:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Destinations</a>
+          <a href="#packages"   style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;cursor:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Packages</a>
+          <a href="#gallery"    style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;cursor:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Gallery</a>
+          <a href="#blog"       style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;cursor:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Journal</a>
+          <a href="#contact"    style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;cursor:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Contact</a>
+        </div>
       </div>
-      <div class="footer-col">
-        <h4>Explore</h4>
-        <a href="#wildlife">Destinations</a>
-        <a href="#packages">Packages</a>
-        <a href="#testimonials">About</a>
-        <a href="#contact">Contact</a>
+      <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
+        <span style="font-size:11px;color:var(--muted);">© 2025 Filmax Jambo Tours · All rights reserved</span>
+        <span style="font-size:10px;color:var(--muted);letter-spacing:1px;">Crafted with passion in Nairobi 🌍</span>
       </div>
-      </div>
-      <div class="footer-col">
-        <h4>Destinations</h4>
-        <a href="packages.html?destination=maasai-mara">Maasai Mara</a>    
-        <a href="packages.html?destination=amboseli">Amboseli</a>
-        <a href="packages.html?destination=tsavo">Tsavo</a>
-        <a href="packages.html?destination=diani-beach">Diani Coast</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2025 Filmax Jambo Tours · All rights reserved</span>
-      <span>Crafted with passion in Nairobi 🌍</span>
     </div>
   </div>
 </footer>
