@@ -2012,7 +2012,448 @@ nav.scrolled .nav-brand-idle {
     .wildlife-mosaic { grid-template-columns: 1fr; grid-template-rows: repeat(5, 220px); }
     nav.scrolled { padding: 14px 24px; }
   }
+/* ============================= */
+/* QUESTIONNAIRE OVERLAY         */
+/* ============================= */
 
+#quiz-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(4, 4, 4, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+#quiz-overlay.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+#quiz-overlay.hiding {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.quiz-box {
+  background: #0f0f0f;
+  border: 1px solid rgba(212,175,55,0.18);
+  max-width: 620px;
+  width: 100%;
+  padding: 52px 52px 44px;
+  position: relative;
+  box-shadow:
+    0 40px 120px rgba(0,0,0,0.9),
+    inset 0 1px 0 rgba(212,175,55,0.08);
+  transform: translateY(24px);
+  transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+
+#quiz-overlay.visible .quiz-box {
+  transform: translateY(0);
+}
+
+.quiz-top-line {
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+}
+
+.quiz-skip {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: none;
+  padding: 8px 4px;
+  transition: color 0.3s;
+}
+.quiz-skip:hover { color: var(--gold); }
+.quiz-skip::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transition: transform 0.3s;
+  transform-origin: left;
+}
+.quiz-skip:hover::after { transform: scaleX(1); }
+
+.quiz-progress-bar {
+  width: 100%;
+  height: 1px;
+  background: rgba(212,175,55,0.1);
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.quiz-progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--amber), var(--gold));
+  transition: width 0.6s cubic-bezier(0.22,1,0.36,1);
+  position: relative;
+}
+
+.quiz-progress-fill::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 5px; height: 5px;
+  background: var(--gold);
+  rotate: 45deg;
+  box-shadow: 0 0 6px rgba(212,175,55,0.7);
+}
+
+.quiz-step-label {
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 14px;
+  opacity: 0.8;
+}
+
+.quiz-question {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+.quiz-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+/* Text input */
+.quiz-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(212,175,55,0.25);
+  color: var(--text);
+  font-family: 'Jost', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  padding: 12px 0;
+  outline: none;
+  transition: border-color 0.3s;
+  margin-bottom: 8px;
+}
+.quiz-input:focus { border-bottom-color: var(--gold); }
+.quiz-input::placeholder {
+  color: rgba(138,128,116,0.5);
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+/* Multiple choice options */
+.quiz-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.quiz-options.single-col {
+  grid-template-columns: 1fr;
+}
+
+.quiz-option {
+  background: transparent;
+  border: 1px solid rgba(212,175,55,0.12);
+  color: var(--muted);
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 16px 20px;
+  text-align: left;
+  cursor: none;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, color 0.3s, background 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quiz-option::before {
+  content: '';
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgba(212,175,55,0.3);
+  flex-shrink: 0;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.quiz-option.selected {
+  border-color: rgba(212,175,55,0.6);
+  color: var(--gold);
+  background: rgba(212,175,55,0.06);
+}
+
+.quiz-option.selected::before {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+.quiz-option::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,0.04) 50%,
+    transparent 100%
+  );
+  transform: skewX(-15deg);
+  pointer-events: none;
+}
+
+.quiz-option:hover::after {
+  animation: optionShine 0.5s ease forwards;
+}
+
+@keyframes optionShine {
+  0%   { left: -100%; }
+  100% { left: 160%; }
+}
+
+.quiz-option:hover:not(.selected) {
+  border-color: rgba(212,175,55,0.3);
+  color: var(--text);
+}
+
+/* Navigation */
+.quiz-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 36px;
+}
+
+.quiz-btn-next {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  padding: 16px 40px;
+  background: linear-gradient(135deg, var(--gold), var(--amber));
+  color: #080808;
+  border: none;
+  cursor: none;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.quiz-btn-next.ready {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.quiz-btn-next.ready:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 36px rgba(212,175,55,0.35);
+}
+
+.quiz-btn-next::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.18);
+  transform: translateX(-100%) skewX(-15deg);
+  transition: transform 0.4s;
+}
+.quiz-btn-next.ready:hover::before {
+  transform: translateX(200%) skewX(-15deg);
+}
+
+.quiz-btn-back {
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: color 0.3s;
+  padding: 0;
+}
+.quiz-btn-back::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.3s;
+}
+.quiz-btn-back:hover { color: var(--gold); }
+.quiz-btn-back:hover::before { width: 30px; }
+
+/* Results */
+.quiz-results-intro {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.quiz-results-intro .quiz-question {
+  margin-bottom: 10px;
+}
+
+.quiz-result-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212,175,55,0.3) transparent;
+}
+
+.quiz-result-card {
+  border: 1px solid rgba(212,175,55,0.15);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: rgba(212,175,55,0.03);
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.quiz-result-card:hover {
+  border-color: rgba(212,175,55,0.4);
+  background: rgba(212,175,55,0.07);
+}
+
+.quiz-result-info { flex: 1; }
+
+.quiz-result-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.quiz-result-meta {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.quiz-result-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.quiz-result-link {
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #080808;
+  background: var(--gold);
+  padding: 10px 18px;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: background 0.3s;
+  cursor: none;
+}
+.quiz-result-link:hover { background: var(--gold-light); }
+
+.quiz-enter-btn {
+  width: 100%;
+  text-align: center;
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  padding: 18px;
+  background: transparent;
+  border: 1px solid rgba(212,175,55,0.3);
+  color: var(--gold);
+  cursor: none;
+  margin-top: 24px;
+  transition: background 0.3s, border-color 0.3s;
+  display: block;
+}
+.quiz-enter-btn:hover {
+  background: rgba(212,175,55,0.08);
+  border-color: var(--gold);
+}
+
+/* Step transition */
+.quiz-step {
+  animation: quizFadeUp 0.45s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+
+@keyframes quizFadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .quiz-box {
+    padding: 44px 24px 36px;
+  }
+  .quiz-options {
+    grid-template-columns: 1fr;
+  }
+  .quiz-result-card {
+    flex-wrap: wrap;
+  }
+  .quiz-result-link {
+    width: 100%;
+    text-align: center;
+  }
+}
 #loader {
   position: fixed;
   inset: 0;
@@ -2132,7 +2573,19 @@ nav.scrolled .nav-brand-idle {
 </style>
 </head>
 <body>
-
+  
+<!-- QUESTIONNAIRE OVERLAY -->
+<div id="quiz-overlay">
+  <div class="quiz-box">
+    <div class="quiz-top-line"></div>
+    <button class="quiz-skip" id="quizSkip">Skip</button>
+    <div class="quiz-progress-bar">
+      <div class="quiz-progress-fill" id="quizProgress" style="width:20%"></div>
+    </div>
+    <div id="quizStepContainer"></div>
+  </div>
+</div>
+  
 <div id="loader">
   <img class="loader-logo" src="assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.webp" alt="Filmax Jambo Tours"/>
 </div>
@@ -2966,6 +3419,252 @@ nav.scrolled .nav-brand-idle {
   </svg>
 </a>
 <script>
+// ===========================
+// QUESTIONNAIRE
+// ===========================
+(function () {
+
+  if (sessionStorage.getItem('quizDone')) return;
+
+  const overlay   = document.getElementById('quiz-overlay');
+  const container = document.getElementById('quizStepContainer');
+  const progress  = document.getElementById('quizProgress');
+  const skipBtn   = document.getElementById('quizSkip');
+
+  const steps = [
+    {
+      id: 'name',
+      type: 'text',
+      label: 'Step 1 of 5',
+      question: 'Welcome. What shall we call you?',
+      sub: 'Every great safari begins with a name.',
+      placeholder: 'Your first name',
+    },
+    {
+      id: 'vibe',
+      type: 'choice',
+      label: 'Step 2 of 5',
+      question: 'What draws you to Kenya?',
+      sub: 'Choose the experience that stirs something in you.',
+      options: [
+        { value: 'wildlife',  label: 'Wildlife & Safari' },
+        { value: 'beach',     label: 'Coast & Ocean' },
+        { value: 'adventure', label: 'Adventure & Hiking' },
+        { value: 'culture',   label: 'Culture & People' },
+      ],
+    },
+    {
+      id: 'duration',
+      type: 'choice',
+      label: 'Step 3 of 5',
+      question: 'How long is your dream escape?',
+      sub: 'We will shape the perfect rhythm around your time.',
+      options: [
+        { value: 'short',  label: '3 – 4 Days' },
+        { value: 'medium', label: '5 – 7 Days' },
+        { value: 'long',   label: '8 – 10 Days' },
+        { value: 'grand',  label: '10+ Days' },
+      ],
+    },
+    {
+      id: 'budget',
+      type: 'choice',
+      label: 'Step 4 of 5',
+      question: 'What is your comfort range?',
+      sub: 'No judgement — every budget unlocks a remarkable journey.',
+      options: [
+        { value: 'budget',    label: 'Budget  · Under $2,500' },
+        { value: 'mid-range', label: 'Mid-Range  · $2,500–$5,000' },
+        { value: 'luxury',    label: 'Luxury  · $5,000–$12,000' },
+        { value: 'ultra',     label: 'Ultra  · $12,000+' },
+      ],
+      singleCol: true,
+    },
+    {
+      id: 'travel',
+      type: 'text',
+      label: 'Step 5 of 5',
+      question: 'When are you thinking of travelling?',
+      sub: 'A rough idea helps us check availability and seasons.',
+      placeholder: 'e.g. July 2025, or "not sure yet"',
+    },
+  ];
+
+  const packagePool = [
+    { name: 'Mara Awakening',      price: '$2,800',  duration: '4 Days',   page: 'pkg-mara-awakening.html',     tier: 'mid-range', vibe: ['wildlife'],            durationKey: 'short'  },
+    { name: 'Grand Odyssey',       price: '$6,500',  duration: '7 Days',   page: 'pkg-grand-odyssey.html',      tier: 'luxury',    vibe: ['wildlife','culture'],  durationKey: 'medium' },
+    { name: 'Ultimate Kenya',      price: '$11,200', duration: '10 Days',  page: 'pkg-ultimate-kenya.html',     tier: 'luxury',    vibe: ['wildlife','adventure'], durationKey: 'long'   },
+    { name: 'Amboseli Escape',     price: '$1,950',  duration: '3 Days',   page: 'pkg-amboseli-express.html',   tier: 'budget',    vibe: ['wildlife'],            durationKey: 'short'  },
+    { name: 'Samburu Wilderness',  price: '$3,400',  duration: '5 Days',   page: 'pkg-samburu-secrets.html',    tier: 'mid-range', vibe: ['wildlife','adventure'], durationKey: 'medium' },
+    { name: 'Coastal Safari Blend',price: '$4,200',  duration: '6 Days',   page: 'pkg-safari-and-sea.html',     tier: 'mid-range', vibe: ['beach','wildlife'],    durationKey: 'medium' },
+    { name: 'Lakes & Highlands',   price: '$5,100',  duration: '8 Days',   page: 'pkg-lake-nakuru-escape.html', tier: 'mid-range', vibe: ['adventure','culture'], durationKey: 'long'   },
+    { name: 'Kenya Mastery',       price: '$14,500', duration: '12 Days',  page: 'pkg-grand-odyssey.html',      tier: 'ultra',     vibe: ['wildlife','culture'],  durationKey: 'grand'  },
+  ];
+
+  let current = 0;
+  const answers = {};
+
+  function tierMatch(pkgTier, budget) {
+    if (budget === 'ultra')     return pkgTier === 'ultra' || pkgTier === 'luxury';
+    if (budget === 'luxury')    return pkgTier === 'luxury' || pkgTier === 'mid-range';
+    if (budget === 'mid-range') return pkgTier === 'mid-range' || pkgTier === 'budget';
+    if (budget === 'budget')    return pkgTier === 'budget';
+    return true;
+  }
+
+  function getResults() {
+    const scored = packagePool.map(pkg => {
+      let score = 0;
+      if (answers.vibe     && pkg.vibe.includes(answers.vibe))           score += 3;
+      if (answers.duration && pkg.durationKey === answers.duration)       score += 2;
+      if (answers.budget   && tierMatch(pkg.tier, answers.budget))        score += 2;
+      return { ...pkg, score };
+    });
+    return scored.sort((a, b) => b.score - a.score).slice(0, 3);
+  }
+
+  function setProgress(step) {
+    progress.style.width = ((step + 1) / (steps.length + 1) * 100) + '%';
+  }
+
+  function renderStep(index) {
+    setProgress(index);
+    if (index >= steps.length) { renderResults(); return; }
+    const step = steps[index];
+    const isText   = step.type === 'text';
+    const hasAnswer = answers[step.id] !== undefined && answers[step.id] !== '';
+
+    container.innerHTML = `
+      <div class="quiz-step">
+        <span class="quiz-step-label">${step.label}</span>
+        <h2 class="quiz-question">${step.question}</h2>
+        <p class="quiz-sub">${step.sub}</p>
+        ${isText ? `
+          <input
+            class="quiz-input"
+            id="quizInput"
+            type="text"
+            placeholder="${step.placeholder}"
+            value="${answers[step.id] || ''}"
+            autocomplete="off"
+          >
+        ` : `
+          <div class="quiz-options${step.singleCol ? ' single-col' : ''}" id="quizOptions">
+            ${step.options.map(opt => `
+              <button
+                class="quiz-option${answers[step.id] === opt.value ? ' selected' : ''}"
+                data-value="${opt.value}"
+              >${opt.label}</button>
+            `).join('')}
+          </div>
+        `}
+        <div class="quiz-nav">
+          ${index > 0
+            ? `<button class="quiz-btn-back" id="quizBack">Back</button>`
+            : `<span></span>`
+          }
+          <button class="quiz-btn-next${hasAnswer ? ' ready' : ''}" id="quizNext">
+            ${index === steps.length - 1 ? 'See My Safaris' : 'Continue'}
+          </button>
+        </div>
+      </div>
+    `;
+
+    const nextBtn = document.getElementById('quizNext');
+    const backBtn = document.getElementById('quizBack');
+
+    if (isText) {
+      const input = document.getElementById('quizInput');
+      input.addEventListener('input', () => {
+        answers[step.id] = input.value.trim();
+        nextBtn.classList.toggle('ready', input.value.trim().length > 0);
+        nextBtn.style.pointerEvents = input.value.trim().length > 0 ? 'all' : 'none';
+      });
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && input.value.trim().length > 0) advance();
+      });
+      setTimeout(() => input.focus(), 100);
+    } else {
+      document.getElementById('quizOptions').addEventListener('click', e => {
+        const btn = e.target.closest('.quiz-option');
+        if (!btn) return;
+        document.querySelectorAll('.quiz-option').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        answers[step.id] = btn.dataset.value;
+        nextBtn.classList.add('ready');
+        nextBtn.style.pointerEvents = 'all';
+        setTimeout(() => advance(), 380);
+      });
+    }
+
+    if (nextBtn) nextBtn.addEventListener('click', () => { if (nextBtn.classList.contains('ready')) advance(); });
+    if (backBtn) backBtn.addEventListener('click', () => { current--; renderStep(current); });
+  }
+
+  function advance() {
+    current++;
+    renderStep(current);
+  }
+
+  function renderResults() {
+    setProgress(steps.length);
+    const results = getResults();
+    const name    = answers.name ? answers.name.split(' ')[0] : 'Explorer';
+
+    container.innerHTML = `
+      <div class="quiz-step">
+        <div class="quiz-results-intro">
+          <span class="quiz-step-label">Curated For You</span>
+          <h2 class="quiz-question">Your Safari Awaits,<br>${name}.</h2>
+          <p class="quiz-sub">Based on your answers, these experiences were made for you.</p>
+        </div>
+        <div class="quiz-result-cards">
+          ${results.map(pkg => `
+            <div class="quiz-result-card">
+              <div class="quiz-result-info">
+                <div class="quiz-result-name">${pkg.name}</div>
+                <div class="quiz-result-meta">${pkg.duration} · ${pkg.tier}</div>
+              </div>
+              <div class="quiz-result-price">${pkg.price}</div>
+              <a href="${pkg.page}" class="quiz-result-link">View</a>
+            </div>
+          `).join('')}
+        </div>
+        <button class="quiz-enter-btn" id="quizEnter">Enter the Full Experience</button>
+      </div>
+    `;
+
+    document.getElementById('quizEnter').addEventListener('click', closeQuiz);
+  }
+
+  function closeQuiz() {
+    sessionStorage.setItem('quizDone', 'true');
+    overlay.classList.add('hiding');
+    setTimeout(() => {
+      overlay.style.display = 'none';
+    }, 600);
+  }
+
+  skipBtn.addEventListener('click', closeQuiz);
+
+  // Show after loader
+  function initQuiz() {
+    overlay.style.display = 'flex';
+    renderStep(0);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        overlay.classList.add('visible');
+      });
+    });
+  }
+
+  if (sessionStorage.getItem('loaderSeen')) {
+    setTimeout(initQuiz, 400);
+  } else {
+    setTimeout(initQuiz, 5200);
+  }
+
+})();  
 const loaderEl     = document.getElementById('loader');
 const loaderLogoEl = document.querySelector('.loader-logo');
 const heroLogoEl   = document.getElementById('hero-logo');
