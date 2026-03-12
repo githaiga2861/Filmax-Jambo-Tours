@@ -4067,6 +4067,31 @@ nav.scrolled .nav-brand-idle {
     </div>
   </div>
 </section>
+  
+  <!-- INLINE QUIZ -->
+<section id="inline-quiz" style="background: var(--black); padding: 120px 0;">
+  <div class="container">
+
+    <div class="reveal" style="text-align:center; margin-bottom: 64px;">
+      <div class="gold-line"><span>Still Deciding?</span></div>
+      <span class="section-label">Safari Matchmaker</span>
+      <h2 class="section-title">Let Us Find Your <br><em style="color: var(--gold);">Perfect Safari</em></h2>
+      <p class="section-sub" style="margin: 0 auto; text-align:center;">Five considered questions. Three curated matches. Your Kenya, precisely yours.</p>
+    </div>
+
+    <div class="reveal" style="display:flex; justify-content:center;">
+      <div class="quiz-box" style="position:relative; transform:none; max-width:640px; width:100%;">
+        <div class="quiz-top-line"></div>
+        <div class="quiz-progress-bar">
+          <div class="quiz-progress-fill" id="iqProgress" style="width:20%"></div>
+        </div>
+        <div id="iqStepContainer"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <div style="
   width: 100%;
   height: 1px;
@@ -5028,6 +5053,213 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(() => { setInterval(() => { currentSet[2] = (currentSet[2] + 3) % allPackages.length; renderCard(card2, currentSet[2], false, true, 2); }, 18000); }, 12000);
 });
 
+  // INLINE QUIZ
+(function () {
+  const container = document.getElementById('iqStepContainer');
+  const progress  = document.getElementById('iqProgress');
+  if (!container) return;
+
+  const steps = [
+    {
+      id: 'name',
+      type: 'text',
+      label: 'Step 1 of 5',
+      question: 'What shall we call you?',
+      sub: 'Every great safari begins with a name.',
+      placeholder: 'Your first name',
+    },
+    {
+      id: 'vibe',
+      type: 'choice',
+      label: 'Step 2 of 5',
+      question: 'What draws you to Kenya?',
+      sub: 'Choose the experience that stirs something in you.',
+      options: [
+        { value: 'wildlife',  label: 'Wildlife & Safari' },
+        { value: 'beach',     label: 'Coast & Ocean' },
+        { value: 'adventure', label: 'Adventure & Hiking' },
+        { value: 'culture',   label: 'Culture & People' },
+      ],
+    },
+    {
+      id: 'duration',
+      type: 'choice',
+      label: 'Step 3 of 5',
+      question: 'How long is your dream escape?',
+      sub: 'We will shape the perfect rhythm around your time.',
+      options: [
+        { value: 'short',  label: '3 – 4 Days' },
+        { value: 'medium', label: '5 – 7 Days' },
+        { value: 'long',   label: '8 – 10 Days' },
+        { value: 'grand',  label: '10+ Days' },
+      ],
+    },
+    {
+      id: 'budget',
+      type: 'choice',
+      label: 'Step 4 of 5',
+      question: 'What is your comfort range?',
+      sub: 'No judgement — every budget unlocks a remarkable journey.',
+      options: [
+        { value: 'budget',    label: 'Budget  · Under $2,500' },
+        { value: 'mid-range', label: 'Mid-Range  · $2,500–$5,000' },
+        { value: 'luxury',    label: 'Luxury  · $5,000–$12,000' },
+        { value: 'ultra',     label: 'Ultra  · $12,000+' },
+      ],
+      singleCol: true,
+    },
+    {
+      id: 'travel',
+      type: 'text',
+      label: 'Step 5 of 5',
+      question: 'When are you thinking of travelling?',
+      sub: 'A rough idea helps us check availability and seasons.',
+      placeholder: 'e.g. July 2025, or "not sure yet"',
+    },
+  ];
+
+  const packagePool = [
+    { name: 'Mara Awakening',       price: '$2,800',  duration: '4 Days',  page: 'pkg-mara-awakening.html',     tier: 'mid-range', vibe: ['wildlife'],             durationKey: 'short'  },
+    { name: 'Grand Odyssey',        price: '$6,500',  duration: '7 Days',  page: 'pkg-grand-odyssey.html',      tier: 'luxury',    vibe: ['wildlife','culture'],   durationKey: 'medium' },
+    { name: 'Ultimate Kenya',       price: '$11,200', duration: '10 Days', page: 'pkg-ultimate-kenya.html',     tier: 'luxury',    vibe: ['wildlife','adventure'],  durationKey: 'long'   },
+    { name: 'Amboseli Escape',      price: '$1,950',  duration: '3 Days',  page: 'pkg-amboseli-express.html',   tier: 'budget',    vibe: ['wildlife'],             durationKey: 'short'  },
+    { name: 'Samburu Wilderness',   price: '$3,400',  duration: '5 Days',  page: 'pkg-samburu-secrets.html',    tier: 'mid-range', vibe: ['wildlife','adventure'], durationKey: 'medium' },
+    { name: 'Coastal Safari Blend', price: '$4,200',  duration: '6 Days',  page: 'pkg-safari-and-sea.html',     tier: 'mid-range', vibe: ['beach','wildlife'],     durationKey: 'medium' },
+    { name: 'Lakes & Highlands',    price: '$5,100',  duration: '8 Days',  page: 'pkg-lake-nakuru-escape.html', tier: 'mid-range', vibe: ['adventure','culture'],  durationKey: 'long'   },
+    { name: 'Kenya Mastery',        price: '$14,500', duration: '12 Days', page: 'pkg-grand-odyssey.html',      tier: 'ultra',     vibe: ['wildlife','culture'],   durationKey: 'grand'  },
+  ];
+
+  let current = 0;
+  const answers = {};
+
+  function tierMatch(pkgTier, budget) {
+    if (budget === 'ultra')     return pkgTier === 'ultra'    || pkgTier === 'luxury';
+    if (budget === 'luxury')    return pkgTier === 'luxury'   || pkgTier === 'mid-range';
+    if (budget === 'mid-range') return pkgTier === 'mid-range'|| pkgTier === 'budget';
+    if (budget === 'budget')    return pkgTier === 'budget';
+    return true;
+  }
+
+  function getResults() {
+    return packagePool.map(pkg => {
+      let score = 0;
+      if (answers.vibe     && pkg.vibe.includes(answers.vibe))     score += 3;
+      if (answers.duration && pkg.durationKey === answers.duration) score += 2;
+      if (answers.budget   && tierMatch(pkg.tier, answers.budget))  score += 2;
+      return { ...pkg, score };
+    }).sort((a,b) => b.score - a.score).slice(0,3);
+  }
+
+  function setProgress(step) {
+    progress.style.width = ((step + 1) / (steps.length + 1) * 100) + '%';
+  }
+
+  function renderStep(index) {
+    setProgress(index);
+    if (index >= steps.length) { renderResults(); return; }
+    const step      = steps[index];
+    const isText    = step.type === 'text';
+    const hasAnswer = answers[step.id] !== undefined && answers[step.id] !== '';
+
+    container.innerHTML = `
+      <div class="quiz-step">
+        <span class="quiz-step-label">${step.label}</span>
+        <h2 class="quiz-question">${step.question}</h2>
+        <p class="quiz-sub">${step.sub}</p>
+        ${isText ? `
+          <input class="quiz-input" id="iqInput" type="text"
+            placeholder="${step.placeholder}"
+            value="${answers[step.id] || ''}"
+            autocomplete="off">
+        ` : `
+          <div class="quiz-options${step.singleCol ? ' single-col' : ''}" id="iqOptions">
+            ${step.options.map(opt => `
+              <button class="quiz-option${answers[step.id] === opt.value ? ' selected' : ''}"
+                data-value="${opt.value}">${opt.label}</button>
+            `).join('')}
+          </div>
+        `}
+        <div class="quiz-nav">
+          ${index > 0
+            ? `<button class="quiz-btn-back" id="iqBack">Back</button>`
+            : `<span></span>`}
+          <button class="quiz-btn-next${hasAnswer ? ' ready' : ''}" id="iqNext">
+            ${index === steps.length - 1 ? 'See My Safaris' : 'Continue'}
+          </button>
+        </div>
+      </div>
+    `;
+
+    const nextBtn = document.getElementById('iqNext');
+    const backBtn = document.getElementById('iqBack');
+
+    if (isText) {
+      const input = document.getElementById('iqInput');
+      input.addEventListener('input', () => {
+        answers[step.id] = input.value.trim();
+        const ready = input.value.trim().length > 0;
+        nextBtn.classList.toggle('ready', ready);
+        nextBtn.style.pointerEvents = ready ? 'all' : 'none';
+      });
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && input.value.trim().length > 0) advance();
+      });
+      setTimeout(() => input.focus(), 100);
+    } else {
+      document.getElementById('iqOptions').addEventListener('click', e => {
+        const btn = e.target.closest('.quiz-option');
+        if (!btn) return;
+        document.querySelectorAll('#iqOptions .quiz-option').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        answers[step.id] = btn.dataset.value;
+        nextBtn.classList.add('ready');
+        nextBtn.style.pointerEvents = 'all';
+        setTimeout(() => advance(), 380);
+      });
+    }
+
+    if (nextBtn) nextBtn.addEventListener('click', () => { if (nextBtn.classList.contains('ready')) advance(); });
+    if (backBtn) backBtn.addEventListener('click', () => { current--; renderStep(current); });
+  }
+
+  function advance() { current++; renderStep(current); }
+
+  function renderResults() {
+    setProgress(steps.length);
+    const results = getResults();
+    const name    = answers.name ? answers.name.split(' ')[0] : 'Explorer';
+
+    container.innerHTML = `
+      <div class="quiz-step">
+        <div class="quiz-results-intro">
+          <span class="quiz-step-label">Curated For You</span>
+          <h2 class="quiz-question">Your Safari Awaits,<br>${name}.</h2>
+          <p class="quiz-sub">Based on your answers, these experiences were made for you.</p>
+        </div>
+        <div class="quiz-result-cards">
+          ${results.map(pkg => `
+            <div class="quiz-result-card">
+              <div class="quiz-result-info">
+                <div class="quiz-result-name">${pkg.name}</div>
+                <div class="quiz-result-meta">${pkg.duration} · ${pkg.tier}</div>
+              </div>
+              <div class="quiz-result-price">${pkg.price}</div>
+              <a href="${pkg.page}" class="quiz-result-link">View</a>
+            </div>
+          `).join('')}
+        </div>
+        <a href="#contact" class="quiz-enter-btn" id="iqContact">Speak to Our Safari Team</a>
+      </div>
+    `;
+
+    document.getElementById('iqContact').addEventListener('click', () => {
+      document.querySelector('#contact').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
+  renderStep(0);
+})();
+  
   // GALLERY LIGHTBOX
 (function () {
   const items    = Array.from(document.querySelectorAll('.gallery-item'));
