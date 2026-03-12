@@ -2118,6 +2118,512 @@ nav.scrolled .nav-brand-idle {
     font-size: 22px;
   }
 }
+  /* ============================= */
+/* GALLERY SECTION               */
+/* ============================= */
+
+#gallery {
+  background: var(--black);
+  padding: 120px 0 0;
+  overflow: hidden;
+}
+
+.gallery-intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 72px;
+}
+
+.gallery-intro-right {
+  max-width: 320px;
+  text-align: right;
+}
+
+.gallery-intro-right p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-style: italic;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.gallery-count {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px;
+  font-weight: 300;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(212,175,55,0.2);
+  line-height: 1;
+  display: block;
+}
+
+/* Masonry grid */
+.gallery-masonry {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(3, 220px);
+  gap: 3px;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  cursor: none;
+  background: var(--charcoal);
+}
+
+/* Grid placement — cinematic asymmetric layout */
+.gallery-item:nth-child(1) { grid-column: 1 / 6;  grid-row: 1 / 3; }
+.gallery-item:nth-child(2) { grid-column: 6 / 9;  grid-row: 1 / 2; }
+.gallery-item:nth-child(3) { grid-column: 9 / 13; grid-row: 1 / 2; }
+.gallery-item:nth-child(4) { grid-column: 6 / 9;  grid-row: 2 / 3; }
+.gallery-item:nth-child(5) { grid-column: 9 / 13; grid-row: 2 / 3; }
+.gallery-item:nth-child(6) { grid-column: 1 / 4;  grid-row: 3 / 4; }
+.gallery-item:nth-child(7) { grid-column: 4 / 8;  grid-row: 3 / 4; }
+.gallery-item:nth-child(8) { grid-column: 8 / 13; grid-row: 3 / 4; }
+
+/* Image */
+.gallery-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transform: scale(1.06);
+  transition:
+    transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    filter 0.9s ease;
+  filter: brightness(0.78) saturate(0.8);
+  will-change: transform;
+}
+
+.gallery-item:hover .gallery-img {
+  transform: scale(1.13);
+  filter: brightness(0.45) saturate(0.6);
+}
+
+/* Dark overlay — deepens on hover */
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(8,8,8,0.15) 0%,
+    rgba(8,8,8,0.05) 50%,
+    rgba(8,8,8,0.3) 100%
+  );
+  z-index: 1;
+  transition: background 0.9s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(8,8,8,0.55) 0%,
+    rgba(8,8,8,0.3) 50%,
+    rgba(8,8,8,0.65) 100%
+  );
+}
+
+/* Gold corner accent */
+.gallery-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 48px 48px 0 0;
+  border-color: rgba(212,175,55,0) transparent transparent transparent;
+  z-index: 4;
+  transition: border-color 0.5s ease;
+}
+
+.gallery-item:hover::before {
+  border-color: rgba(212,175,55,0.22) transparent transparent transparent;
+}
+
+/* Bottom gold line sweep */
+.gallery-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.7s cubic-bezier(0.77,0,0.175,1);
+  z-index: 4;
+}
+
+.gallery-item:hover::after {
+  transform: scaleX(1);
+}
+
+/* Content revealed on hover */
+.gallery-content {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 28px 28px 24px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.gallery-item:hover .gallery-content {
+  opacity: 1;
+}
+
+.gallery-location {
+  font-size: 8px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 8px;
+  transform: translateY(12px);
+  transition: transform 0.5s 0.05s cubic-bezier(0.22,1,0.36,1);
+  background: linear-gradient(
+    90deg,
+    var(--gold) 0%,
+    var(--gold) 30%,
+    #fff8dc 48%,
+    #fffbe8 50%,
+    #fff8dc 52%,
+    var(--gold) 70%,
+    var(--gold) 100%
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-position: 200% center;
+  animation: eyebrowShine 4s 1s ease-in-out infinite;
+}
+
+.gallery-item:hover .gallery-location {
+  transform: translateY(0);
+}
+
+.gallery-caption {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+  transform: translateY(16px);
+  transition: transform 0.55s 0.1s cubic-bezier(0.22,1,0.36,1);
+  margin-bottom: 12px;
+}
+
+.gallery-item:first-child .gallery-caption {
+  font-size: 24px;
+}
+
+.gallery-item:hover .gallery-caption {
+  transform: translateY(0);
+}
+
+.gallery-caption-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  font-style: italic;
+  color: rgba(240,236,228,0.6);
+  transform: translateY(12px);
+  transition: transform 0.55s 0.15s cubic-bezier(0.22,1,0.36,1);
+  line-height: 1.5;
+}
+
+.gallery-item:hover .gallery-caption-sub {
+  transform: translateY(0);
+}
+
+/* Magnify icon */
+.gallery-magnify {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 4;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(212,175,55,0.35);
+  background: rgba(8,8,8,0.5);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.8) rotate(-8deg);
+  transition:
+    opacity 0.4s 0.15s ease,
+    transform 0.4s 0.15s cubic-bezier(0.22,1,0.36,1);
+}
+
+.gallery-item:hover .gallery-magnify {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+/* Index number — decorative */
+.gallery-index {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  z-index: 4;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(212,175,55,0.4);
+  letter-spacing: 3px;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.4s 0.1s ease, transform 0.4s 0.1s ease;
+}
+
+.gallery-item:hover .gallery-index {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Horizontal scrolling film strip below grid */
+.gallery-strip {
+  display: flex;
+  gap: 3px;
+  margin-top: 3px;
+  overflow: hidden;
+}
+
+.gallery-strip-item {
+  flex: 0 0 auto;
+  height: 80px;
+  width: calc(100% / 8);
+  overflow: hidden;
+  position: relative;
+  cursor: none;
+  opacity: 0.4;
+  transition: opacity 0.4s, flex-basis 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+
+.gallery-strip-item:hover {
+  opacity: 1;
+  flex-basis: calc(100% / 4);
+}
+
+.gallery-strip-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.4);
+  transition: filter 0.4s;
+  display: block;
+}
+
+.gallery-strip-item:hover img {
+  filter: saturate(1);
+}
+
+/* Lightbox */
+.gallery-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 99990;
+  background: rgba(4,4,4,0.98);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  cursor: none;
+  padding: 60px 40px 80px;
+}
+
+.gallery-lightbox.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.gallery-lightbox-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1100px;
+  width: 100%;
+}
+
+.gallery-lightbox-img {
+  max-width: 100%;
+  max-height: 75vh;
+  object-fit: contain;
+  display: block;
+  transform: scale(0.96);
+  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+  box-shadow: 0 60px 160px rgba(0,0,0,0.95);
+}
+
+.gallery-lightbox.open .gallery-lightbox-img {
+  transform: scale(1);
+}
+
+.gallery-lightbox-caption {
+  margin-top: 28px;
+  text-align: center;
+}
+
+.gallery-lightbox-caption h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.gallery-lightbox-caption p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+.gallery-lightbox-top {
+  position: absolute;
+  top: -44px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.gallery-lightbox-close {
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: none;
+  border: 1px solid rgba(212,175,55,0.2);
+  padding: 8px 20px;
+  cursor: none;
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.gallery-lightbox-close:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+.gallery-lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(8,8,8,0.7);
+  border: 1px solid rgba(212,175,55,0.2);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: none;
+  transition: border-color 0.3s, background 0.3s;
+  backdrop-filter: blur(8px);
+}
+
+.gallery-lightbox-nav:hover {
+  border-color: var(--gold);
+  background: rgba(212,175,55,0.1);
+}
+
+.gallery-lightbox-prev { left: -60px; }
+.gallery-lightbox-next { right: -60px; }
+
+.gallery-lightbox-counter {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  color: rgba(212,175,55,0.4);
+  letter-spacing: 4px;
+}
+
+.gallery-lightbox-counter span {
+  color: var(--gold);
+  font-size: 18px;
+}
+
+/* Bottom CTA strip */
+.gallery-cta-strip {
+  background: var(--charcoal);
+  border-top: 1px solid var(--border);
+  padding: 40px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 3px;
+}
+
+.gallery-cta-strip p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-style: italic;
+  color: var(--muted);
+  max-width: 480px;
+  line-height: 1.6;
+}
+
+.gallery-cta-strip p em {
+  color: var(--text);
+  font-style: normal;
+}
+
+@media (max-width: 1100px) {
+  .gallery-masonry {
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(5, 180px);
+  }
+  .gallery-item:nth-child(1) { grid-column: 1 / 5;  grid-row: 1 / 3; }
+  .gallery-item:nth-child(2) { grid-column: 5 / 7;  grid-row: 1 / 2; }
+  .gallery-item:nth-child(3) { grid-column: 5 / 7;  grid-row: 2 / 3; }
+  .gallery-item:nth-child(4) { grid-column: 1 / 4;  grid-row: 3 / 4; }
+  .gallery-item:nth-child(5) { grid-column: 4 / 7;  grid-row: 3 / 4; }
+  .gallery-item:nth-child(6) { grid-column: 1 / 3;  grid-row: 4 / 5; }
+  .gallery-item:nth-child(7) { grid-column: 3 / 5;  grid-row: 4 / 5; }
+  .gallery-item:nth-child(8) { grid-column: 5 / 7;  grid-row: 4 / 5; }
+  .gallery-lightbox-prev { left: -20px; }
+  .gallery-lightbox-next { right: -20px; }
+  .gallery-intro { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .gallery-intro-right { text-align: left; max-width: 100%; }
+  .gallery-cta-strip { flex-direction: column; gap: 24px; text-align: center; padding: 32px 24px; }
+  .gallery-cta-strip p { max-width: 100%; }
+}
+
+@media (max-width: 600px) {
+  #gallery { padding: 80px 0 0; }
+  .gallery-masonry {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(5, 160px);
+  }
+  .gallery-item:nth-child(1) { grid-column: 1 / 3; grid-row: 1 / 2; }
+  .gallery-item:nth-child(2) { grid-column: 1 / 2; grid-row: 2 / 3; }
+  .gallery-item:nth-child(3) { grid-column: 2 / 3; grid-row: 2 / 3; }
+  .gallery-item:nth-child(4) { grid-column: 1 / 2; grid-row: 3 / 4; }
+  .gallery-item:nth-child(5) { grid-column: 2 / 3; grid-row: 3 / 4; }
+  .gallery-item:nth-child(6) { grid-column: 1 / 2; grid-row: 4 / 5; }
+  .gallery-item:nth-child(7) { grid-column: 2 / 3; grid-row: 4 / 5; }
+  .gallery-item:nth-child(8) { grid-column: 1 / 3; grid-row: 5 / 6; }
+  .gallery-strip { display: none; }
+  .gallery-lightbox { padding: 40px 16px 60px; }
+  .gallery-lightbox-prev { left: 0; }
+  .gallery-lightbox-next { right: 0; }
+}
   /* WhatsApp FAB */
   .whatsapp-fab {
     position: fixed;
@@ -2873,7 +3379,8 @@ nav.scrolled .nav-brand-idle {
 <a href="#wildlife" class="dropdown-link">Destinations</a>
   <a href="#packages" class="dropdown-link">Packages</a>
   <a href="#testimonials" class="dropdown-link">Testimonials</a>
-  <a href="#blog" class="dropdown-link">Journals</a>
+  <a href="#gallery" class="dropdown-link">Gallery</a>
+  <a href="#blog" class="dropdown-link">Journal</a>
   <a href="#contact" class="dropdown-link">Contact</a>
   <div class="dropdown-tagline">Kenya's most exclusive safari experience</div>
 </div>
@@ -3579,59 +4086,211 @@ nav.scrolled .nav-brand-idle {
     box-shadow: 0 0 8px rgba(212,175,55,0.6), 0 0 20px rgba(212,175,55,0.25);
   "></div>
 </div>
-  <!-- CONTACT -->
-<section id="contact">
+
+  <!-- GALLERY -->
+<section id="gallery">
   <div class="container">
-    <div class="reveal">
-      <span class="section-label">Begin Your Journey</span>
-      <h2 class="section-title">Let's Craft Your <br><em style="color: var(--gold);">Safari Story</em></h2>
-    </div>
-
-    <div class="contact-grid">
-      <div class="contact-info reveal">
-        <p>Every great expedition begins with a conversation. Tell us your vision and we will orchestrate an experience that exceeds every expectation — from the first email to your final sunset.</p>
-        <div class="contact-detail">
-          <div class="contact-detail-icon">📍</div>
-          <div class="contact-detail-text">
-            <span class="contact-detail-label">Office</span>
-            <span class="contact-detail-value">Nairobi, Kenya</span>
-          </div>
-        </div>
-        <div class="contact-detail">
-          <div class="contact-detail-icon">📞</div>
-          <div class="contact-detail-text">
-            <span class="contact-detail-label">Direct Line</span>
-            <span class="contact-detail-value">+34672304384</span>
-           </div>
-        </div>
-        <div class="contact-detail">
-          <div class="contact-detail-icon">✉️</div>
-          <div class="contact-detail-text">
-            <span class="contact-detail-label">Email</span>
-            <span class="contact-detail-value">hello@filmaxjambotours.co.ke</span>
-          </div>
-        </div>
-        <div class="contact-detail">
-          <div class="contact-detail-icon">🕐</div>
-          <div class="contact-detail-text">
-            <span class="contact-detail-label">Availability</span>
-            <span class="contact-detail-value">Mon–Sat, 8am–7pm EAT</span>
-          </div>
-        </div>
+    <div class="gallery-intro reveal">
+      <div>
+        <div class="gold-line"><span>Visual Chronicles</span></div>
+        <span class="section-label">The Kenya Edit</span>
+        <h2 class="section-title">Moments <br><em style="color: var(--gold);">Suspended in Time</em></h2>
       </div>
-
-      <div class="contact-form reveal" style="transition-delay:0.15s">
-        <input type="text" placeholder="Full Name">
-        <input type="email" placeholder="Email Address">
-        <input type="tel" placeholder="Phone / WhatsApp">
-        <textarea placeholder="Tell us your dream safari..."></textarea>
-        <button class="btn-primary" type="button" style="cursor: none;">Send Enquiry</button>
+      <div class="gallery-intro-right">
+        <p>Every frame here was lived, not staged. Kenya does not perform for the camera — it simply exists, and the extraordinary happens on its own terms.</p>
+        <span class="gallery-count">08</span>
       </div>
     </div>
   </div>
+
+  <div class="gallery-masonry reveal" id="galleryMasonry">
+
+    <div class="gallery-item" data-index="0" data-caption="Maasai Mara" data-sub="The plains that rewrote the definition of wilderness">
+      <img class="gallery-img" src="assets/maasaimara.webp" alt="Maasai Mara">
+      <div class="gallery-overlay"></div>
+      <span class="gallery-index">01 / 08</span>
+      <div class="gallery-magnify">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+          <circle cx="5.5" cy="5.5" r="4" stroke="rgba(212,175,55,0.9)" stroke-width="1"/>
+          <path d="M9 9l2.5 2.5" stroke="rgba(212,175,55,0.9)" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="gallery-content">
+        <span class="gallery-location">Maasai Mara · Kenya</span>
+        <h3 class="gallery-caption">Where Silence Has a Pulse</h3>
+        <p class="gallery-caption-sub">Two million wildebeest, one horizon, infinite possibility</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-index="1" data-caption="Diani Beach" data-sub="The Indian Ocean at its most eloquent">
+      <img class="gallery-img" src="assets/dianibeach.webp" alt="Diani Beach">
+      <div class="gallery-overlay"></div>
+      <span class="gallery-index">02 / 08</span>
+      <div class="gallery-magnify">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+          <circle cx="5.5" cy="5.5" r="4" stroke="rgba(212,175,55,0.9)" stroke-width="1"/>
+          <path d="M9 9l2.5 2.5" stroke="rgba(212,175,55,0.9)" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="gallery-content">
+        <span class="gallery-location">Diani Coast · Kenya</span>
+        <h3 class="gallery-caption">The Ocean After the Bush</h3>
+        <p class="gallery-caption-sub">Where the wilderness gives way to turquoise water</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-index="2" data-caption="Amboseli" data-sub="Kilimanjaro at dawn, elephants in the foreground">
+      <img class="gallery-img" src="assets/amboseli.webp" alt="Amboseli">
+      <div class="gallery-overlay"></div>
+      <span class="gallery-index">03 / 08</span>
+      <div class="gallery-magnify">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+          <circle cx="5.5" cy="5.5" r="4" stroke="rgba(212,175,55,0.9)" stroke-width="1"/>
+          <path d="M9 9l2.5 2.5" stroke="rgba(212,175,55,0.9)" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="gallery-content">
+        <span class="gallery-location">Amboseli · Kenya</span>
+        <h3 class="gallery-caption">The Mountain Watches</h3>
+        <p class="gallery-caption-sub">Kilimanjaro at first light, eternal and unhurried</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-index="3" data-caption="Lake Nakuru" data-sub="Flamingos, hippos and the Rift Valley in full spectacle">
+      <img class="gallery-img" src="assets/lakenakuru.webp" alt="Lake Nakuru">
+      <div class="gallery-overlay"></div>
+      <span class="gallery-index">04 / 08</span>
+      <div class="gallery-magnify">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+          <circle cx="5.5" cy="5.5" r="4" stroke="rgba(212,175,55,0.9)" stroke-width="1"/>
+          <path d="M9 9l2.5 2.5" stroke="rgba(212,175,55,0.9)" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="gallery-content">
+        <span class="gallery-location">Lake Nakuru · Rift Valley</span>
+        <h3 class="gallery-caption">Pink Horizons, Still Waters</h3>
+        <p class="gallery-caption-sub">The Rift Valley holds its breath at dusk</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-index="4" data-caption="Mount Kenya" data-sub="Africa's second summit — ancient, glacial, otherworldly">
+      <img class="gallery-img" src="assets/mountkenya.webp" alt="Mount Kenya">
+      <div class="gallery-overlay"></div>
+      <span class="gallery-index">05 / 08</span>
+      <div class="gallery-magnify">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+          <circle cx="5.5" cy="5.5" r="4" stroke="rgba(212,175,55,0.9)" stroke-width="1"/>
+          <path d="M9 9l2.5 2.5" stroke="rgba(212,175,55,0.9)" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="gallery-content">
+        <span class="gallery-location">Mount Kenya · Central Highlands</span>
+        <h3 class="gallery-caption">Above the Clouds, Beyond Time</h3>
+        <p class="gallery-caption-sub">Ancient glaciers on Africa's forgotten crown</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-index="5" data-caption="Maasai Men" data-sub="A culture as vast and enduring as the plains they inhabit">
+      <img class="gallery-img" src="assets/maasaimen.webp" alt="Maasai Culture">
+      <div class="gallery-overlay"></div>
+      <span class="gallery-index">06 / 08</span>
+      <div class="gallery-magnify">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+          <circle cx="5.5" cy="5.5" r="4" stroke="rgba(212,175,55,0.9)" stroke-width="1"/>
+          <path d="M9 9l2.5 2.5" stroke="rgba(212,175,55,0.9)" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="gallery-content">
+        <span class="gallery-location">Maasai Mara · Cultural Immersion</span>
+        <h3 class="gallery-caption">Keepers of the Land</h3>
+        <p class="gallery-caption-sub">A culture unchanged by the passage of centuries</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-index="6" data-caption="JW Marriott" data-sub="Where the luxury of refuge meets the wildness outside">
+      <img class="gallery-img" src="assets/jwmarriott.webp" alt="Luxury Lodge">
+      <div class="gallery-overlay"></div>
+      <span class="gallery-index">07 / 08</span>
+      <div class="gallery-magnify">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+          <circle cx="5.5" cy="5.5" r="4" stroke="rgba(212,175,55,0.9)" stroke-width="1"/>
+          <path d="M9 9l2.5 2.5" stroke="rgba(212,175,55,0.9)" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="gallery-content">
+        <span class="gallery-location">Nairobi · Luxury Accommodation</span>
+        <h3 class="gallery-caption">The Art of Refined Refuge</h3>
+        <p class="gallery-caption-sub">Where world-class luxury meets the Kenyan soul</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-index="7" data-caption="Giraffe Feeding" data-sub="An encounter that redefines proximity to the wild">
+      <img class="gallery-img" src="assets/girraffefeeding.webp" alt="Giraffe Feeding">
+      <div class="gallery-overlay"></div>
+      <span class="gallery-index">08 / 08</span>
+      <div class="gallery-magnify">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+          <circle cx="5.5" cy="5.5" r="4" stroke="rgba(212,175,55,0.9)" stroke-width="1"/>
+          <path d="M9 9l2.5 2.5" stroke="rgba(212,175,55,0.9)" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="gallery-content">
+        <span class="gallery-location">Nairobi Giraffe Centre · Kenya</span>
+        <h3 class="gallery-caption">Eye to Eye with the Extraordinary</h3>
+        <p class="gallery-caption-sub">A face-to-face moment that stays with you forever</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Film strip -->
+  <div class="gallery-strip" id="galleryStrip">
+    <div class="gallery-strip-item"><img src="assets/maasaimara.webp" alt=""></div>
+    <div class="gallery-strip-item"><img src="assets/dianibeach.webp" alt=""></div>
+    <div class="gallery-strip-item"><img src="assets/amboseli.webp" alt=""></div>
+    <div class="gallery-strip-item"><img src="assets/lakenakuru.webp" alt=""></div>
+    <div class="gallery-strip-item"><img src="assets/mountkenya.webp" alt=""></div>
+    <div class="gallery-strip-item"><img src="assets/maasaimen.webp" alt=""></div>
+    <div class="gallery-strip-item"><img src="assets/jwmarriott.webp" alt=""></div>
+    <div class="gallery-strip-item"><img src="assets/girraffefeeding.webp" alt=""></div>
+  </div>
+
+  <!-- CTA strip -->
+  <div class="gallery-cta-strip">
+    <p>Every image here is a promise. <em>Your story is waiting to be photographed.</em> Kenya does not disappoint those who come ready to see.</p>
+    <a href="#contact" class="btn-primary" style="cursor:none;">Begin Your Journey</a>
+  </div>
+
 </section>
+
+<!-- Gallery lightbox -->
+<div class="gallery-lightbox" id="galleryLightbox">
+  <div class="gallery-lightbox-inner">
+    <div class="gallery-lightbox-top">
+      <button class="gallery-lightbox-close" id="galleryLbClose">Close</button>
+    </div>
+    <button class="gallery-lightbox-nav gallery-lightbox-prev" id="galleryLbPrev">
+      <svg width="10" height="16" viewBox="0 0 10 16" fill="none">
+        <path d="M8 2L2 8l6 6" stroke="rgba(212,175,55,0.8)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <img class="gallery-lightbox-img" id="galleryLbImg" src="" alt="">
+    <button class="gallery-lightbox-nav gallery-lightbox-next" id="galleryLbNext">
+      <svg width="10" height="16" viewBox="0 0 10 16" fill="none">
+        <path d="M2 2l6 6-6 6" stroke="rgba(212,175,55,0.8)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <div class="gallery-lightbox-caption">
+      <h3 id="galleryLbCaption"></h3>
+      <p id="galleryLbSub"></p>
+    </div>
+    <div class="gallery-lightbox-counter">
+      <span id="galleryLbCur">1</span> / <span id="galleryLbTotal">8</span>
+    </div>
+  </div>
+</div>
   
-<!-- BLOG -->
+  <!-- BLOG -->
 <section id="blog">
   <div class="container">
     <div class="reveal">
@@ -3700,6 +4359,57 @@ nav.scrolled .nav-brand-idle {
       <a href="blog.html" class="blog-view-all-btn">View all journal entries</a>
     </div>
 
+  </div>
+</section>
+  <!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-label">Begin Your Journey</span>
+      <h2 class="section-title">Let's Craft Your <br><em style="color: var(--gold);">Safari Story</em></h2>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <p>Every great expedition begins with a conversation. Tell us your vision and we will orchestrate an experience that exceeds every expectation — from the first email to your final sunset.</p>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📍</div>
+          <div class="contact-detail-text">
+            <span class="contact-detail-label">Office</span>
+            <span class="contact-detail-value">Nairobi, Kenya</span>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📞</div>
+          <div class="contact-detail-text">
+            <span class="contact-detail-label">Direct Line</span>
+            <span class="contact-detail-value">+34672304384</span>
+           </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">✉️</div>
+          <div class="contact-detail-text">
+            <span class="contact-detail-label">Email</span>
+            <span class="contact-detail-value">hello@filmaxjambotours.co.ke</span>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">🕐</div>
+          <div class="contact-detail-text">
+            <span class="contact-detail-label">Availability</span>
+            <span class="contact-detail-value">Mon–Sat, 8am–7pm EAT</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form reveal" style="transition-delay:0.15s">
+        <input type="text" placeholder="Full Name">
+        <input type="email" placeholder="Email Address">
+        <input type="tel" placeholder="Phone / WhatsApp">
+        <textarea placeholder="Tell us your dream safari..."></textarea>
+        <button class="btn-primary" type="button" style="cursor: none;">Send Enquiry</button>
+      </div>
+    </div>
   </div>
 </section>
   
@@ -4132,7 +4842,7 @@ function animateRing() {
 }
 animateRing();
 
-document.querySelectorAll('a, button, .highlight-card, .wildlife-cell, .package-card, .quiz-option, .quiz-btn-next, .quiz-btn-back, .quiz-enter-btn, .quiz-result-link, .quiz-skip, .blog-card').forEach(el => {
+document.querySelectorAll('a, button, .highlight-card, .wildlife-cell, .package-card, .quiz-option, .quiz-btn-next, .quiz-btn-back, .quiz-enter-btn, .quiz-result-link, .quiz-skip, .blog-card, .gallery-item').forEach(el => {
   el.addEventListener('mouseenter', () => {
     cursor.style.width  = '20px'; cursor.style.height = '20px';
     ring.style.width    = '60px'; ring.style.height   = '60px';
@@ -4318,6 +5028,61 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(() => { setInterval(() => { currentSet[2] = (currentSet[2] + 3) % allPackages.length; renderCard(card2, currentSet[2], false, true, 2); }, 18000); }, 12000);
 });
 
+  // GALLERY LIGHTBOX
+(function () {
+  const items    = Array.from(document.querySelectorAll('.gallery-item'));
+  const lightbox = document.getElementById('galleryLightbox');
+  const lbImg    = document.getElementById('galleryLbImg');
+  const lbCap    = document.getElementById('galleryLbCaption');
+  const lbSub    = document.getElementById('galleryLbSub');
+  const lbClose  = document.getElementById('galleryLbClose');
+  const lbPrev   = document.getElementById('galleryLbPrev');
+  const lbNext   = document.getElementById('galleryLbNext');
+  const lbCur    = document.getElementById('galleryLbCur');
+  const lbTotal  = document.getElementById('galleryLbTotal');
+  if (!lightbox) return;
+
+  let current = 0;
+  lbTotal.textContent = items.length;
+
+  function openAt(index) {
+    current = (index + items.length) % items.length;
+    const item = items[current];
+    const img  = item.querySelector('.gallery-img');
+    lbImg.src          = img.src;
+    lbImg.alt          = img.alt;
+    lbCap.textContent  = item.dataset.caption  || '';
+    lbSub.textContent  = item.dataset.sub       || '';
+    lbCur.textContent  = current + 1;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  items.forEach((item, i) => {
+    item.addEventListener('click', () => openAt(i));
+  });
+
+  lbClose.addEventListener('click', close);
+  lbPrev.addEventListener('click', (e) => { e.stopPropagation(); openAt(current - 1); });
+  lbNext.addEventListener('click', (e) => { e.stopPropagation(); openAt(current + 1); });
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) close();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'ArrowRight') openAt(current + 1);
+    if (e.key === 'ArrowLeft')  openAt(current - 1);
+    if (e.key === 'Escape')     close();
+  });
+})();
+  
 // DESTINATIONS SLIDESHOW
 (function () {
   const slideshow  = document.getElementById('destSlideshow');
