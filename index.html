@@ -82,7 +82,7 @@ body.light-mode {
   body.light-mode .nav-link             { font-weight: 600; }
   body.light-mode .dropdown-link        { font-weight: 500; }
 
-  body.light-mode .hero-eyebrow         { font-weight: 600; }
+  body.light-mode .hero-eyebrow         { font-weight: 800; }
   body.light-mode .hero-subtitle        { font-weight: 400; }
 
   body.light-mode .pkg-name             { font-weight: 400; }
@@ -750,6 +750,50 @@ body.light-mode .pkg-name {
 
   body.light-mode .ds-counter {
     color: rgba(26,20,16,0.4);
+  }
+  
+body.light-mode .ds-slide-title,
+  body.light-mode .ds-slide-subtitle,
+  body.light-mode .ds-slide-desc,
+  body.light-mode .ds-slide-content,
+  body.light-mode .ds-slide-content *,
+  body.light-mode .ds-slide-label,
+  body.light-mode .ds-slide-name,
+  body.light-mode .ds-slide h2,
+  body.light-mode .ds-slide h3,
+  body.light-mode .ds-slide p,
+  body.light-mode .ds-slide span {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+
+  body.light-mode .ds-slide-eyebrow,
+  body.light-mode .ds-slide .eyebrow,
+  body.light-mode .ds-slide-label,
+  body.light-mode .ds-slide .section-label,
+  body.light-mode .ds-slide .gold-line span,
+  body.light-mode .ds-slide-name {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    background: none !important;
+    background-clip: unset !important;
+    -webkit-background-clip: unset !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: geometricPrecision;
+    text-shadow:
+      0 0 2px #ffffff,
+      0 0 6px #ffffff,
+      0 0 14px rgba(255,255,255,0.95),
+      0 0 28px rgba(255,255,255,0.82),
+      0 0 50px rgba(255,255,255,0.55),
+      0 0 85px rgba(255,250,230,0.3),
+      0 1px 0 rgba(0,0,0,0.99),
+      0 2px 4px rgba(0,0,0,0.96),
+      0 4px 12px rgba(0,0,0,0.88),
+      0 7px 24px rgba(0,0,0,0.72),
+      -1px 0 5px rgba(0,0,0,0.78),
+      1px 0 5px rgba(0,0,0,0.78);
   }
 
   body.light-mode .stat-label {
