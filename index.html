@@ -50,6 +50,10 @@ body.light-mode {
     -moz-osx-font-smoothing: grayscale;
   }
 
+  body.light-mode * {
+    font-weight: calc(var(--fw-base, 1) * 1.2) !important;
+  }
+
   body.light-mode h1,
   body.light-mode h2,
   body.light-mode h3,
@@ -168,36 +172,43 @@ body.light-mode #hero-logo {
   }
 
 body.light-mode .hero-eyebrow {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: geometricPrecision;
+    color: var(--gold) !important;
+    -webkit-text-fill-color: var(--gold) !important;
+    background: none !important;
+    background-clip: unset !important;
+    -webkit-background-clip: unset !important;
     text-shadow:
-      0 0 2px rgba(255,255,255,0.99),
-      0 0 4px rgba(255,220,80,0.98),
-      0 0 8px rgba(212,175,55,0.99),
-      0 0 18px rgba(180,130,0,0.95),
-      0 0 36px rgba(154,111,0,0.8),
-      0 0 65px rgba(120,80,0,0.5),
-      0 1px 0px rgba(0,0,0,0.99),
-      0 2px 3px rgba(0,0,0,0.98),
-      0 3px 8px rgba(0,0,0,0.95),
-      0 5px 18px rgba(0,0,0,0.85),
-      0 8px 32px rgba(0,0,0,0.6),
-      -1px 0 6px rgba(0,0,0,0.7),
-      1px 0 6px rgba(0,0,0,0.7);
+      0 0 1px rgba(0,0,0,0.99),
+      0 1px 0 rgba(0,0,0,0.99),
+      0 2px 2px rgba(0,0,0,0.98),
+      0 3px 6px rgba(0,0,0,0.95),
+      0 5px 14px rgba(0,0,0,0.85),
+      0 8px 28px rgba(0,0,0,0.65),
+      -1px 0 4px rgba(0,0,0,0.8),
+      1px 0 4px rgba(0,0,0,0.8);
   }
 
   body.light-mode .hero-subtitle {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: geometricPrecision;
+    color: rgba(240,236,228,0.92) !important;
+    -webkit-text-fill-color: rgba(240,236,228,0.92) !important;
+    background: none !important;
+    background-clip: unset !important;
+    -webkit-background-clip: unset !important;
     text-shadow:
-      0 0 2px rgba(255,255,255,0.95),
-      0 0 5px rgba(255,220,80,0.92),
-      0 0 12px rgba(212,175,55,0.9),
-      0 0 24px rgba(180,130,0,0.8),
-      0 0 48px rgba(154,111,0,0.55),
-      0 1px 0px rgba(0,0,0,0.99),
-      0 2px 4px rgba(0,0,0,0.97),
-      0 4px 10px rgba(0,0,0,0.92),
-      0 6px 22px rgba(0,0,0,0.78),
-      0 10px 40px rgba(0,0,0,0.5),
-      -1px 0 8px rgba(0,0,0,0.65),
-      1px 0 8px rgba(0,0,0,0.65);
+      0 0 1px rgba(0,0,0,0.99),
+      0 1px 0 rgba(0,0,0,0.99),
+      0 2px 3px rgba(0,0,0,0.97),
+      0 4px 8px rgba(0,0,0,0.92),
+      0 6px 18px rgba(0,0,0,0.78),
+      0 10px 36px rgba(0,0,0,0.55),
+      -1px 0 5px rgba(0,0,0,0.75),
+      1px 0 5px rgba(0,0,0,0.75);
   }
 
 body.light-mode .nav-logo-img {
@@ -228,64 +239,102 @@ body.light-mode .nav-logo-img {
 
 body.light-mode .hero-actions .btn-primary {
     background: var(--gold) !important;
-    color: #080808 !important;
     border-color: var(--gold) !important;
-    box-shadow:
-      0 0 0 1px rgba(212,175,55,0.4),
-      0 8px 32px rgba(100,65,0,0.45),
-      0 2px 8px rgba(0,0,0,0.25);
-    -webkit-text-fill-color: #080808 !important;
     background-clip: unset !important;
     -webkit-background-clip: unset !important;
-    font-family: inherit;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    font-size: 10px;
+    box-shadow:
+      0 0 0 1px rgba(212,175,55,0.5),
+      0 0 18px rgba(212,175,55,0.55),
+      0 0 40px rgba(212,175,55,0.25),
+      0 8px 32px rgba(0,0,0,0.35),
+      0 2px 8px rgba(0,0,0,0.4);
     transition:
       background 0.4s ease,
+      border-color 0.4s ease,
       box-shadow 0.4s ease,
-      transform 0.3s ease,
-      letter-spacing 0.4s ease;
+      letter-spacing 0.4s ease,
+      transform 0.3s ease;
+  }
+
+  body.light-mode .hero-actions .btn-primary span,
+  body.light-mode .hero-actions .btn-primary {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    font-weight: 700 !important;
+    letter-spacing: 3px;
+    text-shadow:
+      0 1px 3px rgba(0,0,0,0.5),
+      0 0 8px rgba(0,0,0,0.3);
   }
 
   body.light-mode .hero-actions .btn-primary:hover {
     background: transparent !important;
-    color: var(--gold) !important;
-    -webkit-text-fill-color: var(--gold) !important;
-    border-color: var(--gold) !important;
+    border-color: #d4af37 !important;
     letter-spacing: 5px;
     box-shadow:
-      0 0 0 1px rgba(212,175,55,0.6),
-      0 12px 40px rgba(100,65,0,0.5),
-      0 4px 16px rgba(0,0,0,0.3);
+      0 0 0 1px rgba(212,175,55,0.8),
+      0 0 22px rgba(212,175,55,0.65),
+      0 0 50px rgba(212,175,55,0.3),
+      0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  body.light-mode .hero-actions .btn-primary:hover,
+  body.light-mode .hero-actions .btn-primary:hover span {
+    color: #d4af37 !important;
+    -webkit-text-fill-color: #d4af37 !important;
+    text-shadow:
+      0 0 8px rgba(212,175,55,0.6),
+      0 1px 3px rgba(0,0,0,0.5);
   }
 
   body.light-mode .hero-actions .btn-ghost {
     background: transparent !important;
-    border-color: rgba(212,175,55,0.55) !important;
-    color: var(--gold) !important;
-    -webkit-text-fill-color: var(--gold) !important;
+    border-color: #d4af37 !important;
     background-clip: unset !important;
     -webkit-background-clip: unset !important;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    font-size: 10px;
+    box-shadow:
+      0 0 0 1px rgba(212,175,55,0.35),
+      0 0 14px rgba(212,175,55,0.3),
+      0 0 32px rgba(212,175,55,0.12),
+      0 4px 20px rgba(0,0,0,0.35);
     transition:
       background 0.4s ease,
       border-color 0.4s ease,
+      box-shadow 0.4s ease,
       letter-spacing 0.4s ease,
-      box-shadow 0.4s ease;
+      transform 0.3s ease;
+  }
+
+  body.light-mode .hero-actions .btn-ghost span,
+  body.light-mode .hero-actions .btn-ghost {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    font-weight: 700 !important;
+    letter-spacing: 3px;
+    text-shadow:
+      0 1px 3px rgba(0,0,0,0.6),
+      0 0 10px rgba(0,0,0,0.4),
+      0 0 20px rgba(0,0,0,0.2);
   }
 
   body.light-mode .hero-actions .btn-ghost:hover {
-    background: var(--gold) !important;
-    color: #080808 !important;
-    -webkit-text-fill-color: #080808 !important;
-    border-color: var(--gold) !important;
+    background: #d4af37 !important;
+    border-color: #d4af37 !important;
     letter-spacing: 5px;
     box-shadow:
-      0 0 0 1px rgba(212,175,55,0.4),
-      0 8px 32px rgba(100,65,0,0.45);
+      0 0 0 1px rgba(212,175,55,0.6),
+      0 0 22px rgba(212,175,55,0.6),
+      0 0 50px rgba(212,175,55,0.28),
+      0 8px 32px rgba(0,0,0,0.35);
+  }
+
+  body.light-mode .hero-actions .btn-ghost:hover,
+  body.light-mode .hero-actions .btn-ghost:hover span {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    text-shadow:
+      0 1px 3px rgba(0,0,0,0.4),
+      0 0 8px rgba(0,0,0,0.25);
   }
 
   body.light-mode .scroll-cue span {
