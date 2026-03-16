@@ -534,6 +534,295 @@
     font-weight: 300;
   }
 }
+
+/* ============================================================
+   ✦ ADDITIONS ONLY — Day Image Galleries + Experience Strip
+   All new classes prefixed with fjt- to avoid any conflicts
+   ============================================================ */
+
+/* ── Day body max-height override to allow gallery space ── */
+.itinerary-day.open .day-body {
+  max-height: 1200px;
+}
+
+/* ── Image gallery grid ── */
+.fjt-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-top: 24px;
+  margin-bottom: 4px;
+}
+
+.fjt-gallery-item {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: var(--charcoal);
+}
+
+.fjt-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.22,1,0.36,1), filter 0.4s ease;
+  filter: brightness(0.88) saturate(0.9);
+}
+
+.fjt-gallery-item:hover img {
+  transform: scale(1.07);
+  filter: brightness(1) saturate(1.1);
+}
+
+/* Gold shimmer overlay on hover */
+.fjt-gallery-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(212,175,55,0.1), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.fjt-gallery-item:hover::after {
+  opacity: 1;
+}
+
+/* Caption label under each image */
+.fjt-gallery-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 10px 8px;
+  background: linear-gradient(to top, rgba(8,8,8,0.85), transparent);
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.7);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.fjt-gallery-item:hover .fjt-gallery-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* First image in each day is double-wide */
+.fjt-gallery-item:first-child {
+  grid-column: span 2;
+  aspect-ratio: 16/9;
+}
+
+/* Gallery label row */
+.fjt-gallery-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
+  margin-bottom: 10px;
+}
+
+.fjt-gallery-label span {
+  font-size: 8px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.fjt-gallery-label::before,
+.fjt-gallery-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-subtle);
+}
+
+.fjt-gallery-label::before {
+  flex: 0 0 20px;
+  background: var(--gold);
+  opacity: 0.4;
+}
+
+/* ── Highlight strip (mobile-style tags) ── */
+.fjt-day-highlight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+}
+
+.fjt-highlight-badge {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(212,175,55,0.07);
+  border: 1px solid rgba(212,175,55,0.18);
+  padding: 5px 11px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.fjt-highlight-badge:hover {
+  background: rgba(212,175,55,0.13);
+  border-color: rgba(212,175,55,0.35);
+}
+
+.fjt-highlight-badge .fjt-badge-icon {
+  font-size: 11px;
+  line-height: 1;
+}
+
+/* ── "What You Will Experience" strip ── */
+.fjt-experience-strip {
+  margin-top: 72px;
+  margin-bottom: 72px;
+  padding: 48px 40px;
+  background: var(--charcoal);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--gold);
+  position: relative;
+  overflow: hidden;
+}
+
+.fjt-experience-strip::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(212,175,55,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.fjt-experience-label {
+  font-size: 9px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 12px;
+}
+
+.fjt-experience-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 32px;
+  line-height: 1.2;
+}
+
+.fjt-experience-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+.fjt-exp-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.fjt-exp-icon {
+  font-size: 26px;
+  line-height: 1;
+  display: block;
+}
+
+.fjt-exp-text {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ── Trip Snapshot box (injected before payment button) ── */
+.fjt-snapshot {
+  background: rgba(212,175,55,0.04);
+  border: 1px solid var(--border);
+  padding: 24px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.fjt-snapshot-label {
+  font-size: 8px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 16px;
+}
+
+.fjt-snapshot-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.fjt-snapshot-row:last-child {
+  border-bottom: none;
+}
+
+.fjt-snapshot-key {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.fjt-snapshot-val {
+  font-size: 12px;
+  color: var(--text);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  text-align: right;
+}
+
+/* ── Responsive adjustments for gallery ── */
+@media (max-width: 900px) {
+  .fjt-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .fjt-gallery-item:first-child {
+    grid-column: span 2;
+  }
+  .fjt-experience-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .fjt-experience-strip {
+    padding: 32px 24px;
+  }
+}
+
+@media (max-width: 600px) {
+  .fjt-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+  }
+  .fjt-experience-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 </style>
 </head>
 <body>
@@ -605,7 +894,8 @@
 
   <div class="itinerary-days-wrapper">
 
-    <div class="itinerary-day open">
+    <!-- DAY 01 -->
+    <div class="itinerary-day" id="fjt-day-1">
       <div class="day-header">
         <div class="day-header-left">
           <span class="day-number">Day 01</span>
@@ -619,10 +909,36 @@
         <span class="day-location">Wilson Airport · Mara</span>
         <p class="day-desc">Private aircraft to the Mara. Ultra-luxury lodge with infinity pool overlooking the plains. Your personal photographer joins for the first two days — they work alongside your guide to position the vehicle, read the light, and ensure your Mara moments are documented at the level they deserve.</p>
         <ul class="day-activities"><li>Private aircraft</li><li>Photographer briefing</li><li>Afternoon drive</li><li>Lodge dinner</li></ul>
+        <!-- ✦ ADDITION: Day 01 Gallery -->
+        <div class="fjt-gallery-label"><span>Visual Highlights</span></div>
+        <div class="fjt-gallery">
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=800&q=80&auto=format&fit=crop" alt="Maasai Mara plains aerial view" loading="lazy">
+            <span class="fjt-gallery-caption">Mara Plains</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=600&q=80&auto=format&fit=crop" alt="Private aircraft Kenya" loading="lazy">
+            <span class="fjt-gallery-caption">Private Charter</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1621414050946-1b4b7e5c5a5a?w=600&q=80&auto=format&fit=crop" alt="Luxury safari lodge infinity pool" loading="lazy">
+            <span class="fjt-gallery-caption">Lodge Infinity Pool</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=600&q=80&auto=format&fit=crop" alt="Safari game drive Mara" loading="lazy">
+            <span class="fjt-gallery-caption">Afternoon Drive</span>
+          </div>
+        </div>
+        <div class="fjt-day-highlight">
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">✈️</span> Private Charter</span>
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">📷</span> Photographer Joins</span>
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">🏕</span> Ultra-Luxury Lodge</span>
+        </div>
       </div>
     </div>
 
-    <div class="itinerary-day">
+    <!-- DAY 02 -->
+    <div class="itinerary-day" id="fjt-day-2">
       <div class="day-header">
         <div class="day-header-left">
           <span class="day-number">Day 02</span>
@@ -636,10 +952,36 @@
         <span class="day-location">Maasai Mara National Reserve</span>
         <p class="day-desc">A full day with your photographer. Dawn drive for big cats and first light on the plains. The photographer manages light, position and timing while your guide manages wildlife — together they deliver images that are genuinely gallery-worthy. Balloon option available.</p>
         <ul class="day-activities"><li>Dawn photography drive</li><li>Balloon option</li><li>Edited session afternoon</li><li>Fine dining</li></ul>
+        <!-- ✦ ADDITION: Day 02 Gallery -->
+        <div class="fjt-gallery-label"><span>Visual Highlights</span></div>
+        <div class="fjt-gallery">
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1551009175-8a68da93d5f9?w=800&q=80&auto=format&fit=crop" alt="Lions Maasai Mara at dawn" loading="lazy">
+            <span class="fjt-gallery-caption">Dawn Big Cats</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=600&q=80&auto=format&fit=crop" alt="Hot air balloon safari Kenya" loading="lazy">
+            <span class="fjt-gallery-caption">Balloon Safari</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1625635878673-4ee48c0a3d9b?w=600&q=80&auto=format&fit=crop" alt="Wildlife photography safari" loading="lazy">
+            <span class="fjt-gallery-caption">Photography Session</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1534177616072-ef7dc120449d?w=600&q=80&auto=format&fit=crop" alt="Mara sunset elephant silhouette" loading="lazy">
+            <span class="fjt-gallery-caption">Mara Sunset</span>
+          </div>
+        </div>
+        <div class="fjt-day-highlight">
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">🦁</span> Big Cat Tracking</span>
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">🎈</span> Balloon Option</span>
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">🌅</span> First Light Plains</span>
+        </div>
       </div>
     </div>
 
-    <div class="itinerary-day">
+    <!-- DAY 03 -->
+    <div class="itinerary-day" id="fjt-day-3">
       <div class="day-header">
         <div class="day-header-left">
           <span class="day-number">Day 03</span>
@@ -653,10 +995,36 @@
         <span class="day-location">Amboseli · Kilimanjaro</span>
         <p class="day-desc">Morning drive then aircraft south to Amboseli. The approach by air reveals Kilimanjaro in full — an overwhelming view. Ultra-luxury lodge with rooms oriented to the mountain. Elephant herds move below the volcano.</p>
         <ul class="day-activities"><li>Morning drive</li><li>Aircraft to Amboseli</li><li>Kilimanjaro views</li><li>Elephant drives</li></ul>
+        <!-- ✦ ADDITION: Day 03 Gallery -->
+        <div class="fjt-gallery-label"><span>Visual Highlights</span></div>
+        <div class="fjt-gallery">
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?w=800&q=80&auto=format&fit=crop" alt="Kilimanjaro mountain with elephants Amboseli" loading="lazy">
+            <span class="fjt-gallery-caption">Kilimanjaro View</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1564760055775-d63b17a55c44?w=600&q=80&auto=format&fit=crop" alt="Elephants Amboseli herd" loading="lazy">
+            <span class="fjt-gallery-caption">Elephant Herds</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=600&q=80&auto=format&fit=crop" alt="Private aircraft flight aerial Kenya" loading="lazy">
+            <span class="fjt-gallery-caption">Aerial Transfer</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600&q=80&auto=format&fit=crop" alt="Luxury lodge Amboseli Kenya" loading="lazy">
+            <span class="fjt-gallery-caption">Lodge Arrival</span>
+          </div>
+        </div>
+        <div class="fjt-day-highlight">
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">🏔</span> Kilimanjaro Approach</span>
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">🐘</span> Elephant Kingdom</span>
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">✈️</span> Aircraft South</span>
+        </div>
       </div>
     </div>
 
-    <div class="itinerary-day">
+    <!-- DAY 04 -->
+    <div class="itinerary-day" id="fjt-day-4">
       <div class="day-header">
         <div class="day-header-left">
           <span class="day-number">Day 04</span>
@@ -670,10 +1038,36 @@
         <span class="day-location">Amboseli National Park</span>
         <p class="day-desc">Kilimanjaro is clearest at dawn — set your alarm. The mountain reveals itself above the treetops as the light changes from purple to amber to white gold. Elephant herds in the foreground. This is the single most iconic image in East African photography.</p>
         <ul class="day-activities"><li>Kilimanjaro dawn</li><li>Elephant herd drives</li><li>Swamp walk</li><li>Observation Hill</li></ul>
+        <!-- ✦ ADDITION: Day 04 Gallery -->
+        <div class="fjt-gallery-label"><span>Visual Highlights</span></div>
+        <div class="fjt-gallery">
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1560969184-10fe8719e047?w=800&q=80&auto=format&fit=crop" alt="Kilimanjaro dawn light Africa" loading="lazy">
+            <span class="fjt-gallery-caption">Mountain at Dawn</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1564760055775-d63b17a55c44?w=600&q=80&auto=format&fit=crop" alt="Amboseli elephants at sunrise" loading="lazy">
+            <span class="fjt-gallery-caption">Sunrise Elephants</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1504173010664-32509107de01?w=600&q=80&auto=format&fit=crop" alt="Amboseli swamp walk flamingos" loading="lazy">
+            <span class="fjt-gallery-caption">Swamp Walk</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1571406252241-db0280bd36cd?w=600&q=80&auto=format&fit=crop" alt="Observation Hill Amboseli panorama" loading="lazy">
+            <span class="fjt-gallery-caption">Observation Hill</span>
+          </div>
+        </div>
+        <div class="fjt-day-highlight">
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">🌄</span> Purple to Gold Dawn</span>
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">🐘</span> Iconic Safari Shot</span>
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">🚶</span> Swamp Walk</span>
+        </div>
       </div>
     </div>
 
-    <div class="itinerary-day">
+    <!-- DAY 05 -->
+    <div class="itinerary-day" id="fjt-day-5">
       <div class="day-header">
         <div class="day-header-left">
           <span class="day-number">Day 05</span>
@@ -687,10 +1081,36 @@
         <span class="day-location">Northern Kenya</span>
         <p class="day-desc">Aircraft north to Samburu. Landscape transforms completely. The Samburu Five — endemic species found nowhere south of here — await in the riverine forest along the Ewaso Ng'iro.</p>
         <ul class="day-activities"><li>Aircraft north</li><li>Samburu Five drive</li><li>River sundowner</li><li>Camp dinner</li></ul>
+        <!-- ✦ ADDITION: Day 05 Gallery -->
+        <div class="fjt-gallery-label"><span>Visual Highlights</span></div>
+        <div class="fjt-gallery">
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=800&q=80&auto=format&fit=crop" alt="Samburu landscape arid north Kenya" loading="lazy">
+            <span class="fjt-gallery-caption">Samburu Landscape</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1504173010664-32509107de01?w=600&q=80&auto=format&fit=crop" alt="Grevy zebra Samburu endemic" loading="lazy">
+            <span class="fjt-gallery-caption">Samburu Five</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=600&q=80&auto=format&fit=crop" alt="Ewaso River Samburu sundowner" loading="lazy">
+            <span class="fjt-gallery-caption">Ewaso Ng'iro River</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1562945431-ce0354b3d6a8?w=600&q=80&auto=format&fit=crop" alt="Safari camp under stars Kenya north" loading="lazy">
+            <span class="fjt-gallery-caption">Camp Under Stars</span>
+          </div>
+        </div>
+        <div class="fjt-day-highlight">
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">🦒</span> Reticulated Giraffe</span>
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">🌿</span> Riverine Forest</span>
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">🍸</span> River Sundowner</span>
+        </div>
       </div>
     </div>
 
-    <div class="itinerary-day">
+    <!-- DAY 06 -->
+    <div class="itinerary-day" id="fjt-day-6">
       <div class="day-header">
         <div class="day-header-left">
           <span class="day-number">Day 06</span>
@@ -704,10 +1124,36 @@
         <span class="day-location">Samburu Reserve</span>
         <p class="day-desc">A complete Samburu day. Lion in the riverine trees. Grevy's zebra at dawn. Reticulated giraffe browsing across the horizon. Cultural village visit. Night drive along the river.</p>
         <ul class="day-activities"><li>Dawn endemic drive</li><li>Cultural village</li><li>Night drive</li><li>Riverside dining</li></ul>
+        <!-- ✦ ADDITION: Day 06 Gallery -->
+        <div class="fjt-gallery-label"><span>Visual Highlights</span></div>
+        <div class="fjt-gallery">
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1551009175-8a68da93d5f9?w=800&q=80&auto=format&fit=crop" alt="Lion resting riverine trees Samburu" loading="lazy">
+            <span class="fjt-gallery-caption">Lions in the Trees</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=600&q=80&auto=format&fit=crop" alt="Samburu cultural village visit" loading="lazy">
+            <span class="fjt-gallery-caption">Cultural Village</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1534177616072-ef7dc120449d?w=600&q=80&auto=format&fit=crop" alt="Night drive safari spotlight" loading="lazy">
+            <span class="fjt-gallery-caption">Night Drive</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600&q=80&auto=format&fit=crop" alt="Riverside dining Samburu lodge" loading="lazy">
+            <span class="fjt-gallery-caption">Riverside Dining</span>
+          </div>
+        </div>
+        <div class="fjt-day-highlight">
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">🦁</span> Lion Sightings</span>
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">🌙</span> Night Drive</span>
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">🏘</span> Samburu Village</span>
+        </div>
       </div>
     </div>
 
-    <div class="itinerary-day">
+    <!-- DAY 07 -->
+    <div class="itinerary-day" id="fjt-day-7">
       <div class="day-header">
         <div class="day-header-left">
           <span class="day-number">Day 07</span>
@@ -721,10 +1167,36 @@
         <span class="day-location">Mombasa · Indian Ocean</span>
         <p class="day-desc">Aircraft via Mombasa to Diani Beach — Kenya's finest Indian Ocean coast. The transition from arid north to turquoise ocean is deliberately dramatic. Your private beach villa, the Indian Ocean at your door, and a sunset Dhow cocktail cruise awaiting.</p>
         <ul class="day-activities"><li>Aircraft to coast</li><li>Beach villa arrival</li><li>Dhow sunset cruise</li><li>Seafood dinner</li></ul>
+        <!-- ✦ ADDITION: Day 07 Gallery -->
+        <div class="fjt-gallery-label"><span>Visual Highlights</span></div>
+        <div class="fjt-gallery">
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80&auto=format&fit=crop" alt="Diani Beach Indian Ocean turquoise" loading="lazy">
+            <span class="fjt-gallery-caption">Diani Beach</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1540202404-a2f29016b523?w=600&q=80&auto=format&fit=crop" alt="Dhow sunset cruise Indian Ocean" loading="lazy">
+            <span class="fjt-gallery-caption">Dhow Sunset Cruise</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=600&q=80&auto=format&fit=crop" alt="Private beach villa Kenya coast" loading="lazy">
+            <span class="fjt-gallery-caption">Private Beach Villa</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80&auto=format&fit=crop" alt="Fresh seafood dinner coastal Kenya" loading="lazy">
+            <span class="fjt-gallery-caption">Seafood Dinner</span>
+          </div>
+        </div>
+        <div class="fjt-day-highlight">
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">🌊</span> Indian Ocean Arrival</span>
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">⛵</span> Dhow Cruise</span>
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">🏖</span> Private Villa</span>
+        </div>
       </div>
     </div>
 
-    <div class="itinerary-day">
+    <!-- DAY 08 -->
+    <div class="itinerary-day" id="fjt-day-8">
       <div class="day-header">
         <div class="day-header-left">
           <span class="day-number">Day 08</span>
@@ -738,9 +1210,82 @@
         <span class="day-location">Diani Beach · Mombasa airport</span>
         <p class="day-desc">A final morning: snorkel the Kisite-Mpunguti marine park with its turtles and dolphins, or simply be still on the finest beach in East Africa. Aircraft to Mombasa for international departures.</p>
         <ul class="day-activities"><li>Marine snorkel or leisure</li><li>Beach breakfast</li><li>Aircraft to Mombasa</li><li>Departure</li></ul>
+        <!-- ✦ ADDITION: Day 08 Gallery -->
+        <div class="fjt-gallery-label"><span>Visual Highlights</span></div>
+        <div class="fjt-gallery">
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80&auto=format&fit=crop" alt="Snorkeling Indian Ocean coral reef turtles" loading="lazy">
+            <span class="fjt-gallery-caption">Marine Snorkel</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?w=600&q=80&auto=format&fit=crop" alt="Sea turtles Indian Ocean Kenya" loading="lazy">
+            <span class="fjt-gallery-caption">Sea Turtles</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80&auto=format&fit=crop" alt="Final beach morning breakfast Diani" loading="lazy">
+            <span class="fjt-gallery-caption">Beach Breakfast</span>
+          </div>
+          <div class="fjt-gallery-item">
+            <img src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=600&q=80&auto=format&fit=crop" alt="Mombasa airport departure aerial coast" loading="lazy">
+            <span class="fjt-gallery-caption">Departure</span>
+          </div>
+        </div>
+        <div class="fjt-day-highlight">
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">🐢</span> Marine Turtles</span>
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">🐬</span> Dolphins</span>
+          <span class="fjt-highlight-badge"><span class="fjt-badge-icon">🥂</span> Final Morning</span>
+        </div>
       </div>
     </div>
 
+  </div>
+</div>
+
+<!-- ✦ ADDITION: "What You Will Experience" strip — placed after itinerary, before inclusions -->
+<div class="fjt-experience-strip reveal">
+  <span class="fjt-experience-label">The Full Picture</span>
+  <h3 class="fjt-experience-title">What You Will Experience</h3>
+  <div class="fjt-experience-grid">
+    <div class="fjt-exp-item">
+      <span class="fjt-exp-icon">🐘</span>
+      <span class="fjt-exp-text">Big Five sightings across three ecosystems</span>
+    </div>
+    <div class="fjt-exp-item">
+      <span class="fjt-exp-icon">🚁</span>
+      <span class="fjt-exp-text">Six private aircraft transfers</span>
+    </div>
+    <div class="fjt-exp-item">
+      <span class="fjt-exp-icon">🏕</span>
+      <span class="fjt-exp-text">Ultra-luxury lodges & private beach villa</span>
+    </div>
+    <div class="fjt-exp-item">
+      <span class="fjt-exp-icon">📸</span>
+      <span class="fjt-exp-text">Personal photographer — gallery-worthy results</span>
+    </div>
+    <div class="fjt-exp-item">
+      <span class="fjt-exp-icon">🌅</span>
+      <span class="fjt-exp-text">Kilimanjaro at dawn in golden light</span>
+    </div>
+    <div class="fjt-exp-item">
+      <span class="fjt-exp-icon">🌊</span>
+      <span class="fjt-exp-text">Indian Ocean marine snorkel finale</span>
+    </div>
+    <div class="fjt-exp-item">
+      <span class="fjt-exp-icon">🎈</span>
+      <span class="fjt-exp-text">Hot air balloon option over the Mara</span>
+    </div>
+    <div class="fjt-exp-item">
+      <span class="fjt-exp-icon">🍽</span>
+      <span class="fjt-exp-text">All-inclusive fine dining throughout</span>
+    </div>
+    <div class="fjt-exp-item">
+      <span class="fjt-exp-icon">⛵</span>
+      <span class="fjt-exp-text">Dhow sunset cocktail cruise at Diani</span>
+    </div>
+    <div class="fjt-exp-item">
+      <span class="fjt-exp-icon">🦒</span>
+      <span class="fjt-exp-text">Samburu Five endemic wildlife</span>
+    </div>
   </div>
 </div>
 
@@ -783,6 +1328,36 @@
         <div class="sidebar-detail"><span class="sidebar-detail-label">Duration</span><span class="sidebar-detail-value">8 Days · 7 Nights</span></div><div class="sidebar-detail"><span class="sidebar-detail-label">Parks & Coast</span><span class="sidebar-detail-value">Mara · Amboseli · Samburu · Diani</span></div><div class="sidebar-detail"><span class="sidebar-detail-label">Accommodation</span><span class="sidebar-detail-value">Ultra-Luxury Lodges + Villa</span></div><div class="sidebar-detail"><span class="sidebar-detail-label">Transfers</span><span class="sidebar-detail-value">All by Private Aircraft</span></div><div class="sidebar-detail"><span class="sidebar-detail-label">Photographer</span><span class="sidebar-detail-value">Included 2 Days</span></div><div class="sidebar-detail"><span class="sidebar-detail-label">Board Basis</span><span class="sidebar-detail-value">All-Inclusive Fine Dining</span></div>
       </div>
       <div class="sidebar-divider"></div>
+
+      <!-- ✦ ADDITION: Trip Snapshot box — inserted before booking button -->
+      <div class="fjt-snapshot">
+        <span class="fjt-snapshot-label">✦ Trip Snapshot</span>
+        <div class="fjt-snapshot-row">
+          <span class="fjt-snapshot-key">Duration</span>
+          <span class="fjt-snapshot-val">8 Days · 7 Nights</span>
+        </div>
+        <div class="fjt-snapshot-row">
+          <span class="fjt-snapshot-key">Destinations</span>
+          <span class="fjt-snapshot-val">Nairobi → Mara → Amboseli → Samburu → Diani</span>
+        </div>
+        <div class="fjt-snapshot-row">
+          <span class="fjt-snapshot-key">Accommodation</span>
+          <span class="fjt-snapshot-val">5★ Safari Lodges + Beach Villa</span>
+        </div>
+        <div class="fjt-snapshot-row">
+          <span class="fjt-snapshot-key">Best For</span>
+          <span class="fjt-snapshot-val">Wildlife & Photography Lovers</span>
+        </div>
+        <div class="fjt-snapshot-row">
+          <span class="fjt-snapshot-key">Group Size</span>
+          <span class="fjt-snapshot-val">Max 4 Guests</span>
+        </div>
+        <div class="fjt-snapshot-row">
+          <span class="fjt-snapshot-key">Transfers</span>
+          <span class="fjt-snapshot-val">All by Private Aircraft ✈️</span>
+        </div>
+      </div>
+
       <a href="PAYMENT_LINK_AERIAL_KENYA" class="btn-book-now">
   <div class="btn-book-now-inner">
     <span class="btn-book-now-label">RESERVE THIS JOURNEY</span>
@@ -890,5 +1465,74 @@ const reveals=document.querySelectorAll('.reveal');
 const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.06,rootMargin:'0px 0px -30px 0px'});
 reveals.forEach(el=>observer.observe(el));
 </script>
+
+<!-- ============================================================
+  ✦ ADDITION — Collapsible Day Accordion JavaScript
+  Appended before </body>. Does not touch or modify any existing JS.
+  All days start collapsed (no .open class on load).
+  ============================================================ -->
+<script>
+(function() {
+  'use strict';
+
+  // ── All days start collapsed on page load ──
+  document.querySelectorAll('.itinerary-day').forEach(function(day) {
+    day.classList.remove('open');
+  });
+
+  // ── Attach click handlers to every day-header ──
+  document.querySelectorAll('.day-header').forEach(function(header) {
+    header.addEventListener('click', function() {
+      var day = header.closest('.itinerary-day');
+      if (!day) return;
+
+      var isOpen = day.classList.contains('open');
+
+      // Close all other open days (accordion behaviour — one open at a time)
+      document.querySelectorAll('.itinerary-day.open').forEach(function(openDay) {
+        if (openDay !== day) {
+          openDay.classList.remove('open');
+        }
+      });
+
+      // Toggle this day
+      if (isOpen) {
+        day.classList.remove('open');
+      } else {
+        day.classList.add('open');
+
+        // Smooth scroll so the opening day header stays visible
+        requestAnimationFrame(function() {
+          var headerTop = header.getBoundingClientRect().top + window.pageYOffset;
+          var offset = 100; // nav height clearance
+          window.scrollTo({ top: headerTop - offset, behavior: 'smooth' });
+        });
+      }
+    });
+
+    // Cursor hover expansion for the new day-header
+    header.addEventListener('mouseenter', function() {
+      if (cursor && ring) {
+        cursor.style.width = '20px';
+        cursor.style.height = '20px';
+        ring.style.width = '60px';
+        ring.style.height = '60px';
+        ring.style.borderColor = 'rgba(212,175,55,.8)';
+      }
+    });
+    header.addEventListener('mouseleave', function() {
+      if (cursor && ring) {
+        cursor.style.width = '12px';
+        cursor.style.height = '12px';
+        ring.style.width = '40px';
+        ring.style.height = '40px';
+        ring.style.borderColor = 'rgba(212,175,55,.5)';
+      }
+    });
+  });
+
+})();
+</script>
+
 </body>
 </html>
