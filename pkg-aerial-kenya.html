@@ -64,15 +64,12 @@
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 48px;
-    align-items: start;
-    position: relative;
   }
 
 .pkg-content {
     padding: 0 64px 120px 0;
     border-right: 1px solid var(--border-subtle);
     min-width: 0;
-    min-height: 100%;
   }
 
   /* ============================================================
@@ -479,11 +476,7 @@
      SIDEBAR
   ============================================================ */
 .pkg-sidebar { padding: 80px 0 80px 48px; }
-  .sidebar-sticky-wrap {
-    position: sticky;
-    top: 90px;
-  }
-  .sidebar-card { background: var(--charcoal); border: 1px solid var(--border); padding: 44px 36px; position: relative; }
+  .sidebar-card { position: sticky; top: 100px; background: var(--charcoal); border: 1px solid var(--border); padding: 44px 36px; }
   .sidebar-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 0% 0%, rgba(212,175,55,.06) 0%, transparent 60%); pointer-events: none; }
   .sidebar-price { font-family: 'Cormorant Garamond', serif; font-size: 56px; font-weight: 600; color: var(--gold); line-height: 1; margin-bottom: 6px; position: relative; z-index: 1; }
   .sidebar-price span { font-size: 14px; font-family: 'Jost', sans-serif; color: var(--muted); font-weight: 300; }
@@ -1499,8 +1492,7 @@
        RIGHT SIDEBAR — STICKY BOOKING CARD
   ===================================================== -->
   <div class="pkg-sidebar">
-    <div class="sidebar-sticky-wrap">
-<div class="sidebar-card reveal">
+    <div class="sidebar-card reveal">
 
         <!-- Quote header -->
         <span class="sq-label">Plan Your Journey</span>
@@ -1538,7 +1530,6 @@
               <span class="sq-cal-leg-item"><span class="sq-cal-leg-dot high"></span>High</span>
               <span class="sq-cal-leg-item"><span class="sq-cal-leg-dot green"></span>Green</span>
             </div>
-          </div>
         </div>
 
         <div class="sidebar-divider"></div>
