@@ -497,6 +497,78 @@
   .btn-book-now::before { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,.2); transform: translateX(-100%) skewX(-15deg); transition: transform .5s; }
   .btn-book-now:hover::before { transform: translateX(200%) skewX(-15deg); }
   .btn-book-now:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(212,175,55,.4); }
+  /* ── Quote Builder Sidebar ── */
+  .sq-label { font-size: 8px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 12px; }
+  .sq-price-display { margin-bottom: 6px; }
+  .sq-price-num { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 600; color: var(--gold); line-height: 1; display: block; transition: all 0.4s ease; }
+  .sq-price-meta { font-size: 10px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
+  .sq-total-row { display: flex; justify-content: space-between; align-items: center; background: rgba(212,175,55,0.06); border: 1px solid var(--border); padding: 10px 14px; margin-top: 10px; position: relative; z-index: 1; }
+  .sq-total-label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+  .sq-total-val { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--gold); font-weight: 600; transition: all 0.3s ease; }
+  .sq-field { position: relative; z-index: 1; }
+  .sq-field-label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 10px; }
+  .sq-field-note { font-size: 10px; color: var(--muted); margin-top: 6px; display: block; font-style: italic; line-height: 1.5; }
+  .sq-date-wrap { position: relative; }
+  .sq-date-input { width: 100%; background: var(--charcoal); border: 1px solid var(--border); color: var(--text); font-family: 'Jost', sans-serif; font-size: 13px; padding: 12px 40px 12px 14px; cursor: none; outline: none; letter-spacing: 1px; transition: border-color 0.3s; }
+  .sq-date-input:focus, .sq-date-input.open { border-color: var(--gold); }
+  .sq-date-icon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 14px; pointer-events: none; }
+  /* Calendar */
+  .sq-calendar { display: none; background: #0f0f0f; border: 1px solid var(--border); padding: 16px; margin-top: 4px; position: relative; z-index: 200; }
+  .sq-calendar.open { display: block; }
+  .sq-cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .sq-cal-month { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--text); }
+  .sq-cal-nav { background: none; border: 1px solid var(--border); color: var(--gold); width: 28px; height: 28px; cursor: none; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s, border-color 0.2s; }
+  .sq-cal-nav:hover { background: var(--gold-dim); border-color: var(--gold); }
+  .sq-cal-days-header { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-bottom: 6px; }
+  .sq-cal-days-header span { font-size: 8px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); text-align: center; padding: 4px 0; }
+  .sq-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+  .sq-cal-day { font-size: 11px; color: var(--muted); text-align: center; padding: 7px 2px; cursor: none; transition: background 0.2s, color 0.2s; position: relative; border-radius: 1px; }
+  .sq-cal-day:hover:not(.empty):not(.past) { background: var(--gold-dim); color: var(--text); }
+  .sq-cal-day.selected { background: var(--gold); color: var(--black); font-weight: 600; }
+  .sq-cal-day.today { color: var(--gold); }
+  .sq-cal-day.past { opacity: 0.25; pointer-events: none; }
+  .sq-cal-day.empty { pointer-events: none; }
+  .sq-cal-day.peak { border-bottom: 2px solid var(--gold); }
+  .sq-cal-day.high { border-bottom: 2px solid rgba(212,175,55,0.4); }
+  .sq-cal-day.green-season { border-bottom: 2px solid rgba(123,181,110,0.5); }
+  .sq-cal-legend { display: flex; gap: 12px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border-subtle); }
+  .sq-cal-leg-item { display: flex; align-items: center; gap: 5px; font-size: 9px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+  .sq-cal-leg-dot { width: 12px; height: 3px; border-radius: 1px; flex-shrink: 0; }
+  .sq-cal-leg-dot.peak { background: var(--gold); }
+  .sq-cal-leg-dot.high { background: rgba(212,175,55,0.4); }
+  .sq-cal-leg-dot.green { background: rgba(123,181,110,0.5); }
+  /* Counter */
+  .sq-counter { display: flex; align-items: center; gap: 0; border: 1px solid var(--border); width: fit-content; }
+  .sq-counter-btn { background: var(--charcoal); border: none; color: var(--gold); width: 36px; height: 36px; font-size: 18px; cursor: none; transition: background 0.2s; display: flex; align-items: center; justify-content: center; line-height: 1; }
+  .sq-counter-btn:hover { background: var(--gold-dim); }
+  .sq-counter-val { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--text); width: 44px; text-align: center; background: transparent; font-weight: 600; }
+  /* Children toggle */
+  .sq-children-toggle { display: flex; align-items: center; justify-content: space-between; }
+  .sq-toggle-wrap { position: relative; }
+  .sq-toggle-input { display: none; }
+  .sq-toggle-track { display: block; width: 44px; height: 24px; background: var(--charcoal); border: 1px solid var(--border); cursor: none; position: relative; transition: background 0.3s, border-color 0.3s; }
+  .sq-toggle-input:checked + .sq-toggle-track { background: rgba(212,175,55,0.2); border-color: var(--gold); }
+  .sq-toggle-thumb { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; background: var(--muted); transition: transform 0.3s, background 0.3s; }
+  .sq-toggle-input:checked + .sq-toggle-track .sq-toggle-thumb { transform: translateX(20px); background: var(--gold); }
+  .sq-children-section { display: none; }
+  .sq-children-section.open { display: block; }
+  .sq-child-ages { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+  .sq-child-age-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-subtle); }
+  .sq-child-age-row:last-child { border-bottom: none; }
+  .sq-child-age-label { font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+  .sq-child-age-select { background: var(--charcoal); border: 1px solid var(--border); color: var(--text); font-family: 'Jost', sans-serif; font-size: 11px; padding: 6px 10px; cursor: none; outline: none; transition: border-color 0.2s; appearance: none; -webkit-appearance: none; }
+  .sq-child-age-select:focus { border-color: var(--gold); }
+  /* Breakdown */
+  .sq-breakdown { background: rgba(0,0,0,0.3); padding: 16px; border: 1px solid var(--border-subtle); }
+  .sq-breakdown-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border-subtle); font-size: 12px; color: var(--muted); }
+  .sq-breakdown-row:last-child { border-bottom: none; }
+  .sq-breakdown-row span:last-child { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--text); }
+  .sq-breakdown-deposit { margin-top: 4px; }
+  .sq-breakdown-deposit span:first-child { color: var(--gold); }
+  .sq-breakdown-deposit span:last-child { color: var(--gold); font-size: 18px; font-weight: 600; }
+  /* Flash animation when price updates */
+  @keyframes priceFlash { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .price-flash { animation: priceFlash 0.4s ease; }
   .btn-book-now-sub { font-size: 8px; letter-spacing: 2px; opacity: 0.7; font-weight: 300; display: block; margin-top: 4px; }
   .btn-whatsapp { display: flex; align-items: center; justify-content: center; gap: 10px; text-align: center; font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 400; letter-spacing: 4px; text-transform: uppercase; padding: 16px; background: transparent; color: var(--gold); border: 1px solid var(--border); text-decoration: none; cursor: none; transition: background .3s, border-color .3s; }
   .btn-whatsapp:hover { background: var(--gold-dim); border-color: var(--gold); }
@@ -669,15 +741,6 @@
         <div class="sec-divider"></div>
       </div>
 
-      <div class="overview-highlights reveal">
-        <div class="pkg-highlight-item"><span class="phi-icon">✈️</span><span class="phi-label">Transfers</span><span class="phi-value">All Charter by Private Aircraft</span></div>
-        <div class="pkg-highlight-item"><span class="phi-icon">📷</span><span class="phi-label">Exclusive</span><span class="phi-value">Personal Photographer (2 days)</span></div>
-        <div class="pkg-highlight-item"><span class="phi-icon">🏛️</span><span class="phi-label">Stay</span><span class="phi-value">Ultra-Luxury Lodges Only</span></div>
-        <div class="pkg-highlight-item"><span class="phi-icon">🌊</span><span class="phi-label">Finale</span><span class="phi-value">Diani Beach Coastal Finale</span></div>
-        <div class="pkg-highlight-item"><span class="phi-icon">🌄</span><span class="phi-label">View</span><span class="phi-value">Kilimanjaro at Dawn</span></div>
-        <div class="pkg-highlight-item"><span class="phi-icon">✦</span><span class="phi-label">Standard</span><span class="phi-value">Finest Properties in Kenya</span></div>
-      </div>
-
       <!-- Kenya Route Map -->
       <div class="overview-map-section reveal">
         <span class="sec-label">Your Route</span>
@@ -686,7 +749,7 @@
           <div class="map-layout">
             <!-- SVG Kenya outline with route dots -->
             <div class="kenya-svg-wrap">
-<svg viewBox="0 0 500 520" xmlns="http://www.w3.org/2000/svg">
+             <svg viewBox="0 0 500 520" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <filter id="glow">
       <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
@@ -1534,19 +1597,101 @@
   ===================================================== -->
   <div class="pkg-sidebar">
     <div class="sidebar-sticky-wrap">
-      <div class="sidebar-card reveal">
-        <div class="sidebar-price">$16,500 <span>/ person</span></div>
-        <div class="sidebar-per">All transfers by private charter</div>
-        <div class="sidebar-divider"></div>
-        <div class="sidebar-details">
-          <div class="sidebar-detail"><span class="sidebar-detail-label">Duration</span><span class="sidebar-detail-value">8 Days · 7 Nights</span></div>
-          <div class="sidebar-detail"><span class="sidebar-detail-label">Parks &amp; Coast</span><span class="sidebar-detail-value">Mara · Amboseli · Samburu · Diani</span></div>
-          <div class="sidebar-detail"><span class="sidebar-detail-label">Accommodation</span><span class="sidebar-detail-value">Ultra-Luxury Lodges + Villa</span></div>
-          <div class="sidebar-detail"><span class="sidebar-detail-label">Transfers</span><span class="sidebar-detail-value">All by Private Aircraft</span></div>
-          <div class="sidebar-detail"><span class="sidebar-detail-label">Photographer</span><span class="sidebar-detail-value">Included 2 Days</span></div>
-          <div class="sidebar-detail"><span class="sidebar-detail-label">Board Basis</span><span class="sidebar-detail-value">All-Inclusive Fine Dining</span></div>
+<div class="sidebar-card reveal">
+
+        <!-- Quote header -->
+        <span class="sq-label">Plan Your Journey</span>
+        <div class="sq-price-display">
+          <span class="sq-price-num" id="sqPriceNum">$16,500</span>
+          <span class="sq-price-meta">per person · <span id="sqSeason">High Season</span></span>
         </div>
+        <div class="sq-total-row">
+          <span class="sq-total-label">Estimated Total</span>
+          <span class="sq-total-val" id="sqTotal">$33,000</span>
+        </div>
+
         <div class="sidebar-divider"></div>
+
+        <!-- Travel Date -->
+        <div class="sq-field">
+          <label class="sq-field-label">Departure Date</label>
+          <div class="sq-date-wrap">
+            <input type="text" id="sqDateInput" class="sq-date-input" placeholder="Select a date" readonly>
+            <span class="sq-date-icon">📅</span>
+          </div>
+          <!-- Inline calendar -->
+          <div class="sq-calendar" id="sqCalendar">
+            <div class="sq-cal-header">
+              <button class="sq-cal-nav" id="sqCalPrev">‹</button>
+              <span class="sq-cal-month" id="sqCalMonth"></span>
+              <button class="sq-cal-nav" id="sqCalNext">›</button>
+            </div>
+            <div class="sq-cal-days-header">
+              <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+            </div>
+            <div class="sq-cal-grid" id="sqCalGrid"></div>
+            <div class="sq-cal-legend">
+              <span class="sq-cal-leg-item"><span class="sq-cal-leg-dot peak"></span>Peak</span>
+              <span class="sq-cal-leg-item"><span class="sq-cal-leg-dot high"></span>High</span>
+              <span class="sq-cal-leg-item"><span class="sq-cal-leg-dot green"></span>Green</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-divider"></div>
+
+        <!-- Adults -->
+        <div class="sq-field">
+          <label class="sq-field-label">Adult Travellers</label>
+          <div class="sq-counter">
+            <button class="sq-counter-btn" id="sqAdultMinus">−</button>
+            <span class="sq-counter-val" id="sqAdultVal">2</span>
+            <button class="sq-counter-btn" id="sqAdultPlus">+</button>
+          </div>
+          <span class="sq-field-note">Max 4 guests per private charter</span>
+        </div>
+
+        <div class="sidebar-divider"></div>
+
+        <!-- Children toggle -->
+        <div class="sq-field">
+          <div class="sq-children-toggle">
+            <label class="sq-field-label" style="margin-bottom:0">Travelling with children?</label>
+            <div class="sq-toggle-wrap">
+              <input type="checkbox" id="sqChildToggle" class="sq-toggle-input">
+              <label for="sqChildToggle" class="sq-toggle-track">
+                <span class="sq-toggle-thumb"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Hidden children section -->
+          <div class="sq-children-section" id="sqChildSection">
+            <div class="sq-field" style="margin-top:16px;">
+              <label class="sq-field-label">Number of Children</label>
+              <div class="sq-counter">
+                <button class="sq-counter-btn" id="sqChildMinus">−</button>
+                <span class="sq-counter-val" id="sqChildVal">1</span>
+                <button class="sq-counter-btn" id="sqChildPlus">+</button>
+              </div>
+            </div>
+            <!-- Age rows — rendered by JS -->
+            <div id="sqChildAges" class="sq-child-ages"></div>
+            <p class="sq-field-note" style="margin-top:10px;">Children under 5 travel free. Ages 5–11 at 50% rate. Ages 12+ at full adult rate.</p>
+          </div>
+        </div>
+
+        <div class="sidebar-divider"></div>
+
+        <!-- Price breakdown -->
+        <div class="sq-breakdown" id="sqBreakdown">
+          <div class="sq-breakdown-row"><span>Adults (2 × $16,500)</span><span id="sqAdultTotal">$33,000</span></div>
+          <div class="sq-breakdown-row" id="sqChildRow" style="display:none"><span id="sqChildLabel">Children</span><span id="sqChildTotal">$0</span></div>
+          <div class="sq-breakdown-row sq-breakdown-deposit"><span>30% Deposit to Secure</span><span id="sqDeposit">$9,900</span></div>
+        </div>
+
+        <div class="sidebar-divider"></div>
+
         <a href="PAYMENT_LINK_AERIAL_KENYA" class="btn-book-now">
           Reserve This Journey
           <span class="btn-book-now-sub">Secure with 30% deposit</span>
@@ -1555,7 +1700,7 @@
           <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           Enquire via WhatsApp
         </a>
-        <p class="sidebar-note">Secure your dates with a 30% deposit. Full flexibility on rebooking up to 45 days before departure.</p>
+        <p class="sidebar-note">Estimate updates live as you configure. Final quote confirmed by your concierge within 24 hours.</p>
       </div>
     </div>
   </div>
@@ -1732,5 +1877,234 @@ document.querySelectorAll('.day-header').forEach(function(header) {
   });
 });
 </script>
+<script>
+(function() {
+  'use strict';
+
+  // ── Season rules ──
+  // month index 0=Jan
+  const SEASONS = {
+    peak:  [6,7,8,9],       // Jul Aug Sep Oct
+    high:  [0,1,5,10,11],   // Jan Feb Jun Nov Dec
+    green: [2,3,4]          // Mar Apr May
+  };
+  const RATES = { peak: 18500, high: 16500, green: 13800 };
+  const SEASON_NAMES = { peak: 'Peak Season', high: 'High Season', green: 'Green Season' };
+
+  function getSeasonForMonth(m) {
+    if (SEASONS.peak.includes(m))  return 'peak';
+    if (SEASONS.green.includes(m)) return 'green';
+    return 'high';
+  }
+
+  // ── State ──
+  let state = {
+    adults: 2,
+    children: 0,
+    childAges: [],
+    selectedDate: null,
+    season: 'high',
+    baseRate: 16500
+  };
+
+  // ── Calendar ──
+  let calView = { year: new Date().getFullYear(), month: new Date().getMonth() };
+  const calEl      = document.getElementById('sqCalendar');
+  const dateInput  = document.getElementById('sqDateInput');
+  const calGrid    = document.getElementById('sqCalGrid');
+  const calMonthEl = document.getElementById('sqCalMonth');
+  const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  function renderCalendar() {
+    const { year, month } = calView;
+    calMonthEl.textContent = MONTHS[month] + ' ' + year;
+    const first = new Date(year, month, 1).getDay();
+    const days  = new Date(year, month + 1, 0).getDate();
+    const today = new Date();
+    calGrid.innerHTML = '';
+
+    for (let i = 0; i < first; i++) {
+      const blank = document.createElement('div');
+      blank.className = 'sq-cal-day empty';
+      calGrid.appendChild(blank);
+    }
+    for (let d = 1; d <= days; d++) {
+      const cell  = document.createElement('div');
+      const date  = new Date(year, month, d);
+      const season = getSeasonForMonth(month);
+      const isPast = date < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const isToday = date.toDateString() === today.toDateString();
+      const isSelected = state.selectedDate && date.toDateString() === state.selectedDate.toDateString();
+      cell.className = 'sq-cal-day' +
+        (isPast ? ' past' : '') +
+        (isToday ? ' today' : '') +
+        (isSelected ? ' selected' : '') +
+        (season === 'peak' ? ' peak' : season === 'green' ? ' green-season' : ' high');
+      cell.textContent = d;
+      if (!isPast) {
+        cell.addEventListener('click', function() {
+          state.selectedDate = date;
+          state.season = season;
+          state.baseRate = RATES[season];
+          const formatted = d + ' ' + MONTHS[month].slice(0,3) + ' ' + year;
+          dateInput.value = formatted;
+          calEl.classList.remove('open');
+          dateInput.classList.remove('open');
+          renderCalendar();
+          updateQuote();
+        });
+      }
+      calGrid.appendChild(cell);
+    }
+  }
+
+  dateInput.addEventListener('click', function() {
+    calEl.classList.toggle('open');
+    dateInput.classList.toggle('open');
+    renderCalendar();
+  });
+  document.addEventListener('click', function(e) {
+    if (!calEl.contains(e.target) && e.target !== dateInput) {
+      calEl.classList.remove('open');
+      dateInput.classList.remove('open');
+    }
+  });
+  document.getElementById('sqCalPrev').addEventListener('click', function(e) {
+    e.stopPropagation();
+    calView.month--;
+    if (calView.month < 0) { calView.month = 11; calView.year--; }
+    renderCalendar();
+  });
+  document.getElementById('sqCalNext').addEventListener('click', function(e) {
+    e.stopPropagation();
+    calView.month++;
+    if (calView.month > 11) { calView.month = 0; calView.year++; }
+    renderCalendar();
+  });
+
+  // ── Adults counter ──
+  document.getElementById('sqAdultMinus').addEventListener('click', function() {
+    if (state.adults > 1) { state.adults--; updateQuote(); }
+  });
+  document.getElementById('sqAdultPlus').addEventListener('click', function() {
+    if (state.adults < 4) { state.adults++; updateQuote(); }
+  });
+
+  // ── Children toggle ──
+  const childToggle  = document.getElementById('sqChildToggle');
+  const childSection = document.getElementById('sqChildSection');
+  childToggle.addEventListener('change', function() {
+    if (this.checked) {
+      childSection.classList.add('open');
+      if (state.children === 0) state.children = 1;
+    } else {
+      childSection.classList.remove('open');
+      state.children = 0;
+      state.childAges = [];
+    }
+    renderChildAges();
+    updateQuote();
+  });
+
+  // ── Children counter ──
+  document.getElementById('sqChildMinus').addEventListener('click', function() {
+    if (state.children > 1) { state.children--; renderChildAges(); updateQuote(); }
+  });
+  document.getElementById('sqChildPlus').addEventListener('click', function() {
+    if (state.children < 6) { state.children++; renderChildAges(); updateQuote(); }
+  });
+
+  function renderChildAges() {
+    document.getElementById('sqChildVal').textContent = state.children;
+    const container = document.getElementById('sqChildAges');
+    container.innerHTML = '';
+    for (let i = 0; i < state.children; i++) {
+      const row = document.createElement('div');
+      row.className = 'sq-child-age-row';
+      const label = document.createElement('span');
+      label.className = 'sq-child-age-label';
+      label.textContent = 'Child ' + (i + 1) + ' age';
+      const select = document.createElement('select');
+      select.className = 'sq-child-age-select';
+      select.innerHTML = '<option value="">Select age</option>';
+      for (let a = 0; a <= 17; a++) {
+        const opt = document.createElement('option');
+        opt.value = a;
+        opt.textContent = a === 0 ? 'Under 1' : a + ' yrs';
+        if (state.childAges[i] !== undefined && state.childAges[i] == a) opt.selected = true;
+        select.appendChild(opt);
+      }
+      const idx = i;
+      select.addEventListener('change', function() {
+        state.childAges[idx] = parseInt(this.value);
+        updateQuote();
+      });
+      row.appendChild(label);
+      row.appendChild(select);
+      container.appendChild(row);
+    }
+  }
+
+  // ── Pricing logic ──
+  function getChildRate(age) {
+    if (isNaN(age) || age < 5)  return 0;
+    if (age < 12) return state.baseRate * 0.5;
+    return state.baseRate;
+  }
+
+  function updateQuote() {
+    const adultTotal = state.adults * state.baseRate;
+    let childTotal = 0;
+    for (let i = 0; i < state.children; i++) {
+      childTotal += getChildRate(state.childAges[i] !== undefined ? state.childAges[i] : NaN);
+    }
+    const grandTotal = adultTotal + childTotal;
+    const deposit    = Math.round(grandTotal * 0.3);
+
+    // Update DOM
+    document.getElementById('sqAdultVal').textContent  = state.adults;
+    document.getElementById('sqPriceNum').textContent  = '$' + state.baseRate.toLocaleString();
+    document.getElementById('sqSeason').textContent    = SEASON_NAMES[state.season];
+    flash(document.getElementById('sqTotal'));
+    document.getElementById('sqTotal').textContent     = '$' + grandTotal.toLocaleString();
+    document.getElementById('sqAdultTotal').textContent = '$' + adultTotal.toLocaleString();
+    document.querySelector('#sqBreakdown .sq-breakdown-row:first-child span:first-child').textContent =
+      'Adults (' + state.adults + ' × $' + state.baseRate.toLocaleString() + ')';
+
+    if (state.children > 0 && childTotal > 0) {
+      document.getElementById('sqChildRow').style.display = 'flex';
+      document.getElementById('sqChildLabel').textContent = 'Children (' + state.children + ')';
+      document.getElementById('sqChildTotal').textContent = '$' + childTotal.toLocaleString();
+    } else {
+      document.getElementById('sqChildRow').style.display = 'none';
+    }
+    document.getElementById('sqDeposit').textContent = '$' + deposit.toLocaleString();
+
+    // Update WhatsApp link
+    const waLink = document.querySelector('.btn-whatsapp');
+    if (waLink) {
+      const msg = encodeURIComponent(
+        'Hello, I\'d like to enquire about the Aerial Kenya 8-Day Safari.\n' +
+        'Date: ' + (dateInput.value || 'TBC') + '\n' +
+        'Adults: ' + state.adults + '\n' +
+        (state.children > 0 ? 'Children: ' + state.children + '\n' : '') +
+        'Estimated Total: $' + grandTotal.toLocaleString()
+      );
+      waLink.href = 'https://wa.me/34672304384?text=' + msg;
+    }
+  }
+
+  function flash(el) {
+    el.classList.remove('price-flash');
+    void el.offsetWidth;
+    el.classList.add('price-flash');
+  }
+
+  // ── Init ──
+  renderCalendar();
+  updateQuote();
+
+})();
+</script>  
 </body>
 </html>
