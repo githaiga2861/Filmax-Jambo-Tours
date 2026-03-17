@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aerial Kenya — 8 Days — Filmax Jambo Tours</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:wght@300;400;600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -745,174 +746,25 @@
       <div class="overview-map-section reveal">
         <span class="sec-label">Your Route</span>
         <h2 class="sec-title">Four Ecosystems, One Journey</h2>
-        <div class="kenya-map-container">
+<div class="kenya-map-container">
           <div class="map-layout">
-            <!-- SVG Kenya outline with route dots -->
             <div class="kenya-svg-wrap">
-             <svg viewBox="0 0 600 620" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
-             <defs>
-              <filter id="glow">
-             <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
-            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-            </defs>
-
-  <!-- ═══════════════════════════════════════════
-       KENYA OUTLINE — traced from geographic shape
-       Northwestern flat top, straight eastern border
-       down to Tanzania, coast curves SE to Indian Ocean
-  ════════════════════════════════════════════ -->
-   <path d="
-    M 110 48
-    L 195 42
-    L 280 40
-    L 355 42
-    L 390 48
-    L 415 62
-    L 435 80
-    L 448 102
-    L 455 125
-    L 458 150
-    L 455 172
-    L 450 192
-    L 458 208
-    L 465 225
-    L 462 242
-    L 452 255
-    L 440 265
-    L 432 278
-    L 428 295
-    L 430 312
-    L 435 328
-    L 432 345
-    L 422 360
-    L 408 372
-    L 395 382
-    L 385 395
-    L 378 410
-    L 372 428
-    L 368 448
-    L 365 468
-    L 362 488
-    L 358 505
-    L 352 518
-    L 345 528
-    L 338 535
-    L 325 538
-    L 312 535
-    L 298 528
-    L 285 518
-    L 272 508
-    L 260 495
-    L 248 480
-    L 238 462
-    L 230 445
-    L 222 428
-    L 215 412
-    L 208 395
-    L 200 378
-    L 190 362
-    L 178 348
-    L 162 338
-    L 145 330
-    L 128 322
-    L 112 312
-    L 98 298
-    L 88 282
-    L 82 265
-    L 78 248
-    L 75 230
-    L 72 212
-    L 70 192
-    L 68 172
-    L 68 152
-    L 70 132
-    L 75 112
-    L 84 92
-    L 96 72
-    L 110 58
-    L 110 48 Z"
-    fill="rgba(255,255,255,0.05)"
-    stroke="rgba(212,175,55,0.45)"
-    stroke-width="2"
-    stroke-linejoin="round"
-  />
-
-  <!-- Lake Victoria — bottom left indentation -->
-  <ellipse cx="82" cy="300" rx="26" ry="20"
-    fill="rgba(110,176,200,0.18)"
-    stroke="rgba(110,176,200,0.35)" stroke-width="1.2"/>
-  <text x="52" y="303" font-size="8" fill="rgba(110,176,200,0.6)"
-    font-family="sans-serif" letter-spacing="0.8">L. Victoria</text>
-
-  <!-- subtle grid/terrain feel -->
-  <line x1="110" y1="200" x2="455" y2="200" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-  <line x1="110" y1="300" x2="435" y2="300" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-  <line x1="110" y1="400" x2="380" y2="400" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-  <line x1="200" y1="50" x2="200" y2="540" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-  <line x1="300" y1="50" x2="300" y2="540" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-  <line x1="400" y1="50" x2="400" y2="460" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-
-  <!-- ═══ ROUTE LINES (dashed gold) ═══ -->
-  <!-- Nairobi → Maasai Mara -->
-  <line x1="268" y1="338" x2="148" y2="368" stroke="rgba(212,175,55,0.45)" stroke-width="1.5" stroke-dasharray="7,5"/>
-  <!-- Maasai Mara → Amboseli -->
-  <line x1="148" y1="368" x2="228" y2="455" stroke="rgba(212,175,55,0.45)" stroke-width="1.5" stroke-dasharray="7,5"/>
-  <!-- Amboseli → Samburu -->
-  <line x1="228" y1="455" x2="318" y2="178" stroke="rgba(212,175,55,0.45)" stroke-width="1.5" stroke-dasharray="7,5"/>
-  <!-- Samburu → Diani -->
-  <line x1="318" y1="178" x2="348" y2="495" stroke="rgba(212,175,55,0.45)" stroke-width="1.5" stroke-dasharray="7,5"/>
-
-  <!-- ✈ flight icons -->
-  <text x="196" y="348" font-size="13" fill="rgba(212,175,55,0.55)" font-family="sans-serif">✈</text>
-  <text x="178" y="422" font-size="13" fill="rgba(212,175,55,0.55)" font-family="sans-serif">✈</text>
-  <text x="278" y="308" font-size="13" fill="rgba(212,175,55,0.55)" font-family="sans-serif">✈</text>
-  <text x="340" y="348" font-size="13" fill="rgba(212,175,55,0.55)" font-family="sans-serif">✈</text>
-
-  <!-- ═══ LOCATION PINS ═══ -->
-
-  <!-- NAIROBI — centre of Kenya, slightly south -->
-  <circle cx="268" cy="338" r="10" fill="rgba(212,175,55,0.15)" stroke="rgba(212,175,55,0.5)" stroke-width="1.5"/>
-  <circle cx="268" cy="338" r="5"  fill="#d4af37" filter="url(#glow)"/>
-  <text x="282" y="333" font-size="11" fill="#d4af37" font-family="'Jost',sans-serif" letter-spacing="1" font-weight="600">NAIROBI</text>
-  <text x="282" y="346" font-size="8"  fill="rgba(212,175,55,0.6)" font-family="sans-serif">Start &amp; End</text>
-
-  <!-- MAASAI MARA — southwest, near Tanzania border -->
-  <circle cx="148" cy="368" r="10" fill="rgba(232,136,74,0.15)" stroke="rgba(232,136,74,0.5)" stroke-width="1.5"/>
-  <circle cx="148" cy="368" r="5"  fill="#e8884a" filter="url(#glow)"/>
-  <text x="90"  y="358" font-size="11" fill="#e8884a" font-family="'Jost',sans-serif" letter-spacing="1" font-weight="600">MAASAI MARA</text>
-  <text x="104" y="370" font-size="8"  fill="rgba(232,136,74,0.6)" font-family="sans-serif">Days 1–2</text>
-
-  <!-- AMBOSELI — southeast, near Kilimanjaro / Tanzania -->
-  <circle cx="228" cy="455" r="10" fill="rgba(123,181,110,0.15)" stroke="rgba(123,181,110,0.5)" stroke-width="1.5"/>
-  <circle cx="228" cy="455" r="5"  fill="#7bb56e" filter="url(#glow)"/>
-  <text x="242" y="450" font-size="11" fill="#7bb56e" font-family="'Jost',sans-serif" letter-spacing="1" font-weight="600">AMBOSELI</text>
-  <text x="242" y="462" font-size="8"  fill="rgba(123,181,110,0.6)" font-family="sans-serif">Days 3–4</text>
-               <!-- SAMBURU — north-central Kenya -->
-               <circle cx="318" cy="178" r="10" fill="rgba(110,176,200,0.15)" stroke="rgba(110,176,200,0.5)" stroke-width="1.5"/>
-               <circle cx="318" cy="178" r="5"  fill="#6eb0c8" filter="url(#glow)"/>
-               <text x="332" y="173" font-size="11" fill="#6eb0c8" font-family="'Jost',sans-serif" letter-spacing="1" font-weight="600">SAMBURU</text>
-               <text x="332" y="185" font-size="8"  fill="rgba(110,176,200,0.6)" font-family="sans-serif">Days 5–6</text>
-
-   <!-- DIANI COAST — far southeast coast -->
-                <circle cx="348" cy="495" r="10" fill="rgba(155,111,212,0.15)" stroke="rgba(155,111,212,0.5)" stroke-width="1.5"/>
-                <circle cx="348" cy="495" r="5"  fill="#9b6fd4" filter="url(#glow)"/>
-                <text x="280" y="490" font-size="11" fill="#9b6fd4" font-family="'Jost',sans-serif" letter-spacing="1" font-weight="600">DIANI COAST</text>
-               <text x="292" y="502" font-size="8"  fill="rgba(155,111,212,0.6)" font-family="sans-serif">Days 7–8</text>
-             </svg>
+              <div id="kenya-leaflet-map" style="width:100%;height:420px;background:#0d0d0d;"></div>
             </div>
-
-            <!-- Route legend -->
             <div class="map-legend">
               <span class="map-legend-title">Route Sequence</span>
-
-              <div class="map-stop">
-                <div class="map-stop-dot nairobi"></div>
-                <div class="map-stop-info">
-                  <span class="map-stop-day">Departure</span>
-                  <span class="map-stop-name">Nairobi</span>
-                </div>
-              </div>
+              <div class="map-stop"><div class="map-stop-dot nairobi"></div><div class="map-stop-info"><span class="map-stop-day">Departure</span><span class="map-stop-name">Nairobi</span></div></div>
+              <div class="map-flight-line"><span>Private charter · 45 min</span></div>
+              <div class="map-stop"><div class="map-stop-dot mara"></div><div class="map-stop-info"><span class="map-stop-day">Days 1–2</span><span class="map-stop-name">Maasai Mara</span></div></div>
+              <div class="map-flight-line"><span>Private charter · 55 min</span></div>
+              <div class="map-stop"><div class="map-stop-dot amboseli"></div><div class="map-stop-info"><span class="map-stop-day">Days 3–4</span><span class="map-stop-name">Amboseli</span></div></div>
+              <div class="map-flight-line"><span>Private charter · 1 hr 20 min</span></div>
+              <div class="map-stop"><div class="map-stop-dot samburu"></div><div class="map-stop-info"><span class="map-stop-day">Days 5–6</span><span class="map-stop-name">Samburu</span></div></div>
+              <div class="map-flight-line"><span>Private charter · 1 hr 50 min</span></div>
+              <div class="map-stop"><div class="map-stop-dot diani"></div><div class="map-stop-info"><span class="map-stop-day">Days 7–8</span><span class="map-stop-name">Diani Beach</span></div></div>
+            </div>
+          </div>
+        </div>
               <div class="map-flight-line"><span>Private charter · 45 min</span></div>
               <div class="map-stop">
                 <div class="map-stop-dot mara"></div>
@@ -1828,6 +1680,107 @@
   <a href="PAYMENT_LINK_AERIAL_KENYA" class="mobile-book-btn">Reserve This Journey</a>
 </div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+
+  var map = L.map('kenya-leaflet-map', {
+    center: [0.5, 37.9],
+    zoom: 6,
+    zoomControl: false,
+    scrollWheelZoom: false,
+    dragging: false,
+    doubleClickZoom: false,
+    boxZoom: false,
+    keyboard: false,
+    attributionControl: false
+  });
+
+  // Dark styled tile layer using CartoDB dark matter
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_matter_all/{z}/{x}/{y}{r}.png', {
+    maxZoom: 19
+  }).addTo(map);
+
+  // Custom gold dot icon factory
+  function makeIcon(color) {
+    return L.divIcon({
+      className: '',
+      html:
+        '<div style="' +
+          'width:14px;height:14px;border-radius:50%;' +
+          'background:' + color + ';' +
+          'border:2px solid rgba(255,255,255,0.3);' +
+          'box-shadow:0 0 10px ' + color + ',0 0 20px ' + color + '88;' +
+          'position:relative;' +
+        '">' +
+          '<div style="' +
+            'position:absolute;top:-3px;left:-3px;' +
+            'width:20px;height:20px;border-radius:50%;' +
+            'border:1px solid ' + color + '55;' +
+          '"></div>' +
+        '</div>',
+      iconSize: [14, 14],
+      iconAnchor: [7, 7],
+      popupAnchor: [0, -10]
+    });
+  }
+
+  // Label style
+  function labelIcon(text, sub, color) {
+    return L.divIcon({
+      className: '',
+      html:
+        '<div style="' +
+          'background:rgba(8,8,8,0.85);' +
+          'border:1px solid ' + color + '55;' +
+          'padding:5px 10px;' +
+          'white-space:nowrap;' +
+          'pointer-events:none;' +
+        '">' +
+          '<div style="font-family:Jost,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:' + color + ';font-weight:600;">' + text + '</div>' +
+          '<div style="font-family:sans-serif;font-size:8px;color:rgba(255,255,255,0.4);margin-top:2px;letter-spacing:1px;">' + sub + '</div>' +
+        '</div>',
+      iconSize: [130, 36],
+      iconAnchor: [-10, 18]
+    });
+  }
+
+  var stops = [
+    { latlng: [-1.286, 36.817],  color: '#d4af37', name: 'NAIROBI',     sub: 'Start & End',  labelAnchor: [-10, 18] },
+    { latlng: [-1.5,   35.15],   color: '#e8884a', name: 'MAASAI MARA', sub: 'Days 1–2',     labelAnchor: [-10, 18] },
+    { latlng: [-2.65,  37.25],   color: '#7bb56e', name: 'AMBOSELI',    sub: 'Days 3–4',     labelAnchor: [-10, 18] },
+    { latlng: [0.6,    37.55],   color: '#6eb0c8', name: 'SAMBURU',     sub: 'Days 5–6',     labelAnchor: [-10, 18] },
+    { latlng: [-4.28,  39.58],   color: '#9b6fd4', name: 'DIANI BEACH', sub: 'Days 7–8',     labelAnchor: [-10, 18] }
+  ];
+
+  // Draw dashed flight route lines
+  var routeCoords = stops.map(function(s){ return s.latlng; });
+  L.polyline(routeCoords, {
+    color: 'rgba(212,175,55,0.5)',
+    weight: 1.5,
+    dashArray: '6, 5'
+  }).addTo(map);
+
+  // Place markers and labels
+  stops.forEach(function(stop) {
+    L.marker(stop.latlng, { icon: makeIcon(stop.color), zIndexOffset: 1000 }).addTo(map);
+    L.marker(stop.latlng, { icon: labelIcon(stop.name, stop.sub, stop.color), zIndexOffset: 999 }).addTo(map);
+  });
+
+  // Fix map rendering if it initialises inside a hidden tab
+  setTimeout(function(){ map.invalidateSize(); }, 300);
+
+  // Also re-render when Overview tab is clicked
+  document.querySelectorAll('.pkg-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      if (this.dataset.tab === 'overview') {
+        setTimeout(function(){ map.invalidateSize(); }, 350);
+      }
+    });
+  });
+
+});
+</script>
 <script>
 // ── Custom cursor ──
 const cursor = document.getElementById('cursor');
