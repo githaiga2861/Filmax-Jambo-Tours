@@ -175,7 +175,7 @@
     position: relative;
     background: var(--charcoal);
     border: 1px solid var(--border);
-    padding: 40px;
+    padding: 24px;
     overflow: hidden;
   }
   .kenya-map-container::before {
@@ -185,11 +185,11 @@
     background: radial-gradient(ellipse at 60% 40%, rgba(212,175,55,0.04) 0%, transparent 70%);
     pointer-events: none;
   }
-  .map-layout {
+ .map-layout {
     display: grid;
     grid-template-columns: 1fr 220px;
-    gap: 40px;
-    align-items: center;
+    gap: 24px;
+    align-items: start;
   }
   .kenya-svg-wrap {
     position: relative;
@@ -746,10 +746,10 @@
       <div class="overview-map-section reveal">
         <span class="sec-label">Your Route</span>
         <h2 class="sec-title">Four Ecosystems, One Journey</h2>
-<div class="kenya-map-container">
+         <div class="kenya-map-container">
           <div class="map-layout">
             <div class="kenya-svg-wrap">
-              <div id="kenya-leaflet-map" style="width:100%;height:420px;background:#0d0d0d;"></div>
+              <div id="kenya-leaflet-map" style="width:100%;height:380px;max-height:380px;background:#0d0d0d;overflow:hidden;"></div>
             </div>
             <div class="map-legend">
               <span class="map-legend-title">Route Sequence</span>
