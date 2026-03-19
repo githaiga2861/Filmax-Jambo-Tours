@@ -640,7 +640,7 @@
     .sidebar-card{position:relative;top:auto;}
     .pkg-tabs-wrapper{margin-left:0;padding-left:0;}
     .pkg-tabs-fixed{position:fixed;top:72px;left:0;right:0;z-index:99;}
-    .pkg-content{padding-top:56px;}
+    .pkg-content{padding-top:0;}
      body{padding-bottom:90px;}
     .pkg-tabs-wrapper::after { content: ''; position: absolute; top: 0; right: 0; width: 48px; height: 100%; background: linear-gradient(to right, transparent, rgba(8,8,8,0.85)); pointer-events: none; z-index: 10;}
     .pkg-tabs-wrapper { position: relative;}
@@ -1867,10 +1867,12 @@ tabs.forEach(tab => {
     }
 
   // Scroll to top of content panel on mobile, pkg-main on desktop
-    if (window.innerWidth <= 1100) {
-      const tabsWrapper = document.getElementById('pkgTabsWrapper');
-      if (tabsWrapper) {
-        const top = tabsWrapper.getBoundingClientRect().bottom + window.pageYOffset + 8;
+if (window.innerWidth <= 1100) {
+      const pkgContent = document.querySelector('.pkg-content');
+      if (pkgContent) {
+        const navH = 72;
+        const tabsH = 56;
+        const top = pkgContent.getBoundingClientRect().top + window.pageYOffset - navH - tabsH;
         window.scrollTo({ top: top, behavior: 'smooth' });
       }
     } else {
@@ -1883,7 +1885,7 @@ tabs.forEach(tab => {
   });
 });
 
-  // ── MOBILE TAB BAR FIXED BEHAVIOUR ──
+// ── MOBILE TAB BAR FIXED BEHAVIOUR ──
 (function(){
   if (window.innerWidth > 1100) return;
   var tabsWrapper = document.getElementById('pkgTabsWrapper');
@@ -1891,12 +1893,13 @@ tabs.forEach(tab => {
   var pkgRelated = document.querySelector('.pkg-related');
   if (!tabsWrapper || !pkgMain) return;
 
+  var navHeight = 72;
+
   function onScroll() {
     if (window.innerWidth > 1100) return;
     var mainTop = pkgMain.getBoundingClientRect().top;
     var relatedTop = pkgRelated ? pkgRelated.getBoundingClientRect().top : 99999;
-
-    if (mainTop <= 72 && relatedTop > 72) {
+    if (mainTop <= navHeight && relatedTop > navHeight) {
       tabsWrapper.classList.add('pkg-tabs-fixed');
     } else {
       tabsWrapper.classList.remove('pkg-tabs-fixed');
