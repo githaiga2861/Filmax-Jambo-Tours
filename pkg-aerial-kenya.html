@@ -2050,6 +2050,16 @@ document.querySelectorAll('.day-header').forEach(function(header) {
     }
     document.getElementById('sqDeposit').textContent = '$' + deposit.toLocaleString();
 
+    // Update mobile bottom bar price
+    const mobilePrice = document.querySelector('.mobile-book-price-num');
+    if (mobilePrice) {
+      mobilePrice.textContent = '$' + grandTotal.toLocaleString();
+    }
+    const mobilePriceLabel = document.querySelector('.mobile-book-price-label');
+    if (mobilePriceLabel) {
+      mobilePriceLabel.textContent = 'estimated total';
+    }
+    
     // Update WhatsApp link
     const waLink = document.querySelector('.btn-whatsapp');
     if (waLink) {
