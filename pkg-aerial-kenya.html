@@ -1716,13 +1716,26 @@ function initKenyaMap() {
       '<div style="font-size:8px;color:rgba(255,255,255,0.4);margin-top:2px;letter-spacing:1px;">' + stop.sub + '</div>' +
       '</div>';
 
-    var infoWindow = new google.maps.InfoWindow({
+  var infoWindow = new google.maps.InfoWindow({
       content: infoContent,
       disableAutoPan: true
     });
 
     infoWindow.open(map, marker);
-  });
+
+    // Click marker to open Google Maps directions to the exact gate
+    marker.addListener('click', function() {
+      window.open('https://www.google.com/maps/search/?api=1&query=' + stop.lat + ',' + stop.lng, '_blank');
+    });
+
+    // Change cursor to pointer on hover
+    marker.addListener('mouseover', function() {
+      map.getDiv().style.cursor = 'pointer';
+    });
+    marker.addListener('mouseout', function() {
+      map.getDiv().style.cursor = '';
+    });
+  }); 
 
   // Re-render when overview tab clicked
   document.querySelectorAll('.pkg-tab').forEach(function(tab) {
