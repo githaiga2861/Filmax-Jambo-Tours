@@ -125,12 +125,21 @@
   /* ============================================================
      TAB PANELS
   ============================================================ */
-  .pkg-tab-panel {
+.pkg-tab-panel {
     display: none;
     padding-top: 64px;
   }
   .pkg-tab-panel.active {
     display: block;
+  }
+
+  /* MOBILE ONLY: show all panels stacked, ignore active/hidden state */
+  @media (max-width: 1100px) {
+    .pkg-tab-panel {
+      display: block !important;
+      padding-top: 48px;
+      padding-bottom: 16px;
+    }
   }
 
   /* ── Shared typography ── */
@@ -1847,37 +1856,49 @@ tabs.forEach(tab => {
   tab.addEventListener('click', function() {
     const target = this.dataset.tab;
 
-    // Deactivate all
-    tabs.forEach(t => t.classList.remove('active'));
-    panels.forEach(p => p.classList.remove('active'));
+    if (window.innerWidth <= 1100) {
+      // MOBILE: all panels are visible and stacked.
+      // Just update the active tab highlight and scroll to the section.
+      tabs.forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
 
-// Activate selected
-    this.classList.add('active');
-    const panel = document.getElementById('panel-' + target);
-    if (panel) {
-      panel.classList.add('active');
-      if (target === 'itinerary') {
-        document.querySelectorAll('.itinerary-day.open').forEach(function(d) {
-          d.classList.remove('open');
+      const panel = document.getElementById('panel-' + target);
+      if (panel) {
+        // Trigger reveal animations for anything not yet visible in this panel
+        panel.querySelectorAll('.reveal').forEach(el => {
+          if (!el.classList.contains('visible')) {
+            setTimeout(() => el.classList.add('visible'), 80);
+          }
+        });
+
+        // Scroll to panel, accounting for sticky tab bar height (~110px)
+        setTimeout(function() {
+          const panelTop = panel.getBoundingClientRect().top + window.pageYOffset - 110;
+          window.scrollTo({ top: panelTop, behavior: 'smooth' });
+        }, 50);
+      }
+
+    } else {
+      // DESKTOP: original panel switching behaviour
+      tabs.forEach(t => t.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+
+      this.classList.add('active');
+      const panel = document.getElementById('panel-' + target);
+      if (panel) {
+        panel.classList.add('active');
+        if (target === 'itinerary') {
+          document.querySelectorAll('.itinerary-day.open').forEach(function(d) {
+            d.classList.remove('open');
+          });
+        }
+        panel.querySelectorAll('.reveal').forEach(el => {
+          if (!el.classList.contains('visible')) {
+            setTimeout(() => el.classList.add('visible'), 80);
+          }
         });
       }
-      panel.querySelectorAll('.reveal').forEach(el => {
-        if (!el.classList.contains('visible')) {
-          setTimeout(() => el.classList.add('visible'), 80);
-        }
-      });
-    }
 
-  // Scroll to top of content panel on mobile, pkg-main on desktop
-if (window.innerWidth <= 1100) {
-      setTimeout(function() {
-        const panel = document.getElementById('panel-' + target);
-        if (panel) {
-          const panelTop = panel.getBoundingClientRect().top + window.pageYOffset - 130;
-          window.scrollTo({ top: panelTop, behavior: 'smooth' });
-        }
-      }, 50);
-    } else {
       const pkgMain = document.getElementById('pkgMain');
       if (pkgMain) {
         const top = pkgMain.getBoundingClientRect().top + window.pageYOffset - 80;
@@ -2167,6 +2188,48 @@ document.querySelectorAll('.day-header').forEach(function(header) {
   updateQuote();
 
 })();
-</script>  
+</script>
+ <script>
+// MOBILE SCROLL SPY — highlights the correct tab as user scrolls through stacked panels
+(function () {
+  var panels = Array.from(document.querySelectorAll('.pkg-tab-panel'));
+  var tabs   = Array.from(document.querySelectorAll('.pkg-tab'));
+  var tabsWrapper = document.getElementById('pkgTabsWrapper');
+
+  function getTabForPanel(panel) {
+    var id = panel.id.replace('panel-', '');
+    return tabs.find(t => t.dataset.tab === id);
+  }
+
+  function onScroll() {
+    if (window.innerWidth > 1100) return; // desktop only uses click-switching
+
+    var stickyOffset = (tabsWrapper ? tabsWrapper.offsetHeight : 60) + 62 + 20;
+    var current = null;
+
+    panels.forEach(function (panel) {
+      var rect = panel.getBoundingClientRect();
+      if (rect.top <= stickyOffset) {
+        current = panel;
+      }
+    });
+
+    if (current) {
+      tabs.forEach(t => t.classList.remove('active'));
+      var activeTab = getTabForPanel(current);
+      if (activeTab) {
+        activeTab.classList.add('active');
+
+        // Auto-scroll the tab into view horizontally inside the tab bar
+        activeTab.scrollIntoView({ inline: 'nearest', block: 'nearest' });
+      }
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  onScroll();
+})();
+</script> 
 </body>
 </html>
