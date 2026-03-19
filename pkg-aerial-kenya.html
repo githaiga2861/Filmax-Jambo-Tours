@@ -1870,11 +1870,13 @@ tabs.forEach(tab => {
 
   // Scroll to top of content panel on mobile, pkg-main on desktop
 if (window.innerWidth <= 1100) {
-      const pkgContent = document.querySelector('.pkg-content');
-      if (pkgContent) {
-        const top = pkgContent.getBoundingClientRect().top + window.pageYOffset - 130;
-        window.scrollTo({ top: top, behavior: 'smooth' });
-      }
+      setTimeout(function() {
+        const panel = document.getElementById('panel-' + target);
+        if (panel) {
+          const panelTop = panel.getBoundingClientRect().top + window.pageYOffset - 130;
+          window.scrollTo({ top: panelTop, behavior: 'smooth' });
+        }
+      }, 50);
     } else {
       const pkgMain = document.getElementById('pkgMain');
       if (pkgMain) {
