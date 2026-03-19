@@ -1655,8 +1655,8 @@
 window.addEventListener('DOMContentLoaded', function() {
 
   var map = L.map('kenya-leaflet-map', {
-    center: [0.5, 37.9],
-    zoom: 6,
+    center: [-1.2, 37.5],
+    zoom: 6.3,
     zoomControl: false,
     scrollWheelZoom: false,
     dragging: false,
@@ -1666,10 +1666,30 @@ window.addEventListener('DOMContentLoaded', function() {
     attributionControl: false
   });
 
-  // Dark styled tile layer using CartoDB dark matter
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_matter_all/{z}/{x}/{y}{r}.png', {
+// Dark styled tile layer
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_matter_nolabels/{z}/{x}/{y}{r}.png', {
     maxZoom: 19
   }).addTo(map);
+
+  // Kenya boundary
+  fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson')
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      var kenya = data.features.find(function(f){
+        return f.properties.ISO_A2 === 'KE';
+      });
+      if (kenya) {
+        L.geoJSON(kenya, {
+          style: {
+            color: 'rgba(212,175,55,0.6)',
+            weight: 2,
+            fillColor: 'rgba(212,175,55,0.07)',
+            fillOpacity: 1,
+            dashArray: '4,3'
+          }
+        }).addTo(map);
+      }
+    });
 
   // Custom gold dot icon factory
   function makeIcon(color) {
