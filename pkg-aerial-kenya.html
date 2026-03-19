@@ -1805,13 +1805,11 @@ tabs.forEach(tab => {
     const panel = document.getElementById('panel-' + target);
     if (panel) {
       panel.classList.add('active');
-      // Close all days when switching to itinerary panel
       if (target === 'itinerary') {
         document.querySelectorAll('.itinerary-day.open').forEach(function(d) {
           d.classList.remove('open');
         });
       }
-      // Trigger reveals in newly-shown panel
       panel.querySelectorAll('.reveal').forEach(el => {
         if (!el.classList.contains('visible')) {
           setTimeout(() => el.classList.add('visible'), 80);
@@ -1836,12 +1834,10 @@ document.querySelectorAll('.day-header').forEach(function(header) {
   header.addEventListener('click', function() {
     var day = header.closest('.itinerary-day');
     if (!day) return;
-var isOpen = day.classList.contains('open');
-      if (isOpen) {
-        day.classList.remove('open');
-      } else {
-        day.classList.add('open');
-      }
+    if (day.classList.contains('open')) {
+      day.classList.remove('open');
+    } else {
+      day.classList.add('open');
     }
   });
 });
