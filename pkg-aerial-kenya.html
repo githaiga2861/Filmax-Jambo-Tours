@@ -639,7 +639,8 @@
     .pkg-sidebar{padding:0 24px 40px;order:1;}
     .sidebar-card{position:relative;top:auto;}
     .pkg-tabs-wrapper{margin-left:0;padding-left:0;}
-    .pkg-tabs-fixed{position:fixed;top:72px;left:0;right:0;z-index:99;}
+    .pkg-tabs-fixed{position:fixed;top:72px;left:0;right:0;z-index:99;width:100%;background:rgba(8,8,8,0.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+    .pkg-content{padding-top:0;}
     .pkg-content{padding-top:0;}
      body{padding-bottom:90px;}
     .pkg-tabs-wrapper::after { content: ''; position: absolute; top: 0; right: 0; width: 48px; height: 100%; background: linear-gradient(to right, transparent, rgba(8,8,8,0.85)); pointer-events: none; z-index: 10;}
@@ -1868,12 +1869,11 @@ tabs.forEach(tab => {
 
   // Scroll to top of content panel on mobile, pkg-main on desktop
 if (window.innerWidth <= 1100) {
-      const pkgContent = document.querySelector('.pkg-content');
-      if (pkgContent) {
-        const navH = 72;
-        const tabsH = 56;
-        const top = pkgContent.getBoundingClientRect().top + window.pageYOffset - navH - tabsH;
-        window.scrollTo({ top: top, behavior: 'smooth' });
+      const tabsWrapper = document.getElementById('pkgTabsWrapper');
+      if (tabsWrapper) {
+        const tabsBottom = tabsWrapper.getBoundingClientRect().bottom;
+        const currentScroll = window.pageYOffset;
+        window.scrollTo({ top: currentScroll + tabsBottom - 72, behavior: 'smooth' });
       }
     } else {
       const pkgMain = document.getElementById('pkgMain');
@@ -1887,19 +1887,19 @@ if (window.innerWidth <= 1100) {
 
 // ── MOBILE TAB BAR FIXED BEHAVIOUR ──
 (function(){
-  if (window.innerWidth > 1100) return;
   var tabsWrapper = document.getElementById('pkgTabsWrapper');
   var pkgMain = document.getElementById('pkgMain');
   var pkgRelated = document.querySelector('.pkg-related');
   if (!tabsWrapper || !pkgMain) return;
 
-  var navHeight = 72;
-
   function onScroll() {
-    if (window.innerWidth > 1100) return;
-    var mainTop = pkgMain.getBoundingClientRect().top;
-    var relatedTop = pkgRelated ? pkgRelated.getBoundingClientRect().top : 99999;
-    if (mainTop <= navHeight && relatedTop > navHeight) {
+    if (window.innerWidth > 1100) {
+      tabsWrapper.classList.remove('pkg-tabs-fixed');
+      return;
+    }
+    var mainRect = pkgMain.getBoundingClientRect();
+    var relatedRect = pkgRelated ? pkgRelated.getBoundingClientRect() : { top: 99999 };
+    if (mainRect.top <= 72 && relatedRect.top > 72) {
       tabsWrapper.classList.add('pkg-tabs-fixed');
     } else {
       tabsWrapper.classList.remove('pkg-tabs-fixed');
@@ -1907,6 +1907,7 @@ if (window.innerWidth <= 1100) {
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
   onScroll();
 })();
   
