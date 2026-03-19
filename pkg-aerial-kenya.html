@@ -1817,11 +1817,19 @@ tabs.forEach(tab => {
       });
     }
 
-     // Scroll to top of pkg-main when tab changes
-    const pkgMain = document.getElementById('pkgMain');
-    if (pkgMain) {
-      const top = pkgMain.getBoundingClientRect().top + window.pageYOffset - 80;
-      window.scrollTo({ top: top, behavior: 'smooth' });
+    // Scroll to top of content panel on mobile, pkg-main on desktop
+    if (window.innerWidth <= 1100) {
+      const pkgContent = document.querySelector('.pkg-content');
+      if (pkgContent) {
+        const top = pkgContent.getBoundingClientRect().top + window.pageYOffset - 90;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+      }
+    } else {
+      const pkgMain = document.getElementById('pkgMain');
+      if (pkgMain) {
+        const top = pkgMain.getBoundingClientRect().top + window.pageYOffset - 80;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+      }
     }
   });
 });
