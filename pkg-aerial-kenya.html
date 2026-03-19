@@ -619,7 +619,9 @@
     .pkg-content{padding-right:0;border-right:none;order:2;}
     .pkg-sidebar{padding:0 24px 40px;order:1;}
     .sidebar-card{position:relative;top:auto;}
-    .pkg-tabs-wrapper{margin-left:0;padding-left:0;position:sticky;top:72px;z-index:50;}
+    .pkg-tabs-wrapper{margin-left:0;padding-left:0;}
+    .pkg-tabs-fixed{position:fixed;top:72px;left:0;right:0;z-index:99;}
+    .pkg-content{padding-top:56px;}
      body{padding-bottom:90px;}
     .pkg-tabs-wrapper::after { content: ''; position: absolute; top: 0; right: 0; width: 48px; height: 100%; background: linear-gradient(to right, transparent, rgba(8,8,8,0.85)); pointer-events: none; z-index: 10;}
     .pkg-tabs-wrapper { position: relative;}
@@ -1840,6 +1842,30 @@ tabs.forEach(tab => {
   });
 });
 
+  // ── MOBILE TAB BAR FIXED BEHAVIOUR ──
+(function(){
+  if (window.innerWidth > 1100) return;
+  var tabsWrapper = document.getElementById('pkgTabsWrapper');
+  var pkgMain = document.getElementById('pkgMain');
+  var pkgRelated = document.querySelector('.pkg-related');
+  if (!tabsWrapper || !pkgMain) return;
+
+  function onScroll() {
+    if (window.innerWidth > 1100) return;
+    var mainTop = pkgMain.getBoundingClientRect().top;
+    var relatedTop = pkgRelated ? pkgRelated.getBoundingClientRect().top : 99999;
+
+    if (mainTop <= 72 && relatedTop > 72) {
+      tabsWrapper.classList.add('pkg-tabs-fixed');
+    } else {
+      tabsWrapper.classList.remove('pkg-tabs-fixed');
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+  
 // ── ITINERARY ACCORDION ──
 document.querySelectorAll('.itinerary-day').forEach(function(day) {
   day.classList.remove('open');
