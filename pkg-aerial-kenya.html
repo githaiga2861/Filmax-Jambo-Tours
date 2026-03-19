@@ -1870,11 +1870,10 @@ tabs.forEach(tab => {
 
   // Scroll to top of content panel on mobile, pkg-main on desktop
 if (window.innerWidth <= 1100) {
-      const tabsWrapper = document.getElementById('pkgTabsWrapper');
-      if (tabsWrapper) {
-        const tabsBottom = tabsWrapper.getBoundingClientRect().bottom;
-        const currentScroll = window.pageYOffset;
-        window.scrollTo({ top: currentScroll + tabsBottom - 72, behavior: 'smooth' });
+      const pkgContent = document.querySelector('.pkg-content');
+      if (pkgContent) {
+        const top = pkgContent.getBoundingClientRect().top + window.pageYOffset - 130;
+        window.scrollTo({ top: top, behavior: 'smooth' });
       }
     } else {
       const pkgMain = document.getElementById('pkgMain');
