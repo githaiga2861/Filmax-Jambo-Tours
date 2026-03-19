@@ -1802,11 +1802,11 @@ tabs.forEach(tab => {
       });
     }
 
-    // Scroll to just below tab bar
-    const tabsWrapper = document.getElementById('pkgTabsWrapper');
-    if (tabsWrapper) {
-      const top = tabsWrapper.getBoundingClientRect().bottom + window.pageYOffset;
-      window.scrollTo({ top: top - 10, behavior: 'smooth' });
+     // Scroll to top of pkg-main when tab changes
+    const pkgMain = document.getElementById('pkgMain');
+    if (pkgMain) {
+      const top = pkgMain.getBoundingClientRect().top + window.pageYOffset - 80;
+      window.scrollTo({ top: top, behavior: 'smooth' });
     }
   });
 });
