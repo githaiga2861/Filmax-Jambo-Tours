@@ -612,15 +612,13 @@
   /* ============================================================
      RESPONSIVE
   ============================================================ */
-  @media(max-width:1100px){
-    .pkg-main{grid-template-columns:1fr}
-    .pkg-content{padding-right:0;border-right:none}
-    .pkg-sidebar{padding:48px 0 80px}
-    .sidebar-sticky-wrap{position:relative;top:auto}
-    .pkg-tabs-wrapper{margin-left:0;padding-left:0}
-     body{padding-bottom:90px}
-    .mobile-quote-inject { display: block; padding: 0 24px 40px;}
-    .mobile-quote-inject .sidebar-card {position: relative;top: auto;width: 100%;}
+@media(max-width:1100px){
+    .pkg-main{grid-template-columns:1fr;display:flex;flex-direction:column;}
+    .pkg-content{padding-right:0;border-right:none;order:2;}
+    .pkg-sidebar{padding:0 24px 40px;order:1;}
+    .sidebar-card{position:relative;top:auto;}
+    .pkg-tabs-wrapper{margin-left:0;padding-left:0;}
+    body{padding-bottom:90px;}
   }
   @media(max-width:900px){
     nav{padding:20px 24px}
@@ -2079,22 +2077,6 @@ document.querySelectorAll('.day-header').forEach(function(header) {
   renderCalendar();
   updateQuote();
 
-})();
-  // ── Clone sidebar card into mobile inject slot ──
-(function() {
-  var inject = document.getElementById('mobileQuoteInject');
-  var sidebar = document.querySelector('.pkg-sidebar');
-  if (inject && sidebar && window.innerWidth <= 1100) {
-    var card = sidebar.querySelector('.sidebar-card');
-    if (card) {
-      var clone = card.cloneNode(true);
-      // Remove IDs from clone to avoid duplicates
-      clone.querySelectorAll('[id]').forEach(function(el) {
-        el.removeAttribute('id');
-      });
-      inject.appendChild(clone);
-    }
-  }
 })();
 </script>  
 </body>
