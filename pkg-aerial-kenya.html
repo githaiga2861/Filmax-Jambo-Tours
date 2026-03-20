@@ -732,6 +732,16 @@
     .pkg-tabs-wrapper{
       max-width:100%;
     }
+    .pkg-tabs-wrapper {
+  position: sticky;
+  top: 62px;
+  z-index: 99;
+  margin-left: 0;
+  padding-left: 0;
+  margin-right: 0;
+  /* Ensure it only sticks within pkg-content, not beyond */
+  align-self: flex-start;
+}  
 }
 @media(max-width:900px){
     nav{padding:20px 24px}
@@ -2315,17 +2325,24 @@ document.querySelectorAll('.day-header').forEach(function(header) {
  <script>
 // MOBILE SCROLL SPY — highlights the correct tab as user scrolls through stacked panels
 (function () {
-  var panels = Array.from(document.querySelectorAll('.pkg-tab-panel'));
-  var tabs   = Array.from(document.querySelectorAll('.pkg-tab'));
+  var panels     = Array.from(document.querySelectorAll('.pkg-tab-panel'));
+  var tabs       = Array.from(document.querySelectorAll('.pkg-tab'));
   var tabsWrapper = document.getElementById('pkgTabsWrapper');
+  var pkgMain    = document.getElementById('pkgMain');
 
   function getTabForPanel(panel) {
     var id = panel.id.replace('panel-', '');
-    return tabs.find(t => t.dataset.tab === id);
+    return tabs.find(function(t){ return t.dataset.tab === id; });
   }
 
   function onScroll() {
-    if (window.innerWidth > 1100) return; // desktop only uses click-switching
+    if (window.innerWidth > 1100) return;
+
+    // Once user scrolls past pkg-main entirely, do nothing — stop touching tabs
+    if (pkgMain) {
+      var mainBottom = pkgMain.getBoundingClientRect().bottom;
+      if (mainBottom < 0) return;
+    }
 
     var stickyOffset = (tabsWrapper ? tabsWrapper.offsetHeight : 60) + 62 + 20;
     var current = null;
@@ -2338,12 +2355,10 @@ document.querySelectorAll('.day-header').forEach(function(header) {
     });
 
     if (current) {
-      tabs.forEach(t => t.classList.remove('active'));
+      tabs.forEach(function(t){ t.classList.remove('active'); });
       var activeTab = getTabForPanel(current);
       if (activeTab) {
         activeTab.classList.add('active');
-
-        // Auto-scroll the tab into view horizontally inside the tab bar
         activeTab.scrollIntoView({ inline: 'nearest', block: 'nearest' });
       }
     }
