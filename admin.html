@@ -11,6 +11,7 @@
     --gold: #d4af37; --amber: #b8860b; --text: #f0ece4;
     --muted: #8a8074; --border: rgba(212,175,55,0.2);
     --red: rgba(180,60,60,0.8); --green: rgba(80,180,80,0.8);
+    --sidebar-w: 240px;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--black); color:var(--text); font-family:'Segoe UI',sans-serif; font-size:14px; }
@@ -22,15 +23,45 @@
   .auth-box p { color:var(--muted); font-size:12px; margin-bottom:32px; }
 
   /* ── Layout ── */
-  .admin-layout { display:grid; grid-template-columns:240px 1fr; min-height:100vh; }
-  .sidebar { background:var(--charcoal); border-right:1px solid var(--border); padding:24px 0; position:sticky; top:0; height:100vh; overflow-y:auto; }
+  .admin-layout { display:grid; grid-template-columns:var(--sidebar-w) 1fr; min-height:100vh; transition:grid-template-columns 0.35s cubic-bezier(0.4,0,0.2,1); }
+  .admin-layout.sidebar-collapsed { grid-template-columns:0 1fr; }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    background:var(--charcoal); border-right:1px solid var(--border);
+    padding:24px 0; position:sticky; top:0; height:100vh; overflow:hidden;
+    transition:width 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s;
+    width:var(--sidebar-w); flex-shrink:0;
+  }
+  .admin-layout.sidebar-collapsed .sidebar { width:0; opacity:0; pointer-events:none; }
   .sidebar-logo { padding:0 24px 24px; border-bottom:1px solid var(--border); margin-bottom:16px; }
   .sidebar-logo span { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); }
   .sidebar-logo p { font-size:10px; color:var(--muted); margin-top:4px; }
-  .nav-item { display:flex; align-items:center; gap:12px; padding:12px 24px; cursor:pointer; transition:background 0.2s; font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); border-left:2px solid transparent; }
+  .nav-item { display:flex; align-items:center; gap:12px; padding:12px 24px; cursor:pointer; transition:background 0.2s; font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); border-left:2px solid transparent; white-space:nowrap; }
   .nav-item:hover { background:rgba(212,175,55,0.05); color:var(--text); }
   .nav-item.active { color:var(--gold); border-left-color:var(--gold); background:rgba(212,175,55,0.06); }
-  .main { padding:40px; overflow-y:auto; }
+  .sidebar-footer { position:absolute; bottom:24px; left:0; right:0; padding:0 24px; }
+
+  /* ── Sidebar toggle button ── */
+  .sidebar-toggle {
+    position:fixed; top:20px; left:20px; z-index:500;
+    width:36px; height:36px; background:var(--charcoal);
+    border:1px solid var(--border); cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:all 0.2s; flex-direction:column; gap:5px; padding:8px;
+  }
+  .sidebar-toggle:hover { border-color:var(--gold); background:rgba(212,175,55,0.08); }
+  .sidebar-toggle span {
+    display:block; width:18px; height:1.5px; background:var(--gold);
+    transition:all 0.3s cubic-bezier(0.4,0,0.2,1); transform-origin:center;
+  }
+  .sidebar-collapsed .sidebar-toggle span:nth-child(1) { transform:translateY(6.5px) rotate(45deg); }
+  .sidebar-collapsed .sidebar-toggle span:nth-child(2) { opacity:0; transform:scaleX(0); }
+  .sidebar-collapsed .sidebar-toggle span:nth-child(3) { transform:translateY(-6.5px) rotate(-45deg); }
+
+  /* ── Main ── */
+  .main { padding:40px 40px 40px 72px; overflow-y:auto; min-width:0; transition:padding-left 0.35s; }
+  .admin-layout.sidebar-collapsed .main { padding-left:72px; }
 
   /* ── Views ── */
   .view { display:none; }
@@ -49,35 +80,70 @@
   .badge-draft { color:var(--muted); border-color:var(--muted); }
   .badge-featured { color:var(--gold); border-color:var(--gold); background:rgba(212,175,55,0.08); }
 
+  /* ── Wizard Progress Bar ── */
+  .wizard-progress {
+    display:flex; align-items:center; gap:0; margin-bottom:40px;
+    background:var(--charcoal); border:1px solid var(--border); padding:0;
+    overflow:hidden; position:relative;
+  }
+  .wizard-step {
+    flex:1; display:flex; align-items:center; justify-content:center; flex-direction:column;
+    gap:4px; padding:16px 8px; position:relative; cursor:default;
+    border-right:1px solid var(--border); transition:background 0.3s;
+  }
+  .wizard-step:last-child { border-right:none; }
+  .wizard-step.completed { background:rgba(212,175,55,0.06); cursor:pointer; }
+  .wizard-step.completed:hover { background:rgba(212,175,55,0.1); }
+  .wizard-step.active { background:rgba(212,175,55,0.1); }
+  .wizard-step-num {
+    width:22px; height:22px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:9px; letter-spacing:1px; font-weight:700;
+    border:1px solid var(--muted); color:var(--muted);
+    transition:all 0.3s;
+  }
+  .wizard-step.completed .wizard-step-num { border-color:var(--gold); background:var(--gold); color:var(--black); }
+  .wizard-step.active .wizard-step-num { border-color:var(--gold); color:var(--gold); }
+  .wizard-step-label { font-size:8px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); transition:color 0.3s; white-space:nowrap; }
+  .wizard-step.completed .wizard-step-label { color:var(--gold); }
+  .wizard-step.active .wizard-step-label { color:var(--gold); }
+  .wizard-progress-bar {
+    position:absolute; bottom:0; left:0; height:2px;
+    background:linear-gradient(to right,var(--gold),var(--amber));
+    transition:width 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  /* ── Form sections (wizard pages) ── */
+  .form-page { display:none; }
+  .form-page.active { display:block; }
+
   /* ── Form ── */
   .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
   .form-grid.three { grid-template-columns:1fr 1fr 1fr; }
   .form-group { display:flex; flex-direction:column; gap:8px; }
   .form-group.full { grid-column:1/-1; }
   label { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); }
+  label .req { color:rgba(180,60,60,0.9); margin-left:2px; }
   input, select, textarea {
     background:var(--card); border:1px solid var(--border); color:var(--text);
     font-family:inherit; font-size:13px; padding:10px 12px; outline:none;
     transition:border-color 0.2s; width:100%;
   }
   input:focus, select:focus, textarea:focus { border-color:var(--gold); }
+  input.invalid, select.invalid, textarea.invalid { border-color:rgba(180,60,60,0.8) !important; }
   textarea { resize:vertical; min-height:100px; }
   select option { background:var(--charcoal); }
+  .field-error { font-size:10px; color:rgba(220,80,80,0.9); margin-top:2px; display:none; }
+  .field-error.show { display:block; }
+  .field-hint { font-size:10px; color:var(--muted); margin-top:3px; font-style:italic; }
 
-  /* ── Tabs inside form ── */
-  .form-tabs { display:flex; gap:0; border-bottom:1px solid var(--border); margin-bottom:32px; }
-  .form-tab { font-size:10px; letter-spacing:2px; text-transform:uppercase; padding:12px 20px; cursor:pointer; color:var(--muted); border-bottom:2px solid transparent; background:none; border-top:none; border-left:none; border-right:none; transition:color 0.2s; }
-  .form-tab.active { color:var(--gold); border-bottom-color:var(--gold); }
-  .form-section { display:none; }
-  .form-section.active { display:block; }
-
-  /* ── Repeating rows (days, inclusions etc) ── */
+  /* ── Repeating rows ── */
   .repeater { display:flex; flex-direction:column; gap:12px; margin-top:16px; }
   .repeater-row { background:var(--card); border:1px solid rgba(255,255,255,0.06); padding:20px; position:relative; }
   .repeater-row-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
   .repeater-row-title { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); }
 
-  /* ── Buttons ── */
+  /* ── Wizard nav buttons ── */
   .btn { font-family:inherit; font-size:10px; letter-spacing:3px; text-transform:uppercase; padding:12px 24px; cursor:pointer; border:none; transition:all 0.2s; }
   .btn-gold { background:linear-gradient(135deg,var(--gold),var(--amber)); color:var(--black); font-weight:600; }
   .btn-gold:hover { box-shadow:0 4px 20px rgba(212,175,55,0.4); }
@@ -86,23 +152,75 @@
   .btn-danger { background:transparent; color:var(--red); border:1px solid var(--red); }
   .btn-danger:hover { background:rgba(180,60,60,0.1); }
   .btn-sm { padding:6px 14px; font-size:9px; }
-  .btn-row { display:flex; gap:12px; align-items:center; margin-top:32px; }
+  .btn-publish { background:linear-gradient(135deg,#2e7d32,#1b5e20); color:#fff; font-weight:700; }
+  .btn-publish:hover { box-shadow:0 4px 20px rgba(46,125,50,0.5); transform:translateY(-1px); }
+  .btn-draft { background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.1); }
+  .btn-draft:hover { border-color:var(--muted); color:var(--text); }
+
+  .wizard-nav {
+    display:flex; align-items:center; justify-content:space-between;
+    margin-top:40px; padding-top:32px; border-top:1px solid rgba(255,255,255,0.06);
+    gap:16px;
+  }
+  .wizard-nav-left { display:flex; gap:12px; }
+  .wizard-nav-right { display:flex; gap:12px; }
+
+  /* ── Final publish panel ── */
+  .publish-panel {
+    background:var(--charcoal); border:1px solid var(--border);
+    padding:40px; text-align:center; margin-top:32px;
+  }
+  .publish-panel h2 { font-size:28px; color:var(--gold); margin-bottom:8px; }
+  .publish-panel p { color:var(--muted); font-size:13px; margin-bottom:32px; line-height:1.7; }
+  .publish-actions { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+  .publish-actions .btn { padding:18px 36px; font-size:11px; }
 
   /* ── Image upload ── */
   .img-upload-box { border:1px dashed var(--border); padding:32px; text-align:center; cursor:pointer; transition:border-color 0.2s; position:relative; }
   .img-upload-box:hover { border-color:var(--gold); }
   .img-upload-box input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
   .img-upload-box p { font-size:11px; color:var(--muted); margin-top:8px; }
+  .img-upload-box .format-note { font-size:10px; color:rgba(212,175,55,0.6); margin-top:4px; }
   .img-preview { width:100%; max-height:200px; object-fit:cover; margin-top:12px; display:none; }
+  .img-upload-box.invalid { border-color:rgba(180,60,60,0.8); }
 
   /* ── Toast ── */
-  .toast { position:fixed; bottom:32px; right:32px; background:var(--charcoal); border:1px solid var(--border); border-left:3px solid var(--gold); padding:16px 24px; font-size:12px; z-index:9999; transform:translateY(20px); opacity:0; transition:all 0.3s; pointer-events:none; }
+  .toast { position:fixed; bottom:32px; right:32px; background:var(--charcoal); border:1px solid var(--border); border-left:3px solid var(--gold); padding:16px 24px; font-size:12px; z-index:9999; transform:translateY(20px); opacity:0; transition:all 0.3s; pointer-events:none; max-width:340px; }
   .toast.show { transform:translateY(0); opacity:1; }
   .toast.error { border-left-color:var(--red); }
+  .toast.success { border-left-color:var(--green); }
 
   /* ── Dividers ── */
   .section-divider { border:none; border-top:1px solid rgba(255,255,255,0.05); margin:32px 0; }
   .section-label { font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--gold); margin-bottom:16px; display:block; }
+
+  /* ── Validation summary ── */
+  .validation-summary {
+    background:rgba(180,60,60,0.08); border:1px solid rgba(180,60,60,0.3);
+    border-left:3px solid rgba(180,60,60,0.8); padding:16px 20px;
+    margin-bottom:24px; display:none;
+  }
+  .validation-summary.show { display:block; }
+  .validation-summary p { font-size:11px; color:rgba(220,100,100,0.9); margin-bottom:4px; }
+  .validation-summary p:first-child { font-size:12px; font-weight:600; margin-bottom:10px; color:rgba(220,80,80,1); }
+
+  /* ── Drafts view ── */
+  .draft-actions { display:flex; gap:8px; }
+
+  /* ── Step page title ── */
+  .step-page-header { margin-bottom:32px; }
+  .step-page-header h2 { font-size:20px; font-weight:700; }
+  .step-page-header p { font-size:12px; color:var(--muted); margin-top:6px; }
+  .step-page-header .step-counter { font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--gold); margin-bottom:8px; display:block; }
+
+  /* ── Completion checkmarks ── */
+  .wizard-step.completed .wizard-step-num::after { content:'✓'; }
+
+  /* ── Repeater empty state ── */
+  .repeater-empty { padding:32px; text-align:center; color:var(--muted); font-size:12px; border:1px dashed rgba(255,255,255,0.06); }
+
+  /* ── Published badge in list ── */
+  .list-action-btn { display:flex; gap:8px; align-items:center; }
 </style>
 </head>
 <body>
@@ -128,16 +246,22 @@
 <!-- ADMIN LAYOUT -->
 <div class="admin-layout" id="adminLayout" style="display:none;">
 
+  <!-- Sidebar toggle -->
+  <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle Sidebar">
+    <span></span><span></span><span></span>
+  </button>
+
   <!-- Sidebar -->
-  <div class="sidebar">
+  <div class="sidebar" id="sidebar">
     <div class="sidebar-logo">
       <span>Filmax Jambo</span>
       <p>Package Manager</p>
     </div>
-    <div class="nav-item active" onclick="showView('packages')">📦 All Packages</div>
-    <div class="nav-item" onclick="showView('new-package')">✚ New Package</div>
-    <div class="nav-item" onclick="showView('categories')">🏷 Categories</div>
-    <div style="position:absolute;bottom:24px;left:0;right:0;padding:0 24px;">
+    <div class="nav-item active" onclick="showView('packages')" id="nav-packages">📦 All Packages</div>
+    <div class="nav-item" onclick="startNewPackage()" id="nav-new">✚ New Package</div>
+    <div class="nav-item" onclick="showView('drafts')" id="nav-drafts">📝 Drafts</div>
+    <div class="nav-item" onclick="showView('categories')" id="nav-categories">🏷 Categories</div>
+    <div class="sidebar-footer">
       <button class="btn btn-outline" style="width:100%" onclick="signOut()">Sign Out</button>
     </div>
   </div>
@@ -151,242 +275,400 @@
         <div class="view-title">
           <span>Manage</span>All Packages
         </div>
-        <button class="btn btn-gold" onclick="showView('new-package')">+ New Package</button>
+        <button class="btn btn-gold" onclick="startNewPackage()">+ New Package</button>
       </div>
       <div class="pkg-list" id="packageList">
         <p style="color:var(--muted);">Loading...</p>
       </div>
     </div>
 
-    <!-- VIEW: New / Edit Package -->
+    <!-- VIEW: Drafts -->
+    <div class="view" id="view-drafts">
+      <div class="view-header">
+        <div class="view-title"><span>Pending</span>Draft Packages</div>
+        <button class="btn btn-gold" onclick="startNewPackage()">+ New Package</button>
+      </div>
+      <div class="pkg-list" id="draftList">
+        <p style="color:var(--muted);">Loading drafts...</p>
+      </div>
+    </div>
+
+    <!-- VIEW: New / Edit Package (Wizard) -->
     <div class="view" id="view-new-package">
       <div class="view-header">
         <div class="view-title">
           <span id="formModeLabel">Create</span>
           <span id="formTitleText">New Package</span>
         </div>
-        <button class="btn btn-outline" onclick="showView('packages')">← Back</button>
+        <button class="btn btn-outline" onclick="showView('packages')">← Back to Packages</button>
       </div>
 
-      <!-- Form tabs -->
-      <div class="form-tabs">
-        <button class="form-tab active" onclick="switchFormTab('basics', this)">Basics</button>
-        <button class="form-tab" onclick="switchFormTab('pricing', this)">Pricing</button>
-        <button class="form-tab" onclick="switchFormTab('itinerary', this)">Itinerary</button>
-        <button class="form-tab" onclick="switchFormTab('accommodation', this)">Accommodation</button>
-        <button class="form-tab" onclick="switchFormTab('inclusions', this)">Inclusions</button>
-        <button class="form-tab" onclick="switchFormTab('route', this)">Route</button>
+      <!-- Wizard Progress -->
+      <div class="wizard-progress" id="wizardProgress">
+        <div class="wizard-progress-bar" id="wizardProgressBar"></div>
+        <div class="wizard-step active" data-step="0" onclick="goToStep(0)">
+          <div class="wizard-step-num">1</div>
+          <div class="wizard-step-label">Basics</div>
+        </div>
+        <div class="wizard-step" data-step="1" onclick="goToStep(1)">
+          <div class="wizard-step-num">2</div>
+          <div class="wizard-step-label">Pricing</div>
+        </div>
+        <div class="wizard-step" data-step="2" onclick="goToStep(2)">
+          <div class="wizard-step-num">3</div>
+          <div class="wizard-step-label">Itinerary</div>
+        </div>
+        <div class="wizard-step" data-step="3" onclick="goToStep(3)">
+          <div class="wizard-step-num">4</div>
+          <div class="wizard-step-label">Accommodation</div>
+        </div>
+        <div class="wizard-step" data-step="4" onclick="goToStep(4)">
+          <div class="wizard-step-num">5</div>
+          <div class="wizard-step-label">Inclusions</div>
+        </div>
+        <div class="wizard-step" data-step="5" onclick="goToStep(5)">
+          <div class="wizard-step-num">6</div>
+          <div class="wizard-step-label">Route</div>
+        </div>
+        <div class="wizard-step" data-step="6" onclick="goToStep(6)">
+          <div class="wizard-step-num">7</div>
+          <div class="wizard-step-label">Publish</div>
+        </div>
       </div>
 
-      <!-- BASICS -->
-      <div class="form-section active" id="fs-basics">
+      <!-- PAGE 0: BASICS -->
+      <div class="form-page active" id="fp-0">
+        <div class="step-page-header">
+          <span class="step-counter">Step 1 of 7</span>
+          <h2>Package Basics</h2>
+          <p>Core identity and content for this package. All fields marked <span style="color:rgba(220,80,80,0.9)">*</span> are required before advancing.</p>
+        </div>
+        <div class="validation-summary" id="vs-0"></div>
         <div class="form-grid">
           <div class="form-group">
-            <label>Package Name *</label>
-            <input type="text" id="f-name" placeholder="e.g. Aerial Kenya — 8 Days">
+            <label>Package Name <span class="req">*</span></label>
+            <input type="text" id="f-name" placeholder="e.g. Aerial Kenya — 8 Days" minlength="5">
+            <span class="field-error" id="err-name">Minimum 5 characters required</span>
           </div>
           <div class="form-group">
-            <label>URL Slug *</label>
+            <label>URL Slug <span class="req">*</span></label>
             <input type="text" id="f-slug" placeholder="e.g. aerial-kenya-8-days">
+            <span class="field-error" id="err-slug">Slug required (lowercase, hyphens only)</span>
           </div>
           <div class="form-group">
-            <label>Tagline</label>
-            <input type="text" id="f-tagline" placeholder="e.g. Kenya From the Sky Down">
+            <label>Tagline <span class="req">*</span></label>
+            <input type="text" id="f-tagline" placeholder="e.g. Kenya From the Sky Down" minlength="10">
+            <span class="field-error" id="err-tagline">Minimum 10 characters required</span>
           </div>
           <div class="form-group">
-            <label>Badge Text</label>
+            <label>Badge Text <span class="req">*</span></label>
             <input type="text" id="f-badge" placeholder="e.g. Fly-In Only">
+            <span class="field-error" id="err-badge">Badge text required</span>
           </div>
           <div class="form-group">
-            <label>Category *</label>
+            <label>Category <span class="req">*</span></label>
             <select id="f-category">
               <option value="">Select category...</option>
             </select>
+            <span class="field-error" id="err-category">Please select a category</span>
           </div>
           <div class="form-group">
-            <label>Transport Type</label>
+            <label>Transport Type <span class="req">*</span></label>
             <input type="text" id="f-transport" placeholder="e.g. Fly-In Only, Road Safari">
+            <span class="field-error" id="err-transport">Transport type required</span>
           </div>
           <div class="form-group">
-            <label>Duration (Days)</label>
-            <input type="number" id="f-days" placeholder="8">
+            <label>Duration (Days) <span class="req">*</span></label>
+            <input type="number" id="f-days" placeholder="8" min="1">
+            <span class="field-error" id="err-days">Required (minimum 1 day)</span>
           </div>
           <div class="form-group">
-            <label>Duration (Nights)</label>
-            <input type="number" id="f-nights" placeholder="7">
+            <label>Duration (Nights) <span class="req">*</span></label>
+            <input type="number" id="f-nights" placeholder="7" min="0">
+            <span class="field-error" id="err-nights">Required</span>
           </div>
           <div class="form-group full">
-            <label>Destinations (comma separated)</label>
+            <label>Destinations <span class="req">*</span> <span style="font-weight:400;font-size:8px;letter-spacing:1px;color:var(--muted);text-transform:none;">(comma separated, min 2)</span></label>
             <input type="text" id="f-destinations" placeholder="Maasai Mara, Amboseli, Samburu, Diani Coast">
+            <span class="field-error" id="err-destinations">At least 2 destinations required</span>
           </div>
           <div class="form-group full">
-            <label>Overview Title</label>
-            <input type="text" id="f-overview-title" placeholder="e.g. Kenya From the Sky Down">
+            <label>Overview Title <span class="req">*</span></label>
+            <input type="text" id="f-overview-title" placeholder="e.g. Kenya From the Sky Down" minlength="10">
+            <span class="field-error" id="err-overview-title">Minimum 10 characters required</span>
           </div>
           <div class="form-group full">
-            <label>Overview Body</label>
-            <textarea id="f-overview-body" rows="5" placeholder="Write the main overview paragraph..."></textarea>
+            <label>Overview Body <span class="req">*</span> <span style="font-weight:400;font-size:8px;letter-spacing:1px;color:var(--muted);text-transform:none;">(min 80 characters)</span></label>
+            <textarea id="f-overview-body" rows="6" placeholder="Write the main overview paragraph describing the full experience..."></textarea>
+            <span class="field-error" id="err-overview-body">Minimum 80 characters required</span>
           </div>
           <div class="form-group full">
-            <label>Hero Image</label>
+            <label>Hero Image <span class="req">*</span> <span style="font-weight:400;font-size:8px;letter-spacing:1px;color:rgba(212,175,55,0.6);text-transform:none;">(.webp format only)</span></label>
             <div class="img-upload-box" id="heroUploadBox">
-              <input type="file" id="heroImageFile" accept="image/*" onchange="previewImage(this,'heroPreview','heroUploadBox')">
+              <input type="file" id="heroImageFile" accept=".webp" onchange="handleHeroUpload(this)">
               <div style="font-size:24px;">🖼</div>
               <p>Click to upload hero image</p>
+              <p class="format-note">⚠ .webp format only</p>
               <img id="heroPreview" class="img-preview">
             </div>
-            <!-- After the hero image upload group, add: -->
-<div class="form-group full">
-  <label>Card Background Image (Homepage Rotating Cards)</label>
-  <div class="img-upload-box">
-    <input type="file" id="cardBgFile" accept="image/*" onchange="previewImage(this,'cardBgPreview')">
-    <div style="font-size:24px;">🃏</div>
-    <p>Click to upload the background image shown in the homepage package cards</p>
-    <img id="cardBgPreview" class="img-preview">
-  </div>
-  <input type="text" id="f-card-bg-url" placeholder="Or paste card background image URL directly" style="margin-top:8px;">
-</div>
-
-<div class="form-group full">
-  <label>Short Highlights (Homepage Card Features — one per line, max 7)</label>
-  <textarea id="f-short-highlights" rows="7" placeholder="Private Charter Flights&#10;5-Star Lodge &amp; Tented Camps&#10;Sunrise Balloon Safari&#10;Cultural Maasai Immersion&#10;Butler &amp; Concierge Service&#10;All-Inclusive Premium"></textarea>
-  <span style="font-size:10px;color:var(--muted);margin-top:4px;display:block;font-style:italic;">These appear as bullet points on the homepage rotating card. One feature per line.</span>
-</div>
-
-<div class="form-group">
-  <label>Detail Page URL</label>
-  <input type="text" id="f-detail-page-url" placeholder="e.g. pkg-aerial-kenya.html">
-  <span style="font-size:10px;color:var(--muted);margin-top:4px;display:block;font-style:italic;">The filename of the package detail page. Leave blank to auto-generate from slug.</span>
-</div>
-
-<div class="form-group">
-  <label>Package Tier (for filter)</label>
-  <select id="f-tier">
-    <option value="luxury">Luxury</option>
-    <option value="mid-range">Mid-Range</option>
-    <option value="budget">Budget</option>
-    <option value="ultra">Ultra Luxury</option>
-  </select>
-</div>
-            <input type="text" id="f-hero-image-url" placeholder="Or paste image URL directly" style="margin-top:8px;">
+            <input type="text" id="f-hero-image-url" placeholder="Or paste .webp image URL directly (must end in .webp)" style="margin-top:8px;">
+            <span class="field-error" id="err-hero">Hero image URL required and must be a .webp file</span>
+          </div>
+          <div class="form-group full">
+            <label>Card Background Image <span class="req">*</span> <span style="font-weight:400;font-size:8px;letter-spacing:1px;color:rgba(212,175,55,0.6);text-transform:none;">(.webp only — homepage rotating cards)</span></label>
+            <div class="img-upload-box">
+              <input type="file" id="cardBgFile" accept=".webp" onchange="handleCardBgUpload(this)">
+              <div style="font-size:24px;">🃏</div>
+              <p>Click to upload card background image</p>
+              <p class="format-note">⚠ .webp format only</p>
+              <img id="cardBgPreview" class="img-preview">
+            </div>
+            <input type="text" id="f-card-bg-url" placeholder="Or paste .webp card background URL" style="margin-top:8px;">
+            <span class="field-error" id="err-card-bg">Card background image required (.webp)</span>
+          </div>
+          <div class="form-group full">
+            <label>Short Highlights <span class="req">*</span> <span style="font-weight:400;font-size:8px;letter-spacing:1px;color:var(--muted);text-transform:none;">(homepage card features — one per line, 4–7 items)</span></label>
+            <textarea id="f-short-highlights" rows="7" placeholder="Private Charter Flights&#10;5-Star Lodge &amp; Tented Camps&#10;Sunrise Balloon Safari&#10;Cultural Maasai Immersion&#10;Butler &amp; Concierge Service&#10;All-Inclusive Premium"></textarea>
+            <span class="field-error" id="err-highlights">Between 4 and 7 highlights required (one per line)</span>
           </div>
           <div class="form-group">
-            <label>Published</label>
-            <select id="f-published">
-              <option value="false">Draft</option>
-              <option value="true">Published</option>
-            </select>
+            <label>Detail Page URL</label>
+            <input type="text" id="f-detail-page-url" placeholder="e.g. pkg-aerial-kenya.html">
+            <span class="field-hint">Leave blank to auto-generate from slug</span>
           </div>
           <div class="form-group">
-            <label>Featured</label>
-            <select id="f-featured">
-              <option value="false">No</option>
-              <option value="true">Yes</option>
+            <label>Package Tier</label>
+            <select id="f-tier">
+              <option value="luxury">Luxury</option>
+              <option value="ultra">Ultra Luxury</option>
+              <option value="mid-range">Mid-Range</option>
+              <option value="budget">Budget</option>
             </select>
+          </div>
+        </div>
+        <div class="wizard-nav">
+          <div class="wizard-nav-left"></div>
+          <div class="wizard-nav-right">
+            <button class="btn btn-gold" onclick="nextStep(0)">Next: Pricing →</button>
           </div>
         </div>
       </div>
 
-      <!-- PRICING -->
-      <div class="form-section" id="fs-pricing">
+      <!-- PAGE 1: PRICING -->
+      <div class="form-page" id="fp-1">
+        <div class="step-page-header">
+          <span class="step-counter">Step 2 of 7</span>
+          <h2>Pricing & Seasons</h2>
+          <p>Set seasonal rates and group pricing. At least one season price is required.</p>
+        </div>
+        <div class="validation-summary" id="vs-1"></div>
         <span class="section-label">Season Prices (per person)</span>
         <div class="form-grid three">
           <div class="form-group">
-            <label>Peak Season Price (USD)</label>
-            <input type="number" id="f-price-peak" placeholder="18500">
+            <label>Peak Season Price (USD) <span class="req">*</span></label>
+            <input type="number" id="f-price-peak" placeholder="18500" min="0">
+            <span class="field-error" id="err-price-peak">Peak season price required</span>
           </div>
           <div class="form-group">
-            <label>High Season Price (USD)</label>
-            <input type="number" id="f-price-high" placeholder="16500">
+            <label>High Season Price (USD) <span class="req">*</span></label>
+            <input type="number" id="f-price-high" placeholder="16500" min="0">
+            <span class="field-error" id="err-price-high">High season price required</span>
           </div>
           <div class="form-group">
-            <label>Green Season Price (USD)</label>
-            <input type="number" id="f-price-green" placeholder="13800">
+            <label>Green Season Price (USD) <span class="req">*</span></label>
+            <input type="number" id="f-price-green" placeholder="13800" min="0">
+            <span class="field-error" id="err-price-green">Green season price required</span>
           </div>
         </div>
         <hr class="section-divider">
         <span class="section-label">Group Prices (per person)</span>
         <div class="form-grid three">
           <div class="form-group">
-            <label>Solo Price (USD)</label>
-            <input type="number" id="f-price-solo" placeholder="24900">
+            <label>Solo Price (USD) <span class="req">*</span></label>
+            <input type="number" id="f-price-solo" placeholder="24900" min="0">
+            <span class="field-error" id="err-price-solo">Solo price required</span>
           </div>
           <div class="form-group">
-            <label>Duo / Couple Price (USD)</label>
-            <input type="number" id="f-price-duo" placeholder="16500">
+            <label>Duo / Couple Price (USD) <span class="req">*</span></label>
+            <input type="number" id="f-price-duo" placeholder="16500" min="0">
+            <span class="field-error" id="err-price-duo">Duo price required</span>
           </div>
           <div class="form-group">
-            <label>Group 3–4 Price (USD)</label>
-            <input type="number" id="f-price-group" placeholder="14200">
+            <label>Group 3–4 Price (USD) <span class="req">*</span></label>
+            <input type="number" id="f-price-group" placeholder="14200" min="0">
+            <span class="field-error" id="err-price-group">Group price required</span>
           </div>
         </div>
         <hr class="section-divider">
-        <span class="section-label">Season Months</span>
-        <div class="form-grid">
+        <span class="section-label">Season Months <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0;">(comma-separated month numbers 1–12)</span></span>
+        <div class="form-grid three">
           <div class="form-group">
-            <label>Peak Months (e.g. 7,8,9,10)</label>
+            <label>Peak Months <span class="req">*</span></label>
             <input type="text" id="f-peak-months" placeholder="7,8,9,10">
+            <span class="field-error" id="err-peak-months">Enter month numbers e.g. 7,8,9</span>
           </div>
           <div class="form-group">
-            <label>High Months (e.g. 1,2,6,11,12)</label>
+            <label>High Months <span class="req">*</span></label>
             <input type="text" id="f-high-months" placeholder="1,2,6,11,12">
+            <span class="field-error" id="err-high-months">Enter month numbers</span>
           </div>
           <div class="form-group">
-            <label>Green Months (e.g. 3,4,5)</label>
+            <label>Green Months <span class="req">*</span></label>
             <input type="text" id="f-green-months" placeholder="3,4,5">
+            <span class="field-error" id="err-green-months">Enter month numbers</span>
+          </div>
+        </div>
+        <div class="wizard-nav">
+          <div class="wizard-nav-left">
+            <button class="btn btn-outline" onclick="prevStep(1)">← Back</button>
+          </div>
+          <div class="wizard-nav-right">
+            <button class="btn btn-gold" onclick="nextStep(1)">Next: Itinerary →</button>
           </div>
         </div>
       </div>
 
-      <!-- ITINERARY -->
-      <div class="form-section" id="fs-itinerary">
+      <!-- PAGE 2: ITINERARY -->
+      <div class="form-page" id="fp-2">
+        <div class="step-page-header">
+          <span class="step-counter">Step 3 of 7</span>
+          <h2>Day-by-Day Itinerary</h2>
+          <p>Add each day of the itinerary. Minimum 2 days required. Each day needs a title, location, and description (min 40 chars).</p>
+        </div>
+        <div class="validation-summary" id="vs-2"></div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-          <span class="section-label" style="margin:0;">Day by Day</span>
+          <span class="section-label" style="margin:0;">Days</span>
           <button class="btn btn-outline btn-sm" onclick="addDayRow()">+ Add Day</button>
         </div>
-        <div class="repeater" id="daysRepeater"></div>
+        <div class="repeater" id="daysRepeater">
+          <div class="repeater-empty">No days added yet. Click "+ Add Day" to begin.</div>
+        </div>
+        <div class="wizard-nav">
+          <div class="wizard-nav-left">
+            <button class="btn btn-outline" onclick="prevStep(2)">← Back</button>
+          </div>
+          <div class="wizard-nav-right">
+            <button class="btn btn-gold" onclick="nextStep(2)">Next: Accommodation →</button>
+          </div>
+        </div>
       </div>
 
-      <!-- ACCOMMODATION -->
-      <div class="form-section" id="fs-accommodation">
+      <!-- PAGE 3: ACCOMMODATION -->
+      <div class="form-page" id="fp-3">
+        <div class="step-page-header">
+          <span class="step-counter">Step 4 of 7</span>
+          <h2>Accommodation</h2>
+          <p>Add lodges and properties. Minimum 1 lodge required. Each lodge needs name, destination, and number of nights.</p>
+        </div>
+        <div class="validation-summary" id="vs-3"></div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
           <span class="section-label" style="margin:0;">Lodges & Properties</span>
           <button class="btn btn-outline btn-sm" onclick="addLodgeRow()">+ Add Lodge</button>
         </div>
-        <div class="repeater" id="lodgesRepeater"></div>
+        <div class="repeater" id="lodgesRepeater">
+          <div class="repeater-empty">No lodges added yet. Click "+ Add Lodge" to begin.</div>
+        </div>
+        <div class="wizard-nav">
+          <div class="wizard-nav-left">
+            <button class="btn btn-outline" onclick="prevStep(3)">← Back</button>
+          </div>
+          <div class="wizard-nav-right">
+            <button class="btn btn-gold" onclick="nextStep(3)">Next: Inclusions →</button>
+          </div>
+        </div>
       </div>
 
-      <!-- INCLUSIONS -->
-      <div class="form-section" id="fs-inclusions">
+      <!-- PAGE 4: INCLUSIONS -->
+      <div class="form-page" id="fp-4">
+        <div class="step-page-header">
+          <span class="step-counter">Step 5 of 7</span>
+          <h2>Inclusions & Exclusions</h2>
+          <p>List what's included and what's not. Minimum 3 included items and 2 excluded items required.</p>
+        </div>
+        <div class="validation-summary" id="vs-4"></div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-          <span class="section-label" style="margin:0;">Included Items</span>
+          <span class="section-label" style="margin:0;">Included Items <span style="color:var(--muted);font-weight:400;">(min 3)</span></span>
           <button class="btn btn-outline btn-sm" onclick="addInclusionRow(true)">+ Add Included</button>
         </div>
-        <div class="repeater" id="inclusionsRepeater"></div>
+        <div class="repeater" id="inclusionsRepeater">
+          <div class="repeater-empty">No included items yet.</div>
+        </div>
         <hr class="section-divider">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-          <span class="section-label" style="margin:0;">Excluded Items</span>
+          <span class="section-label" style="margin:0;">Excluded Items <span style="color:var(--muted);font-weight:400;">(min 2)</span></span>
           <button class="btn btn-outline btn-sm" onclick="addInclusionRow(false)">+ Add Excluded</button>
         </div>
-        <div class="repeater" id="exclusionsRepeater"></div>
+        <div class="repeater" id="exclusionsRepeater">
+          <div class="repeater-empty">No excluded items yet.</div>
+        </div>
+        <div class="wizard-nav">
+          <div class="wizard-nav-left">
+            <button class="btn btn-outline" onclick="prevStep(4)">← Back</button>
+          </div>
+          <div class="wizard-nav-right">
+            <button class="btn btn-gold" onclick="nextStep(4)">Next: Route →</button>
+          </div>
+        </div>
       </div>
 
-      <!-- ROUTE -->
-      <div class="form-section" id="fs-route">
+      <!-- PAGE 5: ROUTE -->
+      <div class="form-page" id="fp-5">
+        <div class="step-page-header">
+          <span class="step-counter">Step 6 of 7</span>
+          <h2>Route & Map Stops</h2>
+          <p>Define the geographic route of this package. Minimum 2 stops required, each with coordinates and a name.</p>
+        </div>
+        <div class="validation-summary" id="vs-5"></div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-          <span class="section-label" style="margin:0;">Route Stops</span>
+          <span class="section-label" style="margin:0;">Route Stops <span style="color:var(--muted);font-weight:400;">(min 2)</span></span>
           <button class="btn btn-outline btn-sm" onclick="addRouteRow()">+ Add Stop</button>
         </div>
-        <div class="repeater" id="routeRepeater"></div>
+        <div class="repeater" id="routeRepeater">
+          <div class="repeater-empty">No stops added yet. Click "+ Add Stop" to begin.</div>
+        </div>
+        <div class="wizard-nav">
+          <div class="wizard-nav-left">
+            <button class="btn btn-outline" onclick="prevStep(5)">← Back</button>
+          </div>
+          <div class="wizard-nav-right">
+            <button class="btn btn-gold" onclick="nextStep(5)">Review & Publish →</button>
+          </div>
+        </div>
       </div>
 
-      <!-- Save buttons -->
-      <div class="btn-row">
-        <button class="btn btn-gold" onclick="savePackage()">Save Package</button>
-        <button class="btn btn-outline" onclick="savePackage(true)">Save as Draft</button>
-        <span id="saveStatus" style="font-size:11px;color:var(--muted);"></span>
+      <!-- PAGE 6: PUBLISH -->
+      <div class="form-page" id="fp-6">
+        <div class="step-page-header">
+          <span class="step-counter">Step 7 of 7</span>
+          <h2>Review & Publish</h2>
+          <p>All details have been filled in. Choose how to save this package.</p>
+        </div>
+
+        <div id="reviewSummary" style="background:var(--charcoal);border:1px solid var(--border);padding:28px;margin-bottom:32px;"></div>
+
+        <div class="publish-panel">
+          <h2>Ready to Go?</h2>
+          <p>Publishing will make this package immediately visible on the Filmax Jambo website.<br>Saving as a draft lets you return and publish later from the Drafts section.</p>
+          <div class="publish-actions">
+            <button class="btn btn-draft" onclick="savePackage(false)">
+              💾 Save as Draft
+            </button>
+            <button class="btn btn-publish" onclick="savePackage(true)" id="publishBtn">
+              🚀 Publish Now
+            </button>
+          </div>
+          <p style="margin-top:20px;font-size:11px;color:var(--muted);" id="savingStatus"></p>
+        </div>
+
+        <div class="wizard-nav">
+          <div class="wizard-nav-left">
+            <button class="btn btn-outline" onclick="prevStep(6)">← Back to Route</button>
+          </div>
+          <div class="wizard-nav-right"></div>
+        </div>
       </div>
-    </div>
+
+    </div><!-- /view-new-package -->
 
     <!-- VIEW: Categories -->
     <div class="view" id="view-categories">
@@ -414,7 +696,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ── CONFIG — replace with your Supabase project values ──
+// ── CONFIG ──
 const SUPABASE_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
 
@@ -422,6 +704,14 @@ const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let editingPackageId = null;
+let currentStep = 0;
+const TOTAL_STEPS = 7;
+let completedSteps = new Set();
+
+// ── SIDEBAR TOGGLE ──
+function toggleSidebar() {
+  document.getElementById('adminLayout').classList.toggle('sidebar-collapsed');
+}
 
 // ── AUTH ──
 async function signIn() {
@@ -431,9 +721,7 @@ async function signIn() {
   if (error) {
     document.getElementById('authError').style.display = 'block';
     document.getElementById('authError').textContent = error.message;
-  } else {
-    showAdmin();
-  }
+  } else { showAdmin(); }
 }
 
 async function signOut() {
@@ -458,609 +746,301 @@ function showAdmin() {
 function showView(name) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('view-' + name).classList.add('active');
+  const viewEl = document.getElementById('view-' + name);
+  if (viewEl) viewEl.classList.add('active');
+  const navEl = document.getElementById('nav-' + name.replace('new-package','new'));
+  if (navEl) navEl.classList.add('active');
 
-  if (name === 'new-package') {
-    if (!editingPackageId) resetForm();
-  }
   if (name === 'packages') loadPackages();
+  if (name === 'drafts') loadDrafts();
   if (name === 'categories') loadCategoriesList();
 }
 
-function switchFormTab(name, el) {
-  document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.form-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('fs-' + name).classList.add('active');
-  el.classList.add('active');
+function startNewPackage() {
+  editingPackageId = null;
+  resetForm();
+  document.getElementById('formModeLabel').textContent = 'Create';
+  document.getElementById('formTitleText').textContent = 'New Package';
+  showView('new-package');
+  goToStep(0, true);
 }
 
-function showGeneratePageButton(packageId, pkg) {
-  // Remove any existing button
-  const existing = document.getElementById('generatePageBtn');
-  if (existing) existing.remove();
+// ── WIZARD STEPS ──
+function goToStep(step, force = false) {
+  // Only allow clicking completed steps to go back
+  if (!force && step > currentStep && !completedSteps.has(step - 1)) return;
+  if (!force && step > currentStep) return;
 
-  const btn = document.createElement('button');
-  btn.id = 'generatePageBtn';
-  btn.className = 'btn btn-outline';
-  btn.textContent = 'Download Detail Page HTML';
-  btn.style.marginTop = '12px';
-  btn.style.width = '100%';
+  // Update pages
+  document.querySelectorAll('.form-page').forEach(p => p.classList.remove('active'));
+  document.getElementById('fp-' + step).classList.add('active');
 
-  btn.addEventListener('click', async () => {
-    const [
-      { data: days },
-      { data: lodges },
-      { data: inclusions },
-      { data: stops }
-    ] = await Promise.all([
-      supa.from('package_days').select('*').eq('package_id', packageId).order('sort_order'),
-      supa.from('package_lodges').select('*').eq('package_id', packageId).order('sort_order'),
-      supa.from('package_inclusions').select('*').eq('package_id', packageId),
-      supa.from('package_route_stops').select('*').eq('package_id', packageId).order('sort_order'),
-    ]);
-
-    const html = generateDetailPageHTML(pkg, days || [], lodges || [], inclusions || [], stops || []);
-    const blob = new Blob([html], { type: 'text/html' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href     = url;
-    a.download = (pkg.slug || 'package') + '.html';
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast('Detail page downloaded — add it to your website folder');
+  // Update progress indicators
+  document.querySelectorAll('.wizard-step').forEach((el, i) => {
+    el.classList.remove('active', 'completed');
+    if (i < step || completedSteps.has(i)) el.classList.add('completed');
+    if (i === step) el.classList.add('active');
   });
 
-  document.querySelector('.btn-row').appendChild(btn);
+  // Update progress bar
+  const pct = step === 6 ? 100 : Math.round((step / 6) * 100);
+  document.getElementById('wizardProgressBar').style.width = pct + '%';
+
+  currentStep = step;
+
+  if (step === 6) buildReviewSummary();
 }
 
-function generateDetailPageHTML(pkg, days, lodges, inclusions, stops) {
-  const included = inclusions.filter(i => i.included);
-  const excluded = inclusions.filter(i => !i.included);
-  const price    = pkg.price_high_season || pkg.price_duo || 0;
-  const peakPrice  = pkg.price_peak_season || price;
-  const greenPrice = pkg.price_green_season || price;
-
-  const dayAccordions = days.map((day, i) => `
-    <div class="itinerary-day" id="fjt-day-${i+1}">
-      <div class="day-header">
-        <div class="day-header-left">
-          <span class="day-number">Day ${String(day.day_number).padStart(2,'0')}</span>
-          <h3 class="day-title">${day.title || ''}</h3>
-        </div>
-        <div class="day-chevron"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="rgba(212,175,55,0.7)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div>
-      <div class="day-body">
-        <span class="day-location">${day.location || ''}</span>
-        <p class="day-desc">${day.description || ''}</p>
-        ${day.activities?.length ? `<ul class="day-activities">${day.activities.map(a => `<li>${a}</li>`).join('')}</ul>` : ''}
-        ${day.highlight_badges?.length ? `
-          <div class="fjt-day-highlight">
-            ${day.highlight_badges.map(b => `<span class="fjt-highlight-badge">${b}</span>`).join('')}
-          </div>` : ''}
-      </div>
-    </div>`).join('');
-
-  const lodgeCards = lodges.map(l => `
-    <div class="lodge-card">
-      ${l.image_url ? `<div class="lodge-card-img"><img src="${l.image_url}" alt="${l.lodge_name}" loading="lazy"></div>` : ''}
-      <span class="lodge-card-nights">${l.nights} Night${l.nights !== 1 ? 's':''}</span>
-      <div class="lodge-card-body">
-        <span class="lodge-card-dest">${l.destination}</span>
-        <div class="lodge-card-name">${l.lodge_name}</div>
-        <p class="lodge-card-desc">${l.description || ''}</p>
-      </div>
-    </div>`).join('');
-
-  const mapStops = stops.map((s, i) => `
-    <div class="map-stop">
-      <div class="map-stop-dot" style="background:${s.color||'#d4af37'};box-shadow:0 0 8px ${s.color||'#d4af37'}44;"></div>
-      <div class="map-stop-info">
-        <span class="map-stop-day">${s.day_label||''}</span>
-        <span class="map-stop-name">${s.name}</span>
-      </div>
-    </div>
-    ${s.flight_duration && i < stops.length-1 ? `<div class="map-flight-line"><span>Private charter · ${s.flight_duration}</span></div>` : ''}`).join('');
-
-  const routeStopsJS = stops.map(s => `
-    { lat: ${s.lat||0}, lng: ${s.lng||0}, color: '${s.color||'#d4af37'}', name: '${s.name.toUpperCase()}', sub: '${s.day_label||''}' }`).join(',');
-
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${pkg.name} — Filmax Jambo Tours</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:wght@300;400;600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
-<style>
-/* ── Paste the full CSS from pkg-aerial-kenya.html here ──
-   For brevity this references the same stylesheet pattern.
-   The downloaded file will include all required styles. */
-  :root {
-    --black: #080808; --deep: #0d0d0d; --charcoal: #141414; --card: #111111;
-    --gold: #d4af37; --gold-light: #e8c84a; --gold-dim: rgba(212,175,55,0.12);
-    --amber: #b8860b; --text: #f0ece4; --muted: #8a8074;
-    --border: rgba(212,175,55,0.2); --border-subtle: rgba(255,255,255,0.05);
+function nextStep(step) {
+  const errors = validateStep(step);
+  if (errors.length > 0) {
+    showValidationSummary(step, errors);
+    return;
   }
-  html,body{overflow-x:hidden;width:100%}
-  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{background:var(--black);color:var(--text);font-family:'Jost',sans-serif;font-weight:300;cursor:none}
-  ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--black)}::-webkit-scrollbar-thumb{background:var(--gold)}
-  .cursor{width:12px;height:12px;background:var(--gold);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .3s,height .3s;mix-blend-mode:difference}
-  .cursor-ring{width:40px;height:40px;border:1px solid rgba(212,175,55,.5);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .15s ease-out,width .4s,height .4s}
-  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:28px 48px;transition:background .4s,padding .4s}
-  nav.scrolled{background:rgba(8,8,8,.95);backdrop-filter:blur(20px);padding:18px 48px;border-bottom:1px solid var(--border)}
-  .nav-logo-link{display:flex;align-items:center;text-decoration:none;flex-shrink:0;line-height:0}
-  .nav-logo-img{height:60px;width:auto;object-fit:contain;display:block;filter:drop-shadow(0 0 12px rgba(212,175,55,.5));animation:goldenPulse 4s ease-in-out infinite;transition:height .4s}
-  @keyframes goldenPulse{0%,100%{opacity:1}50%{opacity:.85}}
-  .nav-back{font-family:'Jost',sans-serif;font-size:10px;font-weight:400;letter-spacing:4px;text-transform:uppercase;color:var(--gold);text-decoration:none;display:flex;align-items:center;gap:10px;transition:color .3s;cursor:none}
-  .nav-back::before{content:'';width:24px;height:1px;background:var(--gold);transition:width .3s}
-  .nav-back:hover{color:var(--gold-light)}.nav-back:hover::before{width:36px}
-  .pkg-hero{position:relative;height:82vh;min-height:500px;display:flex;align-items:flex-end;overflow:hidden;padding-top:80px}
-  .pkg-hero-bg{position:absolute;inset:0}
-  .pkg-hero-img{width:100%;height:100%;object-fit:cover;object-position:center 40%;transform:scale(1.04);animation:heroKenBurns 14s ease-in-out infinite alternate}
-  @keyframes heroKenBurns{from{transform:scale(1.04) translateX(0)}to{transform:scale(1.08) translateX(-1%)}}
-  .pkg-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,8,.97) 0%,rgba(8,8,8,.55) 40%,rgba(8,8,8,.2) 70%,rgba(8,8,8,.5) 100%)}
-  .pkg-hero-content{position:relative;z-index:5;padding:0 48px 72px;width:100%}
-  .pkg-hero-breadcrumb{display:flex;align-items:center;gap:12px;margin-bottom:24px}
-  .pkg-hero-breadcrumb span{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--muted)}
-  .pkg-hero-breadcrumb .cur{color:var(--gold)}
-  .pkg-hero-badge{display:inline-block;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--black);background:var(--gold);padding:5px 14px;margin-bottom:20px}
-  .pkg-hero-title{font-family:'Playfair Display',serif;font-size:clamp(52px,8vw,108px);font-weight:900;line-height:.96;letter-spacing:-2px;margin-bottom:24px}
-  .pkg-hero-title em{font-style:italic;font-weight:400;color:var(--gold);display:block}
-  .pkg-hero-meta{display:flex;align-items:center;gap:40px;flex-wrap:wrap}
-  .pkg-hero-meta-item{display:flex;flex-direction:column;gap:4px}
-  .pkg-hero-meta-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--muted)}
-  .pkg-hero-meta-value{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--text)}
-  .pkg-hero-meta-sep{width:1px;height:36px;background:var(--border)}
-  .pkg-hero-price-hero{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:600;color:var(--gold);line-height:1}
-  .pkg-hero-price-hero span{font-size:14px;font-family:'Jost',sans-serif;color:var(--muted);font-weight:300}
-  .pkg-main{display:grid;grid-template-columns:1fr 380px;gap:0;max-width:1400px;margin:0 auto;padding:0 48px}
-  .pkg-content{padding:0 64px 120px 0;border-right:1px solid var(--border-subtle);min-width:0}
-  .pkg-tabs-wrapper{position:sticky;top:72px;z-index:50;background:rgba(8,8,8,0.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);margin-left:-64px;padding-left:64px;margin-right:-1px}
-  .pkg-tabs{display:flex;align-items:stretch;gap:0;overflow-x:auto;scrollbar-width:none}
-  .pkg-tabs::-webkit-scrollbar{display:none}
-  .pkg-tab{font-family:'Jost',sans-serif;font-size:9px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--muted);padding:20px 24px 18px;cursor:none;border:none;background:transparent;border-bottom:2px solid transparent;transition:color .3s,border-color .3s;white-space:nowrap}
-  .pkg-tab:hover{color:var(--text)}.pkg-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
-  .pkg-tab-panel{display:none;padding-top:64px}.pkg-tab-panel.active{display:block}
-  .sec-label{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:16px}
-  .sec-title{font-family:'Playfair Display',serif;font-size:clamp(28px,3vw,40px);font-weight:700;line-height:1.15;margin-bottom:20px}
-  .sec-divider{width:60px;height:1px;background:linear-gradient(to right,var(--gold),transparent);margin:32px 0}
-  .overview-intro p{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--muted);line-height:1.85;font-style:italic;margin-bottom:20px}
-  .pkg-itinerary{margin-bottom:40px}
-  .itinerary-days-wrapper{border-left:1px solid var(--border);margin-top:8px}
-  .itinerary-day{position:relative;margin-bottom:0}
-  .itinerary-day::before{content:'';position:absolute;top:22px;left:-5px;width:9px;height:9px;border-radius:50%;background:var(--charcoal);border:1px solid rgba(212,175,55,0.3);z-index:2;transition:background .3s,border-color .3s}
-  .itinerary-day.open::before{background:var(--gold);border-color:var(--gold);box-shadow:0 0 14px rgba(212,175,55,0.6)}
-  .day-header{display:flex;align-items:center;justify-content:space-between;padding:20px 0 20px 32px;cursor:none;gap:20px;border-bottom:1px solid rgba(255,255,255,0.04);transition:background .3s}
-  .day-header:hover{background:rgba(212,175,55,0.03)}
-  .day-header-left{display:flex;align-items:baseline;gap:20px;flex:1}
-  .day-number{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);flex-shrink:0}
-  .day-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--text);line-height:1.2}
-  .itinerary-day.open .day-title{color:var(--gold)}
-  .day-chevron{width:28px;height:28px;border:1px solid rgba(212,175,55,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-right:4px;transition:border-color .3s,background .3s,transform .4s cubic-bezier(0.22,1,0.36,1)}
-  .itinerary-day.open .day-chevron{transform:rotate(180deg);border-color:rgba(212,175,55,0.6);background:rgba(212,175,55,0.08)}
-  .day-body{overflow:hidden;max-height:0;transition:max-height .55s cubic-bezier(0.22,1,0.36,1),opacity .4s ease,padding .4s ease;opacity:0;padding:0 0 0 32px}
-  .itinerary-day.open .day-body{max-height:1200px;opacity:1;padding:4px 0 36px 32px}
-  .day-location{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:8px}
-  .day-location::before{content:'';width:20px;height:1px;background:var(--gold);flex-shrink:0}
-  .day-desc{font-size:14px;color:var(--muted);line-height:1.85;margin-bottom:16px}
-  .day-activities{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
-  .day-activities li{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);border:1px solid var(--border-subtle);padding:5px 12px}
-  .fjt-day-highlight{display:flex;align-items:center;gap:8px;margin-top:20px;padding:12px 0 0;border-top:1px solid var(--border-subtle);flex-wrap:wrap}
-  .fjt-highlight-badge{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:rgba(212,175,55,0.07);border:1px solid rgba(212,175,55,0.18);padding:5px 11px}
-  .inclusions-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-bottom:56px}
-  .inclusion-group h4{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:20px}
-  .inclusion-list{list-style:none}
-  .inclusion-list li{font-size:13px;color:var(--muted);padding:12px 0;border-bottom:1px solid var(--border-subtle);display:flex;align-items:flex-start;gap:12px;line-height:1.6}
-  .inclusion-list li::before{content:'';width:16px;height:1px;background:var(--gold);flex-shrink:0;margin-top:9px}
-  .inclusion-list.excl li::before{background:rgba(180,60,60,.6)}
-  .lodge-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:28px}
-  .lodge-card{background:var(--charcoal);border:1px solid var(--border-subtle);overflow:hidden;position:relative}
-  .lodge-card-img{height:180px;overflow:hidden}
-  .lodge-card-img img{width:100%;height:100%;object-fit:cover;filter:brightness(0.8)}
-  .lodge-card-body{padding:20px 20px 24px}
-  .lodge-card-dest{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:6px}
-  .lodge-card-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--text);margin-bottom:8px}
-  .lodge-card-desc{font-size:12px;color:var(--muted);line-height:1.7}
-  .lodge-card-nights{position:absolute;top:12px;right:12px;background:rgba(8,8,8,0.85);border:1px solid var(--border);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);padding:5px 12px}
-  .map-stop{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--border-subtle)}
-  .map-stop:last-child{border-bottom:none}
-  .map-stop-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px}
-  .map-stop-day{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px}
-  .map-stop-name{font-family:'Playfair Display',serif;font-size:15px;color:var(--text)}
-  .map-flight-line{display:flex;align-items:center;gap:8px;padding:6px 0 6px 24px}
-  .map-flight-line::before{content:'✈';font-size:9px;color:rgba(212,175,55,0.4)}
-  .map-flight-line span{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
-  .pkg-sidebar{padding:80px 0 80px 48px}
-  .sidebar-card{position:sticky;top:100px;background:var(--charcoal);border:1px solid var(--border);padding:44px 36px}
-  .sidebar-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 0% 0%,rgba(212,175,55,.06) 0%,transparent 60%);pointer-events:none}
-  .sidebar-divider{height:1px;background:var(--border);margin:24px 0}
-  .btn-book-now{display:block;text-align:center;font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;padding:20px;background:linear-gradient(135deg,var(--gold),var(--amber));color:var(--black);text-decoration:none;cursor:none;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;margin-bottom:12px}
-  .btn-book-now:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(212,175,55,.4)}
-  .btn-whatsapp{display:flex;align-items:center;justify-content:center;gap:10px;font-family:'Jost',sans-serif;font-size:10px;font-weight:400;letter-spacing:4px;text-transform:uppercase;padding:16px;background:transparent;color:var(--gold);border:1px solid var(--border);text-decoration:none;cursor:none;transition:background .3s,border-color .3s}
-  .btn-whatsapp:hover{background:var(--gold-dim);border-color:var(--gold)}
-  .btn-whatsapp svg{width:16px;height:16px;fill:var(--gold)}
-  .reveal{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
-  .reveal.visible{opacity:1;transform:translateY(0)}
-  .rates-table{width:100%;border-collapse:collapse}
-  .rates-table thead tr{border-bottom:1px solid var(--border)}
-  .rates-table thead th{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);padding:14px 20px;text-align:left;font-weight:400}
-  .rates-table tbody tr{border-bottom:1px solid var(--border-subtle)}
-  .rates-table tbody td{padding:18px 20px;font-size:13px;color:var(--muted);vertical-align:middle}
-  .rates-table tbody td:first-child{font-family:'Playfair Display',serif;font-size:16px;color:var(--text)}
-  .price-cell{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);font-weight:600}
-  .practical-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:24px}
-  .practical-item{background:var(--charcoal);padding:24px;border:1px solid var(--border-subtle)}
-  .practical-item-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:block}
-  .practical-item-value{font-size:14px;color:var(--text);line-height:1.6}
-  footer{background:var(--black);border-top:1px solid var(--border);padding:60px 0 40px}
-  .footer-inner-wrap{max-width:1400px;margin:0 auto;padding:0 48px}
-  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;margin-bottom:40px}
-  .footer-brand h2{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);margin-bottom:12px}
-  .footer-brand p{font-size:13px;color:var(--muted);line-height:1.8;max-width:280px}
-  .footer-col h4{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
-  .footer-col a{display:block;font-size:13px;color:var(--muted);text-decoration:none;margin-bottom:8px;transition:color .3s;cursor:none}
-  .footer-col a:hover{color:var(--text)}
-  .footer-bottom{border-top:1px solid var(--border-subtle);padding-top:24px;display:flex;justify-content:space-between}
-  .footer-bottom span{font-size:11px;color:var(--muted)}
-  .whatsapp-fab{position:fixed;bottom:36px;right:36px;width:60px;height:60px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:90;text-decoration:none;box-shadow:0 8px 30px rgba(37,211,102,.4);cursor:none;transition:transform .3s,box-shadow .3s}
-  .whatsapp-fab:hover{transform:scale(1.1)}
-  .whatsapp-fab svg{width:28px;height:28px;fill:white}
-  .mobile-book-bar{display:none}
-  @media(max-width:1100px){
-    .pkg-main{grid-template-columns:1fr;display:flex;flex-direction:column}
-    .pkg-content{padding-right:0;border-right:none;order:2}
-    .pkg-sidebar{padding:0 24px 40px;order:1}
-    .sidebar-card{position:relative;top:auto}
-    .pkg-tabs-wrapper{position:sticky;top:62px;z-index:99;margin-left:0;padding-left:0;margin-right:0}
-    body{padding-bottom:90px}
-    .mobile-book-bar{display:flex;align-items:center;justify-content:space-between;position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(8,8,8,0.97);border-top:1px solid var(--border);padding:14px 20px;backdrop-filter:blur(20px);gap:16px}
-    .mobile-book-price{display:flex;flex-direction:column}
-    .mobile-book-price-num{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold);line-height:1}
-    .mobile-book-price-label{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-top:2px}
-    .mobile-book-btn{font-family:'Jost',sans-serif;font-size:9px;font-weight:500;letter-spacing:3px;text-transform:uppercase;padding:14px 20px;background:linear-gradient(135deg,var(--gold),var(--amber));color:var(--black);text-decoration:none;cursor:none;white-space:nowrap;flex-shrink:0}
-    .pkg-tab-panel{display:block !important;padding-top:48px;padding-bottom:16px}
-    .inclusions-grid,.lodge-grid,.practical-grid{grid-template-columns:1fr}
-  }
-  @media(max-width:900px){
-    nav{padding:20px 24px}
-    .pkg-hero-content{padding:0 24px 46px}
-    .pkg-hero{height:72vh;min-height:460px}
-    .pkg-hero-title{font-size:48px}
-    .pkg-main{padding:0 24px}
-  }
-  @media(max-width:480px){
-    .pkg-main{padding:0 16px}
-    .pkg-sidebar{padding:0 16px 40px}
-  }
-</style>
-</head>
-<body>
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-
-<nav id="navbar">
-  <a href="index.html" class="nav-logo-link">
-    <img src="assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.webp" alt="Filmax Jambo Tours" class="nav-logo-img">
-  </a>
-  <a href="packages.html" class="nav-back">All Packages</a>
-</nav>
-
-<div class="pkg-hero">
-  <div class="pkg-hero-bg">
-    <img class="pkg-hero-img" src="${pkg.hero_image_url || 'assets/maasaimara.webp'}" alt="${pkg.name}">
-    <div class="pkg-hero-overlay"></div>
-  </div>
-  <div class="pkg-hero-content">
-    <div class="pkg-hero-breadcrumb">
-      <span>Packages</span><span class="sep">—</span>
-      <span>${pkg.category || 'Safari'}</span><span class="sep">—</span>
-      <span class="cur">${pkg.name}</span>
-    </div>
-    ${pkg.badge ? `<span class="pkg-hero-badge">${pkg.badge}</span>` : ''}
-    <h1 class="pkg-hero-title">${pkg.name.includes(' ') ? pkg.name.split(' ').slice(0,Math.ceil(pkg.name.split(' ').length/2)).join(' ') + '<br><em>' + pkg.name.split(' ').slice(Math.ceil(pkg.name.split(' ').length/2)).join(' ') + '</em>' : pkg.name}</h1>
-    <div class="pkg-hero-meta">
-      ${pkg.duration_days ? `
-      <div class="pkg-hero-meta-item">
-        <span class="pkg-hero-meta-label">Duration</span>
-        <span class="pkg-hero-meta-value">${pkg.duration_days} Days · ${pkg.duration_nights} Nights</span>
-      </div>
-      <div class="pkg-hero-meta-sep"></div>` : ''}
-      ${pkg.destinations?.length ? `
-      <div class="pkg-hero-meta-item">
-        <span class="pkg-hero-meta-label">Destinations</span>
-        <span class="pkg-hero-meta-value">${pkg.destinations.join(' · ')}</span>
-      </div>
-      <div class="pkg-hero-meta-sep"></div>` : ''}
-      <div class="pkg-hero-meta-item">
-        <span class="pkg-hero-meta-label">Category</span>
-        <span class="pkg-hero-meta-value">${pkg.category || 'Safari'}</span>
-      </div>
-      <div class="pkg-hero-meta-sep"></div>
-      <div class="pkg-hero-meta-item">
-        <span class="pkg-hero-meta-label">From</span>
-        <div class="pkg-hero-price-hero">$${Number(price).toLocaleString()} <span>/ person</span></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="pkg-main" id="pkgMain">
-  <div class="pkg-content">
-
-    <div class="pkg-tabs-wrapper" id="pkgTabsWrapper">
-      <div class="pkg-tabs" role="tablist">
-        <button class="pkg-tab active" data-tab="overview">Overview</button>
-        ${days.length ? `<button class="pkg-tab" data-tab="itinerary">Day by Day</button>` : ''}
-        <button class="pkg-tab" data-tab="rates">Rates &amp; Seasons</button>
-        ${lodges.length ? `<button class="pkg-tab" data-tab="inclusions">Accommodation</button>` : ''}
-        ${included.length ? `<button class="pkg-tab" data-tab="inclusions-list">Inclusions</button>` : ''}
-      </div>
-    </div>
-
-    <!-- OVERVIEW -->
-    <div class="pkg-tab-panel active" id="panel-overview">
-      <div class="reveal">
-        <span class="sec-label">The Journey</span>
-        <h2 class="sec-title">${pkg.overview_title || pkg.name}</h2>
-        ${pkg.overview_body ? `<p style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--muted);line-height:1.85;font-style:italic;margin-bottom:20px;">${pkg.overview_body}</p>` : ''}
-        ${pkg.overview_body_2 ? `<p style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--muted);line-height:1.85;font-style:italic;margin-bottom:20px;">${pkg.overview_body_2}</p>` : ''}
-        <div class="sec-divider"></div>
-      </div>
-      ${stops.length ? `
-      <div class="reveal" style="margin-top:56px">
-        <span class="sec-label">Your Route</span>
-        <h2 class="sec-title">${pkg.destinations?.length} ${pkg.destinations?.length > 1 ? 'Ecosystems' : 'Destination'}, One Journey</h2>
-        <div style="background:var(--charcoal);border:1px solid var(--border);padding:24px;display:grid;grid-template-columns:1fr 220px;gap:24px;margin-top:24px">
-          <div id="pkg-map" style="min-height:350px;"></div>
-          <div>
-            <span style="font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:block;">Route Sequence</span>
-            ${mapStops}
-          </div>
-        </div>
-      </div>` : ''}
-    </div>
-
-    <!-- DAY BY DAY -->
-    ${days.length ? `
-    <div class="pkg-tab-panel" id="panel-itinerary">
-      <div class="pkg-itinerary reveal">
-        <span class="sec-label">Day by Day</span>
-        <h2 class="sec-title">Your Itinerary</h2>
-        <div class="sec-divider"></div>
-        <div class="itinerary-days-wrapper">
-          ${dayAccordions}
-        </div>
-      </div>
-    </div>` : ''}
-
-    <!-- RATES -->
-    <div class="pkg-tab-panel" id="panel-rates">
-      <div class="reveal">
-        <span class="sec-label">Investment</span>
-        <h2 class="sec-title">Rates &amp; Seasonal Pricing</h2>
-        <div class="sec-divider"></div>
-        <table class="rates-table">
-          <thead><tr><th>Season</th><th>Rate per Person</th><th>When</th></tr></thead>
-          <tbody>
-            ${peakPrice ? `<tr><td>Peak Season</td><td class="price-cell">$${Number(peakPrice).toLocaleString()}</td><td>July – October</td></tr>` : ''}
-            <tr><td>High Season</td><td class="price-cell">$${Number(price).toLocaleString()}</td><td>Jan, Feb, Jun, Nov, Dec</td></tr>
-            ${greenPrice ? `<tr><td>Green Season</td><td class="price-cell">$${Number(greenPrice).toLocaleString()}</td><td>March – May</td></tr>` : ''}
-          </tbody>
-        </table>
-        <p style="font-size:11px;color:var(--muted);margin-top:12px;font-style:italic;">Rates quoted in USD per person. Contact us for group pricing.</p>
-      </div>
-    </div>
-
-    <!-- ACCOMMODATION -->
-    ${lodges.length ? `
-    <div class="pkg-tab-panel" id="panel-inclusions">
-      <div class="reveal">
-        <span class="sec-label">Where You Stay</span>
-        <h2 class="sec-title">Your Accommodation</h2>
-        <div class="sec-divider"></div>
-        <div class="lodge-grid">
-          ${lodgeCards}
-        </div>
-      </div>
-    </div>` : ''}
-
-    <!-- INCLUSIONS -->
-    ${included.length ? `
-    <div class="pkg-tab-panel" id="panel-inclusions-list">
-      <div class="reveal">
-        <span class="sec-label">Every Detail Covered</span>
-        <h2 class="sec-title">What's Included</h2>
-        <div class="sec-divider"></div>
-        <div class="inclusions-grid">
-          <div class="inclusion-group">
-            <span class="sec-label">Included</span>
-            <h4>Everything Within</h4>
-            <ul class="inclusion-list">
-              ${included.map(i => `<li>${i.text}</li>`).join('')}
-            </ul>
-          </div>
-          ${excluded.length ? `
-          <div class="inclusion-group">
-            <span class="sec-label">Not Included</span>
-            <h4>Arranged Separately</h4>
-            <ul class="inclusion-list excl">
-              ${excluded.map(i => `<li>${i.text}</li>`).join('')}
-            </ul>
-          </div>` : ''}
-        </div>
-      </div>
-    </div>` : ''}
-
-  </div>
-
-  <div class="pkg-sidebar">
-    <div class="sidebar-card reveal">
-      <span style="font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:12px;">Plan Your Journey</span>
-      <span style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:600;color:var(--gold);line-height:1;display:block;margin-bottom:6px;">$${Number(price).toLocaleString()}</span>
-      <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:32px;">per person</span>
-      <div class="sidebar-divider"></div>
-      ${pkg.duration_days ? `
-      <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border-subtle);">
-        <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);">Duration</span>
-        <span style="font-size:13px;color:var(--text);">${pkg.duration_days} Days · ${pkg.duration_nights} Nights</span>
-      </div>` : ''}
-      ${pkg.destinations?.length ? `
-      <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border-subtle);">
-        <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);">Destinations</span>
-        <span style="font-size:13px;color:var(--text);text-align:right;">${pkg.destinations.join(' · ')}</span>
-      </div>` : ''}
-      <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border-subtle);">
-        <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);">Category</span>
-        <span style="font-size:13px;color:var(--text);">${pkg.category || 'Safari'}</span>
-      </div>
-      <div class="sidebar-divider"></div>
-      <a href="PAYMENT_LINK" class="btn-book-now">
-        Reserve This Journey
-        <span style="font-size:8px;letter-spacing:2px;opacity:0.7;font-weight:300;display:block;margin-top:4px;">Secure with 30% deposit</span>
-      </a>
-      <a href="https://wa.me/34672304384?text=Hello%2C%20I'd%20like%20to%20enquire%20about%20${encodeURIComponent(pkg.name)}" class="btn-whatsapp" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Enquire via WhatsApp
-      </a>
-      <p style="margin-top:20px;font-size:11px;color:var(--muted);line-height:1.7;text-align:center;font-style:italic;font-family:'Cormorant Garamond',serif;">Final quote confirmed by your concierge within 24 hours.</p>
-    </div>
-  </div>
-</div>
-
-<footer>
-  <div class="footer-inner-wrap">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <h2>Filmax Jambo Tours</h2>
-        <p>Kenya's most exclusive safari house. Crafting extraordinary wilderness encounters since 2025.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Explore</h4>
-        <a href="index.html#highlights">Safaris</a>
-        <a href="packages.html">All Packages</a>
-        <a href="index.html#contact">Contact</a>
-      </div>
-      <div class="footer-col">
-        <h4>Destinations</h4>
-        ${(pkg.destinations || []).map(d => `<a href="index.html#contact">${d}</a>`).join('')}
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2025 Filmax Jambo Tours · All rights reserved</span>
-      <span>Crafted with passion in Nairobi 🌍</span>
-    </div>
-  </div>
-</footer>
-
-<a href="https://wa.me/34672304384?text=Hello%20Filmax%20Jambo%20Tours!" class="whatsapp-fab" target="_blank" rel="noopener">
-  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-</a>
-
-<div class="mobile-book-bar">
-  <div class="mobile-book-price">
-    <span class="mobile-book-price-num">$${Number(price).toLocaleString()}</span>
-    <span class="mobile-book-price-label">per person</span>
-  </div>
-  <a href="PAYMENT_LINK" class="mobile-book-btn">Reserve This Journey</a>
-</div>
-
-<script>
-// Cursor
-const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
-function ar(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ar)}ar();
-
-// Navbar
-const navbar=document.getElementById('navbar');
-window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',window.scrollY>50));
-
-// Reveal
-const reveals=document.querySelectorAll('.reveal');
-new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.06,rootMargin:'0px 0px -30px 0px'}).observe=function(el){this._observe(el)};
-const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.06,rootMargin:'0px 0px -30px 0px'});
-reveals.forEach(el=>ro.observe(el));
-
-// Tabs
-const tabs=document.querySelectorAll('.pkg-tab'),panels=document.querySelectorAll('.pkg-tab-panel');
-tabs.forEach(tab=>{
-  tab.addEventListener('click',function(){
-    const target=this.dataset.tab;
-    if(window.innerWidth<=1100){
-      tabs.forEach(t=>t.classList.remove('active'));this.classList.add('active');
-      const panel=document.getElementById('panel-'+target);
-      if(panel){setTimeout(()=>{const top=panel.getBoundingClientRect().top+window.pageYOffset-110;window.scrollTo({top,behavior:'smooth'})},50)}
-    } else {
-      tabs.forEach(t=>t.classList.remove('active'));panels.forEach(p=>p.classList.remove('active'));
-      this.classList.add('active');const panel=document.getElementById('panel-'+target);
-      if(panel){panel.classList.add('active');panel.querySelectorAll('.reveal').forEach(el=>{if(!el.classList.contains('visible'))setTimeout(()=>el.classList.add('visible'),80)})}
-      const pkgMain=document.getElementById('pkgMain');
-      if(pkgMain){const top=pkgMain.getBoundingClientRect().top+window.pageYOffset-80;window.scrollTo({top,behavior:'smooth'})}
-    }
-  });
-});
-
-// Accordion
-document.querySelectorAll('.day-header').forEach(header=>{
-  header.addEventListener('click',()=>{
-    const day=header.closest('.itinerary-day');
-    day&&(day.classList.contains('open')?day.classList.remove('open'):day.classList.add('open'));
-  });
-});
-
-// Scroll spy mobile
-(function(){
-  var panels2=Array.from(document.querySelectorAll('.pkg-tab-panel'));
-  var tabs2=Array.from(document.querySelectorAll('.pkg-tab'));
-  var tw=document.getElementById('pkgTabsWrapper');
-  var pm=document.getElementById('pkgMain');
-  function onScroll(){
-    if(window.innerWidth>1100)return;
-    if(pm&&pm.getBoundingClientRect().bottom<0)return;
-    var offset=(tw?tw.offsetHeight:60)+62+20;
-    var current=null;
-    panels2.forEach(function(p){if(p.getBoundingClientRect().top<=offset)current=p});
-    if(current){
-      tabs2.forEach(function(t){t.classList.remove('active')});
-      var id=current.id.replace('panel-','');
-      var at=tabs2.find(function(t){return t.dataset.tab===id});
-      if(at){at.classList.add('active');var te=tw?tw.querySelector('.pkg-tabs'):null;if(te){var sl=at.offsetLeft-(te.offsetWidth/2)+(at.offsetWidth/2);te.scrollLeft=sl}}
-    }
-  }
-  window.addEventListener('scroll',onScroll,{passive:true});
-  onScroll();
-})();
-
-${stops.length ? `
-// Google Map
-function initPkgMap(){
-  var map=new google.maps.Map(document.getElementById('pkg-map'),{
-    center:{lat:${stops[0]?.lat||0},lng:${stops[0]?.lng||0}},zoom:6,disableDefaultUI:true,gestureHandling:'none',
-    styles:[{elementType:'geometry',stylers:[{color:'#0d0d0d'}]},{elementType:'labels.text.fill',stylers:[{color:'#8a8074'}]},{featureType:'administrative.country',elementType:'geometry.stroke',stylers:[{color:'#d4af37'},{weight:1.5}]},{featureType:'landscape',elementType:'geometry',stylers:[{color:'#111111'}]},{featureType:'road',stylers:[{visibility:'off'}]},{featureType:'poi',stylers:[{visibility:'off'}]},{featureType:'water',elementType:'geometry',stylers:[{color:'#0a0a14'}]}]
-  });
-  var stops=[${routeStopsJS}];
-  new google.maps.Polyline({path:stops.map(function(s){return{lat:s.lat,lng:s.lng}}),geodesic:true,strokeColor:'rgba(212,175,55,0.6)',strokeOpacity:0,strokeWeight:2,icons:[{icon:{path:'M 0,-1 0,1',strokeOpacity:0.6,strokeColor:'#d4af37',scale:3},offset:'0',repeat:'12px'}]}).setMap(map);
-  stops.forEach(function(stop){
-    var marker=new google.maps.Marker({position:{lat:stop.lat,lng:stop.lng},map:map,icon:{path:google.maps.SymbolPath.CIRCLE,scale:7,fillColor:stop.color,fillOpacity:1,strokeColor:'rgba(255,255,255,0.3)',strokeWeight:2}});
-    var iw=new google.maps.InfoWindow({content:'<div style="background:rgba(8,8,8,0.82);border-left:2px solid '+stop.color+';padding:5px 10px 5px 8px;font-family:Jost,sans-serif;"><div style="font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:'+stop.color+';font-weight:500;">'+stop.name+'</div></div>',disableAutoPan:true,pixelOffset:new google.maps.Size(0,-2)});
-    iw.open(map,marker);
-  });
-}` : ''}
-<\/script>
-${stops.length ? `<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHJ2nB30EQjjXuFuZ4GwPQStpifh-UMoc&callback=initPkgMap"><\/script>` : ''}
-</body>
-</html>`;
+  hideValidationSummary(step);
+  completedSteps.add(step);
+  goToStep(step + 1);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-  
-// ── LOAD PACKAGES ──
+
+function prevStep(step) {
+  hideValidationSummary(step);
+  goToStep(step - 1);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showValidationSummary(step, errors) {
+  const vs = document.getElementById('vs-' + step);
+  if (!vs) return;
+  vs.innerHTML = '<p>Please fix the following before continuing:</p>' +
+    errors.map(e => `<p>• ${e}</p>`).join('');
+  vs.classList.add('show');
+  vs.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function hideValidationSummary(step) {
+  const vs = document.getElementById('vs-' + step);
+  if (vs) vs.classList.remove('show');
+}
+
+function setInvalid(id, msg) {
+  const el = document.getElementById(id);
+  const err = document.getElementById('err-' + id.replace('f-',''));
+  if (el) el.classList.add('invalid');
+  if (err && msg) { err.textContent = msg; err.classList.add('show'); }
+}
+function clearInvalid(id) {
+  const el = document.getElementById(id);
+  const err = document.getElementById('err-' + id.replace('f-',''));
+  if (el) el.classList.remove('invalid');
+  if (err) err.classList.remove('show');
+}
+function clearAllInvalid() {
+  document.querySelectorAll('.invalid').forEach(el => el.classList.remove('invalid'));
+  document.querySelectorAll('.field-error.show').forEach(el => el.classList.remove('show'));
+}
+
+// ── VALIDATION ──
+function validateStep(step) {
+  clearAllInvalid();
+  const errors = [];
+
+  if (step === 0) {
+    const name = document.getElementById('f-name').value.trim();
+    const slug = document.getElementById('f-slug').value.trim();
+    const tagline = document.getElementById('f-tagline').value.trim();
+    const badge = document.getElementById('f-badge').value.trim();
+    const category = document.getElementById('f-category').value;
+    const transport = document.getElementById('f-transport').value.trim();
+    const days = document.getElementById('f-days').value;
+    const nights = document.getElementById('f-nights').value;
+    const destinations = document.getElementById('f-destinations').value.trim();
+    const overviewTitle = document.getElementById('f-overview-title').value.trim();
+    const overviewBody = document.getElementById('f-overview-body').value.trim();
+    const heroUrl = document.getElementById('f-hero-image-url').value.trim();
+    const cardBgUrl = document.getElementById('f-card-bg-url').value.trim();
+    const highlights = document.getElementById('f-short-highlights').value.trim();
+
+    if (name.length < 5) { errors.push('Package name (min 5 characters)'); setInvalid('f-name'); }
+    else clearInvalid('f-name');
+
+    if (!slug || !/^[a-z0-9-]+$/.test(slug)) { errors.push('URL slug (lowercase letters, numbers, hyphens only)'); setInvalid('f-slug'); }
+    else clearInvalid('f-slug');
+
+    if (tagline.length < 10) { errors.push('Tagline (min 10 characters)'); setInvalid('f-tagline'); }
+    else clearInvalid('f-tagline');
+
+    if (!badge) { errors.push('Badge text is required'); setInvalid('f-badge'); }
+    else clearInvalid('f-badge');
+
+    if (!category) { errors.push('Category must be selected'); setInvalid('f-category'); }
+    else clearInvalid('f-category');
+
+    if (!transport) { errors.push('Transport type is required'); setInvalid('f-transport'); }
+    else clearInvalid('f-transport');
+
+    if (!days || parseInt(days) < 1) { errors.push('Duration days (min 1)'); setInvalid('f-days'); }
+    else clearInvalid('f-days');
+
+    if (nights === '' || parseInt(nights) < 0) { errors.push('Duration nights required'); setInvalid('f-nights'); }
+    else clearInvalid('f-nights');
+
+    const destArr = destinations.split(',').map(s => s.trim()).filter(Boolean);
+    if (destArr.length < 2) { errors.push('At least 2 destinations required (comma separated)'); setInvalid('f-destinations'); }
+    else clearInvalid('f-destinations');
+
+    if (overviewTitle.length < 10) { errors.push('Overview title (min 10 characters)'); setInvalid('f-overview-title'); }
+    else clearInvalid('f-overview-title');
+
+    if (overviewBody.length < 80) { errors.push(`Overview body (min 80 characters — currently ${overviewBody.length})`); setInvalid('f-overview-body'); }
+    else clearInvalid('f-overview-body');
+
+    const heroOk = heroUrl && heroUrl.toLowerCase().endsWith('.webp');
+    if (!heroOk) { errors.push('Hero image URL is required and must end in .webp'); setInvalid('f-hero-image-url'); document.getElementById('heroUploadBox').classList.add('invalid'); }
+    else { clearInvalid('f-hero-image-url'); document.getElementById('heroUploadBox').classList.remove('invalid'); }
+
+    const cardBgOk = cardBgUrl && cardBgUrl.toLowerCase().endsWith('.webp');
+    if (!cardBgOk) { errors.push('Card background image URL is required and must end in .webp'); setInvalid('f-card-bg-url'); }
+    else clearInvalid('f-card-bg-url');
+
+    const hlLines = highlights.split('\n').map(s => s.trim()).filter(Boolean);
+    if (hlLines.length < 4 || hlLines.length > 7) { errors.push(`Short highlights: need between 4 and 7 items (currently ${hlLines.length})`); setInvalid('f-short-highlights'); }
+    else clearInvalid('f-short-highlights');
+  }
+
+  if (step === 1) {
+    const peak = document.getElementById('f-price-peak').value;
+    const high = document.getElementById('f-price-high').value;
+    const green = document.getElementById('f-price-green').value;
+    const solo = document.getElementById('f-price-solo').value;
+    const duo = document.getElementById('f-price-duo').value;
+    const grp = document.getElementById('f-price-group').value;
+    const peakM = document.getElementById('f-peak-months').value.trim();
+    const highM = document.getElementById('f-high-months').value.trim();
+    const greenM = document.getElementById('f-green-months').value.trim();
+
+    if (!peak || parseFloat(peak) <= 0) { errors.push('Peak season price required'); setInvalid('f-price-peak'); }
+    if (!high || parseFloat(high) <= 0) { errors.push('High season price required'); setInvalid('f-price-high'); }
+    if (!green || parseFloat(green) <= 0) { errors.push('Green season price required'); setInvalid('f-price-green'); }
+    if (!solo || parseFloat(solo) <= 0) { errors.push('Solo price required'); setInvalid('f-price-solo'); }
+    if (!duo || parseFloat(duo) <= 0) { errors.push('Duo price required'); setInvalid('f-price-duo'); }
+    if (!grp || parseFloat(grp) <= 0) { errors.push('Group price required'); setInvalid('f-price-group'); }
+
+    const monthRx = /^(\d{1,2})(,\d{1,2})*$/;
+    if (!monthRx.test(peakM.replace(/\s/g,''))) { errors.push('Peak months: comma-separated numbers 1–12 (e.g. 7,8,9,10)'); setInvalid('f-peak-months'); }
+    if (!monthRx.test(highM.replace(/\s/g,''))) { errors.push('High months: comma-separated numbers 1–12'); setInvalid('f-high-months'); }
+    if (!monthRx.test(greenM.replace(/\s/g,''))) { errors.push('Green months: comma-separated numbers 1–12'); setInvalid('f-green-months'); }
+  }
+
+  if (step === 2) {
+    const rows = document.querySelectorAll('#daysRepeater .repeater-row');
+    if (rows.length < 2) { errors.push('At least 2 itinerary days required'); }
+    rows.forEach((row, i) => {
+      const title = row.querySelector('.day-title')?.value.trim() || '';
+      const location = row.querySelector('.day-location')?.value.trim() || '';
+      const desc = row.querySelector('.day-desc')?.value.trim() || '';
+      if (!title) { errors.push(`Day ${i+1}: title required`); row.querySelector('.day-title')?.classList.add('invalid'); }
+      if (!location) { errors.push(`Day ${i+1}: location required`); row.querySelector('.day-location')?.classList.add('invalid'); }
+      if (desc.length < 40) { errors.push(`Day ${i+1}: description min 40 characters (${desc.length} entered)`); row.querySelector('.day-desc')?.classList.add('invalid'); }
+    });
+  }
+
+  if (step === 3) {
+    const rows = document.querySelectorAll('#lodgesRepeater .repeater-row');
+    if (rows.length < 1) { errors.push('At least 1 lodge/property required'); }
+    rows.forEach((row, i) => {
+      const dest = row.querySelector('.lodge-dest')?.value.trim() || '';
+      const name = row.querySelector('.lodge-name')?.value.trim() || '';
+      const nights = row.querySelector('.lodge-nights')?.value || '';
+      if (!dest) { errors.push(`Lodge ${i+1}: destination required`); row.querySelector('.lodge-dest')?.classList.add('invalid'); }
+      if (!name) { errors.push(`Lodge ${i+1}: lodge name required`); row.querySelector('.lodge-name')?.classList.add('invalid'); }
+      if (!nights || parseInt(nights) < 1) { errors.push(`Lodge ${i+1}: nights must be at least 1`); row.querySelector('.lodge-nights')?.classList.add('invalid'); }
+      const imgUrl = row.querySelector('.lodge-img')?.value.trim() || '';
+      if (imgUrl && !imgUrl.toLowerCase().endsWith('.webp')) { errors.push(`Lodge ${i+1}: image URL must end in .webp`); row.querySelector('.lodge-img')?.classList.add('invalid'); }
+    });
+  }
+
+  if (step === 4) {
+    const incRows = document.querySelectorAll('#inclusionsRepeater .repeater-row');
+    const excRows = document.querySelectorAll('#exclusionsRepeater .repeater-row');
+    const incValid = Array.from(incRows).filter(r => r.querySelector('.inc-text')?.value.trim());
+    const excValid = Array.from(excRows).filter(r => r.querySelector('.inc-text')?.value.trim());
+    if (incValid.length < 3) errors.push(`At least 3 included items required (${incValid.length} filled)`);
+    if (excValid.length < 2) errors.push(`At least 2 excluded items required (${excValid.length} filled)`);
+    incRows.forEach(row => { if (!row.querySelector('.inc-text')?.value.trim()) row.querySelector('.inc-text')?.classList.add('invalid'); });
+    excRows.forEach(row => { if (!row.querySelector('.inc-text')?.value.trim()) row.querySelector('.inc-text')?.classList.add('invalid'); });
+  }
+
+  if (step === 5) {
+    const rows = document.querySelectorAll('#routeRepeater .repeater-row');
+    if (rows.length < 2) { errors.push('At least 2 route stops required'); }
+    rows.forEach((row, i) => {
+      const name = row.querySelector('.stop-name')?.value.trim() || '';
+      const lat = row.querySelector('.stop-lat')?.value || '';
+      const lng = row.querySelector('.stop-lng')?.value || '';
+      if (!name) { errors.push(`Stop ${i+1}: place name required`); row.querySelector('.stop-name')?.classList.add('invalid'); }
+      if (!lat || isNaN(parseFloat(lat))) { errors.push(`Stop ${i+1}: valid latitude required`); row.querySelector('.stop-lat')?.classList.add('invalid'); }
+      if (!lng || isNaN(parseFloat(lng))) { errors.push(`Stop ${i+1}: valid longitude required`); row.querySelector('.stop-lng')?.classList.add('invalid'); }
+    });
+  }
+
+  return errors;
+}
+
+// ── REVIEW SUMMARY ──
+function buildReviewSummary() {
+  const name = document.getElementById('f-name').value;
+  const days = document.getElementById('f-days').value;
+  const nights = document.getElementById('f-nights').value;
+  const cat = document.getElementById('f-category').value;
+  const peakP = document.getElementById('f-price-peak').value;
+  const daysCount = document.querySelectorAll('#daysRepeater .repeater-row').length;
+  const lodgesCount = document.querySelectorAll('#lodgesRepeater .repeater-row').length;
+  const incCount = document.querySelectorAll('#inclusionsRepeater .repeater-row').length;
+  const excCount = document.querySelectorAll('#exclusionsRepeater .repeater-row').length;
+  const stopsCount = document.querySelectorAll('#routeRepeater .repeater-row').length;
+
+  document.getElementById('reviewSummary').innerHTML = `
+    <span style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:16px;">Package Summary</span>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+      <div style="padding:16px;border:1px solid rgba(255,255,255,0.06);">
+        <span style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);">Package</span>
+        <div style="font-size:15px;color:var(--text);margin-top:6px;font-weight:600;">${name}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px;">${days} days · ${nights} nights · ${cat}</div>
+      </div>
+      <div style="padding:16px;border:1px solid rgba(255,255,255,0.06);">
+        <span style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);">Peak Price</span>
+        <div style="font-size:22px;color:var(--gold);margin-top:6px;">$${Number(peakP).toLocaleString()}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px;">per person</div>
+      </div>
+      <div style="padding:16px;border:1px solid rgba(255,255,255,0.06);">
+        <span style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);">Content</span>
+        <div style="font-size:12px;color:var(--text);margin-top:6px;line-height:1.9;">
+          ✓ ${daysCount} itinerary days<br>
+          ✓ ${lodgesCount} lodge${lodgesCount !== 1 ? 's' : ''}<br>
+          ✓ ${incCount} included / ${excCount} excluded<br>
+          ✓ ${stopsCount} route stops
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ── LOAD PACKAGES & DRAFTS ──
 async function loadPackages() {
-  const { data, error } = await db.from('packages').select('*').order('created_at', { ascending: false });
-  const list = document.getElementById('packageList');
-  if (error || !data?.length) {
-    list.innerHTML = '<p style="color:var(--muted);">No packages yet. Create your first one.</p>';
+  const { data } = await db.from('packages').select('*').eq('is_published', true).order('created_at', { ascending: false });
+  renderPackageList(data, 'packageList', true);
+}
+
+async function loadDrafts() {
+  const { data } = await db.from('packages').select('*').eq('is_published', false).order('created_at', { ascending: false });
+  renderPackageList(data, 'draftList', false);
+}
+
+function renderPackageList(data, containerId, isPublished) {
+  const list = document.getElementById(containerId);
+  if (!data?.length) {
+    list.innerHTML = `<p style="color:var(--muted);">${isPublished ? 'No published packages yet.' : 'No drafts saved.'}</p>`;
     return;
   }
   list.innerHTML = data.map(p => `
@@ -1071,12 +1051,28 @@ async function loadPackages() {
       </div>
       <span class="badge ${p.is_published ? 'badge-published' : 'badge-draft'}">${p.is_published ? 'Published' : 'Draft'}</span>
       ${p.is_featured ? '<span class="badge badge-featured">Featured</span>' : '<span></span>'}
-      <div style="display:flex;gap:8px;">
+      <div class="list-action-btn">
+        ${!p.is_published ? `<button class="btn btn-publish btn-sm" onclick="publishPackage('${p.id}')">🚀 Publish</button>` : `<button class="btn btn-outline btn-sm" onclick="unpublishPackage('${p.id}')">Unpublish</button>`}
         <button class="btn btn-outline btn-sm" onclick="editPackage('${p.id}')">Edit</button>
         <button class="btn btn-danger btn-sm" onclick="deletePackage('${p.id}')">Delete</button>
       </div>
     </div>
   `).join('');
+}
+
+async function publishPackage(id) {
+  const { error } = await db.from('packages').update({ is_published: true }).eq('id', id);
+  if (error) return showToast('Error: ' + error.message, 'error');
+  showToast('Package published — now live on site ✓', 'success');
+  loadDrafts();
+  loadPackages();
+}
+
+async function unpublishPackage(id) {
+  if (!confirm('Move this package back to drafts?')) return;
+  await db.from('packages').update({ is_published: false }).eq('id', id);
+  loadPackages();
+  showToast('Moved to drafts');
 }
 
 // ── LOAD CATEGORIES ──
@@ -1103,7 +1099,7 @@ async function loadCategoriesList() {
 async function addCategory() {
   const name = document.getElementById('newCatName').value.trim();
   const slug = document.getElementById('newCatSlug').value.trim();
-  if (!name || !slug) return showToast('Name and slug required', true);
+  if (!name || !slug) return showToast('Name and slug required', 'error');
   await db.from('package_categories').insert({ name, slug });
   document.getElementById('newCatName').value = '';
   document.getElementById('newCatSlug').value = '';
@@ -1120,9 +1116,16 @@ async function deleteCategory(id) {
 }
 
 // ── REPEATER ROWS ──
-let dayCount = 0, lodgeCount = 0, inclusionCount = 0, exclusionCount = 0, routeCount = 0;
+let dayCount=0, lodgeCount=0, inclusionCount=0, exclusionCount=0, routeCount=0;
+
+function clearEmptyState(repId) {
+  const rep = document.getElementById(repId);
+  const empty = rep.querySelector('.repeater-empty');
+  if (empty) empty.remove();
+}
 
 function addDayRow(data = {}) {
+  clearEmptyState('daysRepeater');
   dayCount++;
   const id = 'day-' + dayCount;
   const html = `
@@ -1133,17 +1136,18 @@ function addDayRow(data = {}) {
       </div>
       <div class="form-grid">
         <div class="form-group"><label>Day Number</label><input type="number" class="day-num" value="${data.day_number || dayCount}"></div>
-        <div class="form-group"><label>Title</label><input type="text" class="day-title" value="${data.title || ''}" placeholder="e.g. Nairobi → Maasai Mara"></div>
-        <div class="form-group"><label>Location</label><input type="text" class="day-location" value="${data.location || ''}" placeholder="e.g. Wilson Airport · Mara"></div>
-        <div class="form-group"><label>Description</label><textarea class="day-desc" rows="3" placeholder="What happens this day...">${data.description || ''}</textarea></div>
-        <div class="form-group"><label>Activities (comma separated)</label><input type="text" class="day-activities" value="${(data.activities || []).join(', ')}" placeholder="Private aircraft, Afternoon drive"></div>
-        <div class="form-group"><label>Highlight Badges (comma separated)</label><input type="text" class="day-badges" value="${(data.highlight_badges || []).join(', ')}" placeholder="✈️ Private Charter, 📷 Photographer"></div>
+        <div class="form-group"><label>Title <span class="req">*</span></label><input type="text" class="day-title" value="${data.title || ''}" placeholder="e.g. Nairobi → Maasai Mara"></div>
+        <div class="form-group"><label>Location <span class="req">*</span></label><input type="text" class="day-location" value="${data.location || ''}" placeholder="e.g. Wilson Airport · Mara"></div>
+        <div class="form-group"><label>Description <span class="req">*</span> <span style="font-weight:400;font-size:8px;color:var(--muted);text-transform:none;">(min 40 chars)</span></label><textarea class="day-desc" rows="3" placeholder="What happens this day...">${data.description || ''}</textarea></div>
+        <div class="form-group"><label>Activities <span style="font-weight:400;font-size:8px;color:var(--muted);text-transform:none;">(comma separated)</span></label><input type="text" class="day-activities" value="${(data.activities||[]).join(', ')}" placeholder="Private aircraft, Afternoon drive"></div>
+        <div class="form-group"><label>Highlight Badges <span style="font-weight:400;font-size:8px;color:var(--muted);text-transform:none;">(comma separated)</span></label><input type="text" class="day-badges" value="${(data.highlight_badges||[]).join(', ')}" placeholder="✈️ Private Charter, 📷 Photographer"></div>
       </div>
     </div>`;
   document.getElementById('daysRepeater').insertAdjacentHTML('beforeend', html);
 }
 
 function addLodgeRow(data = {}) {
+  clearEmptyState('lodgesRepeater');
   lodgeCount++;
   const id = 'lodge-' + lodgeCount;
   const html = `
@@ -1153,11 +1157,11 @@ function addLodgeRow(data = {}) {
         <button class="btn btn-danger btn-sm" onclick="document.getElementById('${id}').remove()">Remove</button>
       </div>
       <div class="form-grid">
-        <div class="form-group"><label>Destination</label><input type="text" class="lodge-dest" value="${data.destination || ''}" placeholder="e.g. Maasai Mara"></div>
-        <div class="form-group"><label>Lodge Name</label><input type="text" class="lodge-name" value="${data.lodge_name || ''}" placeholder="e.g. Ultra-Luxury Mara Camp"></div>
-        <div class="form-group"><label>Nights</label><input type="number" class="lodge-nights" value="${data.nights || 1}"></div>
-        <div class="form-group"><label>Image URL</label><input type="text" class="lodge-img" value="${data.image_url || ''}" placeholder="https://..."></div>
-        <div class="form-group full"><label>Description</label><textarea class="lodge-desc" rows="2">${data.description || ''}</textarea></div>
+        <div class="form-group"><label>Destination <span class="req">*</span></label><input type="text" class="lodge-dest" value="${data.destination||''}" placeholder="e.g. Maasai Mara"></div>
+        <div class="form-group"><label>Lodge Name <span class="req">*</span></label><input type="text" class="lodge-name" value="${data.lodge_name||''}" placeholder="e.g. Ultra-Luxury Mara Camp"></div>
+        <div class="form-group"><label>Nights <span class="req">*</span></label><input type="number" class="lodge-nights" value="${data.nights||1}" min="1"></div>
+        <div class="form-group"><label>Image URL <span style="font-weight:400;font-size:8px;color:rgba(212,175,55,0.6);text-transform:none;">(.webp only)</span></label><input type="text" class="lodge-img" value="${data.image_url||''}" placeholder="https://...lodge.webp"></div>
+        <div class="form-group full"><label>Description</label><textarea class="lodge-desc" rows="2">${data.description||''}</textarea></div>
       </div>
     </div>`;
   document.getElementById('lodgesRepeater').insertAdjacentHTML('beforeend', html);
@@ -1166,12 +1170,13 @@ function addLodgeRow(data = {}) {
 function addInclusionRow(included = true, data = {}) {
   const count = included ? ++inclusionCount : ++exclusionCount;
   const repId = included ? 'inclusionsRepeater' : 'exclusionsRepeater';
+  clearEmptyState(repId);
   const id = (included ? 'inc-' : 'exc-') + count;
   const html = `
     <div class="repeater-row" id="${id}" style="padding:12px 16px;">
       <div style="display:flex;gap:12px;align-items:center;">
         <input type="hidden" class="inc-type" value="${included}">
-        <input type="text" class="inc-text" value="${data.text || ''}" placeholder="${included ? 'e.g. All private charter flights within Kenya' : 'e.g. International flights to Nairobi'}" style="flex:1;">
+        <input type="text" class="inc-text" value="${data.text||''}" placeholder="${included ? 'e.g. All private charter flights within Kenya' : 'e.g. International flights to Nairobi'}" style="flex:1;">
         <button class="btn btn-danger btn-sm" onclick="document.getElementById('${id}').remove()">✕</button>
       </div>
     </div>`;
@@ -1179,6 +1184,7 @@ function addInclusionRow(included = true, data = {}) {
 }
 
 function addRouteRow(data = {}) {
+  clearEmptyState('routeRepeater');
   routeCount++;
   const id = 'route-' + routeCount;
   const html = `
@@ -1188,126 +1194,121 @@ function addRouteRow(data = {}) {
         <button class="btn btn-danger btn-sm" onclick="document.getElementById('${id}').remove()">Remove</button>
       </div>
       <div class="form-grid three">
-        <div class="form-group"><label>Place Name</label><input type="text" class="stop-name" value="${data.name || ''}" placeholder="e.g. Nairobi"></div>
-        <div class="form-group"><label>Day Label</label><input type="text" class="stop-day" value="${data.day_label || ''}" placeholder="e.g. Days 1–2"></div>
-        <div class="form-group"><label>Dot Colour (hex)</label><input type="text" class="stop-color" value="${data.color || '#d4af37'}" placeholder="#d4af37"></div>
-        <div class="form-group"><label>Latitude</label><input type="number" class="stop-lat" step="any" value="${data.lat || ''}"></div>
-        <div class="form-group"><label>Longitude</label><input type="number" class="stop-lng" step="any" value="${data.lng || ''}"></div>
-        <div class="form-group"><label>Flight Duration to Next</label><input type="text" class="stop-flight" value="${data.flight_duration || ''}" placeholder="e.g. 45 min"></div>
+        <div class="form-group"><label>Place Name <span class="req">*</span></label><input type="text" class="stop-name" value="${data.name||''}" placeholder="e.g. Nairobi"></div>
+        <div class="form-group"><label>Day Label</label><input type="text" class="stop-day" value="${data.day_label||''}" placeholder="e.g. Days 1–2"></div>
+        <div class="form-group"><label>Dot Colour (hex)</label><input type="text" class="stop-color" value="${data.color||'#d4af37'}" placeholder="#d4af37"></div>
+        <div class="form-group"><label>Latitude <span class="req">*</span></label><input type="number" class="stop-lat" step="any" value="${data.lat||''}"></div>
+        <div class="form-group"><label>Longitude <span class="req">*</span></label><input type="number" class="stop-lng" step="any" value="${data.lng||''}"></div>
+        <div class="form-group"><label>Flight Duration to Next</label><input type="text" class="stop-flight" value="${data.flight_duration||''}" placeholder="e.g. 45 min"></div>
       </div>
     </div>`;
   document.getElementById('routeRepeater').insertAdjacentHTML('beforeend', html);
 }
 
 // ── SAVE PACKAGE ──
-async function savePackage(forceDraft = false) {
-  const name = document.getElementById('f-name').value.trim();
-  const slug = document.getElementById('f-slug').value.trim();
-  if (!name || !slug) return showToast('Name and slug are required', true);
+async function savePackage(publish = false) {
+  const statusEl = document.getElementById('savingStatus');
+  const publishBtn = document.getElementById('publishBtn');
+  statusEl.textContent = publish ? 'Publishing...' : 'Saving draft...';
+  publishBtn.disabled = true;
 
-  document.getElementById('saveStatus').textContent = 'Saving...';
+  const slug = document.getElementById('f-slug').value.trim();
 
   const pkg = {
-    name,
+    name:               document.getElementById('f-name').value.trim(),
     slug,
-    tagline:           document.getElementById('f-tagline').value,
-    badge:             document.getElementById('f-badge').value,
-    category:          document.getElementById('f-category').value,
-    transport_type:    document.getElementById('f-transport').value,
-    duration_days:     parseInt(document.getElementById('f-days').value) || null,
-    duration_nights:   parseInt(document.getElementById('f-nights').value) || null,
-    destinations:      document.getElementById('f-destinations').value.split(',').map(s => s.trim()).filter(Boolean),
-    overview_title:    document.getElementById('f-overview-title').value,
-    overview_body:     document.getElementById('f-overview-body').value,
-    hero_image_url:    document.getElementById('f-hero-image-url').value,
-    price_peak_season: parseFloat(document.getElementById('f-price-peak').value) || null,
-    price_high_season: parseFloat(document.getElementById('f-price-high').value) || null,
-    price_green_season:parseFloat(document.getElementById('f-price-green').value) || null,
-    price_solo:        parseFloat(document.getElementById('f-price-solo').value) || null,
-    price_duo:         parseFloat(document.getElementById('f-price-duo').value) || null,
-    price_group:       parseFloat(document.getElementById('f-price-group').value) || null,
-    peak_months:       document.getElementById('f-peak-months').value.split(',').map(n => parseInt(n.trim())).filter(Boolean),
-    high_months:       document.getElementById('f-high-months').value.split(',').map(n => parseInt(n.trim())).filter(Boolean),
-    green_months:      document.getElementById('f-green-months').value.split(',').map(n => parseInt(n.trim())).filter(Boolean),
-    is_published:      forceDraft ? false : document.getElementById('f-published').value === 'true',
-    is_featured:       document.getElementById('f-featured').value === 'true',
-    card_bg_image_url: document.getElementById('f-card-bg-url').value,
-    short_highlights:  document.getElementById('f-short-highlights').value
-                         .split('\n').map(s => s.trim()).filter(Boolean),
-    detail_page_url:   document.getElementById('f-detail-page-url').value ||
-                       (document.getElementById('f-slug').value + '.html'),
+    tagline:            document.getElementById('f-tagline').value,
+    badge:              document.getElementById('f-badge').value,
+    category:           document.getElementById('f-category').value,
+    transport_type:     document.getElementById('f-transport').value,
+    duration_days:      parseInt(document.getElementById('f-days').value) || null,
+    duration_nights:    parseInt(document.getElementById('f-nights').value) || null,
+    destinations:       document.getElementById('f-destinations').value.split(',').map(s => s.trim()).filter(Boolean),
+    overview_title:     document.getElementById('f-overview-title').value,
+    overview_body:      document.getElementById('f-overview-body').value,
+    hero_image_url:     document.getElementById('f-hero-image-url').value,
+    price_peak_season:  parseFloat(document.getElementById('f-price-peak').value) || null,
+    price_high_season:  parseFloat(document.getElementById('f-price-high').value) || null,
+    price_green_season: parseFloat(document.getElementById('f-price-green').value) || null,
+    price_solo:         parseFloat(document.getElementById('f-price-solo').value) || null,
+    price_duo:          parseFloat(document.getElementById('f-price-duo').value) || null,
+    price_group:        parseFloat(document.getElementById('f-price-group').value) || null,
+    peak_months:        document.getElementById('f-peak-months').value.split(',').map(n => parseInt(n.trim())).filter(Boolean),
+    high_months:        document.getElementById('f-high-months').value.split(',').map(n => parseInt(n.trim())).filter(Boolean),
+    green_months:       document.getElementById('f-green-months').value.split(',').map(n => parseInt(n.trim())).filter(Boolean),
+    is_published:       publish,
+    is_featured:        false,
+    card_bg_image_url:  document.getElementById('f-card-bg-url').value,
+    short_highlights:   document.getElementById('f-short-highlights').value.split('\n').map(s => s.trim()).filter(Boolean),
+    detail_page_url:    document.getElementById('f-detail-page-url').value || (slug + '.html'),
   };
 
   let packageId = editingPackageId;
 
   if (editingPackageId) {
     const { error } = await db.from('packages').update(pkg).eq('id', editingPackageId);
-    if (error) return showToast('Error: ' + error.message, true);
+    if (error) { statusEl.textContent=''; publishBtn.disabled=false; return showToast('Error: ' + error.message, 'error'); }
   } else {
     const { data, error } = await db.from('packages').insert(pkg).select().single();
-    if (error) return showToast('Error: ' + error.message, true);
+    if (error) { statusEl.textContent=''; publishBtn.disabled=false; return showToast('Error: ' + error.message, 'error'); }
     packageId = data.id;
     editingPackageId = packageId;
   }
 
-  // Save days
+  // Save sub-data
   await db.from('package_days').delete().eq('package_id', packageId);
   const days = Array.from(document.querySelectorAll('#daysRepeater .repeater-row')).map((row, i) => ({
-    package_id:       packageId,
-    day_number:       parseInt(row.querySelector('.day-num')?.value) || i + 1,
-    title:            row.querySelector('.day-title')?.value || '',
-    location:         row.querySelector('.day-location')?.value || '',
-    description:      row.querySelector('.day-desc')?.value || '',
-    activities:       (row.querySelector('.day-activities')?.value || '').split(',').map(s => s.trim()).filter(Boolean),
-    highlight_badges: (row.querySelector('.day-badges')?.value || '').split(',').map(s => s.trim()).filter(Boolean),
-    sort_order:       i
+    package_id: packageId, day_number: parseInt(row.querySelector('.day-num')?.value)||i+1,
+    title: row.querySelector('.day-title')?.value||'', location: row.querySelector('.day-location')?.value||'',
+    description: row.querySelector('.day-desc')?.value||'',
+    activities: (row.querySelector('.day-activities')?.value||'').split(',').map(s=>s.trim()).filter(Boolean),
+    highlight_badges: (row.querySelector('.day-badges')?.value||'').split(',').map(s=>s.trim()).filter(Boolean),
+    sort_order: i
   }));
   if (days.length) await db.from('package_days').insert(days);
 
-  // Save lodges
   await db.from('package_lodges').delete().eq('package_id', packageId);
   const lodges = Array.from(document.querySelectorAll('#lodgesRepeater .repeater-row')).map((row, i) => ({
-    package_id:  packageId,
-    destination: row.querySelector('.lodge-dest')?.value || '',
-    lodge_name:  row.querySelector('.lodge-name')?.value || '',
-    nights:      parseInt(row.querySelector('.lodge-nights')?.value) || 1,
-    image_url:   row.querySelector('.lodge-img')?.value || '',
-    description: row.querySelector('.lodge-desc')?.value || '',
-    sort_order:  i
+    package_id: packageId, destination: row.querySelector('.lodge-dest')?.value||'',
+    lodge_name: row.querySelector('.lodge-name')?.value||'',
+    nights: parseInt(row.querySelector('.lodge-nights')?.value)||1,
+    image_url: row.querySelector('.lodge-img')?.value||'',
+    description: row.querySelector('.lodge-desc')?.value||'', sort_order: i
   }));
   if (lodges.length) await db.from('package_lodges').insert(lodges);
 
-  // Save inclusions
   await db.from('package_inclusions').delete().eq('package_id', packageId);
-  const allInclusions = Array.from(document.querySelectorAll('#inclusionsRepeater .repeater-row, #exclusionsRepeater .repeater-row')).map(row => ({
-    package_id: packageId,
-    text:       row.querySelector('.inc-text')?.value || '',
-    included:   row.querySelector('.inc-type')?.value === 'true'
-  })).filter(r => r.text);
+  const allInclusions = Array.from(document.querySelectorAll('#inclusionsRepeater .repeater-row, #exclusionsRepeater .repeater-row'))
+    .map(row => ({ package_id: packageId, text: row.querySelector('.inc-text')?.value||'', included: row.querySelector('.inc-type')?.value==='true' }))
+    .filter(r => r.text);
   if (allInclusions.length) await db.from('package_inclusions').insert(allInclusions);
 
-  // Save route stops
   await db.from('package_route_stops').delete().eq('package_id', packageId);
   const stops = Array.from(document.querySelectorAll('#routeRepeater .repeater-row')).map((row, i) => ({
-    package_id:      packageId,
-    name:            row.querySelector('.stop-name')?.value || '',
-    day_label:       row.querySelector('.stop-day')?.value || '',
-    color:           row.querySelector('.stop-color')?.value || '#d4af37',
-    lat:             parseFloat(row.querySelector('.stop-lat')?.value) || null,
-    lng:             parseFloat(row.querySelector('.stop-lng')?.value) || null,
-    flight_duration: row.querySelector('.stop-flight')?.value || '',
-    sort_order:      i
+    package_id: packageId, name: row.querySelector('.stop-name')?.value||'',
+    day_label: row.querySelector('.stop-day')?.value||'', color: row.querySelector('.stop-color')?.value||'#d4af37',
+    lat: parseFloat(row.querySelector('.stop-lat')?.value)||null, lng: parseFloat(row.querySelector('.stop-lng')?.value)||null,
+    flight_duration: row.querySelector('.stop-flight')?.value||'', sort_order: i
   }));
   if (stops.length) await db.from('package_route_stops').insert(stops);
 
-  document.getElementById('saveStatus').textContent = '';
-  showToast('Package saved successfully ✓');
+  statusEl.textContent = '';
+  publishBtn.disabled = false;
+
+  if (publish) {
+    showToast('Package published — now live on the website 🚀', 'success');
+    setTimeout(() => showView('packages'), 1800);
+  } else {
+    showToast('Saved as draft. You can publish anytime from the Drafts section.', '');
+    setTimeout(() => showView('drafts'), 1800);
+  }
 }
 
 // ── EDIT PACKAGE ──
 async function editPackage(id) {
   editingPackageId = id;
-  resetForm();
+  completedSteps = new Set([0,1,2,3,4,5]);
+  resetForm(true);
 
   const [
     { data: pkg },
@@ -1323,33 +1324,30 @@ async function editPackage(id) {
     db.from('package_route_stops').select('*').eq('package_id', id).order('sort_order'),
   ]);
 
-  // Fill basics
-  document.getElementById('f-name').value             = pkg.name || '';
-  document.getElementById('f-slug').value             = pkg.slug || '';
-  document.getElementById('f-tagline').value          = pkg.tagline || '';
-  document.getElementById('f-badge').value            = pkg.badge || '';
-  document.getElementById('f-category').value         = pkg.category || '';
-  document.getElementById('f-transport').value        = pkg.transport_type || '';
-  document.getElementById('f-days').value             = pkg.duration_days || '';
-  document.getElementById('f-nights').value           = pkg.duration_nights || '';
-  document.getElementById('f-destinations').value     = (pkg.destinations || []).join(', ');
-  document.getElementById('f-overview-title').value   = pkg.overview_title || '';
-  document.getElementById('f-overview-body').value    = pkg.overview_body || '';
-  document.getElementById('f-hero-image-url').value   = pkg.hero_image_url || '';
-  document.getElementById('f-price-peak').value       = pkg.price_peak_season || '';
-  document.getElementById('f-price-high').value       = pkg.price_high_season || '';
-  document.getElementById('f-price-green').value      = pkg.price_green_season || '';
-  document.getElementById('f-price-solo').value       = pkg.price_solo || '';
-  document.getElementById('f-price-duo').value        = pkg.price_duo || '';
-  document.getElementById('f-price-group').value      = pkg.price_group || '';
-  document.getElementById('f-peak-months').value      = (pkg.peak_months || []).join(',');
-  document.getElementById('f-high-months').value      = (pkg.high_months || []).join(',');
-  document.getElementById('f-green-months').value     = (pkg.green_months || []).join(',');
-  document.getElementById('f-published').value        = String(pkg.is_published);
-  document.getElementById('f-featured').value         = String(pkg.is_featured);
-  document.getElementById('f-card-bg-url').value        = pkg.card_bg_image_url || '';
-  document.getElementById('f-short-highlights').value   = (pkg.short_highlights || []).join('\n');
-  document.getElementById('f-detail-page-url').value    = pkg.detail_page_url || '';
+  document.getElementById('f-name').value           = pkg.name||'';
+  document.getElementById('f-slug').value           = pkg.slug||'';
+  document.getElementById('f-tagline').value        = pkg.tagline||'';
+  document.getElementById('f-badge').value          = pkg.badge||'';
+  document.getElementById('f-category').value       = pkg.category||'';
+  document.getElementById('f-transport').value      = pkg.transport_type||'';
+  document.getElementById('f-days').value           = pkg.duration_days||'';
+  document.getElementById('f-nights').value         = pkg.duration_nights||'';
+  document.getElementById('f-destinations').value   = (pkg.destinations||[]).join(', ');
+  document.getElementById('f-overview-title').value = pkg.overview_title||'';
+  document.getElementById('f-overview-body').value  = pkg.overview_body||'';
+  document.getElementById('f-hero-image-url').value = pkg.hero_image_url||'';
+  document.getElementById('f-price-peak').value     = pkg.price_peak_season||'';
+  document.getElementById('f-price-high').value     = pkg.price_high_season||'';
+  document.getElementById('f-price-green').value    = pkg.price_green_season||'';
+  document.getElementById('f-price-solo').value     = pkg.price_solo||'';
+  document.getElementById('f-price-duo').value      = pkg.price_duo||'';
+  document.getElementById('f-price-group').value    = pkg.price_group||'';
+  document.getElementById('f-peak-months').value    = (pkg.peak_months||[]).join(',');
+  document.getElementById('f-high-months').value    = (pkg.high_months||[]).join(',');
+  document.getElementById('f-green-months').value   = (pkg.green_months||[]).join(',');
+  document.getElementById('f-card-bg-url').value    = pkg.card_bg_image_url||'';
+  document.getElementById('f-short-highlights').value = (pkg.short_highlights||[]).join('\n');
+  document.getElementById('f-detail-page-url').value  = pkg.detail_page_url||'';
 
   days?.forEach(d => addDayRow(d));
   lodges?.forEach(l => addLodgeRow(l));
@@ -1360,56 +1358,89 @@ async function editPackage(id) {
   document.getElementById('formModeLabel').textContent = 'Editing';
   document.getElementById('formTitleText').textContent = pkg.name;
   showView('new-package');
+  goToStep(0);
 }
 
-// ── DELETE PACKAGE ──
+// ── DELETE ──
 async function deletePackage(id) {
   if (!confirm('Permanently delete this package? This cannot be undone.')) return;
   await db.from('packages').delete().eq('id', id);
   loadPackages();
+  loadDrafts();
   showToast('Package deleted');
 }
 
 // ── RESET FORM ──
-function resetForm() {
-  editingPackageId = null;
-  dayCount = 0; lodgeCount = 0; inclusionCount = 0; exclusionCount = 0; routeCount = 0;
+function resetForm(keepEditing = false) {
+  if (!keepEditing) { editingPackageId = null; completedSteps = new Set(); }
+  dayCount=0; lodgeCount=0; inclusionCount=0; exclusionCount=0; routeCount=0;
+
   ['f-name','f-slug','f-tagline','f-badge','f-transport','f-days','f-nights',
    'f-destinations','f-overview-title','f-overview-body','f-hero-image-url',
    'f-price-peak','f-price-high','f-price-green','f-price-solo','f-price-duo',
    'f-price-group','f-peak-months','f-high-months','f-green-months',
-   'f-card-bg-url', 'f-short-highlights', 'f-detail-page-url'].forEach(id => {
-    document.getElementById(id).value = '';
+   'f-card-bg-url','f-short-highlights','f-detail-page-url'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
   });
-  document.getElementById('daysRepeater').innerHTML = '';
-  document.getElementById('lodgesRepeater').innerHTML = '';
-  document.getElementById('inclusionsRepeater').innerHTML = '';
-  document.getElementById('exclusionsRepeater').innerHTML = '';
-  document.getElementById('routeRepeater').innerHTML = '';
-  document.getElementById('formModeLabel').textContent = 'Create';
-  document.getElementById('formTitleText').textContent = 'New Package';
-  switchFormTab('basics', document.querySelector('.form-tab'));
+
+  ['daysRepeater','lodgesRepeater','inclusionsRepeater','exclusionsRepeater','routeRepeater'].forEach(id => {
+    document.getElementById(id).innerHTML = '<div class="repeater-empty">No items added yet.</div>';
+  });
+
+  document.querySelectorAll('.validation-summary').forEach(vs => vs.classList.remove('show'));
+  clearAllInvalid();
+
+  const heroPreview = document.getElementById('heroPreview');
+  if (heroPreview) heroPreview.style.display = 'none';
+  const cardBgPreview = document.getElementById('cardBgPreview');
+  if (cardBgPreview) cardBgPreview.style.display = 'none';
 }
 
-// ── IMAGE PREVIEW ──
-function previewImage(input, previewId) {
+// ── IMAGE UPLOADS ──
+function handleHeroUpload(input) {
   const file = input.files[0];
   if (!file) return;
+  if (!file.name.toLowerCase().endsWith('.webp')) {
+    showToast('Hero image must be a .webp file', 'error');
+    input.value = '';
+    return;
+  }
   const reader = new FileReader();
   reader.onload = e => {
-    const img = document.getElementById(previewId);
+    const img = document.getElementById('heroPreview');
     img.src = e.target.result;
     img.style.display = 'block';
+    // Also populate the URL field with a placeholder note
+    document.getElementById('f-hero-image-url').value = 'assets/' + file.name;
+  };
+  reader.readAsDataURL(file);
+}
+
+function handleCardBgUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (!file.name.toLowerCase().endsWith('.webp')) {
+    showToast('Card background must be a .webp file', 'error');
+    input.value = '';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = document.getElementById('cardBgPreview');
+    img.src = e.target.result;
+    img.style.display = 'block';
+    document.getElementById('f-card-bg-url').value = 'assets/' + file.name;
   };
   reader.readAsDataURL(file);
 }
 
 // ── TOAST ──
-function showToast(msg, isError = false) {
+function showToast(msg, type = '') {
   const t = document.getElementById('toast');
   t.textContent = msg;
-  t.className = 'toast show' + (isError ? ' error' : '');
-  setTimeout(() => t.classList.remove('show'), 3500);
+  t.className = 'toast show' + (type ? ' ' + type : '');
+  setTimeout(() => t.classList.remove('show'), 4000);
 }
 
 // ── AUTO SLUG ──
@@ -1419,13 +1450,18 @@ document.addEventListener('DOMContentLoaded', () => {
   if (nameInput) {
     nameInput.addEventListener('input', () => {
       if (!editingPackageId) {
-        slugInput.value = nameInput.value
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, '-')
-          .replace(/^-+|-+$/g, '');
+        slugInput.value = nameInput.value.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
       }
     });
   }
+
+  // Clear invalid on input
+  document.addEventListener('input', e => {
+    if (e.target.matches('input,select,textarea')) {
+      e.target.classList.remove('invalid');
+    }
+  });
+
   checkSession();
 });
 </script>
