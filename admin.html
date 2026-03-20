@@ -1231,6 +1231,11 @@ async function savePackage(forceDraft = false) {
     green_months:      document.getElementById('f-green-months').value.split(',').map(n => parseInt(n.trim())).filter(Boolean),
     is_published:      forceDraft ? false : document.getElementById('f-published').value === 'true',
     is_featured:       document.getElementById('f-featured').value === 'true',
+    card_bg_image_url: document.getElementById('f-card-bg-url').value,
+    short_highlights:  document.getElementById('f-short-highlights').value
+                         .split('\n').map(s => s.trim()).filter(Boolean),
+    detail_page_url:   document.getElementById('f-detail-page-url').value ||
+                       (document.getElementById('f-slug').value + '.html'),
   };
 
   let packageId = editingPackageId;
