@@ -13,6 +13,8 @@
     --amber: #b8860b; --text: #f0ece4; --muted: #8a8074;
     --border: rgba(212,175,55,0.2); --border-subtle: rgba(255,255,255,0.05);
   }
+  /* Global overflow guard */
+  html, body { overflow-x: hidden; width: 100%;}
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth;overflow-x:hidden}
   body{background:var(--black);color:var(--text);font-family:'Jost',sans-serif;font-weight:300;cursor:none}
@@ -714,6 +716,16 @@
     .pkg-main{padding-top:0;}
     .pkg-tabs-wrapper::after { content: ''; position: absolute; top: 0; right: 0; width: 48px; height: 100%; background: linear-gradient(to right, transparent, rgba(8,8,8,0.85)); pointer-events: none; z-index: 10;}
     .pkg-tabs-wrapper { position: relative;}
+      /* FIX: prevent horizontal overflow */
+    .pkg-main,
+    .pkg-content,
+    .pkg-sidebar,
+    .pkg-tab-panel,
+    .pkg-tabs-wrapper {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+  }  
 }
   @media(max-width:900px){
     nav{padding:20px 24px}
@@ -740,7 +752,68 @@
     .map-layout{grid-template-columns:1fr}
     .fjt-gallery{grid-template-columns:repeat(2,1fr)}
     .fjt-gallery-item:first-child{grid-column:span 2}
+      /* FIX: constrain wide tables and grids */
+  .rates-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
+
+  .gt-airline-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .fjt-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .fjt-gallery-item:first-child {
+    grid-column: span 2;
+  }
+
+  .day-activities {
+    gap: 6px;
+  }
+}
+  }
+
+  @media (max-width: 480px) {
+  .pkg-main { padding: 0 16px; }
+  .pkg-sidebar { padding: 0 16px 40px; }
+  .mobile-reserve-section { padding: 36px 16px 48px; }
+  .pkg-hero-content { padding: 0 16px 40px; }
+  .pkg-hero-meta { gap: 20px; }
+
+  .fjt-gallery {
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+
+  .rates-table thead { display: none; }
+  .rates-table tbody tr {
+    display: block;
+    border: 1px solid var(--border-subtle);
+    margin-bottom: 12px;
+    padding: 12px;
+  }
+  .rates-table tbody td {
+    display: block;
+    padding: 4px 0;
+    font-size: 12px;
+  }
+  .rates-table tbody td:first-child {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  .sq-breakdown-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+}
 
   /* Mobile sticky bar */
   @media(max-width:1100px){
