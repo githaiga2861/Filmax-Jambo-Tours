@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filmax Admin — Package Manager</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --black: #080808; --charcoal: #141414; --card: #111111;
+    --gold: #d4af37; --amber: #b8860b; --text: #f0ece4;
+    --muted: #8a8074; --border: rgba(212,175,55,0.2);
+    --red: rgba(180,60,60,0.8); --green: rgba(80,180,80,0.8);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--black); color:var(--text); font-family:'Segoe UI',sans-serif; font-size:14px; }
+
+  /* ── Auth screen ── */
+  .auth-screen { display:flex; align-items:center; justify-content:center; min-height:100vh; }
+  .auth-box { background:var(--charcoal); border:1px solid var(--border); padding:48px; width:380px; }
+  .auth-box h1 { font-size:22px; color:var(--gold); margin-bottom:8px; }
+  .auth-box p { color:var(--muted); font-size:12px; margin-bottom:32px; }
+
+  /* ── Layout ── */
+  .admin-layout { display:grid; grid-template-columns:240px 1fr; min-height:100vh; }
+  .sidebar { background:var(--charcoal); border-right:1px solid var(--border); padding:24px 0; position:sticky; top:0; height:100vh; overflow-y:auto; }
+  .sidebar-logo { padding:0 24px 24px; border-bottom:1px solid var(--border); margin-bottom:16px; }
+  .sidebar-logo span { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); }
+  .sidebar-logo p { font-size:10px; color:var(--muted); margin-top:4px; }
+  .nav-item { display:flex; align-items:center; gap:12px; padding:12px 24px; cursor:pointer; transition:background 0.2s; font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); border-left:2px solid transparent; }
+  .nav-item:hover { background:rgba(212,175,55,0.05); color:var(--text); }
+  .nav-item.active { color:var(--gold); border-left-color:var(--gold); background:rgba(212,175,55,0.06); }
+  .main { padding:40px; overflow-y:auto; }
+
+  /* ── Views ── */
+  .view { display:none; }
+  .view.active { display:block; }
+  .view-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:32px; }
+  .view-title { font-size:24px; font-weight:700; }
+  .view-title span { display:block; font-size:10px; letter-spacing:4px; text-transform:uppercase; color:var(--gold); margin-bottom:4px; font-weight:400; }
+
+  /* ── Package list ── */
+  .pkg-list { display:flex; flex-direction:column; gap:12px; }
+  .pkg-list-item { background:var(--charcoal); border:1px solid var(--border); padding:20px 24px; display:grid; grid-template-columns:1fr auto auto auto; align-items:center; gap:16px; }
+  .pkg-list-name { font-size:16px; font-weight:600; }
+  .pkg-list-meta { font-size:11px; color:var(--muted); margin-top:4px; }
+  .badge { font-size:9px; letter-spacing:2px; text-transform:uppercase; padding:4px 10px; border:1px solid; }
+  .badge-published { color:var(--green); border-color:var(--green); }
+  .badge-draft { color:var(--muted); border-color:var(--muted); }
+  .badge-featured { color:var(--gold); border-color:var(--gold); background:rgba(212,175,55,0.08); }
+
+  /* ── Form ── */
+  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  .form-grid.three { grid-template-columns:1fr 1fr 1fr; }
+  .form-group { display:flex; flex-direction:column; gap:8px; }
+  .form-group.full { grid-column:1/-1; }
+  label { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); }
+  input, select, textarea {
+    background:var(--card); border:1px solid var(--border); color:var(--text);
+    font-family:inherit; font-size:13px; padding:10px 12px; outline:none;
+    transition:border-color 0.2s; width:100%;
+  }
+  input:focus, select:focus, textarea:focus { border-color:var(--gold); }
+  textarea { resize:vertical; min-height:100px; }
+  select option { background:var(--charcoal); }
+
+  /* ── Tabs inside form ── */
+  .form-tabs { display:flex; gap:0; border-bottom:1px solid var(--border); margin-bottom:32px; }
+  .form-tab { font-size:10px; letter-spacing:2px; text-transform:uppercase; padding:12px 20px; cursor:pointer; color:var(--muted); border-bottom:2px solid transparent; background:none; border-top:none; border-left:none; border-right:none; transition:color 0.2s; }
+  .form-tab.active { color:var(--gold); border-bottom-color:var(--gold); }
+  .form-section { display:none; }
+  .form-section.active { display:block; }
+
+  /* ── Repeating rows (days, inclusions etc) ── */
+  .repeater { display:flex; flex-direction:column; gap:12px; margin-top:16px; }
+  .repeater-row { background:var(--card); border:1px solid rgba(255,255,255,0.06); padding:20px; position:relative; }
+  .repeater-row-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+  .repeater-row-title { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); }
+
+  /* ── Buttons ── */
+  .btn { font-family:inherit; font-size:10px; letter-spacing:3px; text-transform:uppercase; padding:12px 24px; cursor:pointer; border:none; transition:all 0.2s; }
+  .btn-gold { background:linear-gradient(135deg,var(--gold),var(--amber)); color:var(--black); font-weight:600; }
+  .btn-gold:hover { box-shadow:0 4px 20px rgba(212,175,55,0.4); }
+  .btn-outline { background:transparent; color:var(--gold); border:1px solid var(--border); }
+  .btn-outline:hover { border-color:var(--gold); background:rgba(212,175,55,0.06); }
+  .btn-danger { background:transparent; color:var(--red); border:1px solid var(--red); }
+  .btn-danger:hover { background:rgba(180,60,60,0.1); }
+  .btn-sm { padding:6px 14px; font-size:9px; }
+  .btn-row { display:flex; gap:12px; align-items:center; margin-top:32px; }
+
+  /* ── Image upload ── */
+  .img-upload-box { border:1px dashed var(--border); padding:32px; text-align:center; cursor:pointer; transition:border-color 0.2s; position:relative; }
+  .img-upload-box:hover { border-color:var(--gold); }
+  .img-upload-box input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+  .img-upload-box p { font-size:11px; color:var(--muted); margin-top:8px; }
+  .img-preview { width:100%; max-height:200px; object-fit:cover; margin-top:12px; display:none; }
+
+  /* ── Toast ── */
+  .toast { position:fixed; bottom:32px; right:32px; background:var(--charcoal); border:1px solid var(--border); border-left:3px solid var(--gold); padding:16px 24px; font-size:12px; z-index:9999; transform:translateY(20px); opacity:0; transition:all 0.3s; pointer-events:none; }
+  .toast.show { transform:translateY(0); opacity:1; }
+  .toast.error { border-left-color:var(--red); }
+
+  /* ── Dividers ── */
+  .section-divider { border:none; border-top:1px solid rgba(255,255,255,0.05); margin:32px 0; }
+  .section-label { font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--gold); margin-bottom:16px; display:block; }
+</style>
+</head>
+<body>
+
+<!-- AUTH SCREEN -->
+<div class="auth-screen" id="authScreen">
+  <div class="auth-box">
+    <h1>Filmax Admin</h1>
+    <p>Sign in to manage packages</p>
+    <div class="form-group" style="margin-bottom:16px;">
+      <label>Email</label>
+      <input type="email" id="authEmail" placeholder="admin@filmaxjambo.com">
+    </div>
+    <div class="form-group" style="margin-bottom:24px;">
+      <label>Password</label>
+      <input type="password" id="authPassword" placeholder="••••••••">
+    </div>
+    <button class="btn btn-gold" style="width:100%" onclick="signIn()">Sign In</button>
+    <p id="authError" style="color:var(--red);font-size:11px;margin-top:12px;display:none;"></p>
+  </div>
+</div>
+
+<!-- ADMIN LAYOUT -->
+<div class="admin-layout" id="adminLayout" style="display:none;">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <span>Filmax Jambo</span>
+      <p>Package Manager</p>
+    </div>
+    <div class="nav-item active" onclick="showView('packages')">📦 All Packages</div>
+    <div class="nav-item" onclick="showView('new-package')">✚ New Package</div>
+    <div class="nav-item" onclick="showView('categories')">🏷 Categories</div>
+    <div style="position:absolute;bottom:24px;left:0;right:0;padding:0 24px;">
+      <button class="btn btn-outline" style="width:100%" onclick="signOut()">Sign Out</button>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- VIEW: All Packages -->
+    <div class="view active" id="view-packages">
+      <div class="view-header">
+        <div class="view-title">
+          <span>Manage</span>All Packages
+        </div>
+        <button class="btn btn-gold" onclick="showView('new-package')">+ New Package</button>
+      </div>
+      <div class="pkg-list" id="packageList">
+        <p style="color:var(--muted);">Loading...</p>
+      </div>
+    </div>
+
+    <!-- VIEW: New / Edit Package -->
+    <div class="view" id="view-new-package">
+      <div class="view-header">
+        <div class="view-title">
+          <span id="formModeLabel">Create</span>
+          <span id="formTitleText">New Package</span>
+        </div>
+        <button class="btn btn-outline" onclick="showView('packages')">← Back</button>
+      </div>
+
+      <!-- Form tabs -->
+      <div class="form-tabs">
+        <button class="form-tab active" onclick="switchFormTab('basics', this)">Basics</button>
+        <button class="form-tab" onclick="switchFormTab('pricing', this)">Pricing</button>
+        <button class="form-tab" onclick="switchFormTab('itinerary', this)">Itinerary</button>
+        <button class="form-tab" onclick="switchFormTab('accommodation', this)">Accommodation</button>
+        <button class="form-tab" onclick="switchFormTab('inclusions', this)">Inclusions</button>
+        <button class="form-tab" onclick="switchFormTab('route', this)">Route</button>
+      </div>
+
+      <!-- BASICS -->
+      <div class="form-section active" id="fs-basics">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Package Name *</label>
+            <input type="text" id="f-name" placeholder="e.g. Aerial Kenya — 8 Days">
+          </div>
+          <div class="form-group">
+            <label>URL Slug *</label>
+            <input type="text" id="f-slug" placeholder="e.g. aerial-kenya-8-days">
+          </div>
+          <div class="form-group">
+            <label>Tagline</label>
+            <input type="text" id="f-tagline" placeholder="e.g. Kenya From the Sky Down">
+          </div>
+          <div class="form-group">
+            <label>Badge Text</label>
+            <input type="text" id="f-badge" placeholder="e.g. Fly-In Only">
+          </div>
+          <div class="form-group">
+            <label>Category *</label>
+            <select id="f-category">
+              <option value="">Select category...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Transport Type</label>
+            <input type="text" id="f-transport" placeholder="e.g. Fly-In Only, Road Safari">
+          </div>
+          <div class="form-group">
+            <label>Duration (Days)</label>
+            <input type="number" id="f-days" placeholder="8">
+          </div>
+          <div class="form-group">
+            <label>Duration (Nights)</label>
+            <input type="number" id="f-nights" placeholder="7">
+          </div>
+          <div class="form-group full">
+            <label>Destinations (comma separated)</label>
+            <input type="text" id="f-destinations" placeholder="Maasai Mara, Amboseli, Samburu, Diani Coast">
+          </div>
+          <div class="form-group full">
+            <label>Overview Title</label>
+            <input type="text" id="f-overview-title" placeholder="e.g. Kenya From the Sky Down">
+          </div>
+          <div class="form-group full">
+            <label>Overview Body</label>
+            <textarea id="f-overview-body" rows="5" placeholder="Write the main overview paragraph..."></textarea>
+          </div>
+          <div class="form-group full">
+            <label>Hero Image</label>
+            <div class="img-upload-box" id="heroUploadBox">
+              <input type="file" id="heroImageFile" accept="image/*" onchange="previewImage(this,'heroPreview','heroUploadBox')">
+              <div style="font-size:24px;">🖼</div>
+              <p>Click to upload hero image</p>
+              <img id="heroPreview" class="img-preview">
+            </div>
+            <input type="text" id="f-hero-image-url" placeholder="Or paste image URL directly" style="margin-top:8px;">
+          </div>
+          <div class="form-group">
+            <label>Published</label>
+            <select id="f-published">
+              <option value="false">Draft</option>
+              <option value="true">Published</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Featured</label>
+            <select id="f-featured">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRICING -->
+      <div class="form-section" id="fs-pricing">
+        <span class="section-label">Season Prices (per person)</span>
+        <div class="form-grid three">
+          <div class="form-group">
+            <label>Peak Season Price (USD)</label>
+            <input type="number" id="f-price-peak" placeholder="18500">
+          </div>
+          <div class="form-group">
+            <label>High Season Price (USD)</label>
+            <input type="number" id="f-price-high" placeholder="16500">
+          </div>
+          <div class="form-group">
+            <label>Green Season Price (USD)</label>
+            <input type="number" id="f-price-green" placeholder="13800">
+          </div>
+        </div>
+        <hr class="section-divider">
+        <span class="section-label">Group Prices (per person)</span>
+        <div class="form-grid three">
+          <div class="form-group">
+            <label>Solo Price (USD)</label>
+            <input type="number" id="f-price-solo" placeholder="24900">
+          </div>
+          <div class="form-group">
+            <label>Duo / Couple Price (USD)</label>
+            <input type="number" id="f-price-duo" placeholder="16500">
+          </div>
+          <div class="form-group">
+            <label>Group 3–4 Price (USD)</label>
+            <input type="number" id="f-price-group" placeholder="14200">
+          </div>
+        </div>
+        <hr class="section-divider">
+        <span class="section-label">Season Months</span>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Peak Months (e.g. 7,8,9,10)</label>
+            <input type="text" id="f-peak-months" placeholder="7,8,9,10">
+          </div>
+          <div class="form-group">
+            <label>High Months (e.g. 1,2,6,11,12)</label>
+            <input type="text" id="f-high-months" placeholder="1,2,6,11,12">
+          </div>
+          <div class="form-group">
+            <label>Green Months (e.g. 3,4,5)</label>
+            <input type="text" id="f-green-months" placeholder="3,4,5">
+          </div>
+        </div>
+      </div>
+
+      <!-- ITINERARY -->
+      <div class="form-section" id="fs-itinerary">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <span class="section-label" style="margin:0;">Day by Day</span>
+          <button class="btn btn-outline btn-sm" onclick="addDayRow()">+ Add Day</button>
+        </div>
+        <div class="repeater" id="daysRepeater"></div>
+      </div>
+
+      <!-- ACCOMMODATION -->
+      <div class="form-section" id="fs-accommodation">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <span class="section-label" style="margin:0;">Lodges & Properties</span>
+          <button class="btn btn-outline btn-sm" onclick="addLodgeRow()">+ Add Lodge</button>
+        </div>
+        <div class="repeater" id="lodgesRepeater"></div>
+      </div>
+
+      <!-- INCLUSIONS -->
+      <div class="form-section" id="fs-inclusions">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <span class="section-label" style="margin:0;">Included Items</span>
+          <button class="btn btn-outline btn-sm" onclick="addInclusionRow(true)">+ Add Included</button>
+        </div>
+        <div class="repeater" id="inclusionsRepeater"></div>
+        <hr class="section-divider">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <span class="section-label" style="margin:0;">Excluded Items</span>
+          <button class="btn btn-outline btn-sm" onclick="addInclusionRow(false)">+ Add Excluded</button>
+        </div>
+        <div class="repeater" id="exclusionsRepeater"></div>
+      </div>
+
+      <!-- ROUTE -->
+      <div class="form-section" id="fs-route">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <span class="section-label" style="margin:0;">Route Stops</span>
+          <button class="btn btn-outline btn-sm" onclick="addRouteRow()">+ Add Stop</button>
+        </div>
+        <div class="repeater" id="routeRepeater"></div>
+      </div>
+
+      <!-- Save buttons -->
+      <div class="btn-row">
+        <button class="btn btn-gold" onclick="savePackage()">Save Package</button>
+        <button class="btn btn-outline" onclick="savePackage(true)">Save as Draft</button>
+        <span id="saveStatus" style="font-size:11px;color:var(--muted);"></span>
+      </div>
+    </div>
+
+    <!-- VIEW: Categories -->
+    <div class="view" id="view-categories">
+      <div class="view-header">
+        <div class="view-title"><span>Manage</span>Categories</div>
+      </div>
+      <div class="form-grid" style="max-width:600px;margin-bottom:24px;">
+        <div class="form-group">
+          <label>Category Name</label>
+          <input type="text" id="newCatName" placeholder="e.g. Coastal Luxury">
+        </div>
+        <div class="form-group">
+          <label>Slug</label>
+          <input type="text" id="newCatSlug" placeholder="e.g. coastal-luxury">
+        </div>
+      </div>
+      <button class="btn btn-gold" onclick="addCategory()">Add Category</button>
+      <hr class="section-divider">
+      <div id="categoriesList" style="display:flex;flex-direction:column;gap:8px;"></div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /admin-layout -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CONFIG — replace with your Supabase project values ──
+const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let editingPackageId = null;
+
+// ── AUTH ──
+async function signIn() {
+  const email = document.getElementById('authEmail').value;
+  const password = document.getElementById('authPassword').value;
+  const { error } = await db.auth.signInWithPassword({ email, password });
+  if (error) {
+    document.getElementById('authError').style.display = 'block';
+    document.getElementById('authError').textContent = error.message;
+  } else {
+    showAdmin();
+  }
+}
+
+async function signOut() {
+  await db.auth.signOut();
+  document.getElementById('authScreen').style.display = 'flex';
+  document.getElementById('adminLayout').style.display = 'none';
+}
+
+async function checkSession() {
+  const { data: { session } } = await db.auth.getSession();
+  if (session) showAdmin();
+}
+
+function showAdmin() {
+  document.getElementById('authScreen').style.display = 'none';
+  document.getElementById('adminLayout').style.display = 'grid';
+  loadPackages();
+  loadCategories();
+}
+
+// ── NAVIGATION ──
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+
+  if (name === 'new-package') {
+    if (!editingPackageId) resetForm();
+  }
+  if (name === 'packages') loadPackages();
+  if (name === 'categories') loadCategoriesList();
+}
+
+function switchFormTab(name, el) {
+  document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.form-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('fs-' + name).classList.add('active');
+  el.classList.add('active');
+}
+
+// ── LOAD PACKAGES ──
+async function loadPackages() {
+  const { data, error } = await db.from('packages').select('*').order('created_at', { ascending: false });
+  const list = document.getElementById('packageList');
+  if (error || !data?.length) {
+    list.innerHTML = '<p style="color:var(--muted);">No packages yet. Create your first one.</p>';
+    return;
+  }
+  list.innerHTML = data.map(p => `
+    <div class="pkg-list-item">
+      <div>
+        <div class="pkg-list-name">${p.name}</div>
+        <div class="pkg-list-meta">${p.category || '—'} · ${p.duration_days || '?'} days · from $${(p.price_high_season || 0).toLocaleString()}</div>
+      </div>
+      <span class="badge ${p.is_published ? 'badge-published' : 'badge-draft'}">${p.is_published ? 'Published' : 'Draft'}</span>
+      ${p.is_featured ? '<span class="badge badge-featured">Featured</span>' : '<span></span>'}
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-outline btn-sm" onclick="editPackage('${p.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deletePackage('${p.id}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── LOAD CATEGORIES ──
+async function loadCategories() {
+  const { data } = await db.from('package_categories').select('*').order('name');
+  const select = document.getElementById('f-category');
+  if (!data) return;
+  select.innerHTML = '<option value="">Select category...</option>' +
+    data.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+}
+
+async function loadCategoriesList() {
+  const { data } = await db.from('package_categories').select('*').order('name');
+  const list = document.getElementById('categoriesList');
+  if (!data?.length) { list.innerHTML = '<p style="color:var(--muted);">No categories yet.</p>'; return; }
+  list.innerHTML = data.map(c => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--charcoal);border:1px solid var(--border);">
+      <span>${c.name} <span style="color:var(--muted);font-size:11px;">/ ${c.slug}</span></span>
+      <button class="btn btn-danger btn-sm" onclick="deleteCategory('${c.id}')">Remove</button>
+    </div>
+  `).join('');
+}
+
+async function addCategory() {
+  const name = document.getElementById('newCatName').value.trim();
+  const slug = document.getElementById('newCatSlug').value.trim();
+  if (!name || !slug) return showToast('Name and slug required', true);
+  await db.from('package_categories').insert({ name, slug });
+  document.getElementById('newCatName').value = '';
+  document.getElementById('newCatSlug').value = '';
+  loadCategories();
+  loadCategoriesList();
+  showToast('Category added');
+}
+
+async function deleteCategory(id) {
+  if (!confirm('Delete this category?')) return;
+  await db.from('package_categories').delete().eq('id', id);
+  loadCategoriesList();
+  showToast('Category deleted');
+}
+
+// ── REPEATER ROWS ──
+let dayCount = 0, lodgeCount = 0, inclusionCount = 0, exclusionCount = 0, routeCount = 0;
+
+function addDayRow(data = {}) {
+  dayCount++;
+  const id = 'day-' + dayCount;
+  const html = `
+    <div class="repeater-row" id="${id}">
+      <div class="repeater-row-header">
+        <span class="repeater-row-title">Day ${data.day_number || dayCount}</span>
+        <button class="btn btn-danger btn-sm" onclick="document.getElementById('${id}').remove()">Remove</button>
+      </div>
+      <div class="form-grid">
+        <div class="form-group"><label>Day Number</label><input type="number" class="day-num" value="${data.day_number || dayCount}"></div>
+        <div class="form-group"><label>Title</label><input type="text" class="day-title" value="${data.title || ''}" placeholder="e.g. Nairobi → Maasai Mara"></div>
+        <div class="form-group"><label>Location</label><input type="text" class="day-location" value="${data.location || ''}" placeholder="e.g. Wilson Airport · Mara"></div>
+        <div class="form-group"><label>Description</label><textarea class="day-desc" rows="3" placeholder="What happens this day...">${data.description || ''}</textarea></div>
+        <div class="form-group"><label>Activities (comma separated)</label><input type="text" class="day-activities" value="${(data.activities || []).join(', ')}" placeholder="Private aircraft, Afternoon drive"></div>
+        <div class="form-group"><label>Highlight Badges (comma separated)</label><input type="text" class="day-badges" value="${(data.highlight_badges || []).join(', ')}" placeholder="✈️ Private Charter, 📷 Photographer"></div>
+      </div>
+    </div>`;
+  document.getElementById('daysRepeater').insertAdjacentHTML('beforeend', html);
+}
+
+function addLodgeRow(data = {}) {
+  lodgeCount++;
+  const id = 'lodge-' + lodgeCount;
+  const html = `
+    <div class="repeater-row" id="${id}">
+      <div class="repeater-row-header">
+        <span class="repeater-row-title">Lodge ${lodgeCount}</span>
+        <button class="btn btn-danger btn-sm" onclick="document.getElementById('${id}').remove()">Remove</button>
+      </div>
+      <div class="form-grid">
+        <div class="form-group"><label>Destination</label><input type="text" class="lodge-dest" value="${data.destination || ''}" placeholder="e.g. Maasai Mara"></div>
+        <div class="form-group"><label>Lodge Name</label><input type="text" class="lodge-name" value="${data.lodge_name || ''}" placeholder="e.g. Ultra-Luxury Mara Camp"></div>
+        <div class="form-group"><label>Nights</label><input type="number" class="lodge-nights" value="${data.nights || 1}"></div>
+        <div class="form-group"><label>Image URL</label><input type="text" class="lodge-img" value="${data.image_url || ''}" placeholder="https://..."></div>
+        <div class="form-group full"><label>Description</label><textarea class="lodge-desc" rows="2">${data.description || ''}</textarea></div>
+      </div>
+    </div>`;
+  document.getElementById('lodgesRepeater').insertAdjacentHTML('beforeend', html);
+}
+
+function addInclusionRow(included = true, data = {}) {
+  const count = included ? ++inclusionCount : ++exclusionCount;
+  const repId = included ? 'inclusionsRepeater' : 'exclusionsRepeater';
+  const id = (included ? 'inc-' : 'exc-') + count;
+  const html = `
+    <div class="repeater-row" id="${id}" style="padding:12px 16px;">
+      <div style="display:flex;gap:12px;align-items:center;">
+        <input type="hidden" class="inc-type" value="${included}">
+        <input type="text" class="inc-text" value="${data.text || ''}" placeholder="${included ? 'e.g. All private charter flights within Kenya' : 'e.g. International flights to Nairobi'}" style="flex:1;">
+        <button class="btn btn-danger btn-sm" onclick="document.getElementById('${id}').remove()">✕</button>
+      </div>
+    </div>`;
+  document.getElementById(repId).insertAdjacentHTML('beforeend', html);
+}
+
+function addRouteRow(data = {}) {
+  routeCount++;
+  const id = 'route-' + routeCount;
+  const html = `
+    <div class="repeater-row" id="${id}">
+      <div class="repeater-row-header">
+        <span class="repeater-row-title">Stop ${routeCount}</span>
+        <button class="btn btn-danger btn-sm" onclick="document.getElementById('${id}').remove()">Remove</button>
+      </div>
+      <div class="form-grid three">
+        <div class="form-group"><label>Place Name</label><input type="text" class="stop-name" value="${data.name || ''}" placeholder="e.g. Nairobi"></div>
+        <div class="form-group"><label>Day Label</label><input type="text" class="stop-day" value="${data.day_label || ''}" placeholder="e.g. Days 1–2"></div>
+        <div class="form-group"><label>Dot Colour (hex)</label><input type="text" class="stop-color" value="${data.color || '#d4af37'}" placeholder="#d4af37"></div>
+        <div class="form-group"><label>Latitude</label><input type="number" class="stop-lat" step="any" value="${data.lat || ''}"></div>
+        <div class="form-group"><label>Longitude</label><input type="number" class="stop-lng" step="any" value="${data.lng || ''}"></div>
+        <div class="form-group"><label>Flight Duration to Next</label><input type="text" class="stop-flight" value="${data.flight_duration || ''}" placeholder="e.g. 45 min"></div>
+      </div>
+    </div>`;
+  document.getElementById('routeRepeater').insertAdjacentHTML('beforeend', html);
+}
+
+// ── SAVE PACKAGE ──
+async function savePackage(forceDraft = false) {
+  const name = document.getElementById('f-name').value.trim();
+  const slug = document.getElementById('f-slug').value.trim();
+  if (!name || !slug) return showToast('Name and slug are required', true);
+
+  document.getElementById('saveStatus').textContent = 'Saving...';
+
+  const pkg = {
+    name,
+    slug,
+    tagline:           document.getElementById('f-tagline').value,
+    badge:             document.getElementById('f-badge').value,
+    category:          document.getElementById('f-category').value,
+    transport_type:    document.getElementById('f-transport').value,
+    duration_days:     parseInt(document.getElementById('f-days').value) || null,
+    duration_nights:   parseInt(document.getElementById('f-nights').value) || null,
+    destinations:      document.getElementById('f-destinations').value.split(',').map(s => s.trim()).filter(Boolean),
+    overview_title:    document.getElementById('f-overview-title').value,
+    overview_body:     document.getElementById('f-overview-body').value,
+    hero_image_url:    document.getElementById('f-hero-image-url').value,
+    price_peak_season: parseFloat(document.getElementById('f-price-peak').value) || null,
+    price_high_season: parseFloat(document.getElementById('f-price-high').value) || null,
+    price_green_season:parseFloat(document.getElementById('f-price-green').value) || null,
+    price_solo:        parseFloat(document.getElementById('f-price-solo').value) || null,
+    price_duo:         parseFloat(document.getElementById('f-price-duo').value) || null,
+    price_group:       parseFloat(document.getElementById('f-price-group').value) || null,
+    peak_months:       document.getElementById('f-peak-months').value.split(',').map(n => parseInt(n.trim())).filter(Boolean),
+    high_months:       document.getElementById('f-high-months').value.split(',').map(n => parseInt(n.trim())).filter(Boolean),
+    green_months:      document.getElementById('f-green-months').value.split(',').map(n => parseInt(n.trim())).filter(Boolean),
+    is_published:      forceDraft ? false : document.getElementById('f-published').value === 'true',
+    is_featured:       document.getElementById('f-featured').value === 'true',
+  };
+
+  let packageId = editingPackageId;
+
+  if (editingPackageId) {
+    const { error } = await db.from('packages').update(pkg).eq('id', editingPackageId);
+    if (error) return showToast('Error: ' + error.message, true);
+  } else {
+    const { data, error } = await db.from('packages').insert(pkg).select().single();
+    if (error) return showToast('Error: ' + error.message, true);
+    packageId = data.id;
+    editingPackageId = packageId;
+  }
+
+  // Save days
+  await db.from('package_days').delete().eq('package_id', packageId);
+  const days = Array.from(document.querySelectorAll('#daysRepeater .repeater-row')).map((row, i) => ({
+    package_id:       packageId,
+    day_number:       parseInt(row.querySelector('.day-num')?.value) || i + 1,
+    title:            row.querySelector('.day-title')?.value || '',
+    location:         row.querySelector('.day-location')?.value || '',
+    description:      row.querySelector('.day-desc')?.value || '',
+    activities:       (row.querySelector('.day-activities')?.value || '').split(',').map(s => s.trim()).filter(Boolean),
+    highlight_badges: (row.querySelector('.day-badges')?.value || '').split(',').map(s => s.trim()).filter(Boolean),
+    sort_order:       i
+  }));
+  if (days.length) await db.from('package_days').insert(days);
+
+  // Save lodges
+  await db.from('package_lodges').delete().eq('package_id', packageId);
+  const lodges = Array.from(document.querySelectorAll('#lodgesRepeater .repeater-row')).map((row, i) => ({
+    package_id:  packageId,
+    destination: row.querySelector('.lodge-dest')?.value || '',
+    lodge_name:  row.querySelector('.lodge-name')?.value || '',
+    nights:      parseInt(row.querySelector('.lodge-nights')?.value) || 1,
+    image_url:   row.querySelector('.lodge-img')?.value || '',
+    description: row.querySelector('.lodge-desc')?.value || '',
+    sort_order:  i
+  }));
+  if (lodges.length) await db.from('package_lodges').insert(lodges);
+
+  // Save inclusions
+  await db.from('package_inclusions').delete().eq('package_id', packageId);
+  const allInclusions = Array.from(document.querySelectorAll('#inclusionsRepeater .repeater-row, #exclusionsRepeater .repeater-row')).map(row => ({
+    package_id: packageId,
+    text:       row.querySelector('.inc-text')?.value || '',
+    included:   row.querySelector('.inc-type')?.value === 'true'
+  })).filter(r => r.text);
+  if (allInclusions.length) await db.from('package_inclusions').insert(allInclusions);
+
+  // Save route stops
+  await db.from('package_route_stops').delete().eq('package_id', packageId);
+  const stops = Array.from(document.querySelectorAll('#routeRepeater .repeater-row')).map((row, i) => ({
+    package_id:      packageId,
+    name:            row.querySelector('.stop-name')?.value || '',
+    day_label:       row.querySelector('.stop-day')?.value || '',
+    color:           row.querySelector('.stop-color')?.value || '#d4af37',
+    lat:             parseFloat(row.querySelector('.stop-lat')?.value) || null,
+    lng:             parseFloat(row.querySelector('.stop-lng')?.value) || null,
+    flight_duration: row.querySelector('.stop-flight')?.value || '',
+    sort_order:      i
+  }));
+  if (stops.length) await db.from('package_route_stops').insert(stops);
+
+  document.getElementById('saveStatus').textContent = '';
+  showToast('Package saved successfully ✓');
+}
+
+// ── EDIT PACKAGE ──
+async function editPackage(id) {
+  editingPackageId = id;
+  resetForm();
+
+  const [
+    { data: pkg },
+    { data: days },
+    { data: lodges },
+    { data: inclusions },
+    { data: stops }
+  ] = await Promise.all([
+    db.from('packages').select('*').eq('id', id).single(),
+    db.from('package_days').select('*').eq('package_id', id).order('sort_order'),
+    db.from('package_lodges').select('*').eq('package_id', id).order('sort_order'),
+    db.from('package_inclusions').select('*').eq('package_id', id),
+    db.from('package_route_stops').select('*').eq('package_id', id).order('sort_order'),
+  ]);
+
+  // Fill basics
+  document.getElementById('f-name').value             = pkg.name || '';
+  document.getElementById('f-slug').value             = pkg.slug || '';
+  document.getElementById('f-tagline').value          = pkg.tagline || '';
+  document.getElementById('f-badge').value            = pkg.badge || '';
+  document.getElementById('f-category').value         = pkg.category || '';
+  document.getElementById('f-transport').value        = pkg.transport_type || '';
+  document.getElementById('f-days').value             = pkg.duration_days || '';
+  document.getElementById('f-nights').value           = pkg.duration_nights || '';
+  document.getElementById('f-destinations').value     = (pkg.destinations || []).join(', ');
+  document.getElementById('f-overview-title').value   = pkg.overview_title || '';
+  document.getElementById('f-overview-body').value    = pkg.overview_body || '';
+  document.getElementById('f-hero-image-url').value   = pkg.hero_image_url || '';
+  document.getElementById('f-price-peak').value       = pkg.price_peak_season || '';
+  document.getElementById('f-price-high').value       = pkg.price_high_season || '';
+  document.getElementById('f-price-green').value      = pkg.price_green_season || '';
+  document.getElementById('f-price-solo').value       = pkg.price_solo || '';
+  document.getElementById('f-price-duo').value        = pkg.price_duo || '';
+  document.getElementById('f-price-group').value      = pkg.price_group || '';
+  document.getElementById('f-peak-months').value      = (pkg.peak_months || []).join(',');
+  document.getElementById('f-high-months').value      = (pkg.high_months || []).join(',');
+  document.getElementById('f-green-months').value     = (pkg.green_months || []).join(',');
+  document.getElementById('f-published').value        = String(pkg.is_published);
+  document.getElementById('f-featured').value         = String(pkg.is_featured);
+
+  days?.forEach(d => addDayRow(d));
+  lodges?.forEach(l => addLodgeRow(l));
+  inclusions?.filter(i => i.included).forEach(i => addInclusionRow(true, i));
+  inclusions?.filter(i => !i.included).forEach(i => addInclusionRow(false, i));
+  stops?.forEach(s => addRouteRow(s));
+
+  document.getElementById('formModeLabel').textContent = 'Editing';
+  document.getElementById('formTitleText').textContent = pkg.name;
+  showView('new-package');
+}
+
+// ── DELETE PACKAGE ──
+async function deletePackage(id) {
+  if (!confirm('Permanently delete this package? This cannot be undone.')) return;
+  await db.from('packages').delete().eq('id', id);
+  loadPackages();
+  showToast('Package deleted');
+}
+
+// ── RESET FORM ──
+function resetForm() {
+  editingPackageId = null;
+  dayCount = 0; lodgeCount = 0; inclusionCount = 0; exclusionCount = 0; routeCount = 0;
+  ['f-name','f-slug','f-tagline','f-badge','f-transport','f-days','f-nights',
+   'f-destinations','f-overview-title','f-overview-body','f-hero-image-url',
+   'f-price-peak','f-price-high','f-price-green','f-price-solo','f-price-duo',
+   'f-price-group','f-peak-months','f-high-months','f-green-months'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('daysRepeater').innerHTML = '';
+  document.getElementById('lodgesRepeater').innerHTML = '';
+  document.getElementById('inclusionsRepeater').innerHTML = '';
+  document.getElementById('exclusionsRepeater').innerHTML = '';
+  document.getElementById('routeRepeater').innerHTML = '';
+  document.getElementById('formModeLabel').textContent = 'Create';
+  document.getElementById('formTitleText').textContent = 'New Package';
+  switchFormTab('basics', document.querySelector('.form-tab'));
+}
+
+// ── IMAGE PREVIEW ──
+function previewImage(input, previewId) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = document.getElementById(previewId);
+    img.src = e.target.result;
+    img.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── TOAST ──
+function showToast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isError ? ' error' : '');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ── AUTO SLUG ──
+document.addEventListener('DOMContentLoaded', () => {
+  const nameInput = document.getElementById('f-name');
+  const slugInput = document.getElementById('f-slug');
+  if (nameInput) {
+    nameInput.addEventListener('input', () => {
+      if (!editingPackageId) {
+        slugInput.value = nameInput.value
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+      }
+    });
+  }
+  checkSession();
+});
+</script>
+</body>
+</html>
