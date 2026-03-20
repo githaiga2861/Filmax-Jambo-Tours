@@ -767,9 +767,10 @@ function startNewPackage() {
 
 // ── WIZARD STEPS ──
 function goToStep(step, force = false) {
-  // Only allow clicking completed steps to go back
-  if (!force && step > currentStep && !completedSteps.has(step - 1)) return;
-  if (!force && step > currentStep) return;
+  // Free navigation if current step is untouched
+  const freeNav = isStepEmpty(currentStep);
+  if (!force && step > currentStep && !freeNav && !completedSteps.has(step - 1)) return;
+  if (!force && step > currentStep && !freeNav && step > currentStep) return;
 
   // Update pages
   document.querySelectorAll('.form-page').forEach(p => p.classList.remove('active'));
@@ -792,6 +793,15 @@ function goToStep(step, force = false) {
 }
 
 function nextStep(step) {
+  if (isStepEmpty(step)) {
+    // Nothing filled — skip validation, allow free pass
+    hideValidationSummary(step);
+    completedSteps.add(step);
+    goToStep(step + 1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+  // Something was filled — enforce full completion
   const errors = validateStep(step);
   if (errors.length > 0) {
     showValidationSummary(step, errors);
@@ -840,6 +850,40 @@ function clearAllInvalid() {
   document.querySelectorAll('.field-error.show').forEach(el => el.classList.remove('show'));
 }
 
+
+  function isStepEmpty(step) {
+  if (step === 0) {
+    const ids = ['f-name','f-tagline','f-badge','f-transport',
+                 'f-days','f-nights','f-destinations',
+                 'f-overview-title','f-overview-body',
+                 'f-hero-image-url','f-card-bg-url','f-short-highlights'];
+    const catVal = document.getElementById('f-category').value;
+    const anyText = ids.some(id => (document.getElementById(id)?.value || '').trim() !== '');
+    return !anyText && !catVal;
+  }
+  if (step === 1) {
+    const ids = ['f-price-peak','f-price-high','f-price-green',
+                 'f-price-solo','f-price-duo','f-price-group',
+                 'f-peak-months','f-high-months','f-green-months'];
+    return ids.every(id => (document.getElementById(id)?.value || '').trim() === '');
+  }
+  if (step === 2) {
+    return document.querySelectorAll('#daysRepeater .repeater-row').length === 0;
+  }
+  if (step === 3) {
+    return document.querySelectorAll('#lodgesRepeater .repeater-row').length === 0;
+  }
+  if (step === 4) {
+    const incRows = document.querySelectorAll('#inclusionsRepeater .repeater-row');
+    const excRows = document.querySelectorAll('#exclusionsRepeater .repeater-row');
+    return incRows.length === 0 && excRows.length === 0;
+  }
+  if (step === 5) {
+    return document.querySelectorAll('#routeRepeater .repeater-row').length === 0;
+  }
+  return true;
+}
+  
 // ── VALIDATION ──
 function validateStep(step) {
   clearAllInvalid();
