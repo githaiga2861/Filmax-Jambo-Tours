@@ -2359,7 +2359,14 @@ document.querySelectorAll('.day-header').forEach(function(header) {
       var activeTab = getTabForPanel(current);
       if (activeTab) {
         activeTab.classList.add('active');
-        activeTab.scrollIntoView({ inline: 'nearest', block: 'nearest' });
+        var tabsEl = tabsWrapper ? tabsWrapper.querySelector('.pkg-tabs') : null;
+if (tabsEl) {
+  var tabLeft = activeTab.offsetLeft;
+  var tabWidth = activeTab.offsetWidth;
+  var containerWidth = tabsEl.offsetWidth;
+  var scrollTarget = tabLeft - (containerWidth / 2) + (tabWidth / 2);
+  tabsEl.scrollLeft = scrollTarget;
+}
       }
     }
   }
