@@ -235,6 +235,39 @@
               <p>Click to upload hero image</p>
               <img id="heroPreview" class="img-preview">
             </div>
+            <!-- After the hero image upload group, add: -->
+<div class="form-group full">
+  <label>Card Background Image (Homepage Rotating Cards)</label>
+  <div class="img-upload-box">
+    <input type="file" id="cardBgFile" accept="image/*" onchange="previewImage(this,'cardBgPreview')">
+    <div style="font-size:24px;">🃏</div>
+    <p>Click to upload the background image shown in the homepage package cards</p>
+    <img id="cardBgPreview" class="img-preview">
+  </div>
+  <input type="text" id="f-card-bg-url" placeholder="Or paste card background image URL directly" style="margin-top:8px;">
+</div>
+
+<div class="form-group full">
+  <label>Short Highlights (Homepage Card Features — one per line, max 7)</label>
+  <textarea id="f-short-highlights" rows="7" placeholder="Private Charter Flights&#10;5-Star Lodge &amp; Tented Camps&#10;Sunrise Balloon Safari&#10;Cultural Maasai Immersion&#10;Butler &amp; Concierge Service&#10;All-Inclusive Premium"></textarea>
+  <span style="font-size:10px;color:var(--muted);margin-top:4px;display:block;font-style:italic;">These appear as bullet points on the homepage rotating card. One feature per line.</span>
+</div>
+
+<div class="form-group">
+  <label>Detail Page URL</label>
+  <input type="text" id="f-detail-page-url" placeholder="e.g. pkg-aerial-kenya.html">
+  <span style="font-size:10px;color:var(--muted);margin-top:4px;display:block;font-style:italic;">The filename of the package detail page. Leave blank to auto-generate from slug.</span>
+</div>
+
+<div class="form-group">
+  <label>Package Tier (for filter)</label>
+  <select id="f-tier">
+    <option value="luxury">Luxury</option>
+    <option value="mid-range">Mid-Range</option>
+    <option value="budget">Budget</option>
+    <option value="ultra">Ultra Luxury</option>
+  </select>
+</div>
             <input type="text" id="f-hero-image-url" placeholder="Or paste image URL directly" style="margin-top:8px;">
           </div>
           <div class="form-group">
