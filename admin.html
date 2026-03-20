@@ -1342,6 +1342,9 @@ async function editPackage(id) {
   document.getElementById('f-green-months').value     = (pkg.green_months || []).join(',');
   document.getElementById('f-published').value        = String(pkg.is_published);
   document.getElementById('f-featured').value         = String(pkg.is_featured);
+  document.getElementById('f-card-bg-url').value        = pkg.card_bg_image_url || '';
+  document.getElementById('f-short-highlights').value   = (pkg.short_highlights || []).join('\n');
+  document.getElementById('f-detail-page-url').value    = pkg.detail_page_url || '';
 
   days?.forEach(d => addDayRow(d));
   lodges?.forEach(l => addLodgeRow(l));
