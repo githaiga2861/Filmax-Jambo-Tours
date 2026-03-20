@@ -89,15 +89,21 @@
 
   /* ── Wizard Progress Bar ── */
   .wizard-progress {
-    display:flex; align-items:center; gap:0; margin-bottom:40px;
-    background:var(--charcoal); border:1px solid var(--border); padding:0;
-    overflow:hidden; position:relative;
-  }
+  display:flex; align-items:center; gap:0; margin-bottom:40px;
+  background:var(--charcoal); border:1px solid var(--border); padding:0;
+  overflow-x:auto; overflow-y:hidden; position:relative;
+  -webkit-overflow-scrolling:touch; scrollbar-width:none;
+}
+.wizard-progress::-webkit-scrollbar { display:none; }
+  
   .wizard-step {
-    flex:1; display:flex; align-items:center; justify-content:center; flex-direction:column;
-    gap:4px; padding:16px 8px; position:relative; cursor:default;
-    border-right:1px solid var(--border); transition:background 0.3s;
-  }
+  flex:0 0 auto; min-width:80px; display:flex; align-items:center; justify-content:center;
+  flex-direction:column; gap:4px; padding:16px 8px; position:relative; cursor:default;
+  border-right:1px solid var(--border); transition:background 0.3s;
+}
+@media (min-width:768px) {
+  .wizard-step { flex:1; min-width:0; }
+}
   .wizard-step:last-child { border-right:none; }
   .wizard-step.completed { background:rgba(212,175,55,0.06); cursor:pointer; }
   .wizard-step.completed:hover { background:rgba(212,175,55,0.1); }
@@ -228,6 +234,48 @@
 
   /* ── Published badge in list ── */
   .list-action-btn { display:flex; gap:8px; align-items:center; }
+
+@media (max-width:767px) {
+  .admin-layout {
+    grid-template-columns:0 1fr;
+  }
+  .admin-layout.sidebar-open {
+    grid-template-columns:240px 1fr;
+  }
+  .sidebar {
+    position:fixed; left:0; top:0; height:100vh;
+    z-index:400; width:240px;
+    transform:translateX(-100%);
+    transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  }
+  .admin-layout.sidebar-open .sidebar {
+    transform:translateX(0);
+  }
+  .main {
+    padding:24px 16px;
+    grid-column:1/-1;
+  }
+  .view-header {
+    flex-direction:column; align-items:flex-start; gap:12px;
+  }
+  .form-grid { grid-template-columns:1fr; }
+  .form-grid.three { grid-template-columns:1fr; }
+  .pkg-list-item {
+    grid-template-columns:1fr auto;
+    grid-template-rows:auto auto;
+    gap:10px;
+  }
+  .pkg-list-item .list-action-btn {
+    grid-column:1/-1;
+    flex-wrap:wrap;
+  }
+  .publish-actions { flex-direction:column; align-items:stretch; }
+  .publish-actions .btn { text-align:center; }
+  .wizard-nav { flex-direction:column; gap:10px; }
+  .wizard-nav-left, .wizard-nav-right { width:100%; }
+  .wizard-nav .btn { width:100%; text-align:center; }
+  .collapsed-toggle { display:flex !important; }
+}  
 </style>
 </head>
 <body>
@@ -719,7 +767,13 @@ let completedSteps = new Set();
 
 // ── SIDEBAR TOGGLE ──
 function toggleSidebar() {
-  document.getElementById('adminLayout').classList.toggle('sidebar-collapsed');
+  const layout = document.getElementById('adminLayout');
+  const isMobile = window.innerWidth < 768;
+  if (isMobile) {
+    layout.classList.toggle('sidebar-open');
+  } else {
+    layout.classList.toggle('sidebar-collapsed');
+  }
 }
 
 // ── AUTH ──
@@ -786,11 +840,12 @@ function goToStep(step, force = false) {
   document.getElementById('fp-' + step).classList.add('active');
 
   // Update progress indicators
-  document.querySelectorAll('.wizard-step').forEach((el, i) => {
-    el.classList.remove('active', 'completed');
-    if (i < step || completedSteps.has(i)) el.classList.add('completed');
-    if (i === step) el.classList.add('active');
-  });
+document.querySelectorAll('.wizard-step').forEach((el, i) => {
+  el.classList.remove('active', 'completed');
+  // Only show completed (tick) if explicitly earned, never just because i < step
+  if (completedSteps.has(i)) el.classList.add('completed');
+  if (i === step) el.classList.add('active');
+});
 
   // Update progress bar
   const pct = step === 6 ? 100 : Math.round((step / 6) * 100);
@@ -803,19 +858,18 @@ function goToStep(step, force = false) {
 
 function nextStep(step) {
   if (isStepEmpty(step)) {
-    // Nothing filled — skip validation, allow free pass
+    // Browsing freely — do NOT mark complete, no tick
     hideValidationSummary(step);
-    completedSteps.add(step);
     goToStep(step + 1);
     window.scrollTo({ top: 0, behavior: 'smooth' });
     return;
   }
-  // Something was filled — enforce full completion
   const errors = validateStep(step);
   if (errors.length > 0) {
     showValidationSummary(step, errors);
     return;
   }
+  // Only reach here when fully valid and filled — earn the tick
   hideValidationSummary(step);
   completedSteps.add(step);
   goToStep(step + 1);
