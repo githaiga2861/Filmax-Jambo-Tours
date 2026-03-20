@@ -990,6 +990,12 @@
     .filter-panel-inner { grid-template-columns: 1fr; }
   }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPA_URL = 'YOUR_SUPABASE_URL';
+  const SUPA_KEY = 'YOUR_SUPABASE_ANON_KEY';
+  const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
+</script>  
 </head>
 <body>
 
@@ -1978,5 +1984,171 @@ if (destFilter && destinationMap[destFilter]) {
   applyFilters();
 }
 </script>
+<script>
+(async function loadDynamicPackages() {
+
+  const { data: packages, error } = await supa
+    .from('packages')
+    .select(`
+      *,
+      package_inclusions ( text, included ),
+      package_days ( day_number, title, location, sort_order )
+    `)
+    .eq('is_published', true)
+    .order('created_at', { ascending: false });
+
+  if (error || !packages?.length) return;
+
+  // Group by category
+  const grouped = {};
+  packages.forEach(pkg => {
+    const cat = pkg.category || 'Other';
+    if (!grouped[cat]) grouped[cat] = [];
+    grouped[cat].push(pkg);
+  });
+
+  const section = document.querySelector('.all-packages-section .container');
+  if (!section) return;
+
+  // Insert before the bespoke banner
+  const bespokeLine = section.querySelector('.gold-line');
+
+  Object.entries(grouped).forEach(([category, pkgs]) => {
+
+    // Don't duplicate categories already in the HTML
+    // We'll add new ones only
+    const existingCategories = Array.from(section.querySelectorAll('.category-title'))
+      .map(el => el.textContent.toLowerCase());
+    if (existingCategories.includes(category.toLowerCase())) return;
+
+    const block = document.createElement('div');
+    block.className = 'category-block reveal';
+    block.dataset.category = category.toLowerCase().replace(/\s+/g, '-');
+
+    const gridCols = pkgs.length === 1 ? 'pkg-grid-3' :
+                     pkgs.length === 2 ? 'pkg-grid-2' : 'pkg-grid-3';
+
+    block.innerHTML = `
+      <div class="category-header">
+        <h2 class="category-title">${category}</h2>
+        <span class="category-count">${pkgs.length} Package${pkgs.length !== 1 ? 's' : ''}</span>
+      </div>
+      <div class="${gridCols}" id="dyn-grid-${category.toLowerCase().replace(/\s+/g,'-')}"></div>
+    `;
+
+    pkgs.forEach(pkg => {
+      const grid = block.querySelector('[id^="dyn-grid-"]');
+      grid.appendChild(buildPackageCard(pkg));
+    });
+
+    section.insertBefore(block, bespokeLine);
+
+    // Observe reveal
+    block.querySelectorAll('.reveal').forEach(el => {
+      if (window._revealObserver) window._revealObserver.observe(el);
+    });
+    if (window._revealObserver) window._revealObserver.observe(block);
+  });
+
+  // Also inject dynamic packages into EXISTING categories if category matches
+  packages.forEach(pkg => {
+    const cat = pkg.category || '';
+    const existingBlock = Array.from(section.querySelectorAll('.category-block'))
+      .find(b => {
+        const title = b.querySelector('.category-title')?.textContent || '';
+        return title.toLowerCase() === cat.toLowerCase();
+      });
+
+    if (!existingBlock) return;
+    const grid = existingBlock.querySelector('.pkg-grid-3, .pkg-grid-2, .pkg-grid-4');
+    if (!grid) return;
+
+    // Don't add duplicates
+    const existingNames = Array.from(grid.querySelectorAll('.pkg-name'))
+      .map(el => el.textContent.replace(/\s+/g,' ').trim().toLowerCase());
+    const pkgNameClean = pkg.name.replace(/\s+/g,' ').trim().toLowerCase();
+    if (existingNames.includes(pkgNameClean)) return;
+
+    grid.appendChild(buildPackageCard(pkg));
+
+    // Update count
+    const countEl = existingBlock.querySelector('.category-count');
+    if (countEl) {
+      const current = parseInt(countEl.textContent) || 0;
+      countEl.textContent = `${current + 1} Package${current + 1 !== 1 ? 's' : ''}`;
+    }
+  });
+
+  // Update total results count
+  const totalCards = document.querySelectorAll('.pkg-card').length;
+  const resultsCount = document.getElementById('resultsCount');
+  if (resultsCount) resultsCount.textContent = totalCards;
+
+  // Re-attach card data for filters
+  attachFilterData();
+
+})();
+
+function buildPackageCard(pkg) {
+  const card = document.createElement('div');
+  card.className = 'pkg-card reveal';
+
+  const highlights = pkg.short_highlights || [];
+  const price = pkg.price_high_season || pkg.price_duo || 0;
+  const detailPage = pkg.detail_page_url || (pkg.slug + '.html');
+  const badge = pkg.badge || null;
+  const days = pkg.duration_days || '';
+  const nights = pkg.duration_nights || '';
+  const duration = days ? `${days} Days · ${nights} Nights` : '';
+
+  // Season badge style
+  const badgeClass = badge?.toLowerCase().includes('seasonal') ? 'badge-seasonal' :
+                     badge?.toLowerCase().includes('new') ? 'badge-new' :
+                     badge?.toLowerCase().includes('exclusive') ? 'badge-exclusive' : 'badge-popular';
+
+  card.innerHTML = `
+    ${badge ? `<span class="pkg-badge ${badgeClass}">${badge}</span>` : ''}
+    <span class="pkg-duration">${duration}</span>
+    <h3 class="pkg-name">${pkg.name}</h3>
+    ${pkg.tagline ? `<p class="pkg-tagline">${pkg.tagline}</p>` : ''}
+    <div class="divider"></div>
+    <div class="pkg-price">$${Number(price).toLocaleString()} <span>/ person</span></div>
+    ${pkg.destinations?.length ? `
+      <div class="pkg-destinations">
+        ${pkg.destinations.map(d => `<span class="dest-tag">${d}</span>`).join('')}
+      </div>
+    ` : ''}
+    <ul class="pkg-features">
+      ${highlights.slice(0,6).map(h => `<li>${h}</li>`).join('')}
+    </ul>
+    <a href="${detailPage}" class="pkg-cta">Unveil This Journey</a>
+  `;
+
+  // Attach filter data attributes
+  card.dataset.price        = price;
+  card.dataset.days         = days || 0;
+  card.dataset.destinations = (pkg.destinations || []).join(',').toLowerCase();
+  card.dataset.styles       = (pkg.category || '').toLowerCase();
+  card.dataset.groups       = 'couple,private';
+
+  return card;
+}
+
+function attachFilterData() {
+  document.querySelectorAll('.pkg-card').forEach(card => {
+    if (card.dataset.price) return; // already has data
+    const nameEl = card.querySelector('.pkg-name');
+    if (!nameEl) return;
+    // Static cards already handled by existing JS cardData array
+  });
+}
+
+// Store observer reference globally so dynamic cards can use it
+window._revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => window._revealObserver.observe(el));
+</script>  
 </body>
 </html>
