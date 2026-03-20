@@ -708,30 +708,30 @@
     .pkg-content{padding-right:0;border-right:none;order:2;}
     .pkg-sidebar{padding:0 24px 40px;order:1;}
     .sidebar-card{position:relative;top:auto;}
-    .pkg-tabs-wrapper{margin-left:0;padding-left:0;}
-    .pkg-tabs-fixed{position:fixed;top:62px;left:0;right:0;z-index:99;width:100%;background:rgba(8,8,8,0.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
-    .pkg-content{padding-top:0;}
-    .pkg-content{padding-top:0;}
-     body{padding-bottom:90px;}
+    .pkg-tabs-wrapper{
+      position:sticky;
+      top:62px;
+      z-index:99;
+      margin-left:0;
+      padding-left:0;
+      margin-right:0;
+    }
+    .pkg-tabs-wrapper::after{content:'';position:absolute;top:0;right:0;width:48px;height:100%;background:linear-gradient(to right,transparent,rgba(8,8,8,0.85));pointer-events:none;z-index:10;}
+    body{padding-bottom:90px;}
     .pkg-main{padding-top:0;}
-    .pkg-tabs-wrapper::after { content: ''; position: absolute; top: 0; right: 0; width: 48px; height: 100%; background: linear-gradient(to right, transparent, rgba(8,8,8,0.85)); pointer-events: none; z-index: 10;}
-    .pkg-tabs-wrapper { position: relative;}
-      /* FIX: prevent horizontal overflow */
     .pkg-main,
     .pkg-content,
     .pkg-sidebar,
     .pkg-tab-panel,
-    .pkg-tabs-wrapper {
-      max-width: 100%;
-      overflow-x: hidden;
+    .pkg-tabs-wrapper{
+      max-width:100%;
+      overflow-x:hidden;
     }
-  }  
 }
-  @media(max-width:900px){
+@media(max-width:900px){
     nav{padding:20px 24px}
     .pkg-hero-content{padding:0 24px 46px}
     .pkg-hero{height:72vh;min-height:460px;}
-    .pkg-hero-title{font-size:42px}
     .pkg-hero-title{font-size:48px}
     .pkg-main{padding:0 24px}
     .pkg-hero-price-item{display:none;}
@@ -752,32 +752,10 @@
     .map-layout{grid-template-columns:1fr}
     .fjt-gallery{grid-template-columns:repeat(2,1fr)}
     .fjt-gallery-item:first-child{grid-column:span 2}
-      /* FIX: constrain wide tables and grids */
-  .rates-table {
-    display: block;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .gt-airline-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
-
-  .fjt-gallery {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .fjt-gallery-item:first-child {
-    grid-column: span 2;
-  }
-
-  .day-activities {
-    gap: 6px;
-  }
+    .rates-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .gt-airline-item{flex-direction:column;align-items:flex-start;gap:4px;}
+    .day-activities{gap:6px;}
 }
-  }
 
   @media (max-width: 480px) {
   .pkg-main { padding: 0 16px; }
