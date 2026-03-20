@@ -492,6 +492,11 @@
             <textarea id="f-short-highlights" rows="7" placeholder="Private Charter Flights&#10;5-Star Lodge &amp; Tented Camps&#10;Sunrise Balloon Safari&#10;Cultural Maasai Immersion&#10;Butler &amp; Concierge Service&#10;All-Inclusive Premium"></textarea>
             <span class="field-error" id="err-highlights">Between 4 and 7 highlights required (one per line)</span>
           </div>
+          <div class="form-group full">
+          <label>Overview Body 2 <span style="font-weight:400;font-size:8px;color:var(--muted);text-transform:none;">(second paragraph — optional but recommended)</span></label>
+          <textarea id="f-overview-body-2" rows="4" placeholder="Write a second overview paragraph (e.g. the photographic or cultural angle)..."></textarea>
+          <span class="field-hint">Renders as second italic paragraph on the detail page Overview tab.</span>
+        </div>
           <div class="form-group">
             <label>Detail Page URL</label>
             <input type="text" id="f-detail-page-url" placeholder="e.g. pkg-aerial-kenya.html">
@@ -1014,6 +1019,7 @@ function persistFormToStorage() {
     destinations:     document.getElementById('f-destinations')?.value || '',
     overviewTitle:    document.getElementById('f-overview-title')?.value || '',
     overviewBody:     document.getElementById('f-overview-body')?.value || '',
+    overviewBody2:    document.getElementById('f-overview-body-2')?.value || '',
     heroImageUrl:     document.getElementById('f-hero-image-url')?.value || '',
     cardBgUrl:        document.getElementById('f-card-bg-url')?.value || '',
     shortHighlights:  document.getElementById('f-short-highlights')?.value || '',
@@ -1077,6 +1083,7 @@ function restoreFormFromStorage() {
   set('f-destinations',    data.destinations);
   set('f-overview-title',  data.overviewTitle);
   set('f-overview-body',   data.overviewBody);
+  set('f-overview-body-2', data.overviewBody2);
   set('f-hero-image-url',  data.heroImageUrl);
   set('f-card-bg-url',     data.cardBgUrl);
   set('f-short-highlights',data.shortHighlights);
@@ -1246,8 +1253,14 @@ function validateStep(step) {
       if (!dest) { errors.push(`Lodge ${i+1}: destination required`); row.querySelector('.lodge-dest')?.classList.add('invalid'); }
       if (!name) { errors.push(`Lodge ${i+1}: lodge name required`); row.querySelector('.lodge-name')?.classList.add('invalid'); }
       if (!nights || parseInt(nights) < 1) { errors.push(`Lodge ${i+1}: nights must be at least 1`); row.querySelector('.lodge-nights')?.classList.add('invalid'); }
-      const imgUrl = row.querySelector('.lodge-img')?.value.trim() || '';
-      if (imgUrl && !imgUrl.toLowerCase().endsWith('.webp')) { errors.push(`Lodge ${i+1}: image URL must end in .webp`); row.querySelector('.lodge-img')?.classList.add('invalid'); }
+      const lodgeImgUrl = row.querySelector('.lodge-img')?.value.trim() || '';
+if (!lodgeImgUrl) {
+  errors.push(`Lodge ${i+1}: image URL required (.webp)`);
+  row.querySelector('.lodge-img')?.classList.add('invalid');
+} else if (!lodgeImgUrl.toLowerCase().endsWith('.webp')) {
+  errors.push(`Lodge ${i+1}: image URL must end in .webp`);
+  row.querySelector('.lodge-img')?.classList.add('invalid');
+}
     });
   }
 
@@ -1432,6 +1445,7 @@ function addDayRow(data = {}) {
         <div class="form-group"><label>Description <span class="req">*</span> <span style="font-weight:400;font-size:8px;color:var(--muted);text-transform:none;">(min 40 chars)</span></label><textarea class="day-desc" rows="3" placeholder="What happens this day...">${data.description || ''}</textarea></div>
         <div class="form-group"><label>Activities <span style="font-weight:400;font-size:8px;color:var(--muted);text-transform:none;">(comma separated)</span></label><input type="text" class="day-activities" value="${(data.activities||[]).join(', ')}" placeholder="Private aircraft, Afternoon drive"></div>
         <div class="form-group"><label>Highlight Badges <span style="font-weight:400;font-size:8px;color:var(--muted);text-transform:none;">(comma separated)</span></label><input type="text" class="day-badges" value="${(data.highlight_badges||[]).join(', ')}" placeholder="✈️ Private Charter, 📷 Photographer"></div>
+        <div class="form-group full"><label>Day Photo Gallery <span style="font-weight:400;font-size:8px;color:rgba(212,175,55,0.6);text-transform:none;">(up to 4 image URLs, one per line, .webp only)</span></label><textarea class="day-gallery" rows="4" placeholder="https://assets/day1-a.webp&#10;https://assets/day1-b.webp&#10;https://assets/day1-c.webp&#10;https://assets/day1-d.webp">${(data.gallery_images||[]).join('\n')}</textarea></div><div class="form-group full"><label>Gallery Image Captions <span style="font-weight:400;font-size:8px;color:var(--muted);text-transform:none;">(comma separated, matching order above)</span></label><input type="text" class="day-gallery-captions" value="${(data.gallery_captions||[]).join(', ')}" placeholder="Mara Plains, Private Charter, Lodge Pool, Afternoon Drive"></div>
       </div>
     </div>`;
   document.getElementById('daysRepeater').insertAdjacentHTML('beforeend', html);
@@ -1490,7 +1504,7 @@ function addRouteRow(data = {}) {
         <div class="form-group"><label>Dot Colour (hex)</label><input type="text" class="stop-color" value="${data.color||'#d4af37'}" placeholder="#d4af37"></div>
         <div class="form-group"><label>Latitude <span class="req">*</span></label><input type="number" class="stop-lat" step="any" value="${data.lat||''}"></div>
         <div class="form-group"><label>Longitude <span class="req">*</span></label><input type="number" class="stop-lng" step="any" value="${data.lng||''}"></div>
-        <div class="form-group"><label>Flight Duration to Next</label><input type="text" class="stop-flight" value="${data.flight_duration||''}" placeholder="e.g. 45 min"></div>
+        <div class="form-group"><label>Flight Duration to Next</label><input type="text" class="stop-flight" value="${data.flight_duration||''}" placeholder="e.g. 45 min"><span style="font-size:10px;color:var(--muted);display:block;margin-top:3px;font-style:italic;">Leave blank for the final stop</span>5. packages.html — dynamic cards missing card_bg_image_url</div>
       </div>
     </div>`;
   document.getElementById('routeRepeater').insertAdjacentHTML('beforeend', html);
@@ -1532,7 +1546,20 @@ async function savePackage(publish = false) {
     card_bg_image_url:  document.getElementById('f-card-bg-url').value,
     short_highlights:   document.getElementById('f-short-highlights').value.split('\n').map(s => s.trim()).filter(Boolean),
     detail_page_url:    document.getElementById('f-detail-page-url').value || (slug + '.html'),
+    overview_body_2:    document.getElementById('f-overview-body-2').value,
   };
+  const days = Array.from(document.querySelectorAll('#daysRepeater .repeater-row')).map((row, i) => ({
+  package_id:       packageId,
+  day_number:       parseInt(row.querySelector('.day-num')?.value) || i + 1,
+  title:            row.querySelector('.day-title')?.value || '',
+  location:         row.querySelector('.day-location')?.value || '',
+  description:      row.querySelector('.day-desc')?.value || '',
+  activities:       (row.querySelector('.day-activities')?.value || '').split(',').map(s => s.trim()).filter(Boolean),
+  highlight_badges: (row.querySelector('.day-badges')?.value || '').split(',').map(s => s.trim()).filter(Boolean),
+  gallery_images:   (row.querySelector('.day-gallery')?.value || '').split('\n').map(s => s.trim()).filter(Boolean),
+  gallery_captions: (row.querySelector('.day-gallery-captions')?.value || '').split(',').map(s => s.trim()).filter(Boolean),
+  sort_order:       i
+}));
 
   let packageId = editingPackageId;
 
@@ -1641,6 +1668,7 @@ async function editPackage(id) {
   document.getElementById('f-card-bg-url').value    = pkg.card_bg_image_url||'';
   document.getElementById('f-short-highlights').value = (pkg.short_highlights||[]).join('\n');
   document.getElementById('f-detail-page-url').value  = pkg.detail_page_url||'';
+  document.getElementById('f-overview-body-2').value = pkg.overview_body_2 || '';
 
   days?.forEach(d => addDayRow(d));
   lodges?.forEach(l => addLodgeRow(l));
@@ -1676,7 +1704,7 @@ function resetForm(keepEditing = false) {
    'f-destinations','f-overview-title','f-overview-body','f-hero-image-url',
    'f-price-peak','f-price-high','f-price-green','f-price-solo','f-price-duo',
    'f-price-group','f-peak-months','f-high-months','f-green-months',
-   'f-card-bg-url','f-short-highlights','f-detail-page-url'].forEach(id => {
+   'f-card-bg-url','f-short-highlights','f-detail-page-url','f-overview-body-2'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
