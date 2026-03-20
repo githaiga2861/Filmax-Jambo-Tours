@@ -4715,6 +4715,12 @@ nav.scrolled .nav-brand-idle {
     border-color: transparent rgba(212,175,55,0.25) transparent transparent;
   }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPA_URL = 'YOUR_SUPABASE_URL';
+  const SUPA_KEY = 'YOUR_SUPABASE_ANON_KEY';
+  const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
+</script>    
 </head>
 <body>
   
@@ -6474,6 +6480,44 @@ const allPackages = [
   { badge: 'Signature', duration: '12 Days · 11 Nights', name: 'Kenya<br>Mastery',        price: '$14,500', page: 'pkg-grand-odyssey.html',      tier: 'luxury',    features: ['6 Parks & Conservancies','Private Helicopter Transfer','Exclusive Bush Camp','Hot Air Balloon Safari','Michelin-Inspired Bush Dining','Dedicated Personal Guide','Fully Bespoke Itinerary'] },
 ];
 
+// Load published packages from Supabase and merge into allPackages
+(async function () {
+  const { data, error } = await supa
+    .from('packages')
+    .select('name, slug, badge, category, duration_days, duration_nights, price_high_season, price_duo, short_highlights, card_bg_image_url, detail_page_url, destinations, is_featured')
+    .eq('is_published', true)
+    .order('created_at', { ascending: false });
+
+  if (error || !data?.length) return;
+
+  data.forEach(pkg => {
+    const price = pkg.price_high_season || pkg.price_duo || 0;
+    const days = pkg.duration_days || 0;
+    const nights = pkg.duration_nights || 0;
+    const tier = pkg.category?.toLowerCase().includes('ultra') ? 'ultra' :
+                 pkg.category?.toLowerCase().includes('luxury') ? 'luxury' :
+                 pkg.category?.toLowerCase().includes('budget') ? 'budget' : 'mid-range';
+
+    // Don't add if already exists by name
+    const exists = allPackages.some(p =>
+      p.name.replace(/<br>/g,' ').replace(/\s+/g,' ').trim().toLowerCase() ===
+      pkg.name.trim().toLowerCase()
+    );
+    if (exists) return;
+
+    allPackages.push({
+      badge:      pkg.badge || null,
+      duration:   days ? `${days} Days · ${nights} Nights` : '',
+      name:       pkg.name,
+      price:      '$' + Number(price).toLocaleString(),
+      page:       pkg.detail_page_url || (pkg.slug + '.html'),
+      tier:       tier,
+      features:   pkg.short_highlights || [],
+      cardBg:     pkg.card_bg_image_url || null,
+    });
+  });
+})();    
+
 const cardBgs = [
   'assets/Coolelephant.webp',
   'assets/jungle.webp',
@@ -6484,7 +6528,7 @@ function buildCard(pkg, isFeatured, bgIndex) {
   const maxFeatures = isFeatured ? 7 : 6;
   const features    = [...pkg.features];
   while (features.length < maxFeatures) features.push(null);
-  const bg = cardBgs[bgIndex !== undefined ? bgIndex : 0];
+  const bg = pkg.cardBg || cardBgs[bgIndex !== undefined ? bgIndex : 0];
   return `
     <img class="pkg-bg" src="${bg}" alt="" aria-hidden="true">
     <div class="pkg-bg-overlay"></div>
