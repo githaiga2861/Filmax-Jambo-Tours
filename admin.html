@@ -34,7 +34,7 @@
     width:var(--sidebar-w); flex-shrink:0;
   }
   .admin-layout.sidebar-collapsed .sidebar { width:0; opacity:0; pointer-events:none; }
-  .sidebar-logo { padding:0 24px 24px; border-bottom:1px solid var(--border); margin-bottom:16px; }
+  .sidebar-logo { padding:0 16px 24px; border-bottom:1px solid var(--border); margin-bottom:16px; display:flex; align-items:center; gap:12px; }
   .sidebar-logo span { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); }
   .sidebar-logo p { font-size:10px; color:var(--muted); margin-top:4px; }
   .nav-item { display:flex; align-items:center; gap:12px; padding:12px 24px; cursor:pointer; transition:background 0.2s; font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); border-left:2px solid transparent; white-space:nowrap; }
@@ -44,24 +44,31 @@
 
   /* ── Sidebar toggle button ── */
   .sidebar-toggle {
-    position:fixed; top:20px; left:20px; z-index:500;
-    width:36px; height:36px; background:var(--charcoal);
-    border:1px solid var(--border); cursor:pointer;
-    display:flex; align-items:center; justify-content:center;
-    transition:all 0.2s; flex-direction:column; gap:5px; padding:8px;
-  }
+  width:32px; height:32px; background:transparent;
+  border:1px solid var(--border); cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:all 0.2s; flex-direction:column; gap:5px; padding:7px;
+  flex-shrink:0;
+}
   .sidebar-toggle:hover { border-color:var(--gold); background:rgba(212,175,55,0.08); }
   .sidebar-toggle span {
     display:block; width:18px; height:1.5px; background:var(--gold);
     transition:all 0.3s cubic-bezier(0.4,0,0.2,1); transform-origin:center;
   }
+  .collapsed-toggle {
+  display:none; position:fixed; top:16px; left:12px; z-index:600;
+  background:var(--charcoal); border:1px solid var(--border);
+  color:var(--gold); font-size:16px; width:36px; height:36px;
+  cursor:pointer; align-items:center; justify-content:center;
+}
+  .admin-layout.sidebar-collapsed .collapsed-toggle { display:flex; }
   .sidebar-collapsed .sidebar-toggle span:nth-child(1) { transform:translateY(6.5px) rotate(45deg); }
   .sidebar-collapsed .sidebar-toggle span:nth-child(2) { opacity:0; transform:scaleX(0); }
   .sidebar-collapsed .sidebar-toggle span:nth-child(3) { transform:translateY(-6.5px) rotate(-45deg); }
 
   /* ── Main ── */
-  .main { padding:40px 40px 40px 72px; overflow-y:auto; min-width:0; transition:padding-left 0.35s; }
-  .admin-layout.sidebar-collapsed .main { padding-left:72px; }
+  .main { padding:40px; overflow-y:auto; min-width:0; transition:padding-left 0.35s; }
+.admin-layout.sidebar-collapsed .main { padding-left:40px; }
 
   /* ── Views ── */
   .view { display:none; }
@@ -246,17 +253,19 @@
 <!-- ADMIN LAYOUT -->
 <div class="admin-layout" id="adminLayout" style="display:none;">
 
-  <!-- Sidebar toggle -->
-  <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle Sidebar">
-    <span></span><span></span><span></span>
-  </button>
-
+  <button class="collapsed-toggle" id="collapsedToggle" onclick="toggleSidebar()" title="Open Sidebar">☰</button>  
+  
   <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-logo">
-      <span>Filmax Jambo</span>
-      <p>Package Manager</p>
-    </div>
+  <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle Sidebar">
+    <span></span><span></span><span></span>
+  </button>
+  <div>
+    <span>Filmax Jambo</span>
+    <p>Package Manager</p>
+  </div>
+</div>
     <div class="nav-item active" onclick="showView('packages')" id="nav-packages">📦 All Packages</div>
     <div class="nav-item" onclick="startNewPackage()" id="nav-new">✚ New Package</div>
     <div class="nav-item" onclick="showView('drafts')" id="nav-drafts">📝 Drafts</div>
