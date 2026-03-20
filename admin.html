@@ -807,6 +807,15 @@ function showAdmin() {
   document.getElementById('adminLayout').style.display = 'grid';
   loadPackages();
   loadCategories();
+
+  // After categories load (slight delay so <select> is populated), restore any unsaved draft
+  setTimeout(() => {
+    const restored = restoreFormFromStorage();
+    if (restored) {
+      showToast('Unsaved draft restored — your progress was kept 💾');
+      showView('new-package');
+    }
+  }, 400);
 }
 
 // ── NAVIGATION ──
@@ -949,6 +958,177 @@ function clearAllInvalid() {
     return document.querySelectorAll('#routeRepeater .repeater-row').length === 0;
   }
   return true;
+}
+
+// ── DRAFT PERSISTENCE (survives refresh) ──
+
+const STORAGE_KEY = 'filmax_admin_wizard_draft';
+
+function persistFormToStorage() {
+  const days = Array.from(document.querySelectorAll('#daysRepeater .repeater-row')).map(row => ({
+    day_number:       row.querySelector('.day-num')?.value || '',
+    title:            row.querySelector('.day-title')?.value || '',
+    location:         row.querySelector('.day-location')?.value || '',
+    description:      row.querySelector('.day-desc')?.value || '',
+    activities:       row.querySelector('.day-activities')?.value || '',
+    highlight_badges: row.querySelector('.day-badges')?.value || '',
+  }));
+
+  const lodges = Array.from(document.querySelectorAll('#lodgesRepeater .repeater-row')).map(row => ({
+    destination: row.querySelector('.lodge-dest')?.value || '',
+    lodge_name:  row.querySelector('.lodge-name')?.value || '',
+    nights:      row.querySelector('.lodge-nights')?.value || '',
+    image_url:   row.querySelector('.lodge-img')?.value || '',
+    description: row.querySelector('.lodge-desc')?.value || '',
+  }));
+
+  const inclusions = Array.from(document.querySelectorAll('#inclusionsRepeater .repeater-row')).map(row => ({
+    text:     row.querySelector('.inc-text')?.value || '',
+    included: true,
+  }));
+
+  const exclusions = Array.from(document.querySelectorAll('#exclusionsRepeater .repeater-row')).map(row => ({
+    text:     row.querySelector('.inc-text')?.value || '',
+    included: false,
+  }));
+
+  const stops = Array.from(document.querySelectorAll('#routeRepeater .repeater-row')).map(row => ({
+    name:            row.querySelector('.stop-name')?.value || '',
+    day_label:       row.querySelector('.stop-day')?.value || '',
+    color:           row.querySelector('.stop-color')?.value || '#d4af37',
+    lat:             row.querySelector('.stop-lat')?.value || '',
+    lng:             row.querySelector('.stop-lng')?.value || '',
+    flight_duration: row.querySelector('.stop-flight')?.value || '',
+  }));
+
+  const data = {
+    // Basics
+    name:             document.getElementById('f-name')?.value || '',
+    slug:             document.getElementById('f-slug')?.value || '',
+    tagline:          document.getElementById('f-tagline')?.value || '',
+    badge:            document.getElementById('f-badge')?.value || '',
+    category:         document.getElementById('f-category')?.value || '',
+    transport:        document.getElementById('f-transport')?.value || '',
+    days:             document.getElementById('f-days')?.value || '',
+    nights:           document.getElementById('f-nights')?.value || '',
+    destinations:     document.getElementById('f-destinations')?.value || '',
+    overviewTitle:    document.getElementById('f-overview-title')?.value || '',
+    overviewBody:     document.getElementById('f-overview-body')?.value || '',
+    heroImageUrl:     document.getElementById('f-hero-image-url')?.value || '',
+    cardBgUrl:        document.getElementById('f-card-bg-url')?.value || '',
+    shortHighlights:  document.getElementById('f-short-highlights')?.value || '',
+    detailPageUrl:    document.getElementById('f-detail-page-url')?.value || '',
+    tier:             document.getElementById('f-tier')?.value || '',
+    // Pricing
+    pricePeak:        document.getElementById('f-price-peak')?.value || '',
+    priceHigh:        document.getElementById('f-price-high')?.value || '',
+    priceGreen:       document.getElementById('f-price-green')?.value || '',
+    priceSolo:        document.getElementById('f-price-solo')?.value || '',
+    priceDuo:         document.getElementById('f-price-duo')?.value || '',
+    priceGroup:       document.getElementById('f-price-group')?.value || '',
+    peakMonths:       document.getElementById('f-peak-months')?.value || '',
+    highMonths:       document.getElementById('f-high-months')?.value || '',
+    greenMonths:      document.getElementById('f-green-months')?.value || '',
+    // Repeaters
+    days_rows:        days,
+    lodges_rows:      lodges,
+    inclusions_rows:  inclusions,
+    exclusions_rows:  exclusions,
+    stops_rows:       stops,
+    // Wizard state
+    currentStep:      currentStep,
+    completedSteps:   Array.from(completedSteps),
+    editingPackageId: editingPackageId,
+    savedAt:          Date.now(),
+  };
+
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch(e) {
+    // Storage full or unavailable — fail silently
+  }
+}
+
+function restoreFormFromStorage() {
+  let raw;
+  try {
+    raw = localStorage.getItem(STORAGE_KEY);
+  } catch(e) { return false; }
+
+  if (!raw) return false;
+
+  let data;
+  try { data = JSON.parse(raw); } catch(e) { return false; }
+
+  // Nothing meaningful was saved
+  if (!data.name && !data.tagline && !data.days_rows?.length) return false;
+
+  // Restore flat fields
+  const set = (id, val) => { const el = document.getElementById(id); if (el && val !== undefined) el.value = val; };
+
+  set('f-name',            data.name);
+  set('f-slug',            data.slug);
+  set('f-tagline',         data.tagline);
+  set('f-badge',           data.badge);
+  set('f-category',        data.category);
+  set('f-transport',       data.transport);
+  set('f-days',            data.days);
+  set('f-nights',          data.nights);
+  set('f-destinations',    data.destinations);
+  set('f-overview-title',  data.overviewTitle);
+  set('f-overview-body',   data.overviewBody);
+  set('f-hero-image-url',  data.heroImageUrl);
+  set('f-card-bg-url',     data.cardBgUrl);
+  set('f-short-highlights',data.shortHighlights);
+  set('f-detail-page-url', data.detailPageUrl);
+  set('f-tier',            data.tier);
+  set('f-price-peak',      data.pricePeak);
+  set('f-price-high',      data.priceHigh);
+  set('f-price-green',     data.priceGreen);
+  set('f-price-solo',      data.priceSolo);
+  set('f-price-duo',       data.priceDuo);
+  set('f-price-group',     data.priceGroup);
+  set('f-peak-months',     data.peakMonths);
+  set('f-high-months',     data.highMonths);
+  set('f-green-months',    data.greenMonths);
+
+  // Restore repeater rows
+  data.days_rows?.forEach(d => addDayRow({
+    day_number: d.day_number, title: d.title, location: d.location,
+    description: d.description,
+    activities: d.activities ? d.activities.split(',').map(s=>s.trim()).filter(Boolean) : [],
+    highlight_badges: d.highlight_badges ? d.highlight_badges.split(',').map(s=>s.trim()).filter(Boolean) : [],
+  }));
+
+  data.lodges_rows?.forEach(l => addLodgeRow({
+    destination: l.destination, lodge_name: l.lodge_name,
+    nights: l.nights, image_url: l.image_url, description: l.description,
+  }));
+
+  data.inclusions_rows?.forEach(i => addInclusionRow(true,  { text: i.text }));
+  data.exclusions_rows?.forEach(i => addInclusionRow(false, { text: i.text }));
+
+  data.stops_rows?.forEach(s => addRouteRow({
+    name: s.name, day_label: s.day_label, color: s.color,
+    lat: s.lat, lng: s.lng, flight_duration: s.flight_duration,
+  }));
+
+  // Restore wizard position
+  editingPackageId = data.editingPackageId || null;
+  completedSteps   = new Set(data.completedSteps || []);
+  goToStep(data.currentStep || 0, true);
+
+  return true;
+}
+
+function clearStorageDraft() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+}
+
+function attachPersistenceListeners() {
+  // Save on any input or change across the whole wizard
+  document.getElementById('view-new-package').addEventListener('input',  () => persistFormToStorage());
+  document.getElementById('view-new-package').addEventListener('change', () => persistFormToStorage());
 }
   
 // ── VALIDATION ──
@@ -1406,6 +1586,8 @@ async function savePackage(publish = false) {
   statusEl.textContent = '';
   publishBtn.disabled = false;
 
+  clearStorageDraft();
+
   if (publish) {
     showToast('Package published — now live on the website 🚀', 'success');
     setTimeout(() => showView('packages'), 1800);
@@ -1483,7 +1665,11 @@ async function deletePackage(id) {
 
 // ── RESET FORM ──
 function resetForm(keepEditing = false) {
-  if (!keepEditing) { editingPackageId = null; completedSteps = new Set(); }
+  if (!keepEditing) {
+    editingPackageId = null;
+    completedSteps = new Set();
+    clearStorageDraft();
+  }
   dayCount=0; lodgeCount=0; inclusionCount=0; exclusionCount=0; routeCount=0;
 
   ['f-name','f-slug','f-tagline','f-badge','f-transport','f-days','f-nights',
@@ -1566,12 +1752,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Clear invalid on input
+  // Clear invalid state on input
   document.addEventListener('input', e => {
     if (e.target.matches('input,select,textarea')) {
       e.target.classList.remove('invalid');
     }
   });
+
+  // Attach persistence listeners to the wizard view
+  attachPersistenceListeners();
 
   checkSession();
 });
