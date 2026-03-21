@@ -711,7 +711,16 @@
         </div>
 
         <div id="reviewSummary" style="background:var(--charcoal);border:1px solid var(--border);padding:28px;margin-bottom:32px;"></div>
-
+        <div class="form-grid" style="max-width:400px;margin-bottom:24px;">
+          <div class="form-group">
+            <label>Mark as Featured?</label>
+            <select id="f-featured">
+              <option value="false">No</option>
+              <option value="true">Yes — show in featured slots</option>
+            </select>
+            <span class="field-hint">Featured packages appear in the homepage spotlight cards.</span>
+          </div>
+        </div>
         <div class="publish-panel">
           <h2>Ready to Go?</h2>
           <p>Publishing will make this package immediately visible on the Filmax Jambo website.<br>Saving as a draft lets you return and publish later from the Drafts section.</p>
@@ -1539,7 +1548,7 @@ async function savePackage(publish = false) {
     high_months:        document.getElementById('f-high-months').value.split(',').map(n => parseInt(n.trim())).filter(Boolean),
     green_months:       document.getElementById('f-green-months').value.split(',').map(n => parseInt(n.trim())).filter(Boolean),
     is_published:       publish,
-    is_featured:        false,
+    is_featured:        document.getElementById('f-featured')?.value === 'true',
     card_bg_image_url:  document.getElementById('f-card-bg-url').value,
     short_highlights:   document.getElementById('f-short-highlights').value.split('\n').map(s => s.trim()).filter(Boolean),
     detail_page_url:    document.getElementById('f-detail-page-url').value || (slug + '.html'),
