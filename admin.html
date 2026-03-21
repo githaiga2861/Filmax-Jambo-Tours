@@ -1512,7 +1512,10 @@ function addRouteRow(data = {}) {
         <div class="form-group"><label>Dot Colour (hex)</label><input type="text" class="stop-color" value="${data.color||'#d4af37'}" placeholder="#d4af37"></div>
         <div class="form-group"><label>Latitude <span class="req">*</span></label><input type="number" class="stop-lat" step="any" value="${data.lat||''}"></div>
         <div class="form-group"><label>Longitude <span class="req">*</span></label><input type="number" class="stop-lng" step="any" value="${data.lng||''}"></div>
-        <div class="form-group"><label>Flight Duration to Next</label><input type="text" class="stop-flight" value="${data.flight_duration||''}" placeholder="e.g. 45 min"><div class="form-group"><label>Flight Duration to Next</label><input type="text" class="stop-flight" value="${data.flight_duration||''}" placeholder="e.g. 45 min"><span style="font-size:10px;color:var(--muted);display:block;margin-top:3px;font-style:italic;">Leave blank for the final stop</span></div>;
+        <div class="form-group"><label>Flight Duration to Next</label><input type="text" class="stop-flight" value="${data.flight_duration||''}" placeholder="e.g. 45 min"><span style="font-size:10px;color:var(--muted);display:block;margin-top:3px;font-style:italic;">Leave blank for the final stop</span></div>
+      </div>
+    </div>`;
+  document.getElementById('routeRepeater').insertAdjacentHTML('beforeend', html);
 }
 
 // ── SAVE PACKAGE ──
@@ -1536,7 +1539,6 @@ async function savePackage(publish = false) {
     destinations:       document.getElementById('f-destinations').value.split(',').map(s => s.trim()).filter(Boolean),
     overview_title:     document.getElementById('f-overview-title').value,
     overview_body:      document.getElementById('f-overview-body').value,
-    overview_body_2:    document.getElementById('f-overview-body-2')?.value || '',
     hero_image_url:     document.getElementById('f-hero-image-url').value,
     price_peak_season:  parseFloat(document.getElementById('f-price-peak').value) || null,
     price_high_season:  parseFloat(document.getElementById('f-price-high').value) || null,
