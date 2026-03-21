@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reserve Your Journey — Filmax Jambo Tours</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:wght@300;400;600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808; --deep: #0d0d0d; --charcoal: #141414; --card: #111111;
+    --gold: #d4af37; --gold-light: #e8c84a; --gold-dim: rgba(212,175,55,0.12);
+    --amber: #b8860b; --text: #f0ece4; --muted: #8a8074;
+    --border: rgba(212,175,55,0.2); --border-subtle: rgba(255,255,255,0.05);
+    --red: rgba(220,80,80,0.9); --green: rgba(80,180,80,0.9);
+  }
+  *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; overflow-x:hidden; }
+  body { background:var(--black); color:var(--text); font-family:'Jost',sans-serif; font-weight:300; min-height:100vh; }
+
+  /* ── NAV ── */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:22px 48px;
+    background:rgba(8,8,8,0.97); backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-logo-img { height:48px; width:auto; object-fit:contain; display:block; filter:drop-shadow(0 0 10px rgba(212,175,55,.4)); }
+  .nav-back { font-size:10px; font-weight:400; letter-spacing:4px; text-transform:uppercase; color:var(--gold); text-decoration:none; display:flex; align-items:center; gap:10px; transition:color .3s; }
+  .nav-back::before { content:''; width:24px; height:1px; background:var(--gold); transition:width .3s; }
+  .nav-back:hover { color:var(--gold-light); }
+  .nav-back:hover::before { width:36px; }
+
+  /* ── PAGE WRAPPER ── */
+  .page-wrap {
+    max-width:1100px; margin:0 auto;
+    padding:120px 48px 80px;
+    display:grid;
+    grid-template-columns:1fr 360px;
+    gap:60px;
+    align-items:start;
+  }
+
+  /* ── LEFT: WIZARD ── */
+  .wizard-wrap { min-width:0; }
+
+  .page-eyebrow { font-size:9px; letter-spacing:5px; text-transform:uppercase; color:var(--gold); display:block; margin-bottom:12px; }
+  .page-title { font-family:'Playfair Display',serif; font-size:clamp(32px,4vw,52px); font-weight:900; line-height:1.05; margin-bottom:8px; }
+  .page-title em { font-style:italic; color:var(--gold); }
+  .page-sub { font-family:'Cormorant Garamond',serif; font-size:17px; color:var(--muted); line-height:1.75; font-style:italic; margin-bottom:48px; }
+
+  /* ── STEP TRACK ── */
+  .step-track {
+    display:flex; align-items:center; gap:0;
+    margin-bottom:48px;
+    border:1px solid var(--border);
+    background:var(--charcoal);
+    overflow:hidden;
+  }
+  .step-item {
+    flex:1; display:flex; align-items:center; flex-direction:column;
+    gap:6px; padding:18px 12px;
+    border-right:1px solid var(--border);
+    position:relative; transition:background .3s;
+  }
+  .step-item:last-child { border-right:none; }
+  .step-item.active { background:rgba(212,175,55,0.08); }
+  .step-item.done { background:rgba(212,175,55,0.05); cursor:pointer; }
+  .step-num {
+    width:26px; height:26px; border-radius:50%;
+    border:1px solid var(--muted); color:var(--muted);
+    display:flex; align-items:center; justify-content:center;
+    font-size:10px; font-weight:600; letter-spacing:1px;
+    transition:all .3s;
+  }
+  .step-item.active .step-num { border-color:var(--gold); color:var(--gold); }
+  .step-item.done .step-num { background:var(--gold); border-color:var(--gold); color:var(--black); }
+  .step-item.done .step-num::before { content:'✓'; }
+  .step-label { font-size:8px; letter-spacing:3px; text-transform:uppercase; color:var(--muted); text-align:center; transition:color .3s; }
+  .step-item.active .step-label { color:var(--gold); }
+  .step-item.done .step-label { color:var(--gold); }
+  .step-track-bar {
+    position:absolute; bottom:0; left:0; height:2px;
+    background:linear-gradient(to right,var(--gold),var(--amber));
+    transition:width .5s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* ── FORM PANELS ── */
+  .form-panel { display:none; }
+  .form-panel.active { display:block; }
+
+  .panel-title { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; margin-bottom:6px; }
+  .panel-sub { font-size:12px; color:var(--muted); line-height:1.7; margin-bottom:32px; }
+
+  /* Form fields */
+  .field-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px; }
+  .field-row.full { grid-template-columns:1fr; }
+  .field-group { display:flex; flex-direction:column; gap:8px; }
+  .field-label { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); }
+  .field-label .req { color:var(--red); margin-left:2px; }
+  .field-input, .field-select, .field-textarea {
+    background:var(--card); border:1px solid var(--border);
+    color:var(--text); font-family:'Jost',sans-serif; font-size:13px;
+    padding:12px 14px; outline:none; width:100%;
+    transition:border-color .2s;
+  }
+  .field-input:focus, .field-select:focus, .field-textarea:focus { border-color:var(--gold); }
+  .field-input.invalid, .field-select.invalid { border-color:rgba(220,80,80,.8); }
+  .field-textarea { resize:vertical; min-height:90px; }
+  .field-select { appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23d4af37' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; padding-right:36px; }
+  .field-select option { background:var(--charcoal); }
+  .field-error { font-size:10px; color:rgba(220,80,80,.9); display:none; }
+  .field-error.show { display:block; }
+  .field-hint { font-size:10px; color:var(--muted); font-style:italic; }
+
+  /* Validation box */
+  .val-box {
+    background:rgba(220,80,80,.07); border:1px solid rgba(220,80,80,.25);
+    border-left:3px solid rgba(220,80,80,.8);
+    padding:14px 18px; margin-bottom:24px; display:none;
+  }
+  .val-box.show { display:block; }
+  .val-box p { font-size:11px; color:rgba(220,110,110,.9); margin-bottom:3px; line-height:1.5; }
+  .val-box p:first-child { font-size:12px; font-weight:500; color:rgba(220,80,80,1); margin-bottom:8px; }
+
+  /* OTP step */
+  .otp-intro { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--muted); font-style:italic; line-height:1.75; margin-bottom:28px; }
+  .otp-email-display { font-size:13px; color:var(--gold); letter-spacing:1px; font-weight:500; }
+  .otp-box-wrap { display:flex; gap:10px; margin:28px 0 8px; }
+  .otp-digit {
+    width:52px; height:60px; background:var(--card); border:1px solid var(--border);
+    color:var(--text); font-family:'Playfair Display',serif; font-size:28px; font-weight:700;
+    text-align:center; outline:none; transition:border-color .2s;
+  }
+  .otp-digit:focus { border-color:var(--gold); }
+  .otp-digit.filled { border-color:rgba(212,175,55,.5); }
+  .otp-digit.error-digit { border-color:rgba(220,80,80,.8); }
+  .otp-resend { font-size:11px; color:var(--muted); margin-top:4px; }
+  .otp-resend button { background:none; border:none; color:var(--gold); cursor:pointer; font-family:'Jost',sans-serif; font-size:11px; letter-spacing:1px; text-decoration:underline; }
+  .otp-note { font-size:11px; color:var(--muted); margin-top:16px; line-height:1.6; font-style:italic; background:rgba(212,175,55,.04); border:1px solid var(--border); padding:12px 16px; }
+
+  /* Success step */
+  .success-wrap { text-align:center; padding:32px 0 40px; }
+  .success-icon { font-size:52px; margin-bottom:24px; display:block; }
+  .success-title { font-family:'Playfair Display',serif; font-size:32px; font-weight:900; color:var(--gold); margin-bottom:12px; }
+  .success-title em { font-style:italic; font-weight:400; }
+  .success-body { font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--muted); line-height:1.85; font-style:italic; max-width:480px; margin:0 auto 32px; }
+  .success-detail { font-size:12px; color:var(--muted); line-height:1.8; border-top:1px solid var(--border-subtle); padding-top:24px; margin-top:8px; }
+  .success-ref { display:inline-block; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); border:1px solid var(--border); padding:8px 20px; margin-top:16px; }
+
+  /* Buttons */
+  .btn { font-family:'Jost',sans-serif; font-size:10px; letter-spacing:3px; text-transform:uppercase; padding:16px 32px; cursor:pointer; border:none; transition:all .2s; }
+  .btn-gold { background:linear-gradient(135deg,var(--gold),var(--amber)); color:var(--black); font-weight:600; }
+  .btn-gold:hover { box-shadow:0 8px 30px rgba(212,175,55,.4); transform:translateY(-1px); }
+  .btn-outline { background:transparent; color:var(--gold); border:1px solid var(--border); }
+  .btn-outline:hover { border-color:var(--gold); background:var(--gold-dim); }
+  .btn-row { display:flex; gap:12px; align-items:center; justify-content:space-between; margin-top:36px; padding-top:28px; border-top:1px solid var(--border-subtle); }
+  .btn-row-right { display:flex; gap:12px; }
+
+  /* ── RIGHT: BOOKING SUMMARY CARD ── */
+  .summary-card {
+    position:sticky; top:100px;
+    background:var(--charcoal); border:1px solid var(--border);
+    padding:36px 32px;
+  }
+  .summary-card::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 0% 0%,rgba(212,175,55,.06) 0%,transparent 60%); pointer-events:none; }
+  .summary-eyebrow { font-size:8px; letter-spacing:5px; text-transform:uppercase; color:var(--gold); display:block; margin-bottom:20px; position:relative; z-index:1; }
+  .summary-pkg-name { font-family:'Playfair Display',serif; font-size:20px; font-weight:700; line-height:1.2; margin-bottom:6px; position:relative; z-index:1; }
+  .summary-pkg-tagline { font-size:11px; color:var(--muted); letter-spacing:1px; margin-bottom:24px; display:block; position:relative; z-index:1; }
+  .summary-divider { height:1px; background:var(--border); margin:20px 0; position:relative; z-index:1; }
+  .summary-row { display:flex; justify-content:space-between; align-items:flex-start; padding:10px 0; border-bottom:1px solid var(--border-subtle); position:relative; z-index:1; }
+  .summary-row:last-of-type { border-bottom:none; }
+  .summary-row-label { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--muted); padding-top:2px; }
+  .summary-row-val { font-size:13px; color:var(--text); text-align:right; max-width:55%; line-height:1.5; }
+  .summary-total-block { background:rgba(212,175,55,.06); border:1px solid var(--border); padding:16px 18px; margin-top:20px; position:relative; z-index:1; }
+  .summary-total-label { font-size:8px; letter-spacing:4px; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:6px; }
+  .summary-total-price { font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:600; color:var(--gold); line-height:1; }
+  .summary-total-price span { font-size:12px; font-family:'Jost',sans-serif; color:var(--muted); font-weight:300; }
+  .summary-note { font-size:10px; color:var(--muted); line-height:1.6; margin-top:16px; font-style:italic; position:relative; z-index:1; text-align:center; }
+
+  /* ── FOOTER ── */
+  .page-footer { border-top:1px solid var(--border); padding:32px 48px; display:flex; justify-content:space-between; align-items:center; margin-top:80px; }
+  .page-footer span { font-size:11px; color:var(--muted); }
+  .page-footer a { font-size:11px; color:var(--gold); text-decoration:none; letter-spacing:2px; }
+
+  /* ── MOBILE ── */
+  @media (max-width:900px) {
+    .page-wrap { grid-template-columns:1fr; padding:100px 24px 60px; gap:0; }
+    .summary-card { position:relative; top:auto; margin-bottom:40px; order:-1; }
+    nav { padding:16px 24px; }
+    .field-row { grid-template-columns:1fr; }
+    .otp-box-wrap { gap:8px; }
+    .otp-digit { width:44px; height:54px; font-size:24px; }
+    .btn-row { flex-direction:column; }
+    .btn-row .btn { width:100%; text-align:center; }
+    .page-footer { flex-direction:column; gap:12px; padding:24px; }
+  }
+  @media (max-width:480px) {
+    .page-wrap { padding:90px 16px 48px; }
+    .otp-digit { width:38px; height:50px; font-size:20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo-link">
+    <img src="assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.webp" alt="Filmax Jambo Tours" class="nav-logo-img">
+  </a>
+  <a id="navBack" href="packages.html" class="nav-back">Back to Package</a>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- ── LEFT: WIZARD ── -->
+  <div class="wizard-wrap">
+
+    <span class="page-eyebrow">Begin Your Journey</span>
+    <h1 class="page-title">Reserve Your<br><em>Safari</em></h1>
+    <p class="page-sub">Three simple steps to secure your place. Your dedicated concierge will confirm all details within 24 hours.</p>
+
+    <!-- Step Track -->
+    <div class="step-track" id="stepTrack">
+      <div class="step-item active" data-step="0">
+        <div class="step-num">1</div>
+        <div class="step-label">Your Details</div>
+      </div>
+      <div class="step-item" data-step="1">
+        <div class="step-num">2</div>
+        <div class="step-label">Verify Email</div>
+      </div>
+      <div class="step-item" data-step="2">
+        <div class="step-num">3</div>
+        <div class="step-label">Confirmed</div>
+      </div>
+      <div class="step-track-bar" id="stepBar" style="width:0%"></div>
+    </div>
+
+    <!-- =====================
+         STEP 1 — PERSONAL INFO
+    ===================== -->
+    <div class="form-panel active" id="panel-0">
+      <div class="panel-title">Your Details</div>
+      <p class="panel-sub">Tell us who will be travelling. We use this to prepare your personalised quote and to match you with the right concierge.</p>
+
+      <div class="val-box" id="val-0"></div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label">First Name <span class="req">*</span></label>
+          <input type="text" class="field-input" id="f-first" placeholder="e.g. Alexandra">
+          <span class="field-error" id="err-first">First name is required</span>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Last Name <span class="req">*</span></label>
+          <input type="text" class="field-input" id="f-last" placeholder="e.g. Whitmore">
+          <span class="field-error" id="err-last">Last name is required</span>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label">Email Address <span class="req">*</span></label>
+          <input type="email" class="field-input" id="f-email" placeholder="your@email.com">
+          <span class="field-error" id="err-email">Valid email address required</span>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Phone Number <span class="req">*</span></label>
+          <input type="tel" class="field-input" id="f-phone" placeholder="+1 212 555 0100">
+          <span class="field-error" id="err-phone">Phone number is required</span>
+        </div>
+      </div>
+
+      <div class="field-row full">
+        <div class="field-group">
+          <label class="field-label">Country of Residence <span class="req">*</span></label>
+          <select class="field-select" id="f-country">
+            <option value="">Select your country...</option>
+            <option>United Kingdom</option>
+            <option>United States</option>
+            <option>Canada</option>
+            <option>Australia</option>
+            <option>Germany</option>
+            <option>France</option>
+            <option>Netherlands</option>
+            <option>Switzerland</option>
+            <option>United Arab Emirates</option>
+            <option>South Africa</option>
+            <option>Kenya</option>
+            <option>India</option>
+            <option>Singapore</option>
+            <option>Japan</option>
+            <option>Other</option>
+          </select>
+          <span class="field-error" id="err-country">Please select your country</span>
+        </div>
+      </div>
+
+      <div class="field-row full">
+        <div class="field-group">
+          <label class="field-label">Message <span style="color:var(--muted);font-weight:300;letter-spacing:0;text-transform:none;font-size:9px;">(optional)</span></label>
+          <textarea class="field-textarea" id="f-message" placeholder="Any special requests, questions, or context you'd like us to know before we reach out..."></textarea>
+          <span class="field-hint">This helps your concierge prepare a more relevant quote.</span>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <span></span>
+        <div class="btn-row-right">
+          <button class="btn btn-gold" onclick="nextPanel(0)">Continue to Verification →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =====================
+         STEP 2 — EMAIL OTP
+    ===================== -->
+    <div class="form-panel" id="panel-1">
+      <div class="panel-title">Verify Your Email</div>
+      <p class="panel-sub">We've sent a 6-digit code to confirm your address. Enter it below to complete your reservation request.</p>
+
+      <p class="otp-intro">A verification code has been sent to<br><span class="otp-email-display" id="otpEmailDisplay">—</span></p>
+
+      <!-- ⚑ OTP API PLACEHOLDER — connect your email OTP API here -->
+      <!-- On load of this step, call your API to send the OTP to the address in f-email -->
+      <!-- On "Confirm" click, validate the entered 6 digits against your API response -->
+      <div class="otp-note">
+        <strong style="color:var(--gold);font-size:10px;letter-spacing:2px;text-transform:uppercase;">API Connection Point</strong><br>
+        Connect your OTP delivery and verification API here. The 6 input fields below capture the code. Trigger send on step load, verify on "Confirm" click.
+      </div>
+
+      <div class="otp-box-wrap" id="otpBoxes">
+        <input class="otp-digit" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]">
+        <input class="otp-digit" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]">
+        <input class="otp-digit" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]">
+        <input class="otp-digit" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]">
+        <input class="otp-digit" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]">
+        <input class="otp-digit" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]">
+      </div>
+      <p class="otp-resend">Didn't receive it? <button onclick="resendOTP()">Resend code</button></p>
+
+      <div class="val-box" id="val-1"></div>
+
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="prevPanel(1)">← Back</button>
+        <div class="btn-row-right">
+          <button class="btn btn-gold" onclick="nextPanel(1)">Confirm & Submit →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =====================
+         STEP 3 — SUCCESS
+    ===================== -->
+    <div class="form-panel" id="panel-2">
+      <div class="success-wrap">
+        <span class="success-icon">✦</span>
+        <div class="success-title">Request<br><em>Received</em></div>
+        <p class="success-body">Your safari reservation request has been submitted successfully. Your dedicated Filmax Jambo concierge will review your details and be in touch within 24 hours to confirm availability and finalise your journey.</p>
+        <div class="success-detail">
+          Your confirmation has been sent to <strong id="successEmail" style="color:var(--gold);">—</strong>.<br>
+          Please check your inbox — including your spam folder — for next steps.<br><br>
+          In the meantime, if you have any urgent questions, reach us directly on WhatsApp.
+        </div>
+        <span class="success-ref" id="successRef">REF — —</span>
+        <br><br>
+        <a href="packages.html" class="btn btn-outline" style="text-decoration:none;display:inline-block;margin-top:8px;">← Explore More Packages</a>
+      </div>
+    </div>
+
+  </div><!-- /wizard-wrap -->
+
+  <!-- ── RIGHT: BOOKING SUMMARY ── -->
+  <div class="summary-card" id="summaryCard">
+    <span class="summary-eyebrow">Your Selection</span>
+    <div class="summary-pkg-name" id="sumName">—</div>
+    <span class="summary-pkg-tagline" id="sumTagline">—</span>
+    <div class="summary-divider"></div>
+    <div class="summary-row">
+      <span class="summary-row-label">Duration</span>
+      <span class="summary-row-val" id="sumDuration">—</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-row-label">Departure</span>
+      <span class="summary-row-val" id="sumDate">—</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-row-label">Travellers</span>
+      <span class="summary-row-val" id="sumTravellers">—</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-row-label">Season</span>
+      <span class="summary-row-val" id="sumSeason">—</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-row-label">Category</span>
+      <span class="summary-row-val" id="sumCategory">—</span>
+    </div>
+    <div class="summary-total-block">
+      <span class="summary-total-label">Estimated Total</span>
+      <div class="summary-total-price" id="sumTotal">— <span>/ quote pending</span></div>
+    </div>
+    <p class="summary-note">Final pricing confirmed by your concierge within 24 hours of your request.</p>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<footer class="page-footer">
+  <span>© 2025 Filmax Jambo Tours · All rights reserved</span>
+  <a href="index.html">filmaxjambo.com</a>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // ── Read URL params passed from the package page ──
+  const params = new URLSearchParams(window.location.search);
+
+  const pkgName     = params.get('pkg')       || 'Your Selected Package';
+  const pkgTagline  = params.get('tagline')   || 'Filmax Jambo Tours';
+  const pkgDuration = params.get('duration')  || '—';
+  const pkgDate     = params.get('date')      || 'To be confirmed';
+  const pkgTravellers = params.get('travellers') || '—';
+  const pkgSeason   = params.get('season')    || '—';
+  const pkgCategory = params.get('category')  || '—';
+  const pkgTotal    = params.get('total')      || '—';
+  const pkgRef      = params.get('ref')        || '';   // source page filename e.g. pkg-aerial-kenya.html
+
+  // Populate summary card
+  document.getElementById('sumName').textContent       = pkgName;
+  document.getElementById('sumTagline').textContent    = pkgTagline;
+  document.getElementById('sumDuration').textContent   = pkgDuration;
+  document.getElementById('sumDate').textContent       = pkgDate;
+  document.getElementById('sumTravellers').textContent = pkgTravellers;
+  document.getElementById('sumSeason').textContent     = pkgSeason;
+  document.getElementById('sumCategory').textContent   = pkgCategory;
+
+  // Total price display
+  const totalEl = document.getElementById('sumTotal');
+  if (pkgTotal && pkgTotal !== '—') {
+    totalEl.innerHTML = pkgTotal + ' <span>/ estimated</span>';
+  } else {
+    totalEl.innerHTML = 'Quote on request <span>/ confirmed within 24 hrs</span>';
+  }
+
+  // Back link — go back to whichever package page sent us here
+  if (pkgRef) {
+    document.getElementById('navBack').href = pkgRef;
+    document.getElementById('navBack').textContent = 'Back to Package';
+  }
+
+  // ── Wizard state ──
+  let currentPanel = 0;
+  const TOTAL = 3;
+
+  function updateTrack(step) {
+    document.querySelectorAll('.step-item').forEach(function(el, i) {
+      el.classList.remove('active','done');
+      if (i < step)  el.classList.add('done');
+      if (i === step) el.classList.add('active');
+    });
+    const pct = step === 0 ? 0 : step === 1 ? 50 : 100;
+    document.getElementById('stepBar').style.width = pct + '%';
+  }
+
+  function showPanel(idx) {
+    document.querySelectorAll('.form-panel').forEach(function(p){ p.classList.remove('active'); });
+    document.getElementById('panel-' + idx).classList.add('active');
+    updateTrack(idx);
+    currentPanel = idx;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── Validation: Step 1 ──
+  function validateStep0() {
+    const errors = [];
+    const first   = document.getElementById('f-first').value.trim();
+    const last    = document.getElementById('f-last').value.trim();
+    const email   = document.getElementById('f-email').value.trim();
+    const phone   = document.getElementById('f-phone').value.trim();
+    const country = document.getElementById('f-country').value;
+
+    clearAllInvalid();
+
+    if (!first) { errors.push('First name is required'); markInvalid('f-first','err-first'); }
+    if (!last)  { errors.push('Last name is required');  markInvalid('f-last','err-last'); }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errors.push('A valid email address is required'); markInvalid('f-email','err-email'); }
+    if (!phone) { errors.push('Phone number is required'); markInvalid('f-phone','err-phone'); }
+    if (!country) { errors.push('Country of residence is required'); markInvalid('f-country','err-country'); }
+
+    return errors;
+  }
+
+  // ── Validation: Step 2 (OTP) ──
+  function validateStep1() {
+    const digits = Array.from(document.querySelectorAll('.otp-digit')).map(function(d){ return d.value; });
+    const filled = digits.filter(function(d){ return d !== ''; });
+
+    if (filled.length < 6) {
+      // Mark all empty digits red
+      document.querySelectorAll('.otp-digit').forEach(function(d){
+        if (!d.value) d.classList.add('error-digit');
+      });
+      return ['Please enter all 6 digits of your verification code'];
+    }
+
+    // ⚑ API VALIDATION POINT — replace this placeholder with your real OTP check
+    // const code = digits.join('');
+    // const valid = await yourOTPVerifyFunction(code);
+    // if (!valid) return ['Incorrect code — please try again'];
+
+    return [];
+  }
+
+  function markInvalid(inputId, errId) {
+    const el = document.getElementById(inputId);
+    const er = document.getElementById(errId);
+    if (el) el.classList.add('invalid');
+    if (er) er.classList.add('show');
+  }
+
+  function clearAllInvalid() {
+    document.querySelectorAll('.field-input.invalid,.field-select.invalid').forEach(function(el){ el.classList.remove('invalid'); });
+    document.querySelectorAll('.field-error.show').forEach(function(el){ el.classList.remove('show'); });
+    document.querySelectorAll('.otp-digit.error-digit').forEach(function(d){ d.classList.remove('error-digit'); });
+  }
+
+  function showValBox(step, errors) {
+    const box = document.getElementById('val-' + step);
+    if (!box) return;
+    box.innerHTML = '<p>Please fix the following before continuing:</p>' + errors.map(function(e){ return '<p>• ' + e + '</p>'; }).join('');
+    box.classList.add('show');
+    box.scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+
+  function hideValBox(step) {
+    const box = document.getElementById('val-' + step);
+    if (box) box.classList.remove('show');
+  }
+
+  // ── Next / Prev ──
+  window.nextPanel = function(step) {
+    hideValBox(step);
+
+    if (step === 0) {
+      const errors = validateStep0();
+      if (errors.length) { showValBox(0, errors); return; }
+      // Populate OTP screen with email
+      document.getElementById('otpEmailDisplay').textContent = document.getElementById('f-email').value.trim();
+      // ⚑ TRIGGER OTP SEND HERE — call your API with the email address
+      showPanel(1);
+
+    } else if (step === 1) {
+      const errors = validateStep1();
+      if (errors.length) { showValBox(1, errors); return; }
+      // ⚑ OTP CONFIRMED — at this point your API has verified the code
+      // Populate success screen
+      document.getElementById('successEmail').textContent = document.getElementById('f-email').value.trim();
+      // Generate a simple reference number
+      const ref = 'FJ-' + new Date().getFullYear() + '-' + Math.random().toString(36).slice(2,6).toUpperCase();
+      document.getElementById('successRef').textContent = 'Reference: ' + ref;
+      showPanel(2);
+    }
+  };
+
+  window.prevPanel = function(step) {
+    hideValBox(step);
+    if (step > 0) showPanel(step - 1);
+  };
+
+  window.resendOTP = function() {
+    // ⚑ RESEND API CALL HERE
+    alert('A new code has been sent to ' + document.getElementById('f-email').value.trim());
+  };
+
+  // ── OTP digit auto-advance ──
+  const digits = document.querySelectorAll('.otp-digit');
+  digits.forEach(function(digit, idx) {
+    digit.addEventListener('input', function() {
+      this.classList.remove('error-digit');
+      if (this.value && idx < digits.length - 1) {
+        digits[idx + 1].focus();
+      }
+      if (this.value) this.classList.add('filled');
+      else this.classList.remove('filled');
+    });
+    digit.addEventListener('keydown', function(e) {
+      if (e.key === 'Backspace' && !this.value && idx > 0) {
+        digits[idx - 1].focus();
+      }
+    });
+    digit.addEventListener('paste', function(e) {
+      e.preventDefault();
+      const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);
+      pasted.split('').forEach(function(ch, i) {
+        if (digits[i]) { digits[i].value = ch; digits[i].classList.add('filled'); }
+      });
+      if (digits[Math.min(pasted.length, 5)]) digits[Math.min(pasted.length, 5)].focus();
+    });
+  });
+
+  // ── Init ──
+  updateTrack(0);
+
+})();
+</script>
+</body>
+</html>
