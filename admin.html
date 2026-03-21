@@ -1662,6 +1662,7 @@ async function editPackage(id) {
   document.getElementById('f-high-months').value    = (pkg.high_months||[]).join(',');
   document.getElementById('f-green-months').value   = (pkg.green_months||[]).join(',');
   document.getElementById('f-card-bg-url').value    = pkg.card_bg_image_url||'';
+  document.getElementById('f-featured').value        = String(pkg.is_featured || false);
   document.getElementById('f-short-highlights').value = (pkg.short_highlights||[]).join('\n');
   document.getElementById('f-detail-page-url').value  = pkg.detail_page_url||'';
   document.getElementById('f-overview-body-2').value = pkg.overview_body_2 || '';
