@@ -48,6 +48,7 @@
   }
   .admin-layout.sidebar-collapsed .sidebar {
     width: 0;
+    overflow: hidden;
     opacity: 0;
     pointer-events: none;
   }
@@ -489,6 +490,16 @@
     width: 22px;
     background: rgba(212,175,55,0.1);
   }
+  .sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 350;
+}
+.admin-layout.sidebar-open .sidebar-backdrop {
+  display: block;
+}
   .pulltab-arrow {
     color: var(--gold);
     font-size: 13px;
@@ -520,8 +531,6 @@
 
 <!-- ADMIN LAYOUT -->
 <div class="admin-layout" id="adminLayout" style="display:none;">
-
-<div class="sidebar-pulltab" id="sidebarPulltab" onclick="toggleSidebar()">
     <span class="pulltab-arrow" id="pulltabArrow">›</span>
   </div>
   
