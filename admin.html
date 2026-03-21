@@ -765,7 +765,6 @@
 // ── CONFIG ──
 const SUPABASE_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
-
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -1531,6 +1530,7 @@ async function savePackage(publish = false) {
     destinations:       document.getElementById('f-destinations').value.split(',').map(s => s.trim()).filter(Boolean),
     overview_title:     document.getElementById('f-overview-title').value,
     overview_body:      document.getElementById('f-overview-body').value,
+    overview_body_2:    document.getElementById('f-overview-body-2')?.value || '',
     hero_image_url:     document.getElementById('f-hero-image-url').value,
     price_peak_season:  parseFloat(document.getElementById('f-price-peak').value) || null,
     price_high_season:  parseFloat(document.getElementById('f-price-high').value) || null,
@@ -1548,18 +1548,6 @@ async function savePackage(publish = false) {
     detail_page_url:    document.getElementById('f-detail-page-url').value || (slug + '.html'),
     overview_body_2:    document.getElementById('f-overview-body-2').value,
   };
-  const days = Array.from(document.querySelectorAll('#daysRepeater .repeater-row')).map((row, i) => ({
-  package_id:       packageId,
-  day_number:       parseInt(row.querySelector('.day-num')?.value) || i + 1,
-  title:            row.querySelector('.day-title')?.value || '',
-  location:         row.querySelector('.day-location')?.value || '',
-  description:      row.querySelector('.day-desc')?.value || '',
-  activities:       (row.querySelector('.day-activities')?.value || '').split(',').map(s => s.trim()).filter(Boolean),
-  highlight_badges: (row.querySelector('.day-badges')?.value || '').split(',').map(s => s.trim()).filter(Boolean),
-  gallery_images:   (row.querySelector('.day-gallery')?.value || '').split('\n').map(s => s.trim()).filter(Boolean),
-  gallery_captions: (row.querySelector('.day-gallery-captions')?.value || '').split(',').map(s => s.trim()).filter(Boolean),
-  sort_order:       i
-}));
 
   let packageId = editingPackageId;
 
@@ -1581,6 +1569,8 @@ async function savePackage(publish = false) {
     description: row.querySelector('.day-desc')?.value||'',
     activities: (row.querySelector('.day-activities')?.value||'').split(',').map(s=>s.trim()).filter(Boolean),
     highlight_badges: (row.querySelector('.day-badges')?.value||'').split(',').map(s=>s.trim()).filter(Boolean),
+    gallery_images: (row.querySelector('.day-gallery')?.value||'').split('\n').map(s=>s.trim()).filter(Boolean),
+    gallery_captions: (row.querySelector('.day-gallery-captions')?.value||'').split(',').map(s=>s.trim()).filter(Boolean),
     sort_order: i
   }));
   if (days.length) await db.from('package_days').insert(days);
