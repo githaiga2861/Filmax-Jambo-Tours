@@ -257,6 +257,7 @@
   }
   .main {
     padding:24px 16px;
+    padding-top:64px;
     grid-column:1/-1;
   }
   .view-header {
@@ -280,6 +281,62 @@
   .wizard-nav .btn { width:100%; text-align:center; }
   .collapsed-toggle { display:flex !important; }
 }  
+  /* ── Nav groups ── */
+  .nav-group-header {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:11px 24px; cursor:pointer; font-size:12px; letter-spacing:2px;
+    text-transform:uppercase; color:var(--muted); transition:background 0.2s, color 0.2s;
+    user-select:none;
+  }
+  .nav-group-header:hover { background:rgba(212,175,55,0.05); color:var(--text); }
+  .nav-group-header.open { color:var(--gold); }
+  .nav-group-arrow { font-size:11px; transition:transform 0.3s; display:inline-block; }
+  .nav-group-header.open .nav-group-arrow { transform:rotate(180deg); }
+  .nav-group {
+    overflow:hidden; max-height:0;
+    transition:max-height 0.35s cubic-bezier(0.4,0,0.2,1);
+  }
+  .nav-group.open { max-height:300px; }
+  .nav-sub-item {
+    display:flex; align-items:center; padding:9px 24px 9px 36px;
+    cursor:pointer; font-size:11px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--muted); border-left:2px solid transparent;
+    transition:background 0.2s, color 0.2s, border-color 0.2s;
+    white-space:nowrap;
+  }
+  .nav-sub-item:hover { background:rgba(212,175,55,0.05); color:var(--text); }
+  .nav-sub-item.active { color:var(--gold); border-left-color:var(--gold); background:rgba(212,175,55,0.06); }  
+
+  /* ── Dashboard KPI cards ── */
+  .dash-kpi {
+    background:var(--charcoal); border:1px solid var(--border);
+    padding:24px 20px; display:flex; flex-direction:column; gap:6px;
+    position:relative; overflow:hidden;
+  }
+  .dash-kpi::after {
+    content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
+    background:linear-gradient(to right,var(--gold),var(--amber));
+  }
+  .dash-kpi-label { font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--gold); }
+  .dash-kpi-num { font-size:36px; font-weight:700; color:var(--text); line-height:1; }
+  .dash-kpi-sub { font-size:10px; color:var(--muted); letter-spacing:1px; }
+
+  /* Dashboard recent package rows */
+  .dash-pkg-row {
+    background:var(--charcoal); border:1px solid var(--border);
+    padding:14px 18px; display:flex; align-items:center;
+    justify-content:space-between; gap:12px;
+  }
+  .dash-pkg-row-name { font-size:14px; font-weight:600; }
+  .dash-pkg-row-meta { font-size:10px; color:var(--muted); margin-top:3px; letter-spacing:1px; }
+
+  @media (max-width:900px) {
+    #kpiRow { grid-template-columns:1fr 1fr !important; }
+    .view-dashboard > div:last-child { grid-template-columns:1fr !important; }
+  }
+  @media (max-width:480px) {
+    #kpiRow { grid-template-columns:1fr !important; }
+  }
 </style>
 </head>
 <body>
@@ -308,20 +365,51 @@
   <button class="collapsed-toggle" id="collapsedToggle" onclick="toggleSidebar()" title="Open Sidebar">☰</button>  
   
   <!-- Sidebar -->
-  <div class="sidebar" id="sidebar">
+<div class="sidebar" id="sidebar">
     <div class="sidebar-logo">
-  <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle Sidebar">
-    <span></span><span></span><span></span>
-  </button>
-  <div>
-    <span>Filmax Jambo</span>
-    <p>Package Manager</p>
-  </div>
-</div>
-    <div class="nav-item active" onclick="showView('packages')" id="nav-packages">📦 All Packages</div>
-    <div class="nav-item" onclick="startNewPackage()" id="nav-new">✚ New Package</div>
-    <div class="nav-item" onclick="showView('drafts')" id="nav-drafts">📝 Drafts</div>
-    <div class="nav-item" onclick="showView('categories')" id="nav-categories">🏷 Categories</div>
+      <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle Sidebar">
+        <span></span><span></span><span></span>
+      </button>
+      <div>
+        <span>Filmax Jambo</span>
+        <p>Package Manager</p>
+      </div>
+    </div>
+
+    <div class="nav-item active" onclick="showView('dashboard')" id="nav-dashboard">🏠 Dashboard</div>
+
+    <!-- Packages group -->
+    <div class="nav-group-header" onclick="toggleNavGroup('group-packages')" id="nav-packages-header">
+      <span>📦 Packages</span>
+      <span class="nav-group-arrow" id="arrow-group-packages">▾</span>
+    </div>
+    <div class="nav-group" id="group-packages">
+      <div class="nav-sub-item" onclick="startNewPackage()" id="nav-new">✚ New Package</div>
+      <div class="nav-sub-item" onclick="showView('packages')" id="nav-packages">All Packages</div>
+      <div class="nav-sub-item" onclick="showView('drafts')" id="nav-drafts">Drafts</div>
+      <div class="nav-sub-item" onclick="showView('categories')" id="nav-categories">Categories</div>
+    </div>
+
+    <!-- Bookings group -->
+    <div class="nav-group-header" onclick="toggleNavGroup('group-bookings')" id="nav-bookings-header">
+      <span>📋 Bookings</span>
+      <span class="nav-group-arrow" id="arrow-group-bookings">▾</span>
+    </div>
+    <div class="nav-group" id="group-bookings">
+      <div class="nav-sub-item" onclick="showView('enquiries')" id="nav-enquiries">Enquiries</div>
+      <div class="nav-sub-item" onclick="showView('confirmed')" id="nav-confirmed">Confirmed</div>
+    </div>
+
+    <!-- Settings group -->
+    <div class="nav-group-header" onclick="toggleNavGroup('group-settings')" id="nav-settings-header">
+      <span>⚙️ Settings</span>
+      <span class="nav-group-arrow" id="arrow-group-settings">▾</span>
+    </div>
+    <div class="nav-group" id="group-settings">
+      <div class="nav-sub-item" onclick="showView('team')" id="nav-team">Team Access</div>
+      <div class="nav-sub-item" onclick="showView('site-settings')" id="nav-site">Site Settings</div>
+    </div>
+
     <div class="sidebar-footer">
       <button class="btn btn-outline" style="width:100%" onclick="signOut()">Sign Out</button>
     </div>
@@ -330,6 +418,101 @@
   <!-- Main -->
   <div class="main">
 
+    <!-- VIEW: Dashboard -->
+    <div class="view" id="view-dashboard">
+      <div class="view-header">
+        <div class="view-title">
+          <span>Welcome back</span>Command Centre
+        </div>
+        <span id="dashDate" style="font-size:11px;color:var(--muted);letter-spacing:2px;"></span>
+      </div>
+
+      <!-- KPI Row -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px;" id="kpiRow">
+        <div class="dash-kpi" id="kpi-published">
+          <span class="dash-kpi-label">Published</span>
+          <span class="dash-kpi-num" id="kpi-published-num">—</span>
+          <span class="dash-kpi-sub">Live packages</span>
+        </div>
+        <div class="dash-kpi" id="kpi-drafts">
+          <span class="dash-kpi-label">Drafts</span>
+          <span class="dash-kpi-num" id="kpi-drafts-num">—</span>
+          <span class="dash-kpi-sub">Awaiting publish</span>
+        </div>
+        <div class="dash-kpi" id="kpi-enquiries">
+          <span class="dash-kpi-label">Enquiries</span>
+          <span class="dash-kpi-num" id="kpi-enquiries-num">—</span>
+          <span class="dash-kpi-sub">Total received</span>
+        </div>
+        <div class="dash-kpi" id="kpi-categories">
+          <span class="dash-kpi-label">Categories</span>
+          <span class="dash-kpi-num" id="kpi-categories-num">—</span>
+          <span class="dash-kpi-sub">Package types</span>
+        </div>
+      </div>
+
+      <!-- Two column: recent packages + quick actions -->
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:32px;align-items:start;">
+
+        <!-- Recent Packages -->
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+            <span style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);">Recent Packages</span>
+            <button class="btn btn-outline btn-sm" onclick="showView('packages')">View All</button>
+          </div>
+          <div id="dashRecentPackages" style="display:flex;flex-direction:column;gap:10px;">
+            <p style="color:var(--muted);font-size:12px;">Loading...</p>
+          </div>
+        </div>
+
+        <!-- Quick Actions + Status -->
+        <div style="display:flex;flex-direction:column;gap:20px;">
+
+          <div style="background:var(--charcoal);border:1px solid var(--border);padding:28px;">
+            <span style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:20px;">Quick Actions</span>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <button class="btn btn-gold" style="width:100%;text-align:center;" onclick="startNewPackage()">✚ New Package</button>
+              <button class="btn btn-outline" style="width:100%;text-align:center;" onclick="showView('drafts')">📝 View Drafts</button>
+              <button class="btn btn-outline" style="width:100%;text-align:center;" onclick="showView('categories')">🏷 Manage Categories</button>
+              <button class="btn btn-outline" style="width:100%;text-align:center;" onclick="showView('enquiries')">📋 View Enquiries</button>
+            </div>
+          </div>
+
+          <div style="background:var(--charcoal);border:1px solid var(--border);padding:28px;">
+            <span style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:20px;">Bookings</span>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+                <span style="font-size:11px;color:var(--muted);letter-spacing:1px;">New Enquiries</span>
+                <span style="font-size:18px;color:var(--gold);font-weight:700;" id="dash-new-enq">—</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+                <span style="font-size:11px;color:var(--muted);letter-spacing:1px;">Confirmed</span>
+                <span style="font-size:18px;color:var(--green);font-weight:700;" id="dash-confirmed">—</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;">
+                <span style="font-size:11px;color:var(--muted);letter-spacing:1px;">Pending Response</span>
+                <span style="font-size:18px;color:var(--amber);font-weight:700;" id="dash-pending">—</span>
+              </div>
+            </div>
+            <p style="font-size:10px;color:var(--muted);margin-top:16px;font-style:italic;">Booking management coming soon — connect your enquiries table to activate.</p>
+          </div>
+
+          <div style="background:var(--charcoal);border:1px solid var(--border);padding:28px;">
+            <span style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:16px;">Site Status</span>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;box-shadow:0 0 6px rgba(80,180,80,0.6);"></span>
+              <span style="font-size:12px;color:var(--text);">Supabase Connected</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;box-shadow:0 0 6px rgba(80,180,80,0.6);"></span>
+              <span style="font-size:12px;color:var(--text);">Admin Auth Active</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div><!-- /view-dashboard -->
+    
     <!-- VIEW: All Packages -->
     <div class="view active" id="view-packages">
       <div class="view-header">
@@ -793,6 +976,20 @@ function toggleSidebar() {
   }
 }
 
+  // ── NAV GROUP TOGGLE ──
+function toggleNavGroup(groupId) {
+  const group = document.getElementById(groupId);
+  const header = document.getElementById('nav-' + groupId.replace('group-','')+'-header');
+  const isOpen = group.classList.contains('open');
+  group.classList.toggle('open', !isOpen);
+  header.classList.toggle('open', !isOpen);
+}
+
+// Open packages group by default on load
+function initNavGroups() {
+  toggleNavGroup('group-packages');
+}
+
 // ── AUTH ──
 async function signIn() {
   const email = document.getElementById('authEmail').value;
@@ -820,6 +1017,8 @@ function showAdmin() {
   document.getElementById('adminLayout').style.display = 'grid';
   loadPackages();
   loadCategories();
+  initNavGroups();
+  showView('dashboard');
 
   // After categories load (slight delay so <select> is populated), restore any unsaved draft
   setTimeout(() => {
@@ -834,12 +1033,16 @@ function showAdmin() {
 // ── NAVIGATION ──
 function showView(name) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-item, .nav-sub-item').forEach(n => n.classList.remove('active'));
   const viewEl = document.getElementById('view-' + name);
   if (viewEl) viewEl.classList.add('active');
   const navEl = document.getElementById('nav-' + name.replace('new-package','new'));
   if (navEl) navEl.classList.add('active');
+  // Also mark dashboard nav-item active
+  const dashEl = document.getElementById('nav-dashboard');
+  if (dashEl && name === 'dashboard') dashEl.classList.add('active');
 
+  if (name === 'dashboard') loadDashboard();
   if (name === 'packages') loadPackages();
   if (name === 'drafts') loadDrafts();
   if (name === 'categories') loadCategoriesList();
@@ -1349,6 +1552,53 @@ async function loadDrafts() {
   renderPackageList(data, 'draftList', false);
 }
 
+async function loadDashboard() {
+  // Date display
+  document.getElementById('dashDate').textContent = new Date().toLocaleDateString('en-GB', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+  // KPIs
+  const [
+    { count: publishedCount },
+    { count: draftCount },
+    { count: catCount },
+    { data: recentPkgs }
+  ] = await Promise.all([
+    db.from('packages').select('*', { count:'exact', head:true }).eq('is_published', true),
+    db.from('packages').select('*', { count:'exact', head:true }).eq('is_published', false),
+    db.from('package_categories').select('*', { count:'exact', head:true }),
+    db.from('packages').select('id,name,category,duration_days,price_high_season,is_published,is_featured,created_at').order('created_at', { ascending:false }).limit(6),
+  ]);
+
+  document.getElementById('kpi-published-num').textContent = publishedCount ?? '—';
+  document.getElementById('kpi-drafts-num').textContent    = draftCount ?? '—';
+  document.getElementById('kpi-categories-num').textContent = catCount ?? '—';
+  document.getElementById('kpi-enquiries-num').textContent  = '—'; // wire up when enquiries table exists
+
+  // Booking placeholders
+  document.getElementById('dash-new-enq').textContent  = '—';
+  document.getElementById('dash-confirmed').textContent = '—';
+  document.getElementById('dash-pending').textContent   = '—';
+
+  // Recent packages
+  const container = document.getElementById('dashRecentPackages');
+  if (!recentPkgs?.length) {
+    container.innerHTML = '<p style="color:var(--muted);font-size:12px;">No packages yet — create your first one.</p>';
+    return;
+  }
+  container.innerHTML = recentPkgs.map(p => `
+    <div class="dash-pkg-row">
+      <div>
+        <div class="dash-pkg-row-name">${p.name}</div>
+        <div class="dash-pkg-row-meta">${p.category || '—'} · ${p.duration_days || '?'} days · $${(p.price_high_season||0).toLocaleString()}/person</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+        <span class="badge ${p.is_published ? 'badge-published' : 'badge-draft'}">${p.is_published ? 'Live' : 'Draft'}</span>
+        <button class="btn btn-outline btn-sm" onclick="editPackage('${p.id}')">Edit</button>
+      </div>
+    </div>
+  `).join('');
+}  
+
 function renderPackageList(data, containerId, isPublished) {
   const list = document.getElementById(containerId);
   if (!data?.length) {
@@ -1539,6 +1789,7 @@ async function savePackage(publish = false) {
     destinations:       document.getElementById('f-destinations').value.split(',').map(s => s.trim()).filter(Boolean),
     overview_title:     document.getElementById('f-overview-title').value,
     overview_body:      document.getElementById('f-overview-body').value,
+    overview_body_2:    document.getElementById('f-overview-body-2').value,
     hero_image_url:     document.getElementById('f-hero-image-url').value,
     price_peak_season:  parseFloat(document.getElementById('f-price-peak').value) || null,
     price_high_season:  parseFloat(document.getElementById('f-price-high').value) || null,
@@ -1554,7 +1805,6 @@ async function savePackage(publish = false) {
     card_bg_image_url:  document.getElementById('f-card-bg-url').value,
     short_highlights:   document.getElementById('f-short-highlights').value.split('\n').map(s => s.trim()).filter(Boolean),
     detail_page_url:    document.getElementById('f-detail-page-url').value || (slug + '.html'),
-    overview_body_2:    document.getElementById('f-overview-body-2').value,
   };
 
   let packageId = editingPackageId;
