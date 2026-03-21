@@ -2153,6 +2153,555 @@ async function deletePackage(id) {
   showToast('Package deleted');
 }
 
+  async function generateDetailPage(id) {
+  showToast('Fetching package data...');
+
+  const [
+    { data: pkg },
+    { data: days },
+    { data: lodges },
+    { data: inclusions },
+    { data: stops }
+  ] = await Promise.all([
+    db.from('packages').select('*').eq('id', id).single(),
+    db.from('package_days').select('*').eq('package_id', id).order('sort_order'),
+    db.from('package_lodges').select('*').eq('package_id', id).order('sort_order'),
+    db.from('package_inclusions').select('*').eq('package_id', id),
+    db.from('package_route_stops').select('*').eq('package_id', id).order('sort_order'),
+  ]);
+
+  if (!pkg) return showToast('Package not found', 'error');
+
+  const included = (inclusions || []).filter(i => i.included);
+  const excluded = (inclusions || []).filter(i => !i.included);
+
+  const price = pkg.price_high_season || 0;
+  const pricePeak = pkg.price_peak_season || price;
+  const priceGreen = pkg.price_green_season || price;
+  const priceSolo = pkg.price_solo || 0;
+  const priceDuo = pkg.price_duo || price;
+  const priceGroup = pkg.price_group || 0;
+
+  const peakMonths = (pkg.peak_months || []).map(m => ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m-1]).join(' · ');
+  const highMonths = (pkg.high_months || []).map(m => ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m-1]).join(' · ');
+  const greenMonths = (pkg.green_months || []).map(m => ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m-1]).join(' · ');
+
+  const seasonBarMonths = Array.from({length:12}, (_,i) => {
+    const m = i + 1;
+    const label = ['J','F','M','A','M','J','J','A','S','O','N','D'][i];
+    let cls = 'season-off';
+    if ((pkg.peak_months||[]).includes(m)) cls = 'season-peak';
+    else if ((pkg.high_months||[]).includes(m)) cls = 'season-good';
+    return `<div class="season-month"><span class="season-month-label">${label}</span><div class="season-indicator ${cls}"></div></div>`;
+  }).join('');
+
+  const daysHTML = (days || []).map(d => {
+    const activities = (d.activities || []).map(a => `<li>${a}</li>`).join('');
+    const badges = (d.highlight_badges || []).map(b => `<span class="fjt-highlight-badge">${b}</span>`).join('');
+    const gallery = (d.gallery_images || []);
+    const captions = (d.gallery_captions || []);
+    const galleryHTML = gallery.length ? `
+      <div class="fjt-gallery-label"><span>Visual Highlights</span></div>
+      <div class="fjt-gallery">
+        ${gallery.map((img, gi) => `
+          <div class="fjt-gallery-item">
+            <img src="${img}" alt="${captions[gi]||''}" loading="lazy">
+            ${captions[gi] ? `<span class="fjt-gallery-caption">${captions[gi]}</span>` : ''}
+          </div>`).join('')}
+      </div>` : '';
+    return `
+      <div class="itinerary-day" id="fjt-day-${d.day_number}">
+        <div class="day-header">
+          <div class="day-header-left">
+            <span class="day-number">Day ${String(d.day_number).padStart(2,'0')}</span>
+            <h3 class="day-title">${d.title||''}</h3>
+          </div>
+          <div class="day-chevron"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="rgba(212,175,55,0.7)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="day-body">
+          <span class="day-location">${d.location||''}</span>
+          <p class="day-desc">${d.description||''}</p>
+          ${activities ? `<ul class="day-activities">${activities}</ul>` : ''}
+          ${galleryHTML}
+          ${badges ? `<div class="fjt-day-highlight">${badges}</div>` : ''}
+        </div>
+      </div>`;
+  }).join('');
+
+  const lodgesHTML = (lodges || []).map(l => `
+    <div class="lodge-card">
+      <div class="lodge-card-img">
+        <img src="${l.image_url||''}" alt="${l.lodge_name||''}" loading="lazy">
+      </div>
+      <span class="lodge-card-nights">${l.nights} Night${l.nights!==1?'s':''}</span>
+      <div class="lodge-card-body">
+        <span class="lodge-card-dest">${l.destination||''}</span>
+        <div class="lodge-card-name">${l.lodge_name||''}</div>
+        <p class="lodge-card-desc">${l.description||''}</p>
+      </div>
+    </div>`).join('');
+
+  const includedHTML = included.map(i => `<li>${i.text}</li>`).join('');
+  const excludedHTML = excluded.map(i => `<li>${i.text}</li>`).join('');
+
+  const mapLegendHTML = (stops||[]).map((s,si) => `
+    <div class="map-stop">
+      <div class="map-stop-dot" style="background:${s.color||'#d4af37'};box-shadow:0 0 8px ${s.color||'#d4af37'}55;"></div>
+      <div class="map-stop-info">
+        <span class="map-stop-day">${s.day_label||''}</span>
+        <span class="map-stop-name">${s.name||''}</span>
+      </div>
+    </div>
+    ${si < (stops.length-1) && s.flight_duration ? `<div class="map-flight-line"><span>${s.flight_duration}</span></div>` : ''}`).join('');
+
+  const stopsJSON = JSON.stringify((stops||[]).map(s => ({
+    lat: s.lat, lng: s.lng, color: s.color||'#d4af37',
+    name: s.name, sub: s.day_label||''
+  })));
+
+  const pkgNameParts = pkg.name.split(' ');
+  const heroTitleLine1 = pkgNameParts.slice(0, Math.ceil(pkgNameParts.length/2)).join(' ');
+  const heroTitleLine2 = pkgNameParts.slice(Math.ceil(pkgNameParts.length/2)).join(' ');
+  const destinations = (pkg.destinations||[]).join(' · ');
+  const detailUrl = pkg.detail_page_url || (pkg.slug + '.html');
+
+  const waMsg = encodeURIComponent(`Hello, I'd like to enquire about the ${pkg.name} - ${pkg.duration_days} Day Safari at $${price.toLocaleString()} per person.`);
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${pkg.name} — ${pkg.duration_days} Days — Filmax Jambo Tours</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:wght@300;400;600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* ── PASTE THE ENTIRE <style> BLOCK FROM pkg-aerial-kenya.html HERE ── */
+  /* (All CSS from :root through to the last @media query)                */
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo-link">
+    <img src="assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.webp" alt="Filmax Jambo Tours" class="nav-logo-img">
+  </a>
+  <a href="packages.html" class="nav-back">All Packages</a>
+</nav>
+
+<div class="pkg-hero">
+  <div class="pkg-hero-bg">
+    <img class="pkg-hero-img" src="${pkg.hero_image_url||''}" alt="${pkg.name}">
+    <div class="pkg-hero-overlay"></div>
+    <div class="pkg-hero-overlay-gold"></div>
+  </div>
+  <div class="pkg-hero-content">
+    <div class="pkg-hero-breadcrumb">
+      <span>Packages</span><span class="sep">—</span>
+      <span>${pkg.category||''}</span><span class="sep">—</span>
+      <span class="cur">${pkg.name}</span>
+    </div>
+    <span class="pkg-hero-badge">${pkg.badge||''}</span>
+    <h1 class="pkg-hero-title">${heroTitleLine1}<br><em>${heroTitleLine2}</em></h1>
+    <div class="pkg-hero-meta">
+      <div class="pkg-hero-meta-item">
+        <span class="pkg-hero-meta-label">Duration</span>
+        <span class="pkg-hero-meta-value">${pkg.duration_days} Days · ${pkg.duration_nights} Nights</span>
+      </div>
+      <div class="pkg-hero-meta-sep"></div>
+      <div class="pkg-hero-meta-item">
+        <span class="pkg-hero-meta-label">Destinations</span>
+        <span class="pkg-hero-meta-value">${destinations}</span>
+      </div>
+      <div class="pkg-hero-meta-sep"></div>
+      <div class="pkg-hero-meta-item">
+        <span class="pkg-hero-meta-label">Category</span>
+        <span class="pkg-hero-meta-value">${pkg.category||''}</span>
+      </div>
+      <div class="pkg-hero-meta-sep pkg-hero-price-sep"></div>
+      <div class="pkg-hero-meta-item pkg-hero-price-item">
+        <span class="pkg-hero-meta-label">From</span>
+        <div class="pkg-hero-price-hero">$${price.toLocaleString()} <span>/ person</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><div class="scroll-line"></div></div>
+</div>
+
+<div class="mobile-quote-inject" id="mobileQuoteInject"></div>
+<div class="pkg-main" id="pkgMain">
+  <div class="pkg-content">
+    <div class="pkg-tabs-wrapper" id="pkgTabsWrapper">
+      <div class="pkg-tabs" role="tablist">
+        <button class="pkg-tab active" data-tab="overview">Overview</button>
+        <button class="pkg-tab" data-tab="itinerary">Day by Day</button>
+        <button class="pkg-tab" data-tab="rates">Rates &amp; Seasons</button>
+        <button class="pkg-tab" data-tab="inclusions">Accommodation</button>
+        <button class="pkg-tab" data-tab="getting-there">Getting There</button>
+        <button class="pkg-tab" data-tab="operator">Offered By</button>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="pkg-tab-panel active" id="panel-overview">
+      <div class="overview-intro reveal">
+        <span class="sec-label">The Journey</span>
+        <h2 class="sec-title">${pkg.overview_title||pkg.name}</h2>
+        <p>${pkg.overview_body||''}</p>
+        ${pkg.overview_body_2 ? `<p>${pkg.overview_body_2}</p>` : ''}
+        <div class="sec-divider"></div>
+      </div>
+      <div class="overview-map-section reveal">
+        <span class="sec-label">Your Route</span>
+        <h2 class="sec-title">${destinations}</h2>
+        <div class="kenya-map-container">
+          <div class="map-layout">
+            <div class="kenya-svg-wrap">
+              <div id="kenya-google-map" style="width:100%;height:100%;min-height:350px;"></div>
+            </div>
+            <div class="map-legend">
+              <span class="map-legend-title">Route Sequence</span>
+              ${mapLegendHTML}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ITINERARY -->
+    <div class="pkg-tab-panel" id="panel-itinerary">
+      <div class="pkg-itinerary reveal">
+        <span class="sec-label">Day by Day</span>
+        <h2 class="sec-title">Your Itinerary</h2>
+        <div class="sec-divider"></div>
+        <div class="itinerary-days-wrapper">
+          ${daysHTML}
+        </div>
+      </div>
+    </div>
+
+    <!-- RATES -->
+    <div class="pkg-tab-panel" id="panel-rates">
+      <div class="reveal">
+        <span class="sec-label">Investment</span>
+        <h2 class="sec-title">Rates &amp; Seasonal Pricing</h2>
+        <p class="rates-intro">All rates are per person, based on two guests sharing. Transparent pricing — no hidden fees.</p>
+      </div>
+      <div class="rates-season-banner reveal">
+        <div class="rates-season-card peak">
+          <span class="rates-season-label">Season</span>
+          <div class="rates-season-title">Peak Season</div>
+          <span class="rates-season-months">${peakMonths}</span>
+          <div class="rates-season-price">$${pricePeak.toLocaleString()} <span>/ person</span></div>
+        </div>
+        <div class="rates-season-card high">
+          <span class="rates-season-label">Season</span>
+          <div class="rates-season-title">High Season</div>
+          <span class="rates-season-months">${highMonths}</span>
+          <div class="rates-season-price">$${price.toLocaleString()} <span>/ person</span></div>
+        </div>
+        <div class="rates-season-card value">
+          <span class="rates-season-label">Season</span>
+          <div class="rates-season-title">Green Season</div>
+          <span class="rates-season-months">${greenMonths}</span>
+          <div class="rates-season-price">$${priceGreen.toLocaleString()} <span>/ person</span></div>
+        </div>
+      </div>
+      <div class="rates-group-section reveal">
+        <span class="sec-label">Group Configuration</span>
+        <h3 class="sec-title" style="font-size:26px">Pricing by Group Size</h3>
+        <div class="sec-divider"></div>
+        <div class="rates-group-grid">
+          <div class="rates-group-card">
+            <span class="rates-group-size">Solo Traveller</span>
+            <div class="rates-group-title">Private Solo</div>
+            <div class="rates-group-price">$${priceSolo.toLocaleString()}</div>
+          </div>
+          <div class="rates-group-card" style="border-color:rgba(212,175,55,0.3);">
+            <span class="rates-group-size">2 Guests · Most Popular</span>
+            <div class="rates-group-title">Couple / Duo</div>
+            <div class="rates-group-price">$${priceDuo.toLocaleString()}</div>
+            <p class="rates-group-saving">✓ Best value per person</p>
+          </div>
+          <div class="rates-group-card">
+            <span class="rates-group-size">3–4 Guests</span>
+            <div class="rates-group-title">Small Group</div>
+            <div class="rates-group-price">$${priceGroup.toLocaleString()}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACCOMMODATION -->
+    <div class="pkg-tab-panel" id="panel-inclusions">
+      <div class="inclusions-lodges reveal">
+        <span class="sec-label">Where You Stay</span>
+        <h3 class="sec-title" style="font-size:26px">Your Accommodation Portfolio</h3>
+        <div class="sec-divider"></div>
+        <div class="lodge-grid">${lodgesHTML}</div>
+      </div>
+      <div class="inclusions-grid reveal">
+        <div class="inclusion-group">
+          <span class="sec-label">Included</span>
+          <h4>Everything Within</h4>
+          <ul class="inclusion-list">${includedHTML}</ul>
+        </div>
+        <div class="inclusion-group">
+          <span class="sec-label">Not Included</span>
+          <h4>Arranged Separately</h4>
+          <ul class="inclusion-list excl">${excludedHTML}</ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- GETTING THERE (static — same for all Kenya packages) -->
+    <div class="pkg-tab-panel" id="panel-getting-there">
+      <div class="reveal">
+        <span class="sec-label">Arrival &amp; Logistics</span>
+        <h2 class="sec-title">Getting to Nairobi</h2>
+        <p class="getting-there-intro">Your international journey ends at Jomo Kenyatta International Airport (NBO) in Nairobi. From there, Filmax Jambo takes complete charge — a dedicated transfer vehicle meets you at arrivals and delivers you to Wilson Airport or your pre-departure hotel.</p>
+      </div>
+      <div class="gt-grid reveal">
+        <div class="gt-card"><span class="gt-card-icon">🛬</span><span class="gt-card-label">Your Gateway</span><div class="gt-card-title">Jomo Kenyatta International Airport</div><p class="gt-card-desc">IATA: NBO. 15 km from Nairobi CBD. All airport transfers arranged in private air-conditioned vehicles.</p></div>
+        <div class="gt-card"><span class="gt-card-icon">✈️</span><span class="gt-card-label">Transport Type</span><div class="gt-card-title">${pkg.transport_type||'Safari Vehicle'}</div><p class="gt-card-desc">All internal transfers for this package are by ${pkg.transport_type||'private vehicle'}. Your concierge coordinates all logistics.</p></div>
+        <div class="gt-card"><span class="gt-card-icon">🏨</span><span class="gt-card-label">Pre-Safari Option</span><div class="gt-card-title">Nairobi Pre-Safari Night</div><p class="gt-card-desc">We recommend arriving the night before. Hemingways Nairobi, The Norfolk, and Giraffe Manor available on request.</p></div>
+        <div class="gt-card"><span class="gt-card-icon">💊</span><span class="gt-card-label">Health</span><div class="gt-card-title">Malaria &amp; Vaccinations</div><p class="gt-card-desc">Malaria prophylaxis required. Yellow fever certificate may be required depending on your origin country. Consult your GP 6–8 weeks before travel.</p></div>
+      </div>
+    </div>
+
+    <!-- OFFERED BY -->
+    <div class="pkg-tab-panel" id="panel-operator">
+      <div class="reveal">
+        <span class="sec-label">Your Hosts</span>
+        <h2 class="sec-title">About Filmax Jambo Tours</h2>
+      </div>
+      <div class="operator-hero reveal">
+        <div>
+          <p class="operator-intro">Filmax Jambo Tours was founded in Nairobi with a single conviction: that a safari should be as extraordinary in its execution as Kenya is in its raw material. We design ultra-luxury journeys for discerning travellers who require complete exclusivity, expert guidance, and the certainty of encountering Kenya at its absolute finest.</p>
+          <div class="sec-divider"></div>
+          <p style="font-size:13px;color:var(--muted);line-height:1.8;">We work with a fixed roster of hand-selected guides, pilots, and lodge partners. Every journey is private and arranged from scratch for each guest.</p>
+        </div>
+        <div class="operator-stats">
+          <div class="operator-stat"><span class="operator-stat-num">100%</span><span class="operator-stat-label">Private Journeys</span></div>
+          <div class="operator-stat"><span class="operator-stat-num">4</span><span class="operator-stat-label">Ecosystems Mastered</span></div>
+          <div class="operator-stat"><span class="operator-stat-num">48hr</span><span class="operator-stat-label">Response Guarantee</span></div>
+          <div class="operator-stat"><span class="operator-stat-num">24/7</span><span class="operator-stat-label">In-Kenya Support</span></div>
+        </div>
+      </div>
+      <div class="pkg-seasons reveal">
+        <span class="sec-label">When to Go</span>
+        <h3 class="sec-title" style="font-size:26px">Best Seasons for ${pkg.name}</h3>
+        <div class="sec-divider"></div>
+        <div class="seasons-bar">${seasonBarMonths}</div>
+        <div style="display:flex;gap:20px;margin-top:12px;">
+          <div style="display:flex;align-items:center;gap:8px;"><div style="width:20px;height:4px;background:var(--gold);border-radius:1px;"></div><span style="font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;">Peak</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><div style="width:20px;height:4px;background:rgba(212,175,55,.4);border-radius:1px;"></div><span style="font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;">Good</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><div style="width:20px;height:4px;background:rgba(255,255,255,.1);border-radius:1px;"></div><span style="font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;">Low</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /pkg-content -->
+
+  <!-- SIDEBAR -->
+  <div class="pkg-sidebar">
+    <div class="sidebar-card reveal">
+      <span class="sq-label">Plan Your Journey</span>
+      <div class="sq-price-display">
+        <span class="sq-price-num" id="sqPriceNum">$${price.toLocaleString()}</span>
+        <span class="sq-price-meta">per person · <span id="sqSeason">High Season</span></span>
+      </div>
+      <div class="sq-total-row">
+        <span class="sq-total-label">Estimated Total</span>
+        <span class="sq-total-val" id="sqTotal">$${(price*2).toLocaleString()}</span>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sq-field">
+        <label class="sq-field-label">Departure Date</label>
+        <div class="sq-date-wrap">
+          <input type="text" id="sqDateInput" class="sq-date-input" placeholder="Select a date" readonly>
+          <span class="sq-date-icon">📅</span>
+        </div>
+        <div class="sq-calendar" id="sqCalendar">
+          <div class="sq-cal-header">
+            <button class="sq-cal-nav" id="sqCalPrev">‹</button>
+            <span class="sq-cal-month" id="sqCalMonth"></span>
+            <button class="sq-cal-nav" id="sqCalNext">›</button>
+          </div>
+          <div class="sq-cal-days-header"><span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span></div>
+          <div class="sq-cal-grid" id="sqCalGrid"></div>
+          <div class="sq-cal-legend">
+            <span class="sq-cal-leg-item"><span class="sq-cal-leg-dot peak"></span>Peak</span>
+            <span class="sq-cal-leg-item"><span class="sq-cal-leg-dot high"></span>High</span>
+            <span class="sq-cal-leg-item"><span class="sq-cal-leg-dot green"></span>Green</span>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sq-field">
+        <label class="sq-field-label">Adult Travellers</label>
+        <div class="sq-counter">
+          <button class="sq-counter-btn" id="sqAdultMinus">−</button>
+          <span class="sq-counter-val" id="sqAdultVal">2</span>
+          <button class="sq-counter-btn" id="sqAdultPlus">+</button>
+        </div>
+        <span class="sq-field-note">Max 4 guests per private charter</span>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sq-field">
+        <div class="sq-children-toggle">
+          <label class="sq-field-label" style="margin-bottom:0">Travelling with children?</label>
+          <div class="sq-toggle-wrap">
+            <input type="checkbox" id="sqChildToggle" class="sq-toggle-input">
+            <label for="sqChildToggle" class="sq-toggle-track"><span class="sq-toggle-thumb"></span></label>
+          </div>
+        </div>
+        <div class="sq-children-section" id="sqChildSection">
+          <div class="sq-field" style="margin-top:16px;">
+            <label class="sq-field-label">Number of Children</label>
+            <div class="sq-counter">
+              <button class="sq-counter-btn" id="sqChildMinus">−</button>
+              <span class="sq-counter-val" id="sqChildVal">1</span>
+              <button class="sq-counter-btn" id="sqChildPlus">+</button>
+            </div>
+          </div>
+          <div id="sqChildAges" class="sq-child-ages"></div>
+          <p class="sq-field-note" style="margin-top:10px;">Children under 5 travel free. Ages 5–11 at 50% rate. Ages 12+ at full adult rate.</p>
+        </div>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sq-breakdown" id="sqBreakdown">
+        <div class="sq-breakdown-row"><span>Adults (2 × $${price.toLocaleString()})</span><span id="sqAdultTotal">$${(price*2).toLocaleString()}</span></div>
+        <div class="sq-breakdown-row" id="sqChildRow" style="display:none"><span id="sqChildLabel">Children</span><span id="sqChildTotal">$0</span></div>
+        <div class="sq-breakdown-row sq-breakdown-deposit"><span>30% Deposit</span><span id="sqDeposit">$${Math.round(price*2*0.3).toLocaleString()}</span></div>
+      </div>
+      <div class="sidebar-divider"></div>
+      <a id="sidebarReserveBtn" href="reserve.html" class="btn-book-now">Reserve This Journey</a>
+      <a href="https://wa.me/34672304384?text=${waMsg}" class="btn-whatsapp" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Enquire via WhatsApp
+      </a>
+      <p class="sidebar-note">Estimate updates live as you configure. Final quote confirmed by your concierge within 24 hours.</p>
+    </div>
+  </div>
+</div>
+
+<div class="mobile-book-bar">
+  <div class="mobile-book-price">
+    <span class="mobile-book-price-num">$${price.toLocaleString()}</span>
+    <span class="mobile-book-price-label">per person</span>
+  </div>
+  <a href="reserve.html" class="mobile-book-btn">Reserve This Journey</a>
+</div>
+
+<footer style="width:100%;max-width:100%;box-sizing:border-box;">
+  <div class="footer-inner-wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h2>Filmax Jambo Tours</h2>
+        <p>Kenya's most exclusive safari house. Crafting extraordinary wilderness encounters since 2025.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="index.html#highlights">Safaris</a>
+        <a href="packages.html">All Packages</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Destinations</h4>
+        ${(pkg.destinations||[]).map(d=>`<a href="packages.html?destination=${d.toLowerCase().replace(/\s+/g,'-')}">${d}</a>`).join('')}
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Filmax Jambo Tours · All rights reserved</span>
+      <span>Crafted with passion in Nairobi 🌍</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/34672304384?text=${waMsg}" class="whatsapp-fab" target="_blank" rel="noopener">
+  <span class="wa-tooltip">Book via WhatsApp</span>
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+// Cursor
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+(function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
+document.querySelectorAll('a,button,.day-header').forEach(el=>{el.addEventListener('mouseenter',()=>{cursor.style.width='20px';cursor.style.height='20px';ring.style.width='60px';ring.style.height='60px';});el.addEventListener('mouseleave',()=>{cursor.style.width='12px';cursor.style.height='12px';ring.style.width='40px';ring.style.height='40px';});});
+// Navbar
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',window.scrollY>50));
+// Reveal
+const revObs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.06,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+// Tabs
+const tabs=document.querySelectorAll('.pkg-tab'),panels=document.querySelectorAll('.pkg-tab-panel');
+tabs.forEach(tab=>{tab.addEventListener('click',function(){const t=this.dataset.tab;if(window.innerWidth<=1100){tabs.forEach(x=>x.classList.remove('active'));this.classList.add('active');const p=document.getElementById('panel-'+t);if(p){p.querySelectorAll('.reveal').forEach(el=>{if(!el.classList.contains('visible'))setTimeout(()=>el.classList.add('visible'),80);});setTimeout(()=>{const top=p.getBoundingClientRect().top+window.pageYOffset-110;window.scrollTo({top,behavior:'smooth'});},50);}}else{tabs.forEach(x=>x.classList.remove('active'));panels.forEach(x=>x.classList.remove('active'));this.classList.add('active');const p=document.getElementById('panel-'+t);if(p){p.classList.add('active');p.querySelectorAll('.reveal').forEach(el=>{if(!el.classList.contains('visible'))setTimeout(()=>el.classList.add('visible'),80);});}const m=document.getElementById('pkgMain');if(m)window.scrollTo({top:m.getBoundingClientRect().top+window.pageYOffset-80,behavior:'smooth'});}});});
+// Accordion
+document.querySelectorAll('.day-header').forEach(h=>{h.addEventListener('click',function(){const d=h.closest('.itinerary-day');if(d)d.classList.toggle('open');});});
+// Scroll spy
+(function(){const tw=document.getElementById('pkgTabsWrapper');const allPanels=Array.from(document.querySelectorAll('.pkg-tab-panel'));const allTabs=Array.from(document.querySelectorAll('.pkg-tab'));window.addEventListener('scroll',function(){if(window.innerWidth>1100)return;const off=(tw?tw.offsetHeight:60)+62+20;let cur=null;allPanels.forEach(p=>{if(p.getBoundingClientRect().top<=off)cur=p;});if(cur){allTabs.forEach(t=>t.classList.remove('active'));const id=cur.id.replace('panel-','');const at=allTabs.find(t=>t.dataset.tab===id);if(at){at.classList.add('active');const tel=tw?tw.querySelector('.pkg-tabs'):null;if(tel){const sl=at.offsetLeft-(tel.offsetWidth/2)+(at.offsetWidth/2);tel.scrollLeft=sl;}}}},{passive:true});})();
+<\/script>
+
+<script>
+// Season config for this package
+const SEASONS={peak:[${(pkg.peak_months||[]).join(',')}],high:[${(pkg.high_months||[]).join(',')}],green:[${(pkg.green_months||[]).join(',')}]};
+const RATES={peak:${pricePeak},high:${price},green:${priceGreen}};
+const SEASON_NAMES={peak:'Peak Season',high:'High Season',green:'Green Season'};
+function getSeasonForMonth(m){if(SEASONS.peak.includes(m))return'peak';if(SEASONS.green.includes(m))return'green';return'high';}
+let state={adults:2,children:0,childAges:[],selectedDate:null,season:'high',baseRate:${price}};
+let calView={year:new Date().getFullYear(),month:new Date().getMonth()};
+const calEl=document.getElementById('sqCalendar'),dateInput=document.getElementById('sqDateInput'),calGrid=document.getElementById('sqCalGrid'),calMonthEl=document.getElementById('sqCalMonth');
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function renderCalendar(){const{year,month}=calView;calMonthEl.textContent=MONTHS[month]+' '+year;const first=new Date(year,month,1).getDay(),days=new Date(year,month+1,0).getDate(),today=new Date();calGrid.innerHTML='';for(let i=0;i<first;i++){const b=document.createElement('div');b.className='sq-cal-day empty';calGrid.appendChild(b);}for(let d=1;d<=days;d++){const cell=document.createElement('div'),date=new Date(year,month,d),season=getSeasonForMonth(month+1),isPast=date<new Date(today.getFullYear(),today.getMonth(),today.getDate()),isSelected=state.selectedDate&&date.toDateString()===state.selectedDate.toDateString();cell.className='sq-cal-day'+(isPast?' past':'')+(isSelected?' selected':'')+(season==='peak'?' peak':season==='green'?' green-season':' high');cell.textContent=d;if(!isPast){cell.addEventListener('click',function(){state.selectedDate=date;state.season=season;state.baseRate=RATES[season];dateInput.value=d+' '+MONTHS[month].slice(0,3)+' '+year;calEl.classList.remove('open');dateInput.classList.remove('open');renderCalendar();updateQuote();});}calGrid.appendChild(cell);}}
+dateInput.addEventListener('click',function(){calEl.classList.toggle('open');dateInput.classList.toggle('open');renderCalendar();});
+document.addEventListener('click',function(e){if(!calEl.contains(e.target)&&e.target!==dateInput){calEl.classList.remove('open');dateInput.classList.remove('open');}});
+document.getElementById('sqCalPrev').addEventListener('click',function(e){e.stopPropagation();calView.month--;if(calView.month<0){calView.month=11;calView.year--;}renderCalendar();});
+document.getElementById('sqCalNext').addEventListener('click',function(e){e.stopPropagation();calView.month++;if(calView.month>11){calView.month=0;calView.year++;}renderCalendar();});
+document.getElementById('sqAdultMinus').addEventListener('click',function(){if(state.adults>1){state.adults--;updateQuote();}});
+document.getElementById('sqAdultPlus').addEventListener('click',function(){if(state.adults<4){state.adults++;updateQuote();}});
+const childToggle=document.getElementById('sqChildToggle'),childSection=document.getElementById('sqChildSection');
+childToggle.addEventListener('change',function(){if(this.checked){childSection.classList.add('open');if(state.children===0)state.children=1;}else{childSection.classList.remove('open');state.children=0;state.childAges=[];}renderChildAges();updateQuote();});
+document.getElementById('sqChildMinus').addEventListener('click',function(){if(state.children>1){state.children--;renderChildAges();updateQuote();}});
+document.getElementById('sqChildPlus').addEventListener('click',function(){if(state.children<6){state.children++;renderChildAges();updateQuote();}});
+function renderChildAges(){document.getElementById('sqChildVal').textContent=state.children;const c=document.getElementById('sqChildAges');c.innerHTML='';for(let i=0;i<state.children;i++){const row=document.createElement('div');row.className='sq-child-age-row';const lbl=document.createElement('span');lbl.className='sq-child-age-label';lbl.textContent='Child '+(i+1)+' age';const sel=document.createElement('select');sel.className='sq-child-age-select';sel.innerHTML='<option value="">Select age</option>';for(let a=0;a<=17;a++){const opt=document.createElement('option');opt.value=a;opt.textContent=a===0?'Under 1':a+' yrs';if(state.childAges[i]!==undefined&&state.childAges[i]==a)opt.selected=true;sel.appendChild(opt);}const idx=i;sel.addEventListener('change',function(){state.childAges[idx]=parseInt(this.value);updateQuote();});row.appendChild(lbl);row.appendChild(sel);c.appendChild(row);}}
+function getChildRate(age){if(isNaN(age)||age<5)return 0;if(age<12)return state.baseRate*0.5;return state.baseRate;}
+function updateQuote(){const at=state.adults*state.baseRate;let ct=0;for(let i=0;i<state.children;i++)ct+=getChildRate(state.childAges[i]!==undefined?state.childAges[i]:NaN);const gt=at+ct,dep=Math.round(gt*0.3);document.getElementById('sqAdultVal').textContent=state.adults;document.getElementById('sqPriceNum').textContent='$'+state.baseRate.toLocaleString();document.getElementById('sqSeason').textContent=SEASON_NAMES[state.season];document.getElementById('sqTotal').textContent='$'+gt.toLocaleString();document.getElementById('sqAdultTotal').textContent='$'+at.toLocaleString();document.querySelector('#sqBreakdown .sq-breakdown-row:first-child span:first-child').textContent='Adults ('+state.adults+' × $'+state.baseRate.toLocaleString()+')';if(state.children>0&&ct>0){document.getElementById('sqChildRow').style.display='flex';document.getElementById('sqChildLabel').textContent='Children ('+state.children+')';document.getElementById('sqChildTotal').textContent='$'+ct.toLocaleString();}else{document.getElementById('sqChildRow').style.display='none';}document.getElementById('sqDeposit').textContent='$'+dep.toLocaleString();const mob=document.querySelector('.mobile-book-price-num');if(mob)mob.textContent='$'+gt.toLocaleString();}
+renderCalendar();updateQuote();
+<\/script>
+
+<script>
+function initKenyaMap(){
+  const stopsData=${stopsJSON};
+  const map=new google.maps.Map(document.getElementById('kenya-google-map'),{center:{lat:-1.2,lng:37.8},zoom:6,disableDefaultUI:true,gestureHandling:'none',keyboardShortcuts:false,styles:[{elementType:'geometry',stylers:[{color:'#0d0d0d'}]},{elementType:'labels.text.fill',stylers:[{color:'#8a8074'}]},{featureType:'administrative.country',elementType:'geometry.stroke',stylers:[{color:'#d4af37'},{weight:1.5}]},{featureType:'landscape',elementType:'geometry',stylers:[{color:'#111111'}]},{featureType:'road',stylers:[{visibility:'off'}]},{featureType:'poi',stylers:[{visibility:'off'}]},{featureType:'water',elementType:'geometry',stylers:[{color:'#0a0a14'}]}]});
+  new google.maps.Polyline({path:stopsData.map(s=>({lat:s.lat,lng:s.lng})),geodesic:true,strokeOpacity:0,icons:[{icon:{path:'M 0,-1 0,1',strokeOpacity:0.6,strokeColor:'#d4af37',scale:3},offset:'0',repeat:'12px'}]}).setMap(map);
+  stopsData.forEach(function(stop){
+    const marker=new google.maps.Marker({position:{lat:stop.lat,lng:stop.lng},map:map,icon:{path:google.maps.SymbolPath.CIRCLE,scale:7,fillColor:stop.color,fillOpacity:1,strokeColor:'rgba(255,255,255,0.3)',strokeWeight:2}});
+    new google.maps.InfoWindow({content:'<div style="background:rgba(8,8,8,0.82);border-left:2px solid '+stop.color+';padding:5px 10px 5px 8px;font-family:Jost,sans-serif;"><div style="font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:'+stop.color+';">'+stop.name+'</div><div style="font-size:7px;color:rgba(255,255,255,0.35);margin-top:2px;letter-spacing:1.5px;text-transform:uppercase;">'+stop.sub+'</div></div>',disableAutoPan:true,pixelOffset:new google.maps.Size(0,-2)}).open(map,marker);
+  });
+}
+<\/script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHJ2nB30EQjjXuFuZ4GwPQStpifh-UMoc&callback=initKenyaMap"></script>
+</body>
+</html>`;
+
+  // Download the file
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = detailUrl;
+  a.click();
+  URL.revokeObjectURL(url);
+
+  showToast(`Page downloaded: ${detailUrl} — place it in your website root folder`, 'success');
+}
+
 // ── RESET FORM ──
 function resetForm(keepEditing = false) {
   if (!keepEditing) {
