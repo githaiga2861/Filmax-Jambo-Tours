@@ -55,17 +55,7 @@
     display:block; width:18px; height:1.5px; background:var(--gold);
     transition:all 0.3s cubic-bezier(0.4,0,0.2,1); transform-origin:center;
   }
-   .collapsed-toggle {
-  display:none; position:absolute; top:12px; left:12px; z-index:600;
-  background:var(--charcoal); border:1px solid var(--border);
-  color:var(--gold); font-size:16px; width:36px; height:36px;
-  cursor:pointer; align-items:center; justify-content:center;
-  opacity:0.8; transition:opacity 0.2s;
-}
-.collapsed-toggle:hover {
-  opacity:1;
-}
-  .admin-layout.sidebar-collapsed .collapsed-toggle { display:flex; }
+
   .sidebar-collapsed .sidebar-toggle span:nth-child(1) { transform:translateY(6.5px) rotate(45deg); }
   .sidebar-collapsed .sidebar-toggle span:nth-child(2) { opacity:0; transform:scaleX(0); }
   .sidebar-collapsed .sidebar-toggle span:nth-child(3) { transform:translateY(-6.5px) rotate(-45deg); }
@@ -241,94 +231,72 @@
 
 @media (max-width:767px) {
   .admin-layout {
-    grid-template-columns:1fr;
-    position:relative;
+    grid-template-columns: 1fr;
   }
-  .admin-layout.sidebar-open .sidebar {
-    transform:translateX(0);
+  .admin-layout.sidebar-open {
+    grid-template-columns: 1fr;
   }
   .sidebar {
-    position:fixed; left:0; top:0; height:100vh;
-    z-index:400; width:240px;
-    transform:translateX(-100%);
-    transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    position: fixed; left: 0; top: 0; height: 100vh;
+    z-index: 400; width: 240px;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    opacity: 1;
+  }
+  .admin-layout.sidebar-open .sidebar {
+    transform: translateX(0);
   }
   .main {
-    padding:16px;
-    padding-top:56px;
-    grid-column:1;
-    width:100%;
-    max-width:100vw;
-    overflow-x:hidden;
+    padding: 24px 16px;
+    padding-top: 64px;
+    grid-column: 1;
+    max-width: 100vw;
+    overflow-x: hidden;
   }
-  .view-header {
-    flex-direction:column; align-items:flex-start; gap:12px;
-  }
-  .view-title { font-size:20px; }
-  .form-grid { grid-template-columns:1fr !important; }
-  .form-grid.three { grid-template-columns:1fr !important; }
+  .view-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .view-title { font-size: 20px; }
+  .form-grid { grid-template-columns: 1fr !important; }
+  .form-grid.three { grid-template-columns: 1fr !important; }
   .pkg-list-item {
-    grid-template-columns:1fr;
-    grid-template-rows:auto auto auto auto;
-    gap:10px;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 10px;
   }
-  .pkg-list-item .list-action-btn {
-    grid-column:1;
-    flex-wrap:wrap;
-    gap:6px;
-  }
-  .publish-actions { flex-direction:column; align-items:stretch; }
-  .publish-actions .btn { text-align:center; width:100%; }
-  .wizard-nav { flex-direction:column; gap:10px; }
-  .wizard-nav-left, .wizard-nav-right { width:100%; }
-  .wizard-nav .btn { width:100%; text-align:center; }
-  .collapsed-toggle { display:flex !important; }
-
-  /* Dashboard mobile */
-  #kpiRow { grid-template-columns:1fr 1fr !important; gap:10px !important; }
-  #view-dashboard > div:nth-child(3) { grid-template-columns:1fr !important; }
-  .dash-kpi { padding:16px 14px; }
-  .dash-kpi-num { font-size:28px; }
-  .dash-pkg-row { flex-direction:column; align-items:flex-start; gap:8px; }
-  .dash-pkg-row > div:last-child { align-self:flex-end; }
-
-  /* Wizard progress bar — horizontal scroll on mobile */
-  .wizard-progress { overflow-x:auto; }
-  .wizard-step { min-width:70px; flex:0 0 auto; padding:12px 6px; }
-  .wizard-step-label { font-size:7px; letter-spacing:1px; }
-
-  /* Repeater rows */
-  .repeater-row { padding:14px; }
-  .repeater-row-header { flex-wrap:wrap; gap:8px; }
-
-  /* Review summary grid */
-  #reviewSummary > div { grid-template-columns:1fr !important; }
-
-  /* Prevent any child from breaking out */
+  .pkg-list-item .list-action-btn { grid-column: 1/-1; flex-wrap: wrap; gap: 6px; }
+  .publish-actions { flex-direction: column; align-items: stretch; }
+  .publish-actions .btn { text-align: center; width: 100%; }
+  .wizard-nav { flex-direction: column; gap: 10px; }
+  .wizard-nav-left, .wizard-nav-right { width: 100%; }
+  .wizard-nav .btn { width: 100%; text-align: center; }
+  #kpiRow { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+  #view-dashboard > div:nth-child(3) { grid-template-columns: 1fr !important; }
+  .dash-kpi { padding: 16px 14px; }
+  .dash-kpi-num { font-size: 28px; }
+  .dash-pkg-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .dash-pkg-row > div:last-child { align-self: flex-end; }
+  .wizard-progress { overflow-x: auto; }
+  .wizard-step { min-width: 70px; flex: 0 0 auto; padding: 12px 6px; }
+  .wizard-step-label { font-size: 7px; letter-spacing: 1px; }
+  .repeater-row { padding: 14px; }
+  .repeater-row-header { flex-wrap: wrap; gap: 8px; }
+  #reviewSummary > div { grid-template-columns: 1fr !important; }
   .view, .form-page, .repeater, .form-grid,
   .pkg-list, .pkg-list-item, .wizard-progress {
-    max-width:100%;
-    overflow-x:hidden;
+    max-width: 100%;
+    overflow-x: hidden;
   }
-
-  /* Sidebar overlay backdrop */
-  .sidebar-backdrop {
-    display:none; position:fixed; inset:0;
-    background:rgba(0,0,0,0.5); z-index:399;
-  }
-  .admin-layout.sidebar-open .sidebar-backdrop { display:block; }
 }
 
 @media (max-width:480px) {
-  #kpiRow { grid-template-columns:1fr !important; }
-  .main { padding:12px; padding-top:52px; }
-  .btn { padding:10px 16px; font-size:9px; }
-  .btn-sm { padding:6px 10px; font-size:8px; }
-  .view-title { font-size:18px; }
-  .wizard-step { min-width:60px; }
-  .wizard-step-label { display:none; }
-  .wizard-step-num { width:20px; height:20px; font-size:8px; }
-}  
+  #kpiRow { grid-template-columns: 1fr !important; }
+  .main { padding: 12px; padding-top: 56px; }
+  .btn { padding: 10px 16px; font-size: 9px; }
+  .btn-sm { padding: 6px 10px; font-size: 8px; }
+  .view-title { font-size: 18px; }
+  .wizard-step { min-width: 60px; }
+  .wizard-step-label { display: none; }
+  .wizard-step-num { width: 20px; height: 20px; font-size: 8px; }
+} 
   /* ── Nav groups ── */
   .nav-group-header {
     display:flex; align-items:center; justify-content:space-between;
@@ -385,6 +353,51 @@
   @media (max-width:480px) {
     #kpiRow { grid-template-columns:1fr !important; }
   }
+  /* ── Sidebar pull-tab ── */
+  .sidebar-pulltab {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 700;
+    width: 18px;
+    height: 56px;
+    background: var(--charcoal);
+    border: 1px solid var(--border);
+    border-left: none;
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.2s, background 0.2s, box-shadow 0.2s;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.4);
+  }
+  .sidebar-pulltab:hover {
+    width: 24px;
+    background: rgba(212,175,55,0.1);
+    box-shadow: 3px 0 16px rgba(212,175,55,0.2);
+  }
+  .pulltab-arrow {
+    color: var(--gold);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1;
+    transition: transform 0.3s;
+    user-select: none;
+  }
+  /* Show pull-tab only when sidebar is collapsed on desktop */
+  .admin-layout.sidebar-collapsed .sidebar-pulltab {
+    display: flex;
+  }
+  /* On mobile, never show the pull-tab — mobile uses its own toggle */
+  @media (max-width: 767px) {
+    .sidebar-pulltab { display: none !important; }
+  }
+  /* When sidebar is open, arrow points left (close direction) */
+  .admin-layout:not(.sidebar-collapsed) .sidebar-pulltab {
+    display: none;
+  }
 </style>
 </head>
 <body>
@@ -409,8 +422,10 @@
 
 <!-- ADMIN LAYOUT -->
 <div class="admin-layout" id="adminLayout" style="display:none;">
-
-  <button class="collapsed-toggle" id="collapsedToggle" onclick="toggleSidebar()" title="Open Sidebar">☰</button>
+<!-- Sidebar pull-tab — visible only when sidebar is hidden -->
+  <div class="sidebar-pulltab" id="sidebarPulltab" onclick="toggleSidebar()" title="Open sidebar">
+    <span class="pulltab-arrow">›</span>
+  </div>
   <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div> 
   
   <!-- Sidebar -->
@@ -1034,6 +1049,11 @@ function toggleSidebar() {
     layout.classList.toggle('sidebar-open');
   } else {
     layout.classList.toggle('sidebar-collapsed');
+    // Flip pull-tab arrow to indicate direction
+    const arrow = document.querySelector('.pulltab-arrow');
+    if (arrow) {
+      arrow.textContent = layout.classList.contains('sidebar-collapsed') ? '›' : '‹';
+    }
   }
 }
 
