@@ -1829,6 +1829,7 @@ function renderPackageList(data, containerId, isPublished) {
         ${!p.is_published ? `<button class="btn btn-publish btn-sm" onclick="publishPackage('${p.id}')">🚀 Publish</button>` : `<button class="btn btn-outline btn-sm" onclick="unpublishPackage('${p.id}')">Unpublish</button>`}
         <button class="btn btn-outline btn-sm" onclick="editPackage('${p.id}')">Edit</button>
         <button class="btn btn-danger btn-sm" onclick="deletePackage('${p.id}')">Delete</button>
+        <button class="btn btn-outline btn-sm" onclick="generateDetailPage('${p.id}')">📄 Generate Page</button>
       </div>
     </div>
   `).join('');
