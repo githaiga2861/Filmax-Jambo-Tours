@@ -1503,10 +1503,7 @@ function addRouteRow(data = {}) {
         <div class="form-group"><label>Dot Colour (hex)</label><input type="text" class="stop-color" value="${data.color||'#d4af37'}" placeholder="#d4af37"></div>
         <div class="form-group"><label>Latitude <span class="req">*</span></label><input type="number" class="stop-lat" step="any" value="${data.lat||''}"></div>
         <div class="form-group"><label>Longitude <span class="req">*</span></label><input type="number" class="stop-lng" step="any" value="${data.lng||''}"></div>
-        <div class="form-group"><label>Flight Duration to Next</label><input type="text" class="stop-flight" value="${data.flight_duration||''}" placeholder="e.g. 45 min"><span style="font-size:10px;color:var(--muted);display:block;margin-top:3px;font-style:italic;">Leave blank for the final stop</span>5. packages.html — dynamic cards missing card_bg_image_url</div>
-      </div>
-    </div>`;
-  document.getElementById('routeRepeater').insertAdjacentHTML('beforeend', html);
+        <div class="form-group"><label>Flight Duration to Next</label><input type="text" class="stop-flight" value="${data.flight_duration||''}" placeholder="e.g. 45 min"><div class="form-group"><label>Flight Duration to Next</label><input type="text" class="stop-flight" value="${data.flight_duration||''}" placeholder="e.g. 45 min"><span style="font-size:10px;color:var(--muted);display:block;margin-top:3px;font-style:italic;">Leave blank for the final stop</span></div>;
 }
 
 // ── SAVE PACKAGE ──
