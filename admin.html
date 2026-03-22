@@ -1805,12 +1805,16 @@ function buildReviewSummary() {
 
 // ── LOAD PACKAGES & DRAFTS ──
 async function loadPackages() {
-  const { data } = await db.from('packages').select('*').eq('is_published', true).order('created_at', { ascending: false });
+  const { data, error } = await db.from('packages').select('*').eq('is_published', true).order('created_at', { ascending: false });
+  console.log('packages data:', data);
+  console.log('packages error:', error);
   renderPackageList(data, 'packageList', true);
 }
 
 async function loadDrafts() {
-  const { data } = await db.from('packages').select('*').eq('is_published', false).order('created_at', { ascending: false });
+  const { data, error } = await db.from('packages').select('*').eq('is_published', false).order('created_at', { ascending: false });
+  console.log('drafts data:', data);
+  console.log('drafts error:', error);
   renderPackageList(data, 'draftList', false);
 }
 
