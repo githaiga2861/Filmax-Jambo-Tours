@@ -16,11 +16,15 @@
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--black); color:var(--text); font-family:'Segoe UI',sans-serif; font-size:14px; }
 
-  /* ── Auth screen ── */
-  .auth-screen { display:flex; align-items:center; justify-content:center; min-height:100vh; }
-  .auth-box { background:var(--charcoal); border:1px solid var(--border); padding:48px; width:380px; }
-  .auth-box h1 { font-size:22px; color:var(--gold); margin-bottom:8px; }
-  .auth-box p { color:var(--muted); font-size:12px; margin-bottom:32px; }
+/* ── Auth screen ── */
+.auth-screen { display:flex; align-items:center; justify-content:center; min-height:100vh; padding:16px; box-sizing:border-box; }
+.auth-box { background:var(--charcoal); border:1px solid var(--border); padding:48px; width:100%; max-width:380px; box-sizing:border-box; }
+.auth-box h1 { font-size:22px; color:var(--gold); margin-bottom:8px; }
+.auth-box p { color:var(--muted); font-size:12px; margin-bottom:32px; }
+@media (max-width:480px) {
+  .auth-box { padding:28px 20px; }
+  .auth-box h1 { font-size:20px; }
+}
 
 /* ── Layout ── */
   .admin-layout {
