@@ -1183,6 +1183,13 @@ function toggleNavGroup(groupId) {
   header.classList.toggle('open', !isOpen);
 }
 
+function openNavGroup(groupId) {
+  const group = document.getElementById(groupId);
+  const header = document.getElementById('nav-' + groupId.replace('group-','')+'-header');
+  if (group) group.classList.add('open');
+  if (header) header.classList.add('open');
+}  
+
   // ── DASHBOARD PANEL COLLAPSE (mobile) ──
 function toggleDashPanel(panelId, headerEl) {
   const panel = document.getElementById(panelId);
@@ -1263,18 +1270,39 @@ function showAdmin() {
 function showView(name) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.querySelectorAll('.nav-item, .nav-sub-item').forEach(n => n.classList.remove('active'));
+
   const viewEl = document.getElementById('view-' + name);
   if (viewEl) viewEl.classList.add('active');
+
   const navEl = document.getElementById('nav-' + name.replace('new-package','new'));
   if (navEl) navEl.classList.add('active');
-  // Also mark dashboard nav-item active
-  const dashEl = document.getElementById('nav-dashboard');
-  if (dashEl && name === 'dashboard') dashEl.classList.add('active');
 
-  if (name === 'dashboard') loadDashboard();
-  if (name === 'packages') loadPackages();
-  if (name === 'drafts') loadDrafts();
-  if (name === 'categories') loadCategoriesList();
+  if (name === 'dashboard') {
+    const dashEl = document.getElementById('nav-dashboard');
+    if (dashEl) dashEl.classList.add('active');
+    loadDashboard();
+  }
+  if (name === 'packages') {
+    toggleNavGroup('group-packages');
+    loadPackages();
+  }
+  if (name === 'drafts') {
+    toggleNavGroup('group-packages');
+    loadDrafts();
+  }
+  if (name === 'categories') {
+    toggleNavGroup('group-packages');
+    loadCategoriesList();
+  }
+  if (name === 'new-package') {
+    toggleNavGroup('group-packages');
+  }
+  if (name === 'enquiries' || name === 'confirmed') {
+    toggleNavGroup('group-bookings');
+  }
+  if (name === 'team' || name === 'site-settings') {
+    toggleNavGroup('group-settings');
+  }
 }
 
 function startNewPackage() {
