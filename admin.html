@@ -1200,13 +1200,34 @@ function initNavGroups() {
 
 // ── AUTH ──
 async function signIn() {
-  const email = document.getElementById('authEmail').value;
+  const email = document.getElementById('authEmail').value.trim();
   const password = document.getElementById('authPassword').value;
-  const { error } = await db.auth.signInWithPassword({ email, password });
+  const errEl = document.getElementById('authError');
+  errEl.style.display = 'none';
+
+  if (!email || !password) {
+    errEl.style.display = 'block';
+    errEl.textContent = 'Please enter your email and password.';
+    return;
+  }
+
+  const btn = document.querySelector('.auth-box .btn-gold');
+  btn.textContent = 'Signing in...';
+  btn.disabled = true;
+
+  const { data, error } = await db.auth.signInWithPassword({ email, password });
+
+  btn.textContent = 'Sign In';
+  btn.disabled = false;
+
   if (error) {
-    document.getElementById('authError').style.display = 'block';
-    document.getElementById('authError').textContent = error.message;
-  } else { showAdmin(); }
+    errEl.style.display = 'block';
+    errEl.textContent = error.message;
+    console.error('Auth error:', error);
+  } else {
+    console.log('Signed in:', data);
+    showAdmin();
+  }
 }
 
 async function signOut() {
