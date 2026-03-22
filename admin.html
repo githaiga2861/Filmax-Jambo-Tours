@@ -562,9 +562,9 @@
     </div>
     <div class="nav-group" id="group-packages">
       <div class="nav-sub-item" onclick="startNewPackage()" id="nav-new">✚ New Package</div>
-      <div class="nav-sub-item" onclick="showView('packages')" id="nav-packages">All Packages</div>
-      <div class="nav-sub-item" onclick="showView('drafts')" id="nav-drafts">Drafts</div>
-      <div class="nav-sub-item" onclick="showView('categories')" id="nav-categories">Categories</div>
+      <div class="nav-sub-item" id="nav-packages">All Packages</div>
+      <div class="nav-sub-item" id="nav-drafts">Drafts</div>
+      <div class="nav-sub-item" id="nav-categories">Categories</div>
     </div>
 
     <!-- Bookings group -->
@@ -3654,6 +3654,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  document.getElementById('nav-packages')?.addEventListener('click', () => showView('packages'));
+  document.getElementById('nav-drafts')?.addEventListener('click', () => showView('drafts'));
+  document.getElementById('nav-categories')?.addEventListener('click', () => { showView('categories'); loadCategoriesList(); });
+  document.getElementById('nav-new')?.addEventListener('click', () => startNewPackage());
 
   // Clear invalid state on input
   document.addEventListener('input', e => {
