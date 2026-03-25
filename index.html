@@ -4714,13 +4714,46 @@ nav.scrolled .nav-brand-idle {
   .wildlife-cell:hover::before {
     border-color: transparent rgba(212,175,55,0.25) transparent transparent;
   }
+
+  /* Google Translate — styled for Filmax Jambo */
+#google_translate_element .goog-te-gadget-simple {
+  background: #141414 !important;
+  border: 1px solid rgba(212,175,55,0.2) !important;
+  border-radius: 0 !important;
+  padding: 10px 16px !important;
+  font-family: 'Jost', sans-serif !important;
+}
+
+#google_translate_element .goog-te-gadget-simple a {
+  color: rgba(212,175,55,0.8) !important;
+  font-size: 10px !important;
+  letter-spacing: 3px !important;
+  text-transform: uppercase !important;
+  text-decoration: none !important;
+}
+
+#google_translate_element .goog-te-gadget-simple span {
+  color: rgba(212,175,55,0.4) !important;
+}
+
+/* Hide the Google branding bar at the top of page */
+.goog-te-banner-frame { display: none !important; }
+body { top: 0px !important; }
+
+/* Light mode override */
+body.light-mode #google_translate_element .goog-te-gadget-simple {
+  background: #e8e2d8 !important;
+  border-color: rgba(184,134,11,0.25) !important;
+}
+    
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const SUPA_URL = 'YOUR_SUPABASE_URL';
   const SUPA_KEY = 'YOUR_SUPABASE_ANON_KEY';
   const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
-</script>    
+</script>  
+<meta name="google-translate-customization" content="YOUR_ID">    
 </head>
 <body>
   
@@ -7047,5 +7080,24 @@ function updateSlides() {
   requestAnimationFrame(() => { updateSlides(); restartProgress(); startTimer(); });
 })();
 </script>
+<!-- Google Translate Widget -->
+<div id="google_translate_element" style="
+  position: fixed;
+  bottom: 100px;
+  left: 36px;
+  z-index: 200;
+"></div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'fr,de,es,it,pt,zh-CN,zh-TW,ja,ko,ar,sw,hi,nl,ru,pl',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>    
 </body>
 </html>
