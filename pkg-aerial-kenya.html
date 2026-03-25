@@ -2444,48 +2444,57 @@ document.querySelectorAll('.day-header').forEach(function(header) {
     return state.baseRate;
   }
 
+ function setEl(id, value) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = value;
+  }
+  function setStyle(id, prop, value) {
+    var el = document.getElementById(id);
+    if (el) el.style[prop] = value;
+  }
+
   function updateQuote() {
-    const adultTotal = state.adults * state.baseRate;
-    let childTotal = 0;
-    for (let i = 0; i < state.children; i++) {
+    var adultTotal = state.adults * state.baseRate;
+    var childTotal = 0;
+    for (var i = 0; i < state.children; i++) {
       childTotal += getChildRate(state.childAges[i] !== undefined ? state.childAges[i] : NaN);
     }
-    const grandTotal = adultTotal + childTotal;
-    const deposit    = Math.round(grandTotal * 0.3);
+    var grandTotal = adultTotal + childTotal;
+    var deposit    = Math.round(grandTotal * 0.3);
 
-    // Update DOM
-    document.getElementById('sqAdultVal').textContent  = state.adults;
-    document.getElementById('sqPriceNum').textContent  = '$' + state.baseRate.toLocaleString();
-    document.getElementById('sqSeason').textContent    = SEASON_NAMES[state.season];
-    flash(document.getElementById('sqTotal'));
-    document.getElementById('sqTotal').textContent     = '$' + grandTotal.toLocaleString();
-    document.getElementById('sqAdultTotal').textContent = '$' + adultTotal.toLocaleString();
-    document.querySelector('#sqBreakdown .sq-breakdown-row:first-child span:first-child').textContent =
-      'Adults (' + state.adults + ' × $' + state.baseRate.toLocaleString() + ')';
+    setEl('sqAdultVal',  state.adults);
+    setEl('sqPriceNum',  '$' + state.baseRate.toLocaleString());
+    setEl('sqSeason',    SEASON_NAMES[state.season]);
+    setEl('sqTotal',     '$' + grandTotal.toLocaleString());
+    setEl('sqAdultTotal','$' + adultTotal.toLocaleString());
+    setEl('sqDeposit',   '$' + deposit.toLocaleString());
 
-    if (state.children > 0 && childTotal > 0) {
-      document.getElementById('sqChildRow').style.display = 'flex';
-      document.getElementById('sqChildLabel').textContent = 'Children (' + state.children + ')';
-      document.getElementById('sqChildTotal').textContent = '$' + childTotal.toLocaleString();
-    } else {
-      document.getElementById('sqChildRow').style.display = 'none';
-    }
-    document.getElementById('sqDeposit').textContent = '$' + deposit.toLocaleString();
+    var totalEl = document.getElementById('sqTotal');
+    if (totalEl) flash(totalEl);
 
-    // Update mobile bottom bar price
-    const mobilePrice = document.querySelector('.mobile-book-price-num');
-    if (mobilePrice) {
-      mobilePrice.textContent = '$' + grandTotal.toLocaleString();
+    var firstRow = document.querySelector('#sqBreakdown .sq-breakdown-row:first-child span:first-child');
+    if (firstRow) firstRow.textContent = 'Adults (' + state.adults + ' × $' + state.baseRate.toLocaleString() + ')';
+
+    var childRow = document.getElementById('sqChildRow');
+    if (childRow) {
+      if (state.children > 0 && childTotal > 0) {
+        childRow.style.display = 'flex';
+        setEl('sqChildLabel', 'Children (' + state.children + ')');
+        setEl('sqChildTotal', '$' + childTotal.toLocaleString());
+      } else {
+        childRow.style.display = 'none';
+      }
     }
-    const mobilePriceLabel = document.querySelector('.mobile-book-price-label');
-    if (mobilePriceLabel) {
-      mobilePriceLabel.textContent = 'estimated total';
-    }
-    
-    // Update WhatsApp link
-    const waLink = document.querySelector('.btn-whatsapp');
+
+    var mobilePrice = document.querySelector('.mobile-book-price-num');
+    if (mobilePrice) mobilePrice.textContent = '$' + grandTotal.toLocaleString();
+
+    var mobilePriceLabel = document.querySelector('.mobile-book-price-label');
+    if (mobilePriceLabel) mobilePriceLabel.textContent = 'estimated total';
+
+    var waLink = document.querySelector('.btn-whatsapp');
     if (waLink) {
-      const msg = encodeURIComponent(
+      var msg = encodeURIComponent(
         'Hello, I\'d like to enquire about the Aerial Kenya 8-Day Safari.\n' +
         'Date: ' + (dateInput.value || 'TBC') + '\n' +
         'Adults: ' + state.adults + '\n' +
