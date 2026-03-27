@@ -708,7 +708,7 @@
     </div><!-- /view-dashboard -->
     
     <!-- VIEW: All Packages -->
-    <div class="view active" id="view-packages">
+    <div class="view" id="view-packages">
       <div class="view-header">
         <div class="view-title">
           <span>Manage</span>All Packages
@@ -1141,7 +1141,46 @@
       <hr class="section-divider">
       <div id="categoriesList" style="display:flex;flex-direction:column;gap:8px;"></div>
     </div>
+    <!-- VIEW: Enquiries -->
+<div class="view" id="view-enquiries">
+  <div class="view-header">
+    <div class="view-title"><span>Bookings</span>Enquiries</div>
+  </div>
+  <div style="background:var(--charcoal);border:1px solid var(--border);padding:40px;text-align:center;">
+    <p style="color:var(--muted);font-size:13px;line-height:1.8;">Enquiries management coming soon.<br>Connect your enquiries table in Supabase to activate this section.</p>
+  </div>
+</div>
 
+<!-- VIEW: Confirmed -->
+<div class="view" id="view-confirmed">
+  <div class="view-header">
+    <div class="view-title"><span>Bookings</span>Confirmed</div>
+  </div>
+  <div style="background:var(--charcoal);border:1px solid var(--border);padding:40px;text-align:center;">
+    <p style="color:var(--muted);font-size:13px;line-height:1.8;">Confirmed bookings coming soon.</p>
+  </div>
+</div>
+
+<!-- VIEW: Team -->
+<div class="view" id="view-team">
+  <div class="view-header">
+    <div class="view-title"><span>Settings</span>Team Access</div>
+  </div>
+  <div style="background:var(--charcoal);border:1px solid var(--border);padding:40px;text-align:center;">
+    <p style="color:var(--muted);font-size:13px;line-height:1.8;">Team access management coming soon.</p>
+  </div>
+</div>
+
+<!-- VIEW: Site Settings -->
+<div class="view" id="view-site-settings">
+  <div class="view-header">
+    <div class="view-title"><span>Settings</span>Site Settings</div>
+  </div>
+  <div style="background:var(--charcoal);border:1px solid var(--border);padding:40px;text-align:center;">
+    <p style="color:var(--muted);font-size:13px;line-height:1.8;">Site settings coming soon.</p>
+  </div>
+</div>
+  
   </div><!-- /main -->
 </div><!-- /admin-layout -->
 
@@ -1266,7 +1305,6 @@ function showAdmin() {
   }, 400);
 }
 
-// ── NAVIGATION ──
 function showView(name) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.querySelectorAll('.nav-item, .nav-sub-item').forEach(n => n.classList.remove('active'));
@@ -1283,25 +1321,25 @@ function showView(name) {
     loadDashboard();
   }
   if (name === 'packages') {
-    toggleNavGroup('group-packages');
+    openNavGroup('group-packages');   // ← was toggleNavGroup
     loadPackages();
   }
   if (name === 'drafts') {
-    toggleNavGroup('group-packages');
+    openNavGroup('group-packages');   // ← was toggleNavGroup
     loadDrafts();
   }
   if (name === 'categories') {
-    toggleNavGroup('group-packages');
+    openNavGroup('group-packages');   // ← was toggleNavGroup
     loadCategoriesList();
   }
   if (name === 'new-package') {
-    toggleNavGroup('group-packages');
+    openNavGroup('group-packages');   // ← was toggleNavGroup
   }
   if (name === 'enquiries' || name === 'confirmed') {
-    toggleNavGroup('group-bookings');
+    openNavGroup('group-bookings');   // ← was toggleNavGroup
   }
   if (name === 'team' || name === 'site-settings') {
-    toggleNavGroup('group-settings');
+    openNavGroup('group-settings');   // ← was toggleNavGroup
   }
 }
 
