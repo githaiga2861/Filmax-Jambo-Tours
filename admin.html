@@ -1321,9 +1321,11 @@ function showView(name) {
     loadDashboard();
   }
   if (name === 'packages') {
-    openNavGroup('group-packages');   // ← was toggleNavGroup
-    loadPackages();
-  }
+  const el = document.getElementById('nav-packages');
+  if (el) el.classList.add('active');
+  openNavGroup('group-packages');
+  loadPackages();
+}
   if (name === 'drafts') {
     openNavGroup('group-packages');   // ← was toggleNavGroup
     loadDrafts();
