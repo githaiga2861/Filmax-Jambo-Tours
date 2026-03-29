@@ -4936,8 +4936,8 @@ body.light-mode .hero-eyebrow {
   }
 
   /* Destinations slideshow label — card-title design (bright white flash) */
-  body.light-mode .ds-slide-label {
-    color: unset !important;
+body.light-mode .ds-slide-label {
+    font-weight: 800 !important;
     -webkit-text-fill-color: transparent !important;
     background: linear-gradient(
       160deg,
@@ -4956,6 +4956,7 @@ body.light-mode .hero-eyebrow {
     background-clip: text !important;
     animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite 0.5s !important;
     text-shadow: none !important;
+    letter-spacing: 6px;
   }
 
   /* Destinations slideshow title — card-text design (warm amber flash) */
@@ -5003,7 +5004,7 @@ body.light-mode .hero-eyebrow {
     animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite 2.5s !important;
     text-shadow: none !important;
   } 
-    
+ 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
