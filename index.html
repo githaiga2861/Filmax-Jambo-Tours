@@ -424,15 +424,27 @@ body.light-mode .hero-actions .btn-primary {
   }
 
   body.light-mode nav:not(.scrolled) {
-    background: transparent;
+    background: linear-gradient(
+      to bottom,
+      rgba(8,8,8,0.85) 0%,
+      rgba(20,20,18,0.55) 45%,
+      rgba(80,78,75,0.18) 75%,
+      rgba(244,244,242,0.0) 100%
+    );
     border-bottom: none;
     backdrop-filter: none;
   }
 
   body.light-mode nav.scrolled {
-    background: rgba(245,240,232,0.95);
+    background: linear-gradient(
+      to bottom,
+      rgba(10,10,10,0.92) 0%,
+      rgba(30,30,28,0.75) 40%,
+      rgba(100,98,95,0.35) 75%,
+      rgba(244,244,242,0.0) 100%
+    );
     backdrop-filter: blur(24px);
-    border-bottom: 1px solid rgba(184,134,11,0.2);
+    border-bottom: none;
   }
 
   body.light-mode .dropdown {
@@ -4832,9 +4844,165 @@ body { top: 0px !important; }
 
 /* Light mode override */
 body.light-mode #google_translate_element .goog-te-gadget-simple {
-  background: #e8e2d8 !important;
+  background: #000000 !important;
   border-color: rgba(184,134,11,0.25) !important;
 }
+body.light-mode .hero-eyebrow {
+    color: unset !important;
+    -webkit-text-fill-color: transparent !important;
+    background: linear-gradient(
+      90deg,
+      var(--gold) 0%,
+      var(--gold) 30%,
+      #fff8dc 48%,
+      #fffbe8 50%,
+      #fff8dc 52%,
+      var(--gold) 70%,
+      var(--gold) 100%
+    ) !important;
+    background-size: 300% auto !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    background-position: 200% center !important;
+    animation: eyebrowShine 4s 1s ease-in-out infinite, fadeUp 1s 0.3s forwards !important;
+    text-shadow: none !important;
+  }
+
+  body.light-mode .hero-subtitle {
+    color: unset !important;
+    -webkit-text-fill-color: transparent !important;
+    background: linear-gradient(
+      90deg,
+      var(--gold) 0%,
+      var(--gold) 30%,
+      #fff8dc 48%,
+      #fffbe8 50%,
+      #fff8dc 52%,
+      var(--gold) 70%,
+      var(--gold) 100%
+    ) !important;
+    background-size: 300% auto !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    background-position: 200% center !important;
+    animation: eyebrowShine 5s 1.5s ease-in-out infinite, fadeUp 1s 1s forwards !important;
+    text-shadow: none !important;
+  }
+
+   /* Hero eyebrow — card-title design (bright white flash) */
+  body.light-mode .hero-eyebrow {
+    color: unset !important;
+    -webkit-text-fill-color: transparent !important;
+    background: linear-gradient(
+      160deg,
+      #7a5500 0%,
+      #b8860b 25%,
+      #e8c84a 44%,
+      #fffbe8 48%,
+      #ffffff 50%,
+      #fffbe8 52%,
+      #e8c84a 56%,
+      #b8860b 75%,
+      #7a5500 100%
+    ) !important;
+    background-size: 100% 100% !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite, fadeUp 1s 0.3s forwards !important;
+    text-shadow: none !important;
+  }
+
+  /* Hero subtitle — card-text design (warm amber flash) */
+  body.light-mode .hero-subtitle {
+    color: unset !important;
+    -webkit-text-fill-color: transparent !important;
+    background: linear-gradient(
+      160deg,
+      #6b4f00 0%,
+      #9a7200 22%,
+      #c9a84c 42%,
+      #f5e199 48%,
+      #fffdf0 50%,
+      #f5e199 52%,
+      #c9a84c 58%,
+      #9a7200 78%,
+      #6b4f00 100%
+    ) !important;
+    background-size: 100% 100% !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite 1s, fadeUp 1s 1s forwards !important;
+    text-shadow: none !important;
+  }
+
+  /* Destinations slideshow label — card-title design (bright white flash) */
+  body.light-mode .ds-slide-label {
+    color: unset !important;
+    -webkit-text-fill-color: transparent !important;
+    background: linear-gradient(
+      160deg,
+      #7a5500 0%,
+      #b8860b 25%,
+      #e8c84a 44%,
+      #fffbe8 48%,
+      #ffffff 50%,
+      #fffbe8 52%,
+      #e8c84a 56%,
+      #b8860b 75%,
+      #7a5500 100%
+    ) !important;
+    background-size: 100% 100% !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite 0.5s !important;
+    text-shadow: none !important;
+  }
+
+  /* Destinations slideshow title — card-text design (warm amber flash) */
+  body.light-mode .ds-slide-title {
+    color: unset !important;
+    -webkit-text-fill-color: transparent !important;
+    background: linear-gradient(
+      160deg,
+      #6b4f00 0%,
+      #9a7200 22%,
+      #c9a84c 42%,
+      #f5e199 48%,
+      #fffdf0 50%,
+      #f5e199 52%,
+      #c9a84c 58%,
+      #9a7200 78%,
+      #6b4f00 100%
+    ) !important;
+    background-size: 100% 100% !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite 1.5s !important;
+    text-shadow: none !important;
+  }
+
+  /* Destinations slideshow tagline — card-text design, offset */
+  body.light-mode .ds-slide-tagline {
+    color: unset !important;
+    -webkit-text-fill-color: transparent !important;
+    background: linear-gradient(
+      160deg,
+      #6b4f00 0%,
+      #9a7200 22%,
+      #c9a84c 42%,
+      #f5e199 48%,
+      #fffdf0 50%,
+      #f5e199 52%,
+      #c9a84c 58%,
+      #9a7200 78%,
+      #6b4f00 100%
+    ) !important;
+    background-size: 100% 100% !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite 2.5s !important;
+    text-shadow: none !important;
+  } 
     
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
