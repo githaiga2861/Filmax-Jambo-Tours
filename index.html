@@ -40,7 +40,7 @@ body.light-mode {
   --amber: #7a5500;
   --text: #0a0a0a;
   --muted: #2a2a2a;
-  --border: rgba(154,111,0,0.28);
+  --border: rgba(0,0,0,0.15);
 }
 
 body.light-mode {
@@ -438,7 +438,7 @@ body.light-mode .hero-actions .btn-primary {
         rgba(244,244,242,0.0) 100%
       );
     backdrop-filter: blur(24px);
-    border-bottom: none;
+    border-bottom: 1px solid rgba(0,0,0,0.12);
   }
 
 body.light-mode nav:not(.scrolled) {
@@ -519,8 +519,8 @@ body.light-mode .highlight-card {
   }
 
   body.light-mode .testimonial {
-    background: #ede8df;
-    border-top-color: var(--border);
+    background: #ffffff;
+    border-top-color: rgba(0,0,0,0.15);
   }
 
   body.light-mode .testimonial-text {
@@ -551,8 +551,8 @@ body.light-mode .highlight-card {
   }
 
   body.light-mode footer {
-    background: #ede8df;
-    border-top-color: var(--border);
+    background: #eaeae8;
+    border-top-color: rgba(0,0,0,0.15);
   }
 
   body.light-mode .footer-brand p,
@@ -572,15 +572,15 @@ body.light-mode .highlight-card {
     color: var(--gold);
   }
 
-  body.light-mode .stats-bar {
-    border-color: var(--border);
+   body.light-mode .stats-bar {
+    border-color: rgba(0,0,0,0.15);
   }
-
+    
   body.light-mode .stat-item {
-    border-right-color: var(--border);
+    border-right-color: rgba(0,0,0,0.12);
   }
 
-body.light-mode .section-title,
+  body.light-mode .section-title,
   body.light-mode .footer-brand h2 {
     color: var(--text);
   }
@@ -1074,24 +1074,29 @@ body.light-mode .hc-bg {
   }
 
   body.light-mode .quiz-option {
-    border-color: rgba(184,134,11,0.15);
+    border-color: rgba(0,0,0,0.15);
     color: var(--muted);
   }
 
   body.light-mode .quiz-option:hover:not(.selected) {
     color: var(--text);
-    border-color: rgba(184,134,11,0.35);
+    border-color: rgba(0,0,0,0.3);
   }
 
   body.light-mode .quiz-option.selected {
     color: var(--gold);
-    background: rgba(184,134,11,0.07);
-    border-color: rgba(184,134,11,0.5);
+    background: rgba(0,0,0,0.04);
+    border-color: rgba(0,0,0,0.35);
   }
 
   body.light-mode .quiz-result-card {
-    border-color: rgba(184,134,11,0.18);
-    background: rgba(184,134,11,0.04);
+    border-color: rgba(0,0,0,0.12);
+    background: rgba(0,0,0,0.02);
+  }
+
+  body.light-mode .quiz-result-card:hover {
+    border-color: rgba(0,0,0,0.25);
+    background: rgba(0,0,0,0.04);
   }
 
   body.light-mode .quiz-result-name {
@@ -1183,17 +1188,18 @@ body.light-mode #inline-quiz {
   }
 
   body.light-mode .pkg-filter-bar::before {
-    border-color: rgba(184,134,11,0.18);
+    border-color: rgba(0,0,0,0.15);
   }
 
   body.light-mode .pkg-filter-btn {
-    color: var(--muted);
-    border-right-color: rgba(184,134,11,0.15);
+    color: #111111;
+    border-right-color: rgba(0,0,0,0.12);
+    font-weight: 600;
   }
 
 body.light-mode .pkg-filter-btn.active {
-    color: var(--gold);
-    background: rgba(184,134,11,0.07);
+    color: #000000;
+    background: rgba(0,0,0,0.07);
   }
 
   body.light-mode ::-webkit-scrollbar-track {
@@ -1285,8 +1291,8 @@ body.light-mode .pkg-filter-btn.active {
 
   body.light-mode .gold-line::before,
   body.light-mode .gold-line::after {
-    background: rgba(184,134,11,0.25);
-  }
+    background: rgba(0,0,0,0.18);
+}
 
   body.light-mode .divider {
     background: linear-gradient(to right, var(--gold), transparent);
@@ -1341,13 +1347,13 @@ body.light-mode .pkg-filter-btn.active {
   }
 
   body.light-mode .contact-detail-icon {
-    border-color: var(--border);
+    border-color: rgba(0,0,0,0.15);
   }
 
   body.light-mode .footer-bottom {
-    border-top-color: rgba(184,134,11,0.15);
+    border-top-color: rgba(0,0,0,0.12);
   }
-
+    
   body.light-mode .gallery-strip-item img {
     filter: saturate(0.5) brightness(1);
   }
@@ -1370,7 +1376,7 @@ body.light-mode .pkg-filter-btn.active {
 
   body.light-mode .gallery-lightbox-close {
     color: var(--muted);
-    border-color: rgba(184,134,11,0.25);
+    border-color: rgba(0,0,0,0.2);
   }
 
   body.light-mode .gallery-lightbox-close:hover {
@@ -1379,8 +1385,8 @@ body.light-mode .pkg-filter-btn.active {
   }
 
   body.light-mode .gallery-lightbox-nav {
-    background: rgba(245,240,232,0.8);
-    border-color: rgba(184,134,11,0.25);
+    background: rgba(244,244,242,0.9);
+    border-color: rgba(0,0,0,0.2);
   }
 
   body.light-mode .gallery-lightbox-counter {
@@ -4999,7 +5005,30 @@ body.light-mode .ds-slide-label {
     animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite 2.5s !important;
     text-shadow: none !important;
   } 
- 
+ body.light-mode .pkg-bg {
+    filter: brightness(0.12) saturate(0) !important;
+  }
+
+  body.light-mode .package-card:hover .pkg-bg {
+    filter: brightness(0.18) saturate(0) !important;
+  }
+
+  body.light-mode .hc-bg {
+    filter: brightness(0.1) saturate(0) !important;
+  }
+
+  body.light-mode .highlight-card:hover .hc-bg {
+    filter: brightness(0.15) saturate(0) !important;
+  }
+
+  body.light-mode .pkg-filter-label {
+    color: #333333;
+  }
+
+  body.light-mode .pkg-filter-btn::before {
+    background: linear-gradient(to right, transparent, rgba(0,0,0,0.35), transparent);
+  }
+    
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
