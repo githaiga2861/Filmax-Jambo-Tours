@@ -242,42 +242,6 @@ body.light-mode .blog-card-title {
     border-bottom: 1px solid rgba(184,134,11,0.15);
   }
 
-  body.light-mode nav.scrolled {
-    background:
-      radial-gradient(
-        ellipse 40% 100% at 50% 0%,
-        rgba(10,10,10,0.0) 0%,
-        rgba(10,10,10,0.0) 100%
-      ),
-      linear-gradient(
-        to bottom,
-        rgba(10,10,10,0.92) 40%,
-        rgba(30,30,28,0.75) 75%,
-        rgba(100,98,95,0.35) 100%,
-        rgba(244,244,242,0.0) 100%
-      );
-    backdrop-filter: blur(24px);
-    border-bottom: 1px solid rgba(0,0,0,0.12);
-  }
-
-body.light-mode nav:not(.scrolled) {
-    background:
-      radial-gradient(
-        ellipse 40% 100% at 50% 0%,
-        rgba(8,8,8,0.0) 0%,
-        rgba(8,8,8,0.0) 100%
-      ),
-      linear-gradient(
-        to bottom,
-        rgba(8,8,8,0.85) 0%,
-        rgba(20,20,18,0.55) 45%,
-        rgba(80,78,75,0.18) 75%,
-        rgba(244,244,242,0.0) 100%
-      );
-    border-bottom: none;
-    backdrop-filter: none;
-  }
-
   body.light-mode .dropdown {
     background: rgba(245,240,232,0.98);
     border-left: 1px solid rgba(184,134,11,0.2);
@@ -1788,8 +1752,8 @@ nav.scrolled .nav-brand-idle {
 }
 
   .hero-eyebrow {
-  font-size: 12px;
-  font-weight: 450;
+  font-size: 11px;
+  font-weight: 430;
   letter-spacing: 6px;
   text-transform: uppercase;
   opacity: 0;
@@ -1841,7 +1805,7 @@ nav.scrolled .nav-brand-idle {
   font-weight: 300;
   letter-spacing: 1px;
   opacity: 0;
-  animation: fadeUp 1s 1s forwards, subtitleShine 6s 2s ease-in-out infinite;
+  animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite, fadeUp 1s 0.3s forwards !important;
   margin-top: 4px;
   margin-bottom: 32px;
   font-style: italic;
