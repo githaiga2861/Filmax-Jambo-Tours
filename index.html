@@ -4851,81 +4851,166 @@ body.light-mode .pkg-cta:hover {
     color: #080808 !important;
     -webkit-text-fill-color: #080808 !important;
   }
- /* Hero section locked to dark mode always */
+ /* =============================================
+   HERO — COMPLETELY FROZEN, IDENTICAL IN BOTH MODES
+   ============================================= */
+
+#hero,
+#hero *,
+#hero .hero-sky,
+#hero .hero-overlay,
+#hero .hero-content,
+#hero .hero-eyebrow,
+#hero .hero-subtitle,
+#hero .hero-actions,
+#hero .btn-primary,
+#hero .btn-ghost,
+#hero .scroll-cue,
+#hero .scroll-cue span,
+#hero .scroll-line {
+  --black: #080808 !important;
+  --deep: #0d0d0d !important;
+  --charcoal: #141414 !important;
+  --gold: #d4af37 !important;
+  --gold-light: #e8c84a !important;
+  --gold-dim: rgba(212,175,55,0.15) !important;
+  --amber: #b8860b !important;
+  --text: #f0ece4 !important;
+  --muted: #8a8074 !important;
+  --border: rgba(212,175,55,0.2) !important;
+}
+
 #hero .hero-sky {
-    filter: blur(2px) brightness(0.3) !important;
-  }
+  filter: blur(2px) brightness(0.3) !important;
+  background-image: url('assets/landscape.webp') !important;
+  background-size: cover !important;
+  background-position: center 30% !important;
+}
 
-  #hero .hero-overlay {
-    background: linear-gradient(
-      to bottom,
-      rgba(8,8,8,0.6) 0%,
-      rgba(5,4,2,0.45) 35%,
-      rgba(20,14,2,0.55) 65%,
-      rgba(8,8,8,0.92) 100%
-    ) !important;
-  }
+#hero .hero-sky:not(.settled) {
+  filter: blur(0px) brightness(1) !important;
+}
 
-  #hero .hero-eyebrow {
-    color: var(--gold) !important;
-    background: linear-gradient(
-      90deg,
-      #d4af37 0%,
-      #d4af37 30%,
-      #fff8dc 48%,
-      #fffbe8 50%,
-      #fff8dc 52%,
-      #d4af37 70%,
-      #d4af37 100%
-    ) !important;
-    background-size: 300% auto !important;
-    -webkit-background-clip: text !important;
-    background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-position: 200% center !important;
-    text-shadow: none !important;
-    filter: none !important;
-    animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite, fadeUp 1s 0.3s forwards !important;  
-  }
+#hero .hero-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(8,8,8,0.6) 0%,
+    rgba(5,4,2,0.45) 35%,
+    rgba(20,14,2,0.55) 65%,
+    rgba(8,8,8,0.92) 100%
+  ) !important;
+  box-shadow: inset 0 0 200px rgba(180,130,10,0.12) !important;
+}
 
-  #hero .hero-subtitle {
-    background: linear-gradient(
-      90deg,
-      #8a8074 0%,
-      #8a8074 25%,
-      #f0ece4 45%,
-      #ffffff 50%,
-      #f0ece4 55%,
-      #8a8074 75%,
-      #8a8074 100%
-    ) !important;
-    background-size: 300% auto !important;
-    -webkit-background-clip: text !important;
-    background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-position: 200% center !important;
-    text-shadow: none !important;
-    filter: none !important;
-  }
+#hero .hero-eyebrow {
+  font-size: 11px !important;
+  font-weight: 300 !important;
+  letter-spacing: 6px !important;
+  text-transform: uppercase !important;
+  color: #d4af37 !important;
+  background: linear-gradient(
+    90deg,
+    #d4af37 0%,
+    #d4af37 30%,
+    #fff8dc 48%,
+    #fffbe8 50%,
+    #fff8dc 52%,
+    #d4af37 70%,
+    #d4af37 100%
+  ) !important;
+  background-size: 300% auto !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-position: 200% center !important;
+  animation: fadeUp 1s 0.3s forwards, eyebrowShine 5s 1.5s ease-in-out infinite !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
 
-  #hero .btn-primary {
-    background: linear-gradient(135deg, #d4af37, #b8860b) !important;
-    color: #080808 !important;
-    -webkit-text-fill-color: #080808 !important;
-    border: none !important;
-  }
+#hero .hero-subtitle {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-weight: 300 !important;
+  font-style: italic !important;
+  color: #8a8074 !important;
+  background: linear-gradient(
+    90deg,
+    #8a8074 0%,
+    #8a8074 25%,
+    #f0ece4 45%,
+    #ffffff 50%,
+    #f0ece4 55%,
+    #8a8074 75%,
+    #8a8074 100%
+  ) !important;
+  background-size: 300% auto !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-position: 200% center !important;
+  animation: fadeUp 1s 1s forwards, subtitleShine 6s 2s ease-in-out infinite !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
 
-  #hero .btn-ghost {
-    background: transparent !important;
-    border: 1px solid rgba(212,175,55,0.5) !important;
-    color: #d4af37 !important;
-    -webkit-text-fill-color: #d4af37 !important;
-  }
+#hero .btn-primary {
+  font-family: 'Jost', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  letter-spacing: 4px !important;
+  text-transform: uppercase !important;
+  padding: 18px 44px !important;
+  background: linear-gradient(135deg, #d4af37, #b8860b) !important;
+  color: #080808 !important;
+  -webkit-text-fill-color: #080808 !important;
+  border: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
 
-  #hero .scroll-cue span {
-    color: var(--muted) !important;
-    text-shadow: none !important;
-  }   
+#hero .btn-primary:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 40px rgba(212,175,55,0.4) !important;
+  filter: none !important;
+}
+
+#hero .btn-ghost {
+  font-family: 'Jost', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  letter-spacing: 4px !important;
+  text-transform: uppercase !important;
+  padding: 17px 44px !important;
+  background: transparent !important;
+  color: #d4af37 !important;
+  -webkit-text-fill-color: #d4af37 !important;
+  border: 1px solid rgba(212,175,55,0.5) !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+#hero .btn-ghost:hover {
+  border-color: #d4af37 !important;
+  background: rgba(212,175,55,0.15) !important;
+  transform: translateY(-2px) !important;
+  filter: none !important;
+}
+
+#hero .scroll-cue span {
+  color: #8a8074 !important;
+  -webkit-text-fill-color: #8a8074 !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+#hero .scroll-line {
+  background: linear-gradient(to bottom, #d4af37, transparent) !important;
+}
+
+#hero #hero-logo {
+  filter: drop-shadow(0 0 12px rgba(212,175,55,0.5))
+          drop-shadow(0 0 28px rgba(212,175,55,0.2)) !important;
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
