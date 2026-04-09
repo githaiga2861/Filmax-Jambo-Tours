@@ -891,6 +891,71 @@ body.light-mode #inline-quiz {
     background: var(--charcoal);
   }
 
+/* Quiz overlay always dark */
+body.light-mode #quiz-overlay,
+body.light-mode #quiz-overlay .quiz-box {
+  --black: #080808;
+  --deep: #0d0d0d;
+  --charcoal: #141414;
+  --card: #111111;
+  --gold: #d4af37;
+  --gold-light: #e8c84a;
+  --gold-dim: rgba(212,175,55,0.15);
+  --amber: #b8860b;
+  --text: #f0ece4;
+  --muted: #8a8074;
+  --border: rgba(212,175,55,0.2);
+  background: #0f0f0f !important;
+  color: #f0ece4 !important;
+}
+body.light-mode #quiz-overlay .quiz-question {
+  color: #f0ece4 !important;
+  -webkit-text-fill-color: #f0ece4 !important;
+}
+body.light-mode #quiz-overlay .quiz-sub {
+  color: #8a8074 !important;
+  -webkit-text-fill-color: #8a8074 !important;
+}
+body.light-mode #quiz-overlay .quiz-option {
+  color: #8a8074 !important;
+  border-color: rgba(212,175,55,0.12) !important;
+}
+body.light-mode #quiz-overlay .quiz-option:hover:not(.selected) {
+  color: #f0ece4 !important;
+  border-color: rgba(212,175,55,0.3) !important;
+}
+body.light-mode #quiz-overlay .quiz-option.selected {
+  color: #d4af37 !important;
+  background: rgba(212,175,55,0.06) !important;
+  border-color: rgba(212,175,55,0.6) !important;
+}
+body.light-mode #quiz-overlay .quiz-input {
+  color: #f0ece4 !important;
+  border-bottom-color: rgba(212,175,55,0.25) !important;
+}
+body.light-mode #quiz-overlay .quiz-step-label {
+  color: #d4af37 !important;
+  -webkit-text-fill-color: #d4af37 !important;
+}
+body.light-mode #quiz-overlay .quiz-result-name {
+  color: #f0ece4 !important;
+  -webkit-text-fill-color: #f0ece4 !important;
+}
+body.light-mode #quiz-overlay .quiz-result-meta {
+  color: #8a8074 !important;
+  -webkit-text-fill-color: #8a8074 !important;
+}
+body.light-mode #quiz-overlay .quiz-result-card {
+  border-color: rgba(212,175,55,0.15) !important;
+  background: rgba(212,175,55,0.03) !important;
+}
+body.light-mode #quiz-overlay .quiz-skip {
+  color: #8a8074 !important;
+}
+body.light-mode #quiz-overlay .quiz-progress-bar {
+  background: rgba(212,175,55,0.1) !important;
+}
+
   body.light-mode #inline-quiz .quiz-question {
     text-shadow:
       0 0 8px rgba(184,134,11,0.35),
@@ -1231,7 +1296,7 @@ body.light-mode .pkg-filter-btn.active {
     transform: rotate(20deg);
   }
 
-  .theme-toggle-icon .moon {
+  .theme-toggle-icon .sun {
     position: absolute;
     inset: 0;
     opacity: 1;
@@ -1239,7 +1304,7 @@ body.light-mode .pkg-filter-btn.active {
     transform: scale(1);
   }
 
-  .theme-toggle-icon .sun {
+  .theme-toggle-icon .moon {
     position: absolute;
     inset: 0;
     opacity: 0;
@@ -1252,12 +1317,12 @@ body.light-mode .pkg-filter-btn.active {
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
   }
 
-  body.light-mode .theme-toggle-icon .moon {
+  body.light-mode .theme-toggle-icon .sun {
     opacity: 0;
     transform: scale(0.6) rotate(-90deg);
   }
 
-  body.light-mode .theme-toggle-icon .sun {
+  body.light-mode .theme-toggle-icon .moon {
     opacity: 1;
     transform: scale(1) rotate(0deg);
   }
@@ -4275,7 +4340,7 @@ nav.scrolled .nav-brand-idle {
   position: relative;
   overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
-  opacity: 0.4;
+  opacity: 0.75;
   pointer-events: none;
 }
 
@@ -6174,12 +6239,12 @@ body.light-mode .pkg-cta:hover {
 <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
   <span class="theme-tooltip" id="themeTooltip">Light Mode</span>
   <div class="theme-toggle-icon">
-    <svg class="moon" width="18" height="18" viewBox="0 0 18 18" fill="none">
-      <path d="M15.5 11.5A7 7 0 0 1 6.5 2.5a7 7 0 1 0 9 9z" stroke="rgba(212,175,55,0.8)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
     <svg class="sun" width="18" height="18" viewBox="0 0 18 18" fill="none">
-      <circle cx="9" cy="9" r="3.5" stroke="rgba(184,134,11,0.9)" stroke-width="1.2"/>
-      <path d="M9 1v2M9 15v2M1 9h2M15 9h2M3.22 3.22l1.42 1.42M13.36 13.36l1.42 1.42M3.22 14.78l1.42-1.42M13.36 4.64l1.42-1.42" stroke="rgba(184,134,11,0.9)" stroke-width="1.2" stroke-linecap="round"/>
+      <circle cx="9" cy="9" r="3.5" stroke="rgba(212,175,55,0.8)" stroke-width="1.2"/>
+      <path d="M9 1v2M9 15v2M1 9h2M15 9h2M3.22 3.22l1.42 1.42M13.36 13.36l1.42 1.42M3.22 14.78l1.42-1.42M13.36 4.64l1.42-1.42" stroke="rgba(212,175,55,0.8)" stroke-width="1.2" stroke-linecap="round"/>
+    </svg>
+    <svg class="moon" width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <path d="M15.5 11.5A7 7 0 0 1 6.5 2.5a7 7 0 1 0 9 9z" stroke="rgba(184,134,11,0.9)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </div>
 </button>
@@ -6370,7 +6435,34 @@ body.light-mode .pkg-cta:hover {
       });
     }
 
-    if (nextBtn) nextBtn.addEventListener('click', () => { if (nextBtn.classList.contains('ready')) advance(); });
+    if (nextBtn) nextBtn.addEventListener('click', () => {
+      if (nextBtn.classList.contains('ready')) {
+        advance();
+      } else {
+        // Shake and notify
+        nextBtn.style.transition = 'transform 0.08s ease';
+        const input = document.getElementById('quizInput') || document.getElementById('iqInput');
+        const shakeTarget = input || nextBtn;
+        shakeTarget.style.transition = 'transform 0.08s ease, border-color 0.3s';
+        shakeTarget.style.borderBottomColor = '#e05555';
+        shakeTarget.style.transform = 'translateX(6px)';
+        setTimeout(() => { shakeTarget.style.transform = 'translateX(-6px)'; }, 80);
+        setTimeout(() => { shakeTarget.style.transform = 'translateX(4px)'; }, 160);
+        setTimeout(() => { shakeTarget.style.transform = 'translateX(-4px)'; }, 240);
+        setTimeout(() => { shakeTarget.style.transform = 'translateX(0)'; }, 320);
+        // Show hint text if not already shown
+        let hint = document.getElementById('quizHint') || document.getElementById('iqHint');
+        if (!hint) {
+          hint = document.createElement('span');
+          hint.id = input && input.id === 'iqInput' ? 'iqHint' : 'quizHint';
+          hint.style.cssText = 'display:block;font-family:Jost,sans-serif;font-size:10px;letter-spacing:2px;color:#e05555;margin-top:8px;opacity:0;transition:opacity 0.3s;';
+          hint.textContent = 'Please enter your name to continue';
+          if (input) input.after(hint);
+        }
+        requestAnimationFrame(() => { hint.style.opacity = '1'; });
+        setTimeout(() => { if (hint) hint.style.opacity = '0'; }, 3000);
+      }
+    });
     if (backBtn) backBtn.addEventListener('click', () => { current--; renderStep(current); });
   }
 
@@ -6466,6 +6558,8 @@ function initQuiz() {
   if (saved === 'light') {
     document.body.classList.add('light-mode');
     tooltip.textContent = 'Dark Mode';
+  } else {
+    tooltip.textContent = 'Light Mode';
   }
 
 toggle.addEventListener('click', () => {
