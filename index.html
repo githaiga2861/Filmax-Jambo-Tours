@@ -6277,6 +6277,9 @@ body.light-mode .pkg-cta:hover {
       question: 'Welcome. What shall we call you?',
       sub: 'Every great safari begins with a name.',
       placeholder: 'Your first name',
+      minLength: 2,
+      pattern: /^[a-zA-ZÀ-ÖØ-öø-ÿ\s'\-]{2,}$/,
+      errorMsg: 'Please enter a real name — at least 2 letters, no numbers.',
     },
     {
       id: 'vibe',
@@ -6325,6 +6328,9 @@ body.light-mode .pkg-cta:hover {
       question: 'When are you thinking of travelling?',
       sub: 'A rough idea helps us check availability and seasons.',
       placeholder: 'e.g. July 2025, or "not sure yet"',
+      minLength: 4,
+      pattern: /^[a-zA-Z0-9\s,\-\/\.]{4,}$/,
+      errorMsg: 'Please enter a month, year, or "not sure yet" — no special characters.',
     },
   ];
 
@@ -6413,13 +6419,29 @@ body.light-mode .pkg-cta:hover {
 
     if (isText) {
       const input = document.getElementById('quizInput');
+
+      function validateInput() {
+        const val = input.value.trim();
+        const pattern = step.pattern;
+        const minLen  = step.minLength || 1;
+        return val.length >= minLen && (!pattern || pattern.test(val));
+      }
+
       input.addEventListener('input', () => {
         answers[step.id] = input.value.trim();
-        nextBtn.classList.toggle('ready', input.value.trim().length > 0);
-        nextBtn.style.pointerEvents = input.value.trim().length > 0 ? 'all' : 'none';
+        const valid = validateInput();
+        nextBtn.classList.toggle('ready', valid);
+        // Clear error styling as user types
+        input.style.borderBottomColor = '';
+        const hint = document.getElementById('quizHint');
+        if (hint) hint.style.opacity = '0';
       });
+
       input.addEventListener('keydown', e => {
-        if (e.key === 'Enter' && input.value.trim().length > 0) advance();
+        if (e.key === 'Enter') {
+          if (validateInput()) advance();
+          else triggerError(input, step.errorMsg, 'quizHint');
+        }
       });
       setTimeout(() => input.focus(), 100);
     } else {
@@ -6439,31 +6461,31 @@ body.light-mode .pkg-cta:hover {
       if (nextBtn.classList.contains('ready')) {
         advance();
       } else {
-        // Shake and notify
-        nextBtn.style.transition = 'transform 0.08s ease';
-        const input = document.getElementById('quizInput') || document.getElementById('iqInput');
-        const shakeTarget = input || nextBtn;
-        shakeTarget.style.transition = 'transform 0.08s ease, border-color 0.3s';
-        shakeTarget.style.borderBottomColor = '#e05555';
-        shakeTarget.style.transform = 'translateX(6px)';
-        setTimeout(() => { shakeTarget.style.transform = 'translateX(-6px)'; }, 80);
-        setTimeout(() => { shakeTarget.style.transform = 'translateX(4px)'; }, 160);
-        setTimeout(() => { shakeTarget.style.transform = 'translateX(-4px)'; }, 240);
-        setTimeout(() => { shakeTarget.style.transform = 'translateX(0)'; }, 320);
-        // Show hint text if not already shown
-        let hint = document.getElementById('quizHint') || document.getElementById('iqHint');
-        if (!hint) {
-          hint = document.createElement('span');
-          hint.id = input && input.id === 'iqInput' ? 'iqHint' : 'quizHint';
-          hint.style.cssText = 'display:block;font-family:Jost,sans-serif;font-size:10px;letter-spacing:2px;color:#e05555;margin-top:8px;opacity:0;transition:opacity 0.3s;';
-          hint.textContent = 'Please enter your name to continue';
-          if (input) input.after(hint);
-        }
-        requestAnimationFrame(() => { hint.style.opacity = '1'; });
-        setTimeout(() => { if (hint) hint.style.opacity = '0'; }, 3000);
+        const input = document.getElementById('quizInput');
+        triggerError(input || nextBtn, step.errorMsg || 'Please complete this field to continue.', 'quizHint');
       }
     });
     if (backBtn) backBtn.addEventListener('click', () => { current--; renderStep(current); });
+  }
+
+  function triggerError(target, message, hintId) {
+    target.style.transition = 'transform 0.08s ease, border-color 0.3s';
+    target.style.borderBottomColor = '#e05555';
+    target.style.transform = 'translateX(6px)';
+    setTimeout(() => { target.style.transform = 'translateX(-6px)'; }, 80);
+    setTimeout(() => { target.style.transform = 'translateX(4px)'; }, 160);
+    setTimeout(() => { target.style.transform = 'translateX(-4px)'; }, 240);
+    setTimeout(() => { target.style.transform = 'translateX(0)'; }, 320);
+    let hint = document.getElementById(hintId);
+    if (!hint) {
+      hint = document.createElement('span');
+      hint.id = hintId;
+      hint.style.cssText = 'display:block;font-family:Jost,sans-serif;font-size:10px;letter-spacing:2px;color:#e05555;margin-top:8px;opacity:0;transition:opacity 0.3s;text-transform:uppercase;';
+      target.after(hint);
+    }
+    hint.textContent = message;
+    requestAnimationFrame(() => { hint.style.opacity = '1'; });
+    setTimeout(() => { if (hint) hint.style.opacity = '0'; }, 3500);
   }
 
   function advance() {
@@ -6495,7 +6517,7 @@ body.light-mode .pkg-cta:hover {
             </div>
           `).join('')}
         </div>
-        <button class="quiz-enter-btn" id="quizEnter">Enter the Full Experience</button>
+        <button class="quiz-btn-next ready" id="quizEnter" style="width:100%;text-align:center;margin-top:24px;">Enter the Full Experience</button>
       </div>
     `;
 
@@ -7014,9 +7036,12 @@ document.addEventListener('DOMContentLoaded', function() {
       id: 'name',
       type: 'text',
       label: 'Step 1 of 5',
-      question: 'What shall we call you?',
+      question: 'Welcome. What shall we call you?',
       sub: 'Every great safari begins with a name.',
       placeholder: 'Your first name',
+      minLength: 2,
+      pattern: /^[a-zA-ZÀ-ÖØ-öø-ÿ\s'\-]{2,}$/,
+      errorMsg: 'Please enter a real name — at least 2 letters, no numbers.',
     },
     {
       id: 'vibe',
@@ -7065,6 +7090,9 @@ document.addEventListener('DOMContentLoaded', function() {
       question: 'When are you thinking of travelling?',
       sub: 'A rough idea helps us check availability and seasons.',
       placeholder: 'e.g. July 2025, or "not sure yet"',
+      minLength: 4,
+      pattern: /^[a-zA-Z0-9\s,\-\/\.]{4,}$/,
+      errorMsg: 'Please enter a month, year, or "not sure yet" — no special characters.',
     },
   ];
 
@@ -7145,14 +7173,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (isText) {
       const input = document.getElementById('iqInput');
+
+      function validateInput() {
+        const val = input.value.trim();
+        const pattern = step.pattern;
+        const minLen  = step.minLength || 1;
+        return val.length >= minLen && (!pattern || pattern.test(val));
+      }
+
       input.addEventListener('input', () => {
         answers[step.id] = input.value.trim();
-        const ready = input.value.trim().length > 0;
-        nextBtn.classList.toggle('ready', ready);
-        nextBtn.style.pointerEvents = ready ? 'all' : 'none';
+        const valid = validateInput();
+        nextBtn.classList.toggle('ready', valid);
+        input.style.borderBottomColor = '';
+        const hint = document.getElementById('iqHint');
+        if (hint) hint.style.opacity = '0';
       });
+
       input.addEventListener('keydown', e => {
-        if (e.key === 'Enter' && input.value.trim().length > 0) advance();
+        if (e.key === 'Enter') {
+          if (validateInput()) advance();
+          else triggerErrorIQ(input, step.errorMsg, 'iqHint');
+        }
       });
       setTimeout(() => input.focus(), 100);
     } else {
@@ -7168,8 +7210,35 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
 
-    if (nextBtn) nextBtn.addEventListener('click', () => { if (nextBtn.classList.contains('ready')) advance(); });
+    if (nextBtn) nextBtn.addEventListener('click', () => {
+      if (nextBtn.classList.contains('ready')) {
+        advance();
+      } else {
+        const input = document.getElementById('iqInput');
+        triggerErrorIQ(input || nextBtn, step.errorMsg || 'Please complete this field to continue.', 'iqHint');
+      }
+    });
     if (backBtn) backBtn.addEventListener('click', () => { current--; renderStep(current); });
+  }
+
+  function triggerErrorIQ(target, message, hintId) {
+    target.style.transition = 'transform 0.08s ease, border-color 0.3s';
+    target.style.borderBottomColor = '#e05555';
+    target.style.transform = 'translateX(6px)';
+    setTimeout(() => { target.style.transform = 'translateX(-6px)'; }, 80);
+    setTimeout(() => { target.style.transform = 'translateX(4px)'; }, 160);
+    setTimeout(() => { target.style.transform = 'translateX(-4px)'; }, 240);
+    setTimeout(() => { target.style.transform = 'translateX(0)'; }, 320);
+    let hint = document.getElementById(hintId);
+    if (!hint) {
+      hint = document.createElement('span');
+      hint.id = hintId;
+      hint.style.cssText = 'display:block;font-family:Jost,sans-serif;font-size:10px;letter-spacing:2px;color:#e05555;margin-top:8px;opacity:0;transition:opacity 0.3s;text-transform:uppercase;';
+      target.after(hint);
+    }
+    hint.textContent = message;
+    requestAnimationFrame(() => { hint.style.opacity = '1'; });
+    setTimeout(() => { if (hint) hint.style.opacity = '0'; }, 3500);
   }
 
   function advance() { current++; renderStep(current); }
@@ -7198,7 +7267,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
           `).join('')}
         </div>
-        <a href="#contact" class="quiz-enter-btn" id="iqContact">Speak to Our Safari Team</a>
+        <button class="quiz-btn-next ready" id="iqContact" style="width:100%;text-align:center;margin-top:24px;">Speak to Our Safari Team</button>
       </div>
     `;
 
