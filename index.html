@@ -408,125 +408,70 @@ body.light-mode .card-title {
 
 body.light-mode .pkg-name {
     font-family: 'Cormorant Garamond', serif;
-    font-weight: 300;
-    background: linear-gradient(
-      160deg,
-      #7a5500 0%,
-      #b8860b 25%,
-      #e8c84a 44%,
-      #fffbe8 48%,
-      #ffffff 50%,
-      #fffbe8 52%,
-      #e8c84a 56%,
-      #b8860b 75%,
-      #7a5500 100%
-    );
-    background-size: 100% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+    color: #ffffff;
+    -webkit-text-fill-color: #ffffff;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
   }
 
   body.light-mode .pkg-features li {
     font-family: 'Cormorant Garamond', serif;
-    font-weight: 300;
-    background: linear-gradient(
-      160deg,
-      #6b4f00 0%,
-      #9a7200 22%,
-      #c9a84c 42%,
-      #f5e199 48%,
-      #fffdf0 50%,
-      #f5e199 52%,
-      #c9a84c 58%,
-      #9a7200 78%,
-      #6b4f00 100%
-    );
-    background-size: 100% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    border-bottom-color: rgba(154,111,0,0.15);
-    animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite 1.5s;
+    font-weight: 500;
+    color: #f0e8d8;
+    -webkit-text-fill-color: #f0e8d8;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    border-bottom-color: rgba(255,255,255,0.1);
+    animation: none;
   }
 
   body.light-mode .pkg-duration {
     font-family: 'Cormorant Garamond', serif;
-    font-weight: 300;
+    font-weight: 600;
     font-style: italic;
-    background: linear-gradient(
-      160deg,
-      #9a7200 0%,
-      #c9a84c 40%,
-      #f5e199 50%,
-      #c9a84c 60%,
-      #9a7200 100%
-    );
-    background-size: 100% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite 2.5s;
+    color: #e8d8b0;
+    -webkit-text-fill-color: #e8d8b0;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    animation: none;
   }
 
   body.light-mode .pkg-price {
-    background: linear-gradient(
-      160deg,
-      #7a5500 0%,
-      #b8860b 20%,
-      #e8c84a 42%,
-      #fffbe8 48%,
-      #ffffff 50%,
-      #fffbe8 52%,
-      #e8c84a 58%,
-      #b8860b 80%,
-      #7a5500 100%
-    );
-    background-size: 100% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite 0s;
+    color: #f5d87a;
+    -webkit-text-fill-color: #f5d87a;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    animation: none;
+    font-weight: 700;
   }
 
   body.light-mode .pkg-price span {
     font-family: 'Cormorant Garamond', serif;
-    font-weight: 300;
-    background: linear-gradient(
-      160deg,
-      #9a7200 0%,
-      #c9a84c 45%,
-      #f0d878 50%,
-      #c9a84c 55%,
-      #9a7200 100%
-    );
-    background-size: 100% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite 3s;
+    font-weight: 400;
+    color: #e8d8b0;
+    -webkit-text-fill-color: #e8d8b0;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    animation: none;
   }
 
   body.light-mode .pkg-cta {
     font-family: 'Cormorant Garamond', serif;
-    font-weight: 400;
+    font-weight: 700;
     letter-spacing: 3px;
-    background: linear-gradient(
-      160deg,
-      #7a5500 0%,
-      #b8860b 30%,
-      #e8c84a 48%,
-      #fffbe8 50%,
-      #e8c84a 52%,
-      #b8860b 70%,
-      #7a5500 100%
-    );
-    background-size: 100% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    border-color: rgba(154,111,0,0.3);
-    animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite 2s;
+    color: #f5d87a;
+    -webkit-text-fill-color: #f5d87a;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    border-color: rgba(245,216,122,0.5);
+    animation: none;
   }
 
   body.light-mode .testimonial-text {
@@ -789,18 +734,54 @@ body.light-mode .gallery-img {
   }
 
 body.light-mode .hc-bg {
-    filter: brightness(0.25) saturate(1) sepia(0) !important;
+    filter: brightness(0.55) saturate(0.6) sepia(0.45) !important;
     mix-blend-mode: normal;
     opacity: 1;
   }
 
   body.light-mode .highlight-card:hover .hc-bg {
-    filter: brightness(0.3) saturate(1) sepia(0) !important;
+    filter: brightness(0.62) saturate(0.65) sepia(0.45) !important;
     opacity: 1;
   }
 
   body.light-mode .hc-bg-overlay {
-    background: rgba(0,0,0,0.08) !important;
+    background: rgba(20,10,2,0.52) !important;
+  }
+
+  /* Highlight card text — always light on the browned image */
+  body.light-mode .highlight-card .card-number {
+    background: linear-gradient(
+      160deg,
+      #c9a84c 0%,
+      #f5e199 38%,
+      #ffffff 50%,
+      #f5e199 62%,
+      #c9a84c 100%
+    ) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    filter: brightness(1.15) !important;
+  }
+
+  body.light-mode .highlight-card .card-title {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    font-weight: 800 !important;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.7) !important;
+  }
+
+  body.light-mode .highlight-card .card-text {
+    color: #f0e8d8 !important;
+    -webkit-text-fill-color: #f0e8d8 !important;
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    font-weight: 500 !important;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.6) !important;
   }
 
   body.light-mode .pkg-bg {
@@ -815,7 +796,82 @@ body.light-mode .hc-bg {
   }
 
   body.light-mode .pkg-bg-overlay {
-    background: rgba(0,0,0,0.08) !important;
+    background: rgba(20,10,2,0.52) !important;
+  }
+
+  /* Package card text — always light on the browned image */
+  body.light-mode .package-card .pkg-badge {
+    background: #d4af37 !important;
+    color: #0a0600 !important;
+    font-weight: 700 !important;
+  }
+
+  body.light-mode .package-card .pkg-duration {
+    color: #e8d8b0 !important;
+    -webkit-text-fill-color: #e8d8b0 !important;
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    font-weight: 600 !important;
+    letter-spacing: 4px !important;
+  }
+
+  body.light-mode .package-card .pkg-name {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    font-weight: 800 !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.7) !important;
+  }
+
+  body.light-mode .package-card .pkg-price {
+    color: #f5d87a !important;
+    -webkit-text-fill-color: #f5d87a !important;
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    font-weight: 700 !important;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.5) !important;
+  }
+
+  body.light-mode .package-card .pkg-price span {
+    color: #e8d8b0 !important;
+    -webkit-text-fill-color: #e8d8b0 !important;
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    font-weight: 400 !important;
+  }
+
+  body.light-mode .package-card .pkg-features li {
+    color: #f0e8d8 !important;
+    -webkit-text-fill-color: #f0e8d8 !important;
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    font-weight: 500 !important;
+    border-bottom-color: rgba(255,255,255,0.1) !important;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.5) !important;
+  }
+
+  body.light-mode .package-card .pkg-cta {
+    color: #f5d87a !important;
+    -webkit-text-fill-color: #f5d87a !important;
+    background: transparent !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    border-color: rgba(245,216,122,0.5) !important;
+    font-weight: 700 !important;
+    text-shadow: none !important;
+  }
+
+  body.light-mode .package-card .pkg-cta:hover {
+    background: #d4af37 !important;
+    color: #0a0600 !important;
+    -webkit-text-fill-color: #0a0600 !important;
+    border-color: #d4af37 !important;
   }
 
   body.light-mode .blog-card-img {
@@ -4774,11 +4830,11 @@ body.light-mode .ds-slide-label {
     text-shadow: none !important;
   } 
  body.light-mode .pkg-bg {
-    filter: brightness(0.12) saturate(0) !important;
+    filter: brightness(0.55) saturate(0.6) sepia(0.45) !important;
   }
 
   body.light-mode .package-card:hover .pkg-bg {
-    filter: brightness(0.18) saturate(0) !important;
+    filter: brightness(0.62) saturate(0.65) sepia(0.45) !important;
   }
 
   body.light-mode .hc-bg {
