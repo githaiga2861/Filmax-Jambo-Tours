@@ -180,20 +180,23 @@ body.light-mode {
 
 body.light-mode .nav-logo-img {
     filter:
-      drop-shadow(0 0 4px rgba(0,0,0,0.99))
-      drop-shadow(0 0 10px rgba(0,0,0,0.95))
-      drop-shadow(0 0 22px rgba(0,0,0,0.75))
-      drop-shadow(0 0 40px rgba(0,0,0,0.4));
+      drop-shadow(0 0 3px rgba(180,130,10,0.95))
+      drop-shadow(0 0 8px rgba(180,130,10,0.85))
+      drop-shadow(0 0 18px rgba(180,130,10,0.6))
+      drop-shadow(0 0 35px rgba(180,130,10,0.3))
+      drop-shadow(0 2px 4px rgba(0,0,0,0.9))
+      drop-shadow(0 4px 12px rgba(0,0,0,0.75));
     transition: filter 0.4s ease;
   }
 
   body.light-mode nav.scrolled .nav-logo-img {
     filter:
-      drop-shadow(0 0 3px rgba(0,0,0,1))
-      drop-shadow(0 0 8px rgba(0,0,0,0.99))
-      drop-shadow(0 0 18px rgba(0,0,0,0.92))
-      drop-shadow(0 0 35px rgba(0,0,0,0.75))
-      drop-shadow(0 0 60px rgba(0,0,0,0.45));
+      drop-shadow(0 0 4px rgba(180,130,10,1))
+      drop-shadow(0 0 12px rgba(180,130,10,0.92))
+      drop-shadow(0 0 24px rgba(180,130,10,0.7))
+      drop-shadow(0 0 45px rgba(180,130,10,0.4))
+      drop-shadow(0 2px 6px rgba(0,0,0,0.95))
+      drop-shadow(0 5px 18px rgba(0,0,0,0.85));
     transition: filter 0.4s ease;
   }
 
@@ -1327,8 +1330,26 @@ body.light-mode .pkg-filter-btn.active {
   }
 
   body.light-mode .ds-lightbox {
-    background: rgba(220,216,210,0.98);
+    background: rgba(245,240,232,0.97);
   }
+
+/* Send Enquiry button — always bright gold in light mode */
+body.light-mode #sendEnquiryBtn,
+body.light-mode .contact-form .btn-primary {
+  background: linear-gradient(135deg, #d4af37, #b8860b) !important;
+  color: #080808 !important;
+  -webkit-text-fill-color: #080808 !important;
+  box-shadow: 0 8px 32px rgba(212,175,55,0.35) !important;
+  animation: pulseCTA 3s ease-in-out infinite 2s !important;
+  filter: brightness(1.1) saturate(1.2);
+}
+
+body.light-mode #sendEnquiryBtn:hover,
+body.light-mode .contact-form .btn-primary:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 16px 48px rgba(212,175,55,0.6) !important;
+  filter: brightness(1.2) saturate(1.3);
+}
 
   body.light-mode .ds-lightbox-caption h3 {
     color: #1a1714;
@@ -6295,7 +6316,7 @@ body.light-mode .pkg-cta:hover {
         <input type="email" placeholder="Email Address">
         <input type="tel" placeholder="Phone / WhatsApp">
         <textarea placeholder="Tell us your dream safari..."></textarea>
-        <button class="btn-primary" type="button" style="cursor: none;">Send Enquiry</button>
+        <button class="btn-primary" id="sendEnquiryBtn" type="button" style="cursor: none;">Send Enquiry</button>
       </div>
     </div>
   </div>
@@ -6370,6 +6391,41 @@ body.light-mode .pkg-cta:hover {
   const progress  = document.getElementById('quizProgress');
   const skipBtn   = document.getElementById('quizSkip');
 
+  // Shared live package pool — merges allPackages when available
+  function getLivePool() {
+    if (window.allPackages && window.allPackages.length) {
+      return window.allPackages.map(p => {
+        const name = p.name.replace(/<br>/g,' ').replace(/\s+/g,' ').trim();
+        const tierRaw = (p.tier || '').toLowerCase();
+        const tier = tierRaw.includes('ultra') ? 'ultra'
+                   : tierRaw.includes('luxury') ? 'luxury'
+                   : tierRaw.includes('budget') ? 'budget' : 'mid-range';
+        const features = p.features || [];
+        const vibes = [];
+        const searchText = (name + ' ' + features.join(' ')).toLowerCase();
+        if (/beach|coast|ocean|diani|marine|snorkel/.test(searchText))   vibes.push('beach');
+        if (/wildlife|safari|game|mara|amboseli|samburu|tsavo|nakuru|park|reserve|big five|migration|elephant|lion|leopard/.test(searchText)) vibes.push('wildlife');
+        if (/hike|climb|mount|trek|adventure|highland|mountain/.test(searchText)) vibes.push('adventure');
+        if (/culture|maasai|village|community|people|tradition/.test(searchText)) vibes.push('culture');
+        if (!vibes.length) vibes.push('wildlife');
+        const days = parseInt((p.duration || '').match(/\d+/) || [0]);
+        const durationKey = days <= 4 ? 'short' : days <= 7 ? 'medium' : days <= 10 ? 'long' : 'grand';
+        const priceRaw = parseInt((p.price || '$0').replace(/\D/g,'')) || 0;
+        return { name, price: p.price, duration: p.duration || '', page: p.page || '#packages', tier, vibe: vibes, durationKey, priceRaw };
+      });
+    }
+    return [
+      { name: 'Mara Awakening',       price: '$2,800',  duration: '4 Days',  page: 'pkg-mara-awakening.html',     tier: 'mid-range', vibe: ['wildlife'],              durationKey: 'short',  priceRaw: 2800  },
+      { name: 'Grand Odyssey',        price: '$6,500',  duration: '7 Days',  page: 'pkg-grand-odyssey.html',      tier: 'luxury',    vibe: ['wildlife','culture'],    durationKey: 'medium', priceRaw: 6500  },
+      { name: 'Ultimate Kenya',       price: '$11,200', duration: '10 Days', page: 'pkg-ultimate-kenya.html',     tier: 'luxury',    vibe: ['wildlife','adventure'],  durationKey: 'long',   priceRaw: 11200 },
+      { name: 'Amboseli Escape',      price: '$1,950',  duration: '3 Days',  page: 'pkg-amboseli-express.html',   tier: 'budget',    vibe: ['wildlife'],              durationKey: 'short',  priceRaw: 1950  },
+      { name: 'Samburu Wilderness',   price: '$3,400',  duration: '5 Days',  page: 'pkg-samburu-secrets.html',    tier: 'mid-range', vibe: ['wildlife','adventure'],  durationKey: 'medium', priceRaw: 3400  },
+      { name: 'Coastal Safari Blend', price: '$4,200',  duration: '6 Days',  page: 'pkg-safari-and-sea.html',     tier: 'mid-range', vibe: ['beach','wildlife'],      durationKey: 'medium', priceRaw: 4200  },
+      { name: 'Lakes & Highlands',    price: '$5,100',  duration: '8 Days',  page: 'pkg-lake-nakuru-escape.html', tier: 'mid-range', vibe: ['adventure','culture'],   durationKey: 'long',   priceRaw: 5100  },
+      { name: 'Kenya Mastery',        price: '$14,500', duration: '12 Days', page: 'pkg-grand-odyssey.html',      tier: 'ultra',     vibe: ['wildlife','culture'],    durationKey: 'grand',  priceRaw: 14500 },
+    ];
+  }
+
   const steps = [
     {
       id: 'name',
@@ -6384,10 +6440,10 @@ body.light-mode .pkg-cta:hover {
     },
     {
       id: 'vibe',
-      type: 'choice',
+      type: 'multi',
       label: 'Step 2 of 5',
       question: 'What draws you to Kenya?',
-      sub: 'Choose the experience that stirs something in you.',
+      sub: 'Choose everything that stirs something in you.',
       options: [
         { value: 'wildlife',  label: 'Wildlife & Safari' },
         { value: 'beach',     label: 'Coast & Ocean' },
@@ -6435,17 +6491,6 @@ body.light-mode .pkg-cta:hover {
     },
   ];
 
-  const packagePool = [
-    { name: 'Mara Awakening',      price: '$2,800',  duration: '4 Days',   page: 'pkg-mara-awakening.html',     tier: 'mid-range', vibe: ['wildlife'],            durationKey: 'short'  },
-    { name: 'Grand Odyssey',       price: '$6,500',  duration: '7 Days',   page: 'pkg-grand-odyssey.html',      tier: 'luxury',    vibe: ['wildlife','culture'],  durationKey: 'medium' },
-    { name: 'Ultimate Kenya',      price: '$11,200', duration: '10 Days',  page: 'pkg-ultimate-kenya.html',     tier: 'luxury',    vibe: ['wildlife','adventure'], durationKey: 'long'   },
-    { name: 'Amboseli Escape',     price: '$1,950',  duration: '3 Days',   page: 'pkg-amboseli-express.html',   tier: 'budget',    vibe: ['wildlife'],            durationKey: 'short'  },
-    { name: 'Samburu Wilderness',  price: '$3,400',  duration: '5 Days',   page: 'pkg-samburu-secrets.html',    tier: 'mid-range', vibe: ['wildlife','adventure'], durationKey: 'medium' },
-    { name: 'Coastal Safari Blend',price: '$4,200',  duration: '6 Days',   page: 'pkg-safari-and-sea.html',     tier: 'mid-range', vibe: ['beach','wildlife'],    durationKey: 'medium' },
-    { name: 'Lakes & Highlands',   price: '$5,100',  duration: '8 Days',   page: 'pkg-lake-nakuru-escape.html', tier: 'mid-range', vibe: ['adventure','culture'], durationKey: 'long'   },
-    { name: 'Kenya Mastery',       price: '$14,500', duration: '12 Days',  page: 'pkg-grand-odyssey.html',      tier: 'ultra',     vibe: ['wildlife','culture'],  durationKey: 'grand'  },
-  ];
-
   let current = 0;
   const answers = {};
 
@@ -6458,14 +6503,43 @@ body.light-mode .pkg-cta:hover {
   }
 
   function getResults() {
-    const scored = packagePool.map(pkg => {
+    const pool      = getLivePool();
+    const vibes     = Array.isArray(answers.vibe) ? answers.vibe : (answers.vibe ? [answers.vibe] : []);
+    const duration  = answers.duration;
+    const budget    = answers.budget;
+
+    const scored = pool.map(pkg => {
       let score = 0;
-      if (answers.vibe     && pkg.vibe.includes(answers.vibe))           score += 3;
-      if (answers.duration && pkg.durationKey === answers.duration)       score += 2;
-      if (answers.budget   && tierMatch(pkg.tier, answers.budget))        score += 2;
+
+      // Vibe matching — score each matched vibe, bonus for multiple matches
+      vibes.forEach(v => { if (pkg.vibe.includes(v)) score += 3; });
+      if (vibes.length > 1) {
+        const matchCount = vibes.filter(v => pkg.vibe.includes(v)).length;
+        score += matchCount * 2; // bonus for multi-match
+      }
+
+      // Duration — exact match scores highest, adjacent scores partial
+      if (duration) {
+        const order = ['short','medium','long','grand'];
+        const pkgIdx = order.indexOf(pkg.durationKey);
+        const ansIdx = order.indexOf(duration);
+        if (pkgIdx === ansIdx)            score += 4;
+        else if (Math.abs(pkgIdx - ansIdx) === 1) score += 2;
+      }
+
+      // Budget — tier match with adjacency tolerance
+      if (budget) {
+        if (pkg.tier === budget)          score += 5;
+        else if (tierMatch(pkg.tier, budget)) score += 2;
+      }
+
       return { ...pkg, score };
     });
-    return scored.sort((a, b) => b.score - a.score).slice(0, 3);
+
+    // Sort by score desc, then by priceRaw asc as tiebreaker
+    return scored
+      .sort((a, b) => b.score - a.score || a.priceRaw - b.priceRaw)
+      .slice(0, 3);
   }
 
   function setProgress(step) {
@@ -6475,39 +6549,41 @@ body.light-mode .pkg-cta:hover {
   function renderStep(index) {
     setProgress(index);
     if (index >= steps.length) { renderResults(); return; }
-    const step = steps[index];
-    const isText   = step.type === 'text';
-    const hasAnswer = answers[step.id] !== undefined && answers[step.id] !== '';
+    const step      = steps[index];
+    const isText    = step.type === 'text';
+    const isMulti   = step.type === 'multi';
+    const isChoice  = step.type === 'choice';
+
+    const selectedVibes = Array.isArray(answers.vibe) ? answers.vibe : [];
+    const hasAnswer = isText
+      ? (answers[step.id] !== undefined && answers[step.id] !== '')
+      : isMulti
+        ? selectedVibes.length > 0
+        : (answers[step.id] !== undefined && answers[step.id] !== '');
 
     container.innerHTML = `
       <div class="quiz-step">
         <span class="quiz-step-label">${step.label}</span>
         <h2 class="quiz-question">${step.question}</h2>
-        <p class="quiz-sub">${step.sub}</p>
+        <p class="quiz-sub">${step.sub}${isMulti ? ' <em style="font-size:10px;letter-spacing:2px;opacity:0.6;">(select all that apply)</em>' : ''}</p>
         ${isText ? `
-          <input
-            class="quiz-input"
-            id="quizInput"
-            type="text"
+          <input class="quiz-input" id="quizInput" type="text"
             placeholder="${step.placeholder}"
             value="${answers[step.id] || ''}"
-            autocomplete="off"
-          >
+            autocomplete="off">
         ` : `
           <div class="quiz-options${step.singleCol ? ' single-col' : ''}" id="quizOptions">
-            ${step.options.map(opt => `
-              <button
-                class="quiz-option${answers[step.id] === opt.value ? ' selected' : ''}"
-                data-value="${opt.value}"
-              >${opt.label}</button>
-            `).join('')}
+            ${step.options.map(opt => {
+              const sel = isMulti
+                ? selectedVibes.includes(opt.value)
+                : answers[step.id] === opt.value;
+              return `<button class="quiz-option${sel ? ' selected' : ''}" data-value="${opt.value}">${opt.label}</button>`;
+            }).join('')}
           </div>
+          ${isMulti ? `<p style="font-family:Jost,sans-serif;font-size:9px;letter-spacing:3px;color:rgba(212,175,55,0.6);margin-top:10px;text-transform:uppercase;" id="multiHint">${selectedVibes.length} selected — press Continue when ready</p>` : ''}
         `}
         <div class="quiz-nav">
-          ${index > 0
-            ? `<button class="quiz-btn-back" id="quizBack">Back</button>`
-            : `<span></span>`
-          }
+          ${index > 0 ? `<button class="quiz-btn-back" id="quizBack">Back</button>` : `<span></span>`}
           <button class="quiz-btn-next${hasAnswer ? ' ready' : ''}" id="quizNext">
             ${index === steps.length - 1 ? 'See My Safaris' : 'Continue'}
           </button>
@@ -6520,24 +6596,18 @@ body.light-mode .pkg-cta:hover {
 
     if (isText) {
       const input = document.getElementById('quizInput');
-
       function validateInput() {
         const val = input.value.trim();
-        const pattern = step.pattern;
-        const minLen  = step.minLength || 1;
-        return val.length >= minLen && (!pattern || pattern.test(val));
+        return val.length >= (step.minLength || 1) && (!step.pattern || step.pattern.test(val));
       }
-
       input.addEventListener('input', () => {
         answers[step.id] = input.value.trim();
         const valid = validateInput();
         nextBtn.classList.toggle('ready', valid);
-        // Clear error styling as user types
         input.style.borderBottomColor = '';
         const hint = document.getElementById('quizHint');
         if (hint) hint.style.opacity = '0';
       });
-
       input.addEventListener('keydown', e => {
         if (e.key === 'Enter') {
           if (validateInput()) advance();
@@ -6545,11 +6615,30 @@ body.light-mode .pkg-cta:hover {
         }
       });
       setTimeout(() => input.focus(), 100);
+
+    } else if (isMulti) {
+      document.getElementById('quizOptions').addEventListener('click', e => {
+        const btn = e.target.closest('.quiz-option');
+        if (!btn) return;
+        const val = btn.dataset.value;
+        if (!Array.isArray(answers.vibe)) answers.vibe = [];
+        if (answers.vibe.includes(val)) {
+          answers.vibe = answers.vibe.filter(v => v !== val);
+          btn.classList.remove('selected');
+        } else {
+          answers.vibe.push(val);
+          btn.classList.add('selected');
+        }
+        const hint = document.getElementById('multiHint');
+        if (hint) hint.textContent = answers.vibe.length + ' selected — press Continue when ready';
+        nextBtn.classList.toggle('ready', answers.vibe.length > 0);
+      });
+
     } else {
       document.getElementById('quizOptions').addEventListener('click', e => {
         const btn = e.target.closest('.quiz-option');
         if (!btn) return;
-        document.querySelectorAll('.quiz-option').forEach(b => b.classList.remove('selected'));
+        document.querySelectorAll('#quizOptions .quiz-option').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
         answers[step.id] = btn.dataset.value;
         nextBtn.classList.add('ready');
@@ -6589,15 +6678,12 @@ body.light-mode .pkg-cta:hover {
     setTimeout(() => { if (hint) hint.style.opacity = '0'; }, 3500);
   }
 
-  function advance() {
-    current++;
-    renderStep(current);
-  }
+  function advance() { current++; renderStep(current); }
 
   function renderResults() {
     setProgress(steps.length);
     const results = getResults();
-    const name    = answers.name ? answers.name.split(' ')[0] : 'Explorer';
+    const name = answers.name ? answers.name.split(' ')[0] : 'Explorer';
 
     container.innerHTML = `
       <div class="quiz-step">
@@ -6621,11 +6707,10 @@ body.light-mode .pkg-cta:hover {
         <button class="quiz-btn-next ready" id="quizEnter" style="width:100%;text-align:center;margin-top:24px;">Enter the Full Experience</button>
       </div>
     `;
-
     document.getElementById('quizEnter').addEventListener('click', closeQuiz);
   }
 
-function closeQuiz() {
+  function closeQuiz() {
     sessionStorage.setItem('quizDone', 'true');
     document.body.style.overflow = '';
     document.documentElement.style.overflow = '';
@@ -6643,9 +6728,7 @@ function closeQuiz() {
 
   skipBtn.addEventListener('click', closeQuiz);
 
-  // Show after loader
-function initQuiz() {
-    // Triple-lock scroll to top before overlay appears
+  function initQuiz() {
     window.scrollTo(0, 0);
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
@@ -6656,7 +6739,6 @@ function initQuiz() {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         overlay.classList.add('visible');
-        // Enforce top one more time after paint
         window.scrollTo(0, 0);
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
@@ -6670,7 +6752,7 @@ function initQuiz() {
     setTimeout(initQuiz, 5800);
   }
 
-})();  
+})();
   // THEME TOGGLE
 (function () {
   const toggle  = document.getElementById('themeToggle');
@@ -7127,17 +7209,52 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
   // INLINE QUIZ
+// INLINE QUIZ
 (function () {
   const container = document.getElementById('iqStepContainer');
   const progress  = document.getElementById('iqProgress');
   if (!container) return;
+
+  function getLivePool() {
+    if (window.allPackages && window.allPackages.length) {
+      return window.allPackages.map(p => {
+        const name = p.name.replace(/<br>/g,' ').replace(/\s+/g,' ').trim();
+        const tierRaw = (p.tier || '').toLowerCase();
+        const tier = tierRaw.includes('ultra') ? 'ultra'
+                   : tierRaw.includes('luxury') ? 'luxury'
+                   : tierRaw.includes('budget') ? 'budget' : 'mid-range';
+        const features = p.features || [];
+        const vibes = [];
+        const searchText = (name + ' ' + features.join(' ')).toLowerCase();
+        if (/beach|coast|ocean|diani|marine|snorkel/.test(searchText))   vibes.push('beach');
+        if (/wildlife|safari|game|mara|amboseli|samburu|tsavo|nakuru|park|reserve|big five|migration|elephant|lion|leopard/.test(searchText)) vibes.push('wildlife');
+        if (/hike|climb|mount|trek|adventure|highland|mountain/.test(searchText)) vibes.push('adventure');
+        if (/culture|maasai|village|community|people|tradition/.test(searchText)) vibes.push('culture');
+        if (!vibes.length) vibes.push('wildlife');
+        const days = parseInt((p.duration || '').match(/\d+/) || [0]);
+        const durationKey = days <= 4 ? 'short' : days <= 7 ? 'medium' : days <= 10 ? 'long' : 'grand';
+        const priceRaw = parseInt((p.price || '$0').replace(/\D/g,'')) || 0;
+        return { name, price: p.price, duration: p.duration || '', page: p.page || '#packages', tier, vibe: vibes, durationKey, priceRaw };
+      });
+    }
+    return [
+      { name: 'Mara Awakening',       price: '$2,800',  duration: '4 Days',  page: 'pkg-mara-awakening.html',     tier: 'mid-range', vibe: ['wildlife'],              durationKey: 'short',  priceRaw: 2800  },
+      { name: 'Grand Odyssey',        price: '$6,500',  duration: '7 Days',  page: 'pkg-grand-odyssey.html',      tier: 'luxury',    vibe: ['wildlife','culture'],    durationKey: 'medium', priceRaw: 6500  },
+      { name: 'Ultimate Kenya',       price: '$11,200', duration: '10 Days', page: 'pkg-ultimate-kenya.html',     tier: 'luxury',    vibe: ['wildlife','adventure'],  durationKey: 'long',   priceRaw: 11200 },
+      { name: 'Amboseli Escape',      price: '$1,950',  duration: '3 Days',  page: 'pkg-amboseli-express.html',   tier: 'budget',    vibe: ['wildlife'],              durationKey: 'short',  priceRaw: 1950  },
+      { name: 'Samburu Wilderness',   price: '$3,400',  duration: '5 Days',  page: 'pkg-samburu-secrets.html',    tier: 'mid-range', vibe: ['wildlife','adventure'],  durationKey: 'medium', priceRaw: 3400  },
+      { name: 'Coastal Safari Blend', price: '$4,200',  duration: '6 Days',  page: 'pkg-safari-and-sea.html',     tier: 'mid-range', vibe: ['beach','wildlife'],      durationKey: 'medium', priceRaw: 4200  },
+      { name: 'Lakes & Highlands',    price: '$5,100',  duration: '8 Days',  page: 'pkg-lake-nakuru-escape.html', tier: 'mid-range', vibe: ['adventure','culture'],   durationKey: 'long',   priceRaw: 5100  },
+      { name: 'Kenya Mastery',        price: '$14,500', duration: '12 Days', page: 'pkg-grand-odyssey.html',      tier: 'ultra',     vibe: ['wildlife','culture'],    durationKey: 'grand',  priceRaw: 14500 },
+    ];
+  }
 
   const steps = [
     {
       id: 'name',
       type: 'text',
       label: 'Step 1 of 5',
-      question: 'Welcome. What shall we call you?',
+      question: 'What shall we call you?',
       sub: 'Every great safari begins with a name.',
       placeholder: 'Your first name',
       minLength: 2,
@@ -7146,10 +7263,10 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     {
       id: 'vibe',
-      type: 'choice',
+      type: 'multi',
       label: 'Step 2 of 5',
       question: 'What draws you to Kenya?',
-      sub: 'Choose the experience that stirs something in you.',
+      sub: 'Choose everything that stirs something in you.',
       options: [
         { value: 'wildlife',  label: 'Wildlife & Safari' },
         { value: 'beach',     label: 'Coast & Ocean' },
@@ -7197,17 +7314,6 @@ document.addEventListener('DOMContentLoaded', function() {
     },
   ];
 
-  const packagePool = [
-    { name: 'Mara Awakening',       price: '$2,800',  duration: '4 Days',  page: 'pkg-mara-awakening.html',     tier: 'mid-range', vibe: ['wildlife'],             durationKey: 'short'  },
-    { name: 'Grand Odyssey',        price: '$6,500',  duration: '7 Days',  page: 'pkg-grand-odyssey.html',      tier: 'luxury',    vibe: ['wildlife','culture'],   durationKey: 'medium' },
-    { name: 'Ultimate Kenya',       price: '$11,200', duration: '10 Days', page: 'pkg-ultimate-kenya.html',     tier: 'luxury',    vibe: ['wildlife','adventure'],  durationKey: 'long'   },
-    { name: 'Amboseli Escape',      price: '$1,950',  duration: '3 Days',  page: 'pkg-amboseli-express.html',   tier: 'budget',    vibe: ['wildlife'],             durationKey: 'short'  },
-    { name: 'Samburu Wilderness',   price: '$3,400',  duration: '5 Days',  page: 'pkg-samburu-secrets.html',    tier: 'mid-range', vibe: ['wildlife','adventure'], durationKey: 'medium' },
-    { name: 'Coastal Safari Blend', price: '$4,200',  duration: '6 Days',  page: 'pkg-safari-and-sea.html',     tier: 'mid-range', vibe: ['beach','wildlife'],     durationKey: 'medium' },
-    { name: 'Lakes & Highlands',    price: '$5,100',  duration: '8 Days',  page: 'pkg-lake-nakuru-escape.html', tier: 'mid-range', vibe: ['adventure','culture'],  durationKey: 'long'   },
-    { name: 'Kenya Mastery',        price: '$14,500', duration: '12 Days', page: 'pkg-grand-odyssey.html',      tier: 'ultra',     vibe: ['wildlife','culture'],   durationKey: 'grand'  },
-  ];
-
   let current = 0;
   const answers = {};
 
@@ -7220,13 +7326,29 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function getResults() {
-    return packagePool.map(pkg => {
+    const pool     = getLivePool();
+    const vibes    = Array.isArray(answers.vibe) ? answers.vibe : (answers.vibe ? [answers.vibe] : []);
+    const duration = answers.duration;
+    const budget   = answers.budget;
+
+    return pool.map(pkg => {
       let score = 0;
-      if (answers.vibe     && pkg.vibe.includes(answers.vibe))     score += 3;
-      if (answers.duration && pkg.durationKey === answers.duration) score += 2;
-      if (answers.budget   && tierMatch(pkg.tier, answers.budget))  score += 2;
+      vibes.forEach(v => { if (pkg.vibe.includes(v)) score += 3; });
+      if (vibes.length > 1) score += vibes.filter(v => pkg.vibe.includes(v)).length * 2;
+      if (duration) {
+        const order = ['short','medium','long','grand'];
+        const diff = Math.abs(order.indexOf(pkg.durationKey) - order.indexOf(duration));
+        if (diff === 0) score += 4;
+        else if (diff === 1) score += 2;
+      }
+      if (budget) {
+        if (pkg.tier === budget) score += 5;
+        else if (tierMatch(pkg.tier, budget)) score += 2;
+      }
       return { ...pkg, score };
-    }).sort((a,b) => b.score - a.score).slice(0,3);
+    })
+    .sort((a,b) => b.score - a.score || a.priceRaw - b.priceRaw)
+    .slice(0,3);
   }
 
   function setProgress(step) {
@@ -7236,15 +7358,22 @@ document.addEventListener('DOMContentLoaded', function() {
   function renderStep(index) {
     setProgress(index);
     if (index >= steps.length) { renderResults(); return; }
-    const step      = steps[index];
-    const isText    = step.type === 'text';
-    const hasAnswer = answers[step.id] !== undefined && answers[step.id] !== '';
+    const step    = steps[index];
+    const isText  = step.type === 'text';
+    const isMulti = step.type === 'multi';
+
+    const selectedVibes = Array.isArray(answers.vibe) ? answers.vibe : [];
+    const hasAnswer = isText
+      ? (answers[step.id] !== undefined && answers[step.id] !== '')
+      : isMulti
+        ? selectedVibes.length > 0
+        : (answers[step.id] !== undefined && answers[step.id] !== '');
 
     container.innerHTML = `
       <div class="quiz-step">
         <span class="quiz-step-label">${step.label}</span>
         <h2 class="quiz-question">${step.question}</h2>
-        <p class="quiz-sub">${step.sub}</p>
+        <p class="quiz-sub">${step.sub}${isMulti ? ' <em style="font-size:10px;letter-spacing:2px;opacity:0.6;">(select all that apply)</em>' : ''}</p>
         ${isText ? `
           <input class="quiz-input" id="iqInput" type="text"
             placeholder="${step.placeholder}"
@@ -7252,16 +7381,15 @@ document.addEventListener('DOMContentLoaded', function() {
             autocomplete="off">
         ` : `
           <div class="quiz-options${step.singleCol ? ' single-col' : ''}" id="iqOptions">
-            ${step.options.map(opt => `
-              <button class="quiz-option${answers[step.id] === opt.value ? ' selected' : ''}"
-                data-value="${opt.value}">${opt.label}</button>
-            `).join('')}
+            ${step.options.map(opt => {
+              const sel = isMulti ? selectedVibes.includes(opt.value) : answers[step.id] === opt.value;
+              return `<button class="quiz-option${sel ? ' selected' : ''}" data-value="${opt.value}">${opt.label}</button>`;
+            }).join('')}
           </div>
+          ${isMulti ? `<p style="font-family:Jost,sans-serif;font-size:9px;letter-spacing:3px;color:rgba(212,175,55,0.6);margin-top:10px;text-transform:uppercase;" id="iqMultiHint">${selectedVibes.length} selected — press Continue when ready</p>` : ''}
         `}
         <div class="quiz-nav">
-          ${index > 0
-            ? `<button class="quiz-btn-back" id="iqBack">Back</button>`
-            : `<span></span>`}
+          ${index > 0 ? `<button class="quiz-btn-back" id="iqBack">Back</button>` : `<span></span>`}
           <button class="quiz-btn-next${hasAnswer ? ' ready' : ''}" id="iqNext">
             ${index === steps.length - 1 ? 'See My Safaris' : 'Continue'}
           </button>
@@ -7274,23 +7402,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (isText) {
       const input = document.getElementById('iqInput');
-
       function validateInput() {
         const val = input.value.trim();
-        const pattern = step.pattern;
-        const minLen  = step.minLength || 1;
-        return val.length >= minLen && (!pattern || pattern.test(val));
+        return val.length >= (step.minLength || 1) && (!step.pattern || step.pattern.test(val));
       }
-
       input.addEventListener('input', () => {
         answers[step.id] = input.value.trim();
-        const valid = validateInput();
-        nextBtn.classList.toggle('ready', valid);
+        nextBtn.classList.toggle('ready', validateInput());
         input.style.borderBottomColor = '';
         const hint = document.getElementById('iqHint');
         if (hint) hint.style.opacity = '0';
       });
-
       input.addEventListener('keydown', e => {
         if (e.key === 'Enter') {
           if (validateInput()) advance();
@@ -7298,6 +7420,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
       setTimeout(() => input.focus(), 100);
+
+    } else if (isMulti) {
+      document.getElementById('iqOptions').addEventListener('click', e => {
+        const btn = e.target.closest('.quiz-option');
+        if (!btn) return;
+        const val = btn.dataset.value;
+        if (!Array.isArray(answers.vibe)) answers.vibe = [];
+        if (answers.vibe.includes(val)) {
+          answers.vibe = answers.vibe.filter(v => v !== val);
+          btn.classList.remove('selected');
+        } else {
+          answers.vibe.push(val);
+          btn.classList.add('selected');
+        }
+        const hint = document.getElementById('iqMultiHint');
+        if (hint) hint.textContent = answers.vibe.length + ' selected — press Continue when ready';
+        nextBtn.classList.toggle('ready', answers.vibe.length > 0);
+      });
+
     } else {
       document.getElementById('iqOptions').addEventListener('click', e => {
         const btn = e.target.closest('.quiz-option');
@@ -7347,7 +7488,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function renderResults() {
     setProgress(steps.length);
     const results = getResults();
-    const name    = answers.name ? answers.name.split(' ')[0] : 'Explorer';
+    const name = answers.name ? answers.name.split(' ')[0] : 'Explorer';
 
     container.innerHTML = `
       <div class="quiz-step">
