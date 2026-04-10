@@ -2,13 +2,58 @@
 <html lang="en" style="scroll-behavior: auto;" onbeforeunload="window.scrollTo(0,0)">
 <head>
 <script>window.scrollTo(0,0);document.documentElement.scrollTop=0;</script>
+<script>
+(function(){
+  var imgs = [
+    'assets/landscape.webp',
+    'assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.webp',
+    'assets/maasaimara.webp',
+    'assets/dianibeach.webp',
+    'assets/amboseli.webp',
+    'assets/lakenakuru.webp',
+    'assets/mountkenya.webp',
+    'assets/maasaimen.webp',
+    'assets/jwmarriott.webp',
+    'assets/girraffefeeding.webp',
+    'assets/jungle.webp',
+    'assets/Coolelephant.webp',
+    'assets/zebra.webp',
+    'assets/team-filmer.webp',
+    'assets/team-amara.webp',
+    'assets/team-james.webp',
+    'assets/landscape.jpg'
+  ];
+  var cache = window.__imgCache = [];
+  imgs.forEach(function(src){
+    var img = new Image();
+    img.decoding = 'async';
+    img.src = src;
+    cache.push(img);
+  });
+})();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Filmax Jamb🐾 Tours — Premium Kenyan Safaris</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:wght@300;400;600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="assets/landscape.webp">
+<link rel="preload" as="image" href="assets/landscape.webp" fetchpriority="high">
+<link rel="preload" as="image" href="assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.webp" fetchpriority="high">
+<link rel="preload" as="image" href="assets/maasaimara.webp" fetchpriority="high">
+<link rel="preload" as="image" href="assets/dianibeach.webp">
+<link rel="preload" as="image" href="assets/amboseli.webp">
+<link rel="preload" as="image" href="assets/lakenakuru.webp">
+<link rel="preload" as="image" href="assets/mountkenya.webp">
+<link rel="preload" as="image" href="assets/maasaimen.webp">
+<link rel="preload" as="image" href="assets/jwmarriott.webp">
+<link rel="preload" as="image" href="assets/girraffefeeding.webp">
+<link rel="preload" as="image" href="assets/jungle.webp">
+<link rel="preload" as="image" href="assets/Coolelephant.webp">
+<link rel="preload" as="image" href="assets/zebra.webp">
+<link rel="preload" as="image" href="assets/team-filmer.webp">
+<link rel="preload" as="image" href="assets/team-amara.webp">
+<link rel="preload" as="image" href="assets/team-james.webp">
 <style>
 :root {
     --black: #080808;
@@ -5242,7 +5287,7 @@ body.light-mode .pkg-cta:hover {
   </div>
   <div class="highlights-grid">
     <div class="highlight-card reveal">
-      <img class="hc-bg" src="assets/girraffefeeding.webp" alt="" aria-hidden="true">
+      <img class="hc-bg" src="assets/girraffefeeding.webp" alt="" aria-hidden="true" loading="eager" decoding="async">
       <div class="hc-bg-overlay"></div>
       <div class="card-number">01</div>
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:20px;display:block;opacity:0.7;">
@@ -5252,7 +5297,7 @@ body.light-mode .pkg-cta:hover {
       <p class="card-text">Every itinerary is thoughtfully designed to balance iconic wildlife encounters with hidden experiences, creating a safari that feels entirely your own.</p>
     </div>
     <div class="highlight-card reveal" style="transition-delay:0.1s">
-      <img class="hc-bg" src="assets/maasaimen.webp" alt="" aria-hidden="true">
+      <img class="hc-bg" src="assets/maasaimen.webp" alt="" aria-hidden="true" loading="eager" decoding="async">
       <div class="hc-bg-overlay"></div>
       <div class="card-number">02</div>
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:20px;display:block;opacity:0.7;">
@@ -5264,7 +5309,7 @@ body.light-mode .pkg-cta:hover {
       <p class="card-text">Our guides and partners possess deep knowledge of Kenya's landscapes and rhythms of the wild — allowing you to experience moments most travelers never see.</p>
     </div>
      <div class="highlight-card reveal" style="transition-delay:0.2s">
-      <img class="hc-bg" src="assets/jwmarriott.webp" alt="" aria-hidden="true">
+      <img class="hc-bg" src="assets/jwmarriott.webp" alt="" aria-hidden="true" loading="eager" decoding="async">
       <div class="hc-bg-overlay"></div>
       <div class="card-number">03</div>
       <svg width="28" height="28"
@@ -5359,7 +5404,7 @@ body.light-mode .pkg-cta:hover {
 
       <!-- SLIDE 2 — Diani Beach -->
       <div class="ds-slide ds-next" data-index="1" data-title="Diani Beach" data-tagline="Ivory sands, turquoise waters, and the warmth of coastal Kenya.">
-        <img class="ds-slide-img" src="assets/dianibeach.webp" alt="Diani Beach" loading="lazy">
+        <img class="ds-slide-img" src="assets/dianibeach.webp" alt="Diani Beach" loading="eager" decoding="async">
         <div class="ds-slide-overlay"></div>
         <div class="ds-magnify">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -5379,7 +5424,7 @@ body.light-mode .pkg-cta:hover {
 
       <!-- SLIDE 3 — Amboseli -->
       <div class="ds-slide ds-far" data-index="2" data-title="Amboseli" data-tagline="Kilimanjaro at dawn, elephant herds at dusk — pure iconic Africa.">
-        <img class="ds-slide-img" src="assets/amboseli.webp" alt="Amboseli" loading="lazy">
+        <img class="ds-slide-img" src="assets/amboseli.webp" alt="Amboseli" loading="eager" decoding="async">
         <div class="ds-slide-overlay"></div>
         <div class="ds-magnify">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -5399,7 +5444,7 @@ body.light-mode .pkg-cta:hover {
 
       <!-- SLIDE 4 — Lake Nakuru -->
       <div class="ds-slide ds-far" data-index="3" data-title="Lake Nakuru" data-tagline="Hippos at the water's edge, flamingos on the horizon, silence all around.">
-        <img class="ds-slide-img" src="assets/lakenakuru.webp" alt="Lake Nakuru" loading="lazy">
+        <img class="ds-slide-img" src="assets/lakenakuru.webp" alt="Lake Nakuru" loading="eager" decoding="async">
         <div class="ds-slide-overlay"></div>
         <div class="ds-magnify">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -5419,7 +5464,7 @@ body.light-mode .pkg-cta:hover {
 
       <!-- SLIDE 5 — Mount Kenya -->
       <div class="ds-slide ds-far" data-index="4" data-title="Mount Kenya" data-tagline="Africa's second peak — ancient glaciers, cedar forests, rare mountain wildlife.">
-        <img class="ds-slide-img" src="assets/mountkenya.webp" alt="Mount Kenya" loading="lazy">
+        <img class="ds-slide-img" src="assets/mountkenya.webp" alt="Mount Kenya" loading="eager" decoding="async">
         <div class="ds-slide-overlay"></div>
         <div class="ds-magnify">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -6184,11 +6229,11 @@ body.light-mode .pkg-cta:hover {
 <section id="inline-quiz" data-noscroll="true" style="background: var(--black); padding: 120px 0;">
   <div class="container">
 
-    <div class="reveal" style="text-align:center; margin-bottom: 64px;">
-      <div class="gold-line"><span>Still Deciding?</span></div>
+    <div class="reveal" style="margin-bottom: 64px;">
+      <div class="gold-line" style="justify-content:flex-start;"><span>Still Deciding?</span></div>
       <span class="section-label">Safari Matchmaker</span>
       <h2 class="section-title">Let Us Find Your <br><em style="color: var(--gold);">Perfect Safari</em></h2>
-      <p class="section-sub" style="margin: 0 auto; text-align:center;">Five considered questions. Three curated matches. Your Kenya, precisely yours.</p>
+      <p class="section-sub">Five considered questions. Three curated matches. Your Kenya, precisely yours.</p>
     </div>
 
     <div class="reveal" style="display:flex; justify-content:center;">
