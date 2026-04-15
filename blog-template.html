@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Loading… — Filmax Jambo Tours</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:wght@300;400;600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root { --black:#080808;--charcoal:#141414;--card:#111111;--gold:#d4af37;--amber:#b8860b;--text:#f0ece4;--muted:#8a8074;--border:rgba(212,175,55,0.2); }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--text);font-family:'Jost',sans-serif;font-weight:300;overflow-x:hidden;cursor:none;}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--black)}::-webkit-scrollbar-thumb{background:var(--gold)}
+.cursor{width:12px;height:12px;background:var(--gold);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:999999;transform:translate(-50%,-50%);mix-blend-mode:difference}
+.cursor-ring{width:40px;height:40px;border:1px solid rgba(212,175,55,0.5);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:999998;transform:translate(-50%,-50%);transition:transform 0.15s ease-out}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 48px;background:rgba(8,8,8,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-logo-img{height:52px;width:auto;object-fit:contain;filter:drop-shadow(0 0 10px rgba(212,175,55,0.4));}
+.nav-back{font-family:'Jost',sans-serif;font-size:10px;font-weight:400;letter-spacing:4px;text-transform:uppercase;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:12px;transition:color 0.3s;cursor:none;}
+.nav-back::before{content:'';width:28px;height:1px;background:var(--muted);transition:width 0.3s,background 0.3s;}
+.nav-back:hover{color:var(--gold);}
+.nav-back:hover::before{width:40px;background:var(--gold);}
+
+/* HERO */
+.post-hero{position:relative;height:70vh;min-height:500px;display:flex;align-items:flex-end;overflow:hidden;}
+.post-hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.45) saturate(0.8);}
+.post-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,8,0.97) 0%,rgba(8,8,8,0.3) 60%,transparent 100%);}
+.post-hero-content{position:relative;z-index:2;padding:60px 48px;max-width:900px;}
+.post-category{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--black);background:var(--gold);padding:4px 14px;display:inline-block;margin-bottom:20px;}
+.post-title{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,60px);font-weight:900;line-height:1.1;color:var(--text);margin-bottom:20px;}
+.post-meta{display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+.post-meta-item{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
+.post-meta-sep{width:1px;height:14px;background:var(--border);}
+
+/* CONTENT */
+.post-body{max-width:780px;margin:0 auto;padding:80px 48px 120px;}
+.post-body h2{font-family:'Playfair Display',serif;font-size:clamp(24px,3vw,36px);font-weight:700;color:var(--text);margin:56px 0 20px;line-height:1.2;}
+.post-body h3{font-family:'Playfair Display',serif;font-size:clamp(18px,2.5vw,26px);font-weight:400;color:var(--text);margin:40px 0 16px;}
+.post-body p{font-family:'Cormorant Garamond',serif;font-size:19px;line-height:1.85;color:rgba(240,236,228,0.88);margin-bottom:24px;}
+.post-body strong{color:var(--text);font-weight:600;}
+.post-body em{color:var(--gold);font-style:italic;}
+.post-body blockquote{border-left:2px solid var(--gold);padding:20px 28px;margin:36px 0;background:rgba(212,175,55,0.04);}
+.post-body blockquote p{font-family:'Playfair Display',serif;font-size:22px;font-style:italic;color:var(--text);margin:0;}
+.post-body ul,.post-body ol{margin:20px 0 24px 24px;}
+.post-body li{font-family:'Cormorant Garamond',serif;font-size:18px;line-height:1.7;color:rgba(240,236,228,0.82);margin-bottom:8px;}
+.post-divider{width:60px;height:1px;background:linear-gradient(to right,var(--gold),transparent);margin:40px 0;}
+.post-placeholder{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--muted);text-align:center;padding:60px 0;}
+
+/* BACK STRIP */
+.post-back-strip{background:var(--charcoal);border-top:1px solid var(--border);padding:40px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;}
+.back-btn{font-family:'Jost',sans-serif;font-size:10px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:14px;cursor:none;transition:color 0.3s;}
+.back-btn::before{content:'';width:32px;height:1px;background:var(--muted);transition:width 0.3s,background 0.3s;}
+.back-btn:hover{color:var(--gold);}
+.back-btn:hover::before{width:48px;background:var(--gold);}
+.book-btn{font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;padding:16px 40px;background:linear-gradient(135deg,var(--gold),var(--amber));color:#080808;text-decoration:none;cursor:none;transition:transform 0.3s,box-shadow 0.3s;}
+.book-btn:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(212,175,55,0.4);}
+
+footer{background:var(--black);border-top:1px solid var(--border);padding:40px 0;}
+.whatsapp-fab{position:fixed;bottom:36px;right:36px;width:60px;height:60px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:90;text-decoration:none;box-shadow:0 8px 30px rgba(37,211,102,0.4);cursor:none;transition:transform 0.3s;}
+.whatsapp-fab:hover{transform:scale(1.1);}
+.whatsapp-fab svg{width:28px;height:28px;fill:white;}
+@media(max-width:900px){nav{padding:16px 24px;}.post-hero-content{padding:40px 24px;}.post-body{padding:60px 24px 80px;}.post-back-strip{padding:32px 24px;}}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="blog.html" class="nav-back">Safari Journal</a>
+  <a href="index.html">
+    <img src="../assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.webp" alt="Filmax Jambo Tours" class="nav-logo-img">
+  </a>
+</nav>
+
+<div id="postHero"></div>
+<div id="postBody"></div>
+
+<div class="post-back-strip">
+  <a href="blog.html" class="back-btn">Back to Journal</a>
+  <a href="../index.html#contact" class="book-btn">Book Your Safari</a>
+</div>
+
+<footer>
+  <div style="max-width:1200px;margin:0 auto;padding:0 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+    <img src="../assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.webp" alt="Filmax Jambo Tours" style="height:40px;opacity:0.8;filter:drop-shadow(0 0 8px rgba(212,175,55,0.3));">
+    <span style="font-size:11px;color:var(--muted);">© 2025 Filmax Jambo Tours</span>
+  </div>
+</footer>
+
+<a href="https://wa.me/34672304384?text=Hello%20Filmax%20Jambo%20Tours%2C%20I'd%20like%20to%20book%20a%20safari!" class="whatsapp-fab" target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+const SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
+const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+// Cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e=>{ mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'; });
+function animateRing(){ rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animateRing); }
+animateRing();
+
+// Get slug from filename (e.g. great-migration-guide.html → great-migration-guide)
+// OR from URL param ?slug=...
+function getSlug() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('slug')) return params.get('slug');
+  const filename = window.location.pathname.split('/').pop().replace('.html','');
+  return filename === 'post-template' ? null : filename;
+}
+
+function renderPost(post) {
+  document.title = post.title + ' — Filmax Jambo Tours';
+
+  const assetBase = '../';
+  const heroImg = post.cover_image_url || (assetBase + 'assets/maasaimara.webp');
+  const dateStr = post.published_date
+    ? new Date(post.published_date).toLocaleDateString('en-US',{day:'numeric',month:'long',year:'numeric'})
+    : (post.date || '');
+
+  document.getElementById('postHero').innerHTML = `
+    <div class="post-hero">
+      <img class="post-hero-img" src="${heroImg}" alt="${post.cover_alt||post.title}">
+      <div class="post-hero-overlay"></div>
+      <div class="post-hero-content">
+        <span class="post-category">${post.category||'Safari'}</span>
+        <h1 class="post-title">${post.title}</h1>
+        <div class="post-meta">
+          <span class="post-meta-item">${dateStr}</span>
+          <div class="post-meta-sep"></div>
+          <span class="post-meta-item">${post.read_time||'5 min read'}</span>
+          ${post.author ? `<div class="post-meta-sep"></div><span class="post-meta-item">By ${post.author}</span>` : ''}
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Render body — supports HTML content from Supabase, or a placeholder
+  const bodyContent = post.body_html || post.content_html
+    ? `<div>${post.body_html || post.content_html}</div>`
+    : `<p class="post-placeholder">Full story coming soon — check back shortly.</p>`;
+
+  document.getElementById('postBody').innerHTML = `<div class="post-body">${bodyContent}</div>`;
+}
+
+function renderFallback(slug) {
+  // Fallback content map for static HTML files in the blog/ folder
+  const fallbacks = {
+    'great-migration-guide': {
+      title:'The Great Migration: Everything You Need to Know Before You Go',
+      category:'Wildlife', date:'March 2025', read_time:'8 min read',
+      cover_image_url:'../assets/maasaimara.webp', cover_alt:'The Great Migration',
+      body_html:`
+        <p>Every year, approximately two million wildebeest, zebra, and gazelle undertake one of the most extraordinary journeys in the natural world — a circular migration across the Serengeti and Maasai Mara that has no beginning and no end.</p>
+        <div class="post-divider"></div>
+        <h2>When Does It Happen?</h2>
+        <p>The migration is year-round, but the drama peaks between <strong>July and October</strong> when the herds cross the Mara River into Kenya. The crocodile-filled crossings are the moments that define this spectacle — raw, chaotic, and utterly unforgettable.</p>
+        <blockquote><p>There are moments in the Mara when time stops entirely. A wildebeest standing at the riverbank, the whole herd waiting, the crocodiles patient below. Then, chaos.</p></blockquote>
+        <h2>Where to Watch</h2>
+        <p>The Maasai Mara National Reserve offers the most concentrated viewing. Private conservancies bordering the Mara — like Mara North and Ol Kinyei — provide exclusive access without the crowds.</p>
+        <h2>How to Book</h2>
+        <p>The migration is one of the most sought-after experiences in Africa. Camps fill up <em>twelve to eighteen months in advance</em> for peak season. Contact our safari team early to secure your dates.</p>
+      `
+    },
+    'best-time-kenya-safari': {
+      title:"When to Go: Kenya's Safari Seasons Decoded",
+      category:'Planning', date:'February 2025', read_time:'5 min read',
+      cover_image_url:'../assets/amboseli.webp', cover_alt:'Kenya Safari Seasons',
+      body_html:`
+        <p>Kenya has two primary seasons — dry and green — and both offer remarkable but very different safari experiences. Knowing which one suits you is the first step to crafting a perfect itinerary.</p>
+        <div class="post-divider"></div>
+        <h2>The Dry Season (June – October)</h2>
+        <p>This is <strong>peak season</strong> for a reason. Wildlife congregates around shrinking water sources, making game-viewing easier and more dramatic. The long grass has died back, giving you clear sightlines across the plains. This is also when the Great Migration river crossings happen in the Maasai Mara.</p>
+        <h2>The Green Season (November – May)</h2>
+        <p>Kenya transforms. The land turns an almost impossibly vivid green. Newborn animals appear across the parks. Bird life explodes — over 1,000 species in Kenya, and a significant proportion are migratory birds present only now. Rates drop. Camps are quieter. <em>For photographers and birders, this is the secret season.</em></p>
+        <h2>Our Recommendation</h2>
+        <p>If it is your first safari: <strong>July–September</strong>. If you want solitude and don't mind occasional rain: <strong>November–December</strong> or <strong>March–April</strong>.</p>
+      `
+    },
+    'diani-beach-guide': {
+      title:"Diani Beach: Africa's Finest Coastline After Your Safari",
+      category:'Coast', date:'January 2025', read_time:'6 min read',
+      cover_image_url:'../assets/dianibeach.webp', cover_alt:'Diani Beach',
+      body_html:`
+        <p>There is a particular kind of luxury in stepping off a safari vehicle after ten days of early mornings and red dust, and stepping directly onto the ivory sands of Diani Beach. It is, for many guests, the most perfect ending to a Kenyan journey.</p>
+        <div class="post-divider"></div>
+        <h2>The Beach</h2>
+        <p>Diani stretches for approximately 17 kilometres south of Mombasa along the Indian Ocean coast. The sand is the kind of white that forces you to squint. The water is an improbable turquoise. A reef system just offshore keeps the waves gentle — perfect for swimming year-round.</p>
+        <h2>What to Do</h2>
+        <ul>
+          <li>Snorkelling and diving at the Diani Marine Reserve</li>
+          <li>Glass-bottom boat excursions over coral gardens</li>
+          <li>Kitesurfing — Diani is one of Africa's best spots</li>
+          <li>Colobus Conservation — a rescue centre for the rare Angola colobus monkey</li>
+        </ul>
+        <h2>Combining Safari and Coast</h2>
+        <p>Most of our <em>coastal safari blend</em> packages include a seamless transfer from your final park directly to a Diani beachfront property. No airports, no fuss — just the quiet transition from wild to ocean.</p>
+      `
+    },
+  };
+  const fb = fallbacks[slug];
+  if (fb) { renderPost(fb); return; }
+
+  // Generic fallback
+  document.getElementById('postHero').innerHTML = `
+    <div class="post-hero" style="min-height:300px;background:var(--charcoal);display:flex;align-items:center;justify-content:center;">
+      <div class="post-hero-content" style="text-align:center;">
+        <h1 class="post-title" style="font-size:36px;">Story Loading…</h1>
+      </div>
+    </div>`;
+  document.getElementById('postBody').innerHTML = `<div class="post-body"><p class="post-placeholder">This story is being loaded. Please check back shortly.</p></div>`;
+}
+
+async function init() {
+  const slug = getSlug();
+  if (!slug) { renderFallback('generic'); return; }
+
+  try {
+    const { data, error } = await supa
+      .from('blogs')
+      .select('*')
+      .eq('slug', slug)
+      .eq('is_published', true)
+      .single();
+
+    if (!error && data) { renderPost(data); return; }
+  } catch(e) {}
+
+  renderFallback(slug);
+}
+
+init();
+</script>
+</body>
+</html>
