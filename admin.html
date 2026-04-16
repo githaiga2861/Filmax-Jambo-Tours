@@ -577,6 +577,17 @@
       <div class="nav-sub-item" onclick="showView('confirmed')" id="nav-confirmed">Confirmed</div>
     </div>
 
+    <!-- Blog group -->
+    <div class="nav-group-header" onclick="toggleNavGroup('group-blog')" id="nav-blog-header">
+      <span>📝 Blog</span>
+      <span class="nav-group-arrow" id="arrow-group-blog">▾</span>
+    </div>
+    <div class="nav-group" id="group-blog">
+      <div class="nav-sub-item" onclick="startNewBlog()" id="nav-new-blog">✚ New Post</div>
+      <div class="nav-sub-item" onclick="showView('blog-posts')" id="nav-blog-posts">All Posts</div>
+      <div class="nav-sub-item" onclick="showView('blog-drafts')" id="nav-blog-drafts">Draft Posts</div>
+    </div>
+
     <!-- Settings group -->
     <div class="nav-group-header" onclick="toggleNavGroup('group-settings')" id="nav-settings-header">
       <span>⚙️ Settings</span>
@@ -1181,6 +1192,149 @@
   </div>
 </div>
   
+  <!-- VIEW: All Blog Posts -->
+    <div class="view" id="view-blog-posts">
+      <div class="view-header">
+        <div class="view-title"><span>Content</span>All Blog Posts</div>
+        <button class="btn btn-gold" onclick="startNewBlog()">+ New Post</button>
+      </div>
+      <div class="pkg-list" id="blogPostList"><p style="color:var(--muted);">Loading...</p></div>
+    </div>
+
+    <!-- VIEW: Draft Blog Posts -->
+    <div class="view" id="view-blog-drafts">
+      <div class="view-header">
+        <div class="view-title"><span>Pending</span>Draft Posts</div>
+        <button class="btn btn-gold" onclick="startNewBlog()">+ New Post</button>
+      </div>
+      <div class="pkg-list" id="blogDraftList"><p style="color:var(--muted);">Loading...</p></div>
+    </div>
+
+    <!-- VIEW: New / Edit Blog Post -->
+    <div class="view" id="view-new-blog">
+      <div class="view-header">
+        <div class="view-title">
+          <span id="blogFormModeLabel">Create</span>
+          <span id="blogFormTitleText">New Blog Post</span>
+        </div>
+        <button class="btn btn-outline" onclick="showView('blog-posts')">← Back to Posts</button>
+      </div>
+
+      <div style="background:var(--charcoal);border:1px solid var(--border);padding:40px;margin-bottom:32px;">
+
+        <!-- Row 1: Title + Slug -->
+        <div class="form-grid" style="margin-bottom:20px;">
+          <div class="form-group">
+            <label>Post Title <span class="req">*</span></label>
+            <input type="text" id="bf-title" placeholder="The Great Migration: Everything You Need to Know">
+            <span class="field-error" id="berr-title">Title is required (min 5 characters)</span>
+          </div>
+          <div class="form-group">
+            <label>URL Slug <span class="req">*</span> <span style="font-weight:400;font-size:8px;color:var(--muted);text-transform:none;">(auto-generated — lowercase, hyphens only)</span></label>
+            <input type="text" id="bf-slug" placeholder="great-migration-guide">
+            <span class="field-error" id="berr-slug">Slug required (lowercase letters and hyphens only)</span>
+          </div>
+        </div>
+
+        <!-- Row 2: Category + Date + Read Time -->
+        <div class="form-grid three" style="margin-bottom:20px;">
+          <div class="form-group">
+            <label>Category <span class="req">*</span></label>
+            <select id="bf-category">
+              <option value="Wildlife">Wildlife</option>
+              <option value="Planning">Planning</option>
+              <option value="Coast">Coast</option>
+              <option value="Culture">Culture</option>
+              <option value="Luxury">Luxury</option>
+              <option value="Adventure">Adventure</option>
+              <option value="Safari">Safari</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Publish Date <span class="req">*</span></label>
+            <input type="date" id="bf-date">
+            <span class="field-error" id="berr-date">Date is required</span>
+          </div>
+          <div class="form-group">
+            <label>Read Time</label>
+            <input type="text" id="bf-readtime" placeholder="5 min read" value="5 min read">
+          </div>
+        </div>
+
+        <!-- Row 3: Author -->
+        <div class="form-grid" style="margin-bottom:20px;">
+          <div class="form-group">
+            <label>Author</label>
+            <input type="text" id="bf-author" placeholder="Filmer Mageto">
+          </div>
+          <div class="form-group">
+            <label>Cover Image Alt Text</label>
+            <input type="text" id="bf-coveralt" placeholder="Wildebeest crossing the Mara River">
+          </div>
+        </div>
+
+        <!-- Cover Image -->
+        <div class="form-group full" style="margin-bottom:20px;">
+          <label>Cover Image URL <span class="req">*</span> <span style="font-weight:400;font-size:8px;color:rgba(212,175,55,0.6);text-transform:none;">(used on homepage cards and blog listing — .webp preferred)</span></label>
+          <input type="text" id="bf-cover" placeholder="assets/maasaimara.webp or https://...">
+          <span class="field-error" id="berr-cover">Cover image URL is required</span>
+          <div id="bf-cover-preview" style="margin-top:10px;display:none;">
+            <img id="bf-cover-img" src="" alt="Preview" style="max-height:180px;object-fit:cover;border:1px solid var(--border);display:block;">
+          </div>
+        </div>
+
+        <!-- Excerpt -->
+        <div class="form-group full" style="margin-bottom:20px;">
+          <label>Excerpt <span class="req">*</span> <span style="font-weight:400;font-size:8px;color:var(--muted);text-transform:none;">(shown on homepage cards and blog listing — keep under 180 characters)</span></label>
+          <textarea id="bf-excerpt" rows="3" placeholder="Two million wildebeest. One river. An annual crossing that redefines what it means to witness nature at full force."></textarea>
+          <span class="field-error" id="berr-excerpt">Excerpt is required</span>
+          <span id="bf-excerpt-count" style="font-size:10px;color:var(--muted);margin-top:4px;display:block;">0 / 180 characters</span>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- Full Article Body -->
+        <div class="form-group full" style="margin-bottom:20px;">
+          <label>Full Article Body <span style="font-weight:400;font-size:8px;color:var(--muted);text-transform:none;">(HTML supported — use &lt;h2&gt;, &lt;p&gt;, &lt;blockquote&gt;, &lt;ul&gt;, &lt;strong&gt;, &lt;em&gt;)</span></label>
+          <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+            <button type="button" class="btn btn-outline btn-sm" onclick="blogInsertTag('h2')">H2</button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="blogInsertTag('p')">Paragraph</button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="blogInsertTag('blockquote')">Quote</button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="blogInsertTag('ul-li')">List</button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="blogInsertTag('strong')">Bold</button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="blogInsertTag('em')">Italic/Gold</button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="blogInsertTag('divider')">Divider</button>
+          </div>
+          <textarea id="bf-body" rows="18" placeholder="&lt;p&gt;Every year, approximately two million wildebeest undertake one of the most extraordinary journeys...&lt;/p&gt;&#10;&#10;&lt;h2&gt;When Does It Happen?&lt;/h2&gt;&#10;&lt;p&gt;The migration peaks between &lt;strong&gt;July and October&lt;/strong&gt;...&lt;/p&gt;&#10;&#10;&lt;blockquote&gt;&lt;p&gt;A wildebeest standing at the riverbank, the whole herd waiting...&lt;/p&gt;&lt;/blockquote&gt;" style="font-family:monospace;font-size:12px;line-height:1.6;"></textarea>
+          <span class="field-hint">The article body renders directly on the blog post page. HTML tags give you full formatting control.</span>
+        </div>
+
+        <!-- Publish toggle -->
+        <div style="display:flex;align-items:center;gap:16px;margin-top:8px;flex-wrap:wrap;">
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);">
+            <input type="checkbox" id="bf-published" style="width:16px;height:16px;accent-color:var(--gold);">
+            Publish immediately (visible on homepage &amp; blog page)
+          </label>
+        </div>
+
+      </div><!-- /form box -->
+
+      <!-- Live preview hint -->
+      <div style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.15);border-left:3px solid var(--gold);padding:20px 24px;margin-bottom:32px;">
+        <span style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:8px;">Preview URL</span>
+        <span id="bf-preview-url" style="font-size:13px;color:var(--muted);font-family:monospace;">Fill in a slug to see the preview URL</span>
+      </div>
+
+      <!-- Save buttons -->
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
+        <button class="btn btn-draft" onclick="saveBlogPost(false)">💾 Save as Draft</button>
+        <button class="btn btn-publish" onclick="saveBlogPost(true)">🚀 Publish Now</button>
+        <span id="blogSaveStatus" style="font-size:12px;color:var(--gold);opacity:0;transition:opacity 0.4s;"></span>
+      </div>
+
+      <input type="hidden" id="bf-id">
+    </div><!-- /view-new-blog -->
+
   </div><!-- /main -->
 </div><!-- /admin-layout -->
 
@@ -1337,8 +1491,25 @@ function showView(name) {
   if (name === 'new-package') {
     openNavGroup('group-packages');   // ← was toggleNavGroup
   }
+  if (name === 'blog-posts') {
+    openNavGroup('group-blog');
+    loadBlogPosts();
+    const el = document.getElementById('nav-blog-posts');
+    if (el) el.classList.add('active');
+  }
+  if (name === 'blog-drafts') {
+    openNavGroup('group-blog');
+    loadBlogDrafts();
+    const el = document.getElementById('nav-blog-drafts');
+    if (el) el.classList.add('active');
+  }
+  if (name === 'new-blog') {
+    openNavGroup('group-blog');
+    const el = document.getElementById('nav-new-blog');
+    if (el) el.classList.add('active');
+  }
   if (name === 'enquiries' || name === 'confirmed') {
-    openNavGroup('group-bookings');   // ← was toggleNavGroup
+    openNavGroup('group-bookings');
   }
   if (name === 'team' || name === 'site-settings') {
     openNavGroup('group-settings');   // ← was toggleNavGroup
@@ -3710,6 +3881,332 @@ document.addEventListener('DOMContentLoaded', () => {
 
   checkSession();
 });
+
+// ===========================
+// BLOG MANAGEMENT
+// ===========================
+
+let editingBlogId = null;
+
+async function ensureBlogsTable() {
+  // Silently check if table exists by attempting a select
+  try {
+    await supa.from('blogs').select('id').limit(1);
+    return true;
+  } catch(e) {
+    return false;
+  }
+}
+
+function startNewBlog() {
+  editingBlogId = null;
+  resetBlogForm();
+  document.getElementById('blogFormModeLabel').textContent = 'Create';
+  document.getElementById('blogFormTitleText').textContent = 'New Blog Post';
+  document.getElementById('bf-date').value = new Date().toISOString().split('T')[0];
+  showView('new-blog');
+}
+
+function resetBlogForm() {
+  ['bf-id','bf-title','bf-slug','bf-cover','bf-coveralt','bf-excerpt','bf-body','bf-author'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('bf-category').value = 'Wildlife';
+  document.getElementById('bf-readtime').value = '5 min read';
+  document.getElementById('bf-published').checked = false;
+  document.getElementById('bf-cover-preview').style.display = 'none';
+  document.getElementById('bf-excerpt-count').textContent = '0 / 180 characters';
+  document.getElementById('bf-preview-url').textContent = 'Fill in a slug to see the preview URL';
+  document.querySelectorAll('#view-new-blog .field-error').forEach(el => el.classList.remove('show'));
+  document.querySelectorAll('#view-new-blog input, #view-new-blog textarea, #view-new-blog select').forEach(el => el.classList.remove('invalid'));
+}
+
+function blogAutoSlug(title) {
+  return title.toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim();
+}
+
+// Auto-generate slug from title
+(function() {
+  document.addEventListener('DOMContentLoaded', () => {
+    const titleInput = document.getElementById('bf-title');
+    const slugInput  = document.getElementById('bf-slug');
+    if (!titleInput || !slugInput) return;
+
+    titleInput.addEventListener('input', () => {
+      if (!editingBlogId) {
+        slugInput.value = blogAutoSlug(titleInput.value);
+        updateBlogPreviewUrl(slugInput.value);
+      }
+    });
+
+    slugInput.addEventListener('input', () => {
+      updateBlogPreviewUrl(slugInput.value);
+    });
+
+    const coverInput = document.getElementById('bf-cover');
+    if (coverInput) {
+      coverInput.addEventListener('input', () => {
+        const url = coverInput.value.trim();
+        const preview = document.getElementById('bf-cover-preview');
+        const img = document.getElementById('bf-cover-img');
+        if (url) {
+          img.src = url;
+          preview.style.display = 'block';
+        } else {
+          preview.style.display = 'none';
+        }
+      });
+    }
+
+    const excerptInput = document.getElementById('bf-excerpt');
+    if (excerptInput) {
+      excerptInput.addEventListener('input', () => {
+        const len = excerptInput.value.length;
+        const counter = document.getElementById('bf-excerpt-count');
+        if (counter) {
+          counter.textContent = len + ' / 180 characters';
+          counter.style.color = len > 180 ? 'rgba(180,60,60,0.9)' : 'var(--muted)';
+        }
+      });
+    }
+  });
+})();
+
+function updateBlogPreviewUrl(slug) {
+  const el = document.getElementById('bf-preview-url');
+  if (!el) return;
+  if (slug) {
+    el.textContent = `blog/${slug}.html → loads from Supabase automatically`;
+    el.style.color = 'var(--gold)';
+  } else {
+    el.textContent = 'Fill in a slug to see the preview URL';
+    el.style.color = 'var(--muted)';
+  }
+}
+
+function blogInsertTag(type) {
+  const ta = document.getElementById('bf-body');
+  if (!ta) return;
+  const start = ta.selectionStart;
+  const end   = ta.selectionEnd;
+  const sel   = ta.value.substring(start, end);
+  let insert  = '';
+  switch(type) {
+    case 'h2':        insert = `<h2>${sel || 'Section Heading'}</h2>`; break;
+    case 'p':         insert = `<p>${sel || 'Your paragraph text here...'}</p>`; break;
+    case 'blockquote':insert = `<blockquote><p>${sel || 'A memorable quote or highlight from the story.'}</p></blockquote>`; break;
+    case 'ul-li':     insert = `<ul>\n  <li>${sel || 'First item'}</li>\n  <li>Second item</li>\n  <li>Third item</li>\n</ul>`; break;
+    case 'strong':    insert = `<strong>${sel || 'bold text'}</strong>`; break;
+    case 'em':        insert = `<em>${sel || 'italic / gold accent text'}</em>`; break;
+    case 'divider':   insert = `<div class="post-divider"></div>`; break;
+  }
+  ta.focus();
+  ta.setRangeText(insert, start, end, 'end');
+}
+
+function validateBlogForm() {
+  let valid = true;
+  const errors = [];
+
+  const title = document.getElementById('bf-title').value.trim();
+  const slug  = document.getElementById('bf-slug').value.trim();
+  const cover = document.getElementById('bf-cover').value.trim();
+  const excerpt = document.getElementById('bf-excerpt').value.trim();
+  const date  = document.getElementById('bf-date').value;
+
+  if (title.length < 5) {
+    errors.push('Title is required (min 5 characters)');
+    document.getElementById('bf-title').classList.add('invalid');
+    document.getElementById('berr-title').classList.add('show');
+    valid = false;
+  }
+  if (!slug || !/^[a-z0-9-]+$/.test(slug)) {
+    errors.push('Slug required (lowercase letters, numbers, hyphens only)');
+    document.getElementById('bf-slug').classList.add('invalid');
+    document.getElementById('berr-slug').classList.add('show');
+    valid = false;
+  }
+  if (!cover) {
+    errors.push('Cover image URL is required');
+    document.getElementById('bf-cover').classList.add('invalid');
+    document.getElementById('berr-cover').classList.add('show');
+    valid = false;
+  }
+  if (!excerpt) {
+    errors.push('Excerpt is required');
+    document.getElementById('bf-excerpt').classList.add('invalid');
+    document.getElementById('berr-excerpt').classList.add('show');
+    valid = false;
+  }
+  if (!date) {
+    errors.push('Publish date is required');
+    document.getElementById('bf-date').classList.add('invalid');
+    document.getElementById('berr-date').classList.add('show');
+    valid = false;
+  }
+
+  return valid;
+}
+
+async function saveBlogPost(publish) {
+  // Clear previous validation state
+  document.querySelectorAll('#view-new-blog .invalid').forEach(el => el.classList.remove('invalid'));
+  document.querySelectorAll('#view-new-blog .field-error.show').forEach(el => el.classList.remove('show'));
+
+  if (!validateBlogForm()) {
+    showToast('Please fix the highlighted fields before saving.', 'error');
+    return;
+  }
+
+  const statusEl = document.getElementById('blogSaveStatus');
+  statusEl.textContent = publish ? 'Publishing...' : 'Saving draft...';
+  statusEl.style.opacity = '1';
+
+  const payload = {
+    title:          document.getElementById('bf-title').value.trim(),
+    slug:           document.getElementById('bf-slug').value.trim(),
+    category:       document.getElementById('bf-category').value,
+    published_date: document.getElementById('bf-date').value || null,
+    read_time:      document.getElementById('bf-readtime').value.trim() || '5 min read',
+    author:         document.getElementById('bf-author').value.trim(),
+    cover_image_url:document.getElementById('bf-cover').value.trim(),
+    cover_alt:      document.getElementById('bf-coveralt').value.trim(),
+    excerpt:        document.getElementById('bf-excerpt').value.trim(),
+    body_html:      document.getElementById('bf-body').value.trim(),
+    is_published:   publish,
+    updated_at:     new Date().toISOString(),
+  };
+
+  const existingId = document.getElementById('bf-id').value;
+  let error;
+
+  if (existingId) {
+    const res = await db.from('blogs').update(payload).eq('id', existingId);
+    error = res.error;
+  } else {
+    const res = await db.from('blogs').insert(payload);
+    error = res.error;
+  }
+
+  statusEl.style.opacity = '0';
+
+  if (error) {
+    showToast('Error saving post: ' + error.message, 'error');
+    return;
+  }
+
+  showToast(publish ? 'Post published — live on the website 🚀' : 'Saved as draft ✓', publish ? 'success' : '');
+  setTimeout(() => showView(publish ? 'blog-posts' : 'blog-drafts'), 1600);
+  loadBlogPosts();
+  loadBlogDrafts();
+}
+
+async function loadBlogPosts() {
+  const list = document.getElementById('blogPostList');
+  if (!list) return;
+  list.innerHTML = '<p style="color:var(--muted);">Loading...</p>';
+  const { data, error } = await db.from('blogs')
+    .select('id,slug,title,category,published_date,is_published,read_time,cover_image_url')
+    .eq('is_published', true)
+    .order('published_date', { ascending: false });
+  if (error || !data) { list.innerHTML = '<p style="color:var(--muted);">Could not load posts. Make sure the blogs table exists in Supabase.</p>'; return; }
+  if (!data.length)   { list.innerHTML = '<p style="color:var(--muted);">No published posts yet.</p>'; return; }
+  renderBlogList(data, list);
+}
+
+async function loadBlogDrafts() {
+  const list = document.getElementById('blogDraftList');
+  if (!list) return;
+  list.innerHTML = '<p style="color:var(--muted);">Loading...</p>';
+  const { data, error } = await db.from('blogs')
+    .select('id,slug,title,category,published_date,is_published,read_time,cover_image_url')
+    .eq('is_published', false)
+    .order('updated_at', { ascending: false });
+  if (error || !data) { list.innerHTML = '<p style="color:var(--muted);">Could not load drafts. Make sure the blogs table exists in Supabase.</p>'; return; }
+  if (!data.length)   { list.innerHTML = '<p style="color:var(--muted);">No draft posts.</p>'; return; }
+  renderBlogList(data, list);
+}
+
+function renderBlogList(data, container) {
+  container.innerHTML = data.map(b => {
+    const dateStr = b.published_date ? new Date(b.published_date).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }) : 'No date';
+    const thumb   = b.cover_image_url ? `<img src="${b.cover_image_url}" style="width:60px;height:44px;object-fit:cover;border:1px solid var(--border);flex-shrink:0;" alt="">` : '<div style="width:60px;height:44px;background:var(--card);border:1px solid var(--border);flex-shrink:0;"></div>';
+    return `
+      <div class="pkg-list-item" style="grid-template-columns:60px 1fr auto auto auto;gap:14px;align-items:center;">
+        ${thumb}
+        <div>
+          <div class="pkg-list-name" style="font-size:15px;">${b.title}</div>
+          <div class="pkg-list-meta">${b.category} · ${b.read_time} · ${dateStr} · slug: ${b.slug}</div>
+        </div>
+        <span class="badge ${b.is_published ? 'badge-published' : 'badge-draft'}">${b.is_published ? 'Live' : 'Draft'}</span>
+        <div class="list-action-btn">
+          <a href="blog/${b.slug}.html" target="_blank" class="btn btn-outline btn-sm">View</a>
+          <button class="btn btn-outline btn-sm" onclick="editBlogPost('${b.id}')">Edit</button>
+          <button class="btn ${b.is_published ? 'btn-outline' : 'btn-publish'} btn-sm" onclick="toggleBlogPublish('${b.id}',${b.is_published})">${b.is_published ? 'Unpublish' : 'Publish'}</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteBlogPost('${b.id}')">Delete</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function editBlogPost(id) {
+  const { data, error } = await db.from('blogs').select('*').eq('id', id).single();
+  if (error || !data) { showToast('Could not load post', 'error'); return; }
+
+  resetBlogForm();
+  editingBlogId = id;
+
+  document.getElementById('bf-id').value       = data.id || '';
+  document.getElementById('bf-title').value    = data.title || '';
+  document.getElementById('bf-slug').value     = data.slug || '';
+  document.getElementById('bf-category').value = data.category || 'Wildlife';
+  document.getElementById('bf-date').value     = data.published_date || '';
+  document.getElementById('bf-readtime').value = data.read_time || '5 min read';
+  document.getElementById('bf-author').value   = data.author || '';
+  document.getElementById('bf-cover').value    = data.cover_image_url || '';
+  document.getElementById('bf-coveralt').value = data.cover_alt || '';
+  document.getElementById('bf-excerpt').value  = data.excerpt || '';
+  document.getElementById('bf-body').value     = data.body_html || '';
+  document.getElementById('bf-published').checked = !!data.is_published;
+
+  // Show cover preview
+  if (data.cover_image_url) {
+    document.getElementById('bf-cover-img').src = data.cover_image_url;
+    document.getElementById('bf-cover-preview').style.display = 'block';
+  }
+
+  // Update counters and preview URL
+  const excerptLen = (data.excerpt || '').length;
+  document.getElementById('bf-excerpt-count').textContent = excerptLen + ' / 180 characters';
+  updateBlogPreviewUrl(data.slug);
+
+  document.getElementById('blogFormModeLabel').textContent = 'Editing';
+  document.getElementById('blogFormTitleText').textContent = data.title;
+  showView('new-blog');
+  openNavGroup('group-blog');
+}
+
+async function toggleBlogPublish(id, current) {
+  const { error } = await db.from('blogs').update({ is_published: !current, updated_at: new Date().toISOString() }).eq('id', id);
+  if (error) { showToast('Error: ' + error.message, 'error'); return; }
+  showToast(!current ? 'Post published — now live ✓' : 'Moved to drafts', !current ? 'success' : '');
+  loadBlogPosts();
+  loadBlogDrafts();
+}
+
+async function deleteBlogPost(id) {
+  if (!confirm('Permanently delete this post? This cannot be undone.')) return;
+  await db.from('blogs').delete().eq('id', id);
+  loadBlogPosts();
+  loadBlogDrafts();
+  showToast('Post deleted');
+}
 </script>
 </body>
 </html>
