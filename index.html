@@ -182,9 +182,17 @@ body.light-mode .nav-logo-img {
       drop-shadow(0 0 12px rgba(180,130,10,0.92))
       drop-shadow(0 0 24px rgba(180,130,10,0.7))
       drop-shadow(0 0 45px rgba(180,130,10,0.4))
-      drop-shadow(0 2px 6px rgba(0,0,0,0.95))
-      drop-shadow(0 5px 18px rgba(0,0,0,0.85));
+      drop-shadow(0 2px 6px rgba(0,0,0,0.98))
+      drop-shadow(0 4px 14px rgba(0,0,0,0.95))
+      drop-shadow(0 8px 28px rgba(0,0,0,0.88))
+      drop-shadow(0 12px 40px rgba(0,0,0,0.75));
     transition: filter 0.4s ease;
+  }
+
+body.light-mode .nav-logo-link {
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.28) 50%, transparent 75%);
+    border-radius: 8px;
+    padding: 4px 8px;
   }
 
   body.light-mode .loader-logo {
@@ -229,10 +237,47 @@ body.light-mode .gallery-cta-strip p em {
 
 body.light-mode .team-card {
   box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border: 1px solid transparent;
+  background-image: linear-gradient(var(--card), var(--card)), linear-gradient(135deg, #b8860b 0%, #e8c84a 25%, #fffbe8 40%, #ffffff 50%, #fffbe8 60%, #e8c84a 75%, #b8860b 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
 }
 
 body.light-mode .blog-card {
   box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border: 1px solid transparent;
+  background-image: linear-gradient(var(--card), var(--card)), linear-gradient(135deg, #b8860b 0%, #e8c84a 25%, #fffbe8 40%, #ffffff 50%, #fffbe8 60%, #e8c84a 75%, #b8860b 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+body.light-mode .highlight-card {
+  border: 1px solid transparent;
+  background-image: linear-gradient(#d8d4c8, #d8d4c8), linear-gradient(135deg, #b8860b 0%, #e8c84a 25%, #fffbe8 40%, #ffffff 50%, #fffbe8 60%, #e8c84a 75%, #b8860b 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+body.light-mode .package-card {
+  border: 1px solid transparent !important;
+  background-image: linear-gradient(#d8d4c8, #d8d4c8), linear-gradient(135deg, #b8860b 0%, #e8c84a 25%, #fffbe8 40%, #ffffff 50%, #fffbe8 60%, #e8c84a 75%, #b8860b 100%) !important;
+  background-origin: border-box !important;
+  background-clip: padding-box, border-box !important;
+}
+
+body.light-mode .testimonial {
+  border: 1px solid transparent;
+  border-top: none;
+  background-image: linear-gradient(#d8d4cc, #d8d4cc), linear-gradient(135deg, #b8860b 0%, #e8c84a 25%, #fffbe8 40%, #ffffff 50%, #fffbe8 60%, #e8c84a 75%, #b8860b 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+body.light-mode .quiz-box {
+  border: 1px solid transparent;
+  background-image: linear-gradient(#d8d4cc, #d8d4cc), linear-gradient(135deg, #b8860b 0%, #e8c84a 25%, #fffbe8 40%, #ffffff 50%, #fffbe8 60%, #e8c84a 75%, #b8860b 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
 }
 
 body.light-mode .section-title,
@@ -4905,11 +4950,11 @@ body.light-mode .ds-slide-label {
   }
 
   body.light-mode .hc-bg {
-    filter: brightness(0.1) saturate(0) !important;
+    filter: brightness(0.55) saturate(0.6) sepia(0.45) !important;
   }
 
   body.light-mode .highlight-card:hover .hc-bg {
-    filter: brightness(0.15) saturate(0) !important;
+    filter: brightness(0.62) saturate(0.65) sepia(0.45) !important;
   }
 
   body.light-mode .pkg-filter-label {
