@@ -195,6 +195,72 @@ body.light-mode .nav-logo-link {
     padding: 4px 8px;
   }
 
+.site-hint {
+  position: fixed;
+  z-index: 99980;
+  max-width: 260px;
+  background: rgba(10,10,10,0.92);
+  border: 1px solid rgba(212,175,55,0.35);
+  backdrop-filter: blur(18px);
+  padding: 14px 36px 14px 18px;
+  pointer-events: all;
+  cursor: none;
+  animation: hintSlideIn 0.5s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+.site-hint.hiding {
+  animation: hintSlideOut 0.4s cubic-bezier(0.76,0,0.24,1) forwards;
+}
+.site-hint-label {
+  font-family: 'Jost', sans-serif;
+  font-size: 8px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 6px;
+  opacity: 0.8;
+}
+.site-hint-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: rgba(240,236,228,0.85);
+  line-height: 1.5;
+}
+.site-hint-close {
+  position: absolute;
+  top: 10px; right: 10px;
+  background: none;
+  border: none;
+  color: rgba(212,175,55,0.5);
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  line-height: 1;
+  cursor: none;
+  padding: 2px 5px;
+  transition: color 0.2s;
+}
+.site-hint-close:hover { color: var(--gold); }
+.site-hint-bar {
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--gold), rgba(212,175,55,0.3));
+  animation: hintBar 5s linear forwards;
+}
+@keyframes hintSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes hintSlideOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(8px); }
+}
+@keyframes hintBar {
+  from { width: 100%; }
+  to   { width: 0%; }
+}
+
   body.light-mode .loader-logo {
     filter:
       drop-shadow(0 0 6px rgba(60,35,0,0.98))
@@ -6044,188 +6110,457 @@ body.light-mode .pkg-cta:hover {
       </div>
       <div class="gallery-intro-right">
         <p>Every frame here was lived, not staged. Kenya does not perform for the camera — it simply exists, and the extraordinary happens on its own terms.</p>
-        <span class="gallery-count">08</span>
+        <span class="gallery-count">05</span>
       </div>
     </div>
   </div>
 
-  <div class="gallery-masonry reveal" id="galleryMasonry">
+  <style>
+  .gsl-wrap {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: var(--black);
+    margin-top: 0;
+    padding-bottom: 60px;
+  }
+  .gsl-track {
+    display: flex;
+    transition: transform 0.95s cubic-bezier(0.76,0,0.24,1);
+    will-change: transform;
+  }
+  .gsl-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    position: relative;
+    cursor: none;
+    overflow: hidden;
+  }
+  .gsl-img-wrap {
+    position: relative;
+    width: 100%;
+    height: 72vh;
+    min-height: 480px;
+    max-height: 820px;
+    overflow: hidden;
+  }
+  .gsl-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transform: scale(1.04);
+    transition: transform 6s cubic-bezier(0.4,0,0.2,1);
+    filter: brightness(0.75) saturate(0.88);
+    user-select: none;
+    pointer-events: none;
+  }
+  .gsl-slide.gsl-active .gsl-img {
+    transform: scale(1);
+    filter: brightness(0.72) saturate(0.85);
+  }
+  .gsl-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to top, rgba(8,8,8,0.88) 0%, rgba(8,8,8,0.18) 40%, transparent 65%),
+      linear-gradient(to bottom, rgba(8,8,8,0.3) 0%, transparent 20%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .gsl-content {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    z-index: 3;
+    padding: 0 80px 52px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+    pointer-events: none;
+  }
+  .gsl-text { pointer-events: none; }
+  .gsl-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 10px;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.6s 0.3s ease, transform 0.6s 0.3s ease;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold) 30%, #fff8dc 48%, #fffbe8 50%, #fff8dc 52%, var(--gold) 70%, var(--gold) 100%);
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .gsl-slide.gsl-active .gsl-label { opacity: 1; transform: translateY(0); }
+  .gsl-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 3.6vw, 52px);
+    font-weight: 900;
+    color: var(--text);
+    line-height: 1.05;
+    margin-bottom: 10px;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s 0.55s ease, transform 0.7s 0.55s ease;
+  }
+  .gsl-slide.gsl-active .gsl-title { opacity: 1; transform: translateY(0); }
+  .gsl-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(14px, 1.6vw, 18px);
+    font-style: italic;
+    color: var(--muted);
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.6s 0.75s ease, transform 0.6s 0.75s ease;
+    background: linear-gradient(90deg, #8a8074 0%, #8a8074 25%, #f0ece4 45%, #ffffff 50%, #f0ece4 55%, #8a8074 75%, #8a8074 100%);
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .gsl-slide.gsl-active .gsl-sub { opacity: 1; transform: translateY(0); }
+  .gsl-zoom-btn {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border: 1px solid rgba(212,175,55,0.4);
+    background: rgba(8,8,8,0.55);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: none;
+    opacity: 0;
+    transform: scale(0.85) rotate(-10deg);
+    transition: opacity 0.5s 0.9s ease, transform 0.5s 0.9s cubic-bezier(0.22,1,0.36,1), background 0.3s, border-color 0.3s;
+    pointer-events: all;
+    margin-bottom: 4px;
+  }
+  .gsl-slide.gsl-active .gsl-zoom-btn { opacity: 1; transform: scale(1) rotate(0deg); }
+  .gsl-zoom-btn:hover { background: rgba(212,175,55,0.18); border-color: var(--gold); }
 
-    <div class="gallery-item" data-index="0" data-caption="Maasai Mara" data-sub="The plains that rewrote the definition of wilderness">
-      <img class="gallery-img" src="assets/maasaimara.webp" alt="Maasai Mara">
-      <div class="gallery-overlay"></div>
-      <span class="gallery-index">01 / 08</span>
-      <div class="gallery-magnify">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-          <circle cx="5.5" cy="5.5" r="4" stroke="rgba(212,175,55,0.9)" stroke-width="1"/>
-          <path d="M9 9l2.5 2.5" stroke="rgba(212,175,55,0.9)" stroke-width="1" stroke-linecap="round"/>
-        </svg>
+  .gsl-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 24px 0 0;
+  }
+  .gsl-nav-btn {
+    width: 44px; height: 44px;
+    background: transparent;
+    border: 1px solid rgba(212,175,55,0.2);
+    display: flex; align-items: center; justify-content: center;
+    cursor: none;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .gsl-nav-btn:hover { border-color: var(--gold); background: rgba(212,175,55,0.08); }
+  .gsl-dots {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .gsl-dot {
+    height: 1px; width: 20px;
+    background: rgba(212,175,55,0.2);
+    cursor: none;
+    transition: width 0.45s cubic-bezier(0.25,0.46,0.45,0.94), background 0.45s;
+    position: relative; overflow: hidden;
+  }
+  .gsl-dot.active { width: 48px; background: rgba(212,175,55,0.3); }
+  .gsl-dot.active::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: gslDotFill 4.8s linear forwards;
+  }
+  @keyframes gslDotFill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  .gsl-counter {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: rgba(240,236,228,0.3);
+    letter-spacing: 3px;
+    display: flex; align-items: baseline; gap: 4px;
+  }
+  .gsl-counter-cur { font-size: 24px; color: var(--gold); font-weight: 600; line-height: 1; }
+  .gsl-progress {
+    height: 1px; width: 0;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 16px auto 0;
+    max-width: 80vw;
+    transition: none;
+  }
+  .gsl-progress.running { transition: width 4.8s linear; width: 80vw; }
+
+  .gsl-thumb-strip {
+    display: flex;
+    gap: 3px;
+    padding: 0 0 0 0;
+    margin-top: 3px;
+  }
+  .gsl-thumb {
+    flex: 1;
+    height: 72px;
+    overflow: hidden;
+    position: relative;
+    cursor: none;
+    opacity: 0.38;
+    transition: opacity 0.4s, flex 0.5s cubic-bezier(0.22,1,0.36,1);
+  }
+  .gsl-thumb.active { opacity: 1; flex: 2; }
+  .gsl-thumb:hover:not(.active) { opacity: 0.65; }
+  .gsl-thumb img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    filter: saturate(0.5);
+    transition: filter 0.4s;
+  }
+  .gsl-thumb.active img, .gsl-thumb:hover img { filter: saturate(1); }
+  .gsl-thumb::after {
+    content: '';
+    position: absolute; inset: 0;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.4s;
+    pointer-events: none;
+  }
+  .gsl-thumb.active::after { border-bottom-color: var(--gold); }
+
+  .gsl-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 99992;
+    background: rgba(2,2,2,0.97);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    cursor: none;
+  }
+  .gsl-lightbox.open { opacity: 1; pointer-events: all; }
+  .gsl-lb-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    padding: 60px;
+  }
+  .gsl-lb-img {
+    max-width: 92vw;
+    max-height: 90vh;
+    object-fit: contain;
+    display: block;
+    transform: scale(0.96);
+    transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
+    box-shadow: 0 60px 180px rgba(0,0,0,0.95);
+    pointer-events: none;
+    user-select: none;
+  }
+  .gsl-lightbox.open .gsl-lb-img { transform: scale(1); }
+  .gsl-lb-close {
+    position: absolute;
+    top: 24px; right: 32px;
+    font-family: 'Jost', sans-serif;
+    font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--muted);
+    background: none;
+    border: 1px solid rgba(212,175,55,0.25);
+    padding: 9px 22px;
+    cursor: none;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .gsl-lb-close:hover { color: var(--gold); border-color: var(--gold); }
+  .gsl-lb-nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(8,8,8,0.6);
+    border: 1px solid rgba(212,175,55,0.2);
+    width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: none;
+    backdrop-filter: blur(8px);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .gsl-lb-nav:hover { border-color: var(--gold); background: rgba(212,175,55,0.1); }
+  .gsl-lb-prev { left: 32px; }
+  .gsl-lb-next { right: 32px; }
+  .gsl-lb-counter {
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px; letter-spacing: 4px; color: rgba(212,175,55,0.45);
+  }
+  .gsl-lb-counter span { color: var(--gold); font-size: 18px; }
+
+  .gallery-cta-strip {
+    background: var(--charcoal);
+    border-top: 1px solid var(--border);
+    padding: 40px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 3px;
+  }
+  .gallery-cta-strip p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.6;
+  }
+  .gallery-cta-strip p em { color: var(--text); font-style: normal; }
+
+  @media (max-width: 900px) {
+    .gsl-content { padding: 0 32px 40px; flex-direction: column; align-items: flex-start; gap: 16px; }
+    .gsl-zoom-btn { align-self: flex-end; opacity: 1 !important; transform: scale(1) rotate(0deg) !important; }
+    .gsl-img-wrap { height: 60vw; min-height: 320px; }
+    .gsl-lb-prev { left: 8px; }
+    .gsl-lb-next { right: 8px; }
+    .gallery-cta-strip { flex-direction: column; gap: 24px; padding: 32px 24px; text-align: center; }
+    .gallery-cta-strip p { max-width: 100%; }
+  }
+  @media (max-width: 600px) {
+    .gsl-content { padding: 0 20px 28px; }
+    .gsl-thumb-strip { display: none; }
+    .gsl-lb-inner { padding: 40px 12px; }
+  }
+  </style>
+
+  <div class="gsl-wrap reveal" id="galSlideshow">
+    <div class="gsl-track" id="galTrack">
+
+      <div class="gsl-slide gsl-active" data-caption="Where Silence Has a Pulse" data-sub="Maasai Mara · Two million wildebeest, one horizon, infinite possibility" data-src="assets/maasaimara.webp">
+        <div class="gsl-img-wrap">
+          <img class="gsl-img" src="assets/maasaimara.webp" alt="Maasai Mara" loading="lazy">
+          <div class="gsl-overlay"></div>
+        </div>
+        <div class="gsl-content">
+          <div class="gsl-text">
+            <span class="gsl-label">Maasai Mara · Kenya</span>
+            <h3 class="gsl-title">Where Silence Has a Pulse</h3>
+            <p class="gsl-sub">Two million wildebeest, one horizon, infinite possibility</p>
+          </div>
+          <button class="gsl-zoom-btn" aria-label="View full size">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2"/><path d="M13 13l3.5 3.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 5v5M5 7.5h5" stroke="rgba(212,175,55,0.8)" stroke-width="1" stroke-linecap="round"/></svg>
+          </button>
+        </div>
       </div>
-      <div class="gallery-content">
-        <span class="gallery-location">Maasai Mara · Kenya</span>
-        <h3 class="gallery-caption">Where Silence Has a Pulse</h3>
-        <p class="gallery-caption-sub">Two million wildebeest, one horizon, infinite possibility</p>
+
+      <div class="gsl-slide" data-caption="The Mountain Watches" data-sub="Amboseli · Kilimanjaro at first light, eternal and unhurried" data-src="assets/amboseli.webp">
+        <div class="gsl-img-wrap">
+          <img class="gsl-img" src="assets/amboseli.webp" alt="Amboseli" loading="lazy">
+          <div class="gsl-overlay"></div>
+        </div>
+        <div class="gsl-content">
+          <div class="gsl-text">
+            <span class="gsl-label">Amboseli · Kenya</span>
+            <h3 class="gsl-title">The Mountain Watches</h3>
+            <p class="gsl-sub">Kilimanjaro at first light, eternal and unhurried</p>
+          </div>
+          <button class="gsl-zoom-btn" aria-label="View full size">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2"/><path d="M13 13l3.5 3.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 5v5M5 7.5h5" stroke="rgba(212,175,55,0.8)" stroke-width="1" stroke-linecap="round"/></svg>
+          </button>
+        </div>
       </div>
+
+      <div class="gsl-slide" data-caption="Keepers of the Land" data-sub="Maasai Mara · A culture unchanged by the passage of centuries" data-src="assets/maasaimen.webp">
+        <div class="gsl-img-wrap">
+          <img class="gsl-img" src="assets/maasaimen.webp" alt="Maasai Culture" loading="lazy">
+          <div class="gsl-overlay"></div>
+        </div>
+        <div class="gsl-content">
+          <div class="gsl-text">
+            <span class="gsl-label">Maasai Mara · Cultural Immersion</span>
+            <h3 class="gsl-title">Keepers of the Land</h3>
+            <p class="gsl-sub">A culture unchanged by the passage of centuries</p>
+          </div>
+          <button class="gsl-zoom-btn" aria-label="View full size">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2"/><path d="M13 13l3.5 3.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 5v5M5 7.5h5" stroke="rgba(212,175,55,0.8)" stroke-width="1" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="gsl-slide" data-caption="The Ocean After the Bush" data-sub="Diani Coast · Where the wilderness gives way to turquoise water" data-src="assets/dianibeach.webp">
+        <div class="gsl-img-wrap">
+          <img class="gsl-img" src="assets/dianibeach.webp" alt="Diani Beach" loading="lazy">
+          <div class="gsl-overlay"></div>
+        </div>
+        <div class="gsl-content">
+          <div class="gsl-text">
+            <span class="gsl-label">Diani Coast · Kenya</span>
+            <h3 class="gsl-title">The Ocean After the Bush</h3>
+            <p class="gsl-sub">Where the wilderness gives way to turquoise water</p>
+          </div>
+          <button class="gsl-zoom-btn" aria-label="View full size">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2"/><path d="M13 13l3.5 3.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 5v5M5 7.5h5" stroke="rgba(212,175,55,0.8)" stroke-width="1" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="gsl-slide" data-caption="Eye to Eye with the Extraordinary" data-sub="Nairobi · A face-to-face moment that stays with you forever" data-src="assets/girraffefeeding.webp">
+        <div class="gsl-img-wrap">
+          <img class="gsl-img" src="assets/girraffefeeding.webp" alt="Giraffe Feeding" loading="lazy">
+          <div class="gsl-overlay"></div>
+        </div>
+        <div class="gsl-content">
+          <div class="gsl-text">
+            <span class="gsl-label">Nairobi Giraffe Centre · Kenya</span>
+            <h3 class="gsl-title">Eye to Eye with the Extraordinary</h3>
+            <p class="gsl-sub">A face-to-face moment that stays with you forever</p>
+          </div>
+          <button class="gsl-zoom-btn" aria-label="View full size">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2"/><path d="M13 13l3.5 3.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 5v5M5 7.5h5" stroke="rgba(212,175,55,0.8)" stroke-width="1" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </div>
+
     </div>
 
-    <div class="gallery-item" data-index="1" data-caption="Diani Beach" data-sub="The Indian Ocean at its most eloquent">
-      <img class="gallery-img" src="assets/dianibeach.webp" alt="Diani Beach">
-      <div class="gallery-overlay"></div>
-      <span class="gallery-index">02 / 08</span>
-      <div class="gallery-magnify">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-          <circle cx="5.5" cy="5.5" r="4" stroke="rgba(212,175,55,0.9)" stroke-width="1"/>
-          <path d="M9 9l2.5 2.5" stroke="rgba(212,175,55,0.9)" stroke-width="1" stroke-linecap="round"/>
-        </svg>
+    <div class="gsl-controls">
+      <button class="gsl-nav-btn" id="galPrev" aria-label="Previous">
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><path d="M8 2L2 8l6 6" stroke="rgba(212,175,55,0.8)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="gsl-dots" id="galDots"></div>
+      <div class="gsl-counter">
+        <span class="gsl-counter-cur" id="galCurNum">1</span>
+        <span>/</span>
+        <span id="galTotalNum">5</span>
       </div>
-      <div class="gallery-content">
-        <span class="gallery-location">Diani Coast · Kenya</span>
-        <h3 class="gallery-caption">The Ocean After the Bush</h3>
-        <p class="gallery-caption-sub">Where the wilderness gives way to turquoise water</p>
-      </div>
+      <button class="gsl-nav-btn" id="galNext" aria-label="Next">
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><path d="M2 2l6 6-6 6" stroke="rgba(212,175,55,0.8)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
     </div>
+    <div class="gsl-progress" id="galProgress"></div>
 
-    <div class="gallery-item" data-index="2" data-caption="Amboseli" data-sub="Kilimanjaro at dawn, elephants in the foreground">
-      <img class="gallery-img" src="assets/amboseli.webp" alt="Amboseli">
-      <div class="gallery-overlay"></div>
-      <span class="gallery-index">03 / 08</span>
-      <div class="gallery-magnify">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-          <circle cx="5.5" cy="5.5" r="4" stroke="rgba(212,175,55,0.9)" stroke-width="1"/>
-          <path d="M9 9l2.5 2.5" stroke="rgba(212,175,55,0.9)" stroke-width="1" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="gallery-content">
-        <span class="gallery-location">Amboseli · Kenya</span>
-        <h3 class="gallery-caption">The Mountain Watches</h3>
-        <p class="gallery-caption-sub">Kilimanjaro at first light, eternal and unhurried</p>
-      </div>
-    </div>
-
-    <div class="gallery-item" data-index="3" data-caption="Lake Nakuru" data-sub="Flamingos, hippos and the Rift Valley in full spectacle">
-      <img class="gallery-img" src="assets/lakenakuru.webp" alt="Lake Nakuru">
-      <div class="gallery-overlay"></div>
-      <span class="gallery-index">04 / 08</span>
-      <div class="gallery-magnify">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-          <circle cx="5.5" cy="5.5" r="4" stroke="rgba(212,175,55,0.9)" stroke-width="1"/>
-          <path d="M9 9l2.5 2.5" stroke="rgba(212,175,55,0.9)" stroke-width="1" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="gallery-content">
-        <span class="gallery-location">Lake Nakuru · Rift Valley</span>
-        <h3 class="gallery-caption">Pink Horizons, Still Waters</h3>
-        <p class="gallery-caption-sub">The Rift Valley holds its breath at dusk</p>
-      </div>
-    </div>
-
-    <div class="gallery-item" data-index="4" data-caption="Mount Kenya" data-sub="Africa's second summit — ancient, glacial, otherworldly">
-      <img class="gallery-img" src="assets/mountkenya.webp" alt="Mount Kenya">
-      <div class="gallery-overlay"></div>
-      <span class="gallery-index">05 / 08</span>
-      <div class="gallery-magnify">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-          <circle cx="5.5" cy="5.5" r="4" stroke="rgba(212,175,55,0.9)" stroke-width="1"/>
-          <path d="M9 9l2.5 2.5" stroke="rgba(212,175,55,0.9)" stroke-width="1" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="gallery-content">
-        <span class="gallery-location">Mount Kenya · Central Highlands</span>
-        <h3 class="gallery-caption">Above the Clouds, Beyond Time</h3>
-        <p class="gallery-caption-sub">Ancient glaciers on Africa's forgotten crown</p>
-      </div>
-    </div>
-
-    <div class="gallery-item" data-index="5" data-caption="Maasai Men" data-sub="A culture as vast and enduring as the plains they inhabit">
-      <img class="gallery-img" src="assets/maasaimen.webp" alt="Maasai Culture">
-      <div class="gallery-overlay"></div>
-      <span class="gallery-index">06 / 08</span>
-      <div class="gallery-magnify">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-          <circle cx="5.5" cy="5.5" r="4" stroke="rgba(212,175,55,0.9)" stroke-width="1"/>
-          <path d="M9 9l2.5 2.5" stroke="rgba(212,175,55,0.9)" stroke-width="1" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="gallery-content">
-        <span class="gallery-location">Maasai Mara · Cultural Immersion</span>
-        <h3 class="gallery-caption">Keepers of the Land</h3>
-        <p class="gallery-caption-sub">A culture unchanged by the passage of centuries</p>
-      </div>
-    </div>
-
-    <div class="gallery-item" data-index="6" data-caption="JW Marriott" data-sub="Where the luxury of refuge meets the wildness outside">
-      <img class="gallery-img" src="assets/jwmarriott.webp" alt="Luxury Lodge">
-      <div class="gallery-overlay"></div>
-      <span class="gallery-index">07 / 08</span>
-      <div class="gallery-magnify">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-          <circle cx="5.5" cy="5.5" r="4" stroke="rgba(212,175,55,0.9)" stroke-width="1"/>
-          <path d="M9 9l2.5 2.5" stroke="rgba(212,175,55,0.9)" stroke-width="1" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="gallery-content">
-        <span class="gallery-location">Nairobi · Luxury Accommodation</span>
-        <h3 class="gallery-caption">The Art of Refined Refuge</h3>
-        <p class="gallery-caption-sub">Where world-class luxury meets the Kenyan soul</p>
-      </div>
-    </div>
-
-    <div class="gallery-item" data-index="7" data-caption="Giraffe Feeding" data-sub="An encounter that redefines proximity to the wild">
-      <img class="gallery-img" src="assets/girraffefeeding.webp" alt="Giraffe Feeding">
-      <div class="gallery-overlay"></div>
-      <span class="gallery-index">08 / 08</span>
-      <div class="gallery-magnify">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-          <circle cx="5.5" cy="5.5" r="4" stroke="rgba(212,175,55,0.9)" stroke-width="1"/>
-          <path d="M9 9l2.5 2.5" stroke="rgba(212,175,55,0.9)" stroke-width="1" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="gallery-content">
-        <span class="gallery-location">Nairobi Giraffe Centre · Kenya</span>
-        <h3 class="gallery-caption">Eye to Eye with the Extraordinary</h3>
-        <p class="gallery-caption-sub">A face-to-face moment that stays with you forever</p>
-      </div>
-    </div>
-
+    <div class="gsl-thumb-strip" id="galThumbs"></div>
   </div>
 
-  <!-- Film strip -->
-  <div class="gallery-strip" id="galleryStrip">
-    <div class="gallery-strip-item"><img src="assets/maasaimara.webp" alt=""></div>
-    <div class="gallery-strip-item"><img src="assets/dianibeach.webp" alt=""></div>
-    <div class="gallery-strip-item"><img src="assets/amboseli.webp" alt=""></div>
-    <div class="gallery-strip-item"><img src="assets/lakenakuru.webp" alt=""></div>
-    <div class="gallery-strip-item"><img src="assets/mountkenya.webp" alt=""></div>
-    <div class="gallery-strip-item"><img src="assets/maasaimen.webp" alt=""></div>
-    <div class="gallery-strip-item"><img src="assets/jwmarriott.webp" alt=""></div>
-    <div class="gallery-strip-item"><img src="assets/girraffefeeding.webp" alt=""></div>
+  <div class="gallery-cta-strip">
+    <p>Every journey deserves to be <em>seen as well as felt</em> — these images are only a beginning.</p>
+    <a href="#contact" class="btn-ghost">Plan Your Safari</a>
   </div>
 </section>
 
-<!-- Gallery lightbox -->
-<div class="gallery-lightbox" id="galleryLightbox">
-  <div class="gallery-lightbox-inner">
-    <div class="gallery-lightbox-top">
-      <button class="gallery-lightbox-close" id="galleryLbClose">Close</button>
-    </div>
-    <button class="gallery-lightbox-nav gallery-lightbox-prev" id="galleryLbPrev">
-      <svg width="10" height="16" viewBox="0 0 10 16" fill="none">
-        <path d="M8 2L2 8l6 6" stroke="rgba(212,175,55,0.8)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+<!-- Gallery Lightbox -->
+<div class="gsl-lightbox" id="galLightbox">
+  <div class="gsl-lb-inner">
+    <button class="gsl-lb-close" id="galLbClose">Close</button>
+    <button class="gsl-lb-nav gsl-lb-prev" id="galLbPrev">
+      <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><path d="M8 2L2 8l6 6" stroke="rgba(212,175,55,0.8)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
-    <img class="gallery-lightbox-img" id="galleryLbImg" src="" alt="">
-    <button class="gallery-lightbox-nav gallery-lightbox-next" id="galleryLbNext">
-      <svg width="10" height="16" viewBox="0 0 10 16" fill="none">
-        <path d="M2 2l6 6-6 6" stroke="rgba(212,175,55,0.8)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+    <img class="gsl-lb-img" id="galLbImg" src="" alt="">
+    <button class="gsl-lb-nav gsl-lb-next" id="galLbNext">
+      <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><path d="M2 2l6 6-6 6" stroke="rgba(212,175,55,0.8)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
-    <div class="gallery-lightbox-caption">
-      <h3 id="galleryLbCaption"></h3>
-      <p id="galleryLbSub"></p>
-    </div>
-    <div class="gallery-lightbox-counter">
-      <span id="galleryLbCur">1</span> / <span id="galleryLbTotal">8</span>
-    </div>
+    <div class="gsl-lb-counter"><span id="galLbCur">1</span> / <span id="galLbTotal">5</span></div>
   </div>
 </div>
   
@@ -7706,6 +8041,138 @@ document.addEventListener('DOMContentLoaded', loadBlogsForHomepage);
   });
 })();
   
+// GALLERY SLIDESHOW + LIGHTBOX
+(function () {
+  const track    = document.getElementById('galTrack');
+  const slides   = track ? Array.from(track.querySelectorAll('.gsl-slide')) : [];
+  const dotsWrap = document.getElementById('galDots');
+  const progress = document.getElementById('galProgress');
+  const curNum   = document.getElementById('galCurNum');
+  const totNum   = document.getElementById('galTotalNum');
+  const prevBtn  = document.getElementById('galPrev');
+  const nextBtn  = document.getElementById('galNext');
+  const thumbs   = document.getElementById('galThumbs');
+  const lightbox = document.getElementById('galLightbox');
+  const lbImg    = document.getElementById('galLbImg');
+  const lbClose  = document.getElementById('galLbClose');
+  const lbPrev   = document.getElementById('galLbPrev');
+  const lbNext   = document.getElementById('galLbNext');
+  const lbCur    = document.getElementById('galLbCur');
+  const lbTotal  = document.getElementById('galLbTotal');
+  if (!track || !slides.length) return;
+
+  const total = slides.length;
+  let current = 0;
+  let timer = null;
+  const INTERVAL = 4800;
+
+  if (totNum) totNum.textContent = total;
+  if (lbTotal) lbTotal.textContent = total;
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'gsl-dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => { goTo(i); startTimer(); });
+    if (dotsWrap) dotsWrap.appendChild(dot);
+
+    const th = document.createElement('div');
+    th.className = 'gsl-thumb' + (i === 0 ? ' active' : '');
+    const src = slides[i].dataset.src || slides[i].querySelector('.gsl-img')?.src || '';
+    th.innerHTML = `<img src="${src}" alt="" loading="lazy">`;
+    th.addEventListener('click', () => { goTo(i); startTimer(); });
+    if (thumbs) thumbs.appendChild(th);
+  });
+
+  function updateSlides() {
+    slides.forEach((sl, i) => sl.classList.toggle('gsl-active', i === current));
+    if (dotsWrap) {
+      dotsWrap.querySelectorAll('.gsl-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === current);
+        if (i === current) { d.innerHTML = ''; void d.offsetWidth; }
+      });
+    }
+    if (thumbs) thumbs.querySelectorAll('.gsl-thumb').forEach((t, i) => t.classList.toggle('active', i === current));
+    if (track) track.style.transform = `translateX(-${current * 100}%)`;
+    if (curNum) curNum.textContent = current + 1;
+    if (lbCur) lbCur.textContent = current + 1;
+  }
+
+  function restartProgress() {
+    if (!progress) return;
+    progress.classList.remove('running');
+    progress.style.transition = 'none';
+    progress.style.width = '0';
+    void progress.offsetWidth;
+    progress.classList.add('running');
+  }
+
+  function goTo(index) {
+    current = (index + total) % total;
+    updateSlides();
+    restartProgress();
+  }
+
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => goTo(current + 1), INTERVAL);
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', () => { goTo(current - 1); startTimer(); });
+  if (nextBtn) nextBtn.addEventListener('click', () => { goTo(current + 1); startTimer(); });
+
+  const wrap = document.getElementById('galSlideshow');
+  let tx = 0, dragging = false;
+  if (wrap) {
+    wrap.addEventListener('touchstart', e => { tx = e.touches[0].clientX; dragging = true; clearInterval(timer); }, { passive: true });
+    wrap.addEventListener('touchend', e => {
+      if (!dragging) return; dragging = false;
+      const dx = e.changedTouches[0].clientX - tx;
+      if (Math.abs(dx) > 48) { dx < 0 ? goTo(current + 1) : goTo(current - 1); }
+      startTimer();
+    }, { passive: true });
+  }
+
+  slides.forEach((sl, i) => {
+    const zb = sl.querySelector('.gsl-zoom-btn');
+    if (zb) zb.addEventListener('click', e => { e.stopPropagation(); openLightbox(i); });
+    sl.addEventListener('click', e => { if (!e.target.closest('.gsl-zoom-btn') && sl.classList.contains('gsl-active')) openLightbox(i); });
+  });
+
+  function openLightbox(index) {
+    current = index;
+    const src = slides[index].dataset.src || slides[index].querySelector('.gsl-img')?.src || '';
+    const alt = slides[index].querySelector('.gsl-img')?.alt || '';
+    if (lbImg) { lbImg.src = src; lbImg.alt = alt; }
+    if (lbCur) lbCur.textContent = index + 1;
+    if (lightbox) lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    clearInterval(timer);
+  }
+
+  function closeLightbox() {
+    if (lightbox) lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+    startTimer();
+  }
+
+  if (lbClose) lbClose.addEventListener('click', closeLightbox);
+  if (lightbox) lightbox.addEventListener('click', e => { if (e.target === lightbox || e.target.classList.contains('gsl-lb-inner')) closeLightbox(); });
+  if (lbPrev) lbPrev.addEventListener('click', e => { e.stopPropagation(); openLightbox((current - 1 + total) % total); });
+  if (lbNext) lbNext.addEventListener('click', e => { e.stopPropagation(); openLightbox((current + 1) % total); });
+
+  document.addEventListener('keydown', e => {
+    if (lightbox && lightbox.classList.contains('open')) {
+      if (e.key === 'ArrowRight') openLightbox((current + 1) % total);
+      if (e.key === 'ArrowLeft')  openLightbox((current - 1 + total) % total);
+      if (e.key === 'Escape')     closeLightbox();
+    }
+  });
+
+  updateSlides();
+  restartProgress();
+  startTimer();
+})();
+
 // DESTINATIONS SLIDESHOW
 (function () {
   const slideshow  = document.getElementById('destSlideshow');
@@ -7818,9 +8285,8 @@ function updateSlides() {
       if (!magnify || !img) return;
       function openLightbox() {
         lbImg.src = img.src; lbImg.alt = img.alt;
-        lbTitle.textContent   = slide.dataset.title   || '';
-        lbTagline.textContent = slide.dataset.tagline || '';
         lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
         clearInterval(timer);
       }
       magnify.addEventListener('click', (e) => { e.stopPropagation(); openLightbox(); });
@@ -7830,7 +8296,7 @@ function updateSlides() {
     lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
   }
 
-  function closeLightbox() { lightbox.classList.remove('open'); startTimer(); }
+  function closeLightbox() { lightbox.classList.remove('open'); document.body.style.overflow = ''; startTimer(); }
 
   slideshow.addEventListener('mouseenter', () => { isHovered = true; });
   slideshow.addEventListener('mouseleave', () => { isHovered = false; });
@@ -7880,7 +8346,80 @@ function updateSlides() {
   requestAnimationFrame(() => { updateSlides(); restartProgress(); startTimer(); });
 })();
 </script>
-<!-- Google Translate Widget -->
+// SITE HINTS SYSTEM
+(function () {
+  const hints = [
+    { label: 'Tip', text: 'Click the magnify icon on any destination slide to zoom into the image.', anchor: 'destSlideshow', position: 'top-right', delay: 12000 },
+    { label: 'Tip', text: 'Use the filter bar to sort safari packages by budget, mid-range, or luxury.', anchor: 'pkgFilterBar', position: 'bottom-left', delay: 22000 },
+    { label: 'Did you know', text: 'Hover over any gallery image to reveal its story — click the lens icon to zoom in.', anchor: 'galSlideshow', position: 'top-right', delay: 34000 },
+    { label: 'Tip', text: 'The Safari Matchmaker below uses your answers to find your ideal Kenya experience.', anchor: 'inline-quiz', position: 'top-left', delay: 46000 },
+    { label: 'Quick action', text: 'Tap the WhatsApp button at any time to reach us instantly and book your safari.', anchor: null, position: 'bottom-right-fixed', delay: 58000 },
+    { label: 'Tip', text: 'Use arrow keys ← → to navigate destination slides when your cursor is on the slideshow.', anchor: 'destSlideshow', position: 'top-left', delay: 70000 },
+  ];
+
+  let shown = new Set();
+
+  function getAnchorRect(id) {
+    if (!id) return null;
+    const el = document.getElementById(id);
+    if (!el) return null;
+    return el.getBoundingClientRect();
+  }
+
+  function isVisible(id) {
+    if (!id) return true;
+    const el = document.getElementById(id);
+    if (!el) return false;
+    const rect = el.getBoundingClientRect();
+    return rect.top < window.innerHeight && rect.bottom > 0;
+  }
+
+  function showHint(hint) {
+    if (shown.has(hint.label + hint.text)) return;
+    shown.add(hint.label + hint.text);
+
+    const box = document.createElement('div');
+    box.className = 'site-hint';
+    box.innerHTML = `
+      <span class="site-hint-label">${hint.label}</span>
+      <span class="site-hint-text">${hint.text}</span>
+      <button class="site-hint-close" aria-label="Dismiss">×</button>
+      <div class="site-hint-bar"></div>
+    `;
+
+    if (hint.position === 'bottom-right-fixed') {
+      box.style.cssText = 'bottom:110px;right:36px;';
+    } else if (hint.position === 'top-right') {
+      box.style.cssText = 'top:100px;right:36px;';
+    } else if (hint.position === 'top-left') {
+      box.style.cssText = 'top:100px;left:36px;';
+    } else if (hint.position === 'bottom-left') {
+      box.style.cssText = 'bottom:110px;left:36px;';
+    } else {
+      box.style.cssText = 'bottom:110px;right:36px;';
+    }
+
+    document.body.appendChild(box);
+
+    function dismiss() {
+      box.classList.add('hiding');
+      setTimeout(() => { if (box.parentNode) box.parentNode.removeChild(box); }, 400);
+    }
+
+    box.querySelector('.site-hint-close').addEventListener('click', dismiss);
+    const autoTimer = setTimeout(dismiss, 5200);
+    box.querySelector('.site-hint-close').addEventListener('click', () => clearTimeout(autoTimer));
+  }
+
+  hints.forEach(hint => {
+    setTimeout(() => {
+      if (hint.anchor && !isVisible(hint.anchor)) return;
+      showHint(hint);
+    }, hint.delay);
+  });
+})();
+
+// Google Translate Widget
 <div id="google_translate_element" style="
   position: fixed;
   bottom: 100px;
