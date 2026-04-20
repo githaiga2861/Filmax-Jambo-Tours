@@ -720,6 +720,157 @@
   @media (max-width: 600px) {
     nav.scrolled { padding: 14px 24px; }
   }
+
+  .theme-toggle {
+    position: fixed; bottom: 36px; left: 36px; z-index: 200;
+    width: 48px; height: 48px; border-radius: 50%;
+    border: 1px solid rgba(212,175,55,0.2);
+    background: #141414;
+    display: flex; align-items: center; justify-content: center;
+    cursor: none; transition: background 0.4s, border-color 0.4s, transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  .theme-toggle:hover { transform: scale(1.08); box-shadow: 0 8px 32px rgba(212,175,55,0.3); border-color: #d4af37; }
+  .theme-toggle-icon { width: 18px; height: 18px; position: relative; transition: transform 0.5s cubic-bezier(0.22,1,0.36,1); }
+  .theme-toggle:hover .theme-toggle-icon { transform: rotate(20deg); }
+  .theme-toggle-icon .sun { position: absolute; inset: 0; opacity: 1; transition: opacity 0.4s ease, transform 0.4s ease; transform: scale(1); }
+  .theme-toggle-icon .moon { position: absolute; inset: 0; opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease; transform: scale(0.6) rotate(90deg); }
+  body.light-mode .theme-toggle { background: #d4d0c8; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+  body.light-mode .theme-toggle-icon .sun { opacity: 0; transform: scale(0.6) rotate(-90deg); }
+  body.light-mode .theme-toggle-icon .moon { opacity: 1; transform: scale(1) rotate(0deg); }
+  .theme-tooltip {
+    position: absolute; left: 58px; white-space: nowrap;
+    background: #141414; border: 1px solid rgba(212,175,55,0.2);
+    color: #f0ece4; font-family: 'Jost', sans-serif; font-size: 9px;
+    letter-spacing: 3px; text-transform: uppercase; padding: 7px 14px;
+    opacity: 0; transform: translateX(-6px);
+    transition: opacity 0.3s, transform 0.3s; pointer-events: none;
+  }
+  .theme-toggle:hover .theme-tooltip { opacity: 1; transform: translateX(0); }
+  body.light-mode .theme-tooltip { background: #d4d0c8; color: #0a0a0a; }
+
+  body.light-mode {
+    --black: #ebebea; --deep: #e4e4e2; --charcoal: #dcdcda; --card: #e4e4e2;
+    --gold: #9a6f00; --gold-light: #b8860b; --gold-dim: rgba(154,111,0,0.12);
+    --amber: #7a5500; --text: #0a0a0a; --muted: #2a2a2a;
+    --border: rgba(0,0,0,0.15);
+    background: #ebebea; color: #0a0a0a;
+  }
+  body.light-mode nav { background: rgba(220,216,210,0.95); border-bottom-color: rgba(184,134,11,0.2); }
+  body.light-mode .nav-logo-img { filter: drop-shadow(0 0 8px rgba(184,134,11,0.5)) drop-shadow(0 0 20px rgba(184,134,11,0.2)); }
+  body.light-mode .page-hero { background: #e4e4e2; }
+  body.light-mode .filter-system { background: #dcdcda; border-color: rgba(0,0,0,0.12); }
+  body.light-mode .filter-toggle-bar:hover { background: rgba(154,111,0,0.04); }
+  body.light-mode .filter-toggle-btn { color: #2a2a2a; border-color: rgba(0,0,0,0.18); }
+  body.light-mode .filter-toggle-btn:hover { color: var(--gold); border-color: var(--gold); }
+  body.light-mode .filter-panel { background: #dcdcda; border-top-color: rgba(0,0,0,0.1); }
+  body.light-mode .filter-group-label { color: var(--gold); border-bottom-color: rgba(154,111,0,0.2); }
+  body.light-mode .filter-option-label { color: #2a2a2a; }
+  body.light-mode .filter-checkbox { border-color: rgba(154,111,0,0.4); }
+  body.light-mode .filter-range { background: linear-gradient(to right, var(--gold) 0%, var(--gold) 50%, rgba(154,111,0,0.2) 50%); }
+  body.light-mode .filter-range-value { color: var(--gold); }
+  body.light-mode .filter-results-count { color: #2a2a2a; }
+  body.light-mode .filter-results-count span { color: var(--gold); }
+  body.light-mode .filter-active-count { background: var(--gold); color: #f0ece4; }
+  body.light-mode .filter-toggle-label { color: var(--gold); }
+  body.light-mode .category-title { color: #0a0a0a; }
+  body.light-mode .category-count { color: #2a2a2a; }
+  body.light-mode .pkg-card { background: #d8d4cc; border-color: rgba(154,111,0,0.12); }
+  body.light-mode .pkg-card:hover { border-color: rgba(154,111,0,0.4); }
+  body.light-mode .pkg-name { color: #0a0a0a; }
+  body.light-mode .pkg-tagline { color: #2a2a2a; }
+  body.light-mode .pkg-duration { color: #5e5040; }
+  body.light-mode .pkg-price { color: var(--gold); }
+  body.light-mode .pkg-features li { color: #2a2a2a; border-bottom-color: rgba(0,0,0,0.06); }
+  body.light-mode .pkg-cta { border-color: rgba(154,111,0,0.4); color: var(--gold); }
+  body.light-mode .pkg-cta:hover { background: var(--gold); color: #f0ece4; }
+  body.light-mode .dest-tag { border-color: rgba(0,0,0,0.1); color: #2a2a2a; }
+  body.light-mode .bespoke-banner { background: #d8d4cc; border-color: rgba(154,111,0,0.2); }
+  body.light-mode .bespoke-text h2 { color: #0a0a0a; }
+  body.light-mode .bespoke-text p { color: #2a2a2a; }
+  body.light-mode footer { background: #d8d4cc; border-top-color: rgba(0,0,0,0.12); }
+  body.light-mode .footer-brand h2 { color: var(--gold); }
+  body.light-mode .footer-brand p, body.light-mode .footer-col a { color: #5e5040; }
+  body.light-mode .footer-col a:hover { color: #0a0a0a; }
+  body.light-mode .footer-bottom span { color: #5e5040; }
+  body.light-mode .section-label { color: var(--gold); }
+  body.light-mode .no-results h3 { color: #0a0a0a; }
+  body.light-mode .no-results p { color: #2a2a2a; }
+  body.light-mode ::-webkit-scrollbar-track { background: #ebebea; }
+  body.light-mode ::-webkit-scrollbar-thumb { background: var(--gold); }
+
+  .site-hint {
+    position: absolute; z-index: 99980;
+    max-width: 240px; width: max-content;
+    background: rgba(10,10,10,0.94);
+    border: 1px solid rgba(212,175,55,0.4);
+    backdrop-filter: blur(18px);
+    padding: 12px 32px 12px 14px;
+    pointer-events: all; cursor: none;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    animation: hintSlideIn 0.45s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  body.light-mode .site-hint {
+    background: rgba(240,236,228,0.97);
+    border-color: rgba(154,111,0,0.45);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  }
+  .site-hint.hiding { animation: hintSlideOut 0.35s cubic-bezier(0.76,0,0.24,1) forwards; }
+  .site-hint-pointer {
+    position: absolute; width: 0; height: 0; pointer-events: none;
+  }
+  .site-hint-pointer.down {
+    bottom: -8px; left: 20px;
+    border-left: 8px solid transparent; border-right: 8px solid transparent;
+    border-top: 8px solid rgba(212,175,55,0.4);
+  }
+  .site-hint-pointer.up {
+    top: -8px; left: 20px;
+    border-left: 8px solid transparent; border-right: 8px solid transparent;
+    border-bottom: 8px solid rgba(212,175,55,0.4);
+  }
+  .site-hint-pointer.right {
+    right: -8px; top: 14px;
+    border-top: 8px solid transparent; border-bottom: 8px solid transparent;
+    border-left: 8px solid rgba(212,175,55,0.4);
+  }
+  .site-hint-pointer.left {
+    left: -8px; top: 14px;
+    border-top: 8px solid transparent; border-bottom: 8px solid transparent;
+    border-right: 8px solid rgba(212,175,55,0.4);
+  }
+  body.light-mode .site-hint-pointer.down { border-top-color: rgba(154,111,0,0.45); }
+  body.light-mode .site-hint-pointer.up   { border-bottom-color: rgba(154,111,0,0.45); }
+  body.light-mode .site-hint-pointer.right { border-left-color: rgba(154,111,0,0.45); }
+  body.light-mode .site-hint-pointer.left  { border-right-color: rgba(154,111,0,0.45); }
+  .site-hint-label {
+    font-family: 'Jost', sans-serif; font-size: 8px; letter-spacing: 4px;
+    text-transform: uppercase; color: #d4af37; display: block; margin-bottom: 5px;
+  }
+  body.light-mode .site-hint-label { color: #9a6f00; }
+  .site-hint-text {
+    font-family: 'Cormorant Garamond', serif; font-size: 13px; font-style: italic;
+    color: rgba(240,236,228,0.9); line-height: 1.5;
+  }
+  body.light-mode .site-hint-text { color: #2a2a2a; }
+  .site-hint-close {
+    position: absolute; top: 8px; right: 8px;
+    background: none; border: none;
+    color: rgba(212,175,55,0.5); font-size: 14px; line-height: 1;
+    cursor: none; padding: 2px 5px; transition: color 0.2s;
+  }
+  .site-hint-close:hover { color: #d4af37; }
+  body.light-mode .site-hint-close { color: rgba(154,111,0,0.5); }
+  body.light-mode .site-hint-close:hover { color: #9a6f00; }
+  .site-hint-bar {
+    position: absolute; bottom: 0; left: 0;
+    height: 2px; background: linear-gradient(to right, #d4af37, rgba(212,175,55,0.3));
+    animation: hintBar 5s linear forwards;
+  }
+  @keyframes hintSlideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes hintSlideOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(6px); } }
+  @keyframes hintBar { from { width: 100%; } to { width: 0%; } }
+  .hint-anchor { position: relative; }
   /* ADVANCED FILTER SYSTEM */
   .filter-system {
     background: var(--charcoal);
@@ -1654,6 +1805,19 @@
   </div>
 </footer>
 
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
+  <span class="theme-tooltip" id="themeTooltip">Light Mode</span>
+  <div class="theme-toggle-icon">
+    <svg class="sun" width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <circle cx="9" cy="9" r="3.5" stroke="rgba(212,175,55,0.8)" stroke-width="1.2"/>
+      <path d="M9 1v2M9 15v2M1 9h2M15 9h2M3.22 3.22l1.42 1.42M13.36 13.36l1.42 1.42M3.22 14.78l1.42-1.42M13.36 4.64l1.42-1.42" stroke="rgba(212,175,55,0.8)" stroke-width="1.2" stroke-linecap="round"/>
+    </svg>
+    <svg class="moon" width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <path d="M15.5 11.5A7 7 0 0 1 6.5 2.5a7 7 0 1 0 9 9z" stroke="rgba(184,134,11,0.9)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+</button>
+
 <!-- WhatsApp FAB -->
 <a href="https://wa.me/34672304384?text=Hello%20Filmax%20Jambo%20Tours%2C%20I'd%20like%20to%20book%20a%20safari!" class="whatsapp-fab" target="_blank" rel="noopener">
   <span class="wa-tooltip">Book via WhatsApp</span>
@@ -2155,5 +2319,151 @@ window._revealObserver = new IntersectionObserver(entries => {
 
 document.querySelectorAll('.reveal').forEach(el => window._revealObserver.observe(el));
 </script>  
+<div id="hintsContainer" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99970;"></div>
+
+<script>
+(function(){
+  var toggle = document.getElementById('themeToggle');
+  var tooltip = document.getElementById('themeTooltip');
+  if (!toggle) return;
+  var saved = localStorage.getItem('fjt-theme');
+  if (saved === 'light') { document.body.classList.add('light-mode'); if(tooltip) tooltip.textContent = 'Dark Mode'; }
+  else { if(tooltip) tooltip.textContent = 'Light Mode'; }
+  toggle.addEventListener('click', function(){
+    var isLight = document.body.classList.toggle('light-mode');
+    localStorage.setItem('fjt-theme', isLight ? 'light' : 'dark');
+    if(tooltip) tooltip.textContent = isLight ? 'Dark Mode' : 'Light Mode';
+  });
+})();
+
+(function(){
+  var container = document.getElementById('hintsContainer');
+  var shown = new Set();
+  var DURATION = 5000;
+
+  var hints = [
+    {
+      id: 'filter-hint',
+      label: 'Tip',
+      text: 'Click "Filters" to narrow packages by budget, duration, destination and travel style.',
+      targetId: 'filterToggleBtn',
+      pointer: 'down',
+      offsetX: 0, offsetY: -60,
+      triggerElId: 'filterToggleBar',
+      triggerOffset: 120
+    },
+    {
+      id: 'package-hint',
+      label: 'Explore',
+      text: 'Each card links to a full itinerary — click "Unveil This Journey" to see day-by-day details.',
+      targetId: 'pkgCard0',
+      pointer: 'up',
+      offsetX: 0, offsetY: 20,
+      triggerElId: 'packagesGrid',
+      triggerOffset: 300
+    },
+    {
+      id: 'bespoke-hint',
+      label: 'Did you know',
+      text: 'None of these quite right? The bespoke section below lets us build a fully custom safari for you.',
+      targetId: 'filterApplyBtn',
+      pointer: 'down',
+      offsetX: -60, offsetY: -60,
+      triggerElId: 'filterPanel',
+      triggerOffset: 600
+    },
+    {
+      id: 'whatsapp-hint',
+      label: 'Quick action',
+      text: 'Tap here to reach us instantly on WhatsApp and start planning your safari.',
+      targetId: null,
+      fixedPos: { bottom: 100, right: 100 },
+      pointer: 'right',
+      triggerElId: null,
+      triggerScrollY: 1200
+    }
+  ];
+
+  function getTargetRect(hint) {
+    if (hint.targetId) {
+      var el = document.getElementById(hint.targetId);
+      if (!el) return null;
+      return el.getBoundingClientRect();
+    }
+    return null;
+  }
+
+  function showHint(hint) {
+    if (shown.has(hint.id)) return;
+    shown.add(hint.id);
+
+    var box = document.createElement('div');
+    box.className = 'site-hint';
+    box.id = 'hint-' + hint.id;
+    box.innerHTML =
+      '<span class="site-hint-label">' + hint.label + '</span>' +
+      '<span class="site-hint-text">' + hint.text + '</span>' +
+      '<button class="site-hint-close" aria-label="Dismiss">×</button>' +
+      '<div class="site-hint-pointer ' + hint.pointer + '"></div>' +
+      '<div class="site-hint-bar"></div>';
+
+    container.style.pointerEvents = 'none';
+    box.style.pointerEvents = 'all';
+
+    function positionBox() {
+      if (hint.fixedPos) {
+        box.style.position = 'fixed';
+        if (hint.fixedPos.bottom !== undefined) box.style.bottom = hint.fixedPos.bottom + 'px';
+        if (hint.fixedPos.right  !== undefined) box.style.right  = hint.fixedPos.right  + 'px';
+        if (hint.fixedPos.top    !== undefined) box.style.top    = hint.fixedPos.top    + 'px';
+        if (hint.fixedPos.left   !== undefined) box.style.left   = hint.fixedPos.left   + 'px';
+        return;
+      }
+      var rect = getTargetRect(hint);
+      if (!rect) return;
+      var scrollY = window.pageYOffset;
+      var scrollX = window.pageXOffset;
+      var top = rect.top + scrollY + (hint.offsetY || 0);
+      var left = rect.left + scrollX + (hint.offsetX || 0);
+      box.style.position = 'absolute';
+      box.style.top  = top + 'px';
+      box.style.left = Math.max(8, Math.min(left, window.innerWidth - 256)) + 'px';
+    }
+
+    positionBox();
+    container.appendChild(box);
+    window.addEventListener('scroll', positionBox, { passive: true });
+
+    function dismiss() {
+      box.classList.add('hiding');
+      window.removeEventListener('scroll', positionBox);
+      setTimeout(function(){ if (box.parentNode) box.parentNode.removeChild(box); }, 380);
+    }
+
+    var autoTimer = setTimeout(dismiss, DURATION);
+    box.querySelector('.site-hint-close').addEventListener('click', function(){
+      clearTimeout(autoTimer);
+      dismiss();
+    });
+  }
+
+  function checkHints() {
+    var scrollY = window.pageYOffset;
+    hints.forEach(function(hint) {
+      if (shown.has(hint.id)) return;
+      if (hint.triggerScrollY && scrollY >= hint.triggerScrollY) { showHint(hint); return; }
+      if (hint.triggerElId) {
+        var el = document.getElementById(hint.triggerElId);
+        if (!el) return;
+        var rect = el.getBoundingClientRect();
+        if (rect.top <= (hint.triggerOffset || window.innerHeight * 0.75)) { showHint(hint); }
+      }
+    });
+  }
+
+  window.addEventListener('scroll', checkHints, { passive: true });
+  setTimeout(checkHints, 1200);
+})();
+</script>
 </body>
 </html>
