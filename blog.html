@@ -92,6 +92,72 @@ footer { background: var(--black); border-top: 1px solid var(--border); padding:
 
 @media (max-width: 900px) { .blog-masonry { grid-template-columns: 1fr 1fr; } nav { padding: 16px 24px; } .container { padding: 0 24px; } }
 @media (max-width: 600px) { .blog-masonry { grid-template-columns: 1fr; } .blog-filter-btn { padding: 14px 16px; font-size: 9px; letter-spacing: 3px; } }
+
+.theme-toggle { position: fixed; bottom: 36px; left: 36px; z-index: 200; width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(212,175,55,0.2); background: #141414; display: flex; align-items: center; justify-content: center; cursor: none; transition: background 0.4s, border-color 0.4s, transform 0.3s, box-shadow 0.3s; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+.theme-toggle:hover { transform: scale(1.08); box-shadow: 0 8px 32px rgba(212,175,55,0.3); border-color: #d4af37; }
+.theme-toggle-icon { width: 18px; height: 18px; position: relative; transition: transform 0.5s cubic-bezier(0.22,1,0.36,1); }
+.theme-toggle:hover .theme-toggle-icon { transform: rotate(20deg); }
+.theme-toggle-icon .sun { position: absolute; inset: 0; opacity: 1; transition: opacity 0.4s ease, transform 0.4s ease; transform: scale(1); }
+.theme-toggle-icon .moon { position: absolute; inset: 0; opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease; transform: scale(0.6) rotate(90deg); }
+body.light-mode .theme-toggle { background: #d4d0c8; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+body.light-mode .theme-toggle-icon .sun { opacity: 0; transform: scale(0.6) rotate(-90deg); }
+body.light-mode .theme-toggle-icon .moon { opacity: 1; transform: scale(1) rotate(0deg); }
+.theme-tooltip { position: absolute; left: 58px; white-space: nowrap; background: #141414; border: 1px solid rgba(212,175,55,0.2); color: #f0ece4; font-family: 'Jost', sans-serif; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; padding: 7px 14px; opacity: 0; transform: translateX(-6px); transition: opacity 0.3s, transform 0.3s; pointer-events: none; }
+.theme-toggle:hover .theme-tooltip { opacity: 1; transform: translateX(0); }
+body.light-mode .theme-tooltip { background: #d4d0c8; color: #0a0a0a; }
+
+body.light-mode { background: #ebebea; color: #0a0a0a; --gold: #9a6f00; --muted: #2a2a2a; --border: rgba(0,0,0,0.15); --card: #e4e4e2; --charcoal: #dcdcda; --text: #0a0a0a; --black: #ebebea; }
+body.light-mode nav { background: rgba(220,216,210,0.97); border-bottom-color: rgba(184,134,11,0.2); }
+body.light-mode .journal-hero { background: #dcdcda; border-bottom-color: rgba(0,0,0,0.1); }
+body.light-mode .section-label { color: #9a6f00; }
+body.light-mode .section-title { color: #0a0a0a; }
+body.light-mode .gold-line::before, body.light-mode .gold-line::after { background: rgba(0,0,0,0.12); }
+body.light-mode .gold-line span { color: #5e5040; }
+body.light-mode .blog-filter-btn { color: #2a2a2a; border-right-color: rgba(0,0,0,0.1); }
+body.light-mode .blog-filter-btn:hover { color: #0a0a0a; background: rgba(154,111,0,0.05); }
+body.light-mode .blog-filter-btn.active { color: #9a6f00; background: rgba(154,111,0,0.08); }
+body.light-mode .blog-post-card { background: #d8d4cc; border-color: rgba(154,111,0,0.12); }
+body.light-mode .blog-post-card:hover { border-color: rgba(154,111,0,0.4); }
+body.light-mode .blog-post-card-title { color: #0a0a0a; }
+body.light-mode .blog-post-card:hover .blog-post-card-title { color: #9a6f00; }
+body.light-mode .blog-post-card-excerpt { color: #2a2a2a; }
+body.light-mode .blog-post-card-date { color: #5e5040; }
+body.light-mode .blog-post-card-category { background: #9a6f00; color: #f0ece4; }
+body.light-mode .blog-post-card-cta { color: #9a6f00; }
+body.light-mode .blog-post-card-cta::after { background: #9a6f00; }
+body.light-mode footer { background: #d8d4cc; border-top-color: rgba(0,0,0,0.1); }
+body.light-mode ::-webkit-scrollbar-track { background: #ebebea; }
+body.light-mode ::-webkit-scrollbar-thumb { background: #9a6f00; }
+body.light-mode .nav-back { color: #5e5040; }
+body.light-mode .nav-back:hover { color: #9a6f00; }
+body.light-mode .nav-back::before { background: #5e5040; }
+body.light-mode .nav-back:hover::before { background: #9a6f00; }
+body.light-mode .nav-logo-img { filter: drop-shadow(0 0 8px rgba(184,134,11,0.5)); }
+
+.site-hint { position: absolute; z-index: 99980; max-width: 240px; width: max-content; background: rgba(10,10,10,0.94); border: 1px solid rgba(212,175,55,0.4); backdrop-filter: blur(18px); padding: 12px 32px 12px 14px; pointer-events: all; cursor: none; box-shadow: 0 8px 32px rgba(0,0,0,0.6); animation: hintSlideIn 0.45s cubic-bezier(0.22,1,0.36,1) forwards; }
+body.light-mode .site-hint { background: rgba(240,236,228,0.97); border-color: rgba(154,111,0,0.45); box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+.site-hint.hiding { animation: hintSlideOut 0.35s cubic-bezier(0.76,0,0.24,1) forwards; }
+.site-hint-pointer { position: absolute; width: 0; height: 0; pointer-events: none; }
+.site-hint-pointer.down { bottom: -8px; left: 20px; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 8px solid rgba(212,175,55,0.4); }
+.site-hint-pointer.up { top: -8px; left: 20px; border-left: 8px solid transparent; border-right: 8px solid transparent; border-bottom: 8px solid rgba(212,175,55,0.4); }
+.site-hint-pointer.right { right: -8px; top: 14px; border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-left: 8px solid rgba(212,175,55,0.4); }
+.site-hint-pointer.left { left: -8px; top: 14px; border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-right: 8px solid rgba(212,175,55,0.4); }
+body.light-mode .site-hint-pointer.down { border-top-color: rgba(154,111,0,0.45); }
+body.light-mode .site-hint-pointer.up { border-bottom-color: rgba(154,111,0,0.45); }
+body.light-mode .site-hint-pointer.right { border-left-color: rgba(154,111,0,0.45); }
+body.light-mode .site-hint-pointer.left { border-right-color: rgba(154,111,0,0.45); }
+.site-hint-label { font-family: 'Jost', sans-serif; font-size: 8px; letter-spacing: 4px; text-transform: uppercase; color: #d4af37; display: block; margin-bottom: 5px; }
+body.light-mode .site-hint-label { color: #9a6f00; }
+.site-hint-text { font-family: 'Cormorant Garamond', serif; font-size: 13px; font-style: italic; color: rgba(240,236,228,0.9); line-height: 1.5; }
+body.light-mode .site-hint-text { color: #2a2a2a; }
+.site-hint-close { position: absolute; top: 8px; right: 8px; background: none; border: none; color: rgba(212,175,55,0.5); font-size: 14px; line-height: 1; cursor: none; padding: 2px 5px; transition: color 0.2s; }
+.site-hint-close:hover { color: #d4af37; }
+body.light-mode .site-hint-close { color: rgba(154,111,0,0.5); }
+body.light-mode .site-hint-close:hover { color: #9a6f00; }
+.site-hint-bar { position: absolute; bottom: 0; left: 0; height: 2px; background: linear-gradient(to right, #d4af37, rgba(212,175,55,0.3)); animation: hintBar 5s linear forwards; }
+@keyframes hintSlideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes hintSlideOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(6px); } }
+@keyframes hintBar { from { width: 100%; } to { width: 0%; } }
 </style>
 </head>
 <body>
@@ -145,6 +211,15 @@ footer { background: var(--black); border-top: 1px solid var(--border); padding:
 <a href="https://wa.me/34672304384?text=Hello%20Filmax%20Jambo%20Tours%2C%20I'd%20like%20to%20book%20a%20safari!" class="whatsapp-fab" target="_blank" rel="noopener">
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
+  <span class="theme-tooltip" id="themeTooltip">Light Mode</span>
+  <div class="theme-toggle-icon">
+    <svg class="sun" width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="3.5" stroke="rgba(212,175,55,0.8)" stroke-width="1.2"/><path d="M9 1v2M9 15v2M1 9h2M15 9h2M3.22 3.22l1.42 1.42M13.36 13.36l1.42 1.42M3.22 14.78l1.42-1.42M13.36 4.64l1.42-1.42" stroke="rgba(212,175,55,0.8)" stroke-width="1.2" stroke-linecap="round"/></svg>
+    <svg class="moon" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M15.5 11.5A7 7 0 0 1 6.5 2.5a7 7 0 1 0 9 9z" stroke="rgba(184,134,11,0.9)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+</button>
+<div id="hintsContainer" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99970;"></div>
 
 <script>
 const SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
@@ -246,6 +321,106 @@ document.querySelectorAll('.blog-filter-btn').forEach(btn => {
 });
 
 loadBlogs();
+</script>
+<script>
+(function(){
+  var toggle = document.getElementById('themeToggle');
+  var tooltip = document.getElementById('themeTooltip');
+  if (!toggle) return;
+  var saved = localStorage.getItem('fjt-theme');
+  if (saved === 'light') { document.body.classList.add('light-mode'); if(tooltip) tooltip.textContent = 'Dark Mode'; }
+  else { if(tooltip) tooltip.textContent = 'Light Mode'; }
+  toggle.addEventListener('click', function(){
+    var isLight = document.body.classList.toggle('light-mode');
+    localStorage.setItem('fjt-theme', isLight ? 'light' : 'dark');
+    if(tooltip) tooltip.textContent = isLight ? 'Dark Mode' : 'Light Mode';
+  });
+})();
+
+(function(){
+  var container = document.getElementById('hintsContainer');
+  var shown = new Set();
+  var DURATION = 5000;
+
+  var hints = [
+    {
+      id: 'filter-hint',
+      label: 'Tip',
+      text: 'Filter stories by category — Wildlife, Planning, Coast and more.',
+      targetId: 'blogMasonry',
+      pointer: 'up',
+      offsetX: 0, offsetY: -56,
+      triggerElId: 'blogMasonry',
+      triggerOffset: window.innerHeight * 0.8
+    },
+    {
+      id: 'whatsapp-hint',
+      label: 'Quick action',
+      text: 'Tap the WhatsApp button to reach us and plan your safari now.',
+      fixedPos: { bottom: 104, right: 100 },
+      pointer: 'right',
+      triggerScrollY: 600
+    }
+  ];
+
+  function showHint(hint) {
+    if (shown.has(hint.id)) return;
+    shown.add(hint.id);
+    var box = document.createElement('div');
+    box.className = 'site-hint';
+    box.innerHTML =
+      '<span class="site-hint-label">' + hint.label + '</span>' +
+      '<span class="site-hint-text">' + hint.text + '</span>' +
+      '<button class="site-hint-close" aria-label="Dismiss">×</button>' +
+      '<div class="site-hint-pointer ' + (hint.pointer||'down') + '"></div>' +
+      '<div class="site-hint-bar"></div>';
+
+    function positionBox() {
+      if (hint.fixedPos) {
+        box.style.position = 'fixed';
+        if (hint.fixedPos.bottom !== undefined) box.style.bottom = hint.fixedPos.bottom + 'px';
+        if (hint.fixedPos.right  !== undefined) box.style.right  = hint.fixedPos.right  + 'px';
+        return;
+      }
+      var el = hint.targetId ? document.getElementById(hint.targetId) : null;
+      if (!el) return;
+      var rect = el.getBoundingClientRect();
+      box.style.position = 'absolute';
+      box.style.top  = (rect.top + window.pageYOffset + (hint.offsetY||0)) + 'px';
+      box.style.left = Math.max(8, rect.left + window.pageXOffset + (hint.offsetX||0)) + 'px';
+    }
+
+    positionBox();
+    container.appendChild(box);
+    window.addEventListener('scroll', positionBox, { passive: true });
+
+    function dismiss() {
+      box.classList.add('hiding');
+      window.removeEventListener('scroll', positionBox);
+      setTimeout(function(){ if (box.parentNode) box.parentNode.removeChild(box); }, 380);
+    }
+
+    var autoTimer = setTimeout(dismiss, DURATION);
+    box.querySelector('.site-hint-close').addEventListener('click', function(){ clearTimeout(autoTimer); dismiss(); });
+  }
+
+  function checkHints() {
+    var scrollY = window.pageYOffset;
+    hints.forEach(function(hint){
+      if (shown.has(hint.id)) return;
+      if (hint.triggerScrollY && scrollY >= hint.triggerScrollY) { showHint(hint); return; }
+      if (hint.triggerElId) {
+        var el = document.getElementById(hint.triggerElId);
+        if (!el) return;
+        var rect = el.getBoundingClientRect();
+        if (rect.top <= (hint.triggerOffset || window.innerHeight * 0.75)) showHint(hint);
+      }
+    });
+  }
+
+  window.addEventListener('scroll', checkHints, { passive: true });
+  setTimeout(checkHints, 1500);
+})();
 </script>
 </body>
 </html>
