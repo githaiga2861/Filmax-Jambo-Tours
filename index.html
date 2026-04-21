@@ -296,16 +296,16 @@ body.light-mode .gallery-cta-strip p em {
 }
 
 body.light-mode .team-card {
-  border: 1px solid transparent;
-  background-image: linear-gradient(#d8d4cc, #d8d4cc), linear-gradient(135deg, #7a5500 0%, #c9a84c 18%, #fffbe8 35%, #ffffff 50%, #fffbe8 65%, #c9a84c 82%, #7a5500 100%);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  box-shadow: 0 2px 8px rgba(180,130,10,0.12), 0 1px 0 rgba(255,255,255,0.6) inset, 0 -1px 0 rgba(120,80,0,0.15) inset;
-  transition: background 0.4s, box-shadow 0.4s;
+  border: 1px solid rgba(212,175,55,0.2);
+  border-top: 2px solid var(--gold);
+  background: #f5f2ec;
+  background-image: none;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  transition: background 0.4s, box-shadow 0.4s, transform 0.4s;
 }
 body.light-mode .team-card:hover {
-  background-color: #;
-  box-shadow: 0 12px 40px rgba(180,130,10,0.22), 0 2px 0 rgba(255,255,255,0.7) inset, 0 -1px 0 rgba(120,80,0,0.18) inset;
+  background: #ffffff;
+  box-shadow: 0 12px 40px rgba(180,130,10,0.15);
   transform: translateY(-4px);
 }
 body.light-mode .testimonial {
@@ -914,13 +914,13 @@ body.light-mode .gallery-img {
   }
 
 body.light-mode .hc-bg {
-    filter: brightness(0.55) saturate(0.6) sepia(0.45) !important;
+    filter: brightness(0.45) saturate(0.75) sepia(0) !important;
     mix-blend-mode: normal;
     opacity: 1;
   }
 
   body.light-mode .highlight-card:hover .hc-bg {
-    filter: brightness(0.62) saturate(0.65) sepia(0.45) !important;
+    filter: brightness(0.52) saturate(0.85) sepia(0) !important;
     opacity: 1;
   }
 
@@ -1465,31 +1465,65 @@ body.light-mode .pkg-filter-btn.active {
     background: rgba(245,240,232,0.97);
   }
 
-/* Send Enquiry button — always bright gold in light mode */
-@keyframes pulseEnquiryLight {
+/* Body gold buttons — bright gold in light mode */
+@keyframes pulseBodyGold {
   0%, 100% {
-    box-shadow: 0 0 0 0 rgba(212,175,55,0.55), 0 8px 32px rgba(212,175,55,0.3);
+    box-shadow: 0 0 0 0 rgba(212,175,55,0.6), 0 8px 32px rgba(212,175,55,0.35);
   }
   50% {
-    box-shadow: 0 0 0 14px rgba(212,175,55,0), 0 8px 32px rgba(212,175,55,0.3);
+    box-shadow: 0 0 0 16px rgba(212,175,55,0), 0 8px 32px rgba(212,175,55,0.35);
   }
 }
 
 body.light-mode #sendEnquiryBtn,
-body.light-mode .contact-form .btn-primary {
-  background: linear-gradient(135deg, #d4af37, #b8860b) !important;
+body.light-mode .contact-form .btn-primary,
+body.light-mode #testimonialFormLocked button,
+body.light-mode .view-all-btn,
+body.light-mode .blog-view-all-btn,
+body.light-mode .auth-submit,
+body.light-mode #siSubmitBtn,
+body.light-mode #suSubmitBtn,
+body.light-mode .quiz-btn-next.ready,
+body.light-mode .quiz-enter-btn,
+body.light-mode .quiz-result-link {
+  background: linear-gradient(135deg, #e8c84a, #d4af37) !important;
   color: #080808 !important;
   -webkit-text-fill-color: #080808 !important;
-  animation: pulseEnquiryLight 3s ease-in-out infinite 2s !important;
-  filter: brightness(1.08) saturate(1.15);
+  filter: brightness(1.12) saturate(1.2) !important;
+  box-shadow: 0 8px 28px rgba(212,175,55,0.4) !important;
+  animation: pulseBodyGold 3s ease-in-out infinite 1.5s !important;
 }
 
 body.light-mode #sendEnquiryBtn:hover,
-body.light-mode .contact-form .btn-primary:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 16px 48px rgba(212,175,55,0.65) !important;
-  filter: brightness(1.18) saturate(1.25);
+body.light-mode .contact-form .btn-primary:hover,
+body.light-mode #testimonialFormLocked button:hover,
+body.light-mode .view-all-btn:hover,
+body.light-mode .blog-view-all-btn:hover,
+body.light-mode .auth-submit:hover,
+body.light-mode #siSubmitBtn:hover,
+body.light-mode #suSubmitBtn:hover,
+body.light-mode .quiz-btn-next.ready:hover,
+body.light-mode .quiz-result-link:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 16px 48px rgba(212,175,55,0.7) !important;
+  filter: brightness(1.22) saturate(1.3) !important;
   animation: none !important;
+}
+
+/* Keep quiz-enter-btn as ghost style in light mode */
+body.light-mode .quiz-enter-btn {
+  background: transparent !important;
+  border: 1px solid rgba(212,175,55,0.7) !important;
+  color: #9a6f00 !important;
+  -webkit-text-fill-color: #9a6f00 !important;
+  filter: none !important;
+  animation: none !important;
+}
+body.light-mode .quiz-enter-btn:hover {
+  background: rgba(212,175,55,0.12) !important;
+  border-color: var(--gold) !important;
+  box-shadow: 0 8px 28px rgba(212,175,55,0.3) !important;
+  transform: translateY(-2px) !important;
 }
 
   body.light-mode .ds-lightbox-caption h3 {
@@ -5350,11 +5384,11 @@ body.light-mode #google_translate_element .goog-te-gadget-simple {
   }
 
   body.light-mode .hc-bg {
-    filter: brightness(0.45) saturate(0.5) sepia(0.4) !important;
+    filter: brightness(0.45) saturate(0.75) sepia(0) !important;
   }
 
   body.light-mode .highlight-card:hover .hc-bg {
-    filter: brightness(0.52) saturate(0.55) sepia(0.4) !important;
+    filter: brightness(0.52) saturate(0.85) sepia(0) !important;
   }
 
   body.light-mode .pkg-filter-label {
@@ -5713,10 +5747,34 @@ body.light-mode .pkg-cta:hover {
   </div>
 </div>
 <div style="display:flex;align-items:center;gap:16px;position:relative;z-index:110;">
-  <button class="auth-btn-nav" id="authNavBtn" style="display:flex;align-items:center;gap:8px;">
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.1"/><path d="M1.5 12.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
-    <span id="authNavLabel">Sign In</span>
-  </button>
+  <div id="authNavCubeWrap" style="perspective:600px;cursor:none;" onclick="">
+    <div id="authNavCube" style="position:relative;width:auto;height:38px;transform-style:preserve-3d;transition:transform 0.55s cubic-bezier(0.76,0,0.24,1);">
+      <!-- Front face: Sign In -->
+      <button class="auth-btn-nav" id="authNavBtn" data-face="signin"
+        style="position:relative;backface-visibility:hidden;display:flex;align-items:center;gap:8px;transform:rotateX(0deg);">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.1"/><path d="M1.5 12.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+        <span id="authNavLabel">Sign In</span>
+      </button>
+      <!-- Back face: Sign Up (hidden, revealed on hover) -->
+      <button class="auth-btn-nav" id="authNavBtnBack" data-face="signup"
+        style="position:absolute;top:0;left:0;width:100%;backface-visibility:hidden;display:flex;align-items:center;gap:8px;transform:rotateX(180deg);opacity:0;pointer-events:none;white-space:nowrap;">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+        <span>Sign Up</span>
+      </button>
+    </div>
+  </div>
+  <style>
+    #authNavCubeWrap:hover #authNavCube:not(.is-signed-in) {
+      transform: rotateX(180deg);
+    }
+    #authNavCubeWrap:hover #authNavBtnBack {
+      opacity: 1;
+      pointer-events: all;
+    }
+    #authNavCubeWrap:hover #authNavBtn:not(.signed-in) {
+      pointer-events: none;
+    }
+  </style>
   <div id="userMenu" style="position:absolute;top:calc(100% + 10px);right:0;background:rgba(12,12,12,0.97);border:1px solid rgba(212,175,55,0.2);min-width:200px;z-index:200;backdrop-filter:blur(20px);opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity 0.3s,transform 0.3s;">
     <div id="userMenuName" style="padding:14px 20px 10px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#d4af37;border-bottom:1px solid rgba(212,175,55,0.1);">Welcome</div>
     <a href="#contact" class="user-menu-item" onclick="document.getElementById('userMenu').classList.remove('open')">My Bookings</a>
@@ -6244,16 +6302,17 @@ body.light-mode .pkg-cta:hover {
 }
 
 .team-card {
-  background: var(--black);
-  border-top: 1px solid var(--border);
+  background: var(--card);
+  border: 1px solid rgba(212,175,55,0.13);
+  border-top: 2px solid var(--gold);
   padding: 40px;
   position: relative;
   overflow: hidden;
-  transition: background 0.4s, box-shadow 0.4s;
+  transition: background 0.4s, box-shadow 0.4s, transform 0.4s;
   text-align: center;
   cursor: none;
 }
-.team-card:hover { background: #161616; box-shadow: 0 8px 40px rgba(212,175,55,0.08); }
+.team-card:hover { background: #161616; box-shadow: 0 12px 48px rgba(212,175,55,0.12); transform: translateY(-4px); }
 
 .team-avatar {
   width: 72px;
@@ -6385,7 +6444,7 @@ body.light-mode .pkg-cta:hover {
   </div>
 
     <div id="testimonialFormLocked" class="testimonial-form-locked">
-      <p>Share your Filmax Jambo experience with future adventurers. Sign in to submit your review for our team to publish.</p>
+      <p>Leave a review and inspire future adventurers.</p>
       <button onclick="fjAuth.open('signin')" style="font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;padding:18px 44px;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;border:none;cursor:none;position:relative;overflow:hidden;transition:transform 0.3s,box-shadow 0.3s;box-shadow:0 8px 32px rgba(212,175,55,0.25);display:inline-block;animation:pulseViewAll 3s ease-in-out infinite 2s;">Sign In to Leave a Review</button>
     </div>
 
@@ -6483,7 +6542,7 @@ body.light-mode .pkg-cta:hover {
   <div class="container">
     <div class="gallery-intro reveal">
       <div>
-        <div class="gold-line"><span>Visual Chronicles</span></div>
+        <div class="gold-line" style="width:100vw;margin-left:calc(-50vw + 50%);padding:0;"><span>Visual Chronicles</span></div>
         <span class="section-label">The Kenya Edit</span>
         <h2 class="section-title">Moments <br><em style="color: var(--gold);">Suspended in Time</em></h2>
       </div>
@@ -6882,6 +6941,7 @@ body.light-mode .pkg-cta:hover {
   }
   </style>
 
+  <div style="width:100%;height:1px;background:linear-gradient(to right,transparent 0%,rgba(212,175,55,0.15) 5%,rgba(212,175,55,0.55) 30%,var(--gold) 50%,rgba(212,175,55,0.55) 70%,rgba(212,175,55,0.15) 95%,transparent 100%);position:relative;overflow:visible;margin:0 0 0 0;"><div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:6px;height:6px;background:var(--gold);rotate:45deg;box-shadow:0 0 8px rgba(212,175,55,0.6),0 0 20px rgba(212,175,55,0.25);"></div></div>
   <div class="gsl-wrap reveal" id="galSlideshow">
     <div class="gsl-track" id="galTrack">
 
@@ -9020,9 +9080,11 @@ const fjAuth = (function () {
 
   function updateNav(user) {
     currentUser = user;
-    const btn   = document.getElementById('authNavBtn');
-    const label = document.getElementById('authNavLabel');
-    const locked = document.getElementById('testimonialFormLocked');
+    const btn     = document.getElementById('authNavBtn');
+    const label   = document.getElementById('authNavLabel');
+    const cube    = document.getElementById('authNavCube');
+    const backBtn = document.getElementById('authNavBtnBack');
+    const locked  = document.getElementById('testimonialFormLocked');
     const openFrm = document.getElementById('testimonialFormOpen');
     if (!btn) return;
     if (user) {
@@ -9030,6 +9092,9 @@ const fjAuth = (function () {
       const name = m.first_name || user.email.split('@')[0];
       if (label) label.textContent = name;
       btn.style.borderColor = 'rgba(212,175,55,0.5)';
+      btn.classList.add('signed-in');
+      if (cube)    cube.classList.add('is-signed-in');
+      if (backBtn) { backBtn.style.display = 'none'; }
       const menuName = document.getElementById('userMenuName');
       if (menuName) menuName.textContent = (m.first_name || '') + ' ' + (m.last_name || '');
       if (locked)  locked.style.display  = 'none';
@@ -9037,6 +9102,9 @@ const fjAuth = (function () {
     } else {
       if (label) label.textContent = 'Sign In';
       btn.style.borderColor = 'rgba(212,175,55,0.3)';
+      btn.classList.remove('signed-in');
+      if (cube)    cube.classList.remove('is-signed-in');
+      if (backBtn) { backBtn.style.display = ''; }
       if (locked)  locked.style.display  = '';
       if (openFrm) openFrm.style.display = 'none';
     }
@@ -9069,8 +9137,10 @@ const fjAuth = (function () {
     const overlay = document.getElementById('authOverlay');
     if (overlay) overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
 
-    // Nav button
-    const navBtn = document.getElementById('authNavBtn');
+    // Nav cube buttons
+    const navBtn     = document.getElementById('authNavBtn');
+    const navBtnBack = document.getElementById('authNavBtnBack');
+    const cubeWrap   = document.getElementById('authNavCubeWrap');
     if (navBtn) {
       navBtn.addEventListener('click', () => {
         if (currentUser) {
@@ -9081,6 +9151,11 @@ const fjAuth = (function () {
         }
       });
     }
+    if (navBtnBack) {
+      navBtnBack.addEventListener('click', () => { open('signup'); });
+    }
+    // When signed in, disable the cube flip effect
+    const origUpdateNav = updateNav;
 
     // Sign out
     const soBtn = document.getElementById('userMenuSignOut');
@@ -9166,8 +9241,8 @@ const fjAuth = (function () {
 
 window.openAuth = fjAuth.open;
 
-  function closeAuth() {
-    document.getElementById('authOverlay').classList.remove('open');
+  // Auth handled above by fjAuth
+  // closeAuth duplicate removed
     document.body.style.overflow = '';
     clearMessages();
   }
