@@ -296,11 +296,30 @@ body.light-mode .gallery-cta-strip p em {
 }
 
 body.light-mode .team-card {
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
   border: 1px solid transparent;
-  background-image: linear-gradient(var(--card), var(--card)), linear-gradient(135deg, #b8860b 0%, #e8c84a 25%, #fffbe8 40%, #ffffff 50%, #fffbe8 60%, #e8c84a 75%, #b8860b 100%);
+  background-image: linear-gradient(#d8d4cc, #d8d4cc), linear-gradient(135deg, #7a5500 0%, #c9a84c 18%, #fffbe8 35%, #ffffff 50%, #fffbe8 65%, #c9a84c 82%, #7a5500 100%);
   background-origin: border-box;
   background-clip: padding-box, border-box;
+  box-shadow: 0 2px 8px rgba(180,130,10,0.12), 0 1px 0 rgba(255,255,255,0.6) inset, 0 -1px 0 rgba(120,80,0,0.15) inset;
+  transition: background 0.4s, box-shadow 0.4s;
+}
+body.light-mode .team-card:hover {
+  background-color: #d0ccbf;
+  box-shadow: 0 12px 40px rgba(180,130,10,0.22), 0 2px 0 rgba(255,255,255,0.7) inset, 0 -1px 0 rgba(120,80,0,0.18) inset;
+  transform: translateY(-4px);
+}
+body.light-mode .testimonial {
+  border: 1px solid transparent;
+  background-image: linear-gradient(#d8d4cc, #d8d4cc), linear-gradient(135deg, #7a5500 0%, #c9a84c 18%, #fffbe8 35%, #ffffff 50%, #fffbe8 65%, #c9a84c 82%, #7a5500 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  box-shadow: 0 2px 8px rgba(180,130,10,0.12), 0 1px 0 rgba(255,255,255,0.6) inset, 0 -1px 0 rgba(120,80,0,0.15) inset;
+  border-top: none;
+  transition: background 0.4s, box-shadow 0.4s, transform 0.4s;
+}
+body.light-mode .testimonial:hover {
+  box-shadow: 0 12px 40px rgba(180,130,10,0.22), 0 2px 0 rgba(255,255,255,0.7) inset, 0 -1px 0 rgba(120,80,0,0.18) inset;
+  transform: translateY(-4px);
 }
 
 body.light-mode .blog-card {
@@ -851,9 +870,30 @@ body.light-mode .ds-slide-title,
 body.light-mode .gallery-img {
     filter: brightness(1) saturate(1);
   }
-
   body.light-mode .gallery-item:hover .gallery-img {
     filter: brightness(0.78) saturate(0.85);
+  }
+  body.light-mode .gsl-label {
+    background: linear-gradient(90deg, #d4af37 0%, #d4af37 30%, #fff8dc 48%, #fffbe8 50%, #fff8dc 52%, #d4af37 70%, #d4af37 100%) !important;
+    background-size: 300% auto !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    animation: eyebrowShine 4s 1s ease-in-out infinite !important;
+  }
+  body.light-mode .gsl-title {
+    color: #f0ece4 !important;
+    -webkit-text-fill-color: #f0ece4 !important;
+    background: none !important;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.8) !important;
+  }
+  body.light-mode .gsl-sub {
+    background: linear-gradient(90deg, #8a8074 0%, #8a8074 25%, #f0ece4 45%, #ffffff 50%, #f0ece4 55%, #8a8074 75%, #8a8074 100%) !important;
+    background-size: 300% auto !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    animation: subtitleShine 5s 1.5s ease-in-out infinite !important;
   }
 
   body.light-mode .ds-slide-img {
@@ -1549,6 +1589,326 @@ body.light-mode .contact-form .btn-primary:hover {
     opacity: 1;
     transform: scale(1) rotate(0deg);
   }
+
+  .team-popup-overlay {
+    position: fixed; inset: 0; z-index: 99985;
+    background: rgba(4,4,4,0.88);
+    backdrop-filter: blur(18px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.45s ease;
+  }
+  .team-popup-overlay.open { opacity: 1; pointer-events: all; }
+  .team-popup {
+    background: #0f0f0f;
+    border: 1px solid rgba(212,175,55,0.22);
+    max-width: 560px; width: 100%;
+    max-height: 88vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.9), inset 0 1px 0 rgba(212,175,55,0.08);
+    transform: translateY(24px) scale(0.97);
+    transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(212,175,55,0.3) transparent;
+  }
+  .team-popup::-webkit-scrollbar { width: 3px; }
+  .team-popup::-webkit-scrollbar-thumb { background: rgba(212,175,55,0.3); }
+  .team-popup-overlay.open .team-popup { transform: translateY(0) scale(1); }
+  .team-popup-top-line {
+    position: absolute; top: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+  .team-popup-close {
+    position: absolute; top: 16px; right: 20px; z-index: 5;
+    background: none; border: 1px solid rgba(212,175,55,0.25);
+    color: var(--muted); font-family: 'Jost', sans-serif;
+    font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+    padding: 8px 16px; cursor: none;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .team-popup-close:hover { color: var(--gold); border-color: var(--gold); }
+  .team-popup-hero {
+    position: relative; height: 220px; overflow: hidden;
+    background: var(--charcoal);
+  }
+  .team-popup-hero img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center top;
+    filter: brightness(0.7) saturate(0.85);
+  }
+  .team-popup-hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 30%, rgba(8,8,8,0.92) 100%);
+  }
+  .team-popup-avatar-wrap {
+    position: absolute; bottom: -36px; left: 40px;
+    width: 72px; height: 72px;
+    border-radius: 50%; overflow: hidden;
+    border: 2px solid var(--gold);
+    box-shadow: 0 0 24px rgba(212,175,55,0.35);
+  }
+  .team-popup-avatar-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .team-popup-body { padding: 56px 40px 44px; }
+  .team-popup-role {
+    font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); display: block; margin-bottom: 6px;
+  }
+  .team-popup-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; font-weight: 700; color: var(--text);
+    margin-bottom: 4px; line-height: 1.15;
+  }
+  .team-popup-divider {
+    width: 48px; height: 1px;
+    background: linear-gradient(to right, var(--gold), transparent);
+    margin: 16px 0 20px;
+  }
+  .team-popup-bio {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px; line-height: 1.85; color: var(--muted);
+    font-style: italic; margin-bottom: 28px;
+  }
+  .team-popup-details { display: flex; flex-direction: column; gap: 14px; }
+  .team-popup-detail {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .team-popup-detail:last-child { border-bottom: none; }
+  .team-popup-detail-icon {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(212,175,55,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+  .team-popup-detail-text { display: flex; flex-direction: column; gap: 3px; }
+  .team-popup-detail-label {
+    font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted);
+  }
+  .team-popup-detail-value {
+    font-size: 14px; color: var(--text);
+    text-decoration: none;
+  }
+  a.team-popup-detail-value:hover { color: var(--gold); }
+  body.light-mode .team-popup { background: #e8e4dc; border-color: rgba(154,111,0,0.25); }
+  body.light-mode .team-popup-name { color: #0a0a0a; }
+  body.light-mode .team-popup-bio { color: #2a2a2a; }
+  body.light-mode .team-popup-detail-value { color: #0a0a0a; }
+  body.light-mode .team-popup-close { color: #5e5040; border-color: rgba(154,111,0,0.25); }
+  body.light-mode .team-popup-close:hover { color: #9a6f00; border-color: #9a6f00; }
+  body.light-mode .team-popup-top-line { background: linear-gradient(to right, transparent, #9a6f00, transparent); }
+  body.light-mode .team-popup-overlay { background: rgba(200,196,188,0.85); }
+
+  /* ============================= */
+  /* AUTH SYSTEM                   */
+  /* ============================= */
+  .auth-btn-nav {
+    font-family: 'Jost', sans-serif;
+    font-size: 9px; font-weight: 500;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold);
+    background: none;
+    border: 1px solid rgba(212,175,55,0.3);
+    padding: 9px 20px;
+    cursor: none;
+    transition: background 0.3s, border-color 0.3s, color 0.3s;
+    display: flex; align-items: center; gap: 8px;
+    flex-shrink: 0;
+  }
+  .auth-btn-nav:hover { background: var(--gold-dim); border-color: var(--gold); }
+  .auth-btn-nav.signed-in { color: var(--gold); }
+  .auth-btn-nav.signed-in:hover { background: rgba(212,175,55,0.1); }
+
+  .auth-overlay {
+    position: fixed; inset: 0; z-index: 99990;
+    background: rgba(4,4,4,0.92);
+    backdrop-filter: blur(22px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  .auth-overlay.open { opacity: 1; pointer-events: all; }
+
+  .auth-modal {
+    background: #0f0f0f;
+    border: 1px solid rgba(212,175,55,0.2);
+    max-width: 520px; width: 100%;
+    max-height: 92vh; overflow-y: auto;
+    position: relative;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.9), inset 0 1px 0 rgba(212,175,55,0.07);
+    transform: translateY(28px) scale(0.97);
+    transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+    scrollbar-width: thin; scrollbar-color: rgba(212,175,55,0.3) transparent;
+  }
+  .auth-modal::-webkit-scrollbar { width: 3px; }
+  .auth-modal::-webkit-scrollbar-thumb { background: rgba(212,175,55,0.3); }
+  .auth-overlay.open .auth-modal { transform: translateY(0) scale(1); }
+
+  .auth-modal-top-line {
+    position: absolute; top: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+  .auth-modal-close {
+    position: absolute; top: 16px; right: 20px; z-index: 5;
+    background: none; border: 1px solid rgba(212,175,55,0.22);
+    color: var(--muted); font-family: 'Jost', sans-serif;
+    font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+    padding: 8px 16px; cursor: none;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .auth-modal-close:hover { color: var(--gold); border-color: var(--gold); }
+
+  .auth-modal-body { padding: 52px 44px 44px; }
+  .auth-modal-label {
+    font-size: 9px; letter-spacing: 5px; text-transform: uppercase;
+    color: var(--gold); display: block; margin-bottom: 16px;
+  }
+  .auth-modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 3vw, 32px); font-weight: 700;
+    color: var(--text); margin-bottom: 6px; line-height: 1.2;
+  }
+  .auth-modal-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px; font-style: italic; color: var(--muted);
+    margin-bottom: 32px; line-height: 1.6;
+  }
+  .auth-tabs {
+    display: flex; gap: 0; margin-bottom: 32px;
+    border-bottom: 1px solid rgba(212,175,55,0.12);
+  }
+  .auth-tab {
+    font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 500;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--muted); background: none; border: none;
+    padding: 12px 24px 12px 0; cursor: none;
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .auth-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .auth-tab:hover:not(.active) { color: var(--text); }
+
+  .auth-form { display: flex; flex-direction: column; gap: 0; }
+  .auth-form-section {
+    font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin: 20px 0 12px; opacity: 0.7;
+  }
+  .auth-form-section:first-child { margin-top: 0; }
+  .auth-field {
+    width: 100%; background: transparent; border: none;
+    border-bottom: 1px solid rgba(212,175,55,0.2);
+    color: var(--text); font-family: 'Jost', sans-serif;
+    font-size: 13px; padding: 14px 0; margin-bottom: 16px;
+    outline: none; transition: border-color 0.3s;
+  }
+  .auth-field:focus { border-bottom-color: var(--gold); }
+  .auth-field::placeholder { color: var(--muted); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+  .auth-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+  select.auth-field { appearance: none; -webkit-appearance: none; background: transparent; cursor: none; }
+  .auth-submit {
+    width: 100%; text-align: center;
+    font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 500;
+    letter-spacing: 4px; text-transform: uppercase;
+    padding: 18px; margin-top: 8px;
+    background: linear-gradient(135deg, var(--gold), var(--amber));
+    color: #080808; border: none; cursor: none;
+    position: relative; overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .auth-submit::before {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(255,255,255,0.18);
+    transform: translateX(-100%) skewX(-15deg); transition: transform 0.4s;
+  }
+  .auth-submit:hover::before { transform: translateX(200%) skewX(-15deg); }
+  .auth-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(212,175,55,0.35); }
+  .auth-alt {
+    text-align: center; margin-top: 20px;
+    font-size: 11px; color: var(--muted);
+    font-family: 'Jost', sans-serif; letter-spacing: 1px;
+  }
+  .auth-alt button {
+    background: none; border: none; color: var(--gold);
+    font-family: 'Jost', sans-serif; font-size: 11px;
+    letter-spacing: 1px; cursor: none;
+    text-decoration: underline; padding: 0;
+    transition: color 0.3s;
+  }
+  .auth-alt button:hover { color: var(--gold-light); }
+  .auth-error {
+    background: rgba(224,85,85,0.1); border: 1px solid rgba(224,85,85,0.3);
+    color: #e05555; font-size: 12px; letter-spacing: 1px;
+    padding: 12px 16px; margin-bottom: 16px; display: none;
+  }
+  .auth-error.visible { display: block; }
+  .auth-success {
+    background: rgba(123,181,110,0.1); border: 1px solid rgba(123,181,110,0.3);
+    color: #7bb56e; font-size: 12px; letter-spacing: 1px;
+    padding: 12px 16px; margin-bottom: 16px; display: none; text-align: center;
+  }
+  .auth-success.visible { display: block; }
+
+  .user-menu {
+    position: absolute; top: 100%; right: 0; margin-top: 8px;
+    background: rgba(12,12,12,0.97); border: 1px solid var(--border);
+    min-width: 220px; z-index: 200; backdrop-filter: blur(20px);
+    opacity: 0; pointer-events: none; transform: translateY(-8px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .user-menu.open { opacity: 1; pointer-events: all; transform: translateY(0); }
+  .user-menu-name {
+    padding: 16px 20px 12px;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold);
+    border-bottom: 1px solid rgba(212,175,55,0.1);
+  }
+  .user-menu-item {
+    display: block; width: 100%;
+    padding: 12px 20px;
+    font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 400;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--muted); background: none; border: none;
+    text-align: left; cursor: none;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    transition: color 0.3s, background 0.3s;
+    text-decoration: none;
+  }
+  .user-menu-item:hover { color: var(--gold); background: rgba(212,175,55,0.04); }
+  .user-menu-item.danger:hover { color: #e05555; }
+
+  /* Testimonial form */
+  .testimonial-form-section {
+    margin-top: 48px; padding-top: 48px;
+    border-top: 1px solid var(--border);
+  }
+  .testimonial-form-locked {
+    text-align: center; padding: 32px 24px;
+    border: 1px solid rgba(212,175,55,0.1);
+  }
+  .testimonial-form-locked p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px; color: var(--muted); font-style: italic;
+    line-height: 1.6; margin-bottom: 20px;
+  }
+
+  body.light-mode .auth-modal { background: #e8e4dc; border-color: rgba(154,111,0,0.2); }
+  body.light-mode .auth-modal-title { color: #0a0a0a; }
+  body.light-mode .auth-modal-sub { color: #2a2a2a; }
+  body.light-mode .auth-field { color: #0a0a0a; border-bottom-color: rgba(154,111,0,0.25); }
+  body.light-mode .auth-field::placeholder { color: #5e5040; }
+  body.light-mode .auth-tab { color: #5e5040; }
+  body.light-mode .auth-tab.active { color: #9a6f00; border-bottom-color: #9a6f00; }
+  body.light-mode .auth-overlay { background: rgba(200,196,188,0.88); }
+  body.light-mode .auth-btn-nav { color: #9a6f00; border-color: rgba(154,111,0,0.35); }
+  body.light-mode .user-menu { background: rgba(232,228,220,0.98); border-color: rgba(0,0,0,0.12); }
+  body.light-mode .user-menu-name { color: #9a6f00; border-bottom-color: rgba(154,111,0,0.12); }
+  body.light-mode .user-menu-item { color: #5e5040; border-bottom-color: rgba(0,0,0,0.04); }
+  body.light-mode .user-menu-item:hover { color: #9a6f00; }
+  body.light-mode .testimonial-form-locked { border-color: rgba(154,111,0,0.15); }
+  body.light-mode .testimonial-form-locked p { color: #2a2a2a; }
 
   .theme-tooltip {
     position: absolute;
@@ -3605,37 +3965,46 @@ nav.scrolled .nav-brand-idle {
 
 .blog-view-all-btn {
   font-family: 'Jost', sans-serif;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 500;
-  letter-spacing: 5px;
+  letter-spacing: 4px;
   text-transform: uppercase;
-  color: var(--muted);
+  color: #080808;
+  background: linear-gradient(135deg, #d4af37, #b8860b);
   text-decoration: none;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 16px;
   cursor: none;
-  transition: color 0.3s;
-  padding: 16px 0;
-  border-bottom: 1px solid rgba(212,175,55,0.15);
+  padding: 18px 52px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 8px 32px rgba(212,175,55,0.25);
+  animation: pulseViewAll 3s ease-in-out infinite 2s;
 }
-
+.blog-view-all-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.08) 30%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0.08) 70%, transparent 100%);
+  transform: skewX(-15deg);
+  transition: none;
+}
+.blog-view-all-btn:hover::before { animation: metalShine 0.6s ease forwards; }
+.blog-view-all-btn:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(212,175,55,0.5) !important; animation: none; }
 .blog-view-all-btn::after {
   content: '';
-  width: 36px;
-  height: 1px;
-  background: var(--muted);
-  transition: width 0.4s, background 0.3s;
+  width: 18px; height: 10px;
+  background-image: url("data:image/svg+xml,%3Csvg width='18' height='10' viewBox='0 0 18 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 5H17M17 5L12.5 1M17 5L12.5 9' stroke='%23080808' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  flex-shrink: 0;
+  transition: transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
 }
-
-.blog-view-all-btn:hover {
-  color: var(--gold);
-}
-
-.blog-view-all-btn:hover::after {
-  width: 56px;
-  background: var(--gold);
-}
+.blog-view-all-btn:hover::after { transform: translateX(6px); }
 
 @media (max-width: 900px) {
   .blog-grid {
@@ -4932,75 +5301,34 @@ body.light-mode #google_translate_element .goog-te-gadget-simple {
   border-color: rgba(184,134,11,0.25) !important;
 }
 
-  /* Destinations slideshow label — card-title design (bright white flash) */
-body.light-mode .ds-slide-label {
-    font-weight: 800 !important;
-    -webkit-text-fill-color: transparent !important;
-    background: linear-gradient(
-      160deg,
-      #7a5500 0%,
-      #b8860b 25%,
-      #e8c84a 44%,
-      #fffbe8 48%,
-      #ffffff 50%,
-      #fffbe8 52%,
-      #e8c84a 56%,
-      #b8860b 75%,
-      #7a5500 100%
-    ) !important;
-    background-size: 100% 100% !important;
+  body.light-mode .ds-slide-label {
+    background: linear-gradient(90deg, #d4af37 0%, #d4af37 30%, #fff8dc 48%, #fffbe8 50%, #fff8dc 52%, #d4af37 70%, #d4af37 100%) !important;
+    background-size: 300% auto !important;
     -webkit-background-clip: text !important;
     background-clip: text !important;
-    animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite 0.5s !important;
+    -webkit-text-fill-color: transparent !important;
+    animation: eyebrowShine 4s 1s ease-in-out infinite !important;
     text-shadow: none !important;
     letter-spacing: 6px;
   }
-
-  /* Destinations slideshow title — card-text design (warm amber flash) */
   body.light-mode .ds-slide-title {
-    color: unset !important;
-    -webkit-text-fill-color: transparent !important;
-    background: linear-gradient(
-      160deg,
-      #6b4f00 0%,
-      #9a7200 22%,
-      #c9a84c 42%,
-      #f5e199 48%,
-      #fffdf0 50%,
-      #f5e199 52%,
-      #c9a84c 58%,
-      #9a7200 78%,
-      #6b4f00 100%
-    ) !important;
-    background-size: 100% 100% !important;
+    color: #f0ece4 !important;
+    -webkit-text-fill-color: #f0ece4 !important;
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.9), 0 4px 32px rgba(0,0,0,0.7) !important;
+    animation: none !important;
+  }
+  body.light-mode .ds-slide-tagline {
+    background: linear-gradient(90deg, #8a8074 0%, #8a8074 25%, #f0ece4 45%, #ffffff 50%, #f0ece4 55%, #8a8074 75%, #8a8074 100%) !important;
+    background-size: 300% auto !important;
     -webkit-background-clip: text !important;
     background-clip: text !important;
-    animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite 1.5s !important;
+    -webkit-text-fill-color: transparent !important;
+    animation: subtitleShine 5s 1.5s ease-in-out infinite !important;
     text-shadow: none !important;
   }
-
-  /* Destinations slideshow tagline — card-text design, offset */
-  body.light-mode .ds-slide-tagline {
-    color: unset !important;
-    -webkit-text-fill-color: transparent !important;
-    background: linear-gradient(
-      160deg,
-      #6b4f00 0%,
-      #9a7200 22%,
-      #c9a84c 42%,
-      #f5e199 48%,
-      #fffdf0 50%,
-      #f5e199 52%,
-      #c9a84c 58%,
-      #9a7200 78%,
-      #6b4f00 100%
-    ) !important;
-    background-size: 100% 100% !important;
-    -webkit-background-clip: text !important;
-    background-clip: text !important;
-    animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite 2.5s !important;
-    text-shadow: none !important;
-  } 
  body.light-mode .pkg-bg {
     filter: brightness(0.55) saturate(0.6) sepia(0.45) !important;
   }
@@ -5087,11 +5415,22 @@ body.light-mode .ds-slide-label {
     filter: brightness(1.15) saturate(1.2);
   }
 
-  body.light-mode .blog-view-all-btn,
+  body.light-mode .blog-view-all-btn {
+    color: #080808 !important;
+    -webkit-text-fill-color: #080808 !important;
+    background: linear-gradient(135deg, #d4af37, #b8860b) !important;
+    filter: brightness(1.1) saturate(1.15);
+  }
+  body.light-mode .blog-view-all-btn::after {
+    background-image: url("data:image/svg+xml,%3Csvg width='18' height='10' viewBox='0 0 18 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 5H17M17 5L12.5 1M17 5L12.5 9' stroke='%23080808' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+  }
   body.light-mode .blog-card-cta {
-    color: #d4af37 !important;
-    -webkit-text-fill-color: #d4af37 !important;
-    filter: brightness(1.1) saturate(1.2);
+    color: #7a5500 !important;
+    -webkit-text-fill-color: #7a5500 !important;
+    filter: none;
+  }
+  body.light-mode .blog-card-cta::after {
+    background: #7a5500 !important;
   }
 
 /* view all btn text */
@@ -5359,6 +5698,18 @@ body.light-mode .pkg-cta:hover {
 <div class="nav-brand-idle">
   <div class="nav-idle-words">
     <span class="nav-idle-bottom">Est. <em>2025</em></span>
+  </div>
+</div>
+<div style="display:flex;align-items:center;gap:16px;position:relative;">
+  <button class="auth-btn-nav" id="authNavBtn">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.1"/><path d="M1.5 12.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+    <span id="authNavLabel">Sign In</span>
+  </button>
+  <div class="user-menu" id="userMenu">
+    <div class="user-menu-name" id="userMenuName">Welcome</div>
+    <a href="#contact" class="user-menu-item" onclick="document.getElementById('userMenu').classList.remove('open')">My Bookings</a>
+    <button class="user-menu-item" id="userMenuProfile">My Profile</button>
+    <button class="user-menu-item danger" id="userMenuSignOut">Sign Out</button>
   </div>
 </div>
 <button class="menu-btn" id="menuBtn" aria-label="Menu" style="background:transparent;border:none;padding:8px;">
@@ -5877,32 +6228,21 @@ body.light-mode .pkg-cta:hover {
 .team-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--border);
-  margin-top: 80px;
+  gap: 32px;
+  margin-top: 64px;
 }
 
 .team-card {
-  background: var(--card);
-  padding: 52px 40px;
+  background: var(--charcoal);
+  border-top: 1px solid var(--border);
+  padding: 40px;
   position: relative;
   overflow: hidden;
-  transition: background 0.4s;
+  transition: background 0.4s, box-shadow 0.4s;
   text-align: center;
+  cursor: none;
 }
-
-.team-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(to right, transparent, var(--gold), transparent);
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: transform 0.5s cubic-bezier(0.77,0,0.175,1);
-}
-.team-card:hover::before { transform: scaleX(1); }
-.team-card:hover { background: #161616; }
+.team-card:hover { background: #161616; box-shadow: 0 8px 40px rgba(212,175,55,0.08); }
 
 .team-avatar {
   width: 72px;
@@ -6032,6 +6372,37 @@ body.light-mode .pkg-cta:hover {
       </div>
     </div>
   </div>
+
+  <!-- TESTIMONIAL SUBMISSION -->
+  <div class="testimonial-form-section reveal" id="testimonialFormSection">
+    <div class="gold-line"><span>Share Your Experience</span></div>
+    <span class="section-label">Leave a Review</span>
+    <h3 style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;margin-bottom:12px;">Your Safari Story</h3>
+
+    <div id="testimonialFormLocked" class="testimonial-form-locked">
+      <p>Share your Filmax Jambo experience with future adventurers. Sign in to submit your review for our team to publish.</p>
+      <button class="btn-primary" onclick="openAuth()" style="display:inline-block;cursor:none;">Sign In to Leave a Review</button>
+    </div>
+
+    <div id="testimonialFormOpen" style="display:none;max-width:600px;">
+      <div style="display:flex;flex-direction:column;gap:0;">
+        <textarea id="testimonialText" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:var(--text);font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;padding:14px 0;outline:none;resize:none;height:120px;transition:border-color 0.3s;margin-bottom:16px;" placeholder="Tell future guests about your safari experience..." onfocus="this.style.borderBottomColor='var(--gold)'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'"></textarea>
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;">
+          <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);">Rating</span>
+          <div id="starRating" style="display:flex;gap:6px;">
+            <span class="star-btn" data-val="1" style="font-size:20px;cursor:none;opacity:0.35;transition:opacity 0.2s;">★</span>
+            <span class="star-btn" data-val="2" style="font-size:20px;cursor:none;opacity:0.35;transition:opacity 0.2s;">★</span>
+            <span class="star-btn" data-val="3" style="font-size:20px;cursor:none;opacity:0.35;transition:opacity 0.2s;">★</span>
+            <span class="star-btn" data-val="4" style="font-size:20px;cursor:none;opacity:0.35;transition:opacity 0.2s;">★</span>
+            <span class="star-btn" data-val="5" style="font-size:20px;cursor:none;opacity:0.35;transition:opacity 0.2s;">★</span>
+          </div>
+        </div>
+        <div id="testimonialFormMsg" style="display:none;font-size:12px;padding:12px 16px;margin-bottom:12px;"></div>
+        <button class="btn-primary" id="testimonialSubmitBtn" style="max-width:280px;cursor:none;">Submit for Review</button>
+        <p style="font-size:11px;color:var(--muted);margin-top:12px;font-style:italic;">Your review will be reviewed by our team before publishing.</p>
+      </div>
+    </div>
+  </div>
 </section>
   
   <!-- TEAM -->
@@ -6044,29 +6415,38 @@ body.light-mode .pkg-cta:hover {
       <p class="section-sub">Every journey is shaped by people who genuinely love the wild — and Kenya.</p>
     </div>
     <div class="team-grid">
-     <div class="team-card reveal">
+     <div class="team-card reveal" data-member="filmer" style="cursor:none;">
      <div class="team-avatar">
        <img src="assets/team-filmer.webp" alt="Filmer Mageto" onerror="this.style.display='none';this.parentNode.innerHTML='F';">
         </div>
         <h3 class="team-name">Filmer Mageto</h3>
         <span class="team-role">Founder & Lead Guide</span>
         <p class="team-bio">Over a decade navigating Kenya's finest reserves. Filmax brings an intimate knowledge of the land and an unshakeable love for every creature within it.</p>
+        <div style="margin-top:20px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px;">
+          View Profile <span style="width:18px;height:1px;background:var(--gold);display:inline-block;"></span>
+        </div>
       </div>
-       <div class="team-card reveal" style="transition-delay:0.1s">
+       <div class="team-card reveal" data-member="amara" style="transition-delay:0.1s;cursor:none;">
         <div class="team-avatar">
           <img src="assets/team-amara.webp" alt="Amara Wanjiku" onerror="this.style.display='none';this.parentNode.innerHTML='A';">
         </div>
         <h3 class="team-name">Amara Wanjiku</h3>
         <span class="team-role">Safari Experience Director</span>
         <p class="team-bio">A master of logistics and luxury, Amara ensures every detail — from arrival transfers to sunset dinners — is orchestrated to perfection.</p>
+        <div style="margin-top:20px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px;">
+          View Profile <span style="width:18px;height:1px;background:var(--gold);display:inline-block;"></span>
+        </div>
       </div>
-       <div class="team-card reveal" style="transition-delay:0.2s">
+       <div class="team-card reveal" data-member="githaiga" style="transition-delay:0.2s;cursor:none;">
         <div class="team-avatar">
           <img src="assets/team-githaiga.webp" alt="Githaiga Njoroge" onerror="this.style.display='none';this.parentNode.innerHTML='J';">
         </div>
         <h3 class="team-name">Githaiga Njoroge</h3>
         <span class="team-role">Wildlife Naturalist</span>
         <p class="team-bio">Born in the shadow of the Mara, Githaiga reads the wilderness like a living book — anticipating migrations, tracking the Big Five, and sharing stories the bush whispers.</p>
+        <div style="margin-top:20px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px;">
+          View Profile <span style="width:18px;height:1px;background:var(--gold);display:inline-block;"></span>
+        </div>
       </div>
     </div>
   </div>
@@ -6104,7 +6484,7 @@ body.light-mode .pkg-cta:hover {
       </div>
       <div class="gallery-intro-right">
         <p>Every frame here was lived, not staged. Kenya does not perform for the camera — it simply exists, and the extraordinary happens on its own terms.</p>
-        <span class="gallery-count">05</span>
+        <span class="gallery-count">10</span>
       </div>
     </div>
   </div>
@@ -6120,125 +6500,167 @@ body.light-mode .pkg-cta:hover {
   }
   .gsl-track {
     display: flex;
-    transition: transform 0.95s cubic-bezier(0.76,0,0.24,1);
+    align-items: center;
+    gap: 20px;
+    padding: 40px 18vw;
+    transition: transform 0.9s cubic-bezier(0.76,0,0.24,1);
     will-change: transform;
   }
   .gsl-slide {
-    flex: 0 0 100%;
-    width: 100%;
+    flex: 0 0 auto;
+    width: 58vw;
+    height: 68vh;
+    min-height: 440px;
+    max-height: 840px;
     position: relative;
-    cursor: none;
     overflow: hidden;
+    border-radius: 8px;
+    cursor: none;
+    transition: transform 1s cubic-bezier(0.76,0,0.24,1), filter 1s ease, opacity 1s ease;
+    transform: scale(0.72) translateY(44px);
+    filter: blur(5px) brightness(0.85) saturate(0.9);
+    opacity: 0.5;
+  }
+  .gsl-slide.gsl-active {
+    transform: scale(1) translateY(-16px);
+    filter: blur(0px) brightness(1) saturate(1);
+    opacity: 1;
+    z-index: 5;
+  }
+  .gsl-slide.gsl-next,
+  .gsl-slide.gsl-prev-slide {
+    transform: scale(0.84) translateY(20px);
+    filter: blur(2px) brightness(0.6) saturate(0.65);
+    opacity: 0.7;
+    z-index: 3;
+  }
+  .gsl-slide.gsl-far {
+    transform: scale(0.7) translateY(38px);
+    filter: blur(4px) brightness(0.32) saturate(0.3);
+    opacity: 0.35;
+    z-index: 1;
   }
   .gsl-img-wrap {
     position: relative;
     width: 100%;
-    height: 72vh;
-    min-height: 480px;
-    max-height: 820px;
+    height: 100%;
     overflow: hidden;
   }
   .gsl-img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
     display: block;
-    transform: scale(1.04);
+    transform: scale(1.07);
     transition: transform 6s cubic-bezier(0.4,0,0.2,1);
-    filter: brightness(0.75) saturate(0.88);
+    filter: brightness(0.88) saturate(0.9);
     user-select: none;
     pointer-events: none;
+    will-change: transform;
   }
   .gsl-slide.gsl-active .gsl-img {
     transform: scale(1);
-    filter: brightness(0.72) saturate(0.85);
+    filter: brightness(1) saturate(1);
   }
   .gsl-overlay {
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(to top, rgba(8,8,8,0.88) 0%, rgba(8,8,8,0.18) 40%, transparent 65%),
-      linear-gradient(to bottom, rgba(8,8,8,0.3) 0%, transparent 20%);
-    z-index: 1;
+      linear-gradient(to top, rgba(8,8,8,0.88) 0%, rgba(8,8,8,0.1) 44%, transparent 68%),
+      linear-gradient(to bottom, rgba(8,8,8,0.28) 0%, transparent 22%);
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.9s ease;
     pointer-events: none;
   }
+  .gsl-slide.gsl-active .gsl-overlay { opacity: 1; }
   .gsl-content {
     position: absolute;
     bottom: 0; left: 0; right: 0;
-    z-index: 3;
-    padding: 0 80px 52px;
+    z-index: 10;
+    padding: 0 48px 48px;
+    text-align: center;
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 40px;
+    flex-direction: column;
+    align-items: center;
     pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
   }
-  .gsl-text { pointer-events: none; }
+  .gsl-slide.gsl-active .gsl-content { opacity: 1; pointer-events: all; }
+  .gsl-text { pointer-events: none; text-align: center; }
   .gsl-label {
-    font-family: 'Jost', sans-serif;
     font-size: 10px;
     letter-spacing: 6px;
     text-transform: uppercase;
     color: var(--gold);
     display: block;
     margin-bottom: 10px;
-    opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 0.6s 0.3s ease, transform 0.6s 0.3s ease;
     background: linear-gradient(90deg, var(--gold) 0%, var(--gold) 30%, #fff8dc 48%, #fffbe8 50%, #fff8dc 52%, var(--gold) 70%, var(--gold) 100%);
     background-size: 300% auto;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    animation: eyebrowShine 4s 1s ease-in-out infinite;
+    transform: translateY(14px);
+    opacity: 0;
+    transition: opacity 0.6s 0.3s ease, transform 0.6s 0.3s ease;
   }
   .gsl-slide.gsl-active .gsl-label { opacity: 1; transform: translateY(0); }
   .gsl-title {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(28px, 3.6vw, 52px);
+    font-size: clamp(26px, 3.2vw, 48px);
     font-weight: 900;
-    color: var(--muted);
-    line-height: 1.05;
+    line-height: 1.0;
+    color: var(--text);
     margin-bottom: 10px;
+    transform: translateY(20px);
     opacity: 0;
-    transform: translateY(18px);
     transition: opacity 0.7s 0.55s ease, transform 0.7s 0.55s ease;
   }
   .gsl-slide.gsl-active .gsl-title { opacity: 1; transform: translateY(0); }
   .gsl-sub {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(14px, 1.6vw, 18px);
+    font-size: clamp(14px, 1.5vw, 17px);
     font-style: italic;
     color: var(--muted);
-    opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 0.6s 0.75s ease, transform 0.6s 0.75s ease;
+    margin-bottom: 24px;
     background: linear-gradient(90deg, #8a8074 0%, #8a8074 25%, #f0ece4 45%, #ffffff 50%, #f0ece4 55%, #8a8074 75%, #8a8074 100%);
     background-size: 300% auto;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    animation: subtitleShine 5s 1.5s ease-in-out infinite;
+    transform: translateY(12px);
+    opacity: 0;
+    transition: opacity 0.6s 0.75s ease, transform 0.6s 0.75s ease;
   }
   .gsl-slide.gsl-active .gsl-sub { opacity: 1; transform: translateY(0); }
   .gsl-zoom-btn {
-    flex-shrink: 0;
-    width: 52px;
-    height: 52px;
+    width: 44px;
+    height: 44px;
     border: 1px solid rgba(212,175,55,0.4);
-    background: rgba(8,8,8,0.55);
+    background: rgba(8,8,8,0.6);
     backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: none;
     opacity: 0;
-    transform: scale(0.85) rotate(-10deg);
+    transform: scale(0.85) rotate(-8deg);
     transition: opacity 0.5s 0.9s ease, transform 0.5s 0.9s cubic-bezier(0.22,1,0.36,1), background 0.3s, border-color 0.3s;
     pointer-events: all;
-    margin-bottom: 4px;
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 11;
+    border-radius: 0;
   }
   .gsl-slide.gsl-active .gsl-zoom-btn { opacity: 1; transform: scale(1) rotate(0deg); }
-  .gsl-zoom-btn:hover { background: rgba(212,175,55,0.18); border-color: var(--gold); }
+  .gsl-zoom-btn:hover { background: rgba(212,175,55,0.2); border-color: var(--gold); }
 
   .gsl-controls {
     display: flex;
@@ -6256,9 +6678,7 @@ body.light-mode .pkg-cta:hover {
     transition: border-color 0.3s, background 0.3s;
   }
   .gsl-nav-btn:hover { border-color: var(--gold); background: rgba(212,175,55,0.08); }
-  .gsl-dots {
-    display: flex; align-items: center; gap: 8px;
-  }
+  .gsl-dots { display: flex; align-items: center; gap: 8px; }
   .gsl-dot {
     height: 1px; width: 20px;
     background: rgba(212,175,55,0.2);
@@ -6288,42 +6708,72 @@ body.light-mode .pkg-cta:hover {
     height: 1px; width: 0;
     background: linear-gradient(to right, transparent, var(--gold), transparent);
     margin: 16px auto 0;
-    max-width: 80vw;
+    max-width: 58vw;
     transition: none;
   }
-  .gsl-progress.running { transition: width 4.8s linear; width: 80vw; }
+  .gsl-progress.running { transition: width 4.8s linear; width: 58vw; }
 
   .gsl-thumb-strip {
     display: flex;
     gap: 3px;
-    padding: 0 0 0 0;
-    margin-top: 3px;
+    margin-top: 20px;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
   }
+  .gsl-thumb-strip::before, .gsl-thumb-strip::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 40px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .gsl-thumb-strip::before { left: 0; background: linear-gradient(to right, var(--black), transparent); }
+  .gsl-thumb-strip::after  { right: 0; background: linear-gradient(to left, var(--black), transparent); }
   .gsl-thumb {
     flex: 1;
-    height: 72px;
+    height: 80px;
     overflow: hidden;
     position: relative;
     cursor: none;
-    opacity: 0.38;
-    transition: opacity 0.4s, flex 0.5s cubic-bezier(0.22,1,0.36,1);
+    opacity: 0.35;
+    transition: opacity 0.4s, flex 0.55s cubic-bezier(0.22,1,0.36,1), border-color 0.4s;
+    border-bottom: 2px solid transparent;
   }
-  .gsl-thumb.active { opacity: 1; flex: 2; }
+  .gsl-thumb.active { opacity: 1; flex: 2.2; border-bottom-color: var(--gold); }
   .gsl-thumb:hover:not(.active) { opacity: 0.65; }
   .gsl-thumb img {
     width: 100%; height: 100%; object-fit: cover; display: block;
-    filter: saturate(0.5);
+    filter: saturate(0.4) brightness(0.9);
     transition: filter 0.4s;
   }
-  .gsl-thumb.active img, .gsl-thumb:hover img { filter: saturate(1); }
-  .gsl-thumb::after {
-    content: '';
-    position: absolute; inset: 0;
-    border-bottom: 2px solid transparent;
-    transition: border-color 0.4s;
-    pointer-events: none;
+  .gsl-thumb.active img, .gsl-thumb:hover img { filter: saturate(1) brightness(1); }
+
+  @media (max-width: 1100px) {
+    .gsl-track { padding: 40px 12vw; }
+    .gsl-slide { width: 66vw; height: 62vh; }
+    .gsl-progress { max-width: 66vw; }
+    .gsl-progress.running { width: 66vw; }
   }
-  .gsl-thumb.active::after { border-bottom-color: var(--gold); }
+  @media (max-width: 900px) {
+    .gsl-track { padding: 32px 8vw; gap: 14px; }
+    .gsl-slide { width: 78vw; height: 56vh; }
+    .gsl-content { padding: 0 28px 32px; }
+    .gsl-progress { max-width: 78vw; }
+    .gsl-progress.running { width: 78vw; }
+  }
+  @media (max-width: 600px) {
+    .gsl-track { padding: 20px 4vw; gap: 10px; }
+    .gsl-slide { width: 84vw; height: 56vw; min-height: 260px; border-radius: 6px; }
+    .gsl-slide { transform: scale(1) translateY(0) !important; filter: none !important; opacity: 1 !important; }
+    .gsl-slide .gsl-label, .gsl-slide .gsl-title, .gsl-slide .gsl-sub, .gsl-slide .gsl-zoom-btn { opacity: 1 !important; transform: translateY(0) !important; }
+    .gsl-content { opacity: 1 !important; }
+    .gsl-overlay { opacity: 1 !important; }
+    .gsl-thumb-strip { display: none; }
+    .gsl-progress { max-width: 84vw; }
+    .gsl-progress.running { width: 84vw; }
+  }
 
   .gsl-lightbox {
     position: fixed;
@@ -6431,89 +6881,64 @@ body.light-mode .pkg-cta:hover {
   <div class="gsl-wrap reveal" id="galSlideshow">
     <div class="gsl-track" id="galTrack">
 
-      <div class="gsl-slide gsl-active" data-caption="Where Silence Has a Pulse" data-sub="Maasai Mara · Two million wildebeest, one horizon, infinite possibility" data-src="assets/maasaimara.webp">
-        <div class="gsl-img-wrap">
-          <img class="gsl-img" src="assets/maasaimara.webp" alt="Maasai Mara" loading="lazy">
-          <div class="gsl-overlay"></div>
-        </div>
-        <div class="gsl-content">
-          <div class="gsl-text">
-            <span class="gsl-label">Maasai Mara · Kenya</span>
-            <h3 class="gsl-title">Where Silence Has a Pulse</h3>
-            <p class="gsl-sub">Two million wildebeest, one horizon, infinite possibility</p>
-          </div>
-          <button class="gsl-zoom-btn" aria-label="View full size">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2"/><path d="M13 13l3.5 3.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 5v5M5 7.5h5" stroke="rgba(212,175,55,0.8)" stroke-width="1" stroke-linecap="round"/></svg>
-          </button>
-        </div>
+      <div class="gsl-slide gsl-active" data-index="0" data-src="assets/maasaimara.webp">
+        <div class="gsl-img-wrap"><img class="gsl-img" src="assets/maasaimara.webp" alt="Maasai Mara" loading="lazy"><div class="gsl-overlay"></div></div>
+        <button class="gsl-zoom-btn" aria-label="View full size"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2"/><path d="M13 13l3.5 3.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 5v5M5 7.5h5" stroke="rgba(212,175,55,0.8)" stroke-width="1" stroke-linecap="round"/></svg></button>
+        <div class="gsl-content"><div class="gsl-text"><span class="gsl-label">Maasai Mara · Kenya</span><h3 class="gsl-title">Where Silence Has a Pulse</h3><p class="gsl-sub">Two million wildebeest, one horizon, infinite possibility</p></div></div>
       </div>
 
-      <div class="gsl-slide" data-caption="The Mountain Watches" data-sub="Amboseli · Kilimanjaro at first light, eternal and unhurried" data-src="assets/amboseli.webp">
-        <div class="gsl-img-wrap">
-          <img class="gsl-img" src="assets/amboseli.webp" alt="Amboseli" loading="lazy">
-          <div class="gsl-overlay"></div>
-        </div>
-        <div class="gsl-content">
-          <div class="gsl-text">
-            <span class="gsl-label">Amboseli · Kenya</span>
-            <h3 class="gsl-title">The Mountain Watches</h3>
-            <p class="gsl-sub">Kilimanjaro at first light, eternal and unhurried</p>
-          </div>
-          <button class="gsl-zoom-btn" aria-label="View full size">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2"/><path d="M13 13l3.5 3.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 5v5M5 7.5h5" stroke="rgba(212,175,55,0.8)" stroke-width="1" stroke-linecap="round"/></svg>
-          </button>
-        </div>
+      <div class="gsl-slide gsl-next" data-index="1" data-src="assets/amboseli.webp">
+        <div class="gsl-img-wrap"><img class="gsl-img" src="assets/amboseli.webp" alt="Amboseli" loading="lazy"><div class="gsl-overlay"></div></div>
+        <button class="gsl-zoom-btn" aria-label="View full size"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2"/><path d="M13 13l3.5 3.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 5v5M5 7.5h5" stroke="rgba(212,175,55,0.8)" stroke-width="1" stroke-linecap="round"/></svg></button>
+        <div class="gsl-content"><div class="gsl-text"><span class="gsl-label">Amboseli · Kenya</span><h3 class="gsl-title">The Mountain Watches</h3><p class="gsl-sub">Kilimanjaro at first light, eternal and unhurried</p></div></div>
       </div>
 
-      <div class="gsl-slide" data-caption="Keepers of the Land" data-sub="Maasai Mara · A culture unchanged by the passage of centuries" data-src="assets/maasaimen.webp">
-        <div class="gsl-img-wrap">
-          <img class="gsl-img" src="assets/maasaimen.webp" alt="Maasai Culture" loading="lazy">
-          <div class="gsl-overlay"></div>
-        </div>
-        <div class="gsl-content">
-          <div class="gsl-text">
-            <span class="gsl-label">Maasai Mara · Cultural Immersion</span>
-            <h3 class="gsl-title">Keepers of the Land</h3>
-            <p class="gsl-sub">A culture unchanged by the passage of centuries</p>
-          </div>
-          <button class="gsl-zoom-btn" aria-label="View full size">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2"/><path d="M13 13l3.5 3.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 5v5M5 7.5h5" stroke="rgba(212,175,55,0.8)" stroke-width="1" stroke-linecap="round"/></svg>
-          </button>
-        </div>
+      <div class="gsl-slide gsl-far" data-index="2" data-src="assets/maasaimen.webp">
+        <div class="gsl-img-wrap"><img class="gsl-img" src="assets/maasaimen.webp" alt="Maasai Culture" loading="lazy"><div class="gsl-overlay"></div></div>
+        <button class="gsl-zoom-btn" aria-label="View full size"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2"/><path d="M13 13l3.5 3.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 5v5M5 7.5h5" stroke="rgba(212,175,55,0.8)" stroke-width="1" stroke-linecap="round"/></svg></button>
+        <div class="gsl-content"><div class="gsl-text"><span class="gsl-label">Maasai Mara · Cultural Immersion</span><h3 class="gsl-title">Keepers of the Land</h3><p class="gsl-sub">A culture unchanged by the passage of centuries</p></div></div>
       </div>
 
-      <div class="gsl-slide" data-caption="The Ocean After the Bush" data-sub="Diani Coast · Where the wilderness gives way to turquoise water" data-src="assets/dianibeach.webp">
-        <div class="gsl-img-wrap">
-          <img class="gsl-img" src="assets/dianibeach.webp" alt="Diani Beach" loading="lazy">
-          <div class="gsl-overlay"></div>
-        </div>
-        <div class="gsl-content">
-          <div class="gsl-text">
-            <span class="gsl-label">Diani Coast · Kenya</span>
-            <h3 class="gsl-title">The Ocean After the Bush</h3>
-            <p class="gsl-sub">Where the wilderness gives way to turquoise water</p>
-          </div>
-          <button class="gsl-zoom-btn" aria-label="View full size">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2"/><path d="M13 13l3.5 3.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 5v5M5 7.5h5" stroke="rgba(212,175,55,0.8)" stroke-width="1" stroke-linecap="round"/></svg>
-          </button>
-        </div>
+      <div class="gsl-slide gsl-far" data-index="3" data-src="assets/dianibeach.webp">
+        <div class="gsl-img-wrap"><img class="gsl-img" src="assets/dianibeach.webp" alt="Diani Beach" loading="lazy"><div class="gsl-overlay"></div></div>
+        <button class="gsl-zoom-btn" aria-label="View full size"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2"/><path d="M13 13l3.5 3.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 5v5M5 7.5h5" stroke="rgba(212,175,55,0.8)" stroke-width="1" stroke-linecap="round"/></svg></button>
+        <div class="gsl-content"><div class="gsl-text"><span class="gsl-label">Diani Coast · Kenya</span><h3 class="gsl-title">The Ocean After the Bush</h3><p class="gsl-sub">Where the wilderness gives way to turquoise water</p></div></div>
       </div>
 
-      <div class="gsl-slide" data-caption="Eye to Eye with the Extraordinary" data-sub="Nairobi · A face-to-face moment that stays with you forever" data-src="assets/girraffefeeding.webp">
-        <div class="gsl-img-wrap">
-          <img class="gsl-img" src="assets/girraffefeeding.webp" alt="Giraffe Feeding" loading="lazy">
-          <div class="gsl-overlay"></div>
-        </div>
-        <div class="gsl-content">
-          <div class="gsl-text">
-            <span class="gsl-label">Nairobi Giraffe Centre · Kenya</span>
-            <h3 class="gsl-title">Eye to Eye with the Extraordinary</h3>
-            <p class="gsl-sub">A face-to-face moment that stays with you forever</p>
-          </div>
-          <button class="gsl-zoom-btn" aria-label="View full size">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2"/><path d="M13 13l3.5 3.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 5v5M5 7.5h5" stroke="rgba(212,175,55,0.8)" stroke-width="1" stroke-linecap="round"/></svg>
-          </button>
-        </div>
+      <div class="gsl-slide gsl-far" data-index="4" data-src="assets/lakenakuru.webp">
+        <div class="gsl-img-wrap"><img class="gsl-img" src="assets/lakenakuru.webp" alt="Lake Nakuru" loading="lazy"><div class="gsl-overlay"></div></div>
+        <button class="gsl-zoom-btn" aria-label="View full size"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2"/><path d="M13 13l3.5 3.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 5v5M5 7.5h5" stroke="rgba(212,175,55,0.8)" stroke-width="1" stroke-linecap="round"/></svg></button>
+        <div class="gsl-content"><div class="gsl-text"><span class="gsl-label">Lake Nakuru · Rift Valley</span><h3 class="gsl-title">Pink Horizons, Still Waters</h3><p class="gsl-sub">The Rift Valley holds its breath at dusk</p></div></div>
+      </div>
+
+      <div class="gsl-slide gsl-far" data-index="5" data-src="assets/mountkenya.webp">
+        <div class="gsl-img-wrap"><img class="gsl-img" src="assets/mountkenya.webp" alt="Mount Kenya" loading="lazy"><div class="gsl-overlay"></div></div>
+        <button class="gsl-zoom-btn" aria-label="View full size"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2"/><path d="M13 13l3.5 3.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 5v5M5 7.5h5" stroke="rgba(212,175,55,0.8)" stroke-width="1" stroke-linecap="round"/></svg></button>
+        <div class="gsl-content"><div class="gsl-text"><span class="gsl-label">Mount Kenya · Central Highlands</span><h3 class="gsl-title">Above the Clouds, Beyond Time</h3><p class="gsl-sub">Ancient glaciers on Africa's forgotten crown</p></div></div>
+      </div>
+
+      <div class="gsl-slide gsl-far" data-index="6" data-src="assets/girraffefeeding.webp">
+        <div class="gsl-img-wrap"><img class="gsl-img" src="assets/girraffefeeding.webp" alt="Giraffe Feeding" loading="lazy"><div class="gsl-overlay"></div></div>
+        <button class="gsl-zoom-btn" aria-label="View full size"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2"/><path d="M13 13l3.5 3.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 5v5M5 7.5h5" stroke="rgba(212,175,55,0.8)" stroke-width="1" stroke-linecap="round"/></svg></button>
+        <div class="gsl-content"><div class="gsl-text"><span class="gsl-label">Nairobi Giraffe Centre · Kenya</span><h3 class="gsl-title">Eye to Eye with the Extraordinary</h3><p class="gsl-sub">A face-to-face moment that stays with you forever</p></div></div>
+      </div>
+
+      <div class="gsl-slide gsl-far" data-index="7" data-src="assets/jwmarriott.webp">
+        <div class="gsl-img-wrap"><img class="gsl-img" src="assets/jwmarriott.webp" alt="Luxury Lodge" loading="lazy"><div class="gsl-overlay"></div></div>
+        <button class="gsl-zoom-btn" aria-label="View full size"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2"/><path d="M13 13l3.5 3.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 5v5M5 7.5h5" stroke="rgba(212,175,55,0.8)" stroke-width="1" stroke-linecap="round"/></svg></button>
+        <div class="gsl-content"><div class="gsl-text"><span class="gsl-label">Nairobi · Luxury Accommodation</span><h3 class="gsl-title">The Art of Refined Refuge</h3><p class="gsl-sub">Where world-class luxury meets the Kenyan soul</p></div></div>
+      </div>
+
+      <div class="gsl-slide gsl-far" data-index="8" data-src="assets/jungle.webp">
+        <div class="gsl-img-wrap"><img class="gsl-img" src="assets/jungle.webp" alt="Jungle Safari" loading="lazy"><div class="gsl-overlay"></div></div>
+        <button class="gsl-zoom-btn" aria-label="View full size"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2"/><path d="M13 13l3.5 3.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 5v5M5 7.5h5" stroke="rgba(212,175,55,0.8)" stroke-width="1" stroke-linecap="round"/></svg></button>
+        <div class="gsl-content"><div class="gsl-text"><span class="gsl-label">Kenya Highlands · Forest</span><h3 class="gsl-title">Into the Green Cathedral</h3><p class="gsl-sub">Where the canopy closes and the wild breathes</p></div></div>
+      </div>
+
+      <div class="gsl-slide gsl-far" data-index="9" data-src="assets/zebra.webp">
+        <div class="gsl-img-wrap"><img class="gsl-img" src="assets/zebra.webp" alt="Zebra" loading="lazy"><div class="gsl-overlay"></div></div>
+        <button class="gsl-zoom-btn" aria-label="View full size"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2"/><path d="M13 13l3.5 3.5" stroke="rgba(212,175,55,0.9)" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 5v5M5 7.5h5" stroke="rgba(212,175,55,0.8)" stroke-width="1" stroke-linecap="round"/></svg></button>
+        <div class="gsl-content"><div class="gsl-text"><span class="gsl-label">Maasai Mara · Wildlife</span><h3 class="gsl-title">Nature's Perfect Geometry</h3><p class="gsl-sub">Every stripe a fingerprint, every herd a living painting</p></div></div>
       </div>
 
     </div>
@@ -6526,7 +6951,7 @@ body.light-mode .pkg-cta:hover {
       <div class="gsl-counter">
         <span class="gsl-counter-cur" id="galCurNum">1</span>
         <span>/</span>
-        <span id="galTotalNum">5</span>
+        <span id="galTotalNum">10</span>
       </div>
       <button class="gsl-nav-btn" id="galNext" aria-label="Next">
         <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><path d="M2 2l6 6-6 6" stroke="rgba(212,175,55,0.8)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -6549,7 +6974,7 @@ body.light-mode .pkg-cta:hover {
     <button class="gsl-lb-nav gsl-lb-next" id="galLbNext">
       <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><path d="M2 2l6 6-6 6" stroke="rgba(212,175,55,0.8)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
-    <div class="gsl-lb-counter"><span id="galLbCur">1</span> / <span id="galLbTotal">5</span></div>
+    <div class="gsl-lb-counter"><span id="galLbCur">1</span> / <span id="galLbTotal">10</span></div>
   </div>
 </div>
   
@@ -6686,6 +7111,107 @@ body.light-mode .pkg-cta:hover {
     </div>
   </div>
 </footer>
+
+<!-- AUTH MODAL -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-modal" id="authModal">
+    <div class="auth-modal-top-line"></div>
+    <button class="auth-modal-close" id="authModalClose">Close</button>
+    <div class="auth-modal-body">
+      <span class="auth-modal-label">Filmax Jambo Tours</span>
+      <h2 class="auth-modal-title" id="authModalTitle">Welcome Back</h2>
+      <p class="auth-modal-sub" id="authModalSub">Sign in to manage your safari bookings and preferences.</p>
+      <div class="auth-tabs" id="authTabs">
+        <button class="auth-tab active" data-tab="signin">Sign In</button>
+        <button class="auth-tab" data-tab="signup">Create Account</button>
+      </div>
+      <div class="auth-error" id="authError"></div>
+      <div class="auth-success" id="authSuccess"></div>
+
+      <!-- SIGN IN FORM -->
+      <div id="formSignin">
+        <div class="auth-form">
+          <input class="auth-field" id="siEmail" type="email" placeholder="Email Address" autocomplete="email">
+          <input class="auth-field" id="siPassword" type="password" placeholder="Password" autocomplete="current-password">
+          <button class="auth-submit" id="siSubmit">Sign In to Your Account</button>
+        </div>
+        <div class="auth-alt">Don't have an account? <button onclick="switchTab('signup')">Create one</button></div>
+      </div>
+
+      <!-- SIGN UP FORM -->
+      <div id="formSignup" style="display:none;">
+        <div class="auth-form">
+          <span class="auth-form-section">Personal Details</span>
+          <div class="auth-field-row">
+            <input class="auth-field" id="suFirstName" type="text" placeholder="First Name" autocomplete="given-name">
+            <input class="auth-field" id="suLastName" type="text" placeholder="Last Name" autocomplete="family-name">
+          </div>
+          <input class="auth-field" id="suEmail" type="email" placeholder="Email Address" autocomplete="email">
+          <input class="auth-field" id="suPhone" type="tel" placeholder="Phone / WhatsApp" autocomplete="tel">
+          <div class="auth-field-row">
+            <input class="auth-field" id="suPassword" type="password" placeholder="Password (min 8 chars)" autocomplete="new-password">
+            <input class="auth-field" id="suPasswordConf" type="password" placeholder="Confirm Password" autocomplete="new-password">
+          </div>
+          <span class="auth-form-section">Travel Preferences</span>
+          <input class="auth-field" id="suNationality" type="text" placeholder="Nationality / Country of Residence">
+          <select class="auth-field" id="suBudget">
+            <option value="">Budget Range</option>
+            <option value="budget">Budget — Under $2,500</option>
+            <option value="mid-range">Mid-Range — $2,500–$5,000</option>
+            <option value="luxury">Luxury — $5,000–$12,000</option>
+            <option value="ultra">Ultra — $12,000+</option>
+          </select>
+          <select class="auth-field" id="suGroup">
+            <option value="">Travel Style</option>
+            <option value="solo">Solo Traveller</option>
+            <option value="couple">Couple</option>
+            <option value="family">Family with Children</option>
+            <option value="small-group">Small Group (3–6)</option>
+            <option value="corporate">Corporate / Event</option>
+          </select>
+          <select class="auth-field" id="suInterest">
+            <option value="">Primary Interest</option>
+            <option value="wildlife">Wildlife & Big Five</option>
+            <option value="beach">Beach & Coast</option>
+            <option value="photography">Wildlife Photography</option>
+            <option value="culture">Culture & Community</option>
+            <option value="adventure">Adventure & Hiking</option>
+            <option value="birding">Birding</option>
+          </select>
+          <input class="auth-field" id="suPlannedDate" type="text" placeholder="Approximate Travel Date (e.g. July 2026)">
+          <span class="auth-form-section">Emergency Contact</span>
+          <input class="auth-field" id="suEmergName" type="text" placeholder="Emergency Contact Name">
+          <input class="auth-field" id="suEmergPhone" type="tel" placeholder="Emergency Contact Phone">
+          <input class="auth-field" id="suHowHeard" type="text" placeholder="How did you hear about us?">
+          <button class="auth-submit" id="suSubmit">Create My Account</button>
+        </div>
+        <div class="auth-alt">Already have an account? <button onclick="switchTab('signin')">Sign in</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TEAM MEMBER POPUP -->
+<div class="team-popup-overlay" id="teamPopupOverlay">
+  <div class="team-popup" id="teamPopup">
+    <div class="team-popup-top-line"></div>
+    <button class="team-popup-close" id="teamPopupClose">Close</button>
+    <div class="team-popup-hero" id="teamPopupHero">
+      <img id="teamPopupHeroImg" src="" alt="">
+      <div class="team-popup-hero-overlay"></div>
+      <div class="team-popup-avatar-wrap">
+        <img id="teamPopupAvatarImg" src="" alt="">
+      </div>
+    </div>
+    <div class="team-popup-body">
+      <span class="team-popup-role" id="teamPopupRole"></span>
+      <div class="team-popup-name" id="teamPopupName"></div>
+      <div class="team-popup-divider"></div>
+      <p class="team-popup-bio" id="teamPopupBio"></p>
+      <div class="team-popup-details" id="teamPopupDetails"></div>
+    </div>
+  </div>
+</div>
 
  <!-- Theme Toggle -->
 <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
@@ -8034,6 +8560,13 @@ document.addEventListener('DOMContentLoaded', loadBlogsForHomepage);
 (function () {
   const track    = document.getElementById('galTrack');
   const slides   = track ? Array.from(track.querySelectorAll('.gsl-slide')) : [];
+  const slideshow = document.getElementById('galSlideshow');
+  let isHovered = false;
+  let trackOffset = 0;
+  if (slideshow) {
+    slideshow.addEventListener('mouseenter', () => { isHovered = true; });
+    slideshow.addEventListener('mouseleave', () => { isHovered = false; });
+  }
   const dotsWrap = document.getElementById('galDots');
   const progress = document.getElementById('galProgress');
   const curNum   = document.getElementById('galCurNum');
@@ -8072,8 +8605,38 @@ document.addEventListener('DOMContentLoaded', loadBlogsForHomepage);
     if (thumbs) thumbs.appendChild(th);
   });
 
+  function getSlideClass(pos) {
+    if (pos === 0) return 'gsl-active';
+    if (pos === 1) return 'gsl-next';
+    if (pos === total - 1) return 'gsl-prev-slide';
+    if (pos === 2 || pos === total - 2) return 'gsl-far';
+    return '';
+  }
+
+  function centerActive() {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const sw = slideshow ? slideshow.offsetWidth : window.innerWidth;
+        const activeEl = slides[current];
+        const aw = activeEl.offsetWidth;
+        const gap = 20;
+        const padL = sw * 0.18;
+        let before = 0;
+        slides.forEach((s, i) => { if (i < current) before += s.offsetWidth + gap; });
+        trackOffset = (sw - aw) / 2 - before - padL;
+        track.style.transform = `translateX(${trackOffset}px)`;
+      });
+    });
+  }
+
   function updateSlides() {
-    slides.forEach((sl, i) => sl.classList.toggle('gsl-active', i === current));
+    slides.forEach((sl, i) => {
+      sl.classList.remove('gsl-active','gsl-next','gsl-prev-slide','gsl-far');
+      const pos = (i - current + total) % total;
+      const cls = getSlideClass(pos);
+      if (cls) sl.classList.add(cls);
+      sl.style.visibility = (pos > 2 && pos < total - 2) ? 'hidden' : 'visible';
+    });
     if (dotsWrap) {
       dotsWrap.querySelectorAll('.gsl-dot').forEach((d, i) => {
         d.classList.toggle('active', i === current);
@@ -8081,10 +8644,11 @@ document.addEventListener('DOMContentLoaded', loadBlogsForHomepage);
       });
     }
     if (thumbs) thumbs.querySelectorAll('.gsl-thumb').forEach((t, i) => t.classList.toggle('active', i === current));
-    if (track) track.style.transform = `translateX(-${current * 100}%)`;
+    centerActive();
     if (curNum) curNum.textContent = current + 1;
     if (lbCur) lbCur.textContent = current + 1;
   }
+  window.addEventListener('resize', centerActive);
 
   function restartProgress() {
     if (!progress) return;
@@ -8103,7 +8667,7 @@ document.addEventListener('DOMContentLoaded', loadBlogsForHomepage);
 
   function startTimer() {
     clearInterval(timer);
-    timer = setInterval(() => goTo(current + 1), INTERVAL);
+    timer = setInterval(() => { if (!isHovered) goTo(current + 1); }, INTERVAL);
   }
 
   if (prevBtn) prevBtn.addEventListener('click', () => { goTo(current - 1); startTimer(); });
@@ -8336,9 +8900,547 @@ function updateSlides() {
 })();
 </script>
 <script>  
+// AUTH SYSTEM
+(function () {
+  let currentUser = null;
+  let selectedStars = 0;
+
+  // ── Helpers ──
+  function openAuth(tab) {
+    document.getElementById('authOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (tab) switchTab(tab);
+  }
+  window.openAuth = openAuth;
+
+  function closeAuth() {
+    document.getElementById('authOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+    clearMessages();
+  }
+
+  function switchTab(tab) {
+    document.querySelectorAll('.auth-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+    document.getElementById('formSignin').style.display  = tab === 'signin'  ? '' : 'none';
+    document.getElementById('formSignup').style.display  = tab === 'signup'  ? '' : 'none';
+    clearMessages();
+  }
+  window.switchTab = switchTab;
+
+  function showError(msg) {
+    const el = document.getElementById('authError');
+    el.textContent = msg; el.classList.add('visible');
+    document.getElementById('authSuccess').classList.remove('visible');
+  }
+  function showSuccess(msg) {
+    const el = document.getElementById('authSuccess');
+    el.textContent = msg; el.classList.add('visible');
+    document.getElementById('authError').classList.remove('visible');
+  }
+  function clearMessages() {
+    document.getElementById('authError').classList.remove('visible');
+    document.getElementById('authSuccess').classList.remove('visible');
+  }
+
+  function updateNavState(user) {
+    currentUser = user;
+    const btn   = document.getElementById('authNavBtn');
+    const label = document.getElementById('authNavLabel');
+    const locked = document.getElementById('testimonialFormLocked');
+    const open   = document.getElementById('testimonialFormOpen');
+    if (user) {
+      label.textContent = user.user_metadata?.first_name || user.email.split('@')[0];
+      btn.classList.add('signed-in');
+      document.getElementById('userMenuName').textContent = (user.user_metadata?.first_name || '') + ' ' + (user.user_metadata?.last_name || '');
+      if (locked) locked.style.display = 'none';
+      if (open)   open.style.display   = '';
+    } else {
+      label.textContent = 'Sign In';
+      btn.classList.remove('signed-in');
+      if (locked) locked.style.display = '';
+      if (open)   open.style.display   = 'none';
+    }
+  }
+
+  // ── Init: check existing session ──
+  (async () => {
+    try {
+      const { data } = await supa.auth.getSession();
+      if (data?.session?.user) updateNavState(data.session.user);
+    } catch(e) {}
+  })();
+
+  supa.auth.onAuthStateChange((event, session) => {
+    updateNavState(session?.user || null);
+  });
+
+  // ── Nav button ──
+  document.getElementById('authNavBtn').addEventListener('click', () => {
+    if (currentUser) {
+      document.getElementById('userMenu').classList.toggle('open');
+    } else {
+      openAuth('signin');
+    }
+  });
+  document.addEventListener('click', e => {
+    const menu = document.getElementById('userMenu');
+    const btn  = document.getElementById('authNavBtn');
+    if (menu && !menu.contains(e.target) && !btn.contains(e.target)) {
+      menu.classList.remove('open');
+    }
+  });
+
+  // ── Modal close ──
+  document.getElementById('authModalClose').addEventListener('click', closeAuth);
+  document.getElementById('authOverlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('authOverlay')) closeAuth();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAuth(); });
+
+  // ── Auth tabs ──
+  document.querySelectorAll('.auth-tab').forEach(tab => {
+    tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+  });
+
+  // ── Sign In ──
+  document.getElementById('siSubmit').addEventListener('click', async () => {
+    const email = document.getElementById('siEmail').value.trim();
+    const pass  = document.getElementById('siPassword').value;
+    if (!email || !pass) { showError('Please enter your email and password.'); return; }
+    document.getElementById('siSubmit').textContent = 'Signing In…';
+    try {
+      const { data, error } = await supa.auth.signInWithPassword({ email, password: pass });
+      if (error) throw error;
+      showSuccess('Welcome back! Signing you in…');
+      setTimeout(closeAuth, 1200);
+    } catch(e) {
+      showError(e.message || 'Sign in failed. Please check your details.');
+    }
+    document.getElementById('siSubmit').textContent = 'Sign In to Your Account';
+  });
+
+  // ── Sign Up ──
+  document.getElementById('suSubmit').addEventListener('click', async () => {
+    const firstName = document.getElementById('suFirstName').value.trim();
+    const lastName  = document.getElementById('suLastName').value.trim();
+    const email     = document.getElementById('suEmail').value.trim();
+    const phone     = document.getElementById('suPhone').value.trim();
+    const pass      = document.getElementById('suPassword').value;
+    const passConf  = document.getElementById('suPasswordConf').value;
+    if (!firstName || !lastName || !email || !pass) { showError('Please fill in all required fields.'); return; }
+    if (pass.length < 8) { showError('Password must be at least 8 characters.'); return; }
+    if (pass !== passConf) { showError('Passwords do not match.'); return; }
+
+    const meta = {
+      first_name: firstName, last_name: lastName,
+      phone, nationality: document.getElementById('suNationality').value,
+      budget: document.getElementById('suBudget').value,
+      travel_style: document.getElementById('suGroup').value,
+      primary_interest: document.getElementById('suInterest').value,
+      planned_date: document.getElementById('suPlannedDate').value,
+      emergency_name: document.getElementById('suEmergName').value,
+      emergency_phone: document.getElementById('suEmergPhone').value,
+      how_heard: document.getElementById('suHowHeard').value
+    };
+
+    document.getElementById('suSubmit').textContent = 'Creating Account…';
+    try {
+      const { data, error } = await supa.auth.signUp({ email, password: pass, options: { data: meta } });
+      if (error) throw error;
+      showSuccess('Account created! Please check your email to confirm, then sign in.');
+      document.getElementById('suSubmit').textContent = 'Create My Account';
+    } catch(e) {
+      showError(e.message || 'Sign up failed. Please try again.');
+      document.getElementById('suSubmit').textContent = 'Create My Account';
+    }
+  });
+
+  // ── Sign Out ──
+  document.getElementById('userMenuSignOut').addEventListener('click', async () => {
+    document.getElementById('userMenu').classList.remove('open');
+    await supa.auth.signOut();
+    updateNavState(null);
+  });
+
+  // ── Profile ──
+  document.getElementById('userMenuProfile').addEventListener('click', () => {
+    document.getElementById('userMenu').classList.remove('open');
+    openAuth('signup');
+    document.querySelector('[data-tab="signup"]').textContent = 'My Profile';
+  });
+
+  // ── Auto-fill contact form ──
+  function autoFillContact() {
+    if (!currentUser) return;
+    const m = currentUser.user_metadata || {};
+    const nameField = document.querySelector('#contact input[type="text"]');
+    const emailField = document.querySelector('#contact input[type="email"]');
+    const phoneField = document.querySelector('#contact input[type="tel"]');
+    if (nameField && !nameField.value) nameField.value = (m.first_name || '') + ' ' + (m.last_name || '');
+    if (emailField && !emailField.value) emailField.value = currentUser.email || '';
+    if (phoneField && !phoneField.value) phoneField.value = m.phone || '';
+  }
+  document.querySelector('#contact')?.addEventListener('focusin', autoFillContact);
+
+  // ── Star rating ──
+  document.querySelectorAll('.star-btn').forEach(star => {
+    star.addEventListener('click', () => {
+      selectedStars = parseInt(star.dataset.val);
+      document.querySelectorAll('.star-btn').forEach((s, i) => {
+        s.style.opacity = i < selectedStars ? '1' : '0.3';
+        s.style.color = i < selectedStars ? '#d4af37' : '';
+      });
+    });
+    star.addEventListener('mouseenter', () => {
+      const val = parseInt(star.dataset.val);
+      document.querySelectorAll('.star-btn').forEach((s, i) => {
+        s.style.opacity = i < val ? '0.8' : '0.25';
+      });
+    });
+    star.addEventListener('mouseleave', () => {
+      document.querySelectorAll('.star-btn').forEach((s, i) => {
+        s.style.opacity = i < selectedStars ? '1' : '0.35';
+        s.style.color = i < selectedStars ? '#d4af37' : '';
+      });
+    });
+  });
+
+  // ── Submit testimonial ──
+  const testimonialSubmitBtn = document.getElementById('testimonialSubmitBtn');
+  if (testimonialSubmitBtn) {
+    testimonialSubmitBtn.addEventListener('click', async () => {
+      if (!currentUser) { openAuth(); return; }
+      const text = document.getElementById('testimonialText').value.trim();
+      if (!text || text.length < 20) {
+        const msg = document.getElementById('testimonialFormMsg');
+        msg.style.display = 'block';
+        msg.style.cssText = 'display:block;background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.3);color:#e05555;font-size:12px;padding:12px 16px;margin-bottom:12px;';
+        msg.textContent = 'Please write at least 20 characters.';
+        return;
+      }
+      testimonialSubmitBtn.textContent = 'Submitting…';
+      const m = currentUser.user_metadata || {};
+      try {
+        const { error } = await supa.from('testimonials_pending').insert({
+          user_id:    currentUser.id,
+          author_name: (m.first_name || '') + ' ' + (m.last_name || ''),
+          author_loc:  m.nationality || '',
+          text,
+          rating: selectedStars || 5,
+          status: 'pending',
+          created_at: new Date().toISOString()
+        });
+        if (error) throw error;
+        const msg = document.getElementById('testimonialFormMsg');
+        msg.style.display = 'block';
+        msg.style.cssText = 'display:block;background:rgba(123,181,110,0.1);border:1px solid rgba(123,181,110,0.3);color:#7bb56e;font-size:12px;padding:12px 16px;margin-bottom:12px;';
+        msg.textContent = 'Thank you! Your review has been submitted and will be published after approval.';
+        document.getElementById('testimonialText').value = '';
+        selectedStars = 0;
+        document.querySelectorAll('.star-btn').forEach(s => { s.style.opacity = '0.35'; s.style.color = ''; });
+      } catch(e) {
+        const msg = document.getElementById('testimonialFormMsg');
+        msg.style.display = 'block';
+        msg.style.cssText = 'display:block;background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.3);color:#e05555;font-size:12px;padding:12px 16px;margin-bottom:12px;';
+        msg.textContent = 'Submission failed. Please try again.';
+      }
+      testimonialSubmitBtn.textContent = 'Submit for Review';
+    });
+  }
+})();
+
+// TEAM MEMBER POPUP
+(function () {
+  const members = {
+    filmer: {
+      name: 'Filmer Mageto',
+      role: 'Founder & Lead Guide',
+      img: 'assets/team-filmer.webp',
+      bio: 'Over a decade navigating Kenya\'s finest reserves, Filmer founded Filmax Jambo Tours with a single conviction — that a safari should be as extraordinary in its execution as Kenya is in its raw material. He has guided guests across the Mara, Amboseli, Samburu, and the Kenyan coast, accumulating an intimate knowledge of the land and an unshakeable love for every creature within it. He holds a Kenya Professional Safari Guides Association (KPSGA) Gold certification — the highest level awarded in the country.',
+      details: [
+        { icon: '✉️', label: 'Business Email', value: 'filmer@filmaxjambotours.co.ke', href: 'mailto:filmer@filmaxjambotours.co.ke' },
+        { icon: '📞', label: 'Direct Line', value: '+254 700 000 001', href: 'tel:+254700000001' },
+        { icon: '🏆', label: 'Certification', value: 'KPSGA Gold — Senior Wildlife Guide' },
+        { icon: '🌍', label: 'Speciality', value: 'Maasai Mara · Amboseli · Samburu · Wildlife Behaviour' },
+        { icon: '📅', label: 'Experience', value: '12+ years in the Kenyan wilderness' },
+        { icon: '🗣️', label: 'Languages', value: 'English · Swahili · Basic Maasai' }
+      ]
+    },
+    amara: {
+      name: 'Amara Wanjiku',
+      role: 'Safari Experience Director',
+      img: 'assets/team-amara.webp',
+      bio: 'Amara is the architect of every seamless Filmax Jambo safari. A master of logistics and luxury, she orchestrates every detail — from the timing of your arrival transfer to the fine details of your farewell dinner under the Mara sky. With a background in luxury hospitality and a deep passion for Kenya, she ensures the gap between what you imagined and what you experience is as close to zero as humanly possible.',
+      details: [
+        { icon: '✉️', label: 'Business Email', value: 'amara@filmaxjambotours.co.ke', href: 'mailto:amara@filmaxjambotours.co.ke' },
+        { icon: '📞', label: 'Direct Line', value: '+254 700 000 002', href: 'tel:+254700000002' },
+        { icon: '🏅', label: 'Background', value: 'Luxury Hospitality · Tourism Management (Moi University)' },
+        { icon: '✨', label: 'Speciality', value: 'Itinerary Design · Lodge Relations · Client Experience' },
+        { icon: '📅', label: 'Experience', value: '8 years in luxury safari operations' },
+        { icon: '🗣️', label: 'Languages', value: 'English · Swahili · French (conversational)' }
+      ]
+    },
+    githaiga: {
+      name: 'Githaiga Njoroge',
+      role: 'Wildlife Naturalist',
+      img: 'assets/team-githaiga.webp',
+      bio: 'Born in the shadow of the Mara, Githaiga reads the wilderness like a living book. He anticipates migrations before they happen, tracks the Big Five with a quiet precision that borders on the supernatural, and shares stories the bush whispers only to those who have earned its trust. He has spent his entire career within 50 kilometres of where he was born — and that intimacy with the land is something no amount of international training can replicate.',
+      details: [
+        { icon: '✉️', label: 'Business Email', value: 'githaiga@filmaxjambotours.co.ke', href: 'mailto:githaiga@filmaxjambotours.co.ke' },
+        { icon: '📞', label: 'Direct Line', value: '+254 700 000 003', href: 'tel:+254700000003' },
+        { icon: '🏆', label: 'Certification', value: 'KPSGA Silver — Wildlife Naturalist' },
+        { icon: '🌍', label: 'Speciality', value: 'Big Five Tracking · Bird Watching · Migration Patterns' },
+        { icon: '📅', label: 'Experience', value: '15+ years — born and raised in the Mara region' },
+        { icon: '🗣️', label: 'Languages', value: 'English · Swahili · Kikuyu · Maasai' }
+      ]
+    }
+  };
+
+  const overlay = document.getElementById('teamPopupOverlay');
+  const popup   = document.getElementById('teamPopup');
+  const closeBtn = document.getElementById('teamPopupClose');
+  if (!overlay) return;
+
+  function openPopup(key) {
+    const m = members[key];
+    if (!m) return;
+    document.getElementById('teamPopupHeroImg').src    = m.img;
+    document.getElementById('teamPopupHeroImg').alt    = m.name;
+    document.getElementById('teamPopupAvatarImg').src  = m.img;
+    document.getElementById('teamPopupAvatarImg').alt  = m.name;
+    document.getElementById('teamPopupRole').textContent = m.role;
+    document.getElementById('teamPopupName').textContent = m.name;
+    document.getElementById('teamPopupBio').textContent  = m.bio;
+    const detailsEl = document.getElementById('teamPopupDetails');
+    detailsEl.innerHTML = m.details.map(d => `
+      <div class="team-popup-detail">
+        <div class="team-popup-detail-icon">${d.icon}</div>
+        <div class="team-popup-detail-text">
+          <span class="team-popup-detail-label">${d.label}</span>
+          ${d.href
+            ? `<a href="${d.href}" class="team-popup-detail-value">${d.value}</a>`
+            : `<span class="team-popup-detail-value">${d.value}</span>`}
+        </div>
+      </div>`).join('');
+    popup.scrollTop = 0;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePopup() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.team-card[data-member]').forEach(card => {
+    card.addEventListener('click', () => openPopup(card.dataset.member));
+  });
+
+  closeBtn.addEventListener('click', closePopup);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closePopup(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePopup(); });
+})();
+
 // SITE HINTS SYSTEM
 (function () {
   const hints = [
+    {
+      id: 'theme-hint',
+      label: 'Tip',
+      text: 'Switch between dark and light mode here.',
+      getTarget: () => document.getElementById('themeToggle'),
+      pointer: 'left',
+      side: 'right',
+      triggerFn: () => window.pageYOffset > 200,
+      delay: 3000
+    },
+    {
+      id: 'translate-hint',
+      label: 'Language',
+      text: 'Translate the entire site into your language instantly.',
+      getTarget: () => document.getElementById('google_translate_element'),
+      pointer: 'left',
+      side: 'right',
+      triggerFn: () => window.pageYOffset > 400,
+      delay: 3000
+    },
+    {
+      id: 'destinations-hint',
+      label: 'Navigate',
+      text: 'Swipe or click the arrows to explore each Kenyan destination.',
+      getTarget: () => document.getElementById('destSlideshow'),
+      pointer: 'up',
+      side: 'top',
+      triggerFn: () => {
+        const el = document.getElementById('destSlideshow');
+        if (!el) return false;
+        const r = el.getBoundingClientRect();
+        return r.top < window.innerHeight * 0.5 && r.bottom > 200;
+      },
+      delay: 1000
+    },
+    {
+      id: 'packages-hint',
+      label: 'Filter',
+      text: 'Filter safari packages by budget, mid-range or luxury.',
+      getTarget: () => document.getElementById('pkgFilterBar'),
+      pointer: 'up',
+      side: 'top',
+      triggerFn: () => {
+        const el = document.getElementById('pkgFilterBar');
+        if (!el) return false;
+        const r = el.getBoundingClientRect();
+        return r.top < window.innerHeight * 0.6 && r.bottom > 100;
+      },
+      delay: 1000
+    },
+    {
+      id: 'gallery-hint',
+      label: 'Gallery',
+      text: 'Click the magnify icon on any image to view it full screen.',
+      getTarget: () => document.getElementById('galSlideshow'),
+      pointer: 'up',
+      side: 'top',
+      triggerFn: () => {
+        const el = document.getElementById('galSlideshow');
+        if (!el) return false;
+        const r = el.getBoundingClientRect();
+        return r.top < window.innerHeight * 0.5 && r.bottom > 100;
+      },
+      delay: 1000
+    },
+    {
+      id: 'quiz-hint',
+      label: 'Safari Matchmaker',
+      text: 'Answer 5 questions and we'll find your perfect safari.',
+      getTarget: () => document.getElementById('inline-quiz'),
+      pointer: 'up',
+      side: 'top',
+      triggerFn: () => {
+        const el = document.getElementById('inline-quiz');
+        if (!el) return false;
+        const r = el.getBoundingClientRect();
+        return r.top < window.innerHeight * 0.6 && r.bottom > 100;
+      },
+      delay: 1000
+    },
+    {
+      id: 'whatsapp-hint',
+      label: 'Quick action',
+      text: 'Tap to reach us directly on WhatsApp — we reply within the hour.',
+      getTarget: () => document.querySelector('.whatsapp-fab'),
+      pointer: 'right',
+      side: 'left',
+      triggerFn: () => window.pageYOffset > 1200,
+      delay: 2000
+    }
+  ];
+
+  let activeHint = null;
+  const shown = new Set();
+  const queue = [];
+  let queueTimer = null;
+
+  function getPos(target, pointer) {
+    if (!target) return null;
+    const r = target.getBoundingClientRect();
+    const GAP = 10;
+    const vw = window.innerWidth;
+    let top, left;
+    if (pointer === 'right') {
+      top  = r.top + r.height / 2 - 28;
+      left = r.left - 260 - GAP;
+      if (left < 8) { left = r.right + GAP; pointer = 'left'; }
+    } else if (pointer === 'left') {
+      top  = r.top + r.height / 2 - 28;
+      left = r.right + GAP;
+      if (left + 250 > vw - 8) { left = r.left - 260 - GAP; pointer = 'right'; }
+    } else if (pointer === 'up') {
+      top  = r.bottom + GAP;
+      left = r.left + r.width / 2 - 120;
+    } else {
+      top  = r.top - 70 - GAP;
+      left = r.left + r.width / 2 - 120;
+    }
+    left = Math.max(8, Math.min(left, vw - 258));
+    return { top, left, pointer };
+  }
+
+  function showHint(hint) {
+    if (shown.has(hint.id) || activeHint) return;
+    const target = hint.getTarget ? hint.getTarget() : null;
+    const pos = getPos(target, hint.pointer);
+    if (!pos && !hint.fixedPos) return;
+
+    shown.add(hint.id);
+    activeHint = hint.id;
+
+    const box = document.createElement('div');
+    box.className = 'site-hint';
+    box.id = 'hint-' + hint.id;
+    box.style.cssText = 'position:fixed;z-index:99980;';
+    box.innerHTML =
+      '<span class="site-hint-label">' + hint.label + '</span>' +
+      '<span class="site-hint-text">' + hint.text + '</span>' +
+      '<button class="site-hint-close" aria-label="Dismiss">×</button>' +
+      '<div class="site-hint-pointer ' + (pos ? pos.pointer : 'down') + '"></div>' +
+      '<div class="site-hint-bar"></div>';
+
+    function applyPos() {
+      if (!target) return;
+      const p = getPos(target, hint.pointer);
+      if (!p) return;
+      box.style.top  = p.top + 'px';
+      box.style.left = p.left + 'px';
+      box.querySelector('.site-hint-pointer').className = 'site-hint-pointer ' + p.pointer;
+    }
+
+    if (pos) { box.style.top = pos.top + 'px'; box.style.left = pos.left + 'px'; }
+    document.body.appendChild(box);
+
+    const scrollHandler = () => {
+      if (!target) return;
+      const r = target.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > window.innerHeight) { dismiss(); return; }
+      applyPos();
+    };
+    window.addEventListener('scroll', scrollHandler, { passive: true });
+    window.addEventListener('resize', applyPos, { passive: true });
+
+    function dismiss() {
+      box.classList.add('hiding');
+      window.removeEventListener('scroll', scrollHandler);
+      window.removeEventListener('resize', applyPos);
+      setTimeout(() => {
+        if (box.parentNode) box.parentNode.removeChild(box);
+        activeHint = null;
+        processQueue();
+      }, 380);
+    }
+
+    const autoTimer = setTimeout(dismiss, 5200);
+    box.querySelector('.site-hint-close').addEventListener('click', () => { clearTimeout(autoTimer); dismiss(); });
+  }
+
+  function processQueue() {
+    if (activeHint || !queue.length) return;
+    const next = queue.shift();
+    setTimeout(() => showHint(next), next.delay || 800);
+  }
+
+  function checkHints() {
+    hints.forEach(hint => {
+      if (shown.has(hint.id)) return;
+      if (hint.triggerFn && hint.triggerFn()) {
+        if (!queue.find(q => q.id === hint.id)) queue.push(hint);
+      }
+    });
+    if (!activeHint && queue.length) processQueue();
+  }
+
+  window.addEventListener('scroll', checkHints, { passive: true });
+  setTimeout(checkHints, 2000);
+})();
     { label: 'Tip', text: 'Click the magnify icon on any destination slide to zoom into the image.', anchor: 'destSlideshow', position: 'top-right', delay: 12000 },
     { label: 'Tip', text: 'Use the filter bar to sort safari packages by budget, mid-range, or luxury.', anchor: 'pkgFilterBar', position: 'bottom-left', delay: 22000 },
     { label: 'Did you know', text: 'Hover over any gallery image to reveal its story — click the lens icon to zoom in.', anchor: 'galSlideshow', position: 'top-right', delay: 34000 },
