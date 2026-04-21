@@ -1859,7 +1859,7 @@ body.light-mode .contact-form .btn-primary:hover {
     opacity: 0; pointer-events: none; transform: translateY(-8px);
     transition: opacity 0.3s, transform 0.3s;
   }
-  .user-menu.open { opacity: 1; pointer-events: all; transform: translateY(0); }
+  .user-menu.open { opacity: 1 !important; pointer-events: all !important; transform: translateY(0) !important; }
   .user-menu-name {
     padding: 16px 20px 12px;
     font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold);
@@ -1894,21 +1894,33 @@ body.light-mode .contact-form .btn-primary:hover {
     line-height: 1.6; margin-bottom: 20px;
   }
 
-  body.light-mode .auth-modal { background: #e8e4dc; border-color: rgba(154,111,0,0.2); }
-  body.light-mode .auth-modal-title { color: #0a0a0a; }
-  body.light-mode .auth-modal-sub { color: #2a2a2a; }
-  body.light-mode .auth-field { color: #0a0a0a; border-bottom-color: rgba(154,111,0,0.25); }
-  body.light-mode .auth-field::placeholder { color: #5e5040; }
-  body.light-mode .auth-tab { color: #5e5040; }
-  body.light-mode .auth-tab.active { color: #9a6f00; border-bottom-color: #9a6f00; }
-  body.light-mode .auth-overlay { background: rgba(200,196,188,0.88); }
+  body.light-mode #authModal { background: #f0ece4 !important; border-color: rgba(154,111,0,0.25) !important; }
+  body.light-mode #authModal h2 { color: #0a0a0a !important; }
+  body.light-mode #authModal p  { color: #2a2a2a !important; }
+  body.light-mode #authModal input,
+  body.light-mode #authModal select {
+    color: #0a0a0a !important;
+    border-bottom-color: rgba(154,111,0,0.25) !important;
+  }
+  body.light-mode #authModal input::placeholder { color: #5e5040 !important; }
+  body.light-mode #authModal select { background: #f0ece4 !important; color: #5e5040 !important; }
+  body.light-mode #authModal #tabSignin,
+  body.light-mode #authModal #tabSignup { color: #5e5040; }
+  body.light-mode #authModal #tabSignin[style*="color: rgb(212"],
+  body.light-mode #authModal #tabSignup[style*="color: rgb(212"] { color: #9a6f00 !important; }
+  body.light-mode .auth-overlay { background: rgba(200,196,188,0.9); }
   body.light-mode .auth-btn-nav { color: #9a6f00; border-color: rgba(154,111,0,0.35); }
-  body.light-mode .user-menu { background: rgba(232,228,220,0.98); border-color: rgba(0,0,0,0.12); }
-  body.light-mode .user-menu-name { color: #9a6f00; border-bottom-color: rgba(154,111,0,0.12); }
-  body.light-mode .user-menu-item { color: #5e5040; border-bottom-color: rgba(0,0,0,0.04); }
+  body.light-mode #userMenu { background: rgba(232,228,220,0.98) !important; border-color: rgba(0,0,0,0.12) !important; }
+  body.light-mode #userMenuName { color: #9a6f00 !important; border-bottom-color: rgba(154,111,0,0.12) !important; }
+  body.light-mode .user-menu-item { color: #5e5040; }
   body.light-mode .user-menu-item:hover { color: #9a6f00; }
   body.light-mode .testimonial-form-locked { border-color: rgba(154,111,0,0.15); }
   body.light-mode .testimonial-form-locked p { color: #2a2a2a; }
+  body.light-mode #authModalClose {
+    color: #5e5040 !important;
+    border-color: rgba(154,111,0,0.25) !important;
+  }
+  body.light-mode #authModalClose:hover { color: #9a6f00 !important; border-color: #9a6f00 !important; }
 
   .theme-tooltip {
     position: absolute;
@@ -5700,16 +5712,15 @@ body.light-mode .pkg-cta:hover {
     <span class="nav-idle-bottom">Est. <em>2025</em></span>
   </div>
 </div>
-<div style="display:flex;align-items:center;gap:16px;position:relative;">
-  <button class="auth-btn-nav" id="authNavBtn">
+<div style="display:flex;align-items:center;gap:16px;position:relative;z-index:110;">
+  <button class="auth-btn-nav" id="authNavBtn" style="display:flex;align-items:center;gap:8px;">
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.1"/><path d="M1.5 12.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
     <span id="authNavLabel">Sign In</span>
   </button>
-  <div class="user-menu" id="userMenu">
-    <div class="user-menu-name" id="userMenuName">Welcome</div>
+  <div id="userMenu" style="position:absolute;top:calc(100% + 10px);right:0;background:rgba(12,12,12,0.97);border:1px solid rgba(212,175,55,0.2);min-width:200px;z-index:200;backdrop-filter:blur(20px);opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity 0.3s,transform 0.3s;">
+    <div id="userMenuName" style="padding:14px 20px 10px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#d4af37;border-bottom:1px solid rgba(212,175,55,0.1);">Welcome</div>
     <a href="#contact" class="user-menu-item" onclick="document.getElementById('userMenu').classList.remove('open')">My Bookings</a>
-    <button class="user-menu-item" id="userMenuProfile">My Profile</button>
-    <button class="user-menu-item danger" id="userMenuSignOut">Sign Out</button>
+    <button class="user-menu-item" id="userMenuSignOut">Sign Out</button>
   </div>
 </div>
 <button class="menu-btn" id="menuBtn" aria-label="Menu" style="background:transparent;border:none;padding:8px;">
@@ -6375,7 +6386,7 @@ body.light-mode .pkg-cta:hover {
 
     <div id="testimonialFormLocked" class="testimonial-form-locked">
       <p>Share your Filmax Jambo experience with future adventurers. Sign in to submit your review for our team to publish.</p>
-      <button class="btn-primary" onclick="openAuth()" style="display:inline-block;cursor:none;">Sign In to Leave a Review</button>
+      <button onclick="fjAuth.open('signin')" style="font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;padding:18px 44px;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;border:none;cursor:none;position:relative;overflow:hidden;transition:transform 0.3s,box-shadow 0.3s;box-shadow:0 8px 32px rgba(212,175,55,0.25);display:inline-block;animation:pulseViewAll 3s ease-in-out infinite 2s;">Sign In to Leave a Review</button>
     </div>
 
     <div id="testimonialFormOpen" style="display:none;max-width:600px;">
@@ -7107,79 +7118,59 @@ body.light-mode .pkg-cta:hover {
 </footer>
 
 <!-- AUTH MODAL -->
-<div class="auth-overlay" id="authOverlay">
-  <div class="auth-modal" id="authModal">
-    <div class="auth-modal-top-line"></div>
-    <button class="auth-modal-close" id="authModalClose">Close</button>
-    <div class="auth-modal-body">
-      <span class="auth-modal-label">Filmax Jambo Tours</span>
-      <h2 class="auth-modal-title" id="authModalTitle">Welcome Back</h2>
-      <p class="auth-modal-sub" id="authModalSub">Sign in to manage your safari bookings and preferences.</p>
-      <div class="auth-tabs" id="authTabs">
-        <button class="auth-tab active" data-tab="signin">Sign In</button>
-        <button class="auth-tab" data-tab="signup">Create Account</button>
-      </div>
-      <div class="auth-error" id="authError"></div>
-      <div class="auth-success" id="authSuccess"></div>
+<div class="auth-overlay" id="authOverlay" style="position:fixed;inset:0;z-index:99990;background:rgba(4,4,4,0.92);backdrop-filter:blur(22px);display:none;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity 0.45s ease;">
+  <div id="authModal" style="background:#0f0f0f;border:1px solid rgba(212,175,55,0.22);max-width:540px;width:100%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 40px 120px rgba(0,0,0,0.95),inset 0 1px 0 rgba(212,175,55,0.08);transform:translateY(28px) scale(0.97);transition:transform 0.5s cubic-bezier(0.22,1,0.36,1);scrollbar-width:thin;scrollbar-color:rgba(212,175,55,0.3) transparent;">
+    <div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(to right,transparent,#d4af37,transparent);"></div>
+    <button id="authModalClose" style="position:absolute;top:16px;right:20px;z-index:5;background:none;border:1px solid rgba(212,175,55,0.22);color:#8a8074;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:8px 16px;cursor:none;transition:color 0.3s,border-color 0.3s;">Close</button>
+    <div style="padding:52px 44px 44px;">
+      <span style="font-size:9px;letter-spacing:5px;text-transform:uppercase;color:#d4af37;display:block;margin-bottom:14px;">Filmax Jambo Tours</span>
+      <h2 id="authModalTitle" style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#f0ece4;margin-bottom:6px;line-height:1.2;">Welcome</h2>
+      <p id="authModalSub" style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:#8a8074;margin-bottom:28px;line-height:1.6;">Sign in or create an account to manage your safari journey.</p>
 
-      <!-- SIGN IN FORM -->
-      <div id="formSignin">
-        <div class="auth-form">
-          <input class="auth-field" id="siEmail" type="email" placeholder="Email Address" autocomplete="email">
-          <input class="auth-field" id="siPassword" type="password" placeholder="Password" autocomplete="current-password">
-          <button class="auth-submit" id="siSubmit">Sign In to Your Account</button>
-        </div>
-        <div class="auth-alt">Don't have an account? <button onclick="switchTab('signup')">Create one</button></div>
+      <!-- TABS -->
+      <div style="display:flex;gap:0;margin-bottom:28px;border-bottom:1px solid rgba(212,175,55,0.12);">
+        <button id="tabSignin" onclick="fjAuth.switchTab('signin')" style="font-family:'Jost',sans-serif;font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#d4af37;background:none;border:none;border-bottom:2px solid #d4af37;padding:10px 24px 10px 0;cursor:none;margin-bottom:-1px;transition:color 0.3s;">Sign In</button>
+        <button id="tabSignup" onclick="fjAuth.switchTab('signup')" style="font-family:'Jost',sans-serif;font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#8a8074;background:none;border:none;border-bottom:2px solid transparent;padding:10px 24px 10px 0;cursor:none;margin-bottom:-1px;transition:color 0.3s,border-color 0.3s;">Create Account</button>
       </div>
 
-      <!-- SIGN UP FORM -->
-      <div id="formSignup" style="display:none;">
-        <div class="auth-form">
-          <span class="auth-form-section">Personal Details</span>
-          <div class="auth-field-row">
-            <input class="auth-field" id="suFirstName" type="text" placeholder="First Name" autocomplete="given-name">
-            <input class="auth-field" id="suLastName" type="text" placeholder="Last Name" autocomplete="family-name">
-          </div>
-          <input class="auth-field" id="suEmail" type="email" placeholder="Email Address" autocomplete="email">
-          <input class="auth-field" id="suPhone" type="tel" placeholder="Phone / WhatsApp" autocomplete="tel">
-          <div class="auth-field-row">
-            <input class="auth-field" id="suPassword" type="password" placeholder="Password (min 8 chars)" autocomplete="new-password">
-            <input class="auth-field" id="suPasswordConf" type="password" placeholder="Confirm Password" autocomplete="new-password">
-          </div>
-          <span class="auth-form-section">Travel Preferences</span>
-          <input class="auth-field" id="suNationality" type="text" placeholder="Nationality / Country of Residence">
-          <select class="auth-field" id="suBudget">
-            <option value="">Budget Range</option>
-            <option value="budget">Budget — Under $2,500</option>
-            <option value="mid-range">Mid-Range — $2,500–$5,000</option>
-            <option value="luxury">Luxury — $5,000–$12,000</option>
-            <option value="ultra">Ultra — $12,000+</option>
-          </select>
-          <select class="auth-field" id="suGroup">
-            <option value="">Travel Style</option>
-            <option value="solo">Solo Traveller</option>
-            <option value="couple">Couple</option>
-            <option value="family">Family with Children</option>
-            <option value="small-group">Small Group (3–6)</option>
-            <option value="corporate">Corporate / Event</option>
-          </select>
-          <select class="auth-field" id="suInterest">
-            <option value="">Primary Interest</option>
-            <option value="wildlife">Wildlife & Big Five</option>
-            <option value="beach">Beach & Coast</option>
-            <option value="photography">Wildlife Photography</option>
-            <option value="culture">Culture & Community</option>
-            <option value="adventure">Adventure & Hiking</option>
-            <option value="birding">Birding</option>
-          </select>
-          <input class="auth-field" id="suPlannedDate" type="text" placeholder="Approximate Travel Date (e.g. July 2026)">
-          <span class="auth-form-section">Emergency Contact</span>
-          <input class="auth-field" id="suEmergName" type="text" placeholder="Emergency Contact Name">
-          <input class="auth-field" id="suEmergPhone" type="tel" placeholder="Emergency Contact Phone">
-          <input class="auth-field" id="suHowHeard" type="text" placeholder="How did you hear about us?">
-          <button class="auth-submit" id="suSubmit">Create My Account</button>
+      <div id="authMsgError" style="display:none;background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.3);color:#e05555;font-size:12px;letter-spacing:1px;padding:12px 16px;margin-bottom:16px;"></div>
+      <div id="authMsgSuccess" style="display:none;background:rgba(123,181,110,0.1);border:1px solid rgba(123,181,110,0.3);color:#7bb56e;font-size:12px;letter-spacing:1px;padding:12px 16px;margin-bottom:16px;text-align:center;"></div>
+
+      <!-- SIGN IN -->
+      <div id="authPanelSignin">
+        <input id="siEmail" type="email" placeholder="Email Address" autocomplete="email" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
+        <input id="siPassword" type="password" placeholder="Password" autocomplete="current-password" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:24px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
+        <button id="siSubmitBtn" onclick="fjAuth.signIn()" style="width:100%;text-align:center;font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;padding:18px;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;border:none;cursor:none;position:relative;overflow:hidden;transition:transform 0.3s,box-shadow 0.3s;">Sign In to Your Account</button>
+        <p style="text-align:center;margin-top:18px;font-size:11px;color:#8a8074;font-family:'Jost',sans-serif;letter-spacing:1px;">No account? <button onclick="fjAuth.switchTab('signup')" style="background:none;border:none;color:#d4af37;font-family:'Jost',sans-serif;font-size:11px;cursor:none;text-decoration:underline;padding:0;">Create one free</button></p>
+      </div>
+
+      <!-- SIGN UP -->
+      <div id="authPanelSignup" style="display:none;">
+        <p style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#d4af37;margin:0 0 14px;opacity:0.75;">Personal Details</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 20px;">
+          <input id="suFirstName" type="text" placeholder="First Name" autocomplete="given-name" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
+          <input id="suLastName" type="text" placeholder="Last Name" autocomplete="family-name" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
         </div>
-        <div class="auth-alt">Already have an account? <button onclick="switchTab('signin')">Sign in</button></div>
+        <input id="suEmail" type="email" placeholder="Email Address" autocomplete="email" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
+        <input id="suPhone" type="tel" placeholder="Phone / WhatsApp Number" autocomplete="tel" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 20px;">
+          <input id="suPassword" type="password" placeholder="Password (min 8 chars)" autocomplete="new-password" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
+          <input id="suPassConf" type="password" placeholder="Confirm Password" autocomplete="new-password" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
+        </div>
+        <p style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#d4af37;margin:8px 0 14px;opacity:0.75;">Safari Preferences</p>
+        <input id="suNationality" type="text" placeholder="Country of Residence" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
+        <select id="suBudget" style="width:100%;background:#0f0f0f;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#8a8074;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;appearance:none;-webkit-appearance:none;cursor:none;"><option value="">Budget Range</option><option value="budget">Budget — Under $2,500</option><option value="mid-range">Mid-Range — $2,500–$5,000</option><option value="luxury">Luxury — $5,000–$12,000</option><option value="ultra">Ultra — $12,000+</option></select>
+        <select id="suStyle" style="width:100%;background:#0f0f0f;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#8a8074;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;appearance:none;-webkit-appearance:none;cursor:none;"><option value="">Travel Style</option><option value="solo">Solo Traveller</option><option value="couple">Couple</option><option value="family">Family with Children</option><option value="small-group">Small Group (3–6)</option><option value="corporate">Corporate / Event</option></select>
+        <select id="suInterest" style="width:100%;background:#0f0f0f;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#8a8074;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;appearance:none;-webkit-appearance:none;cursor:none;"><option value="">Primary Safari Interest</option><option value="wildlife">Wildlife & Big Five</option><option value="beach">Beach & Coast</option><option value="photography">Photography</option><option value="culture">Culture & Community</option><option value="adventure">Adventure & Hiking</option><option value="birding">Birding</option></select>
+        <input id="suTravelDate" type="text" placeholder="Approximate Travel Date (e.g. July 2026)" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
+        <p style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#d4af37;margin:8px 0 14px;opacity:0.75;">Emergency Contact</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 20px;">
+          <input id="suEmergName" type="text" placeholder="Emergency Contact Name" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
+          <input id="suEmergPhone" type="tel" placeholder="Emergency Contact Phone" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
+        </div>
+        <input id="suHowHeard" type="text" placeholder="How did you hear about us?" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:24px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
+        <button id="suSubmitBtn" onclick="fjAuth.signUp()" style="width:100%;text-align:center;font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;padding:18px;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;border:none;cursor:none;position:relative;overflow:hidden;transition:transform 0.3s,box-shadow 0.3s;">Create My Account</button>
+        <p style="text-align:center;margin-top:18px;font-size:11px;color:#8a8074;font-family:'Jost',sans-serif;letter-spacing:1px;">Already have an account? <button onclick="fjAuth.switchTab('signin')" style="background:none;border:none;color:#d4af37;font-family:'Jost',sans-serif;font-size:11px;cursor:none;text-decoration:underline;padding:0;">Sign in</button></p>
       </div>
     </div>
   </div>
@@ -8895,17 +8886,286 @@ function updateSlides() {
 </script>
 <script>  
 // AUTH SYSTEM
-(function () {
+const fjAuth = (function () {
   let currentUser = null;
   let selectedStars = 0;
 
-  // ── Helpers ──
-  function openAuth(tab) {
-    document.getElementById('authOverlay').classList.add('open');
+  function getOverlay()  { return document.getElementById('authOverlay'); }
+  function getModal()    { return document.getElementById('authModal'); }
+
+  function open(tab) {
+    const ov = getOverlay();
+    const mo = getModal();
+    if (!ov || !mo) return;
+    ov.style.opacity = '0';
+    ov.style.pointerEvents = 'all';
+    ov.style.display = 'flex';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        ov.style.opacity = '1';
+        mo.style.transform = 'translateY(0) scale(1)';
+      });
+    });
     document.body.style.overflow = 'hidden';
     if (tab) switchTab(tab);
+    clearMessages();
   }
-  window.openAuth = openAuth;
+
+  function close() {
+    const ov = getOverlay();
+    const mo = getModal();
+    if (!ov) return;
+    ov.style.opacity = '0';
+    if (mo) mo.style.transform = 'translateY(28px) scale(0.97)';
+    setTimeout(() => {
+      ov.style.display = 'none';
+      ov.style.pointerEvents = 'none';
+    }, 450);
+    document.body.style.overflow = '';
+    clearMessages();
+  }
+
+  function switchTab(tab) {
+    const si = document.getElementById('authPanelSignin');
+    const su = document.getElementById('authPanelSignup');
+    const tsi = document.getElementById('tabSignin');
+    const tsu = document.getElementById('tabSignup');
+    if (!si || !su) return;
+    if (tab === 'signin') {
+      si.style.display = ''; su.style.display = 'none';
+      if (tsi) { tsi.style.color = '#d4af37'; tsi.style.borderBottomColor = '#d4af37'; }
+      if (tsu) { tsu.style.color = '#8a8074'; tsu.style.borderBottomColor = 'transparent'; }
+    } else {
+      si.style.display = 'none'; su.style.display = '';
+      if (tsu) { tsu.style.color = '#d4af37'; tsu.style.borderBottomColor = '#d4af37'; }
+      if (tsi) { tsi.style.color = '#8a8074'; tsi.style.borderBottomColor = 'transparent'; }
+    }
+    clearMessages();
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('authMsgError');
+    if (!el) return;
+    el.textContent = msg; el.style.display = 'block';
+    document.getElementById('authMsgSuccess').style.display = 'none';
+  }
+  function showSuccess(msg) {
+    const el = document.getElementById('authMsgSuccess');
+    if (!el) return;
+    el.textContent = msg; el.style.display = 'block';
+    document.getElementById('authMsgError').style.display = 'none';
+  }
+  function clearMessages() {
+    const e = document.getElementById('authMsgError');
+    const s = document.getElementById('authMsgSuccess');
+    if (e) e.style.display = 'none';
+    if (s) s.style.display = 'none';
+  }
+
+  function v(id) { return (document.getElementById(id) || {}).value || ''; }
+
+  async function signIn() {
+    const email = v('siEmail').trim();
+    const pass  = v('siPassword');
+    if (!email || !pass) { showError('Please enter your email and password.'); return; }
+    const btn = document.getElementById('siSubmitBtn');
+    if (btn) btn.textContent = 'Signing in…';
+    try {
+      const { data, error } = await supa.auth.signInWithPassword({ email, password: pass });
+      if (error) throw error;
+      showSuccess('Welcome back! You are now signed in.');
+      setTimeout(close, 1400);
+    } catch(e) {
+      showError(e.message || 'Sign in failed. Check your email and password.');
+    }
+    if (btn) btn.textContent = 'Sign In to Your Account';
+  }
+
+  async function signUp() {
+    const firstName = v('suFirstName').trim();
+    const lastName  = v('suLastName').trim();
+    const email     = v('suEmail').trim();
+    const phone     = v('suPhone').trim();
+    const pass      = v('suPassword');
+    const passConf  = v('suPassConf');
+    if (!firstName || !lastName || !email || !pass) { showError('First name, last name, email and password are required.'); return; }
+    if (pass.length < 8) { showError('Password must be at least 8 characters.'); return; }
+    if (pass !== passConf) { showError('Passwords do not match.'); return; }
+    const btn = document.getElementById('suSubmitBtn');
+    if (btn) btn.textContent = 'Creating account…';
+    try {
+      const { data, error } = await supa.auth.signUp({
+        email, password: pass,
+        options: {
+          data: {
+            first_name: firstName, last_name: lastName, phone,
+            nationality: v('suNationality'), budget: v('suBudget'),
+            travel_style: v('suStyle'), primary_interest: v('suInterest'),
+            planned_date: v('suTravelDate'),
+            emergency_name: v('suEmergName'), emergency_phone: v('suEmergPhone'),
+            how_heard: v('suHowHeard')
+          }
+        }
+      });
+      if (error) throw error;
+      if (data?.user?.identities?.length === 0) {
+        showError('An account with this email already exists. Please sign in.');
+      } else {
+        showSuccess('Account created! Check your email to confirm your address, then sign in.');
+      }
+    } catch(e) {
+      showError(e.message || 'Registration failed. Please try again.');
+    }
+    if (btn) btn.textContent = 'Create My Account';
+  }
+
+  function updateNav(user) {
+    currentUser = user;
+    const btn   = document.getElementById('authNavBtn');
+    const label = document.getElementById('authNavLabel');
+    const locked = document.getElementById('testimonialFormLocked');
+    const openFrm = document.getElementById('testimonialFormOpen');
+    if (!btn) return;
+    if (user) {
+      const m = user.user_metadata || {};
+      const name = m.first_name || user.email.split('@')[0];
+      if (label) label.textContent = name;
+      btn.style.borderColor = 'rgba(212,175,55,0.5)';
+      const menuName = document.getElementById('userMenuName');
+      if (menuName) menuName.textContent = (m.first_name || '') + ' ' + (m.last_name || '');
+      if (locked)  locked.style.display  = 'none';
+      if (openFrm) openFrm.style.display = '';
+    } else {
+      if (label) label.textContent = 'Sign In';
+      btn.style.borderColor = 'rgba(212,175,55,0.3)';
+      if (locked)  locked.style.display  = '';
+      if (openFrm) openFrm.style.display = 'none';
+    }
+  }
+
+  function autoFill() {
+    if (!currentUser) return;
+    const m = currentUser.user_metadata || {};
+    const nf = document.querySelector('#contact input[type="text"]');
+    const ef = document.querySelector('#contact input[type="email"]');
+    const pf = document.querySelector('#contact input[type="tel"]');
+    if (nf && !nf.value) nf.value = ((m.first_name || '') + ' ' + (m.last_name || '')).trim();
+    if (ef && !ef.value) ef.value = currentUser.email || '';
+    if (pf && !pf.value) pf.value = m.phone || '';
+  }
+
+  // ── Init ──
+  (async () => {
+    try {
+      const { data } = await supa.auth.getSession();
+      if (data?.session?.user) updateNav(data.session.user);
+    } catch(e) {}
+    supa.auth.onAuthStateChange((event, session) => { updateNav(session?.user || null); });
+  })();
+
+  // ── Modal close events ──
+  document.addEventListener('DOMContentLoaded', () => {
+    const closeBtn = document.getElementById('authModalClose');
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    const overlay = document.getElementById('authOverlay');
+    if (overlay) overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+
+    // Nav button
+    const navBtn = document.getElementById('authNavBtn');
+    if (navBtn) {
+      navBtn.addEventListener('click', () => {
+        if (currentUser) {
+          const menu = document.getElementById('userMenu');
+          if (menu) menu.classList.toggle('open');
+        } else {
+          open('signin');
+        }
+      });
+    }
+
+    // Sign out
+    const soBtn = document.getElementById('userMenuSignOut');
+    if (soBtn) soBtn.addEventListener('click', async () => {
+      document.getElementById('userMenu')?.classList.remove('open');
+      await supa.auth.signOut();
+      updateNav(null);
+    });
+
+    // Close user menu on outside click
+    document.addEventListener('click', e => {
+      const menu = document.getElementById('userMenu');
+      const btn  = document.getElementById('authNavBtn');
+      if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.classList.remove('open');
+      }
+    });
+
+    // Escape key
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+    // Auto-fill contact
+    const contactSection = document.querySelector('#contact');
+    if (contactSection) contactSection.addEventListener('focusin', autoFill);
+
+    // Star rating
+    document.querySelectorAll('.star-btn').forEach(star => {
+      star.addEventListener('click', () => {
+        selectedStars = parseInt(star.dataset.val);
+        document.querySelectorAll('.star-btn').forEach((s, i) => {
+          s.style.opacity = i < selectedStars ? '1' : '0.3';
+          s.style.color   = i < selectedStars ? '#d4af37' : '';
+        });
+      });
+      star.addEventListener('mouseenter', () => {
+        const val = parseInt(star.dataset.val);
+        document.querySelectorAll('.star-btn').forEach((s, i) => { s.style.opacity = i < val ? '0.8' : '0.25'; });
+      });
+      star.addEventListener('mouseleave', () => {
+        document.querySelectorAll('.star-btn').forEach((s, i) => {
+          s.style.opacity = i < selectedStars ? '1' : '0.35';
+          s.style.color   = i < selectedStars ? '#d4af37' : '';
+        });
+      });
+    });
+
+    // Testimonial submit
+    const tBtn = document.getElementById('testimonialSubmitBtn');
+    if (tBtn) {
+      tBtn.addEventListener('click', async () => {
+        if (!currentUser) { open('signin'); return; }
+        const text = (document.getElementById('testimonialText') || {}).value?.trim() || '';
+        const msg  = document.getElementById('testimonialFormMsg');
+        if (text.length < 20) {
+          if (msg) { msg.style.cssText = 'display:block;background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.3);color:#e05555;font-size:12px;padding:12px 16px;margin-bottom:12px;'; msg.textContent = 'Please write at least 20 characters.'; }
+          return;
+        }
+        tBtn.textContent = 'Submitting…';
+        const m = currentUser.user_metadata || {};
+        try {
+          const { error } = await supa.from('testimonials_pending').insert({
+            user_id: currentUser.id,
+            author_name: ((m.first_name || '') + ' ' + (m.last_name || '')).trim(),
+            author_loc: m.nationality || '',
+            text, rating: selectedStars || 5, status: 'pending',
+            created_at: new Date().toISOString()
+          });
+          if (error) throw error;
+          if (msg) { msg.style.cssText = 'display:block;background:rgba(123,181,110,0.1);border:1px solid rgba(123,181,110,0.3);color:#7bb56e;font-size:12px;padding:12px 16px;margin-bottom:12px;'; msg.textContent = 'Thank you! Your review is pending approval.'; }
+          document.getElementById('testimonialText').value = '';
+          selectedStars = 0;
+          document.querySelectorAll('.star-btn').forEach(s => { s.style.opacity = '0.35'; s.style.color = ''; });
+        } catch(e) {
+          if (msg) { msg.style.cssText = 'display:block;background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.3);color:#e05555;font-size:12px;padding:12px 16px;margin-bottom:12px;'; msg.textContent = 'Submission failed. Please try again.'; }
+        }
+        tBtn.textContent = 'Submit for Review';
+      });
+    }
+  });
+
+  return { open, close, switchTab, signIn, signUp };
+})();
+
+window.openAuth = fjAuth.open;
 
   function closeAuth() {
     document.getElementById('authOverlay').classList.remove('open');
