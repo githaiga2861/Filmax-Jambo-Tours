@@ -2667,10 +2667,9 @@ nav.scrolled .nav-brand-idle {
     position: relative;
     z-index: 2;
     -webkit-text-stroke: 0px transparent;
-    background: linear-gradient( var(--gold));
+    background: linear-gradient(var(--gold););
     -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--gold); 
     background-size: 100% 100%;
     animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite, fadeUp 1s 0.3s forwards !important;  
     transition: opacity 0.4s ease;
@@ -5727,6 +5726,7 @@ body.light-mode .pkg-cta:hover {
   .auth-flip-wrap {
     position: relative;
     height: 40px;
+    width: 120px;
     perspective: 600px;
     cursor: none;
     flex-shrink: 0;
