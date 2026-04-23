@@ -168,6 +168,168 @@ const SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
 const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
 
+// ── AUTH GATE — individual blog posts ──
+(async function guardPost() {
+  let user = null;
+  try {
+    const { data } = await supa.auth.getSession();
+    user = data?.session?.user || null;
+  } catch(e) {}
+  if (!user) {
+    showPostAuthGate();
+  }
+})();
+
+function showPostAuthGate() {
+  const body = document.getElementById('postBody');
+  if (body) { body.style.filter = 'blur(10px)'; body.style.pointerEvents = 'none'; body.style.userSelect = 'none'; }
+  const hero = document.getElementById('postHero');
+  if (hero) { hero.style.filter = 'blur(4px)'; }
+
+  const gateHTML = `
+  <div id="postAuthGate" style="
+    position:fixed;inset:0;z-index:99990;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(4,4,4,0.9);backdrop-filter:blur(24px);
+    padding:20px;
+  " onclick="if(event.target===this){}">
+    <div style="
+      background:#0a0a0a;border:1px solid rgba(212,175,55,0.28);
+      max-width:480px;width:100%;padding:0;
+      position:relative;
+      box-shadow:0 0 0 1px rgba(212,175,55,0.06),0 40px 120px rgba(0,0,0,0.98),inset 0 1px 0 rgba(212,175,55,0.1);
+      overflow:hidden;
+    ">
+      <div style="height:2px;background:linear-gradient(to right,transparent,#d4af37 30%,#f0c84a 50%,#d4af37 70%,transparent);"></div>
+      <div style="padding:48px 44px 44px;">
+        <span style="font-family:'Jost',sans-serif;font-size:8px;letter-spacing:6px;text-transform:uppercase;color:rgba(212,175,55,0.6);display:block;margin-bottom:10px;">Members Only</span>
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,32px);font-weight:900;line-height:1.1;color:#f0ece4;margin-bottom:10px;">
+          Read the<br><em style="color:#d4af37;font-weight:400;">Full Story</em>
+        </h2>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:#8a8074;line-height:1.7;margin-bottom:36px;">
+          Sign in or create a free account to read this story and our entire safari journal.
+        </p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
+          <button onclick="openPostAuth('signup')" style="flex:1;min-width:140px;font-family:'Jost',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:18px 20px;background:linear-gradient(135deg,#f0c84a 0%,#d4af37 35%,#b8860b 70%,#c9921a 100%);color:#080808;border:none;cursor:pointer;box-shadow:0 2px 0 rgba(255,255,255,0.22) inset,0 -2px 0 rgba(0,0,0,0.35) inset,0 8px 28px rgba(212,175,55,0.3);transition:filter 0.2s,transform 0.2s;" onmouseover="this.style.filter='brightness(1.1)';this.style.transform='translateY(-2px)'" onmouseout="this.style.filter='';this.style.transform=''">Join Free</button>
+          <button onclick="openPostAuth('signin')" style="flex:1;min-width:120px;font-family:'Jost',sans-serif;font-size:10px;font-weight:600;letter-spacing:4px;text-transform:uppercase;padding:18px 20px;background:transparent;color:#d4af37;border:1.5px solid #d4af37;cursor:pointer;transition:background 0.25s,transform 0.2s;" onmouseover="this.style.background='rgba(212,175,55,0.09)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='transparent';this.style.transform=''">Sign In</button>
+        </div>
+        <a href="../blog.html" style="display:block;text-align:center;font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:rgba(138,128,116,0.6);text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'">← Back to Journal</a>
+      </div>
+    </div>
+  </div>`;
+  document.body.insertAdjacentHTML('beforeend', gateHTML);
+}
+
+function openPostAuth(tab) {
+  const existing = document.getElementById('postAuthModal');
+  if (existing) existing.remove();
+  const isSignUp = tab === 'signup';
+  const html = `
+  <div id="postAuthModal" style="position:fixed;inset:0;z-index:99995;background:rgba(2,2,2,0.95);backdrop-filter:blur(28px);display:flex;align-items:center;justify-content:center;padding:20px;" onclick="if(event.target===this)document.getElementById('postAuthModal').remove()">
+    <div style="background:#0a0a0a;border:1px solid rgba(212,175,55,0.28);max-width:480px;width:100%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 40px 120px rgba(0,0,0,0.98);scrollbar-width:thin;scrollbar-color:rgba(212,175,55,0.3) transparent;">
+      <div style="height:2px;background:linear-gradient(to right,transparent,#d4af37 30%,#f0c84a 50%,#d4af37 70%,transparent);"></div>
+      <button onclick="document.getElementById('postAuthModal').remove()" style="position:absolute;top:14px;right:16px;background:none;border:1px solid rgba(212,175,55,0.2);color:rgba(138,128,116,0.8);font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:8px 16px;cursor:pointer;" onmouseover="this.style.color='#d4af37';this.style.borderColor='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.8)';this.style.borderColor='rgba(212,175,55,0.2)'">Close</button>
+      <div style="padding:48px 44px 44px;">
+        <span style="font-family:'Jost',sans-serif;font-size:8px;letter-spacing:6px;text-transform:uppercase;color:rgba(212,175,55,0.6);display:block;margin-bottom:10px;">Filmax Jambo Tours</span>
+        <h2 id="postModalTitle" style="font-family:'Playfair Display',serif;font-size:28px;font-weight:900;line-height:1.1;color:#f0ece4;margin-bottom:8px;">${isSignUp?'Join the<br><em style="color:#d4af37;font-weight:400;">Journey</em>':'Welcome<br><em style="color:#d4af37;font-weight:400;">Back</em>'}</h2>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:#8a8074;margin-bottom:28px;line-height:1.6;">${isSignUp?'Create a free account to read all safari stories.':'Sign in to continue reading.'}</p>
+        <div style="display:flex;gap:0;margin-bottom:28px;border-bottom:1px solid rgba(212,175,55,0.12);">
+          <button id="pTabSI" onclick="switchPostTab('signin')" style="font-family:'Jost',sans-serif;font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:${!isSignUp?'#d4af37':'rgba(138,128,116,0.8)'};background:none;border:none;border-bottom:2px solid ${!isSignUp?'#d4af37':'transparent'};padding:11px 24px 11px 0;cursor:pointer;margin-bottom:-1px;">Sign In</button>
+          <button id="pTabSU" onclick="switchPostTab('signup')" style="font-family:'Jost',sans-serif;font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:${isSignUp?'#d4af37':'rgba(138,128,116,0.8)'};background:none;border:none;border-bottom:2px solid ${isSignUp?'#d4af37':'transparent'};padding:11px 24px 11px 0;cursor:pointer;margin-bottom:-1px;">Create Account</button>
+        </div>
+        <div id="pErr" style="display:none;background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.3);color:#e07070;font-family:'Jost',sans-serif;font-size:11px;padding:12px 16px;margin-bottom:14px;"></div>
+        <div id="pOk"  style="display:none;background:rgba(123,181,110,0.1);border:1px solid rgba(123,181,110,0.3);color:#7bb56e;font-family:'Jost',sans-serif;font-size:11px;padding:12px 16px;margin-bottom:14px;text-align:center;"></div>
+        <div id="pPanelSI" style="display:${!isSignUp?'block':'none'}">
+          <input id="pSIEmail" type="email" placeholder="EMAIL ADDRESS" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:13px 0;margin-bottom:14px;outline:none;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.18)'">
+          <input id="pSIPass" type="password" placeholder="PASSWORD" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:13px 0;margin-bottom:22px;outline:none;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.18)'" onkeydown="if(event.key==='Enter')postSignIn()">
+          <button onclick="postSignIn()" id="pSIBtn" style="width:100%;font-family:'Jost',sans-serif;font-size:11px;font-weight:700;letter-spacing:5px;text-transform:uppercase;padding:19px;background:linear-gradient(135deg,#f0c84a 0%,#d4af37 35%,#b8860b 70%,#c9921a 100%);color:#080808;border:none;cursor:pointer;box-shadow:0 2px 0 rgba(255,255,255,0.22) inset,0 -2px 0 rgba(0,0,0,0.35) inset,0 8px 28px rgba(212,175,55,0.3);">Sign In to Read</button>
+          <p style="text-align:center;margin-top:16px;font-family:'Jost',sans-serif;font-size:11px;color:rgba(138,128,116,0.7);">No account? <button onclick="switchPostTab('signup')" style="background:none;border:none;color:#d4af37;font-size:11px;cursor:pointer;text-decoration:underline;">Create one free</button></p>
+        </div>
+        <div id="pPanelSU" style="display:${isSignUp?'block':'none'}">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 18px;">
+            <input id="pSUFirst" type="text" placeholder="FIRST NAME" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:13px 0;margin-bottom:14px;outline:none;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.18)'">
+            <input id="pSULast" type="text" placeholder="LAST NAME" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:13px 0;margin-bottom:14px;outline:none;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.18)'">
+          </div>
+          <input id="pSUEmail" type="email" placeholder="EMAIL ADDRESS" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:13px 0;margin-bottom:14px;outline:none;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.18)'">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 18px;">
+            <input id="pSUPass" type="password" placeholder="PASSWORD (MIN 8)" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:13px 0;margin-bottom:22px;outline:none;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.18)'">
+            <input id="pSUConf" type="password" placeholder="CONFIRM" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:13px 0;margin-bottom:22px;outline:none;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.18)'">
+          </div>
+          <button onclick="postSignUp()" id="pSUBtn" style="width:100%;font-family:'Jost',sans-serif;font-size:11px;font-weight:700;letter-spacing:5px;text-transform:uppercase;padding:19px;background:linear-gradient(135deg,#f0c84a 0%,#d4af37 35%,#b8860b 70%,#c9921a 100%);color:#080808;border:none;cursor:pointer;box-shadow:0 2px 0 rgba(255,255,255,0.22) inset,0 -2px 0 rgba(0,0,0,0.35) inset,0 8px 28px rgba(212,175,55,0.3);">Create Free Account</button>
+          <p style="text-align:center;margin-top:16px;font-family:'Jost',sans-serif;font-size:11px;color:rgba(138,128,116,0.7);">Already have an account? <button onclick="switchPostTab('signin')" style="background:none;border:none;color:#d4af37;font-size:11px;cursor:pointer;text-decoration:underline;">Sign in</button></p>
+        </div>
+      </div>
+    </div>
+  </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function switchPostTab(tab) {
+  const si = document.getElementById('pPanelSI');
+  const su = document.getElementById('pPanelSU');
+  const tSI = document.getElementById('pTabSI');
+  const tSU = document.getElementById('pTabSU');
+  const title = document.getElementById('postModalTitle');
+  const gold = '#d4af37', dim = 'rgba(138,128,116,0.8)';
+  if (tab === 'signin') {
+    if(si) si.style.display='block'; if(su) su.style.display='none';
+    if(tSI){tSI.style.color=gold;tSI.style.borderBottomColor=gold;} if(tSU){tSU.style.color=dim;tSU.style.borderBottomColor='transparent';}
+    if(title) title.innerHTML='Welcome<br><em style="color:#d4af37;font-weight:400;">Back</em>';
+  } else {
+    if(si) si.style.display='none'; if(su) su.style.display='block';
+    if(tSU){tSU.style.color=gold;tSU.style.borderBottomColor=gold;} if(tSI){tSI.style.color=dim;tSI.style.borderBottomColor='transparent';}
+    if(title) title.innerHTML='Join the<br><em style="color:#d4af37;font-weight:400;">Journey</em>';
+  }
+  ['pErr','pOk'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+}
+
+async function postSignIn() {
+  const email = document.getElementById('pSIEmail')?.value.trim();
+  const pass  = document.getElementById('pSIPass')?.value;
+  const err = document.getElementById('pErr'); const ok = document.getElementById('pOk');
+  const btn = document.getElementById('pSIBtn');
+  if (!email||!pass){if(err){err.textContent='Please enter email and password.';err.style.display='block';}return;}
+  if(btn)btn.textContent='Signing in…';
+  try {
+    const {error} = await supa.auth.signInWithPassword({email,password:pass});
+    if(error)throw error;
+    if(ok){ok.textContent='Signed in! Loading article…';ok.style.display='block';}
+    if(err)err.style.display='none';
+    setTimeout(()=>{
+      document.getElementById('postAuthModal')?.remove();
+      document.getElementById('postAuthGate')?.remove();
+      const b=document.getElementById('postBody'); const h=document.getElementById('postHero');
+      if(b){b.style.filter='';b.style.pointerEvents='';b.style.userSelect='';}
+      if(h)h.style.filter='';
+    },900);
+  } catch(e){if(err){err.textContent=e.message||'Sign in failed.';err.style.display='block';}if(ok)ok.style.display='none';}
+  if(btn)btn.textContent='Sign In to Read';
+}
+
+async function postSignUp() {
+  const firstName=document.getElementById('pSUFirst')?.value.trim();
+  const lastName=document.getElementById('pSULast')?.value.trim();
+  const email=document.getElementById('pSUEmail')?.value.trim();
+  const pass=document.getElementById('pSUPass')?.value;
+  const conf=document.getElementById('pSUConf')?.value;
+  const err=document.getElementById('pErr'); const ok=document.getElementById('pOk');
+  const btn=document.getElementById('pSUBtn');
+  if(!firstName||!lastName){if(err){err.textContent='Please enter your name.';err.style.display='block';}return;}
+  if(!email){if(err){err.textContent='Please enter your email.';err.style.display='block';}return;}
+  if(!pass||pass.length<8){if(err){err.textContent='Password must be at least 8 characters.';err.style.display='block';}return;}
+  if(pass!==conf){if(err){err.textContent='Passwords do not match.';err.style.display='block';}return;}
+  if(btn)btn.textContent='Creating account…';
+  try {
+    const {data,error}=await supa.auth.signUp({email,password:pass,options:{data:{first_name:firstName,last_name:lastName}}});
+    if(error)throw error;
+    if(data?.user?.identities?.length===0){if(err){err.textContent='Account already exists. Please sign in.';err.style.display='block';}}
+    else{if(ok){ok.textContent='Account created! Please confirm your email, then sign in.';ok.style.display='block';}if(err)err.style.display='none';}
+  } catch(e){if(err){err.textContent=e.message||'Registration failed.';err.style.display='block';}}
+  if(btn)btn.textContent='Create Free Account';
+}
+
+// ── END AUTH GATE ──
+
 // Cursor
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
