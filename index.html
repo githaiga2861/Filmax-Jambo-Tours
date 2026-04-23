@@ -6355,7 +6355,15 @@ body.light-mode .pkg-cta:hover {
     letter-spacing: 4px;
     text-transform: uppercase;
     color: #080808;
-    background: linear-gradient(135deg, #d4af37, #b8860b);
+    background: linear-gradient(135deg, #f0c84a 0%, #d4af37 35%, #b8860b 65%, #c9921a 100%);
+    color: #1a0e00;
+    box-shadow:
+      0 2px 0 rgba(255,255,255,0.25) inset,
+      0 -2px 0 rgba(0,0,0,0.35) inset,
+      0 4px 16px rgba(212,175,55,0.4),
+      0 1px 3px rgba(0,0,0,0.5);
+    font-weight: 500;
+    transition: box-shadow 0.3s, filter 0.3s;
     padding: 18px 52px;
     text-decoration: none;
     cursor: none;
@@ -6365,7 +6373,6 @@ body.light-mode .pkg-cta:hover {
     align-items: center;
     gap: 16px;
     transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 8px 32px rgba(212,175,55,0.25);
     animation: pulseViewAll 3s ease-in-out infinite 2s;
   }
 
