@@ -2502,7 +2502,7 @@ nav.scrolled .nav-brand-idle {
     letter-spacing: 4px;
     text-transform: uppercase;
     padding: 18px 44px;
-    background: linear-gradient(135deg, #f0c84a 0%, #d4af37 35%, #b8860b 65%, #c9921a 100%);
+    background: linear-gradient(135deg, #f0c84a 0%, #d4af37 35%, #b8860b 65%, #c9921a 100%);;
     box-shadow:
       0 2px 0 rgba(255,255,255,0.25) inset,
       0 -2px 0 rgba(0,0,0,0.35) inset,
@@ -3995,7 +3995,12 @@ nav.scrolled .nav-brand-idle {
   letter-spacing: 4px;
   text-transform: uppercase;
   color: #080808;
-  background: linear-gradient(135deg, #d4af37, #b8860b);
+  background: linear-gradient(135deg, #f0c84a 0%, #d4af37 35%, #b8860b 65%, #c9921a 100%);
+    box-shadow:
+      0 2px 0 rgba(255,255,255,0.25) inset,
+      0 -2px 0 rgba(0,0,0,0.35) inset,
+      0 4px 16px rgba(212,175,55,0.4),
+      0 1px 3px rgba(0,0,0,0.5);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -4004,7 +4009,7 @@ nav.scrolled .nav-brand-idle {
   padding: 18px 52px;
   position: relative;
   overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
   box-shadow: 0 8px 32px rgba(212,175,55,0.25);
   animation: pulseViewAll 3s ease-in-out infinite 2s;
 }
@@ -4955,14 +4960,14 @@ nav.scrolled .nav-brand-idle {
   letter-spacing: 4px;
   text-transform: uppercase;
   padding: 16px 40px;
-  background: linear-gradient(135deg, var(--gold), var(--amber));
+  background: linear-gradient(135deg, #f0c84a 0%, #d4af37 35%, #b8860b 65%, #c9921a 100%);
   color: #080808;
   border: none;
   cursor: none;
   position: relative;
   overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
-  opacity: 0.75;
+  opacity: 0.95;
   pointer-events: none;
 }
 
@@ -6573,7 +6578,14 @@ body.light-mode .pkg-cta:hover {
   </div>
 
     <div id="testimonialFormLocked" class="testimonial-form-locked">
-      <button onclick="fjAuth.open('signin')" style="font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;padding:18px 44px;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;border:none;cursor:none;position:relative;overflow:hidden;transition:transform 0.3s,box-shadow 0.3s;box-shadow:0 8px 32px rgba(212,175,55,0.25);display:inline-block;animation:pulseViewAll 3s ease-in-out infinite 2s;">Sign In to Leave a Review</button>
+      <button onclick="fjAuth.open('signin')" style="font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;padding:18px 44px;background: linear-gradient(135deg, #f0c84a 0%, #d4af37 35%, #b8860b 65%, #c9921a 100%);
+    color: #1a0e00;
+    box-shadow:
+      0 2px 0 rgba(255,255,255,0.25) inset,
+      0 -2px 0 rgba(0,0,0,0.35) inset,
+      0 4px 16px rgba(212,175,55,0.4),
+      0 1px 3px rgba(0,0,0,0.5);
+    border:none;cursor:none;position:relative;overflow:hidden;transition:filter 0.3s,transform 0.3s,box-shadow 0.3s;box-shadow:0 8px 32px rgba(212,175,55,0.25);display:inline-block;animation:pulseViewAll 3s ease-in-out infinite 2s;">Sign In to Leave a Review</button>
     </div>
 
     <div id="testimonialFormOpen" style="display:none;max-width:600px;">
