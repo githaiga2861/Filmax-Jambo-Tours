@@ -5747,34 +5747,67 @@ body.light-mode .pkg-cta:hover {
   </div>
 </div>
 <div style="display:flex;align-items:center;gap:16px;position:relative;z-index:110;">
-  <div id="authNavCubeWrap" style="perspective:600px;cursor:none;" onclick="">
-    <div id="authNavCube" style="position:relative;width:auto;height:38px;transform-style:preserve-3d;transition:transform 0.55s cubic-bezier(0.76,0,0.24,1);">
-      <!-- Front face: Sign In -->
-      <button class="auth-btn-nav" id="authNavBtn" data-face="signin"
-        style="position:relative;backface-visibility:hidden;display:flex;align-items:center;gap:8px;transform:rotateX(0deg);">
+  <style>
+    .auth-cube-wrap {
+      position: relative;
+      height: 38px;
+      perspective: 500px;
+      cursor: none;
+    }
+    .auth-cube-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+    .auth-cube-wrap:not(.signed-in):hover .auth-cube-inner {
+      transform: rotateX(-180deg);
+    }
+    .auth-cube-face {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Jost', sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: none;
+      border: 1px solid rgba(212,175,55,0.3);
+      padding: 9px 20px;
+      cursor: none;
+      white-space: nowrap;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .auth-cube-face:hover { background: var(--gold-dim); border-color: var(--gold); }
+    .auth-cube-face-back {
+      transform: rotateX(180deg);
+    }
+    .auth-cube-wrap.signed-in .auth-cube-face-front { border-color: rgba(212,175,55,0.5); }
+    body.light-mode .auth-cube-face { color: #9a6f00; border-color: rgba(154,111,0,0.35); }
+  </style>
+  <div class="auth-cube-wrap" id="authCubeWrap">
+    <div class="auth-cube-inner" id="authNavCube">
+      <button class="auth-cube-face auth-cube-face-front" id="authNavBtn"
+        onclick="if(window._fjCurrentUser){document.getElementById('userMenu').classList.toggle('open')}else{fjAuth.open('signin')}">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.1"/><path d="M1.5 12.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
         <span id="authNavLabel">Sign In</span>
       </button>
-      <!-- Back face: Sign Up (hidden, revealed on hover) -->
-      <button class="auth-btn-nav" id="authNavBtnBack" data-face="signup"
-        style="position:absolute;top:0;left:0;width:100%;backface-visibility:hidden;display:flex;align-items:center;gap:8px;transform:rotateX(180deg);opacity:0;pointer-events:none;white-space:nowrap;">
+      <button class="auth-cube-face auth-cube-face-back" id="authNavBtnBack"
+        onclick="fjAuth.open('signup')">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
         <span>Sign Up</span>
       </button>
     </div>
   </div>
-  <style>
-    #authNavCubeWrap:hover #authNavCube:not(.is-signed-in) {
-      transform: rotateX(180deg);
-    }
-    #authNavCubeWrap:hover #authNavBtnBack {
-      opacity: 1;
-      pointer-events: all;
-    }
-    #authNavCubeWrap:hover #authNavBtn:not(.signed-in) {
-      pointer-events: none;
-    }
-  </style>
   <div id="userMenu" style="position:absolute;top:calc(100% + 10px);right:0;background:rgba(12,12,12,0.97);border:1px solid rgba(212,175,55,0.2);min-width:200px;z-index:200;backdrop-filter:blur(20px);opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity 0.3s,transform 0.3s;">
     <div id="userMenuName" style="padding:14px 20px 10px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#d4af37;border-bottom:1px solid rgba(212,175,55,0.1);">Welcome</div>
     <a href="#contact" class="user-menu-item" onclick="document.getElementById('userMenu').classList.remove('open')">My Bookings</a>
@@ -7177,7 +7210,7 @@ body.light-mode .pkg-cta:hover {
 </footer>
 
 <!-- AUTH MODAL -->
-<div class="auth-overlay" id="authOverlay" style="position:fixed;inset:0;z-index:99990;background:rgba(4,4,4,0.92);backdrop-filter:blur(22px);display:none;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity 0.45s ease;">
+<div class="auth-overlay" id="authOverlay" style="position:fixed;inset:0;z-index:99990;background:rgba(4,4,4,0.92);backdrop-filter:blur(22px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity 0.45s ease;">
   <div id="authModal" style="background:#0f0f0f;border:1px solid rgba(212,175,55,0.22);max-width:540px;width:100%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 40px 120px rgba(0,0,0,0.95),inset 0 1px 0 rgba(212,175,55,0.08);transform:translateY(28px) scale(0.97);transition:transform 0.5s cubic-bezier(0.22,1,0.36,1);scrollbar-width:thin;scrollbar-color:rgba(212,175,55,0.3) transparent;">
     <div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(to right,transparent,#d4af37,transparent);"></div>
     <button id="authModalClose" style="position:absolute;top:16px;right:20px;z-index:5;background:none;border:1px solid rgba(212,175,55,0.22);color:#8a8074;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:8px 16px;cursor:none;transition:color 0.3s,border-color 0.3s;">Close</button>
@@ -8956,9 +8989,9 @@ const fjAuth = (function () {
     const ov = getOverlay();
     const mo = getModal();
     if (!ov || !mo) return;
-    ov.style.opacity = '0';
-    ov.style.pointerEvents = 'all';
+    mo.style.transform = 'translateY(28px) scale(0.97)';
     ov.style.display = 'flex';
+    ov.style.pointerEvents = 'all';
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         ov.style.opacity = '1';
@@ -8975,11 +9008,8 @@ const fjAuth = (function () {
     const mo = getModal();
     if (!ov) return;
     ov.style.opacity = '0';
+    ov.style.pointerEvents = 'none';
     if (mo) mo.style.transform = 'translateY(28px) scale(0.97)';
-    setTimeout(() => {
-      ov.style.display = 'none';
-      ov.style.pointerEvents = 'none';
-    }, 450);
     document.body.style.overflow = '';
     clearMessages();
   }
@@ -9080,31 +9110,25 @@ const fjAuth = (function () {
 
   function updateNav(user) {
     currentUser = user;
-    const btn     = document.getElementById('authNavBtn');
-    const label   = document.getElementById('authNavLabel');
-    const cube    = document.getElementById('authNavCube');
-    const backBtn = document.getElementById('authNavBtnBack');
-    const locked  = document.getElementById('testimonialFormLocked');
-    const openFrm = document.getElementById('testimonialFormOpen');
+    window._fjCurrentUser = user;
+    const btn      = document.getElementById('authNavBtn');
+    const label    = document.getElementById('authNavLabel');
+    const cubeWrap = document.getElementById('authCubeWrap');
+    const locked   = document.getElementById('testimonialFormLocked');
+    const openFrm  = document.getElementById('testimonialFormOpen');
     if (!btn) return;
     if (user) {
       const m = user.user_metadata || {};
       const name = m.first_name || user.email.split('@')[0];
       if (label) label.textContent = name;
-      btn.style.borderColor = 'rgba(212,175,55,0.5)';
-      btn.classList.add('signed-in');
-      if (cube)    cube.classList.add('is-signed-in');
-      if (backBtn) { backBtn.style.display = 'none'; }
+      if (cubeWrap) cubeWrap.classList.add('signed-in');
       const menuName = document.getElementById('userMenuName');
-      if (menuName) menuName.textContent = (m.first_name || '') + ' ' + (m.last_name || '');
+      if (menuName) menuName.textContent = ((m.first_name || '') + ' ' + (m.last_name || '')).trim();
       if (locked)  locked.style.display  = 'none';
       if (openFrm) openFrm.style.display = '';
     } else {
       if (label) label.textContent = 'Sign In';
-      btn.style.borderColor = 'rgba(212,175,55,0.3)';
-      btn.classList.remove('signed-in');
-      if (cube)    cube.classList.remove('is-signed-in');
-      if (backBtn) { backBtn.style.display = ''; }
+      if (cubeWrap) cubeWrap.classList.remove('signed-in');
       if (locked)  locked.style.display  = '';
       if (openFrm) openFrm.style.display = 'none';
     }
@@ -9137,25 +9161,21 @@ const fjAuth = (function () {
     const overlay = document.getElementById('authOverlay');
     if (overlay) overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
 
-    // Nav cube buttons
-    const navBtn     = document.getElementById('authNavBtn');
-    const navBtnBack = document.getElementById('authNavBtnBack');
-    const cubeWrap   = document.getElementById('authNavCubeWrap');
-    if (navBtn) {
-      navBtn.addEventListener('click', () => {
-        if (currentUser) {
-          const menu = document.getElementById('userMenu');
-          if (menu) menu.classList.toggle('open');
-        } else {
-          open('signin');
-        }
-      });
-    }
-    if (navBtnBack) {
-      navBtnBack.addEventListener('click', () => { open('signup'); });
-    }
-    // When signed in, disable the cube flip effect
-    const origUpdateNav = updateNav;
+    // Sign out
+    const soBtn2 = document.getElementById('userMenuSignOut');
+    if (soBtn2) soBtn2.addEventListener('click', async () => {
+      document.getElementById('userMenu')?.classList.remove('open');
+      await supa.auth.signOut();
+      updateNav(null);
+    });
+    // Close user menu on outside click
+    document.addEventListener('click', e => {
+      const menu = document.getElementById('userMenu');
+      const wrap = document.getElementById('authCubeWrap');
+      if (menu && wrap && !menu.contains(e.target) && !wrap.contains(e.target)) {
+        menu.classList.remove('open');
+      }
+    });
 
     // Sign out
     const soBtn = document.getElementById('userMenuSignOut');
@@ -9241,241 +9261,7 @@ const fjAuth = (function () {
 
 window.openAuth = fjAuth.open;
 
-  // Auth handled above by fjAuth
-  // closeAuth duplicate removed
-    document.body.style.overflow = '';
-    clearMessages();
-  }
-
-  function switchTab(tab) {
-    document.querySelectorAll('.auth-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
-    document.getElementById('formSignin').style.display  = tab === 'signin'  ? '' : 'none';
-    document.getElementById('formSignup').style.display  = tab === 'signup'  ? '' : 'none';
-    clearMessages();
-  }
-  window.switchTab = switchTab;
-
-  function showError(msg) {
-    const el = document.getElementById('authError');
-    el.textContent = msg; el.classList.add('visible');
-    document.getElementById('authSuccess').classList.remove('visible');
-  }
-  function showSuccess(msg) {
-    const el = document.getElementById('authSuccess');
-    el.textContent = msg; el.classList.add('visible');
-    document.getElementById('authError').classList.remove('visible');
-  }
-  function clearMessages() {
-    document.getElementById('authError').classList.remove('visible');
-    document.getElementById('authSuccess').classList.remove('visible');
-  }
-
-  function updateNavState(user) {
-    currentUser = user;
-    const btn   = document.getElementById('authNavBtn');
-    const label = document.getElementById('authNavLabel');
-    const locked = document.getElementById('testimonialFormLocked');
-    const open   = document.getElementById('testimonialFormOpen');
-    if (user) {
-      label.textContent = user.user_metadata?.first_name || user.email.split('@')[0];
-      btn.classList.add('signed-in');
-      document.getElementById('userMenuName').textContent = (user.user_metadata?.first_name || '') + ' ' + (user.user_metadata?.last_name || '');
-      if (locked) locked.style.display = 'none';
-      if (open)   open.style.display   = '';
-    } else {
-      label.textContent = 'Sign In';
-      btn.classList.remove('signed-in');
-      if (locked) locked.style.display = '';
-      if (open)   open.style.display   = 'none';
-    }
-  }
-
-  // ── Init: check existing session ──
-  (async () => {
-    try {
-      const { data } = await supa.auth.getSession();
-      if (data?.session?.user) updateNavState(data.session.user);
-    } catch(e) {}
-  })();
-
-  supa.auth.onAuthStateChange((event, session) => {
-    updateNavState(session?.user || null);
-  });
-
-  // ── Nav button ──
-  document.getElementById('authNavBtn').addEventListener('click', () => {
-    if (currentUser) {
-      document.getElementById('userMenu').classList.toggle('open');
-    } else {
-      openAuth('signin');
-    }
-  });
-  document.addEventListener('click', e => {
-    const menu = document.getElementById('userMenu');
-    const btn  = document.getElementById('authNavBtn');
-    if (menu && !menu.contains(e.target) && !btn.contains(e.target)) {
-      menu.classList.remove('open');
-    }
-  });
-
-  // ── Modal close ──
-  document.getElementById('authModalClose').addEventListener('click', closeAuth);
-  document.getElementById('authOverlay').addEventListener('click', e => {
-    if (e.target === document.getElementById('authOverlay')) closeAuth();
-  });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAuth(); });
-
-  // ── Auth tabs ──
-  document.querySelectorAll('.auth-tab').forEach(tab => {
-    tab.addEventListener('click', () => switchTab(tab.dataset.tab));
-  });
-
-  // ── Sign In ──
-  document.getElementById('siSubmit').addEventListener('click', async () => {
-    const email = document.getElementById('siEmail').value.trim();
-    const pass  = document.getElementById('siPassword').value;
-    if (!email || !pass) { showError('Please enter your email and password.'); return; }
-    document.getElementById('siSubmit').textContent = 'Signing In…';
-    try {
-      const { data, error } = await supa.auth.signInWithPassword({ email, password: pass });
-      if (error) throw error;
-      showSuccess('Welcome back! Signing you in…');
-      setTimeout(closeAuth, 1200);
-    } catch(e) {
-      showError(e.message || 'Sign in failed. Please check your details.');
-    }
-    document.getElementById('siSubmit').textContent = 'Sign In to Your Account';
-  });
-
-  // ── Sign Up ──
-  document.getElementById('suSubmit').addEventListener('click', async () => {
-    const firstName = document.getElementById('suFirstName').value.trim();
-    const lastName  = document.getElementById('suLastName').value.trim();
-    const email     = document.getElementById('suEmail').value.trim();
-    const phone     = document.getElementById('suPhone').value.trim();
-    const pass      = document.getElementById('suPassword').value;
-    const passConf  = document.getElementById('suPasswordConf').value;
-    if (!firstName || !lastName || !email || !pass) { showError('Please fill in all required fields.'); return; }
-    if (pass.length < 8) { showError('Password must be at least 8 characters.'); return; }
-    if (pass !== passConf) { showError('Passwords do not match.'); return; }
-
-    const meta = {
-      first_name: firstName, last_name: lastName,
-      phone, nationality: document.getElementById('suNationality').value,
-      budget: document.getElementById('suBudget').value,
-      travel_style: document.getElementById('suGroup').value,
-      primary_interest: document.getElementById('suInterest').value,
-      planned_date: document.getElementById('suPlannedDate').value,
-      emergency_name: document.getElementById('suEmergName').value,
-      emergency_phone: document.getElementById('suEmergPhone').value,
-      how_heard: document.getElementById('suHowHeard').value
-    };
-
-    document.getElementById('suSubmit').textContent = 'Creating Account…';
-    try {
-      const { data, error } = await supa.auth.signUp({ email, password: pass, options: { data: meta } });
-      if (error) throw error;
-      showSuccess('Account created! Please check your email to confirm, then sign in.');
-      document.getElementById('suSubmit').textContent = 'Create My Account';
-    } catch(e) {
-      showError(e.message || 'Sign up failed. Please try again.');
-      document.getElementById('suSubmit').textContent = 'Create My Account';
-    }
-  });
-
-  // ── Sign Out ──
-  document.getElementById('userMenuSignOut').addEventListener('click', async () => {
-    document.getElementById('userMenu').classList.remove('open');
-    await supa.auth.signOut();
-    updateNavState(null);
-  });
-
-  // ── Profile ──
-  document.getElementById('userMenuProfile').addEventListener('click', () => {
-    document.getElementById('userMenu').classList.remove('open');
-    openAuth('signup');
-    document.querySelector('[data-tab="signup"]').textContent = 'My Profile';
-  });
-
-  // ── Auto-fill contact form ──
-  function autoFillContact() {
-    if (!currentUser) return;
-    const m = currentUser.user_metadata || {};
-    const nameField = document.querySelector('#contact input[type="text"]');
-    const emailField = document.querySelector('#contact input[type="email"]');
-    const phoneField = document.querySelector('#contact input[type="tel"]');
-    if (nameField && !nameField.value) nameField.value = (m.first_name || '') + ' ' + (m.last_name || '');
-    if (emailField && !emailField.value) emailField.value = currentUser.email || '';
-    if (phoneField && !phoneField.value) phoneField.value = m.phone || '';
-  }
-  document.querySelector('#contact')?.addEventListener('focusin', autoFillContact);
-
-  // ── Star rating ──
-  document.querySelectorAll('.star-btn').forEach(star => {
-    star.addEventListener('click', () => {
-      selectedStars = parseInt(star.dataset.val);
-      document.querySelectorAll('.star-btn').forEach((s, i) => {
-        s.style.opacity = i < selectedStars ? '1' : '0.3';
-        s.style.color = i < selectedStars ? '#d4af37' : '';
-      });
-    });
-    star.addEventListener('mouseenter', () => {
-      const val = parseInt(star.dataset.val);
-      document.querySelectorAll('.star-btn').forEach((s, i) => {
-        s.style.opacity = i < val ? '0.8' : '0.25';
-      });
-    });
-    star.addEventListener('mouseleave', () => {
-      document.querySelectorAll('.star-btn').forEach((s, i) => {
-        s.style.opacity = i < selectedStars ? '1' : '0.35';
-        s.style.color = i < selectedStars ? '#d4af37' : '';
-      });
-    });
-  });
-
-  // ── Submit testimonial ──
-  const testimonialSubmitBtn = document.getElementById('testimonialSubmitBtn');
-  if (testimonialSubmitBtn) {
-    testimonialSubmitBtn.addEventListener('click', async () => {
-      if (!currentUser) { openAuth(); return; }
-      const text = document.getElementById('testimonialText').value.trim();
-      if (!text || text.length < 20) {
-        const msg = document.getElementById('testimonialFormMsg');
-        msg.style.display = 'block';
-        msg.style.cssText = 'display:block;background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.3);color:#e05555;font-size:12px;padding:12px 16px;margin-bottom:12px;';
-        msg.textContent = 'Please write at least 20 characters.';
-        return;
-      }
-      testimonialSubmitBtn.textContent = 'Submitting…';
-      const m = currentUser.user_metadata || {};
-      try {
-        const { error } = await supa.from('testimonials_pending').insert({
-          user_id:    currentUser.id,
-          author_name: (m.first_name || '') + ' ' + (m.last_name || ''),
-          author_loc:  m.nationality || '',
-          text,
-          rating: selectedStars || 5,
-          status: 'pending',
-          created_at: new Date().toISOString()
-        });
-        if (error) throw error;
-        const msg = document.getElementById('testimonialFormMsg');
-        msg.style.display = 'block';
-        msg.style.cssText = 'display:block;background:rgba(123,181,110,0.1);border:1px solid rgba(123,181,110,0.3);color:#7bb56e;font-size:12px;padding:12px 16px;margin-bottom:12px;';
-        msg.textContent = 'Thank you! Your review has been submitted and will be published after approval.';
-        document.getElementById('testimonialText').value = '';
-        selectedStars = 0;
-        document.querySelectorAll('.star-btn').forEach(s => { s.style.opacity = '0.35'; s.style.color = ''; });
-      } catch(e) {
-        const msg = document.getElementById('testimonialFormMsg');
-        msg.style.display = 'block';
-        msg.style.cssText = 'display:block;background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.3);color:#e05555;font-size:12px;padding:12px 16px;margin-bottom:12px;';
-        msg.textContent = 'Submission failed. Please try again.';
-      }
-      testimonialSubmitBtn.textContent = 'Submit for Review';
-    });
-  }
-})();
+  // Duplicate auth IIFE removed — all auth handled by fjAuth above
 
 // TEAM MEMBER POPUP
 (function () {
