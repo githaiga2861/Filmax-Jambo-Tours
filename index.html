@@ -930,14 +930,7 @@ body.light-mode .hc-bg {
 
   /* Highlight card text — always light on the browned image */
   body.light-mode .highlight-card .card-number {
-    background: linear-gradient(
-      160deg,
-      #c9a84c 0%,
-      #f5e199 48%,
-      #ffffff 60%,
-      #f5e199 82%,
-      #c9a84c 100%
-    ) !important;
+    background: var(--gold);
     -webkit-background-clip: text !important;
     background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
@@ -1334,16 +1327,7 @@ body.light-mode .pkg-filter-btn.active {
   }
 
   body.light-mode .card-number {
-    background: linear-gradient(
-      160deg,
-      #6b4f00 0%,
-      #b8860b 48%,
-      #e8c84a 68%,
-      #fff8dc 75%,
-      #e8c84a 85%,
-      #b8860b 95%,
-      #6b4f00 100%
-    );
+    background: linear-gradient(var(--gold););
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -2683,21 +2667,11 @@ nav.scrolled .nav-brand-idle {
     position: relative;
     z-index: 2;
     -webkit-text-stroke: 0px transparent;
-    background: linear-gradient(
-      160deg,
-      #8a6e2f 0%,
-      #c9a84c 28%,
-      #f5e199 48%,
-      #fffdf0 50%,
-      #f5e199 52%,
-      #c9a84c 72%,
-      #8a6e2f 100%
-    );
+    background: (var(--gold); );
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     background-size: 100% 100%;
-    animation: cardNumFlash 5s ease-in-out infinite;
     transition: opacity 0.4s ease;
   }
 
@@ -5882,7 +5856,7 @@ body.light-mode .pkg-cta:hover {
   <!-- Signed-in chip (hidden until logged in) -->
   <button class="auth-user-chip" id="authUserChip"
     onclick="document.getElementById('userMenu').classList.toggle('open')">
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.1"/><path d="M1.5 12.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+    <svg width="28" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.1"/><path d="M1.5 12.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
     <span id="authNavLabel">My Account</span>
   </button>
   <!-- Flip faces (shown when logged out) -->
@@ -5895,7 +5869,7 @@ body.light-mode .pkg-cta:hover {
     <button class="auth-flip-face auth-flip-signup" id="authNavBtnBack"
       onclick="fjAuth.open('signup')">
       <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-      Join Free
+      Sign Up
     </button>
   </div>
 </div>
@@ -6577,7 +6551,6 @@ body.light-mode .pkg-cta:hover {
   </div>
 
     <div id="testimonialFormLocked" class="testimonial-form-locked">
-      <p>Leave a review and inspire future adventurers.</p>
       <button onclick="fjAuth.open('signin')" style="font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;padding:18px 44px;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;border:none;cursor:none;position:relative;overflow:hidden;transition:transform 0.3s,box-shadow 0.3s;box-shadow:0 8px 32px rgba(212,175,55,0.25);display:inline-block;animation:pulseViewAll 3s ease-in-out infinite 2s;">Sign In to Leave a Review</button>
     </div>
 
