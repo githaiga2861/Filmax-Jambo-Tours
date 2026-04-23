@@ -5748,66 +5748,157 @@ body.light-mode .pkg-cta:hover {
 </div>
 <div style="display:flex;align-items:center;gap:16px;position:relative;z-index:110;">
   <style>
-    .auth-cube-wrap {
-      position: relative;
-      height: 38px;
-      perspective: 500px;
-      cursor: none;
-    }
-    .auth-cube-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
-    }
-    .auth-cube-wrap:not(.signed-in):hover .auth-cube-inner {
-      transform: rotateX(-180deg);
-    }
-    .auth-cube-face {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'Jost', sans-serif;
-      font-size: 9px;
-      font-weight: 500;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--gold);
-      background: none;
-      border: 1px solid rgba(212,175,55,0.3);
-      padding: 9px 20px;
-      cursor: none;
-      white-space: nowrap;
-      transition: background 0.3s, border-color 0.3s;
-    }
-    .auth-cube-face:hover { background: var(--gold-dim); border-color: var(--gold); }
-    .auth-cube-face-back {
-      transform: rotateX(180deg);
-    }
-    .auth-cube-wrap.signed-in .auth-cube-face-front { border-color: rgba(212,175,55,0.5); }
-    body.light-mode .auth-cube-face { color: #9a6f00; border-color: rgba(154,111,0,0.35); }
-  </style>
-  <div class="auth-cube-wrap" id="authCubeWrap">
-    <div class="auth-cube-inner" id="authNavCube">
-      <button class="auth-cube-face auth-cube-face-front" id="authNavBtn"
-        onclick="if(window._fjCurrentUser){document.getElementById('userMenu').classList.toggle('open')}else{fjAuth.open('signin')}">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.1"/><path d="M1.5 12.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
-        <span id="authNavLabel">Sign In</span>
-      </button>
-      <button class="auth-cube-face auth-cube-face-back" id="authNavBtnBack"
-        onclick="fjAuth.open('signup')">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
-        <span>Sign Up</span>
-      </button>
-    </div>
+  /* ── GOLDEN AUTH FLIP BUTTON ── */
+  .auth-flip-wrap {
+    position: relative;
+    height: 40px;
+    perspective: 600px;
+    cursor: none;
+    flex-shrink: 0;
+  }
+  .auth-flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.65s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+  .auth-flip-inner.flipped {
+    transform: rotateX(-180deg);
+  }
+  .auth-flip-face {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    cursor: none;
+    white-space: nowrap;
+    padding: 0 22px;
+    border: none;
+    position: absolute;
+  }
+  /* FRONT = Sign In (gold outline ghost) */
+  .auth-flip-signin {
+    background: transparent;
+    color: var(--gold);
+    border: 1.5px solid var(--gold);
+    box-shadow: 0 0 12px rgba(212,175,55,0.18), inset 0 0 8px rgba(212,175,55,0.04);
+    transition: box-shadow 0.3s, background 0.3s;
+  }
+  .auth-flip-signin:hover {
+    background: rgba(212,175,55,0.08);
+    box-shadow: 0 0 20px rgba(212,175,55,0.35), inset 0 0 12px rgba(212,175,55,0.08);
+  }
+  /* BACK = Sign Up (solid gold metallic) */
+  .auth-flip-signup {
+    background: linear-gradient(135deg, #f0c84a 0%, #d4af37 35%, #b8860b 65%, #c9921a 100%);
+    color: #1a0e00;
+    box-shadow:
+      0 2px 0 rgba(255,255,255,0.25) inset,
+      0 -2px 0 rgba(0,0,0,0.35) inset,
+      0 4px 16px rgba(212,175,55,0.4),
+      0 1px 3px rgba(0,0,0,0.5);
+    transform: rotateX(180deg);
+    font-weight: 700;
+    transition: box-shadow 0.3s, filter 0.3s;
+  }
+  .auth-flip-signup:hover {
+    filter: brightness(1.12) saturate(1.15);
+    box-shadow:
+      0 2px 0 rgba(255,255,255,0.3) inset,
+      0 -2px 0 rgba(0,0,0,0.4) inset,
+      0 8px 28px rgba(212,175,55,0.55),
+      0 2px 6px rgba(0,0,0,0.5);
+  }
+  /* Signed-in state — user name chip */
+  .auth-flip-wrap.signed-in .auth-flip-inner {
+    transform: none !important;
+    animation: none !important;
+  }
+  .auth-user-chip {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(212,175,55,0.08);
+    border: 1px solid rgba(212,175,55,0.35);
+    padding: 0 16px;
+    height: 40px;
+    cursor: none;
+    transition: background 0.3s;
+    position: relative;
+    z-index: 2;
+  }
+  .auth-user-chip:hover { background: rgba(212,175,55,0.14); }
+  .auth-flip-wrap.signed-in .auth-user-chip { display: flex; }
+  .auth-flip-wrap.signed-in .auth-flip-inner { display: none; }
+
+  body.light-mode .auth-flip-signin {
+    color: #9a6f00;
+    border-color: #9a6f00;
+    box-shadow: 0 0 10px rgba(154,111,0,0.15);
+  }
+  body.light-mode .auth-flip-signin:hover {
+    background: rgba(154,111,0,0.07);
+    box-shadow: 0 0 18px rgba(154,111,0,0.28);
+  }
+  body.light-mode .auth-user-chip {
+    color: #9a6f00;
+    border-color: rgba(154,111,0,0.4);
+    background: rgba(154,111,0,0.07);
+  }
+
+  /* Flip animation for auto-cycling */
+  @keyframes authAutoFlip {
+    0%, 45%   { transform: rotateX(0deg); }
+    50%, 95%  { transform: rotateX(-180deg); }
+    100%      { transform: rotateX(0deg); }
+  }
+  .auth-flip-inner.auto-cycling {
+    animation: authAutoFlip 12s ease-in-out infinite;
+  }
+  .auth-flip-inner.auto-cycling:hover {
+    animation-play-state: paused;
+  }
+</style>
+
+<div class="auth-flip-wrap" id="authFlipWrap">
+  <!-- Signed-in chip (hidden until logged in) -->
+  <button class="auth-user-chip" id="authUserChip"
+    onclick="document.getElementById('userMenu').classList.toggle('open')">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.1"/><path d="M1.5 12.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+    <span id="authNavLabel">My Account</span>
+  </button>
+  <!-- Flip faces (shown when logged out) -->
+  <div class="auth-flip-inner auto-cycling" id="authFlipInner">
+    <button class="auth-flip-face auth-flip-signin" id="authNavBtn"
+      onclick="fjAuth.open('signin')">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.5 12.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      Sign In
+    </button>
+    <button class="auth-flip-face auth-flip-signup" id="authNavBtnBack"
+      onclick="fjAuth.open('signup')">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      Join Free
+    </button>
   </div>
+</div>
   <div id="userMenu" style="position:absolute;top:calc(100% + 10px);right:0;background:rgba(12,12,12,0.97);border:1px solid rgba(212,175,55,0.2);min-width:200px;z-index:200;backdrop-filter:blur(20px);opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity 0.3s,transform 0.3s;">
     <div id="userMenuName" style="padding:14px 20px 10px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#d4af37;border-bottom:1px solid rgba(212,175,55,0.1);">Welcome</div>
     <a href="#contact" class="user-menu-item" onclick="document.getElementById('userMenu').classList.remove('open')">My Bookings</a>
@@ -5830,6 +5921,15 @@ body.light-mode .pkg-cta:hover {
   <a href="#gallery" class="dropdown-link">Gallery</a>
   <a href="#blog" class="dropdown-link">Journal</a>
   <a href="#contact" class="dropdown-link">Contact</a>
+  <button class="dropdown-link" id="dropdownAuthBtn"
+    onclick="if(window._fjCurrentUser){document.getElementById('userMenu').classList.toggle('open');document.getElementById('menuBtn').classList.remove('open');document.getElementById('dropdown').classList.remove('open');}else{fjAuth.open('signin');document.getElementById('menuBtn').classList.remove('open');document.getElementById('dropdown').classList.remove('open');}"
+    style="background:none;border:none;text-align:left;width:100%;cursor:none;font-family:'Playfair Display',serif;font-size:32px;font-weight:500;color:var(--gold);display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+    <svg width="18" height="18" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;">
+      <circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.1"/>
+      <path d="M1.5 12.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+    </svg>
+    <span id="dropdownAuthLabel">Sign In</span>
+  </button>
   <a href="admin.html" class="dropdown-link" style="font-size:13px;letter-spacing:4px;color:var(--muted);border-top:1px solid var(--border);margin-top:12px;padding-top:20px;display:flex;align-items:center;gap:12px;" target="_blank" rel="noopener">
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;opacity:0.7;">
       <circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.1"/>
@@ -7209,60 +7309,295 @@ body.light-mode .pkg-cta:hover {
   </div>
 </footer>
 
-<!-- AUTH MODAL -->
-<div class="auth-overlay" id="authOverlay" style="position:fixed;inset:0;z-index:99990;background:rgba(4,4,4,0.92);backdrop-filter:blur(22px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity 0.45s ease;">
-  <div id="authModal" style="background:#0f0f0f;border:1px solid rgba(212,175,55,0.22);max-width:540px;width:100%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 40px 120px rgba(0,0,0,0.95),inset 0 1px 0 rgba(212,175,55,0.08);transform:translateY(28px) scale(0.97);transition:transform 0.5s cubic-bezier(0.22,1,0.36,1);scrollbar-width:thin;scrollbar-color:rgba(212,175,55,0.3) transparent;">
-    <div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(to right,transparent,#d4af37,transparent);"></div>
-    <button id="authModalClose" style="position:absolute;top:16px;right:20px;z-index:5;background:none;border:1px solid rgba(212,175,55,0.22);color:#8a8074;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:8px 16px;cursor:none;transition:color 0.3s,border-color 0.3s;">Close</button>
-    <div style="padding:52px 44px 44px;">
-      <span style="font-size:9px;letter-spacing:5px;text-transform:uppercase;color:#d4af37;display:block;margin-bottom:14px;">Filmax Jambo Tours</span>
-      <h2 id="authModalTitle" style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#f0ece4;margin-bottom:6px;line-height:1.2;">Welcome</h2>
-      <p id="authModalSub" style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:#8a8074;margin-bottom:28px;line-height:1.6;">Sign in or create an account to manage your safari journey.</p>
+<!-- AUTH MODAL — REDESIGNED -->
+<style>
+  /* ── AUTH MODAL REDESIGN ── */
+  #authOverlay {
+    position: fixed; inset: 0; z-index: 99990;
+    background: rgba(2,2,2,0.94);
+    backdrop-filter: blur(28px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.45s ease;
+  }
+  #authOverlay.open { opacity: 1; pointer-events: all; }
 
-      <!-- TABS -->
-      <div style="display:flex;gap:0;margin-bottom:28px;border-bottom:1px solid rgba(212,175,55,0.12);">
-        <button id="tabSignin" onclick="fjAuth.switchTab('signin')" style="font-family:'Jost',sans-serif;font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#d4af37;background:none;border:none;border-bottom:2px solid #d4af37;padding:10px 24px 10px 0;cursor:none;margin-bottom:-1px;transition:color 0.3s;">Sign In</button>
-        <button id="tabSignup" onclick="fjAuth.switchTab('signup')" style="font-family:'Jost',sans-serif;font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#8a8074;background:none;border:none;border-bottom:2px solid transparent;padding:10px 24px 10px 0;cursor:none;margin-bottom:-1px;transition:color 0.3s,border-color 0.3s;">Create Account</button>
+  #authModal {
+    background: #0a0a0a;
+    border: 1px solid rgba(212,175,55,0.25);
+    max-width: 560px; width: 100%;
+    max-height: 92vh; overflow-y: auto;
+    position: relative;
+    box-shadow: 0 0 0 1px rgba(212,175,55,0.06),
+                0 40px 120px rgba(0,0,0,0.98),
+                inset 0 1px 0 rgba(212,175,55,0.1);
+    transform: translateY(32px) scale(0.96);
+    transition: transform 0.55s cubic-bezier(0.22,1,0.36,1);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(212,175,55,0.3) transparent;
+  }
+  #authModal::-webkit-scrollbar { width: 3px; }
+  #authModal::-webkit-scrollbar-thumb { background: rgba(212,175,55,0.3); }
+  #authOverlay.open #authModal { transform: translateY(0) scale(1); }
+
+  .auth-modal-gold-line {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent 0%, #d4af37 30%, #f0c84a 50%, #d4af37 70%, transparent 100%);
+  }
+
+  #authModalClose {
+    position: absolute; top: 16px; right: 18px; z-index: 10;
+    background: none;
+    border: 1px solid rgba(212,175,55,0.2);
+    color: rgba(138,128,116,0.8);
+    font-family: 'Jost', sans-serif;
+    font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+    padding: 8px 16px; cursor: none;
+    transition: color 0.3s, border-color 0.3s, background 0.3s;
+  }
+  #authModalClose:hover { color: var(--gold); border-color: var(--gold); background: rgba(212,175,55,0.06); }
+
+  .auth-modal-inner { padding: 52px 48px 48px; }
+
+  .auth-modal-eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-size: 8px; letter-spacing: 6px; text-transform: uppercase;
+    color: rgba(212,175,55,0.6); display: block; margin-bottom: 10px;
+  }
+
+  .auth-modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 4vw, 34px); font-weight: 900;
+    line-height: 1.1; color: #f0ece4; margin-bottom: 8px;
+  }
+  .auth-modal-title em { font-style: italic; color: var(--gold); font-weight: 400; }
+
+  .auth-modal-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px; font-style: italic;
+    color: rgba(138,128,116,0.9); margin-bottom: 36px; line-height: 1.6;
+  }
+
+  /* Tab switcher */
+  .auth-tabs-row {
+    display: flex; gap: 0; margin-bottom: 36px;
+    border-bottom: 1px solid rgba(212,175,55,0.12);
+  }
+  .auth-tab-btn {
+    font-family: 'Jost', sans-serif;
+    font-size: 9px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase;
+    color: rgba(138,128,116,0.8);
+    background: none; border: none;
+    border-bottom: 2px solid transparent;
+    padding: 12px 28px 12px 0;
+    cursor: none; margin-bottom: -1px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .auth-tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .auth-tab-btn:hover:not(.active) { color: #f0ece4; }
+
+  /* Messages */
+  .auth-msg {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px; letter-spacing: 1px; line-height: 1.6;
+    padding: 13px 18px; margin-bottom: 18px; display: none;
+  }
+  .auth-msg.error { background: rgba(224,85,85,0.1); border: 1px solid rgba(224,85,85,0.35); color: #e07070; }
+  .auth-msg.success { background: rgba(123,181,110,0.1); border: 1px solid rgba(123,181,110,0.35); color: #7bb56e; text-align: center; }
+  .auth-msg.visible { display: block; }
+
+  /* Fields */
+  .auth-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+  .auth-section-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 8px; letter-spacing: 5px; text-transform: uppercase;
+    color: rgba(212,175,55,0.55); display: block; margin: 24px 0 14px;
+  }
+  .auth-section-label:first-child { margin-top: 0; }
+  .auth-input {
+    width: 100%; background: transparent;
+    border: none; border-bottom: 1px solid rgba(212,175,55,0.18);
+    color: #f0ece4;
+    font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 400;
+    padding: 14px 0; margin-bottom: 16px;
+    outline: none; transition: border-color 0.3s;
+  }
+  .auth-input:focus { border-bottom-color: var(--gold); }
+  .auth-input::placeholder { color: rgba(138,128,116,0.5); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+  select.auth-input { appearance: none; -webkit-appearance: none; cursor: none; background: transparent; }
+  .auth-select-wrap { position: relative; }
+  .auth-select-wrap::after { content: '›'; position: absolute; right: 0; top: 14px; color: rgba(212,175,55,0.4); font-size: 16px; transform: rotate(90deg); pointer-events: none; }
+
+  /* Submit button — solid gold metallic */
+  .auth-submit-btn {
+    width: 100%; text-align: center;
+    font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 5px; text-transform: uppercase;
+    padding: 20px;
+    background: linear-gradient(135deg, #f0c84a 0%, #d4af37 35%, #b8860b 70%, #c9921a 100%);
+    color: #080808; border: none; cursor: none;
+    position: relative; overflow: hidden;
+    box-shadow:
+      0 2px 0 rgba(255,255,255,0.22) inset,
+      0 -2px 0 rgba(0,0,0,0.35) inset,
+      0 8px 32px rgba(212,175,55,0.35);
+    transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+    margin-top: 8px;
+  }
+  .auth-submit-btn::before {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(255,255,255,0.18);
+    transform: translateX(-100%) skewX(-15deg);
+    transition: transform 0.5s;
+  }
+  .auth-submit-btn:hover::before { transform: translateX(200%) skewX(-15deg); }
+  .auth-submit-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1) saturate(1.1);
+    box-shadow:
+      0 2px 0 rgba(255,255,255,0.28) inset,
+      0 -2px 0 rgba(0,0,0,0.4) inset,
+      0 16px 48px rgba(212,175,55,0.55);
+  }
+
+  .auth-alt-link {
+    text-align: center; margin-top: 20px;
+    font-family: 'Jost', sans-serif; font-size: 11px;
+    color: rgba(138,128,116,0.7); letter-spacing: 1px;
+  }
+  .auth-alt-link button {
+    background: none; border: none;
+    color: var(--gold); font-family: 'Jost', sans-serif;
+    font-size: 11px; letter-spacing: 1px;
+    cursor: none; text-decoration: underline; padding: 0;
+    transition: color 0.3s;
+  }
+  .auth-alt-link button:hover { color: var(--gold-light); }
+
+  /* Light mode */
+  body.light-mode #authModal {
+    background: #f4f0e8;
+    border-color: rgba(154,111,0,0.3);
+    box-shadow: 0 40px 120px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.6);
+  }
+  body.light-mode .auth-modal-title { color: #0a0a0a; }
+  body.light-mode .auth-modal-sub { color: #5e5040; }
+  body.light-mode .auth-modal-eyebrow { color: rgba(154,111,0,0.7); }
+  body.light-mode .auth-tab-btn { color: #5e5040; }
+  body.light-mode .auth-tab-btn.active { color: #9a6f00; border-bottom-color: #9a6f00; }
+  body.light-mode .auth-input { color: #0a0a0a; border-bottom-color: rgba(154,111,0,0.25); }
+  body.light-mode .auth-input::placeholder { color: rgba(94,80,64,0.55); }
+  body.light-mode select.auth-input { background: transparent; color: #5e5040; }
+  body.light-mode .auth-section-label { color: rgba(154,111,0,0.65); }
+  body.light-mode #authModalClose { color: #5e5040; border-color: rgba(154,111,0,0.25); }
+  body.light-mode #authModalClose:hover { color: #9a6f00; border-color: #9a6f00; }
+  body.light-mode .auth-alt-link { color: #5e5040; }
+  body.light-mode .auth-overlay { background: rgba(200,196,188,0.88); }
+</style>
+
+<div id="authOverlay">
+  <div id="authModal">
+    <div class="auth-modal-gold-line"></div>
+    <button id="authModalClose">Close</button>
+
+    <div class="auth-modal-inner">
+      <span class="auth-modal-eyebrow">Filmax Jambo Tours</span>
+      <h2 class="auth-modal-title" id="authModalTitle">Welcome<br><em>Back</em></h2>
+      <p class="auth-modal-sub" id="authModalSub">Sign in to your account or create one to unlock your safari journey.</p>
+
+      <div class="auth-tabs-row">
+        <button class="auth-tab-btn active" id="tabSignin" onclick="fjAuth.switchTab('signin')">Sign In</button>
+        <button class="auth-tab-btn" id="tabSignup" onclick="fjAuth.switchTab('signup')">Create Account</button>
       </div>
 
-      <div id="authMsgError" style="display:none;background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.3);color:#e05555;font-size:12px;letter-spacing:1px;padding:12px 16px;margin-bottom:16px;"></div>
-      <div id="authMsgSuccess" style="display:none;background:rgba(123,181,110,0.1);border:1px solid rgba(123,181,110,0.3);color:#7bb56e;font-size:12px;letter-spacing:1px;padding:12px 16px;margin-bottom:16px;text-align:center;"></div>
+      <div id="authMsgError" class="auth-msg error"></div>
+      <div id="authMsgSuccess" class="auth-msg success"></div>
 
-      <!-- SIGN IN -->
+      <!-- SIGN IN PANEL -->
       <div id="authPanelSignin">
-        <input id="siEmail" type="email" placeholder="Email Address" autocomplete="email" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
-        <input id="siPassword" type="password" placeholder="Password" autocomplete="current-password" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:24px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
-        <button id="siSubmitBtn" onclick="fjAuth.signIn()" style="width:100%;text-align:center;font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;padding:18px;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;border:none;cursor:none;position:relative;overflow:hidden;transition:transform 0.3s,box-shadow 0.3s;">Sign In to Your Account</button>
-        <p style="text-align:center;margin-top:18px;font-size:11px;color:#8a8074;font-family:'Jost',sans-serif;letter-spacing:1px;">No account? <button onclick="fjAuth.switchTab('signup')" style="background:none;border:none;color:#d4af37;font-family:'Jost',sans-serif;font-size:11px;cursor:none;text-decoration:underline;padding:0;">Create one free</button></p>
+        <span class="auth-section-label">Your Credentials</span>
+        <input id="siEmail" class="auth-input" type="email" placeholder="Email Address" autocomplete="email"
+          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+        <input id="siPassword" class="auth-input" type="password" placeholder="Password" autocomplete="current-password"
+          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+        <button class="auth-submit-btn" id="siSubmitBtn" onclick="fjAuth.signIn()">
+          Sign In to Your Account
+        </button>
+        <p class="auth-alt-link">No account? <button onclick="fjAuth.switchTab('signup')">Create one free</button></p>
       </div>
 
-      <!-- SIGN UP -->
+      <!-- SIGN UP PANEL -->
       <div id="authPanelSignup" style="display:none;">
-        <p style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#d4af37;margin:0 0 14px;opacity:0.75;">Personal Details</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 20px;">
-          <input id="suFirstName" type="text" placeholder="First Name" autocomplete="given-name" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
-          <input id="suLastName" type="text" placeholder="Last Name" autocomplete="family-name" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
+        <span class="auth-section-label">Personal Details</span>
+        <div class="auth-field-row">
+          <input id="suFirstName" class="auth-input" type="text" placeholder="First Name" autocomplete="given-name"
+            onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+          <input id="suLastName" class="auth-input" type="text" placeholder="Last Name" autocomplete="family-name"
+            onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
         </div>
-        <input id="suEmail" type="email" placeholder="Email Address" autocomplete="email" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
-        <input id="suPhone" type="tel" placeholder="Phone / WhatsApp Number" autocomplete="tel" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 20px;">
-          <input id="suPassword" type="password" placeholder="Password (min 8 chars)" autocomplete="new-password" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
-          <input id="suPassConf" type="password" placeholder="Confirm Password" autocomplete="new-password" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
+        <input id="suEmail" class="auth-input" type="email" placeholder="Email Address" autocomplete="email"
+          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+        <input id="suPhone" class="auth-input" type="tel" placeholder="Phone / WhatsApp Number" autocomplete="tel"
+          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+        <div class="auth-field-row">
+          <input id="suPassword" class="auth-input" type="password" placeholder="Password (min 8 chars)" autocomplete="new-password"
+            onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+          <input id="suPassConf" class="auth-input" type="password" placeholder="Confirm Password" autocomplete="new-password"
+            onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
         </div>
-        <p style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#d4af37;margin:8px 0 14px;opacity:0.75;">Safari Preferences</p>
-        <input id="suNationality" type="text" placeholder="Country of Residence" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
-        <select id="suBudget" style="width:100%;background:#0f0f0f;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#8a8074;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;appearance:none;-webkit-appearance:none;cursor:none;"><option value="">Budget Range</option><option value="budget">Budget — Under $2,500</option><option value="mid-range">Mid-Range — $2,500–$5,000</option><option value="luxury">Luxury — $5,000–$12,000</option><option value="ultra">Ultra — $12,000+</option></select>
-        <select id="suStyle" style="width:100%;background:#0f0f0f;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#8a8074;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;appearance:none;-webkit-appearance:none;cursor:none;"><option value="">Travel Style</option><option value="solo">Solo Traveller</option><option value="couple">Couple</option><option value="family">Family with Children</option><option value="small-group">Small Group (3–6)</option><option value="corporate">Corporate / Event</option></select>
-        <select id="suInterest" style="width:100%;background:#0f0f0f;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#8a8074;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;appearance:none;-webkit-appearance:none;cursor:none;"><option value="">Primary Safari Interest</option><option value="wildlife">Wildlife & Big Five</option><option value="beach">Beach & Coast</option><option value="photography">Photography</option><option value="culture">Culture & Community</option><option value="adventure">Adventure & Hiking</option><option value="birding">Birding</option></select>
-        <input id="suTravelDate" type="text" placeholder="Approximate Travel Date (e.g. July 2026)" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
-        <p style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#d4af37;margin:8px 0 14px;opacity:0.75;">Emergency Contact</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 20px;">
-          <input id="suEmergName" type="text" placeholder="Emergency Contact Name" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
-          <input id="suEmergPhone" type="tel" placeholder="Emergency Contact Phone" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
+
+        <span class="auth-section-label">Safari Preferences</span>
+        <input id="suNationality" class="auth-input" type="text" placeholder="Country of Residence"
+          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+        <div class="auth-select-wrap">
+          <select id="suBudget" class="auth-input">
+            <option value="">Budget Range</option>
+            <option value="budget">Budget — Under $2,500</option>
+            <option value="mid-range">Mid-Range — $2,500–$5,000</option>
+            <option value="luxury">Luxury — $5,000–$12,000</option>
+            <option value="ultra">Ultra — $12,000+</option>
+          </select>
         </div>
-        <input id="suHowHeard" type="text" placeholder="How did you hear about us?" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:24px;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'">
-        <button id="suSubmitBtn" onclick="fjAuth.signUp()" style="width:100%;text-align:center;font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;padding:18px;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;border:none;cursor:none;position:relative;overflow:hidden;transition:transform 0.3s,box-shadow 0.3s;">Create My Account</button>
-        <p style="text-align:center;margin-top:18px;font-size:11px;color:#8a8074;font-family:'Jost',sans-serif;letter-spacing:1px;">Already have an account? <button onclick="fjAuth.switchTab('signin')" style="background:none;border:none;color:#d4af37;font-family:'Jost',sans-serif;font-size:11px;cursor:none;text-decoration:underline;padding:0;">Sign in</button></p>
+        <div class="auth-select-wrap">
+          <select id="suStyle" class="auth-input">
+            <option value="">Travel Style</option>
+            <option value="solo">Solo Traveller</option>
+            <option value="couple">Couple</option>
+            <option value="family">Family with Children</option>
+            <option value="small-group">Small Group (3–6)</option>
+            <option value="corporate">Corporate / Event</option>
+          </select>
+        </div>
+        <div class="auth-select-wrap">
+          <select id="suInterest" class="auth-input">
+            <option value="">Primary Safari Interest</option>
+            <option value="wildlife">Wildlife & Big Five</option>
+            <option value="beach">Beach & Coast</option>
+            <option value="photography">Photography</option>
+            <option value="culture">Culture & Community</option>
+            <option value="adventure">Adventure & Hiking</option>
+            <option value="birding">Birding</option>
+          </select>
+        </div>
+        <input id="suTravelDate" class="auth-input" type="text" placeholder="Approximate Travel Date (e.g. July 2026)"
+          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+
+        <span class="auth-section-label">Emergency Contact</span>
+        <div class="auth-field-row">
+          <input id="suEmergName" class="auth-input" type="text" placeholder="Contact Name"
+            onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+          <input id="suEmergPhone" class="auth-input" type="tel" placeholder="Contact Phone"
+            onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+        </div>
+        <input id="suHowHeard" class="auth-input" type="text" placeholder="How did you hear about us?"
+          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+
+        <button class="auth-submit-btn" id="suSubmitBtn" onclick="fjAuth.signUp()">
+          Create My Safari Account
+        </button>
+        <p class="auth-alt-link">Already have an account? <button onclick="fjAuth.switchTab('signin')">Sign in</button></p>
       </div>
     </div>
   </div>
@@ -8977,99 +9312,114 @@ function updateSlides() {
 })();
 </script>
 <script>  
-// AUTH SYSTEM
+// AUTH SYSTEM — REDESIGNED & FULLY FUNCTIONAL
 const fjAuth = (function () {
   let currentUser = null;
   let selectedStars = 0;
 
-  function getOverlay()  { return document.getElementById('authOverlay'); }
-  function getModal()    { return document.getElementById('authModal'); }
-
+  // ── Open / Close ──
   function open(tab) {
-    const ov = getOverlay();
-    const mo = getModal();
+    const ov = document.getElementById('authOverlay');
+    const mo = document.getElementById('authModal');
     if (!ov || !mo) return;
-    mo.style.transform = 'translateY(28px) scale(0.97)';
     ov.style.display = 'flex';
-    ov.style.pointerEvents = 'all';
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        ov.style.opacity = '1';
-        mo.style.transform = 'translateY(0) scale(1)';
-      });
-    });
     document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => requestAnimationFrame(() => ov.classList.add('open')));
     if (tab) switchTab(tab);
     clearMessages();
+
+    // Update title/sub based on tab
+    const title = document.getElementById('authModalTitle');
+    const sub   = document.getElementById('authModalSub');
+    if (tab === 'signup' && title) {
+      title.innerHTML = 'Join the<br><em>Journey</em>';
+      if (sub) sub.textContent = 'Create your free account to unlock the full safari experience.';
+    } else if (title) {
+      title.innerHTML = 'Welcome<br><em>Back</em>';
+      if (sub) sub.textContent = 'Sign in to access your safari journey and saved preferences.';
+    }
   }
 
   function close() {
-    const ov = getOverlay();
-    const mo = getModal();
+    const ov = document.getElementById('authOverlay');
     if (!ov) return;
-    ov.style.opacity = '0';
-    ov.style.pointerEvents = 'none';
-    if (mo) mo.style.transform = 'translateY(28px) scale(0.97)';
+    ov.classList.remove('open');
     document.body.style.overflow = '';
     clearMessages();
+    setTimeout(() => { ov.style.display = 'none'; }, 460);
   }
 
   function switchTab(tab) {
-    const si = document.getElementById('authPanelSignin');
-    const su = document.getElementById('authPanelSignup');
+    const si  = document.getElementById('authPanelSignin');
+    const su  = document.getElementById('authPanelSignup');
     const tsi = document.getElementById('tabSignin');
     const tsu = document.getElementById('tabSignup');
     if (!si || !su) return;
+
     if (tab === 'signin') {
-      si.style.display = ''; su.style.display = 'none';
-      if (tsi) { tsi.style.color = '#d4af37'; tsi.style.borderBottomColor = '#d4af37'; }
-      if (tsu) { tsu.style.color = '#8a8074'; tsu.style.borderBottomColor = 'transparent'; }
+      si.style.display = '';
+      su.style.display = 'none';
+      tsi?.classList.add('active');
+      tsu?.classList.remove('active');
     } else {
-      si.style.display = 'none'; su.style.display = '';
-      if (tsu) { tsu.style.color = '#d4af37'; tsu.style.borderBottomColor = '#d4af37'; }
-      if (tsi) { tsi.style.color = '#8a8074'; tsi.style.borderBottomColor = 'transparent'; }
+      si.style.display = 'none';
+      su.style.display = '';
+      tsu?.classList.add('active');
+      tsi?.classList.remove('active');
     }
     clearMessages();
+
+    // Update modal title
+    const title = document.getElementById('authModalTitle');
+    const sub   = document.getElementById('authModalSub');
+    if (tab === 'signup') {
+      if (title) title.innerHTML = 'Join the<br><em>Journey</em>';
+      if (sub) sub.textContent = 'Create your free account to unlock the full safari experience.';
+    } else {
+      if (title) title.innerHTML = 'Welcome<br><em>Back</em>';
+      if (sub) sub.textContent = 'Sign in to access your safari journey and saved preferences.';
+    }
   }
 
   function showError(msg) {
     const el = document.getElementById('authMsgError');
-    if (!el) return;
-    el.textContent = msg; el.style.display = 'block';
-    document.getElementById('authMsgSuccess').style.display = 'none';
+    const ok = document.getElementById('authMsgSuccess');
+    if (el) { el.textContent = msg; el.classList.add('visible'); }
+    if (ok) ok.classList.remove('visible');
   }
   function showSuccess(msg) {
     const el = document.getElementById('authMsgSuccess');
-    if (!el) return;
-    el.textContent = msg; el.style.display = 'block';
-    document.getElementById('authMsgError').style.display = 'none';
+    const er = document.getElementById('authMsgError');
+    if (el) { el.textContent = msg; el.classList.add('visible'); }
+    if (er) er.classList.remove('visible');
   }
   function clearMessages() {
-    const e = document.getElementById('authMsgError');
-    const s = document.getElementById('authMsgSuccess');
-    if (e) e.style.display = 'none';
-    if (s) s.style.display = 'none';
+    document.getElementById('authMsgError')?.classList.remove('visible');
+    document.getElementById('authMsgSuccess')?.classList.remove('visible');
   }
 
   function v(id) { return (document.getElementById(id) || {}).value || ''; }
 
+  // ── Sign In ──
   async function signIn() {
     const email = v('siEmail').trim();
     const pass  = v('siPassword');
     if (!email || !pass) { showError('Please enter your email and password.'); return; }
     const btn = document.getElementById('siSubmitBtn');
-    if (btn) btn.textContent = 'Signing in…';
+    const orig = btn?.textContent;
+    if (btn) { btn.textContent = 'Signing in…'; btn.style.opacity = '0.8'; }
     try {
       const { data, error } = await supa.auth.signInWithPassword({ email, password: pass });
       if (error) throw error;
-      showSuccess('Welcome back! You are now signed in.');
-      setTimeout(close, 1400);
+      showSuccess('Welcome back! Signing you in…');
+      setTimeout(close, 1200);
     } catch(e) {
       showError(e.message || 'Sign in failed. Check your email and password.');
     }
-    if (btn) btn.textContent = 'Sign In to Your Account';
+    if (btn) { btn.textContent = orig; btn.style.opacity = '1'; }
   }
 
+  // ── Sign Up ──
   async function signUp() {
     const firstName = v('suFirstName').trim();
     const lastName  = v('suLastName').trim();
@@ -9077,11 +9427,14 @@ const fjAuth = (function () {
     const phone     = v('suPhone').trim();
     const pass      = v('suPassword');
     const passConf  = v('suPassConf');
-    if (!firstName || !lastName || !email || !pass) { showError('First name, last name, email and password are required.'); return; }
+    if (!firstName || !lastName) { showError('Please enter your first and last name.'); return; }
+    if (!email) { showError('Please enter your email address.'); return; }
+    if (!pass) { showError('Please create a password.'); return; }
     if (pass.length < 8) { showError('Password must be at least 8 characters.'); return; }
     if (pass !== passConf) { showError('Passwords do not match.'); return; }
     const btn = document.getElementById('suSubmitBtn');
-    if (btn) btn.textContent = 'Creating account…';
+    const orig = btn?.textContent;
+    if (btn) { btn.textContent = 'Creating account…'; btn.style.opacity = '0.8'; }
     try {
       const { data, error } = await supa.auth.signUp({
         email, password: pass,
@@ -9100,35 +9453,53 @@ const fjAuth = (function () {
       if (data?.user?.identities?.length === 0) {
         showError('An account with this email already exists. Please sign in.');
       } else {
-        showSuccess('Account created! Check your email to confirm your address, then sign in.');
+        showSuccess('Account created! Please check your email to confirm, then sign in.');
       }
     } catch(e) {
       showError(e.message || 'Registration failed. Please try again.');
     }
-    if (btn) btn.textContent = 'Create My Account';
+    if (btn) { btn.textContent = orig; btn.style.opacity = '1'; }
   }
 
+  // ── Update nav UI ──
   function updateNav(user) {
     currentUser = user;
     window._fjCurrentUser = user;
-    const btn      = document.getElementById('authNavBtn');
-    const label    = document.getElementById('authNavLabel');
-    const cubeWrap = document.getElementById('authCubeWrap');
-    const locked   = document.getElementById('testimonialFormLocked');
-    const openFrm  = document.getElementById('testimonialFormOpen');
-    if (!btn) return;
+
+    const flipWrap   = document.getElementById('authFlipWrap');
+    const userChip   = document.getElementById('authUserChip');
+    const navLabel   = document.getElementById('authNavLabel');
+    const menuName   = document.getElementById('userMenuName');
+    const userMenu   = document.getElementById('userMenu');
+    const locked     = document.getElementById('testimonialFormLocked');
+    const openFrm    = document.getElementById('testimonialFormOpen');
+    const dropLabel  = document.getElementById('dropdownAuthLabel');
+
     if (user) {
       const m = user.user_metadata || {};
-      const name = m.first_name || user.email.split('@')[0];
-      if (label) label.textContent = name;
-      if (cubeWrap) cubeWrap.classList.add('signed-in');
-      const menuName = document.getElementById('userMenuName');
-      if (menuName) menuName.textContent = ((m.first_name || '') + ' ' + (m.last_name || '')).trim();
+      const displayName = ((m.first_name || '') + ' ' + (m.last_name || '')).trim() || user.email.split('@')[0];
+      const firstName = m.first_name || displayName;
+
+      // Show chip, hide flip faces
+      if (flipWrap) flipWrap.classList.add('signed-in');
+      if (navLabel) navLabel.textContent = firstName;
+      if (menuName) menuName.textContent = displayName;
+      if (dropLabel) dropLabel.textContent = displayName;
+
+      // Show/hide testimonial form
       if (locked)  locked.style.display  = 'none';
       if (openFrm) openFrm.style.display = '';
+
+      // Populate user menu
+      if (userMenu) {
+        userMenu.style.opacity    = '';
+        userMenu.style.pointerEvents = '';
+        userMenu.style.transform  = '';
+      }
     } else {
-      if (label) label.textContent = 'Sign In';
-      if (cubeWrap) cubeWrap.classList.remove('signed-in');
+      if (flipWrap) flipWrap.classList.remove('signed-in');
+      if (navLabel) navLabel.textContent = 'My Account';
+      if (dropLabel) dropLabel.textContent = 'Sign In';
       if (locked)  locked.style.display  = '';
       if (openFrm) openFrm.style.display = 'none';
     }
@@ -9145,63 +9516,56 @@ const fjAuth = (function () {
     if (pf && !pf.value) pf.value = m.phone || '';
   }
 
-  // ── Init ──
+  // ── Init session ──
   (async () => {
     try {
       const { data } = await supa.auth.getSession();
       if (data?.session?.user) updateNav(data.session.user);
     } catch(e) {}
-    supa.auth.onAuthStateChange((event, session) => { updateNav(session?.user || null); });
+    supa.auth.onAuthStateChange((event, session) => {
+      updateNav(session?.user || null);
+    });
   })();
 
-  // ── Modal close events ──
+  // ── DOM events ──
   document.addEventListener('DOMContentLoaded', () => {
-    const closeBtn = document.getElementById('authModalClose');
-    if (closeBtn) closeBtn.addEventListener('click', close);
-    const overlay = document.getElementById('authOverlay');
-    if (overlay) overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+    // Modal close button
+    document.getElementById('authModalClose')?.addEventListener('click', close);
 
-    // Sign out
-    const soBtn2 = document.getElementById('userMenuSignOut');
-    if (soBtn2) soBtn2.addEventListener('click', async () => {
-      document.getElementById('userMenu')?.classList.remove('open');
-      await supa.auth.signOut();
-      updateNav(null);
-    });
-    // Close user menu on outside click
-    document.addEventListener('click', e => {
-      const menu = document.getElementById('userMenu');
-      const wrap = document.getElementById('authCubeWrap');
-      if (menu && wrap && !menu.contains(e.target) && !wrap.contains(e.target)) {
-        menu.classList.remove('open');
-      }
-    });
-
-    // Sign out
-    const soBtn = document.getElementById('userMenuSignOut');
-    if (soBtn) soBtn.addEventListener('click', async () => {
-      document.getElementById('userMenu')?.classList.remove('open');
-      await supa.auth.signOut();
-      updateNav(null);
-    });
-
-    // Close user menu on outside click
-    document.addEventListener('click', e => {
-      const menu = document.getElementById('userMenu');
-      const btn  = document.getElementById('authNavBtn');
-      if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
-        menu.classList.remove('open');
-      }
+    // Click outside modal to close
+    document.getElementById('authOverlay')?.addEventListener('click', e => {
+      if (e.target === document.getElementById('authOverlay')) close();
     });
 
     // Escape key
     document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 
-    // Auto-fill contact
-    const contactSection = document.querySelector('#contact');
-    if (contactSection) contactSection.addEventListener('focusin', autoFill);
+    // Sign out button in user menu
+    document.getElementById('userMenuSignOut')?.addEventListener('click', async () => {
+      document.getElementById('userMenu')?.classList.remove('open');
+      await supa.auth.signOut();
+      updateNav(null);
+    });
 
-    // Star rating
+    // Close user menu when clicking outside
+    document.addEventListener('click', e => {
+      const menu     = document.getElementById('userMenu');
+      const chip     = document.getElementById('authUserChip');
+      const flipWrap = document.getElementById('authFlipWrap');
+      if (menu && !menu.contains(e.target) && chip && !chip.contains(e.target) && flipWrap && !flipWrap.contains(e.target)) {
+        menu.classList.remove('open');
+      }
+    });
+
+    // Auto-fill contact form when user focuses it
+    document.querySelector('#contact')?.addEventListener('focusin', autoFill);
+
+    // Enter key to submit sign-in
+    document.getElementById('siPassword')?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') signIn();
+    });
+
+    // Star rating for testimonials
     document.querySelectorAll('.star-btn').forEach(star => {
       star.addEventListener('click', () => {
         selectedStars = parseInt(star.dataset.val);
@@ -9227,7 +9591,7 @@ const fjAuth = (function () {
     if (tBtn) {
       tBtn.addEventListener('click', async () => {
         if (!currentUser) { open('signin'); return; }
-        const text = (document.getElementById('testimonialText') || {}).value?.trim() || '';
+        const text = document.getElementById('testimonialText')?.value?.trim() || '';
         const msg  = document.getElementById('testimonialFormMsg');
         if (text.length < 20) {
           if (msg) { msg.style.cssText = 'display:block;background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.3);color:#e05555;font-size:12px;padding:12px 16px;margin-bottom:12px;'; msg.textContent = 'Please write at least 20 characters.'; }
