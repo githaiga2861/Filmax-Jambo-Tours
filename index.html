@@ -7504,7 +7504,7 @@ body.light-mode .pkg-cta:hover {
   body.light-mode .auth-overlay { background: rgba(200,196,188,0.88); }
 </style>
 
-<div id="authOverlay">
+<div id="authOverlay" style="display:none;">
   <div id="authModal">
     <div class="auth-modal-gold-line"></div>
     <button id="authModalClose">Close</button>
@@ -9327,11 +9327,14 @@ const fjAuth = (function () {
   // ── Open / Close ──
   function open(tab) {
     const ov = document.getElementById('authOverlay');
-    const mo = document.getElementById('authModal');
-    if (!ov || !mo) return;
+    if (!ov) return;
+
+    // Reset display first, then trigger transition on next frame
     ov.style.display = 'flex';
+    ov.style.opacity = '0';
+    ov.style.pointerEvents = 'none';
     document.body.style.overflow = 'hidden';
-    requestAnimationFrame(() => requestAnimationFrame(() => ov.classList.add('open')));
+
     if (tab) switchTab(tab);
     clearMessages();
 
@@ -9345,12 +9348,21 @@ const fjAuth = (function () {
       title.innerHTML = 'Welcome<br><em>Back</em>';
       if (sub) sub.textContent = 'Sign in to access your safari journey and saved preferences.';
     }
+
+    // Animate in
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        ov.style.opacity = '1';
+        ov.style.pointerEvents = 'all';
+      });
+    });
   }
 
   function close() {
     const ov = document.getElementById('authOverlay');
     if (!ov) return;
-    ov.classList.remove('open');
+    ov.style.opacity = '0';
+    ov.style.pointerEvents = 'none';
     document.body.style.overflow = '';
     clearMessages();
     setTimeout(() => { ov.style.display = 'none'; }, 460);
@@ -9364,19 +9376,18 @@ const fjAuth = (function () {
     if (!si || !su) return;
 
     if (tab === 'signin') {
-      si.style.display = '';
+      si.style.display = 'block';
       su.style.display = 'none';
-      tsi?.classList.add('active');
-      tsu?.classList.remove('active');
+      if (tsi) { tsi.classList.add('active'); tsi.style.color='#d4af37'; tsi.style.borderBottomColor='#d4af37'; }
+      if (tsu) { tsu.classList.remove('active'); tsu.style.color='rgba(138,128,116,0.8)'; tsu.style.borderBottomColor='transparent'; }
     } else {
       si.style.display = 'none';
-      su.style.display = '';
-      tsu?.classList.add('active');
-      tsi?.classList.remove('active');
+      su.style.display = 'block';
+      if (tsu) { tsu.classList.add('active'); tsu.style.color='#d4af37'; tsu.style.borderBottomColor='#d4af37'; }
+      if (tsi) { tsi.classList.remove('active'); tsi.style.color='rgba(138,128,116,0.8)'; tsi.style.borderBottomColor='transparent'; }
     }
     clearMessages();
 
-    // Update modal title
     const title = document.getElementById('authModalTitle');
     const sub   = document.getElementById('authModalSub');
     if (tab === 'signup') {
@@ -9391,18 +9402,20 @@ const fjAuth = (function () {
   function showError(msg) {
     const el = document.getElementById('authMsgError');
     const ok = document.getElementById('authMsgSuccess');
-    if (el) { el.textContent = msg; el.classList.add('visible'); }
-    if (ok) ok.classList.remove('visible');
+    if (el) { el.textContent = msg; el.style.display = 'block'; }
+    if (ok) ok.style.display = 'none';
   }
   function showSuccess(msg) {
     const el = document.getElementById('authMsgSuccess');
     const er = document.getElementById('authMsgError');
-    if (el) { el.textContent = msg; el.classList.add('visible'); }
-    if (er) er.classList.remove('visible');
+    if (el) { el.textContent = msg; el.style.display = 'block'; }
+    if (er) er.style.display = 'none';
   }
   function clearMessages() {
-    document.getElementById('authMsgError')?.classList.remove('visible');
-    document.getElementById('authMsgSuccess')?.classList.remove('visible');
+    const e = document.getElementById('authMsgError');
+    const s = document.getElementById('authMsgSuccess');
+    if (e) e.style.display = 'none';
+    if (s) s.style.display = 'none';
   }
 
   function v(id) { return (document.getElementById(id) || {}).value || ''; }
@@ -9540,8 +9553,8 @@ const fjAuth = (function () {
     document.getElementById('authModalClose')?.addEventListener('click', close);
 
     // Click outside modal to close
-    document.getElementById('authOverlay')?.addEventListener('click', e => {
-      if (e.target === document.getElementById('authOverlay')) close();
+    document.getElementById('authOverlay')?.addEventListener('click', function(e) {
+      if (e.target === this) close();
     });
 
     // Escape key
