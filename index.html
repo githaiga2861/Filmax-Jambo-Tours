@@ -1642,34 +1642,41 @@ body.light-mode .quiz-enter-btn:hover {
   }
   .team-popup-close {
     position: absolute; top: 16px; right: 20px; z-index: 5;
-    background: none; border: 1px solid rgba(212,175,55,0.25);
-    color: var(--muted); font-family: 'Jost', sans-serif;
-    font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
-    padding: 8px 16px; cursor: none;
-    transition: color 0.3s, border-color 0.3s;
+    background: rgba(8,8,8,0.7); border: 1px solid rgba(212,175,55,0.4);
+    color: var(--gold); font-family: 'Jost', sans-serif;
+    font-size: 9px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    padding: 10px 20px; cursor: none;
+    backdrop-filter: blur(8px);
+    transition: color 0.3s, border-color 0.3s, background 0.3s;
   }
-  .team-popup-close:hover { color: var(--gold); border-color: var(--gold); }
+  .team-popup-close:hover { background: rgba(212,175,55,0.15); border-color: var(--gold); color: #fff; }
   .team-popup-hero {
-    position: relative; height: 220px; overflow: hidden;
+    position: relative; height: 260px; overflow: hidden;
     background: var(--charcoal);
   }
-  .team-popup-hero img {
-    width: 100%; height: 100%; object-fit: cover; object-position: center top;
-    filter: brightness(0.7) saturate(0.85);
+  .team-popup-hero-wildlife {
+    width: 100%; height: 100%; object-fit: cover; object-position: center;
+    filter: brightness(0.6) saturate(0.75);
+    display: block;
+  }
+  .team-popup-hero img.team-popup-hero-wildlife {
+    width: 100%; height: 100%; object-fit: cover; object-position: center;
+    filter: brightness(0.6) saturate(0.75);
   }
   .team-popup-hero-overlay {
     position: absolute; inset: 0;
-    background: linear-gradient(to bottom, transparent 30%, rgba(8,8,8,0.92) 100%);
+    background: linear-gradient(to bottom, rgba(8,8,8,0.2) 0%, rgba(8,8,8,0.85) 100%);
   }
   .team-popup-avatar-wrap {
-    position: absolute; bottom: -36px; left: 40px;
-    width: 72px; height: 72px;
+    position: absolute; bottom: -48px; left: 50%; transform: translateX(-50%);
+    width: 96px; height: 96px;
     border-radius: 50%; overflow: hidden;
-    border: 2px solid var(--gold);
-    box-shadow: 0 0 24px rgba(212,175,55,0.35);
+    border: 3px solid var(--gold);
+    box-shadow: 0 0 0 4px rgba(212,175,55,0.2), 0 8px 32px rgba(0,0,0,0.6);
   }
-  .team-popup-avatar-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-  .team-popup-body { padding: 56px 40px 44px; }
+  .team-popup-avatar-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center top; border-radius: 50%; }
+  .team-popup-body { padding: 64px 40px 44px; text-align: center; }
+  .team-popup-divider { margin: 16px auto 20px; }
   .team-popup-role {
     font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
     color: var(--gold); display: block; margin-bottom: 6px;
@@ -5146,6 +5153,45 @@ nav.scrolled .nav-brand-idle {
   }
 }
 
+   /* ============================= */
+  /* UNIFORM PANEL DESIGN SYSTEM   */
+  /* ============================= */
+  .fj-panel-overlay {
+    position: fixed; inset: 0; z-index: 99985;
+    background: rgba(2,2,2,0.92);
+    backdrop-filter: blur(24px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  .fj-panel {
+    background: #0a0a0a;
+    border: 1px solid rgba(212,175,55,0.22);
+    max-width: 620px; width: 100%;
+    max-height: 92vh; overflow-y: auto;
+    position: relative;
+    box-shadow: 0 0 0 1px rgba(212,175,55,0.06), 0 40px 120px rgba(0,0,0,0.98);
+    scrollbar-width: thin; scrollbar-color: rgba(212,175,55,0.3) transparent;
+  }
+  .fj-panel::-webkit-scrollbar { width: 3px; }
+  .fj-panel::-webkit-scrollbar-thumb { background: rgba(212,175,55,0.3); }
+  .fj-panel-top-line {
+    position: absolute; top: 0; left: 10%; right: 10%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #d4af37, transparent);
+  }
+  .fj-panel-close {
+    position: absolute; top: 16px; right: 18px; z-index: 10;
+    background: rgba(8,8,8,0.7); border: 1px solid rgba(212,175,55,0.4);
+    color: var(--gold); font-family: 'Jost',sans-serif;
+    font-size: 9px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    padding: 10px 20px; cursor: none;
+    backdrop-filter: blur(8px);
+    transition: color 0.3s, border-color 0.3s, background 0.3s;
+  }
+  .fj-panel-close:hover { background: rgba(212,175,55,0.15); color: #fff; border-color: var(--gold); }
+  body.light-mode .fj-panel { background: #f4f0e8; border-color: rgba(154,111,0,0.3); }
+  body.light-mode .fj-panel-close { background: rgba(240,236,228,0.8); color: #9a6f00; border-color: rgba(154,111,0,0.4); } 
+
   /* ============================= */
 /* SHUTTER EFFECT                */
 /* ============================= */
@@ -5191,31 +5237,70 @@ nav.scrolled .nav-brand-idle {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 2.8s cubic-bezier(0.4, 0, 0.2, 1);
-  background-image: url('assets/landscape.jpg');
-  background-size: cover;
-  background-position: center 30%;
   isolation: isolate;
+  overflow: hidden;
+  background: #080808;
 }
 
+/* Zebra-stripe black texture */
 #loader::before {
   content: '';
   position: absolute;
-  inset: 0;
-  backdrop-filter: blur(18px) brightness(0.35) saturate(0.6);
-  -webkit-backdrop-filter: blur(18px) brightness(0.35) saturate(0.6);
-  background: linear-gradient(
-    to bottom,
-    rgba(8, 8, 8, 0.75) 0%,
-    rgba(12, 8, 2, 0.55) 40%,
-    rgba(20, 14, 2, 0.65) 70%,
-    rgba(8, 8, 8, 0.95) 100%
-  );
-  box-shadow: inset 0 0 250px rgba(180, 130, 10, 0.08);
+  inset: -10%;
   z-index: 0;
-  transition: backdrop-filter 2.8s ease, -webkit-backdrop-filter 2.8s ease;
+  background-image:
+    repeating-linear-gradient(
+      -35deg,
+      transparent,
+      transparent 18px,
+      rgba(255,255,255,0.022) 18px,
+      rgba(255,255,255,0.022) 32px,
+      transparent 32px,
+      transparent 54px,
+      rgba(255,255,255,0.035) 54px,
+      rgba(255,255,255,0.035) 62px
+    ),
+    repeating-linear-gradient(
+      35deg,
+      transparent,
+      transparent 22px,
+      rgba(212,175,55,0.015) 22px,
+      rgba(212,175,55,0.015) 28px
+    );
+  animation: loaderStripeShift 8s linear infinite;
 }
 
+@keyframes loaderStripeShift {
+  0%   { transform: translateX(0) translateY(0); }
+  100% { transform: translateX(40px) translateY(40px); }
+}
+
+/* Paper tear pieces container */
+.loader-tear-container {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.loader-tear-piece {
+  position: absolute;
+  background: #080808;
+  transform-origin: center center;
+  transition: none;
+  will-change: transform, opacity;
+}
+
+.loader-tear-piece.tearing {
+  animation: tearAway 0.7s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+}
+
+@keyframes tearAway {
+  0%   { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
+  60%  { opacity: 1; }
+  100% { transform: var(--tear-tx, translateX(120vw)) rotate(var(--tear-rot, 15deg)) scale(0.3); opacity: 0; }
+}
   #loader.fade-out::before {
   backdrop-filter: blur(0px) brightness(1) saturate(1);
   -webkit-backdrop-filter: blur(0px) brightness(1) saturate(1);
@@ -5908,6 +5993,12 @@ body.light-mode .pkg-cta:hover {
 
 <!-- Dropdown -->
 <div class="dropdown" id="dropdown">
+  <!-- Signed-in user header — hidden when logged out -->
+  <div id="dropdownUserHeader" style="display:none;margin-bottom:24px;padding:20px 0 20px;border-bottom:1px solid rgba(212,175,55,0.15);">
+    <span style="font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:6px;font-family:'Jost',sans-serif;">Signed In As</span>
+    <span id="dropdownUserName" style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text);display:block;margin-bottom:16px;"></span>
+    <button id="dropdownLogoutBtn" style="font-family:'Jost',sans-serif;font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#e05555;background:transparent;border:1px solid rgba(224,85,85,0.35);padding:10px 20px;cursor:none;width:100%;transition:background 0.3s,border-color 0.3s;" onmouseenter="this.style.background='rgba(224,85,85,0.1)'" onmouseleave="this.style.background='transparent'">Sign Out</button>
+  </div>
   <a href="index.html" class="dropdown-back">Back to Home</a>
 <a href="#wildlife" class="dropdown-link">Destinations</a>
   <a href="#packages" class="dropdown-link">Packages</a>
@@ -6584,7 +6675,7 @@ body.light-mode .pkg-cta:hover {
     </div>
   </div>
 
-    <div id="testimonialFormLocked" class="testimonial-form-locked">
+    <div id="testimonialFormLocked" class="testimonial-form-locked" style="text-align:center;max-width:600px;margin:48px auto 0;padding:40px;border:1px solid rgba(212,175,55,0.12);">
       <button onclick="window._openAuth('signin')" style="font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;padding:18px 44px;background: linear-gradient(135deg, #f0c84a 0%, #d4af37 35%, #b8860b 65%, #c9921a 100%);
     color: #1a0e00;
     box-shadow:
@@ -6595,7 +6686,7 @@ body.light-mode .pkg-cta:hover {
     border:none;cursor:none;position:relative;overflow:hidden;transition:filter 0.3s,transform 0.3s,box-shadow 0.3s;box-shadow:0 8px 32px rgba(212,175,55,0.25);display:inline-block;animation:pulseViewAll 3s ease-in-out infinite 2s;">Sign In to Leave a Review</button>
     </div>
 
-    <div id="testimonialFormOpen" style="display:none;max-width:600px;">
+    <div id="testimonialFormOpen" style="display:none;max-width:600px;margin:48px auto 0;padding:40px;border:1px solid rgba(212,175,55,0.12);">
       <div style="display:flex;flex-direction:column;gap:0;">
         <textarea id="testimonialText" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:var(--text);font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;padding:14px 0;outline:none;resize:none;height:120px;transition:border-color 0.3s;margin-bottom:16px;" placeholder="Tell future guests about your safari experience..." onfocus="this.style.borderBottomColor='var(--gold)'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'"></textarea>
         <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;">
@@ -7382,6 +7473,36 @@ body.light-mode .pkg-cta:hover {
     font-size: clamp(26px, 4vw, 34px); font-weight: 900;
     line-height: 1.1; color: #f0ece4; margin-bottom: 8px;
   }
+  .auth-tab-btn { font-weight: 700 !important; font-size: 10px !important; letter-spacing: 5px !important; }
+  .auth-tab-btn.active { font-size: 11px !important; }
+  .auth-input { font-size: 14px !important; font-weight: 500 !important; }
+  .auth-input::placeholder { font-weight: 600 !important; font-size: 11px !important; letter-spacing: 2px; }
+  .auth-section-label { font-weight: 800 !important; font-size: 9px !important; letter-spacing: 6px !important; }
+  .auth-submit-btn { font-size: 12px !important; font-weight: 800 !important; letter-spacing: 6px !important; }
+  .auth-alt-link { font-size: 12px !important; font-weight: 600 !important; }
+  .auth-alt-link button { font-weight: 700 !important; font-size: 12px !important; text-decoration: underline; }
+  /* Tab indicator bar — thicker and more visible */
+  .auth-tabs-row { border-bottom: 2px solid rgba(212,175,55,0.2) !important; }
+  /* Sign in vs Sign up visual distinction */
+  #authPanelSignin::before {
+    content: 'RETURNING GUEST';
+    display: block; font-family: 'Jost',sans-serif; font-size: 8px; font-weight: 800;
+    letter-spacing: 6px; text-transform: uppercase; color: rgba(212,175,55,0.5);
+    margin-bottom: 20px; padding-bottom: 12px;
+    border-bottom: 1px solid rgba(212,175,55,0.1);
+  }
+  #authPanelSignup::before {
+    content: 'NEW MEMBER REGISTRATION';
+    display: block; font-family: 'Jost',sans-serif; font-size: 8px; font-weight: 800;
+    letter-spacing: 6px; text-transform: uppercase; color: rgba(212,175,55,0.5);
+    margin-bottom: 20px; padding-bottom: 12px;
+    border-bottom: 1px solid rgba(212,175,55,0.1);
+  }
+  body.light-mode .auth-input { font-weight: 600 !important; color: #0a0a0a !important; }
+  body.light-mode .auth-input::placeholder { color: rgba(94,80,64,0.7) !important; font-weight: 600 !important; }
+  body.light-mode .auth-section-label { color: rgba(154,111,0,0.8) !important; }
+  body.light-mode #authPanelSignin::before,
+  body.light-mode #authPanelSignup::before { color: rgba(154,111,0,0.6); border-bottom-color: rgba(154,111,0,0.15); }
   .auth-modal-title em { font-style: italic; color: var(--gold); font-weight: 400; }
 
   .auth-modal-sub {
@@ -7437,6 +7558,25 @@ body.light-mode .pkg-cta:hover {
   .auth-input:focus { border-bottom-color: var(--gold); }
   .auth-input::placeholder { color: rgba(138,128,116,0.5); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
   select.auth-input { appearance: none; -webkit-appearance: none; cursor: none; background: transparent; }
+  .auth-select {
+    background: #0a0a0a !important;
+    color: #f0ece4 !important;
+    border-bottom-color: rgba(212,175,55,0.18) !important;
+  }
+  .auth-select option {
+    background: #0f0f0f;
+    color: #f0ece4;
+    padding: 10px;
+  }
+  body.light-mode .auth-select {
+    background: #f4f0e8 !important;
+    color: #0a0a0a !important;
+    border-bottom-color: rgba(154,111,0,0.25) !important;
+  }
+  body.light-mode .auth-select option {
+    background: #f4f0e8;
+    color: #0a0a0a;
+  }
   .auth-select-wrap { position: relative; }
   .auth-select-wrap::after { content: '›'; position: absolute; right: 0; top: 14px; color: rgba(212,175,55,0.4); font-size: 16px; transform: rotate(90deg); pointer-events: none; }
 
@@ -7540,74 +7680,150 @@ body.light-mode .pkg-cta:hover {
 
       <!-- SIGN UP PANEL -->
       <div id="authPanelSignup" style="display:none;">
+        <p style="font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:rgba(212,175,55,0.8);margin-bottom:24px;line-height:1.6;font-weight:600;">All fields marked <span style="color:#e05555;">*</span> are required to create your account.</p>
+
         <span class="auth-section-label">Personal Details</span>
         <div class="auth-field-row">
-          <input id="suFirstName" class="auth-input" type="text" placeholder="First Name" autocomplete="given-name"
-            onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-          <input id="suLastName" class="auth-input" type="text" placeholder="Last Name" autocomplete="family-name"
-            onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+          <div style="position:relative;">
+            <input id="suFirstName" class="auth-input" type="text" placeholder="First Name *" autocomplete="given-name" required
+              onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+          </div>
+          <div style="position:relative;">
+            <input id="suLastName" class="auth-input" type="text" placeholder="Last Name *" autocomplete="family-name" required
+              onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+          </div>
         </div>
-        <input id="suEmail" class="auth-input" type="email" placeholder="Email Address" autocomplete="email"
+        <input id="suEmail" class="auth-input" type="email" placeholder="Email Address *" autocomplete="email" required
           onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-        <input id="suPhone" class="auth-input" type="tel" placeholder="Phone / WhatsApp Number" autocomplete="tel"
+        <input id="suPhone" class="auth-input" type="tel" placeholder="Phone / WhatsApp Number *" autocomplete="tel" required
           onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
         <div class="auth-field-row">
-          <input id="suPassword" class="auth-input" type="password" placeholder="Password (min 8 chars)" autocomplete="new-password"
+          <input id="suPassword" class="auth-input" type="password" placeholder="Password (min 8 chars) *" autocomplete="new-password" required
             onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-          <input id="suPassConf" class="auth-input" type="password" placeholder="Confirm Password" autocomplete="new-password"
+          <input id="suPassConf" class="auth-input" type="password" placeholder="Confirm Password *" autocomplete="new-password" required
             onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+        </div>
+        <input id="suDob" class="auth-input" type="text" placeholder="Date of Birth (DD/MM/YYYY) *" required
+          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+        <input id="suNationality" class="auth-input" type="text" placeholder="Country of Residence *" required
+          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+        <div class="auth-select-wrap">
+          <select id="suGender" class="auth-input auth-select">
+            <option value="">Gender *</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="non-binary">Non-Binary</option>
+            <option value="prefer-not">Prefer Not to Say</option>
+          </select>
         </div>
 
         <span class="auth-section-label">Safari Preferences</span>
-        <input id="suNationality" class="auth-input" type="text" placeholder="Country of Residence"
-          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
         <div class="auth-select-wrap">
-          <select id="suBudget" class="auth-input">
-            <option value="">Budget Range</option>
-            <option value="budget">Budget — Under $2,500</option>
-            <option value="mid">Mid — $2,500–$5,000</option>
-            <option value="luxury">Luxury — $5,000–$12,000</option>
-            <option value="ultra">Ultra — $12,000+</option>
+          <select id="suBudget" class="auth-input auth-select">
+            <option value="">Budget Range *</option>
+            <option value="student">Student / Backpacker — Under $1,000</option>
+            <option value="budget">Budget — $1,000–$2,500</option>
+            <option value="mid-range">Mid-Range — $2,500–$5,000</option>
+            <option value="upper-mid">Upper Mid — $5,000–$8,000</option>
+            <option value="luxury">Luxury — $8,000–$15,000</option>
+            <option value="ultra">Ultra-Luxury — $15,000+</option>
+            <option value="no-limit">No Budget Limit</option>
           </select>
         </div>
         <div class="auth-select-wrap">
-          <select id="suStyle" class="auth-input">
-            <option value="">Travel Style</option>
+          <select id="suStyle" class="auth-input auth-select">
+            <option value="">Travel Style *</option>
             <option value="solo">Solo Traveller</option>
-            <option value="couple">Couple</option>
-            <option value="family">Family with Children</option>
-            <option value="small-group">Small Group (3–6)</option>
-            <option value="corporate">Corporate / Event</option>
+            <option value="couple">Romantic Couple</option>
+            <option value="honeymoon">Honeymoon</option>
+            <option value="family-young">Family with Young Children (under 10)</option>
+            <option value="family-teen">Family with Teenagers</option>
+            <option value="small-group">Small Group (3–6 people)</option>
+            <option value="large-group">Large Group (7–15 people)</option>
+            <option value="corporate">Corporate / Business Event</option>
+            <option value="school">School / Educational Group</option>
+            <option value="photography">Photography Expedition</option>
+            <option value="seniors">Senior / Accessibility-Conscious</option>
           </select>
         </div>
         <div class="auth-select-wrap">
-          <select id="suInterest" class="auth-input">
-            <option value="">Primary Safari Interest</option>
-            <option value="wildlife">Wildlife & Big Five</option>
-            <option value="beach">Beach & Coast</option>
-            <option value="photography">Photography</option>
-            <option value="culture">Culture & Community</option>
-            <option value="adventure">Adventure & Hiking</option>
-            <option value="birding">Birding</option>
+          <select id="suInterest" class="auth-input auth-select">
+            <option value="">Primary Safari Interest *</option>
+            <option value="big-five">Wildlife & The Big Five</option>
+            <option value="migration">Great Migration</option>
+            <option value="beach">Beach & Indian Ocean Coast</option>
+            <option value="photography">Wildlife Photography</option>
+            <option value="culture">Maasai Culture & Community</option>
+            <option value="adventure">Adventure & Mountain Hiking</option>
+            <option value="birding">Bird Watching</option>
+            <option value="conservation">Conservation & Volunteering</option>
+            <option value="fishing">Sport Fishing</option>
+            <option value="balloon">Hot Air Balloon Safari</option>
+            <option value="honeymoon-romance">Honeymoon & Romance</option>
+            <option value="family-fun">Family Fun & Kids Activities</option>
           </select>
         </div>
-        <input id="suTravelDate" class="auth-input" type="text" placeholder="Approximate Travel Date (e.g. July 2026)"
+        <div class="auth-select-wrap">
+          <select id="suDuration" class="auth-input auth-select">
+            <option value="">Preferred Trip Duration *</option>
+            <option value="weekend">Weekend Getaway (2–3 days)</option>
+            <option value="short">Short Break (4–5 days)</option>
+            <option value="week">One Week (6–8 days)</option>
+            <option value="extended">Extended (9–14 days)</option>
+            <option value="grand">Grand Tour (15+ days)</option>
+            <option value="flexible">Flexible / Open</option>
+          </select>
+        </div>
+        <div class="auth-select-wrap">
+          <select id="suAccomm" class="auth-input auth-select">
+            <option value="">Accommodation Preference</option>
+            <option value="budget-lodge">Budget Lodge / Hostel</option>
+            <option value="tented-camp">Classic Tented Camp</option>
+            <option value="mid-lodge">Mid-Range Lodge</option>
+            <option value="luxury-lodge">Luxury Lodge</option>
+            <option value="exclusive-camp">Exclusive-Use Bush Camp</option>
+            <option value="treehouse">Treehouse / Unique Stay</option>
+            <option value="beach-resort">Beach Resort</option>
+            <option value="no-preference">No Preference</option>
+          </select>
+        </div>
+        <input id="suTravelDate" class="auth-input" type="text" placeholder="Approximate Travel Date (e.g. July 2026) *" required
           onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
 
         <span class="auth-section-label">Emergency Contact</span>
         <div class="auth-field-row">
-          <input id="suEmergName" class="auth-input" type="text" placeholder="Contact Name"
+          <input id="suEmergName" class="auth-input" type="text" placeholder="Emergency Contact Name *" required
             onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-          <input id="suEmergPhone" class="auth-input" type="tel" placeholder="Contact Phone"
+          <input id="suEmergPhone" class="auth-input" type="tel" placeholder="Emergency Contact Phone *" required
             onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
         </div>
-        <input id="suHowHeard" class="auth-input" type="text" placeholder="How did you hear about us?"
+        <input id="suEmergRelation" class="auth-input" type="text" placeholder="Relationship (e.g. Spouse, Parent)"
           onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
 
-        <button class="auth-submit-btn" id="suSubmitBtn" onclick="window._doSignUp()">
+        <span class="auth-section-label">One Last Thing</span>
+        <div class="auth-select-wrap">
+          <select id="suHowHeard" class="auth-input auth-select">
+            <option value="">How did you hear about us?</option>
+            <option value="google">Google Search</option>
+            <option value="instagram">Instagram</option>
+            <option value="facebook">Facebook</option>
+            <option value="tiktok">TikTok</option>
+            <option value="youtube">YouTube</option>
+            <option value="friend">Friend or Family Recommendation</option>
+            <option value="travel-agent">Travel Agent</option>
+            <option value="tripadvisor">TripAdvisor</option>
+            <option value="newspaper">Newspaper / Magazine</option>
+            <option value="repeat">Returning Guest</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <input id="suSpecialReq" class="auth-input" type="text" placeholder="Any special requirements or medical needs?"
+          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+
+        <button class="auth-submit-btn" id="suSubmitBtn" onclick="window._doSignUp()" style="margin-top:28px;">
           Create My Safari Account
         </button>
-        <p class="auth-alt-link">Already have an account? <button onclick="window._switchAuthTab('signin')">Sign in</button></p>
+        <p class="auth-alt-link" style="margin-top:16px;">Already have an account? <button onclick="window._switchAuthTab('signin')">Sign in here</button></p>
       </div>
     </div>
   </div>
@@ -7689,6 +7905,8 @@ body.light-mode .pkg-cta:hover {
   window._openAuth = function(tab) {
     const ov = document.getElementById('authOverlay');
     if (!ov) return;
+    // Hide FABs
+    [document.querySelector('.whatsapp-fab'),document.getElementById('themeToggle'),document.getElementById('google_translate_element')].forEach(function(el){if(el){el.style.transition='opacity 0.3s ease';el.style.opacity='0';el.style.pointerEvents='none';}});
     ov.style.cssText = 'display:flex;opacity:0;pointer-events:none;position:fixed;inset:0;z-index:99990;background:rgba(2,2,2,0.94);backdrop-filter:blur(28px);align-items:center;justify-content:center;padding:20px;transition:opacity 0.4s ease;';
     clearMsg();
     window._switchAuthTab(tab || 'signin');
@@ -7704,9 +7922,14 @@ body.light-mode .pkg-cta:hover {
     if (!ov) return;
     ov.style.opacity = '0';
     ov.style.pointerEvents = 'none';
+    ov.classList.remove('open');
     document.body.style.overflow = '';
-    clearMsg();
-    setTimeout(function() { ov.style.display = 'none'; }, 420);
+    clearMessages();
+    setTimeout(function() {
+      ov.style.display = 'none';
+      // Restore FABs
+      [document.querySelector('.whatsapp-fab'),document.getElementById('themeToggle'),document.getElementById('google_translate_element')].forEach(function(el){if(el){el.style.opacity='1';el.style.pointerEvents='';}});
+    }, 420);
   };
 
   window._switchAuthTab = function(tab) {
@@ -7739,17 +7962,39 @@ body.light-mode .pkg-cta:hover {
     if (!supa) { showMsg('error','Auth service unavailable. Please refresh.'); return; }
     const email = v('siEmail');
     const pass  = v('siPassword');
-    if (!email || !pass) { showMsg('error','Please enter your email and password.'); return; }
+    if (!email) { showMsg('error','Please enter your email address.'); return; }
+    if (!pass)  { showMsg('error','Please enter your password.'); return; }
     const btn = document.getElementById('siSubmitBtn');
     if (btn) { btn.textContent = 'Signing in…'; btn.disabled = true; }
     try {
       const { data, error } = await supa.auth.signInWithPassword({ email, password: pass });
-      if (error) throw error;
-      showMsg('success', 'Welcome back! You are now signed in.');
-      setTimeout(window._closeAuth, 1400);
+      if (error) {
+        // Distinguish "invalid credentials" from "user not found"
+        const msg = (error.message || '').toLowerCase();
+        if (msg.includes('invalid') || msg.includes('wrong') || msg.includes('credentials') || msg.includes('not found') || msg.includes('no user')) {
+          showMsg('error', '❌ No account found with this email. Please create an account first.');
+          setTimeout(function(){ window._switchAuthTab('signup'); const el=document.getElementById('suEmail'); if(el){el.value=email;} }, 1800);
+        } else {
+          showMsg('error', error.message || 'Sign in failed. Please try again.');
+        }
+        if (btn) { btn.textContent = 'Sign In to Your Account'; btn.disabled = false; }
+        return;
+      }
+      // Success — show joy message, auto-close
+      showMsg('success', '🎉 Welcome back, ' + (data.user?.user_metadata?.first_name || 'Explorer') + '! You are now signed in.');
       updateNavForUser(data.user);
+      setTimeout(function(){
+        window._closeAuth();
+        // Brief in-page toast
+        const toast = document.createElement('div');
+        toast.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:99999;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;font-family:Jost,sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:18px 40px;box-shadow:0 8px 40px rgba(212,175,55,0.5);opacity:0;transition:opacity 0.4s ease;';
+        toast.textContent = '✓ Signed in successfully';
+        document.body.appendChild(toast);
+        requestAnimationFrame(function(){ toast.style.opacity='1'; });
+        setTimeout(function(){ toast.style.opacity='0'; setTimeout(function(){toast.remove();},400); },2400);
+      }, 1200);
     } catch(e) {
-      showMsg('error', e.message || 'Sign in failed. Check your email and password.');
+      showMsg('error', e.message || 'Sign in failed. Please try again.');
     }
     if (btn) { btn.textContent = 'Sign In to Your Account'; btn.disabled = false; }
   };
@@ -7763,27 +8008,63 @@ body.light-mode .pkg-cta:hover {
     const phone     = v('suPhone');
     const pass      = v('suPassword');
     const passConf  = v('suPassConf');
-    if (!firstName || !lastName) { showMsg('error','Please enter your first and last name.'); return; }
-    if (!email)          { showMsg('error','Please enter your email address.'); return; }
-    if (!pass)           { showMsg('error','Please create a password.'); return; }
+    const dob       = v('suDob');
+    const nationality = v('suNationality');
+    const gender    = v('suGender');
+    const budget    = v('suBudget');
+    const style     = v('suStyle');
+    const interest  = v('suInterest');
+    const duration  = v('suDuration');
+    const travelDate = v('suTravelDate');
+    const emergName = v('suEmergName');
+    const emergPhone= v('suEmergPhone');
+
+    // Validate all required fields
+    const required = [
+      [firstName, 'First name'],
+      [lastName,  'Last name'],
+      [email,     'Email address'],
+      [phone,     'Phone number'],
+      [pass,      'Password'],
+      [passConf,  'Password confirmation'],
+      [dob,       'Date of birth'],
+      [nationality,'Country of residence'],
+      [gender,    'Gender'],
+      [budget,    'Budget range'],
+      [style,     'Travel style'],
+      [interest,  'Primary interest'],
+      [duration,  'Trip duration'],
+      [travelDate,'Approximate travel date'],
+      [emergName, 'Emergency contact name'],
+      [emergPhone,'Emergency contact phone'],
+    ];
+    for (let i = 0; i < required.length; i++) {
+      if (!required[i][0]) { showMsg('error', '⚠ ' + required[i][1] + ' is required.'); return; }
+    }
     if (pass.length < 8) { showMsg('error','Password must be at least 8 characters.'); return; }
     if (pass !== passConf) { showMsg('error','Passwords do not match. Please re-enter.'); return; }
     const btn = document.getElementById('suSubmitBtn');
     if (btn) { btn.textContent = 'Creating account…'; btn.disabled = true; }
     try {
       const meta = {
-        first_name:       firstName,
-        last_name:        lastName,
-        full_name:        firstName + ' ' + lastName,
-        phone:            phone,
-        nationality:      v('suNationality'),
-        budget:           v('suBudget'),
-        travel_style:     v('suStyle'),
-        primary_interest: v('suInterest'),
-        planned_date:     v('suTravelDate'),
-        emergency_name:   v('suEmergName'),
-        emergency_phone:  v('suEmergPhone'),
-        how_heard:        v('suHowHeard')
+        first_name:        firstName,
+        last_name:         lastName,
+        full_name:         firstName + ' ' + lastName,
+        phone:             phone,
+        date_of_birth:     dob,
+        nationality:       nationality,
+        gender:            gender,
+        budget:            budget,
+        travel_style:      style,
+        primary_interest:  interest,
+        preferred_duration:duration,
+        accommodation:     v('suAccomm'),
+        planned_date:      travelDate,
+        emergency_name:    emergName,
+        emergency_phone:   emergPhone,
+        emergency_relation:v('suEmergRelation'),
+        how_heard:         v('suHowHeard'),
+        special_requirements: v('suSpecialReq')
       };
       const { data, error } = await supa.auth.signUp({
         email:    email,
@@ -7798,22 +8079,28 @@ body.light-mode .pkg-cta:hover {
         if (data.user) {
           try {
             await supa.from('profiles').upsert({
-              id:               data.user.id,
-              email:            email,
-              first_name:       firstName,
-              last_name:        lastName,
-              phone:            phone,
-              nationality:      v('suNationality'),
-              budget:           v('suBudget'),
-              travel_style:     v('suStyle'),
-              primary_interest: v('suInterest'),
-              planned_date:     v('suTravelDate'),
-              emergency_name:   v('suEmergName'),
-              emergency_phone:  v('suEmergPhone'),
-              how_heard:        v('suHowHeard'),
-              created_at:       new Date().toISOString()
+              id:                  data.user.id,
+              email:               email,
+              first_name:          firstName,
+              last_name:           lastName,
+              phone:               phone,
+              date_of_birth:       dob,
+              nationality:         nationality,
+              gender:              gender,
+              budget:              budget,
+              travel_style:        style,
+              primary_interest:    interest,
+              preferred_duration:  duration,
+              accommodation_pref:  v('suAccomm'),
+              planned_date:        travelDate,
+              emergency_name:      emergName,
+              emergency_phone:     emergPhone,
+              emergency_relation:  v('suEmergRelation'),
+              how_heard:           v('suHowHeard'),
+              special_requirements:v('suSpecialReq'),
+              created_at:          new Date().toISOString()
             });
-          } catch(_) { /* profiles table may not exist yet, ignore */ }
+          } catch(_) { /* profiles table may not exist yet — data saved in auth.users */ }
         }
         showMsg('success', '✓ Account created! Check your email to confirm, then sign in.');
       }
@@ -7832,24 +8119,34 @@ body.light-mode .pkg-cta:hover {
     const openFrm   = document.getElementById('testimonialFormOpen');
     const dropLabel = document.getElementById('dropdownAuthLabel');
     const dropSignup = document.getElementById('dropdownSignupBtn');
+    const dropUserHeader = document.getElementById('dropdownUserHeader');
+    const dropUserName   = document.getElementById('dropdownUserName');
+    const dropAuthBtn    = document.getElementById('dropdownAuthBtn');
     if (user) {
       const m = user.user_metadata || {};
       const displayName = ((m.first_name||'') + ' ' + (m.last_name||'')).trim() || user.email.split('@')[0];
-      const firstName = m.first_name || displayName;
+      // Nav: don't show name in nav bar — show chip icon only
       if (flipWrap)  flipWrap.classList.add('signed-in');
-      if (navLabel)  navLabel.textContent = firstName;
+      if (navLabel)  navLabel.textContent = ''; // no name shown in nav
       if (menuName)  menuName.textContent = displayName;
-      if (dropLabel) dropLabel.textContent = displayName;
-      if (dropSignup) dropSignup.style.display = 'none';
+      // Hamburger: show user name at top, hide sign in/up buttons
+      if (dropUserHeader) dropUserHeader.style.display = 'block';
+      if (dropUserName)   dropUserName.textContent = displayName;
+      if (dropAuthBtn)    dropAuthBtn.style.display = 'none';
+      if (dropSignup)     dropSignup.style.display  = 'none';
       if (locked)  locked.style.display = 'none';
       if (openFrm) openFrm.style.display = '';
+      // Store user data for quiz autofill
+      window._fjUserMeta = m;
     } else {
       if (flipWrap)  flipWrap.classList.remove('signed-in');
       if (navLabel)  navLabel.textContent = 'My Account';
-      if (dropLabel) dropLabel.textContent = 'Sign In';
-      if (dropSignup) dropSignup.style.display = '';
+      if (dropUserHeader) dropUserHeader.style.display = 'none';
+      if (dropAuthBtn)    dropAuthBtn.style.display = '';
+      if (dropSignup)     dropSignup.style.display  = '';
       if (locked)  locked.style.display = '';
       if (openFrm) openFrm.style.display = 'none';
+      window._fjUserMeta = null;
     }
   }
 
@@ -7883,13 +8180,18 @@ body.light-mode .pkg-cta:hover {
     const siPass = document.getElementById('siPassword');
     if (siPass) siPass.addEventListener('keydown', function(e) { if (e.key === 'Enter') window._doSignIn(); });
 
-    // Sign out
-    const signOutBtn = document.getElementById('userMenuSignOut');
-    if (signOutBtn) signOutBtn.addEventListener('click', async function() {
+    // Sign out — both menu and hamburger
+    async function doSignOut() {
       document.getElementById('userMenu')?.classList.remove('open');
+      document.getElementById('menuBtn')?.classList.remove('open');
+      document.getElementById('dropdown')?.classList.remove('open');
       await supa.auth.signOut();
       updateNavForUser(null);
-    });
+    }
+    const signOutBtn = document.getElementById('userMenuSignOut');
+    if (signOutBtn) signOutBtn.addEventListener('click', doSignOut);
+    const dropLogout = document.getElementById('dropdownLogoutBtn');
+    if (dropLogout) dropLogout.addEventListener('click', doSignOut);
 
     // User chip toggles menu
     const chip = document.getElementById('authUserChip');
@@ -8075,6 +8377,12 @@ body.light-mode .pkg-cta:hover {
       function valid() { const val=input.value.trim(); return val.length>=(step.minLength||1)&&(!step.pattern||step.pattern.test(val)); }
       input.addEventListener('input', function() { answers[step.id]=input.value.trim(); nextBtn.classList.toggle('ready',valid()); });
       input.addEventListener('keydown', function(e) { if(e.key==='Enter'&&valid()) advance(); });
+      // Autofill from signed-in user data
+      if(step.id==='name' && !answers.name && window._fjUserMeta && window._fjUserMeta.first_name){
+        input.value = window._fjUserMeta.first_name;
+        answers.name = window._fjUserMeta.first_name;
+        nextBtn.classList.add('ready');
+      }
       setTimeout(function(){input.focus();},80);
     } else if (isMulti) {
       document.getElementById('qzOptions').addEventListener('click', function(e) {
@@ -8159,18 +8467,18 @@ body.light-mode .pkg-cta:hover {
 })();
 
 // ===========================
-// LOADER
+// LOADER + PAPER TEAR
 // ===========================
 (function(){
   if(window.location.hash) history.replaceState(null,null,window.location.pathname+window.location.search);
   window.scrollTo(0,0);
-  const loaderEl=document.getElementById('loader');
-  const loaderLogoEl=document.querySelector('.loader-logo');
-  const heroLogoEl=document.getElementById('hero-logo');
-  const heroSkyEl=document.querySelector('.hero-sky');
-  const navLogoLink=document.querySelector('.nav-logo-link');
-  const navIdleWords=document.querySelector('.nav-idle-words');
-  const shutterWrap=document.getElementById('shutterWrap');
+  var loaderEl=document.getElementById('loader');
+  var loaderLogoEl=document.querySelector('.loader-logo');
+  var heroLogoEl=document.getElementById('hero-logo');
+  var heroSkyEl=document.querySelector('.hero-sky');
+  var navLogoLink=document.querySelector('.nav-logo-link');
+  var navIdleWords=document.querySelector('.nav-idle-words');
+  var shutterWrap=document.getElementById('shutterWrap');
 
   function fireShutter(cb) {
     if(!shutterWrap){if(cb)cb();return;}
@@ -8178,24 +8486,93 @@ body.light-mode .pkg-cta:hover {
     setTimeout(function(){shutterWrap.style.display='none';if(cb)cb();},700);
   }
 
+  function paperTearReveal(cb) {
+    // Create tear container that covers the screen
+    var container = document.createElement('div');
+    container.className = 'loader-tear-container';
+    document.body.appendChild(container);
+
+    var COLS = 8, ROWS = 10;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var pw = Math.ceil(vw / COLS), ph = Math.ceil(vh / ROWS);
+    var pieces = [];
+
+    // Create irregular grid pieces
+    for (var r = 0; r < ROWS; r++) {
+      for (var c = 0; c < COLS; c++) {
+        var piece = document.createElement('div');
+        piece.className = 'loader-tear-piece';
+        // Irregular sizing — each piece slightly different
+        var jitterX = (Math.random() - 0.5) * pw * 0.4;
+        var jitterY = (Math.random() - 0.5) * ph * 0.4;
+        var w = pw + Math.random() * pw * 0.5;
+        var h = ph + Math.random() * ph * 0.5;
+        var x = c * pw + jitterX;
+        var y = r * ph + jitterY;
+        // Clip path for irregular torn edge
+        var pts = [];
+        var steps = 6;
+        for (var i = 0; i <= steps; i++) {
+          var bx = (i/steps)*100, by = (Math.random()-0.5)*18;
+          pts.push(bx+'% '+by+'%');
+        }
+        for (var i = steps; i >= 0; i--) {
+          var bx2 = (i/steps)*100, by2 = 100+(Math.random()-0.5)*18;
+          pts.push(bx2+'% '+by2+'%');
+        }
+        piece.style.cssText = 'left:'+x+'px;top:'+y+'px;width:'+w+'px;height:'+h+'px;clip-path:polygon('+pts.join(',')+');background:#080808;';
+        // Random tear direction — explode outward from center
+        var cx = x + w/2, cy = y + h/2;
+        var dx = cx - vw/2, dy = cy - vh/2;
+        var dist = Math.sqrt(dx*dx+dy*dy)||1;
+        var nx = dx/dist, ny = dy/dist;
+        var mag = 80 + Math.random() * 120;
+        var rot = (Math.random()-0.5)*60;
+        piece.style.setProperty('--tear-tx','translate('+(nx*mag*vw/100*1.5)+'px,'+(ny*mag*vh/100*1.5)+'px) rotate('+rot+'deg)');
+        piece.style.setProperty('--tear-rot',rot+'deg');
+        pieces.push(piece);
+        container.appendChild(piece);
+      }
+    }
+
+    // Stagger the tear animation — pieces at edges tear first
+    pieces.forEach(function(piece, i) {
+      var delay = 40 + Math.random() * 280;
+      setTimeout(function(){
+        piece.classList.add('tearing');
+      }, delay);
+    });
+
+    // After all pieces gone, clean up and callback
+    setTimeout(function(){
+      container.remove();
+      if(cb) cb();
+    }, 900);
+  }
+
   if(sessionStorage.getItem('loaderSeen')){
+    // Fast path — already seen loader, skip animation
     if(loaderEl) loaderEl.style.display='none';
     if(heroLogoEl){heroLogoEl.style.display='block';heroLogoEl.style.opacity='1';}
     if(heroSkyEl) heroSkyEl.classList.add('settled');
     setTimeout(function(){fireShutter();},200);
   } else {
     sessionStorage.setItem('loaderSeen','true');
+    // Show loader, then tear it away
     setTimeout(function(){
-      if(loaderLogoEl) loaderLogoEl.classList.add('morph-to-hero');
-      if(loaderEl) loaderEl.classList.add('fade-out');
-      if(heroLogoEl){heroLogoEl.style.display='block';}
-      setTimeout(function(){if(heroLogoEl)heroLogoEl.classList.add('visible');},400);
-      setTimeout(function(){if(heroSkyEl)heroSkyEl.classList.add('settled');},2500);
-      setTimeout(function(){
-        if(loaderLogoEl)loaderLogoEl.classList.add('gone');
-        if(loaderEl)loaderEl.style.display='none';
-        fireShutter();
-      },3200);
+      // Start hero loading in background
+      if(heroLogoEl) heroLogoEl.style.display='block';
+      if(heroSkyEl)  heroSkyEl.classList.add('settled');
+
+      // Tear the loader away
+      paperTearReveal(function(){
+        if(loaderLogoEl) loaderLogoEl.classList.add('gone');
+        if(loaderEl)     loaderEl.style.display='none';
+        setTimeout(function(){
+          if(heroLogoEl) heroLogoEl.classList.add('visible');
+          fireShutter();
+        },200);
+      });
     },4200);
   }
 
@@ -8260,7 +8637,29 @@ body.light-mode .pkg-cta:hover {
   const menuBtn=document.getElementById('menuBtn');
   const dropdown=document.getElementById('dropdown');
   if(!menuBtn||!dropdown)return;
-  menuBtn.addEventListener('click',function(){menuBtn.classList.toggle('open');dropdown.classList.toggle('open');});
+  menuBtn.addEventListener('click',function(){
+    var isOpening = !menuBtn.classList.contains('open');
+    menuBtn.classList.toggle('open');
+    dropdown.classList.toggle('open');
+    // Hide/show FABs
+    var fabs = [document.querySelector('.whatsapp-fab'), document.getElementById('themeToggle'), document.getElementById('google_translate_element')];
+    fabs.forEach(function(el){
+      if(!el)return;
+      if(isOpening){
+        el.style.transition='opacity 0.3s ease, transform 0.3s ease';
+        el.style.opacity='0'; el.style.pointerEvents='none'; el.style.transform='scale(0.8)';
+      } else {
+        el.style.opacity='1'; el.style.pointerEvents=''; el.style.transform='';
+      }
+    });
+  });
+  dropdown.querySelectorAll('a').forEach(function(link){
+    link.addEventListener('click',function(){
+      menuBtn.classList.remove('open');dropdown.classList.remove('open');
+      var fabs=[document.querySelector('.whatsapp-fab'),document.getElementById('themeToggle'),document.getElementById('google_translate_element')];
+      fabs.forEach(function(el){if(el){el.style.opacity='1';el.style.pointerEvents='';el.style.transform='';}});
+    });
+  });
   dropdown.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){menuBtn.classList.remove('open');dropdown.classList.remove('open');});});
   document.addEventListener('click',function(e){if(!dropdown.contains(e.target)&&!menuBtn.contains(e.target)){menuBtn.classList.remove('open');dropdown.classList.remove('open');}});
 })();
@@ -8762,23 +9161,77 @@ document.addEventListener('DOMContentLoaded',function(){
 // ===========================
 (function(){
   var members={
-    filmer:{name:'Filmer Mageto',role:'Founder & Lead Guide',img:'assets/team-filmer.webp',bio:'Over a decade navigating Kenya\'s finest reserves. Filmer founded Filmax Jambo Tours with one conviction — that a safari should be as extraordinary as Kenya itself.',details:[{icon:'✉️',label:'Email',value:'filmer@filmaxjambotours.co.ke',href:'mailto:filmer@filmaxjambotours.co.ke'},{icon:'🏆',label:'Certification',value:'KPSGA Gold — Senior Wildlife Guide'},{icon:'🌍',label:'Speciality',value:'Maasai Mara · Amboseli · Samburu'}]},
-    amara:{name:'Amara Wanjiku',role:'Safari Experience Director',img:'assets/team-amara.webp',bio:'A master of logistics and luxury. Amara ensures every detail — from arrival transfers to farewell dinners — is orchestrated to perfection.',details:[{icon:'✉️',label:'Email',value:'amara@filmaxjambotours.co.ke',href:'mailto:amara@filmaxjambotours.co.ke'},{icon:'🏅',label:'Background',value:'Luxury Hospitality · Tourism Management'},{icon:'✨',label:'Speciality',value:'Itinerary Design · Client Experience'}]},
-    githaiga:{name:'Githaiga Njoroge',role:'Wildlife Naturalist',img:'assets/team-githaiga.webp',bio:'Born in the shadow of the Mara. Githaiga reads the wilderness like a living book — tracking the Big Five and sharing stories the bush whispers only to those who listen.',details:[{icon:'✉️',label:'Email',value:'githaiga@filmaxjambotours.co.ke',href:'mailto:githaiga@filmaxjambotours.co.ke'},{icon:'🏆',label:'Certification',value:'KPSGA Silver — Wildlife Naturalist'},{icon:'🌍',label:'Speciality',value:'Big Five Tracking · Migration Patterns'}]}
+    filmer:{
+      name:'Filmer Mageto', role:'Founder & Lead Guide',
+      img:'assets/team-filmer.webp',
+      wildlifeImg:'assets/maasaimara.webp',
+      bio:'Over a decade navigating Kenya\'s finest reserves. Filmer founded Filmax Jambo Tours with one unwavering conviction — that a safari should be as extraordinary in its execution as Kenya is in its raw, untamed beauty. He has guided guests across the Mara, Amboseli, Samburu, Tsavo, and the Kenyan coast, accumulating an intimate knowledge of the land and an unshakeable love for every creature within it.',
+      details:[
+        {icon:'✉️',label:'Email',value:'filmer@filmaxjambotours.co.ke',href:'mailto:filmer@filmaxjambotours.co.ke'},
+        {icon:'📞',label:'Direct Line',value:'+254 700 000 001',href:'tel:+254700000001'},
+        {icon:'🏆',label:'Certification',value:'KPSGA Gold — Senior Wildlife Guide'},
+        {icon:'🌍',label:'Speciality',value:'Maasai Mara · Amboseli · Samburu · Tsavo'},
+        {icon:'📅',label:'Experience',value:'12+ years in Kenyan wilderness'},
+        {icon:'🦁',label:'Favourite Animal',value:'The African Leopard'},
+        {icon:'🗣️',label:'Languages',value:'English · Swahili · Basic Maasai'},
+        {icon:'🎓',label:'Education',value:'Tourism Management, University of Nairobi'},
+        {icon:'⭐',label:'Achievement',value:'Led 500+ successful safaris across all major Kenyan parks'}
+      ]
+    },
+    amara:{
+      name:'Amara Wanjiku', role:'Safari Experience Director',
+      img:'assets/team-amara.webp',
+      wildlifeImg:'assets/amboseli.webp',
+      bio:'A master of logistics and luxury, Amara orchestrates every detail of your Filmax Jambo safari — from the timing of your arrival transfer to the fine details of your farewell dinner under the Mara sky. With a background in luxury hospitality and a deep passion for Kenya, she ensures the gap between what you imagined and what you actually experience is as close to zero as humanly possible.',
+      details:[
+        {icon:'✉️',label:'Email',value:'amara@filmaxjambotours.co.ke',href:'mailto:amara@filmaxjambotours.co.ke'},
+        {icon:'📞',label:'Direct Line',value:'+254 700 000 002',href:'tel:+254700000002'},
+        {icon:'🏅',label:'Background',value:'Luxury Hospitality & Tourism Management (Moi University)'},
+        {icon:'✨',label:'Speciality',value:'Itinerary Design · Lodge Relations · Client Experience'},
+        {icon:'📅',label:'Experience',value:'8 years in luxury safari operations'},
+        {icon:'🦒',label:'Favourite Animal',value:'The Reticulated Giraffe'},
+        {icon:'🗣️',label:'Languages',value:'English · Swahili · French (conversational)'},
+        {icon:'🌐',label:'Handled',value:'Guests from 40+ countries worldwide'},
+        {icon:'⭐',label:'Achievement',value:'Recipient of Kenya Tourism Board Excellence Award 2024'}
+      ]
+    },
+    githaiga:{
+      name:'Githaiga Njoroge', role:'Wildlife Naturalist',
+      img:'assets/team-githaiga.webp',
+      wildlifeImg:'assets/zebra.webp',
+      bio:'Born in the shadow of the Mara, Githaiga reads the wilderness like a living book. He anticipates migrations before they happen, tracks the Big Five with a quiet precision that borders on the supernatural, and shares stories the bush whispers only to those who have earned its trust. He has spent his entire career within 50 kilometres of where he was born — and that intimacy with the land is something no amount of international training can replicate.',
+      details:[
+        {icon:'✉️',label:'Email',value:'githaiga@filmaxjambotours.co.ke',href:'mailto:githaiga@filmaxjambotours.co.ke'},
+        {icon:'📞',label:'Direct Line',value:'+254 700 000 003',href:'tel:+254700000003'},
+        {icon:'🏆',label:'Certification',value:'KPSGA Silver — Wildlife Naturalist'},
+        {icon:'🌍',label:'Speciality',value:'Big Five Tracking · Bird Watching · Migration Patterns'},
+        {icon:'📅',label:'Experience',value:'15+ years — born and raised in the Mara region'},
+        {icon:'🐘',label:'Favourite Animal',value:'The African Elephant'},
+        {icon:'🗣️',label:'Languages',value:'English · Swahili · Kikuyu · Maasai'},
+        {icon:'🔭',label:'Record',value:'Identified 312 bird species in a single Mara season'},
+        {icon:'⭐',label:'Achievement',value:'Featured in BBC Africa documentary "Eyes of the Mara" 2023'}
+      ]
+    }
   };
   var overlay=document.getElementById('teamPopupOverlay');
   var closeBtn=document.getElementById('teamPopupClose');
   if(!overlay)return;
+  function hideFabs(hide){
+    [document.querySelector('.whatsapp-fab'),document.getElementById('themeToggle'),document.getElementById('google_translate_element')].forEach(function(el){if(el){el.style.transition='opacity 0.3s ease';el.style.opacity=hide?'0':'1';el.style.pointerEvents=hide?'none':'';}});
+  }
   function openPopup(key){
+    hideFabs(true);
     var m=members[key];if(!m)return;
-    document.getElementById('teamPopupHeroImg').src=m.img;document.getElementById('teamPopupAvatarImg').src=m.img;
+    var heroImg = document.getElementById('teamPopupHeroImg');
+    if(heroImg){ heroImg.src = m.wildlifeImg || m.img; heroImg.className = 'team-popup-hero-wildlife'; }
+    document.getElementById('teamPopupAvatarImg').src=m.img;
     document.getElementById('teamPopupRole').textContent=m.role;document.getElementById('teamPopupName').textContent=m.name;
     document.getElementById('teamPopupBio').textContent=m.bio;
     var det=document.getElementById('teamPopupDetails');
     det.innerHTML=m.details.map(function(d){return'<div class="team-popup-detail"><div class="team-popup-detail-icon">'+d.icon+'</div><div class="team-popup-detail-text"><span class="team-popup-detail-label">'+d.label+'</span>'+(d.href?'<a href="'+d.href+'" class="team-popup-detail-value">'+d.value+'</a>':'<span class="team-popup-detail-value">'+d.value+'</span>')+'</div></div>';}).join('');
     overlay.classList.add('open');document.body.style.overflow='hidden';
   }
-  function closePopup(){overlay.classList.remove('open');document.body.style.overflow='';}
+  function closePopup(){overlay.classList.remove('open');document.body.style.overflow='';hideFabs(false);}
   document.querySelectorAll('.team-card[data-member]').forEach(function(card){card.addEventListener('click',function(){openPopup(card.dataset.member);});});
   if(closeBtn)closeBtn.addEventListener('click',closePopup);
   overlay.addEventListener('click',function(e){if(e.target===overlay)closePopup();});
@@ -8789,37 +9242,110 @@ document.addEventListener('DOMContentLoaded',function(){
 // SITE HINTS
 // ===========================
 (function(){
-  var shown=new Set(), activeHint=null, queue=[], isChecking=false;
-  var hints=[
-    {id:'theme',label:'Tip',text:'Switch between dark and light mode using the button at bottom-left.',triggerFn:function(){return window.pageYOffset>200;},delay:2000},
-    {id:'slides',label:'Navigate',text:'Swipe or click the side arrows to explore each Kenyan destination.',triggerFn:function(){var el=document.getElementById('destSlideshow');if(!el)return false;var r=el.getBoundingClientRect();return r.top<window.innerHeight*0.5&&r.bottom>0;},delay:1000},
-    {id:'gallery',label:'Gallery',text:'Click the magnify icon on any image to view it full screen.',triggerFn:function(){var el=document.getElementById('galSlideshow');if(!el)return false;var r=el.getBoundingClientRect();return r.top<window.innerHeight*0.5&&r.bottom>0;},delay:1000},
-    {id:'whatsapp',label:'Quick action',text:'Tap WhatsApp at bottom-right to reach us instantly.',triggerFn:function(){return window.pageYOffset>1200;},delay:2000},
+  // Respect user preference saved from 3rd hint
+  if(localStorage.getItem('fj-hints-disabled')==='true') return;
+
+  var PAGE_LOAD_TIME = Date.now();
+  var FIRST_HINT_DELAY = 15000; // 15 seconds before first hint
+  var BETWEEN_HINTS = 5000;     // 5 seconds between hints
+  var shown = new Set();
+  var activeHint = null;
+  var hintsQueue = [];
+  var hintsStarted = false;
+  var hintCount = 0;
+  var processingQueue = false;
+
+  var hints = [
+    {id:'theme',    label:'Tip',         text:'Switch between dark and light mode using the sun/moon button at bottom-left.'},
+    {id:'slides',   label:'Navigate',    text:'Swipe left or right — or click the glowing arrows — to explore each Kenyan destination.'},
+    {id:'quiz',     label:'Safari Match',text:'Answer 5 quick questions below and we\'ll find your perfect safari package instantly.'},
+    {id:'gallery',  label:'Gallery',     text:'Click the magnify icon on any gallery image to view it in stunning full screen.'},
+    {id:'packages', label:'Filter',      text:'Use the filter bar to sort safari packages by budget — from backpacker to ultra-luxury.'},
+    {id:'whatsapp', label:'Quick action',text:'Tap the green WhatsApp button at bottom-right to reach our team within the hour.'},
+    {id:'team',     label:'Meet Us',     text:'Click "View Profile" on any team member card to learn more about your guide.'},
+    {id:'review',   label:'Your Voice',  text:'Scroll to the bottom of testimonials to leave your own review after your safari.'},
   ];
 
-  function showHint(hint){
-    if(shown.has(hint.id)||activeHint)return;
-    shown.add(hint.id);activeHint=hint.id;
-    var box=document.createElement('div');box.className='site-hint';
-    box.style.cssText='position:fixed;bottom:110px;right:36px;z-index:99980;';
-    box.innerHTML='<span class="site-hint-label">'+hint.label+'</span><span class="site-hint-text">'+hint.text+'</span><button class="site-hint-close" aria-label="Dismiss">×</button><div class="site-hint-bar"></div>';
-    document.body.appendChild(box);
-    function dismiss(){box.classList.add('hiding');setTimeout(function(){if(box.parentNode)box.parentNode.removeChild(box);activeHint=null;},380);}
-    var t=setTimeout(dismiss,5200);
-    box.querySelector('.site-hint-close').addEventListener('click',function(){clearTimeout(t);dismiss();});
+  function buildHintBox(hint, isThird) {
+    var box = document.createElement('div');
+    box.className = 'site-hint';
+    box.id = 'fj-hint-' + hint.id;
+    box.style.cssText = 'position:fixed;bottom:160px;right:36px;z-index:99980;max-width:280px;';
+    var inner = '<span class="site-hint-label">' + hint.label + '</span>' +
+      '<span class="site-hint-text">' + hint.text + '</span>';
+    if (isThird) {
+      inner += '<div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">' +
+        '<button id="fj-hint-yes" style="font-family:Jost,sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:8px 16px;background:var(--gold);color:#080808;border:none;cursor:none;font-weight:700;">Yes, keep them</button>' +
+        '<button id="fj-hint-no" style="font-family:Jost,sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:8px 16px;background:transparent;color:var(--muted);border:1px solid var(--border);cursor:none;">No thanks</button>' +
+        '</div>';
+    }
+    inner += '<button class="site-hint-close" aria-label="Dismiss" style="position:absolute;top:10px;right:10px;background:none;border:none;color:var(--muted);font-size:14px;cursor:none;padding:2px 5px;">×</button>';
+    inner += '<div class="site-hint-bar"></div>';
+    box.innerHTML = inner;
+    return box;
   }
 
-  function checkHints(){
-    hints.forEach(function(hint){
-      if(shown.has(hint.id))return;
-      if(hint.triggerFn&&hint.triggerFn()){
-        if(!queue.find(function(q){return q.id===hint.id;}))queue.push(hint);
-      }
-    });
-    if(!activeHint&&queue.length){var next=queue.shift();setTimeout(function(){showHint(next);},next.delay||800);}
+  function showNextHint() {
+    if (processingQueue || activeHint || localStorage.getItem('fj-hints-disabled')==='true') return;
+    if (!hintsQueue.length) return;
+    processingQueue = true;
+    var hint = hintsQueue.shift();
+    if (shown.has(hint.id)) { processingQueue = false; showNextHint(); return; }
+    shown.add(hint.id);
+    hintCount++;
+    activeHint = hint.id;
+    var isThird = hintCount === 3;
+    var box = buildHintBox(hint, isThird);
+    document.body.appendChild(box);
+    requestAnimationFrame(function(){ box.style.opacity = '1'; });
+
+    function dismiss(scheduleNext) {
+      box.classList.add('hiding');
+      setTimeout(function(){
+        if(box.parentNode) box.parentNode.removeChild(box);
+        activeHint = null;
+        processingQueue = false;
+        if (scheduleNext !== false && localStorage.getItem('fj-hints-disabled') !== 'true') {
+          setTimeout(showNextHint, BETWEEN_HINTS);
+        }
+      }, 380);
+    }
+
+    box.querySelector('.site-hint-close').addEventListener('click', function(){ dismiss(true); });
+
+    if (isThird) {
+      var yesBtn = box.querySelector('#fj-hint-yes');
+      var noBtn  = box.querySelector('#fj-hint-no');
+      if (yesBtn) yesBtn.addEventListener('click', function(){ localStorage.setItem('fj-hints-disabled','false'); dismiss(true); });
+      if (noBtn)  noBtn.addEventListener('click',  function(){ localStorage.setItem('fj-hints-disabled','true');  dismiss(false); hintsQueue = []; });
+    }
+
+    var autoTimer = isThird ? null : setTimeout(function(){ dismiss(true); }, 5200);
+    if (!isThird && box.querySelector('.site-hint-close')) {
+      box.querySelector('.site-hint-close').addEventListener('click', function(){ clearTimeout(autoTimer); });
+    }
   }
-  window.addEventListener('scroll',checkHints,{passive:true});
-  setTimeout(checkHints,2000);
+
+  function queueHint(hint) {
+    if (shown.has(hint.id)) return;
+    if (hintsQueue.find(function(h){ return h.id === hint.id; })) return;
+    hintsQueue.push(hint);
+  }
+
+  // Pre-queue all hints immediately, but don't show until 15s in
+  hints.forEach(function(h){ queueHint(h); });
+
+  setTimeout(function(){
+    hintsStarted = true;
+    showNextHint();
+    // Also keep checking scroll for more
+    window.addEventListener('scroll', function(){
+      if (!hintsStarted) return;
+      if (!activeHint && hintsQueue.length && !processingQueue) {
+        setTimeout(showNextHint, BETWEEN_HINTS);
+      }
+    }, { passive: true });
+  }, FIRST_HINT_DELAY);
 })();
 </script>
 <div id="google_translate_element" style="
