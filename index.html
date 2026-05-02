@@ -7504,7 +7504,7 @@ body.light-mode .pkg-cta:hover {
   body.light-mode .auth-overlay { background: rgba(200,196,188,0.88); }
 </style>
 
-<div id="authOverlay" style="display:none;">
+<div id="authOverlay" style="display:none;opacity:0;pointer-events:none;">
   <div id="authModal">
     <div class="auth-modal-gold-line"></div>
     <button id="authModalClose">Close</button>
@@ -9320,7 +9320,7 @@ function updateSlides() {
 </script>
 <script>  
 // AUTH SYSTEM — REDESIGNED & FULLY FUNCTIONAL
-const fjAuth = (function () {
+var fjAuth = (function () {
   let currentUser = null;
   let selectedStars = 0;
 
@@ -9329,16 +9329,12 @@ const fjAuth = (function () {
     const ov = document.getElementById('authOverlay');
     if (!ov) return;
 
-    // Reset display first, then trigger transition on next frame
     ov.style.display = 'flex';
-    ov.style.opacity = '0';
-    ov.style.pointerEvents = 'none';
     document.body.style.overflow = 'hidden';
 
     if (tab) switchTab(tab);
     clearMessages();
 
-    // Update title/sub based on tab
     const title = document.getElementById('authModalTitle');
     const sub   = document.getElementById('authModalSub');
     if (tab === 'signup' && title) {
@@ -9349,13 +9345,12 @@ const fjAuth = (function () {
       if (sub) sub.textContent = 'Sign in to access your safari journey and saved preferences.';
     }
 
-    // Animate in
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        ov.style.opacity = '1';
-        ov.style.pointerEvents = 'all';
-      });
-    });
+    // Force reflow then animate in
+    void ov.offsetHeight;
+    ov.style.transition = 'opacity 0.45s ease';
+    ov.style.opacity = '1';
+    ov.style.pointerEvents = 'all';
+    ov.classList.add('open');
   }
 
   function close() {
@@ -9363,6 +9358,7 @@ const fjAuth = (function () {
     if (!ov) return;
     ov.style.opacity = '0';
     ov.style.pointerEvents = 'none';
+    ov.classList.remove('open');
     document.body.style.overflow = '';
     clearMessages();
     setTimeout(() => { ov.style.display = 'none'; }, 460);
@@ -9939,75 +9935,7 @@ window.openAuth = fjAuth.open;
   window.addEventListener('scroll', checkHints, { passive: true });
   setTimeout(checkHints, 2000);
 })();
-    { label: 'Tip', text: 'Click the magnify icon on any destination slide to zoom into the image.', anchor: 'destSlideshow', position: 'top-right', delay: 12000 },
-    { label: 'Tip', text: 'Use the filter bar to sort safari packages by budget, mid-range, or luxury.', anchor: 'pkgFilterBar', position: 'bottom-left', delay: 22000 },
-    { label: 'Did you know', text: 'Hover over any gallery image to reveal its story — click the lens icon to zoom in.', anchor: 'galSlideshow', position: 'top-right', delay: 34000 },
-    { label: 'Tip', text: 'The Safari Matchmaker below uses your answers to find your ideal Kenya experience.', anchor: 'inline-quiz', position: 'top-left', delay: 46000 },
-    { label: 'Quick action', text: 'Tap the WhatsApp button at any time to reach us instantly and book your safari.', anchor: null, position: 'bottom-right-fixed', delay: 58000 },
-    { label: 'Tip', text: 'Use arrow keys ← → to navigate destination slides when your cursor is on the slideshow.', anchor: 'destSlideshow', position: 'top-left', delay: 70000 },
-  ];
-
-  let shown = new Set();
-
-  function getAnchorRect(id) {
-    if (!id) return null;
-    const el = document.getElementById(id);
-    if (!el) return null;
-    return el.getBoundingClientRect();
-  }
-
-  function isVisible(id) {
-    if (!id) return true;
-    const el = document.getElementById(id);
-    if (!el) return false;
-    const rect = el.getBoundingClientRect();
-    return rect.top < window.innerHeight && rect.bottom > 0;
-  }
-
-  function showHint(hint) {
-    if (shown.has(hint.label + hint.text)) return;
-    shown.add(hint.label + hint.text);
-
-    const box = document.createElement('div');
-    box.className = 'site-hint';
-    box.innerHTML = `
-      <span class="site-hint-label">${hint.label}</span>
-      <span class="site-hint-text">${hint.text}</span>
-      <button class="site-hint-close" aria-label="Dismiss">×</button>
-      <div class="site-hint-bar"></div>
-    `;
-
-    if (hint.position === 'bottom-right-fixed') {
-      box.style.cssText = 'bottom:110px;right:36px;';
-    } else if (hint.position === 'top-right') {
-      box.style.cssText = 'top:100px;right:36px;';
-    } else if (hint.position === 'top-left') {
-      box.style.cssText = 'top:100px;left:36px;';
-    } else if (hint.position === 'bottom-left') {
-      box.style.cssText = 'bottom:110px;left:36px;';
-    } else {
-      box.style.cssText = 'bottom:110px;right:36px;';
-    }
-
-    document.body.appendChild(box);
-
-    function dismiss() {
-      box.classList.add('hiding');
-      setTimeout(() => { if (box.parentNode) box.parentNode.removeChild(box); }, 400);
-    }
-
-    box.querySelector('.site-hint-close').addEventListener('click', dismiss);
-    const autoTimer = setTimeout(dismiss, 5200);
-    box.querySelector('.site-hint-close').addEventListener('click', () => clearTimeout(autoTimer));
-  }
-
-  hints.forEach(hint => {
-    setTimeout(() => {
-      if (hint.anchor && !isVisible(hint.anchor)) return;
-      showHint(hint);
-    }, hint.delay);
-  });
-})();
+    
     </script>
 <div id="google_translate_element" style="
   position: fixed;
