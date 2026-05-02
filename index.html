@@ -5882,12 +5882,12 @@ body.light-mode .pkg-cta:hover {
   <!-- Flip faces (shown when logged out) -->
   <div class="auth-flip-inner auto-cycling" id="authFlipInner">
     <button class="auth-flip-face auth-flip-signin" id="authNavBtn"
-      onclick="fjAuth.open('signin')">
+      onclick="window._openAuth('signin')">
       <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.5 12.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
       Sign In
     </button>
     <button class="auth-flip-face auth-flip-signup" id="authNavBtnBack"
-      onclick="fjAuth.open('signup')">
+      onclick="window._openAuth('signup')">
       <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
       Sign Up
     </button>
@@ -5916,13 +5916,21 @@ body.light-mode .pkg-cta:hover {
   <a href="#blog" class="dropdown-link">Journal</a>
   <a href="#contact" class="dropdown-link">Contact</a>
   <button class="dropdown-link" id="dropdownAuthBtn"
-    onclick="if(window._fjCurrentUser){document.getElementById('userMenu').classList.toggle('open');document.getElementById('menuBtn').classList.remove('open');document.getElementById('dropdown').classList.remove('open');}else{fjAuth.open('signin');document.getElementById('menuBtn').classList.remove('open');document.getElementById('dropdown').classList.remove('open');}"
+    onclick="if(window._fjCurrentUser){document.getElementById('userMenu').classList.toggle('open');document.getElementById('menuBtn').classList.remove('open');document.getElementById('dropdown').classList.remove('open');}else{window._openAuth('signin');document.getElementById('menuBtn').classList.remove('open');document.getElementById('dropdown').classList.remove('open');}"
     style="background:none;border:none;text-align:left;width:100%;cursor:none;font-family:'Playfair Display',serif;font-size:32px;font-weight:500;color:var(--gold);display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
     <svg width="18" height="18" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;">
       <circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.1"/>
       <path d="M1.5 12.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
     </svg>
     <span id="dropdownAuthLabel">Sign In</span>
+  </button>
+  <button class="dropdown-link" id="dropdownSignupBtn"
+    onclick="window._openAuth('signup');document.getElementById('menuBtn').classList.remove('open');document.getElementById('dropdown').classList.remove('open');"
+    style="background:none;border:none;text-align:left;width:100%;cursor:none;font-family:'Playfair Display',serif;font-size:32px;font-weight:500;color:var(--text);display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+    <svg width="18" height="18" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;opacity:0.6;">
+      <path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    Sign Up
   </button>
   <a href="admin.html" class="dropdown-link" style="font-size:13px;letter-spacing:4px;color:var(--muted);border-top:1px solid var(--border);margin-top:12px;padding-top:20px;display:flex;align-items:center;gap:12px;" target="_blank" rel="noopener">
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;opacity:0.7;">
@@ -6578,7 +6586,7 @@ body.light-mode .pkg-cta:hover {
   </div>
 
     <div id="testimonialFormLocked" class="testimonial-form-locked">
-      <button onclick="fjAuth.open('signin')" style="font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;padding:18px 44px;background: linear-gradient(135deg, #f0c84a 0%, #d4af37 35%, #b8860b 65%, #c9921a 100%);
+      <button onclick="window._openAuth('signin')" style="font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;padding:18px 44px;background: linear-gradient(135deg, #f0c84a 0%, #d4af37 35%, #b8860b 65%, #c9921a 100%);
     color: #1a0e00;
     box-shadow:
       0 2px 0 rgba(255,255,255,0.25) inset,
@@ -7515,8 +7523,8 @@ body.light-mode .pkg-cta:hover {
       <p class="auth-modal-sub" id="authModalSub">Sign in to your account or create one to unlock your safari journey.</p>
 
       <div class="auth-tabs-row">
-        <button class="auth-tab-btn active" id="tabSignin" onclick="fjAuth.switchTab('signin')">Sign In</button>
-        <button class="auth-tab-btn" id="tabSignup" onclick="fjAuth.switchTab('signup')">Create Account</button>
+       <button class="auth-tab-btn active" id="tabSignin" onclick="window._switchAuthTab('signin')">Sign In</button>
+        <button class="auth-tab-btn" id="tabSignup" onclick="window._switchAuthTab('signup')">Create Account</button>
       </div>
 
       <div id="authMsgError" class="auth-msg error"></div>
@@ -7529,10 +7537,10 @@ body.light-mode .pkg-cta:hover {
           onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
         <input id="siPassword" class="auth-input" type="password" placeholder="Password" autocomplete="current-password"
           onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-        <button class="auth-submit-btn" id="siSubmitBtn" onclick="fjAuth.signIn()">
+        <button class="auth-submit-btn" id="siSubmitBtn" onclick="window._doSignIn()">
           Sign In to Your Account
         </button>
-        <p class="auth-alt-link">No account? <button onclick="fjAuth.switchTab('signup')">Create one free</button></p>
+        <p class="auth-alt-link">No account? <button onclick="window._switchAuthTab('signup')">Create one free</button></p>
       </div>
 
       <!-- SIGN UP PANEL -->
@@ -7601,10 +7609,10 @@ body.light-mode .pkg-cta:hover {
         <input id="suHowHeard" class="auth-input" type="text" placeholder="How did you hear about us?"
           onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
 
-        <button class="auth-submit-btn" id="suSubmitBtn" onclick="fjAuth.signUp()">
+        <button class="auth-submit-btn" id="suSubmitBtn" onclick="window._doSignUp()">
           Create My Safari Account
         </button>
-        <p class="auth-alt-link">Already have an account? <button onclick="fjAuth.switchTab('signin')">Sign in</button></p>
+        <p class="auth-alt-link">Already have an account? <button onclick="window._switchAuthTab('signin')">Sign in</button></p>
       </div>
     </div>
   </div>
@@ -7654,1949 +7662,277 @@ body.light-mode .pkg-cta:hover {
   </svg>
 </a>
 <script>
-// ===========================
-// QUESTIONNAIRE
-// ===========================
-(function () {
-
-  if (sessionStorage.getItem('quizDone')) return;
-
-  const overlay   = document.getElementById('quiz-overlay');
-  const container = document.getElementById('quizStepContainer');
-  const progress  = document.getElementById('quizProgress');
-  const skipBtn   = document.getElementById('quizSkip');
-
-  // Shared live package pool — merges allPackages when available
-  function getLivePool() {
-    if (window.allPackages && window.allPackages.length) {
-      return window.allPackages.map(p => {
-        const name = p.name.replace(/<br>/g,' ').replace(/\s+/g,' ').trim();
-        const tierRaw = (p.tier || '').toLowerCase();
-        const tier = tierRaw.includes('ultra') ? 'ultra'
-                   : tierRaw.includes('luxury') ? 'luxury'
-                   : tierRaw.includes('budget') ? 'budget' : 'mid-range';
-        const features = p.features || [];
-        const vibes = [];
-        const searchText = (name + ' ' + features.join(' ')).toLowerCase();
-        if (/beach|coast|ocean|diani|marine|snorkel/.test(searchText))   vibes.push('beach');
-        if (/wildlife|safari|game|mara|amboseli|samburu|tsavo|nakuru|park|reserve|big five|migration|elephant|lion|leopard/.test(searchText)) vibes.push('wildlife');
-        if (/hike|climb|mount|trek|adventure|highland|mountain/.test(searchText)) vibes.push('adventure');
-        if (/culture|maasai|village|community|people|tradition/.test(searchText)) vibes.push('culture');
-        if (!vibes.length) vibes.push('wildlife');
-        const days = parseInt((p.duration || '').match(/\d+/) || [0]);
-        const durationKey = days <= 4 ? 'short' : days <= 7 ? 'medium' : days <= 10 ? 'long' : 'grand';
-        const priceRaw = parseInt((p.price || '$0').replace(/\D/g,'')) || 0;
-        return { name, price: p.price, duration: p.duration || '', page: p.page || '#packages', tier, vibe: vibes, durationKey, priceRaw };
-      });
-    }
-    return [
-      { name: 'Mara Awakening',       price: '$2,800',  duration: '4 Days',  page: 'pkg-mara-awakening.html',     tier: 'mid-range', vibe: ['wildlife'],              durationKey: 'short',  priceRaw: 2800  },
-      { name: 'Grand Odyssey',        price: '$6,500',  duration: '7 Days',  page: 'pkg-grand-odyssey.html',      tier: 'luxury',    vibe: ['wildlife','culture'],    durationKey: 'medium', priceRaw: 6500  },
-      { name: 'Ultimate Kenya',       price: '$11,200', duration: '10 Days', page: 'pkg-ultimate-kenya.html',     tier: 'luxury',    vibe: ['wildlife','adventure'],  durationKey: 'long',   priceRaw: 11200 },
-      { name: 'Amboseli Escape',      price: '$1,950',  duration: '3 Days',  page: 'pkg-amboseli-express.html',   tier: 'budget',    vibe: ['wildlife'],              durationKey: 'short',  priceRaw: 1950  },
-      { name: 'Samburu Wilderness',   price: '$3,400',  duration: '5 Days',  page: 'pkg-samburu-secrets.html',    tier: 'mid-range', vibe: ['wildlife','adventure'],  durationKey: 'medium', priceRaw: 3400  },
-      { name: 'Coastal Safari Blend', price: '$4,200',  duration: '6 Days',  page: 'pkg-safari-and-sea.html',     tier: 'mid-range', vibe: ['beach','wildlife'],      durationKey: 'medium', priceRaw: 4200  },
-      { name: 'Lakes & Highlands',    price: '$5,100',  duration: '8 Days',  page: 'pkg-lake-nakuru-escape.html', tier: 'mid-range', vibe: ['adventure','culture'],   durationKey: 'long',   priceRaw: 5100  },
-      { name: 'Kenya Mastery',        price: '$14,500', duration: '12 Days', page: 'pkg-grand-odyssey.html',      tier: 'ultra',     vibe: ['wildlife','culture'],    durationKey: 'grand',  priceRaw: 14500 },
-    ];
-  }
-
-  const steps = [
-    {
-      id: 'name',
-      type: 'text',
-      label: 'Step 1 of 5',
-      question: 'Welcome. What shall we call you?',
-      sub: 'Every great safari begins with a name.',
-      placeholder: 'Your first name',
-      minLength: 2,
-      pattern: /^[a-zA-ZÀ-ÖØ-öø-ÿ\s'\-]{2,}$/,
-      errorMsg: 'Please enter a real name — at least 2 letters, no numbers.',
-    },
-    {
-      id: 'vibe',
-      type: 'multi',
-      label: 'Step 2 of 5',
-      question: 'What draws you to Kenya?',
-      sub: 'Choose everything that stirs something in you.',
-      options: [
-        { value: 'wildlife',  label: 'Wildlife & Safari' },
-        { value: 'beach',     label: 'Coast & Ocean' },
-        { value: 'adventure', label: 'Adventure & Hiking' },
-        { value: 'culture',   label: 'Culture & People' },
-      ],
-    },
-    {
-      id: 'duration',
-      type: 'choice',
-      label: 'Step 3 of 5',
-      question: 'How long is your dream escape?',
-      sub: 'We will shape the perfect rhythm around your time.',
-      options: [
-        { value: 'short',  label: '3 – 4 Days' },
-        { value: 'medium', label: '5 – 7 Days' },
-        { value: 'long',   label: '8 – 10 Days' },
-        { value: 'grand',  label: '10+ Days' },
-      ],
-    },
-    {
-      id: 'budget',
-      type: 'choice',
-      label: 'Step 4 of 5',
-      question: 'What is your comfort range?',
-      sub: 'No judgement — every budget unlocks a remarkable journey.',
-      options: [
-        { value: 'budget',    label: 'Budget  · Under $2,500' },
-        { value: 'mid-range', label: 'Mid-Range  · $2,500–$5,000' },
-        { value: 'luxury',    label: 'Luxury  · $5,000–$12,000' },
-        { value: 'ultra',     label: 'Ultra  · $12,000+' },
-      ],
-      singleCol: true,
-    },
-    {
-      id: 'travel',
-      type: 'text',
-      label: 'Step 5 of 5',
-      question: 'When are you thinking of travelling?',
-      sub: 'A rough idea helps us check availability and seasons.',
-      placeholder: 'e.g. July 2025, or "not sure yet"',
-      minLength: 4,
-      pattern: /^[a-zA-Z0-9\s,\-\/\.]{4,}$/,
-      errorMsg: 'Please enter a month, year, or "not sure yet" — no special characters.',
-    },
-  ];
-
-  let current = 0;
-  const answers = {};
-
-  function tierMatch(pkgTier, budget) {
-    if (budget === 'ultra')     return pkgTier === 'ultra' || pkgTier === 'luxury';
-    if (budget === 'luxury')    return pkgTier === 'luxury' || pkgTier === 'mid-range';
-    if (budget === 'mid-range') return pkgTier === 'mid-range' || pkgTier === 'budget';
-    if (budget === 'budget')    return pkgTier === 'budget';
-    return true;
-  }
-
-  function getResults() {
-    const pool      = getLivePool();
-    const vibes     = Array.isArray(answers.vibe) ? answers.vibe : (answers.vibe ? [answers.vibe] : []);
-    const duration  = answers.duration;
-    const budget    = answers.budget;
-
-    const scored = pool.map(pkg => {
-      let score = 0;
-
-      // Vibe matching — score each matched vibe, bonus for multiple matches
-      vibes.forEach(v => { if (pkg.vibe.includes(v)) score += 3; });
-      if (vibes.length > 1) {
-        const matchCount = vibes.filter(v => pkg.vibe.includes(v)).length;
-        score += matchCount * 2; // bonus for multi-match
-      }
-
-      // Duration — exact match scores highest, adjacent scores partial
-      if (duration) {
-        const order = ['short','medium','long','grand'];
-        const pkgIdx = order.indexOf(pkg.durationKey);
-        const ansIdx = order.indexOf(duration);
-        if (pkgIdx === ansIdx)            score += 4;
-        else if (Math.abs(pkgIdx - ansIdx) === 1) score += 2;
-      }
-
-      // Budget — tier match with adjacency tolerance
-      if (budget) {
-        if (pkg.tier === budget)          score += 5;
-        else if (tierMatch(pkg.tier, budget)) score += 2;
-      }
-
-      return { ...pkg, score };
-    });
-
-    // Sort by score desc, then by priceRaw asc as tiebreaker
-    return scored
-      .sort((a, b) => b.score - a.score || a.priceRaw - b.priceRaw)
-      .slice(0, 3);
-  }
-
-  function setProgress(step) {
-    progress.style.width = ((step + 1) / (steps.length + 1) * 100) + '%';
-  }
-
-  function renderStep(index) {
-    setProgress(index);
-    if (index >= steps.length) { renderResults(); return; }
-    const step      = steps[index];
-    const isText    = step.type === 'text';
-    const isMulti   = step.type === 'multi';
-    const isChoice  = step.type === 'choice';
-
-    const selectedVibes = Array.isArray(answers.vibe) ? answers.vibe : [];
-    const hasAnswer = isText
-      ? (answers[step.id] !== undefined && answers[step.id] !== '')
-      : isMulti
-        ? selectedVibes.length > 0
-        : (answers[step.id] !== undefined && answers[step.id] !== '');
-
-    container.innerHTML = `
-      <div class="quiz-step">
-        <span class="quiz-step-label">${step.label}</span>
-        <h2 class="quiz-question">${step.question}</h2>
-        <p class="quiz-sub">${step.sub}${isMulti ? ' <em style="font-size:10px;letter-spacing:2px;opacity:0.6;">(select all that apply)</em>' : ''}</p>
-        ${isText ? `
-          <input class="quiz-input" id="quizInput" type="text"
-            placeholder="${step.placeholder}"
-            value="${answers[step.id] || ''}"
-            autocomplete="off">
-        ` : `
-          <div class="quiz-options${step.singleCol ? ' single-col' : ''}" id="quizOptions">
-            ${step.options.map(opt => {
-              const sel = isMulti
-                ? selectedVibes.includes(opt.value)
-                : answers[step.id] === opt.value;
-              return `<button class="quiz-option${sel ? ' selected' : ''}" data-value="${opt.value}">${opt.label}</button>`;
-            }).join('')}
-          </div>
-          ${isMulti ? `<p style="font-family:Jost,sans-serif;font-size:9px;letter-spacing:3px;color:rgba(212,175,55,0.6);margin-top:10px;text-transform:uppercase;" id="multiHint">${selectedVibes.length} selected — press Continue when ready</p>` : ''}
-        `}
-        <div class="quiz-nav">
-          ${index > 0 ? `<button class="quiz-btn-back" id="quizBack">Back</button>` : `<span></span>`}
-          <button class="quiz-btn-next${hasAnswer ? ' ready' : ''}" id="quizNext">
-            ${index === steps.length - 1 ? 'See My Safaris' : 'Continue'}
-          </button>
-        </div>
-      </div>
-    `;
-
-    const nextBtn = document.getElementById('quizNext');
-    const backBtn = document.getElementById('quizBack');
-
-    if (isText) {
-      const input = document.getElementById('quizInput');
-      function validateInput() {
-        const val = input.value.trim();
-        return val.length >= (step.minLength || 1) && (!step.pattern || step.pattern.test(val));
-      }
-      input.addEventListener('input', () => {
-        answers[step.id] = input.value.trim();
-        const valid = validateInput();
-        nextBtn.classList.toggle('ready', valid);
-        input.style.borderBottomColor = '';
-        const hint = document.getElementById('quizHint');
-        if (hint) hint.style.opacity = '0';
-      });
-      input.addEventListener('keydown', e => {
-        if (e.key === 'Enter') {
-          if (validateInput()) advance();
-          else triggerError(input, step.errorMsg, 'quizHint');
-        }
-      });
-      setTimeout(() => input.focus(), 100);
-
-    } else if (isMulti) {
-      document.getElementById('quizOptions').addEventListener('click', e => {
-        const btn = e.target.closest('.quiz-option');
-        if (!btn) return;
-        const val = btn.dataset.value;
-        if (!Array.isArray(answers.vibe)) answers.vibe = [];
-        if (answers.vibe.includes(val)) {
-          answers.vibe = answers.vibe.filter(v => v !== val);
-          btn.classList.remove('selected');
-        } else {
-          answers.vibe.push(val);
-          btn.classList.add('selected');
-        }
-        const hint = document.getElementById('multiHint');
-        if (hint) hint.textContent = answers.vibe.length + ' selected — press Continue when ready';
-        nextBtn.classList.toggle('ready', answers.vibe.length > 0);
-      });
-
-    } else {
-      document.getElementById('quizOptions').addEventListener('click', e => {
-        const btn = e.target.closest('.quiz-option');
-        if (!btn) return;
-        document.querySelectorAll('#quizOptions .quiz-option').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        answers[step.id] = btn.dataset.value;
-        nextBtn.classList.add('ready');
-        nextBtn.style.pointerEvents = 'all';
-        setTimeout(() => advance(), 380);
-      });
-    }
-
-    if (nextBtn) nextBtn.addEventListener('click', () => {
-      if (nextBtn.classList.contains('ready')) {
-        advance();
-      } else {
-        const input = document.getElementById('quizInput');
-        triggerError(input || nextBtn, step.errorMsg || 'Please complete this field to continue.', 'quizHint');
-      }
-    });
-    if (backBtn) backBtn.addEventListener('click', () => { current--; renderStep(current); });
-  }
-
-  function triggerError(target, message, hintId) {
-    target.style.transition = 'transform 0.08s ease, border-color 0.3s';
-    target.style.borderBottomColor = '#e05555';
-    target.style.transform = 'translateX(6px)';
-    setTimeout(() => { target.style.transform = 'translateX(-6px)'; }, 80);
-    setTimeout(() => { target.style.transform = 'translateX(4px)'; }, 160);
-    setTimeout(() => { target.style.transform = 'translateX(-4px)'; }, 240);
-    setTimeout(() => { target.style.transform = 'translateX(0)'; }, 320);
-    let hint = document.getElementById(hintId);
-    if (!hint) {
-      hint = document.createElement('span');
-      hint.id = hintId;
-      hint.style.cssText = 'display:block;font-family:Jost,sans-serif;font-size:10px;letter-spacing:2px;color:#e05555;margin-top:8px;opacity:0;transition:opacity 0.3s;text-transform:uppercase;';
-      target.after(hint);
-    }
-    hint.textContent = message;
-    requestAnimationFrame(() => { hint.style.opacity = '1'; });
-    setTimeout(() => { if (hint) hint.style.opacity = '0'; }, 3500);
-  }
-
-  function advance() { current++; renderStep(current); }
-
-  function renderResults() {
-    setProgress(steps.length);
-    const results = getResults();
-    const name = answers.name ? answers.name.split(' ')[0] : 'Explorer';
-
-    container.innerHTML = `
-      <div class="quiz-step">
-        <div class="quiz-results-intro">
-          <span class="quiz-step-label">Curated For You</span>
-          <h2 class="quiz-question">Your Safari Awaits,<br>${name}.</h2>
-          <p class="quiz-sub">Based on your answers, these experiences were made for you.</p>
-        </div>
-        <div class="quiz-result-cards">
-          ${results.map(pkg => `
-            <div class="quiz-result-card">
-              <div class="quiz-result-info">
-                <div class="quiz-result-name">${pkg.name}</div>
-                <div class="quiz-result-meta">${pkg.duration} · ${pkg.tier}</div>
-              </div>
-              <div class="quiz-result-price">${pkg.price}</div>
-              <a href="${pkg.page}" class="quiz-result-link">View</a>
-            </div>
-          `).join('')}
-        </div>
-        <button class="quiz-btn-next ready" id="quizEnter" style="width:100%;text-align:center;margin-top:24px;">Enter the Full Experience</button>
-      </div>
-    `;
-    document.getElementById('quizEnter').addEventListener('click', closeQuiz);
-  }
-
-  function closeQuiz() {
-    sessionStorage.setItem('quizDone', 'true');
-    document.body.style.overflow = '';
-    document.documentElement.style.overflow = '';
-    overlay.classList.add('hiding');
-    window.scrollTo(0, 0);
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-    setTimeout(() => {
-      overlay.style.display = 'none';
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-    }, 600);
-  }
-
-  skipBtn.addEventListener('click', closeQuiz);
-
-  function initQuiz() {
-    window.scrollTo(0, 0);
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-    overlay.style.display = 'flex';
-    renderStep(0);
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        overlay.classList.add('visible');
-        window.scrollTo(0, 0);
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
-      });
-    });
-  }
-
-  if (sessionStorage.getItem('loaderSeen')) {
-    setTimeout(initQuiz, 400);
-  } else {
-    setTimeout(initQuiz, 5800);
-  }
-
-})();
-  // THEME TOGGLE
-(function () {
-  const toggle  = document.getElementById('themeToggle');
-  const tooltip = document.getElementById('themeTooltip');
-  if (!toggle) return;
-
-  const saved = localStorage.getItem('fjt-theme');
-  if (saved === 'light') {
-    document.body.classList.add('light-mode');
-    tooltip.textContent = 'Dark Mode';
-  } else {
-    tooltip.textContent = 'Light Mode';
-  }
-
-toggle.addEventListener('click', () => {
-    const isLight = document.body.classList.toggle('light-mode');
-    localStorage.setItem('fjt-theme', isLight ? 'light' : 'dark');
-    tooltip.textContent = isLight ? 'Dark Mode' : 'Light Mode';
-
-    // Reset hero sky filter immediately on toggle
-    const heroSky = document.querySelector('.hero-sky');
-    if (heroSky) {
-      if (isLight) {
-        heroSky.style.filter = heroSky.classList.contains('settled')
-          ? 'blur(0px) brightness(0.92) saturate(1.05)'
-          : 'blur(0px) brightness(1) saturate(1)';
-      } else {
-        heroSky.style.filter = '';
-        if (heroSky.classList.contains('settled')) {
-          heroSky.style.filter = 'blur(2px) brightness(0.3)';
-        }
-      }
-    }
-  });
-})();
-// DEFINITIVE TOP-LOCK — runs before anything else
-(function () {
-  // Strip any hash from URL immediately
-  if (window.location.hash) {
-    history.replaceState(null, null, window.location.pathname + window.location.search);
-  }
-  // Force scroll to top instantly
-  window.scrollTo(0, 0);
-  document.documentElement.scrollTop = 0;
-  document.body.scrollTop = 0;
-})();
-    
-const loaderEl     = document.getElementById('loader');
-const loaderLogoEl = document.querySelector('.loader-logo');
-const heroLogoEl   = document.getElementById('hero-logo');
-const heroSkyEl    = document.querySelector('.hero-sky');
-const navLogoLink  = document.querySelector('.nav-logo-link');
-const navIdleWords = document.querySelector('.nav-idle-words');
-
-const shutterWrap = document.getElementById('shutterWrap');
-
-function fireShutter(onComplete) {
-  if (!shutterWrap) { onComplete && onComplete(); return; }
-  shutterWrap.classList.add('closing');
-  const totalDuration = 380 + (7 * 40) + 60;
-  setTimeout(() => {
-    shutterWrap.style.display = 'none';
-    onComplete && onComplete();
-  }, totalDuration);
-}
-
-if (sessionStorage.getItem('loaderSeen')) {
-  loaderEl.style.display = 'none';
-  if (heroLogoEl) { heroLogoEl.style.display = 'block'; heroLogoEl.style.opacity = '1'; }
-  heroSkyEl.classList.add('settled');
-  const heroEyebrow  = document.querySelector('.hero-eyebrow');
-  const heroSubtitle = document.querySelector('.hero-subtitle');
-  const heroActions  = document.querySelector('.hero-actions');
-  if (heroEyebrow)  { heroEyebrow.style.opacity  = '1'; heroEyebrow.style.transform  = 'translateY(0)'; heroEyebrow.style.animation  = 'none'; }
-  if (heroSubtitle) { heroSubtitle.style.opacity = '1'; heroSubtitle.style.transform = 'translateY(0)'; heroSubtitle.style.animation = 'none'; }
-  if (heroActions)  { heroActions.style.opacity  = '1'; heroActions.style.transform  = 'translateY(0)'; heroActions.style.animation  = 'none'; }
-  setTimeout(() => fireShutter(), 200);
-} else {
-  sessionStorage.setItem('loaderSeen', 'true');
-  setTimeout(() => {
-    loaderLogoEl.classList.add('morph-to-hero');
-    loaderEl.classList.add('fade-out');
-    if (heroLogoEl) heroLogoEl.style.display = 'block';
-    setTimeout(() => { if (heroLogoEl) heroLogoEl.classList.add('visible'); }, 400);
-    setTimeout(() => { heroSkyEl.classList.add('settled'); }, 2500);
-    setTimeout(() => {
-      loaderLogoEl.classList.add('gone');
-      loaderEl.style.display = 'none';
-      fireShutter();
-    }, 3200);
-  }, 4200);
-}
-
-// Lock scroll to top at every stage of page lifecycle
-document.addEventListener('DOMContentLoaded', () => {
-  window.scrollTo(0, 0);
-  document.documentElement.scrollTop = 0;
-  document.body.scrollTop = 0;
-});
-
-window.addEventListener('load', () => {
-  window.scrollTo(0, 0);
-  document.documentElement.scrollTop = 0;
-  document.body.scrollTop = 0;
-});
-
-window.addEventListener('beforeunload', () => {
-  window.scrollTo(0, 0);
-  document.documentElement.scrollTop = 0;
-  document.body.scrollTop = 0;
-});
-    
-// Hero logo flies to nav on scroll
-let hasFlown = false;
-let heroStartRect = null;
-
-window.addEventListener('load', () => {
-  if (heroLogoEl) heroStartRect = heroLogoEl.getBoundingClientRect();
-});
-
-window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
-    // Light mode hero brightness reset
-  if (document.body.classList.contains('light-mode')) {
-    heroSkyEl.style.filter = heroSkyEl.classList.contains('settled')
-      ? 'blur(0px) brightness(0.92) saturate(1.05)'
-      : 'blur(0px) brightness(1) saturate(1)';
-  } else {
-    heroSkyEl.style.filter = '';
-  }
-
-  // Fade idle words
-  if (navIdleWords) {
-    navIdleWords.style.opacity       = scrollY > 80 ? '0' : '1';
-    navIdleWords.style.pointerEvents = scrollY > 80 ? 'none' : '';
-  }
-
-  if (scrollY > 80 && !hasFlown) {
-    hasFlown = true;
-
-    const currentHeroRect = heroLogoEl.getBoundingClientRect();
-    const navRect         = navLogoLink.getBoundingClientRect();
-
-    // Target size — match nav slot height, preserve natural ratio
-    const targetHeight = navRect.height * 0.85;
-    const targetWidth  = targetHeight * (heroStartRect.width / heroStartRect.height);
-    const targetTop    = navRect.top + (navRect.height - targetHeight) / 2;
-    const targetLeft   = navRect.left;
-
-    // Hide real hero logo
-    heroLogoEl.style.transition = 'none';
-    heroLogoEl.style.opacity    = '0';
-
-    // Clone from exact current screen position
-    const clone = heroLogoEl.cloneNode(true);
-    clone.removeAttribute('id');
-    clone.style.cssText = `
-      position: fixed;
-      top: ${currentHeroRect.top}px;
-      left: ${currentHeroRect.left}px;
-      width: ${currentHeroRect.width}px;
-      height: ${currentHeroRect.height}px;
-      opacity: 1;
-      z-index: 9997;
-      pointer-events: none;
-      margin: 0;
-      transition: none;
-      filter: drop-shadow(0 0 12px rgba(212,175,55,0.5));
-    `;
-    document.body.appendChild(clone);
-
-    // Animate clone to nav position
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        clone.style.transition = `
-          top    0.65s cubic-bezier(0.76, 0, 0.24, 1),
-          left   0.65s cubic-bezier(0.76, 0, 0.24, 1),
-          width  0.65s cubic-bezier(0.76, 0, 0.24, 1),
-          height 0.65s cubic-bezier(0.76, 0, 0.24, 1),
-          opacity 0.3s ease 0.45s
-        `;
-        clone.style.top    = `${targetTop}px`;
-        clone.style.left   = `${targetLeft}px`;
-        clone.style.width  = `${targetWidth}px`;
-        clone.style.height = `${targetHeight}px`;
-      });
-    });
-
-    // Land: remove clone, show nav logo
-    setTimeout(() => {
-      clone.style.opacity = '0';
-      setTimeout(() => {
-        clone.remove();
-        navLogoLink.style.transition    = 'none';
-        navLogoLink.style.opacity       = '1';
-        navLogoLink.style.pointerEvents = 'all';
-      }, 300);
-    }, 650);
-  }
-
-  // Scroll back to top — reset
-  if (scrollY <= 80 && hasFlown) {
-    hasFlown = false;
-    navLogoLink.style.transition    = 'opacity 0.3s ease';
-    navLogoLink.style.opacity       = '0';
-    navLogoLink.style.pointerEvents = 'none';
-    heroLogoEl.style.transition     = 'opacity 0.4s ease';
-    heroLogoEl.style.opacity        = '1';
-  }
-});
-
-// Custom Cursor
-const cursor = document.getElementById('cursor');
-const ring   = document.getElementById('cursorRing');
-let mx = 0, my = 0, rx = 0, ry = 0;
-
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cursor.style.left = mx + 'px';
-  cursor.style.top  = my + 'px';
-});
-
-function animateRing() {
-  rx += (mx - rx) * 0.12;
-  ry += (my - ry) * 0.12;
-  ring.style.left = rx + 'px';
-  ring.style.top  = ry + 'px';
-  requestAnimationFrame(animateRing);
-}
-animateRing();
-
-document.querySelectorAll('a, button, .highlight-card, .wildlife-cell, .package-card, .quiz-option, .quiz-btn-next, .quiz-btn-back, .quiz-enter-btn, .quiz-result-link, .quiz-skip, .blog-card, .gallery-item, .theme-toggle').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cursor.style.width  = '20px'; cursor.style.height = '20px';
-    ring.style.width    = '60px'; ring.style.height   = '60px';
-    ring.style.borderColor = 'rgba(212,175,55,0.8)';
-  });
-  el.addEventListener('mouseleave', () => {
-    cursor.style.width  = '12px'; cursor.style.height = '12px';
-    ring.style.width    = '40px'; ring.style.height   = '40px';
-    ring.style.borderColor = 'rgba(212,175,55,0.5)';
-  });
-});
-
-// Menu
-const menuBtn  = document.getElementById('menuBtn');
-const dropdown = document.getElementById('dropdown');
-menuBtn.addEventListener('click', () => { menuBtn.classList.toggle('open'); dropdown.classList.toggle('open'); });
-dropdown.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => { menuBtn.classList.remove('open'); dropdown.classList.remove('open'); });
-});
-document.addEventListener('click', e => {
-  if (!dropdown.contains(e.target) && !menuBtn.contains(e.target)) {
-    menuBtn.classList.remove('open'); dropdown.classList.remove('open');
-  }
-});
-
-// Reveal animations
-const reveals  = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-reveals.forEach(el => observer.observe(el));
-
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-});
-
-// Counter animation
-function animateCounters() {
-  document.querySelectorAll('.stat-num').forEach(counter => {
-    const text = counter.textContent;
-    const num  = parseInt(text.replace(/\D/g, ''));
-    if (!num) return;
-    const suffix = text.replace(/[\d,]/g, '');
-    let cur = 0;
-    const inc = num / 60;
-    const t = setInterval(() => {
-      cur += inc;
-      if (cur >= num) { cur = num; clearInterval(t); }
-      counter.textContent = Math.floor(cur).toLocaleString() + suffix;
-    }, 25);
-  });
-}
-const statsObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => { if (entry.isIntersecting) { animateCounters(); statsObserver.disconnect(); } });
-}, { threshold: 0.5 });
-const statsBar = document.querySelector('.stats-bar');
-if (statsBar) statsObserver.observe(statsBar);
-
-// Tilt
+<script>
+// ====================================================
+// GLOBAL AUTH — defined first, before anything else
+// ====================================================
 (function() {
-  if (window.matchMedia('(max-width: 900px)').matches) return;
-  document.querySelectorAll('[data-tilt]').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const dx = (e.clientX - rect.left - rect.width  / 2) / (rect.width  / 2);
-      const dy = (e.clientY - rect.top  - rect.height / 2) / (rect.height / 2);
-      card.style.transform  = `translateY(-6px) perspective(600px) rotateX(${Math.max(-4,Math.min(4,dy*-4))}deg) rotateY(${Math.max(-4,Math.min(4,dx*4))}deg)`;
-      card.style.transition = 'transform 0.1s ease-out, box-shadow 0.35s ease';
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform  = '';
-      card.style.transition = 'transform 0.5s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease';
-    });
-  });
-})();
+  'use strict';
 
-const allPackages = [
-  { badge: null,        duration: '4 Days · 3 Nights',   name: 'Mara<br>Awakening',      price: '$2,800',  page: 'pkg-mara-awakening.html',     tier: 'mid-range', cardBg: 'assets/maasaimara.webp',     features: ['Maasai Mara Game Reserve','Private 4x4 Land Cruiser','Luxury Tented Camp','Expert Naturalist Guide','All Meals Included','Sundowner Cocktails'] },
-  { badge: 'Most Exclusive', duration: '7 Days · 6 Nights', name: 'Grand<br>Odyssey',    price: '$6,500',  page: 'pkg-grand-odyssey.html',      tier: 'luxury',    cardBg: 'assets/jungle.webp',         features: ['Mara + Amboseli + Samburu','Private Charter Flights','5-Star Lodge & Tented Camps','Sunrise Balloon Safari','Cultural Maasai Immersion','Butler & Concierge Service','All-Inclusive Premium'] },
-  { badge: null,        duration: '10 Days · 9 Nights',  name: 'Ultimate<br>Kenya',       price: '$11,200', page: 'pkg-ultimate-kenya.html',     tier: 'luxury',    cardBg: 'assets/Coolelephant.webp',   features: ['5 Iconic National Parks','Private Conservancy Access','Exclusive Use Bush Camp','Night Safari Drives','Marine Excursion, Diani','Photography Guide Included','Bespoke Farewell Dinner'] },
-  { badge: 'New',       duration: '3 Days · 2 Nights',   name: 'Amboseli<br>Escape',      price: '$1,950',  page: 'pkg-amboseli-express.html',   tier: 'budget',    cardBg: 'assets/amboseli.webp',       features: ['Amboseli National Park','Kilimanjaro Panorama Views','Private Game Drives','Bush Breakfast Experience','All Meals Included','Expert Naturalist Guide'] },
-  { badge: null,        duration: '5 Days · 4 Nights',   name: 'Samburu<br>Wilderness',   price: '$3,400',  page: 'pkg-samburu-secrets.html',    tier: 'mid-range', cardBg: 'assets/maasaimen.webp',      features: ['Samburu National Reserve','Rare Northern Species','Private Tented Camp','Camel Safari Experience','Cultural Village Visit','All Meals & Transfers'] },
-  { badge: 'Popular',   duration: '6 Days · 5 Nights',   name: 'Coastal<br>Safari Blend', price: '$4,200',  page: 'pkg-safari-and-sea.html',     tier: 'mid-range', cardBg: 'assets/dianibeach.webp',     features: ['Tsavo East & West','Diani Beach Extension','Ocean-View Lodge','Snorkelling & Marine Park','Private Game Drives','All-Inclusive Package'] },
-  { badge: null,        duration: '8 Days · 7 Nights',   name: 'Lakes &<br>Highlands',    price: '$5,100',  page: 'pkg-lake-nakuru-escape.html', tier: 'mid-range', cardBg: 'assets/lakenakuru.webp',     features: ['Lake Nakuru & Naivasha','Aberdare Forest Walks','Flamingo Boat Excursion','Mount Kenya Foothills','Luxury Lodge Stays','All Meals & Flights'] },
-  { badge: 'Signature', duration: '12 Days · 11 Nights', name: 'Kenya<br>Mastery',        price: '$14,500', page: 'pkg-grand-odyssey.html',      tier: 'luxury',    cardBg: 'assets/mountkenya.webp',     features: ['6 Parks & Conservancies','Private Helicopter Transfer','Exclusive Bush Camp','Hot Air Balloon Safari','Michelin-Inspired Bush Dining','Dedicated Personal Guide','Fully Bespoke Itinerary'] },
-];
+  const SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
+  const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
 
-// Load published packages from Supabase and merge into allPackages
-(async function () {
-  const { data, error } = await supa
-    .from('packages')
-    .select('name, slug, badge, category, duration_days, duration_nights, price_high_season, price_duo, short_highlights, card_bg_image_url, detail_page_url, destinations, is_featured')
-    .eq('is_published', true)
-    .order('created_at', { ascending: false });
+  function getSupabase() { return window.supabase ? window.supabase.createClient(SUPA_URL, SUPA_KEY) : null; }
 
-  if (error || !data?.length) return;
+  function v(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
 
-  data.forEach(pkg => {
-    const price = pkg.price_high_season || pkg.price_duo || 0;
-    const days = pkg.duration_days || 0;
-    const nights = pkg.duration_nights || 0;
-    const tier = pkg.category?.toLowerCase().includes('ultra') ? 'ultra' :
-                 pkg.category?.toLowerCase().includes('luxury') ? 'luxury' :
-                 pkg.category?.toLowerCase().includes('budget') ? 'budget' : 'mid-range';
-
-    // Don't add if already exists by name
-    const exists = allPackages.some(p =>
-      p.name.replace(/<br>/g,' ').replace(/\s+/g,' ').trim().toLowerCase() ===
-      pkg.name.trim().toLowerCase()
-    );
-    if (exists) return;
-
-    allPackages.push({
-      badge:      pkg.badge || null,
-      duration:   days ? `${days} Days · ${nights} Nights` : '',
-      name:       pkg.name,
-      price:      '$' + Number(price).toLocaleString(),
-      page:       pkg.detail_page_url || (pkg.slug + '.html'),
-      tier:       tier,
-      features:   pkg.short_highlights || [],
-      cardBg:     pkg.card_bg_image_url || null,
-    });
-  });
-})();    
-
-const cardBgs = [
-  'assets/Coolelephant.webp',
-  'assets/jungle.webp',
-  'assets/zebra.webp'
-];
-
-function buildCard(pkg, isFeatured, bgIndex) {
-  const maxFeatures = isFeatured ? 7 : 6;
-  const features    = [...pkg.features];
-  while (features.length < maxFeatures) features.push(null);
-  const bg = pkg.cardBg || cardBgs[bgIndex !== undefined ? bgIndex : 0];
-  return `
-    <img class="pkg-bg" src="${bg}" alt="" aria-hidden="true">
-    <div class="pkg-bg-overlay"></div>
-    ${pkg.badge ? `<span class="pkg-badge">${pkg.badge}</span>` : `<span style="display:block;height:29px;margin-bottom:28px;position:relative;z-index:3;"></span>`}
-    <span class="pkg-duration">${pkg.duration}</span>
-    <h3 class="pkg-name">${pkg.name}</h3>
-    <div class="divider" style="position:relative;z-index:3;"></div>
-    <div class="pkg-price">${pkg.price} <span>/ person</span></div>
-    <ul class="pkg-features">
-      ${features.map(f => f ? `<li>${f}</li>` : `<li style="visibility:hidden;border-bottom-color:transparent;">—</li>`).join('')}
-    </ul><a href="${pkg.page || '#contact'}" class="pkg-cta">Unveil This Journey</a>
-   `;
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  // Filter logic
-  const filterBtns  = document.querySelectorAll('.pkg-filter-btn');
-  const filterLabel = document.getElementById('pkgFilterLabel');
-  const filterGlow  = document.getElementById('pkgFilterGlow');
-  let   activeFilter = 'all';
-
-  const labelMap = {
-    all:       'Showing all collections',
-    luxury:    'Showing luxury experiences',
-    'mid-range': 'Showing mid-range journeys',
-    budget:    'Showing budget-friendly safaris',
-  };
-
-  function positionGlow(btn) {
-    filterGlow.style.left  = btn.offsetLeft + 'px';
-    filterGlow.style.width = btn.offsetWidth + 'px';
+  function showMsg(type, text) {
+    const err = document.getElementById('authMsgError');
+    const ok  = document.getElementById('authMsgSuccess');
+    if (!err || !ok) return;
+    err.style.display = 'none'; ok.style.display = 'none';
+    if (type === 'error')   { err.textContent = text; err.style.display = 'block'; }
+    if (type === 'success') { ok.textContent  = text; ok.style.display  = 'block'; }
   }
 
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      activeFilter = btn.dataset.filter;
-      filterLabel.textContent = labelMap[activeFilter] || '';
-      positionGlow(btn);
-      currentSet = getFilteredSet(activeFilter);
-      renderCard(card0, currentSet[0], false, false, 0);
-      renderCard(card1, currentSet[1], true,  false, 1);
-      renderCard(card2, currentSet[2], false, false, 2);
-    });
-  });
-
-  function getFilteredSet(filter) {
-    const pool = filter === 'all'
-      ? allPackages.map((_, i) => i)
-      : allPackages.map((p, i) => p.tier === filter ? i : null).filter(i => i !== null);
-    while (pool.length < 3) pool.push(...pool);
-    return [pool[0], pool[1], pool[2]];
+  function clearMsg() {
+    const err = document.getElementById('authMsgError');
+    const ok  = document.getElementById('authMsgSuccess');
+    if (err) err.style.display = 'none';
+    if (ok)  ok.style.display  = 'none';
   }
 
-  // Init glow on active button
-  const initActive = document.querySelector('.pkg-filter-btn.active');
-  if (initActive) positionGlow(initActive);
-  const card0 = document.getElementById('pkgCard0');
-  const card1 = document.getElementById('pkgCard1');
-  const card2 = document.getElementById('pkgCard2');
-  if (!card0 || !card1 || !card2) return;
-  let currentSet = [0, 1, 2];
-
-    function renderCard(cardEl, pkgIndex, isFeatured, animate, bgIndex) {
-    const pkg = allPackages[pkgIndex];
-    if (!animate) { cardEl.innerHTML = buildCard(pkg, isFeatured, bgIndex); return; }
-    cardEl.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    cardEl.style.opacity    = '0';
-    cardEl.style.transform  = 'translateY(16px)';
-    setTimeout(() => { cardEl.innerHTML = buildCard(pkg, isFeatured, bgIndex); cardEl.style.opacity = '1'; cardEl.style.transform = 'translateY(0)'; }, 500);
-  }
-
-  renderCard(card0, currentSet[0], false, false, 0);
-  renderCard(card1, currentSet[1], true,  false, 1);
-  renderCard(card2, currentSet[2], false, false, 2);
-  
-  setInterval(() => { currentSet[0] = (currentSet[0] + 3) % allPackages.length; renderCard(card0, currentSet[0], false, true, 0); }, 18000);
-  setTimeout(() => { setInterval(() => { currentSet[1] = (currentSet[1] + 3) % allPackages.length; renderCard(card1, currentSet[1], true, true, 1); }, 18000); }, 6000);
-  setTimeout(() => { setInterval(() => { currentSet[2] = (currentSet[2] + 3) % allPackages.length; renderCard(card2, currentSet[2], false, true, 2); }, 18000); }, 12000);
-});
-
-  // INLINE QUIZ
-// INLINE QUIZ
-(function () {
-  const container = document.getElementById('iqStepContainer');
-  const progress  = document.getElementById('iqProgress');
-  if (!container) return;
-
-  function getLivePool() {
-    if (window.allPackages && window.allPackages.length) {
-      return window.allPackages.map(p => {
-        const name = p.name.replace(/<br>/g,' ').replace(/\s+/g,' ').trim();
-        const tierRaw = (p.tier || '').toLowerCase();
-        const tier = tierRaw.includes('ultra') ? 'ultra'
-                   : tierRaw.includes('luxury') ? 'luxury'
-                   : tierRaw.includes('budget') ? 'budget' : 'mid-range';
-        const features = p.features || [];
-        const vibes = [];
-        const searchText = (name + ' ' + features.join(' ')).toLowerCase();
-        if (/beach|coast|ocean|diani|marine|snorkel/.test(searchText))   vibes.push('beach');
-        if (/wildlife|safari|game|mara|amboseli|samburu|tsavo|nakuru|park|reserve|big five|migration|elephant|lion|leopard/.test(searchText)) vibes.push('wildlife');
-        if (/hike|climb|mount|trek|adventure|highland|mountain/.test(searchText)) vibes.push('adventure');
-        if (/culture|maasai|village|community|people|tradition/.test(searchText)) vibes.push('culture');
-        if (!vibes.length) vibes.push('wildlife');
-        const days = parseInt((p.duration || '').match(/\d+/) || [0]);
-        const durationKey = days <= 4 ? 'short' : days <= 7 ? 'medium' : days <= 10 ? 'long' : 'grand';
-        const priceRaw = parseInt((p.price || '$0').replace(/\D/g,'')) || 0;
-        return { name, price: p.price, duration: p.duration || '', page: p.page || '#packages', tier, vibe: vibes, durationKey, priceRaw };
-      });
-    }
-    return [
-      { name: 'Mara Awakening',       price: '$2,800',  duration: '4 Days',  page: 'pkg-mara-awakening.html',     tier: 'mid-range', vibe: ['wildlife'],              durationKey: 'short',  priceRaw: 2800  },
-      { name: 'Grand Odyssey',        price: '$6,500',  duration: '7 Days',  page: 'pkg-grand-odyssey.html',      tier: 'luxury',    vibe: ['wildlife','culture'],    durationKey: 'medium', priceRaw: 6500  },
-      { name: 'Ultimate Kenya',       price: '$11,200', duration: '10 Days', page: 'pkg-ultimate-kenya.html',     tier: 'luxury',    vibe: ['wildlife','adventure'],  durationKey: 'long',   priceRaw: 11200 },
-      { name: 'Amboseli Escape',      price: '$1,950',  duration: '3 Days',  page: 'pkg-amboseli-express.html',   tier: 'budget',    vibe: ['wildlife'],              durationKey: 'short',  priceRaw: 1950  },
-      { name: 'Samburu Wilderness',   price: '$3,400',  duration: '5 Days',  page: 'pkg-samburu-secrets.html',    tier: 'mid-range', vibe: ['wildlife','adventure'],  durationKey: 'medium', priceRaw: 3400  },
-      { name: 'Coastal Safari Blend', price: '$4,200',  duration: '6 Days',  page: 'pkg-safari-and-sea.html',     tier: 'mid-range', vibe: ['beach','wildlife'],      durationKey: 'medium', priceRaw: 4200  },
-      { name: 'Lakes & Highlands',    price: '$5,100',  duration: '8 Days',  page: 'pkg-lake-nakuru-escape.html', tier: 'mid-range', vibe: ['adventure','culture'],   durationKey: 'long',   priceRaw: 5100  },
-      { name: 'Kenya Mastery',        price: '$14,500', duration: '12 Days', page: 'pkg-grand-odyssey.html',      tier: 'ultra',     vibe: ['wildlife','culture'],    durationKey: 'grand',  priceRaw: 14500 },
-    ];
-  }
-
-  const steps = [
-    {
-      id: 'name',
-      type: 'text',
-      label: 'Step 1 of 5',
-      question: 'What shall we call you?',
-      sub: 'Every great safari begins with a name.',
-      placeholder: 'Your first name',
-      minLength: 2,
-      pattern: /^[a-zA-ZÀ-ÖØ-öø-ÿ\s'\-]{2,}$/,
-      errorMsg: 'Please enter a real name — at least 2 letters, no numbers.',
-    },
-    {
-      id: 'vibe',
-      type: 'multi',
-      label: 'Step 2 of 5',
-      question: 'What draws you to Kenya?',
-      sub: 'Choose everything that stirs something in you.',
-      options: [
-        { value: 'wildlife',  label: 'Wildlife & Safari' },
-        { value: 'beach',     label: 'Coast & Ocean' },
-        { value: 'adventure', label: 'Adventure & Hiking' },
-        { value: 'culture',   label: 'Culture & People' },
-      ],
-    },
-    {
-      id: 'duration',
-      type: 'choice',
-      label: 'Step 3 of 5',
-      question: 'How long is your dream escape?',
-      sub: 'We will shape the perfect rhythm around your time.',
-      options: [
-        { value: 'short',  label: '3 – 4 Days' },
-        { value: 'medium', label: '5 – 7 Days' },
-        { value: 'long',   label: '8 – 10 Days' },
-        { value: 'grand',  label: '10+ Days' },
-      ],
-    },
-    {
-      id: 'budget',
-      type: 'choice',
-      label: 'Step 4 of 5',
-      question: 'What is your comfort range?',
-      sub: 'No judgement — every budget unlocks a remarkable journey.',
-      options: [
-        { value: 'budget',    label: 'Budget  · Under $2,500' },
-        { value: 'mid-range', label: 'Mid-Range  · $2,500–$5,000' },
-        { value: 'luxury',    label: 'Luxury  · $5,000–$12,000' },
-        { value: 'ultra',     label: 'Ultra  · $12,000+' },
-      ],
-      singleCol: true,
-    },
-    {
-      id: 'travel',
-      type: 'text',
-      label: 'Step 5 of 5',
-      question: 'When are you thinking of travelling?',
-      sub: 'A rough idea helps us check availability and seasons.',
-      placeholder: 'e.g. July 2025, or "not sure yet"',
-      minLength: 4,
-      pattern: /^[a-zA-Z0-9\s,\-\/\.]{4,}$/,
-      errorMsg: 'Please enter a month, year, or "not sure yet" — no special characters.',
-    },
-  ];
-
-  let current = 0;
-  const answers = {};
-
-  function tierMatch(pkgTier, budget) {
-    if (budget === 'ultra')     return pkgTier === 'ultra'    || pkgTier === 'luxury';
-    if (budget === 'luxury')    return pkgTier === 'luxury'   || pkgTier === 'mid-range';
-    if (budget === 'mid-range') return pkgTier === 'mid-range'|| pkgTier === 'budget';
-    if (budget === 'budget')    return pkgTier === 'budget';
-    return true;
-  }
-
-  function getResults() {
-    const pool     = getLivePool();
-    const vibes    = Array.isArray(answers.vibe) ? answers.vibe : (answers.vibe ? [answers.vibe] : []);
-    const duration = answers.duration;
-    const budget   = answers.budget;
-
-    return pool.map(pkg => {
-      let score = 0;
-      vibes.forEach(v => { if (pkg.vibe.includes(v)) score += 3; });
-      if (vibes.length > 1) score += vibes.filter(v => pkg.vibe.includes(v)).length * 2;
-      if (duration) {
-        const order = ['short','medium','long','grand'];
-        const diff = Math.abs(order.indexOf(pkg.durationKey) - order.indexOf(duration));
-        if (diff === 0) score += 4;
-        else if (diff === 1) score += 2;
-      }
-      if (budget) {
-        if (pkg.tier === budget) score += 5;
-        else if (tierMatch(pkg.tier, budget)) score += 2;
-      }
-      return { ...pkg, score };
-    })
-    .sort((a,b) => b.score - a.score || a.priceRaw - b.priceRaw)
-    .slice(0,3);
-  }
-
-  function setProgress(step) {
-    progress.style.width = ((step + 1) / (steps.length + 1) * 100) + '%';
-  }
-
-  function renderStep(index) {
-    setProgress(index);
-    if (index >= steps.length) { renderResults(); return; }
-    const step    = steps[index];
-    const isText  = step.type === 'text';
-    const isMulti = step.type === 'multi';
-
-    const selectedVibes = Array.isArray(answers.vibe) ? answers.vibe : [];
-    const hasAnswer = isText
-      ? (answers[step.id] !== undefined && answers[step.id] !== '')
-      : isMulti
-        ? selectedVibes.length > 0
-        : (answers[step.id] !== undefined && answers[step.id] !== '');
-
-    container.innerHTML = `
-      <div class="quiz-step">
-        <span class="quiz-step-label">${step.label}</span>
-        <h2 class="quiz-question">${step.question}</h2>
-        <p class="quiz-sub">${step.sub}${isMulti ? ' <em style="font-size:10px;letter-spacing:2px;opacity:0.6;">(select all that apply)</em>' : ''}</p>
-        ${isText ? `
-          <input class="quiz-input" id="iqInput" type="text"
-            placeholder="${step.placeholder}"
-            value="${answers[step.id] || ''}"
-            autocomplete="off">
-        ` : `
-          <div class="quiz-options${step.singleCol ? ' single-col' : ''}" id="iqOptions">
-            ${step.options.map(opt => {
-              const sel = isMulti ? selectedVibes.includes(opt.value) : answers[step.id] === opt.value;
-              return `<button class="quiz-option${sel ? ' selected' : ''}" data-value="${opt.value}">${opt.label}</button>`;
-            }).join('')}
-          </div>
-          ${isMulti ? `<p style="font-family:Jost,sans-serif;font-size:9px;letter-spacing:3px;color:rgba(212,175,55,0.6);margin-top:10px;text-transform:uppercase;" id="iqMultiHint">${selectedVibes.length} selected — press Continue when ready</p>` : ''}
-        `}
-        <div class="quiz-nav">
-          ${index > 0 ? `<button class="quiz-btn-back" id="iqBack">Back</button>` : `<span></span>`}
-          <button class="quiz-btn-next${hasAnswer ? ' ready' : ''}" id="iqNext">
-            ${index === steps.length - 1 ? 'See My Safaris' : 'Continue'}
-          </button>
-        </div>
-      </div>
-    `;
-
-    const nextBtn = document.getElementById('iqNext');
-    const backBtn = document.getElementById('iqBack');
-
-    if (isText) {
-      const input = document.getElementById('iqInput');
-      function validateInput() {
-        const val = input.value.trim();
-        return val.length >= (step.minLength || 1) && (!step.pattern || step.pattern.test(val));
-      }
-      input.addEventListener('input', () => {
-        answers[step.id] = input.value.trim();
-        nextBtn.classList.toggle('ready', validateInput());
-        input.style.borderBottomColor = '';
-        const hint = document.getElementById('iqHint');
-        if (hint) hint.style.opacity = '0';
-      });
-      input.addEventListener('keydown', e => {
-        if (e.key === 'Enter') {
-          if (validateInput()) advance();
-          else triggerErrorIQ(input, step.errorMsg, 'iqHint');
-        }
-      });
-      setTimeout(() => input.focus(), 100);
-
-    } else if (isMulti) {
-      document.getElementById('iqOptions').addEventListener('click', e => {
-        const btn = e.target.closest('.quiz-option');
-        if (!btn) return;
-        const val = btn.dataset.value;
-        if (!Array.isArray(answers.vibe)) answers.vibe = [];
-        if (answers.vibe.includes(val)) {
-          answers.vibe = answers.vibe.filter(v => v !== val);
-          btn.classList.remove('selected');
-        } else {
-          answers.vibe.push(val);
-          btn.classList.add('selected');
-        }
-        const hint = document.getElementById('iqMultiHint');
-        if (hint) hint.textContent = answers.vibe.length + ' selected — press Continue when ready';
-        nextBtn.classList.toggle('ready', answers.vibe.length > 0);
-      });
-
-    } else {
-      document.getElementById('iqOptions').addEventListener('click', e => {
-        const btn = e.target.closest('.quiz-option');
-        if (!btn) return;
-        document.querySelectorAll('#iqOptions .quiz-option').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        answers[step.id] = btn.dataset.value;
-        nextBtn.classList.add('ready');
-        nextBtn.style.pointerEvents = 'all';
-        setTimeout(() => advance(), 380);
-      });
-    }
-
-    if (nextBtn) nextBtn.addEventListener('click', () => {
-      if (nextBtn.classList.contains('ready')) {
-        advance();
-      } else {
-        const input = document.getElementById('iqInput');
-        triggerErrorIQ(input || nextBtn, step.errorMsg || 'Please complete this field to continue.', 'iqHint');
-      }
-    });
-    if (backBtn) backBtn.addEventListener('click', () => { current--; renderStep(current); });
-  }
-
-  function triggerErrorIQ(target, message, hintId) {
-    target.style.transition = 'transform 0.08s ease, border-color 0.3s';
-    target.style.borderBottomColor = '#e05555';
-    target.style.transform = 'translateX(6px)';
-    setTimeout(() => { target.style.transform = 'translateX(-6px)'; }, 80);
-    setTimeout(() => { target.style.transform = 'translateX(4px)'; }, 160);
-    setTimeout(() => { target.style.transform = 'translateX(-4px)'; }, 240);
-    setTimeout(() => { target.style.transform = 'translateX(0)'; }, 320);
-    let hint = document.getElementById(hintId);
-    if (!hint) {
-      hint = document.createElement('span');
-      hint.id = hintId;
-      hint.style.cssText = 'display:block;font-family:Jost,sans-serif;font-size:10px;letter-spacing:2px;color:#e05555;margin-top:8px;opacity:0;transition:opacity 0.3s;text-transform:uppercase;';
-      target.after(hint);
-    }
-    hint.textContent = message;
-    requestAnimationFrame(() => { hint.style.opacity = '1'; });
-    setTimeout(() => { if (hint) hint.style.opacity = '0'; }, 3500);
-  }
-
-  function advance() { current++; renderStep(current); }
-
-  function renderResults() {
-    setProgress(steps.length);
-    const results = getResults();
-    const name = answers.name ? answers.name.split(' ')[0] : 'Explorer';
-
-    container.innerHTML = `
-      <div class="quiz-step">
-        <div class="quiz-results-intro">
-          <span class="quiz-step-label">Curated For You</span>
-          <h2 class="quiz-question">Your Safari Awaits,<br>${name}.</h2>
-          <p class="quiz-sub">Based on your answers, these experiences were made for you.</p>
-        </div>
-        <div class="quiz-result-cards">
-          ${results.map(pkg => `
-            <div class="quiz-result-card">
-              <div class="quiz-result-info">
-                <div class="quiz-result-name">${pkg.name}</div>
-                <div class="quiz-result-meta">${pkg.duration} · ${pkg.tier}</div>
-              </div>
-              <div class="quiz-result-price">${pkg.price}</div>
-              <a href="${pkg.page}" class="quiz-result-link">View</a>
-            </div>
-          `).join('')}
-        </div>
-        <button class="quiz-btn-next ready" id="iqContact" style="width:100%;text-align:center;margin-top:24px;">Speak to Our Safari Team</button>
-      </div>
-    `;
-
-    document.getElementById('iqContact').addEventListener('click', () => {
-      document.querySelector('#contact').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  }
-
-  renderStep(0);
-})();
-  
-  // ===========================
-// BLOG SYSTEM
-// ===========================
-const fallbackBlogs = [
-  { slug:'great-migration-guide', title:'The Great Migration: Everything You Need to Know Before You Go', excerpt:'Two million wildebeest. One river. An annual crossing that redefines what it means to witness nature at full force.', category:'Wildlife', date:'March 2025', read_time:'8 min read', cover_image:'assets/maasaimara.webp', cover_alt:'The Great Migration' },
-  { slug:'best-time-kenya-safari', title:"When to Go: Kenya's Safari Seasons Decoded", excerpt:'Peak, shoulder, green — each season unlocks a different Kenya. Here is how to choose yours.', category:'Planning', date:'February 2025', read_time:'5 min read', cover_image:'assets/amboseli.webp', cover_alt:'Best time for Kenya safari' },
-  { slug:'diani-beach-guide', title:"Diani Beach: Africa's Finest Coastline After Your Safari", excerpt:'Where the bush ends and the ocean begins. Why Diani is the perfect safari finale for every traveller.', category:'Coast', date:'January 2025', read_time:'6 min read', cover_image:'assets/dianibeach.webp', cover_alt:'Diani Beach Guide' },
-  { slug:'amboseli-elephants', title:'Amboseli at Dawn: Elephants, Kilimanjaro, and Perfect Silence', excerpt:"Africa's most iconic photograph is not taken — it is lived, early morning, in Amboseli.", category:'Wildlife', date:'April 2025', read_time:'6 min read', cover_image:'assets/amboseli.webp', cover_alt:'Amboseli elephants' },
-  { slug:'maasai-culture', title:'The Maasai: Warriors, Guardians, and Storytellers of the Plains', excerpt:'A culture unchanged by centuries. What happens when the wild invites you in.', category:'Culture', date:'May 2025', read_time:'7 min read', cover_image:'assets/maasaimen.webp', cover_alt:'Maasai culture' },
-  { slug:'luxury-lodges-kenya', title:"The Art of Sleeping in the Wild: Kenya's Best Luxury Camps", excerpt:'Canvas walls, starlit ceilings, and a lion coughing somewhere in the darkness.', category:'Luxury', date:'June 2025', read_time:'5 min read', cover_image:'assets/jwmarriott.webp', cover_alt:'Luxury safari lodge' },
-];
-
-let allBlogs = [...fallbackBlogs];
-let blogCurrentSet = [0, 1, 2];
-let blogIntervals = [];
-
-async function loadBlogsForHomepage() {
-  try {
-    const { data, error } = await supa
-      .from('blogs')
-      .select('slug,title,excerpt,category,published_date,read_time,cover_image_url,cover_alt,is_published')
-      .eq('is_published', true)
-      .order('published_date', { ascending: false });
-
-    if (!error && data && data.length) {
-      const supaBlogs = data.map(b => ({
-        slug: b.slug,
-        title: b.title,
-        excerpt: b.excerpt || '',
-        category: b.category || 'Safari',
-        date: b.published_date ? new Date(b.published_date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : '',
-        read_time: b.read_time || '5 min read',
-        cover_image: b.cover_image_url || 'assets/maasaimara.webp',
-        cover_alt: b.cover_alt || b.title,
-      }));
-      const slugSet = new Set(supaBlogs.map(b => b.slug));
-      allBlogs = [...supaBlogs, ...fallbackBlogs.filter(b => !slugSet.has(b.slug))];
-    }
-  } catch(e) {}
-  renderBlogHomepage();
-  startBlogRotation();
-}
-
-function buildBlogCardHTML(blog) {
-  if (!blog) return '';
-  const page = blog.slug && blog.slug.startsWith('http') ? blog.slug : `blog/${blog.slug}.html`;
-  return `
-    <div class="blog-card-img-wrap">
-      <img class="blog-card-img" src="${blog.cover_image}" alt="${blog.cover_alt || blog.title}" loading="lazy">
-      <div class="blog-card-img-overlay"></div>
-      <span class="blog-card-category">${blog.category}</span>
-    </div>
-    <div class="blog-card-body">
-      <div class="blog-card-meta">
-        <span class="blog-card-date">${blog.date}</span>
-        <span class="blog-card-read">${blog.read_time}</span>
-      </div>
-      <h3 class="blog-card-title">${blog.title}</h3>
-      <p class="blog-card-excerpt">${blog.excerpt}</p>
-      <span class="blog-card-cta">Read the story</span>
-    </div>
-  `;
-}
-
-function setOneBlogCard(el, blog, animate) {
-  if (!el || !blog) return;
-  const page = blog.slug && blog.slug.startsWith('http') ? blog.slug : `blog/${blog.slug}.html`;
-  if (!animate) {
-    el.innerHTML = buildBlogCardHTML(blog);
-    el.style.textDecoration = 'none';
-    el.style.color = 'inherit';
-    el.style.cursor = 'none';
-    el.onclick = () => { window.location.href = page; };
-    return;
-  }
-  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(14px)';
-  setTimeout(() => {
-    el.innerHTML = buildBlogCardHTML(blog);
-    el.style.cursor = 'none';
-    el.onclick = () => { window.location.href = page; };
-    el.style.opacity = '1';
-    el.style.transform = 'translateY(0)';
-  }, 500);
-}
-
-function renderBlogHomepage() {
-  const el0 = document.getElementById('blogCard0');
-  const el1 = document.getElementById('blogCard1');
-  const el2 = document.getElementById('blogCard2');
-  if (!el0 || !el1 || !el2) return;
-  setOneBlogCard(el0, allBlogs[blogCurrentSet[0] % allBlogs.length], false);
-  setOneBlogCard(el1, allBlogs[blogCurrentSet[1] % allBlogs.length], false);
-  setOneBlogCard(el2, allBlogs[blogCurrentSet[2] % allBlogs.length], false);
-}
-
-function startBlogRotation() {
-  blogIntervals.forEach(clearInterval);
-  blogIntervals = [];
-  if (allBlogs.length <= 3) return;
-  blogIntervals.push(setInterval(() => {
-    const el = document.getElementById('blogCard0');
-    blogCurrentSet[0] = (blogCurrentSet[0] + 3) % allBlogs.length;
-    setOneBlogCard(el, allBlogs[blogCurrentSet[0]], true);
-  }, 14000));
-  blogIntervals.push(setTimeout(() => {
-    blogIntervals.push(setInterval(() => {
-      const el = document.getElementById('blogCard1');
-      blogCurrentSet[1] = (blogCurrentSet[1] + 3) % allBlogs.length;
-      setOneBlogCard(el, allBlogs[blogCurrentSet[1]], true);
-    }, 14000));
-  }, 4700));
-  blogIntervals.push(setTimeout(() => {
-    blogIntervals.push(setInterval(() => {
-      const el = document.getElementById('blogCard2');
-      blogCurrentSet[2] = (blogCurrentSet[2] + 3) % allBlogs.length;
-      setOneBlogCard(el, allBlogs[blogCurrentSet[2]], true);
-    }, 14000));
-  }, 9400));
-}
-
-document.addEventListener('DOMContentLoaded', loadBlogsForHomepage);
-
-// GALLERY LIGHTBOX
-(function () {
-  const items    = Array.from(document.querySelectorAll('.gallery-item'));
-  const lightbox = document.getElementById('galleryLightbox');
-  const lbImg    = document.getElementById('galleryLbImg');
-  const lbCap    = document.getElementById('galleryLbCaption');
-  const lbSub    = document.getElementById('galleryLbSub');
-  const lbClose  = document.getElementById('galleryLbClose');
-  const lbPrev   = document.getElementById('galleryLbPrev');
-  const lbNext   = document.getElementById('galleryLbNext');
-  const lbCur    = document.getElementById('galleryLbCur');
-  const lbTotal  = document.getElementById('galleryLbTotal');
-  if (!lightbox) return;
-
-  let current = 0;
-  lbTotal.textContent = items.length;
-
-  function openAt(index) {
-    current = (index + items.length) % items.length;
-    const item = items[current];
-    const img  = item.querySelector('.gallery-img');
-    lbImg.src          = img.src;
-    lbImg.alt          = img.alt;
-    lbCap.textContent  = item.dataset.caption  || '';
-    lbSub.textContent  = item.dataset.sub       || '';
-    lbCur.textContent  = current + 1;
-    lightbox.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function close() {
-    lightbox.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  items.forEach((item, i) => {
-    item.addEventListener('click', () => openAt(i));
-  });
-
-  lbClose.addEventListener('click', close);
-  lbPrev.addEventListener('click', (e) => { e.stopPropagation(); openAt(current - 1); });
-  lbNext.addEventListener('click', (e) => { e.stopPropagation(); openAt(current + 1); });
-
-  lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox) close();
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (!lightbox.classList.contains('open')) return;
-    if (e.key === 'ArrowRight') openAt(current + 1);
-    if (e.key === 'ArrowLeft')  openAt(current - 1);
-    if (e.key === 'Escape')     close();
-  });
-})();
-  
-// GALLERY SLIDESHOW + LIGHTBOX
-(function () {
-  const track    = document.getElementById('galTrack');
-  const slides   = track ? Array.from(track.querySelectorAll('.gsl-slide')) : [];
-  const slideshow = document.getElementById('galSlideshow');
-  let isHovered = false;
-  let trackOffset = 0;
-  if (slideshow) {
-    slideshow.addEventListener('mouseenter', () => { isHovered = true; });
-    slideshow.addEventListener('mouseleave', () => { isHovered = false; });
-  }
-  const dotsWrap = document.getElementById('galDots');
-  const progress = document.getElementById('galProgress');
-  const curNum   = document.getElementById('galCurNum');
-  const totNum   = document.getElementById('galTotalNum');
-  const prevBtn  = document.getElementById('galPrev');
-  const nextBtn  = document.getElementById('galNext');
-  const thumbs   = document.getElementById('galThumbs');
-  const lightbox = document.getElementById('galLightbox');
-  const lbImg    = document.getElementById('galLbImg');
-  const lbClose  = document.getElementById('galLbClose');
-  const lbPrev   = document.getElementById('galLbPrev');
-  const lbNext   = document.getElementById('galLbNext');
-  const lbCur    = document.getElementById('galLbCur');
-  const lbTotal  = document.getElementById('galLbTotal');
-  if (!track || !slides.length) return;
-
-  const total = slides.length;
-  let current = 0;
-  let timer = null;
-  const INTERVAL = 4800;
-
-  if (totNum) totNum.textContent = total;
-  if (lbTotal) lbTotal.textContent = total;
-
-  slides.forEach((_, i) => {
-    const dot = document.createElement('div');
-    dot.className = 'gsl-dot' + (i === 0 ? ' active' : '');
-    dot.addEventListener('click', () => { goTo(i); startTimer(); });
-    if (dotsWrap) dotsWrap.appendChild(dot);
-
-    const th = document.createElement('div');
-    th.className = 'gsl-thumb' + (i === 0 ? ' active' : '');
-    const src = slides[i].dataset.src || slides[i].querySelector('.gsl-img')?.src || '';
-    th.innerHTML = `<img src="${src}" alt="" loading="lazy">`;
-    th.addEventListener('click', () => { goTo(i); startTimer(); });
-    if (thumbs) thumbs.appendChild(th);
-  });
-
-  function getSlideClass(pos) {
-    if (pos === 0) return 'gsl-active';
-    if (pos === 1) return 'gsl-next';
-    if (pos === total - 1) return 'gsl-prev-slide';
-    if (pos === 2 || pos === total - 2) return 'gsl-far';
-    return '';
-  }
-
-  function centerActive() {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const sw = slideshow ? slideshow.offsetWidth : window.innerWidth;
-        const activeEl = slides[current];
-        const aw = activeEl.offsetWidth;
-        const gap = 20;
-        const padL = sw * 0.18;
-        let before = 0;
-        slides.forEach((s, i) => { if (i < current) before += s.offsetWidth + gap; });
-        trackOffset = (sw - aw) / 2 - before - padL;
-        track.style.transform = `translateX(${trackOffset}px)`;
-      });
-    });
-  }
-
-  function updateSlides() {
-    slides.forEach((sl, i) => {
-      sl.classList.remove('gsl-active','gsl-next','gsl-prev-slide','gsl-far');
-      const pos = (i - current + total) % total;
-      const cls = getSlideClass(pos);
-      if (cls) sl.classList.add(cls);
-      sl.style.visibility = (pos > 2 && pos < total - 2) ? 'hidden' : 'visible';
-    });
-    if (dotsWrap) {
-      dotsWrap.querySelectorAll('.gsl-dot').forEach((d, i) => {
-        d.classList.toggle('active', i === current);
-        if (i === current) { d.innerHTML = ''; void d.offsetWidth; }
-      });
-    }
-    if (thumbs) thumbs.querySelectorAll('.gsl-thumb').forEach((t, i) => t.classList.toggle('active', i === current));
-    centerActive();
-    if (curNum) curNum.textContent = current + 1;
-    if (lbCur) lbCur.textContent = current + 1;
-  }
-  window.addEventListener('resize', centerActive);
-
-  function restartProgress() {
-    if (!progress) return;
-    progress.classList.remove('running');
-    progress.style.transition = 'none';
-    progress.style.width = '0';
-    void progress.offsetWidth;
-    progress.classList.add('running');
-  }
-
-  function goTo(index) {
-    current = (index + total) % total;
-    updateSlides();
-    restartProgress();
-  }
-
-  function startTimer() {
-    clearInterval(timer);
-    timer = setInterval(() => { if (!isHovered) goTo(current + 1); }, INTERVAL);
-  }
-
-  if (prevBtn) prevBtn.addEventListener('click', () => { goTo(current - 1); startTimer(); });
-  if (nextBtn) nextBtn.addEventListener('click', () => { goTo(current + 1); startTimer(); });
-
-  const wrap = document.getElementById('galSlideshow');
-  let tx = 0, dragging = false;
-  if (wrap) {
-    wrap.addEventListener('touchstart', e => { tx = e.touches[0].clientX; dragging = true; clearInterval(timer); }, { passive: true });
-    wrap.addEventListener('touchend', e => {
-      if (!dragging) return; dragging = false;
-      const dx = e.changedTouches[0].clientX - tx;
-      if (Math.abs(dx) > 48) { dx < 0 ? goTo(current + 1) : goTo(current - 1); }
-      startTimer();
-    }, { passive: true });
-  }
-
-  slides.forEach((sl, i) => {
-    const zb = sl.querySelector('.gsl-zoom-btn');
-    if (zb) zb.addEventListener('click', e => { e.stopPropagation(); openLightbox(i); });
-    sl.addEventListener('click', e => { if (!e.target.closest('.gsl-zoom-btn') && sl.classList.contains('gsl-active')) openLightbox(i); });
-  });
-
-  function openLightbox(index) {
-    current = index;
-    const src = slides[index].dataset.src || slides[index].querySelector('.gsl-img')?.src || '';
-    const alt = slides[index].querySelector('.gsl-img')?.alt || '';
-    if (lbImg) { lbImg.src = src; lbImg.alt = alt; }
-    if (lbCur) lbCur.textContent = index + 1;
-    if (lightbox) lightbox.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    clearInterval(timer);
-  }
-
-  function closeLightbox() {
-    if (lightbox) lightbox.classList.remove('open');
-    document.body.style.overflow = '';
-    startTimer();
-  }
-
-  if (lbClose) lbClose.addEventListener('click', closeLightbox);
-  if (lightbox) lightbox.addEventListener('click', e => { if (e.target === lightbox || e.target.classList.contains('gsl-lb-inner')) closeLightbox(); });
-  if (lbPrev) lbPrev.addEventListener('click', e => { e.stopPropagation(); openLightbox((current - 1 + total) % total); });
-  if (lbNext) lbNext.addEventListener('click', e => { e.stopPropagation(); openLightbox((current + 1) % total); });
-
-  document.addEventListener('keydown', e => {
-    if (lightbox && lightbox.classList.contains('open')) {
-      if (e.key === 'ArrowRight') openLightbox((current + 1) % total);
-      if (e.key === 'ArrowLeft')  openLightbox((current - 1 + total) % total);
-      if (e.key === 'Escape')     closeLightbox();
-    }
-  });
-
-  updateSlides();
-  restartProgress();
-  startTimer();
-})();
-
-// DESTINATIONS SLIDESHOW
-(function () {
-  const slideshow  = document.getElementById('destSlideshow');
-  const track      = document.getElementById('dsTrack');
-  const slides     = Array.from(track.querySelectorAll('.ds-slide'));
-  const dotsWrap   = document.getElementById('dsDots');
-  const progress   = document.getElementById('dsProgress');
-  const countCur   = document.getElementById('dsCountCurrent');
-  const countTotal = document.getElementById('dsCountTotal');
-  const hintLeft   = document.getElementById('dsHintLeft');
-  const hintRight  = document.getElementById('dsHintRight');
-  const lightbox   = document.getElementById('dsLightbox');
-  const lbImg      = document.getElementById('dsLightboxImg');
-  const lbTitle    = document.getElementById('dsLightboxTitle');
-  const lbTagline  = document.getElementById('dsLightboxTagline');
-  const lbClose    = document.getElementById('dsLightboxClose');
-  const total      = slides.length;
-  const INTERVAL   = 4500;
-  let current      = 0;
-  let timer        = null;
-  let isHovered    = false;
-  let trackOffset  = 0;
-
-  countTotal.textContent = total;
-
-  slides.forEach((_, i) => {
-    const dot = document.createElement('div');
-    dot.className = 'ds-dot' + (i === 0 ? ' active' : '');
-    dot.addEventListener('click', () => { goTo(i); startTimer(); });
-    dotsWrap.appendChild(dot);
-  });
-
-    function getClass(pos) {
-    if (pos === 0)             return 'ds-active';
-    if (pos === 1)             return 'ds-next';
-    if (pos === total - 1)     return 'ds-prev-slide';
-    if (pos === 2)             return 'ds-far';
-    if (pos === total - 2)     return 'ds-far';
-    return '';
-  }
-
-  function centerActiveSlide() {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const slideshowW = slideshow.offsetWidth;
-        const activeEl   = slides[current];
-        const activeW    = activeEl.offsetWidth;
-        const gap        = 20;
-        const paddingL   = slideshowW * 0.18;
-        let offsetBefore = 0;
-        slides.forEach((s, i) => { if (i < current) offsetBefore += s.offsetWidth + gap; });
-        trackOffset = (slideshowW - activeW) / 2 - offsetBefore - paddingL;
-        track.style.transform = `translateX(${trackOffset}px)`;
-      });
-    });
-  }
-
-function updateSlides() {
-    slides.forEach((slide, i) => {
-      slide.classList.remove('ds-active', 'ds-next', 'ds-prev-slide', 'ds-far');
-      const pos = (i - current + total) % total;
-      const cls = getClass(pos);
-      if (cls) slide.classList.add(cls);
-      slide.style.visibility = (pos > 2 && pos < total - 2) ? 'hidden' : 'visible';
-      slide.style.pointerEvents = (pos > 2 && pos < total - 2) ? 'none' : '';
-    });
-    dotsWrap.querySelectorAll('.ds-dot').forEach((d, i) => d.classList.toggle('active', i === current));
-    countCur.textContent = current + 1;
-    centerActiveSlide();
-  }
-
-  function goTo(index) {
-    if (index === current) return;
-    current = (index + total) % total;
-    updateSlides();
-    restartProgress();
-  }
-
-  function next() { goTo(current + 1); }
-  function prev() { goTo(current - 1); }
-
-  function restartProgress() {
-    progress.classList.remove('running');
-    progress.style.transition = 'none';
-    progress.style.width      = '0%';
-    void progress.offsetWidth;
-    progress.classList.add('running');
-  }
-
-  function startTimer() {
-    clearInterval(timer);
-    timer = setInterval(() => { if (!isHovered) next(); }, INTERVAL);
-  }
-
-  slides.forEach(slide => {
-    slide.addEventListener('click', (e) => {
-      if (e.target.closest('.ds-magnify') || e.target.closest('.ds-slide-btn')) return;
-      if (slide.classList.contains('ds-next'))       { next(); startTimer(); }
-      if (slide.classList.contains('ds-prev-slide')) { prev(); startTimer(); }
-    });
-  });
-
-  if (hintLeft)  hintLeft.addEventListener('click',  () => { prev(); startTimer(); });
-  if (hintRight) hintRight.addEventListener('click', () => { next(); startTimer(); });
-
-  if (lightbox) {
-    slides.forEach(slide => {
-      const magnify = slide.querySelector('.ds-magnify');
-      const img     = slide.querySelector('.ds-slide-img');
-      if (!magnify || !img) return;
-      function openLightbox() {
-        lbImg.src = img.src; lbImg.alt = img.alt;
-        lightbox.classList.add('open');
-        document.body.style.overflow = 'hidden';
-        clearInterval(timer);
-      }
-      magnify.addEventListener('click', (e) => { e.stopPropagation(); openLightbox(); });
-      img.addEventListener('click', (e) => { if (!slide.classList.contains('ds-active')) return; e.stopPropagation(); openLightbox(); });
-    });
-    lbClose.addEventListener('click', closeLightbox);
-    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
-  }
-
-  function closeLightbox() { lightbox.classList.remove('open'); document.body.style.overflow = ''; startTimer(); }
-
-  slideshow.addEventListener('mouseenter', () => { isHovered = true; });
-  slideshow.addEventListener('mouseleave', () => { isHovered = false; });
-
-  let tx = 0, ty = 0, dragging = false, dragOffset = 0;
-
-  slideshow.addEventListener('touchstart', e => {
-    tx = e.touches[0].clientX; ty = e.touches[0].clientY;
-    dragging = true; dragOffset = 0; clearInterval(timer);
-  }, { passive: true });
-
-  slideshow.addEventListener('touchmove', e => {
-    if (!dragging) return;
-    const dx = e.touches[0].clientX - tx;
-    const dy = e.touches[0].clientY - ty;
-    if (Math.abs(dx) < Math.abs(dy) && Math.abs(dragOffset) === 0) { dragging = false; return; }
-    dragOffset = dx;
-    track.style.transition = 'none';
-    track.style.transform  = `translateX(${trackOffset + dx}px)`;
-  }, { passive: true });
-
-  slideshow.addEventListener('touchend', e => {
-    if (!dragging) return;
-    dragging = false;
-    track.style.transition = '';
-    const dx = e.changedTouches[0].clientX - tx;
-    if (Math.abs(dx) > 50) { dx < 0 ? next() : prev(); }
-    else { track.style.transform = `translateX(${trackOffset}px)`; }
-    startTimer();
-  }, { passive: true });
-
-  slideshow.addEventListener('touchcancel', () => {
-    dragging = false;
-    track.style.transition = '';
-    track.style.transform  = `translateX(${trackOffset}px)`;
-    startTimer();
-  }, { passive: true });
-
-  document.addEventListener('keydown', e => {
-    if (lightbox && lightbox.classList.contains('open')) return;
-    if (e.key === 'ArrowRight') { next(); startTimer(); }
-    if (e.key === 'ArrowLeft')  { prev(); startTimer(); }
-  });
-
-  window.addEventListener('resize', () => centerActiveSlide());
-
-  requestAnimationFrame(() => { updateSlides(); restartProgress(); startTimer(); });
-})();
-</script>
-<script>  
-// AUTH SYSTEM — REDESIGNED & FULLY FUNCTIONAL
-var fjAuth = (function () {
-  let currentUser = null;
-  let selectedStars = 0;
-
-  // ── Open / Close ──
-  function open(tab) {
+  window._openAuth = function(tab) {
     const ov = document.getElementById('authOverlay');
     if (!ov) return;
-
-    ov.style.display = 'flex';
+    ov.style.cssText = 'display:flex;opacity:0;pointer-events:none;position:fixed;inset:0;z-index:99990;background:rgba(2,2,2,0.94);backdrop-filter:blur(28px);align-items:center;justify-content:center;padding:20px;transition:opacity 0.4s ease;';
+    clearMsg();
+    window._switchAuthTab(tab || 'signin');
     document.body.style.overflow = 'hidden';
+    setTimeout(function() {
+      ov.style.opacity = '1';
+      ov.style.pointerEvents = 'all';
+    }, 20);
+  };
 
-    if (tab) switchTab(tab);
-    clearMessages();
-
-    const title = document.getElementById('authModalTitle');
-    const sub   = document.getElementById('authModalSub');
-    if (tab === 'signup' && title) {
-      title.innerHTML = 'Join the<br><em>Journey</em>';
-      if (sub) sub.textContent = 'Create your free account to unlock the full safari experience.';
-    } else if (title) {
-      title.innerHTML = 'Welcome<br><em>Back</em>';
-      if (sub) sub.textContent = 'Sign in to access your safari journey and saved preferences.';
-    }
-
-    // Force reflow then animate in
-    void ov.offsetHeight;
-    ov.style.transition = 'opacity 0.45s ease';
-    ov.style.opacity = '1';
-    ov.style.pointerEvents = 'all';
-    ov.classList.add('open');
-  }
-
-  function close() {
+  window._closeAuth = function() {
     const ov = document.getElementById('authOverlay');
     if (!ov) return;
     ov.style.opacity = '0';
     ov.style.pointerEvents = 'none';
-    ov.classList.remove('open');
     document.body.style.overflow = '';
-    clearMessages();
-    setTimeout(() => { ov.style.display = 'none'; }, 460);
-  }
+    clearMsg();
+    setTimeout(function() { ov.style.display = 'none'; }, 420);
+  };
 
-  function switchTab(tab) {
+  window._switchAuthTab = function(tab) {
     const si  = document.getElementById('authPanelSignin');
     const su  = document.getElementById('authPanelSignup');
     const tsi = document.getElementById('tabSignin');
     const tsu = document.getElementById('tabSignup');
-    if (!si || !su) return;
-
-    if (tab === 'signin') {
-      si.style.display = 'block';
-      su.style.display = 'none';
-      if (tsi) { tsi.classList.add('active'); tsi.style.color='#d4af37'; tsi.style.borderBottomColor='#d4af37'; }
-      if (tsu) { tsu.classList.remove('active'); tsu.style.color='rgba(138,128,116,0.8)'; tsu.style.borderBottomColor='transparent'; }
-    } else {
-      si.style.display = 'none';
-      su.style.display = 'block';
-      if (tsu) { tsu.classList.add('active'); tsu.style.color='#d4af37'; tsu.style.borderBottomColor='#d4af37'; }
-      if (tsi) { tsi.classList.remove('active'); tsi.style.color='rgba(138,128,116,0.8)'; tsi.style.borderBottomColor='transparent'; }
-    }
-    clearMessages();
-
     const title = document.getElementById('authModalTitle');
     const sub   = document.getElementById('authModalSub');
+    clearMsg();
     if (tab === 'signup') {
+      if (si) si.style.display = 'none';
+      if (su) su.style.display = 'block';
+      if (tsi) { tsi.classList.remove('active'); tsi.style.color=''; tsi.style.borderBottomColor='transparent'; }
+      if (tsu) { tsu.classList.add('active');    tsu.style.color='#d4af37'; tsu.style.borderBottomColor='#d4af37'; }
       if (title) title.innerHTML = 'Join the<br><em>Journey</em>';
-      if (sub) sub.textContent = 'Create your free account to unlock the full safari experience.';
+      if (sub)   sub.textContent = 'Create your free account to unlock the full safari experience.';
     } else {
+      if (si) si.style.display = 'block';
+      if (su) su.style.display = 'none';
+      if (tsu) { tsu.classList.remove('active'); tsu.style.color=''; tsu.style.borderBottomColor='transparent'; }
+      if (tsi) { tsi.classList.add('active');    tsi.style.color='#d4af37'; tsi.style.borderBottomColor='#d4af37'; }
       if (title) title.innerHTML = 'Welcome<br><em>Back</em>';
-      if (sub) sub.textContent = 'Sign in to access your safari journey and saved preferences.';
+      if (sub)   sub.textContent = 'Sign in to access your safari journey and saved preferences.';
     }
-  }
+  };
 
-  function showError(msg) {
-    const el = document.getElementById('authMsgError');
-    const ok = document.getElementById('authMsgSuccess');
-    if (el) { el.textContent = msg; el.style.display = 'block'; }
-    if (ok) ok.style.display = 'none';
-  }
-  function showSuccess(msg) {
-    const el = document.getElementById('authMsgSuccess');
-    const er = document.getElementById('authMsgError');
-    if (el) { el.textContent = msg; el.style.display = 'block'; }
-    if (er) er.style.display = 'none';
-  }
-  function clearMessages() {
-    const e = document.getElementById('authMsgError');
-    const s = document.getElementById('authMsgSuccess');
-    if (e) e.style.display = 'none';
-    if (s) s.style.display = 'none';
-  }
-
-  function v(id) { return (document.getElementById(id) || {}).value || ''; }
-
-  // ── Sign In ──
-  async function signIn() {
-    const email = v('siEmail').trim();
+  window._doSignIn = async function() {
+    const supa = getSupabase();
+    if (!supa) { showMsg('error','Auth service unavailable. Please refresh.'); return; }
+    const email = v('siEmail');
     const pass  = v('siPassword');
-    if (!email || !pass) { showError('Please enter your email and password.'); return; }
+    if (!email || !pass) { showMsg('error','Please enter your email and password.'); return; }
     const btn = document.getElementById('siSubmitBtn');
-    const orig = btn?.textContent;
-    if (btn) { btn.textContent = 'Signing in…'; btn.style.opacity = '0.8'; }
+    if (btn) { btn.textContent = 'Signing in…'; btn.disabled = true; }
     try {
       const { data, error } = await supa.auth.signInWithPassword({ email, password: pass });
       if (error) throw error;
-      showSuccess('Welcome back! Signing you in…');
-      setTimeout(close, 1200);
+      showMsg('success', 'Welcome back! You are now signed in.');
+      setTimeout(window._closeAuth, 1400);
+      updateNavForUser(data.user);
     } catch(e) {
-      showError(e.message || 'Sign in failed. Check your email and password.');
+      showMsg('error', e.message || 'Sign in failed. Check your email and password.');
     }
-    if (btn) { btn.textContent = orig; btn.style.opacity = '1'; }
-  }
+    if (btn) { btn.textContent = 'Sign In to Your Account'; btn.disabled = false; }
+  };
 
-  // ── Sign Up ──
-  async function signUp() {
-    const firstName = v('suFirstName').trim();
-    const lastName  = v('suLastName').trim();
-    const email     = v('suEmail').trim();
-    const phone     = v('suPhone').trim();
+  window._doSignUp = async function() {
+    const supa = getSupabase();
+    if (!supa) { showMsg('error','Auth service unavailable. Please refresh.'); return; }
+    const firstName = v('suFirstName');
+    const lastName  = v('suLastName');
+    const email     = v('suEmail');
+    const phone     = v('suPhone');
     const pass      = v('suPassword');
     const passConf  = v('suPassConf');
-    if (!firstName || !lastName) { showError('Please enter your first and last name.'); return; }
-    if (!email) { showError('Please enter your email address.'); return; }
-    if (!pass) { showError('Please create a password.'); return; }
-    if (pass.length < 8) { showError('Password must be at least 8 characters.'); return; }
-    if (pass !== passConf) { showError('Passwords do not match.'); return; }
+    if (!firstName || !lastName) { showMsg('error','Please enter your first and last name.'); return; }
+    if (!email)          { showMsg('error','Please enter your email address.'); return; }
+    if (!pass)           { showMsg('error','Please create a password.'); return; }
+    if (pass.length < 8) { showMsg('error','Password must be at least 8 characters.'); return; }
+    if (pass !== passConf) { showMsg('error','Passwords do not match. Please re-enter.'); return; }
     const btn = document.getElementById('suSubmitBtn');
-    const orig = btn?.textContent;
-    if (btn) { btn.textContent = 'Creating account…'; btn.style.opacity = '0.8'; }
+    if (btn) { btn.textContent = 'Creating account…'; btn.disabled = true; }
     try {
+      const meta = {
+        first_name:       firstName,
+        last_name:        lastName,
+        full_name:        firstName + ' ' + lastName,
+        phone:            phone,
+        nationality:      v('suNationality'),
+        budget:           v('suBudget'),
+        travel_style:     v('suStyle'),
+        primary_interest: v('suInterest'),
+        planned_date:     v('suTravelDate'),
+        emergency_name:   v('suEmergName'),
+        emergency_phone:  v('suEmergPhone'),
+        how_heard:        v('suHowHeard')
+      };
       const { data, error } = await supa.auth.signUp({
-        email, password: pass,
-        options: {
-          data: {
-            first_name: firstName, last_name: lastName, phone,
-            nationality: v('suNationality'), budget: v('suBudget'),
-            travel_style: v('suStyle'), primary_interest: v('suInterest'),
-            planned_date: v('suTravelDate'),
-            emergency_name: v('suEmergName'), emergency_phone: v('suEmergPhone'),
-            how_heard: v('suHowHeard')
-          }
-        }
+        email:    email,
+        password: pass,
+        options:  { data: meta }
       });
       if (error) throw error;
       if (data?.user?.identities?.length === 0) {
-        showError('An account with this email already exists. Please sign in.');
+        showMsg('error','An account with this email already exists. Please sign in.');
       } else {
-        showSuccess('Account created! Please check your email to confirm, then sign in.');
+        // Also write to profiles table if it exists
+        if (data.user) {
+          try {
+            await supa.from('profiles').upsert({
+              id:               data.user.id,
+              email:            email,
+              first_name:       firstName,
+              last_name:        lastName,
+              phone:            phone,
+              nationality:      v('suNationality'),
+              budget:           v('suBudget'),
+              travel_style:     v('suStyle'),
+              primary_interest: v('suInterest'),
+              planned_date:     v('suTravelDate'),
+              emergency_name:   v('suEmergName'),
+              emergency_phone:  v('suEmergPhone'),
+              how_heard:        v('suHowHeard'),
+              created_at:       new Date().toISOString()
+            });
+          } catch(_) { /* profiles table may not exist yet, ignore */ }
+        }
+        showMsg('success', '✓ Account created! Check your email to confirm, then sign in.');
       }
     } catch(e) {
-      showError(e.message || 'Registration failed. Please try again.');
+      showMsg('error', e.message || 'Registration failed. Please try again.');
     }
-    if (btn) { btn.textContent = orig; btn.style.opacity = '1'; }
-  }
+    if (btn) { btn.textContent = 'Create My Safari Account'; btn.disabled = false; }
+  };
 
-  // ── Update nav UI ──
-  function updateNav(user) {
-    currentUser = user;
+  function updateNavForUser(user) {
     window._fjCurrentUser = user;
-
-    const flipWrap   = document.getElementById('authFlipWrap');
-    const userChip   = document.getElementById('authUserChip');
-    const navLabel   = document.getElementById('authNavLabel');
-    const menuName   = document.getElementById('userMenuName');
-    const userMenu   = document.getElementById('userMenu');
-    const locked     = document.getElementById('testimonialFormLocked');
-    const openFrm    = document.getElementById('testimonialFormOpen');
-    const dropLabel  = document.getElementById('dropdownAuthLabel');
-
+    const flipWrap  = document.getElementById('authFlipWrap');
+    const navLabel  = document.getElementById('authNavLabel');
+    const menuName  = document.getElementById('userMenuName');
+    const locked    = document.getElementById('testimonialFormLocked');
+    const openFrm   = document.getElementById('testimonialFormOpen');
+    const dropLabel = document.getElementById('dropdownAuthLabel');
+    const dropSignup = document.getElementById('dropdownSignupBtn');
     if (user) {
       const m = user.user_metadata || {};
-      const displayName = ((m.first_name || '') + ' ' + (m.last_name || '')).trim() || user.email.split('@')[0];
+      const displayName = ((m.first_name||'') + ' ' + (m.last_name||'')).trim() || user.email.split('@')[0];
       const firstName = m.first_name || displayName;
-
-      // Show chip, hide flip faces
-      if (flipWrap) flipWrap.classList.add('signed-in');
-      if (navLabel) navLabel.textContent = firstName;
-      if (menuName) menuName.textContent = displayName;
+      if (flipWrap)  flipWrap.classList.add('signed-in');
+      if (navLabel)  navLabel.textContent = firstName;
+      if (menuName)  menuName.textContent = displayName;
       if (dropLabel) dropLabel.textContent = displayName;
-
-      // Show/hide testimonial form
-      if (locked)  locked.style.display  = 'none';
+      if (dropSignup) dropSignup.style.display = 'none';
+      if (locked)  locked.style.display = 'none';
       if (openFrm) openFrm.style.display = '';
-
-      // Populate user menu
-      if (userMenu) {
-        userMenu.style.opacity    = '';
-        userMenu.style.pointerEvents = '';
-        userMenu.style.transform  = '';
-      }
     } else {
-      if (flipWrap) flipWrap.classList.remove('signed-in');
-      if (navLabel) navLabel.textContent = 'My Account';
+      if (flipWrap)  flipWrap.classList.remove('signed-in');
+      if (navLabel)  navLabel.textContent = 'My Account';
       if (dropLabel) dropLabel.textContent = 'Sign In';
-      if (locked)  locked.style.display  = '';
+      if (dropSignup) dropSignup.style.display = '';
+      if (locked)  locked.style.display = '';
       if (openFrm) openFrm.style.display = 'none';
     }
   }
 
-  function autoFill() {
-    if (!currentUser) return;
-    const m = currentUser.user_metadata || {};
-    const nf = document.querySelector('#contact input[type="text"]');
-    const ef = document.querySelector('#contact input[type="email"]');
-    const pf = document.querySelector('#contact input[type="tel"]');
-    if (nf && !nf.value) nf.value = ((m.first_name || '') + ' ' + (m.last_name || '')).trim();
-    if (ef && !ef.value) ef.value = currentUser.email || '';
-    if (pf && !pf.value) pf.value = m.phone || '';
-  }
+  // Init session on load
+  document.addEventListener('DOMContentLoaded', function() {
+    const supa = getSupabase();
+    if (!supa) return;
 
-  // ── Init session ──
-  (async () => {
-    try {
-      const { data } = await supa.auth.getSession();
-      if (data?.session?.user) updateNav(data.session.user);
-    } catch(e) {}
-    supa.auth.onAuthStateChange((event, session) => {
-      updateNav(session?.user || null);
+    supa.auth.getSession().then(function(res) {
+      if (res.data?.session?.user) updateNavForUser(res.data.session.user);
     });
-  })();
 
-  // ── DOM events ──
-  document.addEventListener('DOMContentLoaded', () => {
-    // Modal close button
-    document.getElementById('authModalClose')?.addEventListener('click', close);
-
-    // Click outside modal to close
-    document.getElementById('authOverlay')?.addEventListener('click', function(e) {
-      if (e.target === this) close();
+    supa.auth.onAuthStateChange(function(event, session) {
+      updateNavForUser(session?.user || null);
     });
+
+    // Close modal on overlay click
+    const ov = document.getElementById('authOverlay');
+    if (ov) ov.addEventListener('click', function(e) { if (e.target === ov) window._closeAuth(); });
+
+    // Close on X button
+    const closeBtn = document.getElementById('authModalClose');
+    if (closeBtn) closeBtn.addEventListener('click', window._closeAuth);
 
     // Escape key
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
-
-    // Sign out button in user menu
-    document.getElementById('userMenuSignOut')?.addEventListener('click', async () => {
-      document.getElementById('userMenu')?.classList.remove('open');
-      await supa.auth.signOut();
-      updateNav(null);
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') window._closeAuth();
     });
 
-    // Close user menu when clicking outside
-    document.addEventListener('click', e => {
-      const menu     = document.getElementById('userMenu');
-      const chip     = document.getElementById('authUserChip');
-      const flipWrap = document.getElementById('authFlipWrap');
-      if (menu && !menu.contains(e.target) && chip && !chip.contains(e.target) && flipWrap && !flipWrap.contains(e.target)) {
+    // Enter key submits sign in
+    const siPass = document.getElementById('siPassword');
+    if (siPass) siPass.addEventListener('keydown', function(e) { if (e.key === 'Enter') window._doSignIn(); });
+
+    // Sign out
+    const signOutBtn = document.getElementById('userMenuSignOut');
+    if (signOutBtn) signOutBtn.addEventListener('click', async function() {
+      document.getElementById('userMenu')?.classList.remove('open');
+      await supa.auth.signOut();
+      updateNavForUser(null);
+    });
+
+    // User chip toggles menu
+    const chip = document.getElementById('authUserChip');
+    if (chip) chip.addEventListener('click', function() {
+      document.getElementById('userMenu')?.classList.toggle('open');
+    });
+
+    // Close user menu on outside click
+    document.addEventListener('click', function(e) {
+      const menu = document.getElementById('userMenu');
+      const chip = document.getElementById('authUserChip');
+      const wrap = document.getElementById('authFlipWrap');
+      if (menu && !menu.contains(e.target) && chip && !chip.contains(e.target) && wrap && !wrap.contains(e.target)) {
         menu.classList.remove('open');
       }
     });
 
-    // Auto-fill contact form when user focuses it
-    document.querySelector('#contact')?.addEventListener('focusin', autoFill);
-
-    // Enter key to submit sign-in
-    document.getElementById('siPassword')?.addEventListener('keydown', e => {
-      if (e.key === 'Enter') signIn();
+    // Auto-fill contact form
+    document.querySelector('#contact')?.addEventListener('focusin', function() {
+      const user = window._fjCurrentUser;
+      if (!user) return;
+      const m = user.user_metadata || {};
+      const nf = document.querySelector('#contact input[type="text"]');
+      const ef = document.querySelector('#contact input[type="email"]');
+      const pf = document.querySelector('#contact input[type="tel"]');
+      if (nf && !nf.value) nf.value = ((m.first_name||'') + ' ' + (m.last_name||'')).trim();
+      if (ef && !ef.value) ef.value = user.email || '';
+      if (pf && !pf.value) pf.value = m.phone || '';
     });
 
-    // Star rating for testimonials
-    document.querySelectorAll('.star-btn').forEach(star => {
-      star.addEventListener('click', () => {
+    // Star rating
+    let selectedStars = 0;
+    document.querySelectorAll('.star-btn').forEach(function(star) {
+      star.addEventListener('click', function() {
         selectedStars = parseInt(star.dataset.val);
-        document.querySelectorAll('.star-btn').forEach((s, i) => {
+        document.querySelectorAll('.star-btn').forEach(function(s, i) {
           s.style.opacity = i < selectedStars ? '1' : '0.3';
-          s.style.color   = i < selectedStars ? '#d4af37' : '';
-        });
-      });
-      star.addEventListener('mouseenter', () => {
-        const val = parseInt(star.dataset.val);
-        document.querySelectorAll('.star-btn').forEach((s, i) => { s.style.opacity = i < val ? '0.8' : '0.25'; });
-      });
-      star.addEventListener('mouseleave', () => {
-        document.querySelectorAll('.star-btn').forEach((s, i) => {
-          s.style.opacity = i < selectedStars ? '1' : '0.35';
           s.style.color   = i < selectedStars ? '#d4af37' : '';
         });
       });
@@ -9604,339 +7940,894 @@ var fjAuth = (function () {
 
     // Testimonial submit
     const tBtn = document.getElementById('testimonialSubmitBtn');
-    if (tBtn) {
-      tBtn.addEventListener('click', async () => {
-        if (!currentUser) { open('signin'); return; }
-        const text = document.getElementById('testimonialText')?.value?.trim() || '';
-        const msg  = document.getElementById('testimonialFormMsg');
-        if (text.length < 20) {
-          if (msg) { msg.style.cssText = 'display:block;background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.3);color:#e05555;font-size:12px;padding:12px 16px;margin-bottom:12px;'; msg.textContent = 'Please write at least 20 characters.'; }
-          return;
-        }
-        tBtn.textContent = 'Submitting…';
-        const m = currentUser.user_metadata || {};
-        try {
-          const { error } = await supa.from('testimonials_pending').insert({
-            user_id: currentUser.id,
-            author_name: ((m.first_name || '') + ' ' + (m.last_name || '')).trim(),
-            author_loc: m.nationality || '',
-            text, rating: selectedStars || 5, status: 'pending',
-            created_at: new Date().toISOString()
-          });
-          if (error) throw error;
-          if (msg) { msg.style.cssText = 'display:block;background:rgba(123,181,110,0.1);border:1px solid rgba(123,181,110,0.3);color:#7bb56e;font-size:12px;padding:12px 16px;margin-bottom:12px;'; msg.textContent = 'Thank you! Your review is pending approval.'; }
-          document.getElementById('testimonialText').value = '';
-          selectedStars = 0;
-          document.querySelectorAll('.star-btn').forEach(s => { s.style.opacity = '0.35'; s.style.color = ''; });
-        } catch(e) {
-          if (msg) { msg.style.cssText = 'display:block;background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.3);color:#e05555;font-size:12px;padding:12px 16px;margin-bottom:12px;'; msg.textContent = 'Submission failed. Please try again.'; }
-        }
-        tBtn.textContent = 'Submit for Review';
-      });
-    }
+    if (tBtn) tBtn.addEventListener('click', async function() {
+      if (!window._fjCurrentUser) { window._openAuth('signin'); return; }
+      const text = (document.getElementById('testimonialText')?.value || '').trim();
+      const msg  = document.getElementById('testimonialFormMsg');
+      if (text.length < 20) {
+        if (msg) { msg.style.cssText='display:block;background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.3);color:#e05555;font-size:12px;padding:12px 16px;margin-bottom:12px;'; msg.textContent='Please write at least 20 characters.'; }
+        return;
+      }
+      tBtn.textContent = 'Submitting…';
+      const m = window._fjCurrentUser.user_metadata || {};
+      try {
+        await supa.from('testimonials_pending').insert({
+          user_id: window._fjCurrentUser.id,
+          author_name: ((m.first_name||'') + ' ' + (m.last_name||'')).trim(),
+          author_loc: m.nationality || '',
+          text, rating: selectedStars || 5, status: 'pending',
+          created_at: new Date().toISOString()
+        });
+        if (msg) { msg.style.cssText='display:block;background:rgba(123,181,110,0.1);border:1px solid rgba(123,181,110,0.3);color:#7bb56e;font-size:12px;padding:12px 16px;margin-bottom:12px;'; msg.textContent='Thank you! Your review is pending approval.'; }
+        document.getElementById('testimonialText').value = '';
+        selectedStars = 0;
+        document.querySelectorAll('.star-btn').forEach(function(s) { s.style.opacity='0.35'; s.style.color=''; });
+      } catch(e) {
+        if (msg) { msg.style.cssText='display:block;background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.3);color:#e05555;font-size:12px;padding:12px 16px;margin-bottom:12px;'; msg.textContent='Submission failed. Please try again.'; }
+      }
+      tBtn.textContent = 'Submit for Review';
+    });
   });
 
-  return { open, close, switchTab, signIn, signUp };
-})();
-
-window.openAuth = fjAuth.open;
-
-  // Duplicate auth IIFE removed — all auth handled by fjAuth above
-
-// TEAM MEMBER POPUP
-(function () {
-  const members = {
-    filmer: {
-      name: 'Filmer Mageto',
-      role: 'Founder & Lead Guide',
-      img: 'assets/team-filmer.webp',
-      bio: 'Over a decade navigating Kenya\'s finest reserves, Filmer founded Filmax Jambo Tours with a single conviction — that a safari should be as extraordinary in its execution as Kenya is in its raw material. He has guided guests across the Mara, Amboseli, Samburu, and the Kenyan coast, accumulating an intimate knowledge of the land and an unshakeable love for every creature within it. He holds a Kenya Professional Safari Guides Association (KPSGA) Gold certification — the highest level awarded in the country.',
-      details: [
-        { icon: '✉️', label: 'Business Email', value: 'filmer@filmaxjambotours.co.ke', href: 'mailto:filmer@filmaxjambotours.co.ke' },
-        { icon: '📞', label: 'Direct Line', value: '+254 700 000 001', href: 'tel:+254700000001' },
-        { icon: '🏆', label: 'Certification', value: 'KPSGA Gold — Senior Wildlife Guide' },
-        { icon: '🌍', label: 'Speciality', value: 'Maasai Mara · Amboseli · Samburu · Wildlife Behaviour' },
-        { icon: '📅', label: 'Experience', value: '12+ years in the Kenyan wilderness' },
-        { icon: '🗣️', label: 'Languages', value: 'English · Swahili · Basic Maasai' }
-      ]
-    },
-    amara: {
-      name: 'Amara Wanjiku',
-      role: 'Safari Experience Director',
-      img: 'assets/team-amara.webp',
-      bio: 'Amara is the architect of every seamless Filmax Jambo safari. A master of logistics and luxury, she orchestrates every detail — from the timing of your arrival transfer to the fine details of your farewell dinner under the Mara sky. With a background in luxury hospitality and a deep passion for Kenya, she ensures the gap between what you imagined and what you experience is as close to zero as humanly possible.',
-      details: [
-        { icon: '✉️', label: 'Business Email', value: 'amara@filmaxjambotours.co.ke', href: 'mailto:amara@filmaxjambotours.co.ke' },
-        { icon: '📞', label: 'Direct Line', value: '+254 700 000 002', href: 'tel:+254700000002' },
-        { icon: '🏅', label: 'Background', value: 'Luxury Hospitality · Tourism Management (Moi University)' },
-        { icon: '✨', label: 'Speciality', value: 'Itinerary Design · Lodge Relations · Client Experience' },
-        { icon: '📅', label: 'Experience', value: '8 years in luxury safari operations' },
-        { icon: '🗣️', label: 'Languages', value: 'English · Swahili · French (conversational)' }
-      ]
-    },
-    githaiga: {
-      name: 'Githaiga Njoroge',
-      role: 'Wildlife Naturalist',
-      img: 'assets/team-githaiga.webp',
-      bio: 'Born in the shadow of the Mara, Githaiga reads the wilderness like a living book. He anticipates migrations before they happen, tracks the Big Five with a quiet precision that borders on the supernatural, and shares stories the bush whispers only to those who have earned its trust. He has spent his entire career within 50 kilometres of where he was born — and that intimacy with the land is something no amount of international training can replicate.',
-      details: [
-        { icon: '✉️', label: 'Business Email', value: 'githaiga@filmaxjambotours.co.ke', href: 'mailto:githaiga@filmaxjambotours.co.ke' },
-        { icon: '📞', label: 'Direct Line', value: '+254 700 000 003', href: 'tel:+254700000003' },
-        { icon: '🏆', label: 'Certification', value: 'KPSGA Silver — Wildlife Naturalist' },
-        { icon: '🌍', label: 'Speciality', value: 'Big Five Tracking · Bird Watching · Migration Patterns' },
-        { icon: '📅', label: 'Experience', value: '15+ years — born and raised in the Mara region' },
-        { icon: '🗣️', label: 'Languages', value: 'English · Swahili · Kikuyu · Maasai' }
-      ]
-    }
+  // Legacy alias so any remaining fjAuth.open() calls still work
+  window.fjAuth = {
+    open: window._openAuth,
+    close: window._closeAuth,
+    switchTab: window._switchAuthTab,
+    signIn: window._doSignIn,
+    signUp: window._doSignUp
   };
 
-  const overlay = document.getElementById('teamPopupOverlay');
-  const popup   = document.getElementById('teamPopup');
-  const closeBtn = document.getElementById('teamPopupClose');
-  if (!overlay) return;
-
-  function openPopup(key) {
-    const m = members[key];
-    if (!m) return;
-    document.getElementById('teamPopupHeroImg').src    = m.img;
-    document.getElementById('teamPopupHeroImg').alt    = m.name;
-    document.getElementById('teamPopupAvatarImg').src  = m.img;
-    document.getElementById('teamPopupAvatarImg').alt  = m.name;
-    document.getElementById('teamPopupRole').textContent = m.role;
-    document.getElementById('teamPopupName').textContent = m.name;
-    document.getElementById('teamPopupBio').textContent  = m.bio;
-    const detailsEl = document.getElementById('teamPopupDetails');
-    detailsEl.innerHTML = m.details.map(d => `
-      <div class="team-popup-detail">
-        <div class="team-popup-detail-icon">${d.icon}</div>
-        <div class="team-popup-detail-text">
-          <span class="team-popup-detail-label">${d.label}</span>
-          ${d.href
-            ? `<a href="${d.href}" class="team-popup-detail-value">${d.value}</a>`
-            : `<span class="team-popup-detail-value">${d.value}</span>`}
-        </div>
-      </div>`).join('');
-    popup.scrollTop = 0;
-    overlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closePopup() {
-    overlay.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  document.querySelectorAll('.team-card[data-member]').forEach(card => {
-    card.addEventListener('click', () => openPopup(card.dataset.member));
-  });
-
-  closeBtn.addEventListener('click', closePopup);
-  overlay.addEventListener('click', e => { if (e.target === overlay) closePopup(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePopup(); });
 })();
 
-// SITE HINTS SYSTEM
+// ===========================
+// QUESTIONNAIRE (overlay)
+// ===========================
 (function () {
-  const hints = [
-    {
-      id: 'theme-hint',
-      label: 'Tip',
-      text: 'Switch between dark and light mode here.',
-      getTarget: () => document.getElementById('themeToggle'),
-      pointer: 'left',
-      side: 'right',
-      triggerFn: () => window.pageYOffset > 200,
-      delay: 3000
-    },
-    {
-      id: 'translate-hint',
-      label: 'Language',
-      text: 'Translate the entire site into your language instantly.',
-      getTarget: () => document.getElementById('google_translate_element'),
-      pointer: 'left',
-      side: 'right',
-      triggerFn: () => window.pageYOffset > 400,
-      delay: 3000
-    },
-    {
-      id: 'destinations-hint',
-      label: 'Navigate',
-      text: 'Swipe or click the arrows to explore each Kenyan destination.',
-      getTarget: () => document.getElementById('destSlideshow'),
-      pointer: 'up',
-      side: 'top',
-      triggerFn: () => {
-        const el = document.getElementById('destSlideshow');
-        if (!el) return false;
-        const r = el.getBoundingClientRect();
-        return r.top < window.innerHeight * 0.5 && r.bottom > 200;
-      },
-      delay: 1000
-    },
-    {
-      id: 'packages-hint',
-      label: 'Filter',
-      text: 'Filter safari packages by budget, mid-range or luxury.',
-      getTarget: () => document.getElementById('pkgFilterBar'),
-      pointer: 'up',
-      side: 'top',
-      triggerFn: () => {
-        const el = document.getElementById('pkgFilterBar');
-        if (!el) return false;
-        const r = el.getBoundingClientRect();
-        return r.top < window.innerHeight * 0.6 && r.bottom > 100;
-      },
-      delay: 1000
-    },
-    {
-      id: 'gallery-hint',
-      label: 'Gallery',
-      text: 'Click the magnify icon on any image to view it full screen.',
-      getTarget: () => document.getElementById('galSlideshow'),
-      pointer: 'up',
-      side: 'top',
-      triggerFn: () => {
-        const el = document.getElementById('galSlideshow');
-        if (!el) return false;
-        const r = el.getBoundingClientRect();
-        return r.top < window.innerHeight * 0.5 && r.bottom > 100;
-      },
-      delay: 1000
-    },
-    {
-      id: 'quiz-hint',
-      label: 'Safari Matchmaker',
-      text: 'Answer 5 questions and we'll find your perfect safari.',
-      getTarget: () => document.getElementById('inline-quiz'),
-      pointer: 'up',
-      side: 'top',
-      triggerFn: () => {
-        const el = document.getElementById('inline-quiz');
-        if (!el) return false;
-        const r = el.getBoundingClientRect();
-        return r.top < window.innerHeight * 0.6 && r.bottom > 100;
-      },
-      delay: 1000
-    },
-    {
-      id: 'whatsapp-hint',
-      label: 'Quick action',
-      text: 'Tap to reach us directly on WhatsApp — we reply within the hour.',
-      getTarget: () => document.querySelector('.whatsapp-fab'),
-      pointer: 'right',
-      side: 'left',
-      triggerFn: () => window.pageYOffset > 1200,
-      delay: 2000
+  if (sessionStorage.getItem('quizDone')) return;
+
+  const overlay   = document.getElementById('quiz-overlay');
+  const container = document.getElementById('quizStepContainer');
+  const progress  = document.getElementById('quizProgress');
+  const skipBtn   = document.getElementById('quizSkip');
+  if (!overlay || !container) return;
+
+  function getLivePool() {
+    if (window.allPackages && window.allPackages.length) {
+      return window.allPackages.map(function(p) {
+        const name = p.name.replace(/<br>/g,' ').replace(/\s+/g,' ').trim();
+        const tierRaw = (p.tier || '').toLowerCase();
+        const tier = tierRaw.includes('ultra') ? 'ultra' : tierRaw.includes('luxury') ? 'luxury' : tierRaw.includes('budget') ? 'budget' : 'mid-range';
+        const features = p.features || [];
+        const vibes = [];
+        const searchText = (name + ' ' + features.join(' ')).toLowerCase();
+        if (/beach|coast|ocean|diani|marine|snorkel/.test(searchText)) vibes.push('beach');
+        if (/wildlife|safari|game|mara|amboseli|samburu|tsavo|nakuru|park|reserve|big five|migration|elephant|lion|leopard/.test(searchText)) vibes.push('wildlife');
+        if (/hike|climb|mount|trek|adventure|highland|mountain/.test(searchText)) vibes.push('adventure');
+        if (/culture|maasai|village|community|people|tradition/.test(searchText)) vibes.push('culture');
+        if (!vibes.length) vibes.push('wildlife');
+        const days = parseInt((p.duration || '').match(/\d+/) || [0]);
+        const durationKey = days <= 4 ? 'short' : days <= 7 ? 'medium' : days <= 10 ? 'long' : 'grand';
+        const priceRaw = parseInt((p.price || '$0').replace(/\D/g,'')) || 0;
+        return { name, price: p.price, duration: p.duration || '', page: p.page || '#packages', tier, vibe: vibes, durationKey, priceRaw };
+      });
     }
+    return [
+      { name:'Mara Awakening',       price:'$2,800',  duration:'4 Days', page:'pkg-mara-awakening.html',     tier:'mid-range', vibe:['wildlife'],           durationKey:'short',  priceRaw:2800  },
+      { name:'Grand Odyssey',        price:'$6,500',  duration:'7 Days', page:'pkg-grand-odyssey.html',      tier:'luxury',    vibe:['wildlife','culture'],  durationKey:'medium', priceRaw:6500  },
+      { name:'Ultimate Kenya',       price:'$11,200', duration:'10 Days',page:'pkg-ultimate-kenya.html',     tier:'luxury',    vibe:['wildlife','adventure'],durationKey:'long',   priceRaw:11200 },
+      { name:'Amboseli Escape',      price:'$1,950',  duration:'3 Days', page:'pkg-amboseli-express.html',   tier:'budget',    vibe:['wildlife'],           durationKey:'short',  priceRaw:1950  },
+      { name:'Samburu Wilderness',   price:'$3,400',  duration:'5 Days', page:'pkg-samburu-secrets.html',    tier:'mid-range', vibe:['wildlife','adventure'],durationKey:'medium', priceRaw:3400  },
+      { name:'Coastal Safari Blend', price:'$4,200',  duration:'6 Days', page:'pkg-safari-and-sea.html',     tier:'mid-range', vibe:['beach','wildlife'],   durationKey:'medium', priceRaw:4200  },
+      { name:'Lakes & Highlands',    price:'$5,100',  duration:'8 Days', page:'pkg-lake-nakuru-escape.html', tier:'mid-range', vibe:['adventure','culture'],durationKey:'long',   priceRaw:5100  },
+      { name:'Kenya Mastery',        price:'$14,500', duration:'12 Days',page:'pkg-grand-odyssey.html',      tier:'ultra',     vibe:['wildlife','culture'],  durationKey:'grand',  priceRaw:14500 },
+    ];
+  }
+
+  const steps = [
+    { id:'name',     type:'text',   label:'Step 1 of 5', question:'Welcome. What shall we call you?', sub:'Every great safari begins with a name.', placeholder:'Your first name', minLength:2, pattern:/^[a-zA-ZÀ-ÖØ-öø-ÿ\s'\-]{2,}$/, errorMsg:'Please enter a real name — at least 2 letters.' },
+    { id:'vibe',     type:'multi',  label:'Step 2 of 5', question:'What draws you to Kenya?', sub:'Choose everything that stirs something in you.', options:[{value:'wildlife',label:'Wildlife & Safari'},{value:'beach',label:'Coast & Ocean'},{value:'adventure',label:'Adventure & Hiking'},{value:'culture',label:'Culture & People'}] },
+    { id:'duration', type:'choice', label:'Step 3 of 5', question:'How long is your dream escape?', sub:'We will shape the perfect rhythm around your time.', options:[{value:'short',label:'3 – 4 Days'},{value:'medium',label:'5 – 7 Days'},{value:'long',label:'8 – 10 Days'},{value:'grand',label:'10+ Days'}] },
+    { id:'budget',   type:'choice', label:'Step 4 of 5', question:'What is your comfort range?', sub:'No judgement — every budget unlocks a remarkable journey.', singleCol:true, options:[{value:'budget',label:'Budget · Under $2,500'},{value:'mid-range',label:'Mid-Range · $2,500–$5,000'},{value:'luxury',label:'Luxury · $5,000–$12,000'},{value:'ultra',label:'Ultra · $12,000+'}] },
+    { id:'travel',   type:'text',   label:'Step 5 of 5', question:'When are you thinking of travelling?', sub:'A rough idea helps us check availability and seasons.', placeholder:'e.g. July 2025, or "not sure yet"', minLength:4, pattern:/^[a-zA-Z0-9\s,\-\/\.]{4,}$/, errorMsg:'Please enter a month, year, or "not sure yet".' },
   ];
 
-  let activeHint = null;
-  const shown = new Set();
-  const queue = [];
-  let queueTimer = null;
+  let current = 0;
+  const answers = {};
 
-  function getPos(target, pointer) {
-    if (!target) return null;
-    const r = target.getBoundingClientRect();
-    const GAP = 10;
-    const vw = window.innerWidth;
-    let top, left;
-    if (pointer === 'right') {
-      top  = r.top + r.height / 2 - 28;
-      left = r.left - 260 - GAP;
-      if (left < 8) { left = r.right + GAP; pointer = 'left'; }
-    } else if (pointer === 'left') {
-      top  = r.top + r.height / 2 - 28;
-      left = r.right + GAP;
-      if (left + 250 > vw - 8) { left = r.left - 260 - GAP; pointer = 'right'; }
-    } else if (pointer === 'up') {
-      top  = r.bottom + GAP;
-      left = r.left + r.width / 2 - 120;
+  function getResults() {
+    const pool = getLivePool();
+    const vibes = Array.isArray(answers.vibe) ? answers.vibe : [];
+    return pool.map(function(pkg) {
+      let score = 0;
+      vibes.forEach(function(v) { if (pkg.vibe.includes(v)) score += 3; });
+      if (answers.duration) { const o=['short','medium','long','grand']; const d=Math.abs(o.indexOf(pkg.durationKey)-o.indexOf(answers.duration)); if(d===0)score+=4; else if(d===1)score+=2; }
+      if (answers.budget) { if(pkg.tier===answers.budget)score+=5; }
+      return Object.assign({}, pkg, {score:score});
+    }).sort(function(a,b){return b.score-a.score||a.priceRaw-b.priceRaw;}).slice(0,3);
+  }
+
+  function setProgress(step) { if(progress) progress.style.width = ((step+1)/(steps.length+1)*100)+'%'; }
+
+  function renderStep(index) {
+    setProgress(index);
+    if (index >= steps.length) { renderResults(); return; }
+    const step = steps[index];
+    const isText = step.type==='text', isMulti = step.type==='multi';
+    const selVibes = Array.isArray(answers.vibe) ? answers.vibe : [];
+    const hasAnswer = isText ? !!answers[step.id] : isMulti ? selVibes.length>0 : !!answers[step.id];
+
+    container.innerHTML = '<div class="quiz-step">' +
+      '<span class="quiz-step-label">'+step.label+'</span>' +
+      '<h2 class="quiz-question">'+step.question+'</h2>' +
+      '<p class="quiz-sub">'+step.sub+(isMulti?' <em style="font-size:10px;letter-spacing:2px;opacity:0.6;">(select all that apply)</em>':'')+'</p>' +
+      (isText ? '<input class="quiz-input" id="qzInput" type="text" placeholder="'+step.placeholder+'" value="'+(answers[step.id]||'')+'" autocomplete="off">' :
+        '<div class="quiz-options'+(step.singleCol?' single-col':'')+'" id="qzOptions">'+
+          step.options.map(function(opt){
+            const sel = isMulti ? selVibes.includes(opt.value) : answers[step.id]===opt.value;
+            return '<button class="quiz-option'+(sel?' selected':'')+'" data-value="'+opt.value+'">'+opt.label+'</button>';
+          }).join('')+
+        '</div>'+(isMulti?'<p style="font-family:Jost,sans-serif;font-size:9px;letter-spacing:3px;color:rgba(212,175,55,0.6);margin-top:10px;text-transform:uppercase;" id="qzHint">'+selVibes.length+' selected — press Continue when ready</p>':'')) +
+      '<div class="quiz-nav">' +
+        (index>0?'<button class="quiz-btn-back" id="qzBack">Back</button>':'<span></span>') +
+        '<button class="quiz-btn-next'+(hasAnswer?' ready':'')+'" id="qzNext">'+(index===steps.length-1?'See My Safaris':'Continue')+'</button>' +
+      '</div></div>';
+
+    const nextBtn = document.getElementById('qzNext');
+    const backBtn = document.getElementById('qzBack');
+
+    if (isText) {
+      const input = document.getElementById('qzInput');
+      function valid() { const val=input.value.trim(); return val.length>=(step.minLength||1)&&(!step.pattern||step.pattern.test(val)); }
+      input.addEventListener('input', function() { answers[step.id]=input.value.trim(); nextBtn.classList.toggle('ready',valid()); });
+      input.addEventListener('keydown', function(e) { if(e.key==='Enter'&&valid()) advance(); });
+      setTimeout(function(){input.focus();},80);
+    } else if (isMulti) {
+      document.getElementById('qzOptions').addEventListener('click', function(e) {
+        const btn=e.target.closest('.quiz-option'); if(!btn)return;
+        const val=btn.dataset.value;
+        if(!Array.isArray(answers.vibe))answers.vibe=[];
+        if(answers.vibe.includes(val)){answers.vibe=answers.vibe.filter(function(v){return v!==val;});btn.classList.remove('selected');}
+        else{answers.vibe.push(val);btn.classList.add('selected');}
+        const h=document.getElementById('qzHint'); if(h)h.textContent=answers.vibe.length+' selected — press Continue when ready';
+        nextBtn.classList.toggle('ready',answers.vibe.length>0);
+      });
     } else {
-      top  = r.top - 70 - GAP;
-      left = r.left + r.width / 2 - 120;
+      document.getElementById('qzOptions').addEventListener('click', function(e) {
+        const btn=e.target.closest('.quiz-option'); if(!btn)return;
+        document.querySelectorAll('#qzOptions .quiz-option').forEach(function(b){b.classList.remove('selected');});
+        btn.classList.add('selected'); answers[step.id]=btn.dataset.value;
+        nextBtn.classList.add('ready'); nextBtn.style.pointerEvents='all';
+        setTimeout(advance,380);
+      });
     }
-    left = Math.max(8, Math.min(left, vw - 258));
-    return { top, left, pointer };
+
+    if (nextBtn) nextBtn.addEventListener('click', function() { if(nextBtn.classList.contains('ready'))advance(); });
+    if (backBtn) backBtn.addEventListener('click', function() { current--; renderStep(current); });
   }
 
-  function showHint(hint) {
-    if (shown.has(hint.id) || activeHint) return;
-    const target = hint.getTarget ? hint.getTarget() : null;
-    const pos = getPos(target, hint.pointer);
-    if (!pos && !hint.fixedPos) return;
+  function advance() { current++; renderStep(current); }
 
-    shown.add(hint.id);
-    activeHint = hint.id;
+  function renderResults() {
+    setProgress(steps.length);
+    const results = getResults();
+    const name = answers.name ? answers.name.split(' ')[0] : 'Explorer';
+    container.innerHTML = '<div class="quiz-step">' +
+      '<div class="quiz-results-intro"><span class="quiz-step-label">Curated For You</span>' +
+      '<h2 class="quiz-question">Your Safari Awaits,<br>'+name+'.</h2>' +
+      '<p class="quiz-sub">Based on your answers, these experiences were made for you.</p></div>' +
+      '<div class="quiz-result-cards">'+
+        results.map(function(pkg){return '<div class="quiz-result-card"><div class="quiz-result-info"><div class="quiz-result-name">'+pkg.name+'</div><div class="quiz-result-meta">'+pkg.duration+' · '+pkg.tier+'</div></div><div class="quiz-result-price">'+pkg.price+'</div><a href="'+pkg.page+'" class="quiz-result-link">View</a></div>';}).join('')+
+      '</div>' +
+      '<button class="quiz-btn-next ready" id="qzEnter" style="width:100%;text-align:center;margin-top:24px;">Enter the Full Experience</button>' +
+      '</div>';
+    document.getElementById('qzEnter').addEventListener('click', closeQuiz);
+  }
 
-    const box = document.createElement('div');
-    box.className = 'site-hint';
-    box.id = 'hint-' + hint.id;
-    box.style.cssText = 'position:fixed;z-index:99980;';
-    box.innerHTML =
-      '<span class="site-hint-label">' + hint.label + '</span>' +
-      '<span class="site-hint-text">' + hint.text + '</span>' +
-      '<button class="site-hint-close" aria-label="Dismiss">×</button>' +
-      '<div class="site-hint-pointer ' + (pos ? pos.pointer : 'down') + '"></div>' +
-      '<div class="site-hint-bar"></div>';
+  function closeQuiz() {
+    sessionStorage.setItem('quizDone','true');
+    document.body.style.overflow=''; document.documentElement.style.overflow='';
+    overlay.style.opacity='0'; overlay.style.pointerEvents='none';
+    setTimeout(function(){ overlay.style.display='none'; },600);
+  }
 
-    function applyPos() {
-      if (!target) return;
-      const p = getPos(target, hint.pointer);
-      if (!p) return;
-      box.style.top  = p.top + 'px';
-      box.style.left = p.left + 'px';
-      box.querySelector('.site-hint-pointer').className = 'site-hint-pointer ' + p.pointer;
+  if(skipBtn) skipBtn.addEventListener('click', closeQuiz);
+
+  function initQuiz() {
+    window.scrollTo(0,0);
+    document.body.style.overflow='hidden'; document.documentElement.style.overflow='hidden';
+    overlay.style.cssText='display:flex;opacity:0;pointer-events:none;';
+    renderStep(0);
+    requestAnimationFrame(function(){requestAnimationFrame(function(){
+      overlay.classList.add('visible'); overlay.style.opacity='1'; overlay.style.pointerEvents='all';
+    });});
+  }
+
+  if (sessionStorage.getItem('loaderSeen')) { setTimeout(initQuiz,400); }
+  else { setTimeout(initQuiz,5800); }
+})();
+
+// ===========================
+// THEME TOGGLE
+// ===========================
+(function () {
+  const toggle  = document.getElementById('themeToggle');
+  const tooltip = document.getElementById('themeTooltip');
+  if (!toggle) return;
+  const saved = localStorage.getItem('fjt-theme');
+  if (saved === 'light') { document.body.classList.add('light-mode'); if(tooltip) tooltip.textContent='Dark Mode'; }
+  else { if(tooltip) tooltip.textContent='Light Mode'; }
+  toggle.addEventListener('click', function() {
+    const isLight = document.body.classList.toggle('light-mode');
+    localStorage.setItem('fjt-theme', isLight ? 'light' : 'dark');
+    if(tooltip) tooltip.textContent = isLight ? 'Dark Mode' : 'Light Mode';
+  });
+})();
+
+// ===========================
+// LOADER
+// ===========================
+(function(){
+  if(window.location.hash) history.replaceState(null,null,window.location.pathname+window.location.search);
+  window.scrollTo(0,0);
+  const loaderEl=document.getElementById('loader');
+  const loaderLogoEl=document.querySelector('.loader-logo');
+  const heroLogoEl=document.getElementById('hero-logo');
+  const heroSkyEl=document.querySelector('.hero-sky');
+  const navLogoLink=document.querySelector('.nav-logo-link');
+  const navIdleWords=document.querySelector('.nav-idle-words');
+  const shutterWrap=document.getElementById('shutterWrap');
+
+  function fireShutter(cb) {
+    if(!shutterWrap){if(cb)cb();return;}
+    shutterWrap.classList.add('closing');
+    setTimeout(function(){shutterWrap.style.display='none';if(cb)cb();},700);
+  }
+
+  if(sessionStorage.getItem('loaderSeen')){
+    if(loaderEl) loaderEl.style.display='none';
+    if(heroLogoEl){heroLogoEl.style.display='block';heroLogoEl.style.opacity='1';}
+    if(heroSkyEl) heroSkyEl.classList.add('settled');
+    setTimeout(function(){fireShutter();},200);
+  } else {
+    sessionStorage.setItem('loaderSeen','true');
+    setTimeout(function(){
+      if(loaderLogoEl) loaderLogoEl.classList.add('morph-to-hero');
+      if(loaderEl) loaderEl.classList.add('fade-out');
+      if(heroLogoEl){heroLogoEl.style.display='block';}
+      setTimeout(function(){if(heroLogoEl)heroLogoEl.classList.add('visible');},400);
+      setTimeout(function(){if(heroSkyEl)heroSkyEl.classList.add('settled');},2500);
+      setTimeout(function(){
+        if(loaderLogoEl)loaderLogoEl.classList.add('gone');
+        if(loaderEl)loaderEl.style.display='none';
+        fireShutter();
+      },3200);
+    },4200);
+  }
+
+  document.addEventListener('DOMContentLoaded',function(){window.scrollTo(0,0);});
+  window.addEventListener('load',function(){window.scrollTo(0,0);});
+
+  // Hero logo scroll-to-nav animation
+  let hasFlown=false, heroStartRect=null;
+  window.addEventListener('load',function(){if(heroLogoEl)heroStartRect=heroLogoEl.getBoundingClientRect();});
+  window.addEventListener('scroll',function(){
+    const scrollY=window.scrollY;
+    if(navIdleWords){navIdleWords.style.opacity=scrollY>80?'0':'1';}
+    if(scrollY>80&&!hasFlown&&heroLogoEl&&navLogoLink){
+      hasFlown=true;
+      const currentHeroRect=heroLogoEl.getBoundingClientRect();
+      const navRect=navLogoLink.getBoundingClientRect();
+      const targetHeight=navRect.height*0.85;
+      const targetWidth=targetHeight*((heroStartRect||currentHeroRect).width/(heroStartRect||currentHeroRect).height);
+      heroLogoEl.style.opacity='0';
+      const clone=heroLogoEl.cloneNode(true);
+      clone.removeAttribute('id');
+      clone.style.cssText='position:fixed;top:'+currentHeroRect.top+'px;left:'+currentHeroRect.left+'px;width:'+currentHeroRect.width+'px;height:'+currentHeroRect.height+'px;opacity:1;z-index:9997;pointer-events:none;margin:0;transition:none;';
+      document.body.appendChild(clone);
+      requestAnimationFrame(function(){requestAnimationFrame(function(){
+        clone.style.transition='top 0.65s cubic-bezier(0.76,0,0.24,1),left 0.65s cubic-bezier(0.76,0,0.24,1),width 0.65s cubic-bezier(0.76,0,0.24,1),height 0.65s cubic-bezier(0.76,0,0.24,1),opacity 0.3s ease 0.45s';
+        clone.style.top=(navRect.top+(navRect.height-targetHeight)/2)+'px';
+        clone.style.left=navRect.left+'px';
+        clone.style.width=targetWidth+'px';
+        clone.style.height=targetHeight+'px';
+      });});
+      setTimeout(function(){clone.style.opacity='0';setTimeout(function(){clone.remove();navLogoLink.style.opacity='1';navLogoLink.style.pointerEvents='all';},300);},650);
     }
+    if(scrollY<=80&&hasFlown){
+      hasFlown=false;
+      if(navLogoLink){navLogoLink.style.opacity='0';navLogoLink.style.pointerEvents='none';}
+      if(heroLogoEl){heroLogoEl.style.opacity='1';}
+    }
+  });
+})();
 
-    if (pos) { box.style.top = pos.top + 'px'; box.style.left = pos.left + 'px'; }
+// ===========================
+// CUSTOM CURSOR
+// ===========================
+(function(){
+  const cursor=document.getElementById('cursor');
+  const ring=document.getElementById('cursorRing');
+  if(!cursor||!ring)return;
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+  function animateRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animateRing);}
+  animateRing();
+  document.querySelectorAll('a,button,.highlight-card,.package-card,.quiz-option,.blog-card,.gallery-item,.theme-toggle').forEach(function(el){
+    el.addEventListener('mouseenter',function(){cursor.style.width='20px';cursor.style.height='20px';ring.style.width='60px';ring.style.height='60px';});
+    el.addEventListener('mouseleave',function(){cursor.style.width='12px';cursor.style.height='12px';ring.style.width='40px';ring.style.height='40px';});
+  });
+})();
+
+// ===========================
+// MENU
+// ===========================
+(function(){
+  const menuBtn=document.getElementById('menuBtn');
+  const dropdown=document.getElementById('dropdown');
+  if(!menuBtn||!dropdown)return;
+  menuBtn.addEventListener('click',function(){menuBtn.classList.toggle('open');dropdown.classList.toggle('open');});
+  dropdown.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){menuBtn.classList.remove('open');dropdown.classList.remove('open');});});
+  document.addEventListener('click',function(e){if(!dropdown.contains(e.target)&&!menuBtn.contains(e.target)){menuBtn.classList.remove('open');dropdown.classList.remove('open');}});
+})();
+
+// ===========================
+// REVEAL ANIMATIONS
+// ===========================
+(function(){
+  const reveals=document.querySelectorAll('.reveal');
+  const obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+  reveals.forEach(function(el){obs.observe(el);});
+})();
+
+// ===========================
+// SMOOTH SCROLL
+// ===========================
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click',function(e){
+    e.preventDefault();
+    const t=document.querySelector(this.getAttribute('href'));
+    if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+
+// ===========================
+// COUNTER ANIMATION
+// ===========================
+(function(){
+  function animateCounters(){
+    document.querySelectorAll('.stat-num').forEach(function(c){
+      const text=c.textContent, num=parseInt(text.replace(/\D/g,'')), suffix=text.replace(/[\d,]/g,'');
+      if(!num)return;
+      let cur=0; const inc=num/60;
+      const t=setInterval(function(){cur+=inc;if(cur>=num){cur=num;clearInterval(t);}c.textContent=Math.floor(cur).toLocaleString()+suffix;},25);
+    });
+  }
+  const sb=document.querySelector('.stats-bar');
+  if(sb){new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){animateCounters();}});},{threshold:0.5}).observe(sb);}
+})();
+
+// ===========================
+// PACKAGES
+// ===========================
+var allPackages = [
+  {badge:null,        duration:'4 Days · 3 Nights',   name:'Mara<br>Awakening',      price:'$2,800',  page:'pkg-mara-awakening.html',     tier:'mid-range', cardBg:'assets/maasaimara.webp',   features:['Maasai Mara Game Reserve','Private 4x4 Land Cruiser','Luxury Tented Camp','Expert Naturalist Guide','All Meals Included','Sundowner Cocktails']},
+  {badge:'Most Exclusive',duration:'7 Days · 6 Nights',name:'Grand<br>Odyssey',      price:'$6,500',  page:'pkg-grand-odyssey.html',      tier:'luxury',    cardBg:'assets/jungle.webp',       features:['Mara + Amboseli + Samburu','Private Charter Flights','5-Star Lodge & Tented Camps','Sunrise Balloon Safari','Cultural Maasai Immersion','Butler & Concierge Service','All-Inclusive Premium']},
+  {badge:null,        duration:'10 Days · 9 Nights',  name:'Ultimate<br>Kenya',       price:'$11,200', page:'pkg-ultimate-kenya.html',     tier:'luxury',    cardBg:'assets/Coolelephant.webp', features:['5 Iconic National Parks','Private Conservancy Access','Exclusive Use Bush Camp','Night Safari Drives','Marine Excursion, Diani','Photography Guide Included','Bespoke Farewell Dinner']},
+  {badge:'New',       duration:'3 Days · 2 Nights',   name:'Amboseli<br>Escape',      price:'$1,950',  page:'pkg-amboseli-express.html',   tier:'budget',    cardBg:'assets/amboseli.webp',     features:['Amboseli National Park','Kilimanjaro Panorama Views','Private Game Drives','Bush Breakfast Experience','All Meals Included','Expert Naturalist Guide']},
+  {badge:null,        duration:'5 Days · 4 Nights',   name:'Samburu<br>Wilderness',   price:'$3,400',  page:'pkg-samburu-secrets.html',    tier:'mid-range', cardBg:'assets/maasaimen.webp',    features:['Samburu National Reserve','Rare Northern Species','Private Tented Camp','Camel Safari Experience','Cultural Village Visit','All Meals & Transfers']},
+  {badge:'Popular',   duration:'6 Days · 5 Nights',   name:'Coastal<br>Safari Blend', price:'$4,200',  page:'pkg-safari-and-sea.html',     tier:'mid-range', cardBg:'assets/dianibeach.webp',   features:['Tsavo East & West','Diani Beach Extension','Ocean-View Lodge','Snorkelling & Marine Park','Private Game Drives','All-Inclusive Package']},
+  {badge:null,        duration:'8 Days · 7 Nights',   name:'Lakes &<br>Highlands',    price:'$5,100',  page:'pkg-lake-nakuru-escape.html', tier:'mid-range', cardBg:'assets/lakenakuru.webp',   features:['Lake Nakuru & Naivasha','Aberdare Forest Walks','Flamingo Boat Excursion','Mount Kenya Foothills','Luxury Lodge Stays','All Meals & Flights']},
+  {badge:'Signature', duration:'12 Days · 11 Nights', name:'Kenya<br>Mastery',        price:'$14,500', page:'pkg-grand-odyssey.html',      tier:'luxury',    cardBg:'assets/mountkenya.webp',   features:['6 Parks & Conservancies','Private Helicopter Transfer','Exclusive Bush Camp','Hot Air Balloon Safari','Michelin-Inspired Bush Dining','Dedicated Personal Guide','Fully Bespoke Itinerary']},
+];
+
+(async function(){
+  try {
+    const supa = window.supabase ? window.supabase.createClient('https://kwriicxzkgkcseorcqdi.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo') : null;
+    if(!supa)return;
+    const {data,error}=await supa.from('packages').select('name,slug,badge,category,duration_days,duration_nights,price_high_season,price_duo,short_highlights,card_bg_image_url,detail_page_url').eq('is_published',true).order('created_at',{ascending:false});
+    if(error||!data||!data.length)return;
+    data.forEach(function(pkg){
+      const price=pkg.price_high_season||pkg.price_duo||0;
+      const days=pkg.duration_days||0, nights=pkg.duration_nights||0;
+      const tier=pkg.category?.toLowerCase().includes('ultra')?'ultra':pkg.category?.toLowerCase().includes('luxury')?'luxury':pkg.category?.toLowerCase().includes('budget')?'budget':'mid-range';
+      const exists=allPackages.some(function(p){return p.name.replace(/<br>/g,' ').replace(/\s+/g,' ').trim().toLowerCase()===pkg.name.trim().toLowerCase();});
+      if(exists)return;
+      allPackages.push({badge:pkg.badge||null,duration:days?days+' Days · '+nights+' Nights':'',name:pkg.name,price:'$'+Number(price).toLocaleString(),page:pkg.detail_page_url||(pkg.slug+'.html'),tier:tier,features:pkg.short_highlights||[],cardBg:pkg.card_bg_image_url||null});
+    });
+  } catch(_){}
+})();
+
+var cardBgs=['assets/Coolelephant.webp','assets/jungle.webp','assets/zebra.webp'];
+
+function buildCard(pkg,isFeatured,bgIndex){
+  const maxF=isFeatured?7:6, features=[].concat(pkg.features);
+  while(features.length<maxF)features.push(null);
+  const bg=pkg.cardBg||cardBgs[bgIndex!==undefined?bgIndex:0];
+  return '<img class="pkg-bg" src="'+bg+'" alt="" aria-hidden="true"><div class="pkg-bg-overlay"></div>'+
+    (pkg.badge?'<span class="pkg-badge">'+pkg.badge+'</span>':'<span style="display:block;height:29px;margin-bottom:28px;position:relative;z-index:3;"></span>')+
+    '<span class="pkg-duration">'+pkg.duration+'</span><h3 class="pkg-name">'+pkg.name+'</h3>'+
+    '<div class="divider" style="position:relative;z-index:3;"></div>'+
+    '<div class="pkg-price">'+pkg.price+' <span>/ person</span></div>'+
+    '<ul class="pkg-features">'+features.map(function(f){return f?'<li>'+f+'</li>':'<li style="visibility:hidden;border-bottom-color:transparent;">—</li>';}).join('')+'</ul>'+
+    '<a href="'+(pkg.page||'#contact')+'" class="pkg-cta">Unveil This Journey</a>';
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  const filterBtns=document.querySelectorAll('.pkg-filter-btn');
+  const filterLabel=document.getElementById('pkgFilterLabel');
+  const filterGlow=document.getElementById('pkgFilterGlow');
+  const card0=document.getElementById('pkgCard0');
+  const card1=document.getElementById('pkgCard1');
+  const card2=document.getElementById('pkgCard2');
+  if(!card0||!card1||!card2)return;
+
+  var activeFilter='all';
+  var currentSet=[0,1,2];
+
+  const labelMap={all:'Showing all collections',luxury:'Showing luxury experiences','mid-range':'Showing mid-range journeys',budget:'Showing budget-friendly safaris'};
+
+  function positionGlow(btn){if(filterGlow){filterGlow.style.left=btn.offsetLeft+'px';filterGlow.style.width=btn.offsetWidth+'px';}}
+
+  function getFilteredSet(filter){
+    const pool=filter==='all'?allPackages.map(function(_,i){return i;}):allPackages.map(function(p,i){return p.tier===filter?i:null;}).filter(function(i){return i!==null;});
+    while(pool.length<3)pool.push.apply(pool,pool);
+    return[pool[0],pool[1],pool[2]];
+  }
+
+  function renderCard(el,pkgIndex,isFeatured,animate,bgIndex){
+    const pkg=allPackages[pkgIndex%allPackages.length];
+    if(!animate){el.innerHTML=buildCard(pkg,isFeatured,bgIndex);return;}
+    el.style.transition='opacity 0.5s ease,transform 0.5s ease';el.style.opacity='0';el.style.transform='translateY(16px)';
+    setTimeout(function(){el.innerHTML=buildCard(pkg,isFeatured,bgIndex);el.style.opacity='1';el.style.transform='translateY(0)';},500);
+  }
+
+  filterBtns.forEach(function(btn){
+    btn.addEventListener('click',function(){
+      filterBtns.forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active'); activeFilter=btn.dataset.filter;
+      if(filterLabel)filterLabel.textContent=labelMap[activeFilter]||'';
+      positionGlow(btn);
+      currentSet=getFilteredSet(activeFilter);
+      renderCard(card0,currentSet[0],false,false,0);
+      renderCard(card1,currentSet[1],true,false,1);
+      renderCard(card2,currentSet[2],false,false,2);
+    });
+  });
+
+  const initActive=document.querySelector('.pkg-filter-btn.active');
+  if(initActive)positionGlow(initActive);
+
+  renderCard(card0,currentSet[0],false,false,0);
+  renderCard(card1,currentSet[1],true,false,1);
+  renderCard(card2,currentSet[2],false,false,2);
+
+  setInterval(function(){currentSet[0]=(currentSet[0]+3)%allPackages.length;renderCard(card0,currentSet[0],false,true,0);},18000);
+  setTimeout(function(){setInterval(function(){currentSet[1]=(currentSet[1]+3)%allPackages.length;renderCard(card1,currentSet[1],true,true,1);},18000);},6000);
+  setTimeout(function(){setInterval(function(){currentSet[2]=(currentSet[2]+3)%allPackages.length;renderCard(card2,currentSet[2],false,true,2);},12000);},12000);
+});
+
+// ===========================
+// INLINE QUIZ
+// ===========================
+(function(){
+  const container=document.getElementById('iqStepContainer');
+  const progress=document.getElementById('iqProgress');
+  if(!container)return;
+
+  const steps=[
+    {id:'name',type:'text',label:'Step 1 of 5',question:'What shall we call you?',sub:'Every great safari begins with a name.',placeholder:'Your first name',minLength:2,pattern:/^[a-zA-ZÀ-ÖØ-öø-ÿ\s'\-]{2,}$/,errorMsg:'Please enter a real name.'},
+    {id:'vibe',type:'multi',label:'Step 2 of 5',question:'What draws you to Kenya?',sub:'Choose everything that stirs something in you.',options:[{value:'wildlife',label:'Wildlife & Safari'},{value:'beach',label:'Coast & Ocean'},{value:'adventure',label:'Adventure & Hiking'},{value:'culture',label:'Culture & People'}]},
+    {id:'duration',type:'choice',label:'Step 3 of 5',question:'How long is your dream escape?',sub:'We will shape the perfect rhythm around your time.',options:[{value:'short',label:'3 – 4 Days'},{value:'medium',label:'5 – 7 Days'},{value:'long',label:'8 – 10 Days'},{value:'grand',label:'10+ Days'}]},
+    {id:'budget',type:'choice',label:'Step 4 of 5',question:'What is your comfort range?',sub:'Every budget unlocks a remarkable journey.',singleCol:true,options:[{value:'budget',label:'Budget · Under $2,500'},{value:'mid-range',label:'Mid-Range · $2,500–$5,000'},{value:'luxury',label:'Luxury · $5,000–$12,000'},{value:'ultra',label:'Ultra · $12,000+'}]},
+    {id:'travel',type:'text',label:'Step 5 of 5',question:'When are you thinking of travelling?',sub:'A rough idea helps us check availability.',placeholder:'e.g. July 2025, or "not sure yet"',minLength:4,pattern:/^[a-zA-Z0-9\s,\-\/\.]{4,}$/,errorMsg:'Please enter a month, year, or "not sure yet".'},
+  ];
+
+  var current=0, answers={};
+
+  function getResults(){
+    var pool=(window.allPackages&&window.allPackages.length)?window.allPackages.map(function(p){
+      var name=p.name.replace(/<br>/g,' ').replace(/\s+/g,' ').trim();
+      var tier=(p.tier||'').toLowerCase();
+      var vibes=[]; var st=(name+' '+(p.features||[]).join(' ')).toLowerCase();
+      if(/beach|coast|diani/.test(st))vibes.push('beach');
+      if(/wildlife|safari|mara|amboseli|elephant/.test(st))vibes.push('wildlife');
+      if(/hike|trek|adventure|mount/.test(st))vibes.push('adventure');
+      if(/culture|maasai|village/.test(st))vibes.push('culture');
+      if(!vibes.length)vibes.push('wildlife');
+      var days=parseInt((p.duration||'').match(/\d+/)||[0]);
+      var dk=days<=4?'short':days<=7?'medium':days<=10?'long':'grand';
+      return{name:name,price:p.price,duration:p.duration||'',page:p.page||'#packages',tier:tier,vibe:vibes,durationKey:dk,priceRaw:parseInt((p.price||'$0').replace(/\D/g,''))||0};
+    }):[
+      {name:'Mara Awakening',price:'$2,800',duration:'4 Days',page:'pkg-mara-awakening.html',tier:'mid-range',vibe:['wildlife'],durationKey:'short',priceRaw:2800},
+      {name:'Grand Odyssey',price:'$6,500',duration:'7 Days',page:'pkg-grand-odyssey.html',tier:'luxury',vibe:['wildlife','culture'],durationKey:'medium',priceRaw:6500},
+      {name:'Ultimate Kenya',price:'$11,200',duration:'10 Days',page:'pkg-ultimate-kenya.html',tier:'luxury',vibe:['wildlife','adventure'],durationKey:'long',priceRaw:11200},
+    ];
+    var vibes=Array.isArray(answers.vibe)?answers.vibe:[];
+    return pool.map(function(pkg){
+      var score=0;
+      vibes.forEach(function(v){if(pkg.vibe.includes(v))score+=3;});
+      if(answers.duration){var o=['short','medium','long','grand'];var d=Math.abs(o.indexOf(pkg.durationKey)-o.indexOf(answers.duration));if(d===0)score+=4;else if(d===1)score+=2;}
+      if(answers.budget&&pkg.tier===answers.budget)score+=5;
+      return Object.assign({},pkg,{score:score});
+    }).sort(function(a,b){return b.score-a.score||a.priceRaw-b.priceRaw;}).slice(0,3);
+  }
+
+  function setProgress(step){if(progress)progress.style.width=((step+1)/(steps.length+1)*100)+'%';}
+
+  function renderStep(index){
+    setProgress(index);
+    if(index>=steps.length){renderResults();return;}
+    var step=steps[index], isText=step.type==='text', isMulti=step.type==='multi';
+    var selVibes=Array.isArray(answers.vibe)?answers.vibe:[];
+    var hasAnswer=isText?!!answers[step.id]:isMulti?selVibes.length>0:!!answers[step.id];
+    container.innerHTML='<div class="quiz-step"><span class="quiz-step-label">'+step.label+'</span><h2 class="quiz-question">'+step.question+'</h2><p class="quiz-sub">'+step.sub+'</p>'+
+      (isText?'<input class="quiz-input" id="iqIn" type="text" placeholder="'+step.placeholder+'" value="'+(answers[step.id]||'')+'" autocomplete="off">':
+        '<div class="quiz-options'+(step.singleCol?' single-col':'')+'" id="iqOpts">'+step.options.map(function(opt){var sel=isMulti?selVibes.includes(opt.value):answers[step.id]===opt.value;return'<button class="quiz-option'+(sel?' selected':'')+'" data-value="'+opt.value+'">'+opt.label+'</button>';}).join('')+'</div>'+
+        (isMulti?'<p style="font-family:Jost,sans-serif;font-size:9px;letter-spacing:3px;color:rgba(212,175,55,0.6);margin-top:10px;text-transform:uppercase;" id="iqHint">'+selVibes.length+' selected — press Continue when ready</p>':''))+
+      '<div class="quiz-nav">'+(index>0?'<button class="quiz-btn-back" id="iqBk">Back</button>':'<span></span>')+
+      '<button class="quiz-btn-next'+(hasAnswer?' ready':'')+'" id="iqNx">'+(index===steps.length-1?'See My Safaris':'Continue')+'</button></div></div>';
+
+    var nx=document.getElementById('iqNx'), bk=document.getElementById('iqBk');
+    if(isText){
+      var inp=document.getElementById('iqIn');
+      function valid(){return inp.value.trim().length>=(step.minLength||1)&&(!step.pattern||step.pattern.test(inp.value.trim()));}
+      inp.addEventListener('input',function(){answers[step.id]=inp.value.trim();nx.classList.toggle('ready',valid());});
+      inp.addEventListener('keydown',function(e){if(e.key==='Enter'&&valid()){current++;renderStep(current);}});
+      setTimeout(function(){inp.focus();},80);
+    } else if(isMulti){
+      document.getElementById('iqOpts').addEventListener('click',function(e){
+        var btn=e.target.closest('.quiz-option');if(!btn)return;
+        var val=btn.dataset.value;if(!Array.isArray(answers.vibe))answers.vibe=[];
+        if(answers.vibe.includes(val)){answers.vibe=answers.vibe.filter(function(v){return v!==val;});btn.classList.remove('selected');}
+        else{answers.vibe.push(val);btn.classList.add('selected');}
+        var h=document.getElementById('iqHint');if(h)h.textContent=answers.vibe.length+' selected — press Continue when ready';
+        nx.classList.toggle('ready',answers.vibe.length>0);
+      });
+    } else {
+      document.getElementById('iqOpts').addEventListener('click',function(e){
+        var btn=e.target.closest('.quiz-option');if(!btn)return;
+        document.querySelectorAll('#iqOpts .quiz-option').forEach(function(b){b.classList.remove('selected');});
+        btn.classList.add('selected');answers[step.id]=btn.dataset.value;nx.classList.add('ready');
+        setTimeout(function(){current++;renderStep(current);},380);
+      });
+    }
+    if(nx)nx.addEventListener('click',function(){if(nx.classList.contains('ready')){current++;renderStep(current);}});
+    if(bk)bk.addEventListener('click',function(){current--;renderStep(current);});
+  }
+
+  function renderResults(){
+    setProgress(steps.length);
+    var results=getResults(), name=answers.name?answers.name.split(' ')[0]:'Explorer';
+    container.innerHTML='<div class="quiz-step"><div class="quiz-results-intro"><span class="quiz-step-label">Curated For You</span><h2 class="quiz-question">Your Safari Awaits,<br>'+name+'.</h2><p class="quiz-sub">Based on your answers, these experiences were made for you.</p></div><div class="quiz-result-cards">'+
+      results.map(function(pkg){return'<div class="quiz-result-card"><div class="quiz-result-info"><div class="quiz-result-name">'+pkg.name+'</div><div class="quiz-result-meta">'+pkg.duration+' · '+pkg.tier+'</div></div><div class="quiz-result-price">'+pkg.price+'</div><a href="'+pkg.page+'" class="quiz-result-link">View</a></div>';}).join('')+
+      '</div><button class="quiz-btn-next ready" id="iqCont" style="width:100%;text-align:center;margin-top:24px;">Speak to Our Safari Team</button></div>';
+    document.getElementById('iqCont').addEventListener('click',function(){document.querySelector('#contact').scrollIntoView({behavior:'smooth',block:'start'});});
+  }
+
+  renderStep(0);
+})();
+
+// ===========================
+// BLOG
+// ===========================
+(function(){
+  var fallbackBlogs=[
+    {slug:'great-migration-guide',title:'The Great Migration: Everything You Need to Know Before You Go',excerpt:'Two million wildebeest. One river. An annual crossing that redefines what it means to witness nature at full force.',category:'Wildlife',date:'March 2025',read_time:'8 min read',cover_image:'assets/maasaimara.webp',cover_alt:'The Great Migration'},
+    {slug:'best-time-kenya-safari',title:"When to Go: Kenya's Safari Seasons Decoded",excerpt:'Peak, shoulder, green — each season unlocks a different Kenya. Here is how to choose yours.',category:'Planning',date:'February 2025',read_time:'5 min read',cover_image:'assets/amboseli.webp',cover_alt:'Best time for Kenya safari'},
+    {slug:'diani-beach-guide',title:"Diani Beach: Africa's Finest Coastline After Your Safari",excerpt:'Where the bush ends and the ocean begins.',category:'Coast',date:'January 2025',read_time:'6 min read',cover_image:'assets/dianibeach.webp',cover_alt:'Diani Beach Guide'},
+  ];
+  var allBlogs=fallbackBlogs.slice();
+
+  function buildBlogCardHTML(blog){
+    var page=blog.slug&&blog.slug.startsWith('http')?blog.slug:'blog/'+blog.slug+'.html';
+    return'<div class="blog-card-img-wrap"><img class="blog-card-img" src="'+blog.cover_image+'" alt="'+(blog.cover_alt||blog.title)+'" loading="lazy"><div class="blog-card-img-overlay"></div><span class="blog-card-category">'+blog.category+'</span></div>'+
+      '<div class="blog-card-body"><div class="blog-card-meta"><span class="blog-card-date">'+blog.date+'</span><span class="blog-card-read">'+blog.read_time+'</span></div>'+
+      '<h3 class="blog-card-title">'+blog.title+'</h3><p class="blog-card-excerpt">'+blog.excerpt+'</p>'+
+      '<span class="blog-card-cta">Read the story</span></div>';
+  }
+
+  function setCard(el,blog){
+    if(!el||!blog)return;
+    var page=blog.slug&&blog.slug.startsWith('http')?blog.slug:'blog/'+blog.slug+'.html';
+    el.innerHTML=buildBlogCardHTML(blog);
+    el.style.cursor='none'; el.onclick=function(){window.location.href=page;};
+  }
+
+  async function loadBlogs(){
+    try{
+      var supa=window.supabase?window.supabase.createClient('https://kwriicxzkgkcseorcqdi.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo'):null;
+      if(supa){
+        var res=await supa.from('blogs').select('slug,title,excerpt,category,published_date,read_time,cover_image_url,cover_alt,is_published').eq('is_published',true).order('published_date',{ascending:false});
+        if(!res.error&&res.data&&res.data.length){
+          var sb=res.data.map(function(b){return{slug:b.slug,title:b.title,excerpt:b.excerpt||'',category:b.category||'Safari',date:b.published_date?new Date(b.published_date).toLocaleDateString('en-US',{month:'long',year:'numeric'}):'',read_time:b.read_time||'5 min read',cover_image:b.cover_image_url||'assets/maasaimara.webp',cover_alt:b.cover_alt||b.title};});
+          var slugSet=new Set(sb.map(function(b){return b.slug;}));
+          allBlogs=sb.concat(fallbackBlogs.filter(function(b){return!slugSet.has(b.slug);}));
+        }
+      }
+    }catch(_){}
+    var e0=document.getElementById('blogCard0'),e1=document.getElementById('blogCard1'),e2=document.getElementById('blogCard2');
+    setCard(e0,allBlogs[0]); setCard(e1,allBlogs[1]); setCard(e2,allBlogs[2]);
+  }
+
+  document.addEventListener('DOMContentLoaded',loadBlogs);
+})();
+
+// ===========================
+// DESTINATIONS SLIDESHOW
+// ===========================
+(function(){
+  var slideshow=document.getElementById('destSlideshow');
+  var track=document.getElementById('dsTrack');
+  if(!track)return;
+  var slides=Array.from(track.querySelectorAll('.ds-slide'));
+  var dotsWrap=document.getElementById('dsDots');
+  var progress=document.getElementById('dsProgress');
+  var countCur=document.getElementById('dsCountCurrent');
+  var countTotal=document.getElementById('dsCountTotal');
+  var hintLeft=document.getElementById('dsHintLeft');
+  var hintRight=document.getElementById('dsHintRight');
+  var lightbox=document.getElementById('dsLightbox');
+  var lbImg=document.getElementById('dsLightboxImg');
+  var lbClose=document.getElementById('dsLightboxClose');
+  var total=slides.length, current=0, timer=null, isHovered=false, trackOffset=0;
+  var INTERVAL=4500;
+
+  if(countTotal)countTotal.textContent=total;
+  slides.forEach(function(_,i){
+    var dot=document.createElement('div');dot.className='ds-dot'+(i===0?' active':'');
+    dot.addEventListener('click',function(){goTo(i);startTimer();});
+    if(dotsWrap)dotsWrap.appendChild(dot);
+  });
+
+  function getClass(pos){if(pos===0)return'ds-active';if(pos===1)return'ds-next';if(pos===total-1)return'ds-prev-slide';if(pos===2||pos===total-2)return'ds-far';return'';}
+
+  function centerActive(){
+    if(!slideshow)return;
+    requestAnimationFrame(function(){requestAnimationFrame(function(){
+      var sw=slideshow.offsetWidth, ae=slides[current], aw=ae.offsetWidth, gap=20, padL=sw*0.18, before=0;
+      slides.forEach(function(s,i){if(i<current)before+=s.offsetWidth+gap;});
+      trackOffset=(sw-aw)/2-before-padL;
+      track.style.transform='translateX('+trackOffset+'px)';
+    });});
+  }
+
+  function updateSlides(){
+    slides.forEach(function(sl,i){
+      sl.classList.remove('ds-active','ds-next','ds-prev-slide','ds-far');
+      var pos=(i-current+total)%total, cls=getClass(pos);
+      if(cls)sl.classList.add(cls);
+      sl.style.visibility=(pos>2&&pos<total-2)?'hidden':'visible';
+    });
+    if(dotsWrap)dotsWrap.querySelectorAll('.ds-dot').forEach(function(d,i){d.classList.toggle('active',i===current);if(i===current){d.innerHTML='';void d.offsetWidth;}});
+    if(countCur)countCur.textContent=current+1;
+    centerActive();
+  }
+
+  function goTo(index){if(index===current)return;current=(index+total)%total;updateSlides();restartProgress();}
+  function next(){goTo(current+1);}function prev(){goTo(current-1);}
+
+  function restartProgress(){
+    if(!progress)return;
+    progress.classList.remove('running');progress.style.transition='none';progress.style.width='0%';
+    void progress.offsetWidth;progress.classList.add('running');
+  }
+
+  function startTimer(){clearInterval(timer);timer=setInterval(function(){if(!isHovered)next();},INTERVAL);}
+
+  slides.forEach(function(slide){
+    slide.addEventListener('click',function(e){
+      if(e.target.closest('.ds-magnify')||e.target.closest('.ds-slide-btn'))return;
+      if(slide.classList.contains('ds-next')){next();startTimer();}
+      if(slide.classList.contains('ds-prev-slide')){prev();startTimer();}
+    });
+  });
+
+  if(hintLeft)hintLeft.addEventListener('click',function(){prev();startTimer();});
+  if(hintRight)hintRight.addEventListener('click',function(){next();startTimer();});
+
+  if(lightbox&&lbClose){
+    slides.forEach(function(slide){
+      var magnify=slide.querySelector('.ds-magnify');
+      var img=slide.querySelector('.ds-slide-img');
+      if(magnify&&img){magnify.addEventListener('click',function(e){e.stopPropagation();if(lbImg)lbImg.src=img.src;lightbox.classList.add('open');document.body.style.overflow='hidden';clearInterval(timer);});}
+    });
+    lbClose.addEventListener('click',function(){lightbox.classList.remove('open');document.body.style.overflow='';startTimer();});
+    lightbox.addEventListener('click',function(e){if(e.target===lightbox){lightbox.classList.remove('open');document.body.style.overflow='';startTimer();}});
+  }
+
+  if(slideshow){slideshow.addEventListener('mouseenter',function(){isHovered=true;});slideshow.addEventListener('mouseleave',function(){isHovered=false;});}
+
+  var tx=0, dragging=false;
+  if(slideshow){
+    slideshow.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;dragging=true;clearInterval(timer);},{passive:true});
+    slideshow.addEventListener('touchend',function(e){if(!dragging)return;dragging=false;var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50){dx<0?next():prev();}startTimer();},{passive:true});
+  }
+
+  document.addEventListener('keydown',function(e){if(lightbox&&lightbox.classList.contains('open'))return;if(e.key==='ArrowRight'){next();startTimer();}if(e.key==='ArrowLeft'){prev();startTimer();}});
+  window.addEventListener('resize',function(){centerActive();});
+
+  requestAnimationFrame(function(){updateSlides();restartProgress();startTimer();});
+})();
+
+// ===========================
+// GALLERY SLIDESHOW
+// ===========================
+(function(){
+  var track=document.getElementById('galTrack');
+  if(!track)return;
+  var slides=Array.from(track.querySelectorAll('.gsl-slide'));
+  var slideshow=document.getElementById('galSlideshow');
+  var dotsWrap=document.getElementById('galDots');
+  var progress=document.getElementById('galProgress');
+  var curNum=document.getElementById('galCurNum');
+  var totNum=document.getElementById('galTotalNum');
+  var prevBtn=document.getElementById('galPrev');
+  var nextBtn=document.getElementById('galNext');
+  var thumbs=document.getElementById('galThumbs');
+  var lightbox=document.getElementById('galLightbox');
+  var lbImg=document.getElementById('galLbImg');
+  var lbClose=document.getElementById('galLbClose');
+  var lbPrev=document.getElementById('galLbPrev');
+  var lbNext=document.getElementById('galLbNext');
+  var lbCur=document.getElementById('galLbCur');
+  var lbTotal=document.getElementById('galLbTotal');
+  var total=slides.length, current=0, timer=null, isHovered=false, trackOffset=0;
+  var INTERVAL=4800;
+
+  if(totNum)totNum.textContent=total;
+  if(lbTotal)lbTotal.textContent=total;
+
+  slides.forEach(function(_,i){
+    var dot=document.createElement('div');dot.className='gsl-dot'+(i===0?' active':'');
+    dot.addEventListener('click',function(){goTo(i);startTimer();});
+    if(dotsWrap)dotsWrap.appendChild(dot);
+    if(thumbs){
+      var th=document.createElement('div');th.className='gsl-thumb'+(i===0?' active':'');
+      var src=slides[i].dataset.src||slides[i].querySelector('.gsl-img')?.src||'';
+      th.innerHTML='<img src="'+src+'" alt="" loading="lazy">';
+      th.addEventListener('click',function(){goTo(i);startTimer();});
+      thumbs.appendChild(th);
+    }
+  });
+
+  function getClass(pos){if(pos===0)return'gsl-active';if(pos===1)return'gsl-next';if(pos===total-1)return'gsl-prev-slide';if(pos===2||pos===total-2)return'gsl-far';return'';}
+
+  function centerActive(){
+    if(!slideshow)return;
+    requestAnimationFrame(function(){requestAnimationFrame(function(){
+      var sw=slideshow.offsetWidth,ae=slides[current],aw=ae.offsetWidth,gap=20,padL=sw*0.18,before=0;
+      slides.forEach(function(s,i){if(i<current)before+=s.offsetWidth+gap;});
+      trackOffset=(sw-aw)/2-before-padL;
+      track.style.transform='translateX('+trackOffset+'px)';
+    });});
+  }
+
+  function updateSlides(){
+    slides.forEach(function(sl,i){
+      sl.classList.remove('gsl-active','gsl-next','gsl-prev-slide','gsl-far');
+      var pos=(i-current+total)%total,cls=getClass(pos);
+      if(cls)sl.classList.add(cls);
+      sl.style.visibility=(pos>2&&pos<total-2)?'hidden':'visible';
+    });
+    if(dotsWrap)dotsWrap.querySelectorAll('.gsl-dot').forEach(function(d,i){d.classList.toggle('active',i===current);if(i===current){d.innerHTML='';void d.offsetWidth;}});
+    if(thumbs)thumbs.querySelectorAll('.gsl-thumb').forEach(function(t,i){t.classList.toggle('active',i===current);});
+    centerActive();
+    if(curNum)curNum.textContent=current+1;
+    if(lbCur)lbCur.textContent=current+1;
+  }
+
+  function restartProgress(){
+    if(!progress)return;
+    progress.classList.remove('running');progress.style.transition='none';progress.style.width='0';
+    void progress.offsetWidth;progress.classList.add('running');
+  }
+
+  function goTo(index){current=(index+total)%total;updateSlides();restartProgress();}
+  function startTimer(){clearInterval(timer);timer=setInterval(function(){if(!isHovered)goTo(current+1);},INTERVAL);}
+
+  if(prevBtn)prevBtn.addEventListener('click',function(){goTo(current-1);startTimer();});
+  if(nextBtn)nextBtn.addEventListener('click',function(){goTo(current+1);startTimer();});
+
+  if(slideshow){slideshow.addEventListener('mouseenter',function(){isHovered=true;});slideshow.addEventListener('mouseleave',function(){isHovered=false;});}
+
+  var tx=0,dragging=false;
+  if(slideshow){
+    slideshow.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;dragging=true;clearInterval(timer);},{passive:true});
+    slideshow.addEventListener('touchend',function(e){if(!dragging)return;dragging=false;var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>48){dx<0?goTo(current+1):goTo(current-1);}startTimer();},{passive:true});
+  }
+
+  function openLightbox(index){
+    current=index;
+    var src=slides[index].dataset.src||slides[index].querySelector('.gsl-img')?.src||'';
+    if(lbImg){lbImg.src=src;}
+    if(lbCur)lbCur.textContent=index+1;
+    if(lightbox)lightbox.classList.add('open');
+    document.body.style.overflow='hidden';clearInterval(timer);
+  }
+  function closeLightbox(){if(lightbox)lightbox.classList.remove('open');document.body.style.overflow='';startTimer();}
+
+  slides.forEach(function(sl,i){
+    var zb=sl.querySelector('.gsl-zoom-btn');
+    if(zb)zb.addEventListener('click',function(e){e.stopPropagation();openLightbox(i);});
+    sl.addEventListener('click',function(e){if(!e.target.closest('.gsl-zoom-btn')&&sl.classList.contains('gsl-active'))openLightbox(i);});
+  });
+
+  if(lbClose)lbClose.addEventListener('click',closeLightbox);
+  if(lightbox)lightbox.addEventListener('click',function(e){if(e.target===lightbox||e.target.classList.contains('gsl-lb-inner'))closeLightbox();});
+  if(lbPrev)lbPrev.addEventListener('click',function(e){e.stopPropagation();openLightbox((current-1+total)%total);});
+  if(lbNext)lbNext.addEventListener('click',function(e){e.stopPropagation();openLightbox((current+1)%total);});
+  document.addEventListener('keydown',function(e){if(lightbox&&lightbox.classList.contains('open')){if(e.key==='ArrowRight')openLightbox((current+1)%total);if(e.key==='ArrowLeft')openLightbox((current-1+total)%total);if(e.key==='Escape')closeLightbox();}});
+
+  window.addEventListener('resize',function(){centerActive();});
+  updateSlides();restartProgress();startTimer();
+})();
+
+// ===========================
+// TEAM POPUP
+// ===========================
+(function(){
+  var members={
+    filmer:{name:'Filmer Mageto',role:'Founder & Lead Guide',img:'assets/team-filmer.webp',bio:'Over a decade navigating Kenya\'s finest reserves. Filmer founded Filmax Jambo Tours with one conviction — that a safari should be as extraordinary as Kenya itself.',details:[{icon:'✉️',label:'Email',value:'filmer@filmaxjambotours.co.ke',href:'mailto:filmer@filmaxjambotours.co.ke'},{icon:'🏆',label:'Certification',value:'KPSGA Gold — Senior Wildlife Guide'},{icon:'🌍',label:'Speciality',value:'Maasai Mara · Amboseli · Samburu'}]},
+    amara:{name:'Amara Wanjiku',role:'Safari Experience Director',img:'assets/team-amara.webp',bio:'A master of logistics and luxury. Amara ensures every detail — from arrival transfers to farewell dinners — is orchestrated to perfection.',details:[{icon:'✉️',label:'Email',value:'amara@filmaxjambotours.co.ke',href:'mailto:amara@filmaxjambotours.co.ke'},{icon:'🏅',label:'Background',value:'Luxury Hospitality · Tourism Management'},{icon:'✨',label:'Speciality',value:'Itinerary Design · Client Experience'}]},
+    githaiga:{name:'Githaiga Njoroge',role:'Wildlife Naturalist',img:'assets/team-githaiga.webp',bio:'Born in the shadow of the Mara. Githaiga reads the wilderness like a living book — tracking the Big Five and sharing stories the bush whispers only to those who listen.',details:[{icon:'✉️',label:'Email',value:'githaiga@filmaxjambotours.co.ke',href:'mailto:githaiga@filmaxjambotours.co.ke'},{icon:'🏆',label:'Certification',value:'KPSGA Silver — Wildlife Naturalist'},{icon:'🌍',label:'Speciality',value:'Big Five Tracking · Migration Patterns'}]}
+  };
+  var overlay=document.getElementById('teamPopupOverlay');
+  var closeBtn=document.getElementById('teamPopupClose');
+  if(!overlay)return;
+  function openPopup(key){
+    var m=members[key];if(!m)return;
+    document.getElementById('teamPopupHeroImg').src=m.img;document.getElementById('teamPopupAvatarImg').src=m.img;
+    document.getElementById('teamPopupRole').textContent=m.role;document.getElementById('teamPopupName').textContent=m.name;
+    document.getElementById('teamPopupBio').textContent=m.bio;
+    var det=document.getElementById('teamPopupDetails');
+    det.innerHTML=m.details.map(function(d){return'<div class="team-popup-detail"><div class="team-popup-detail-icon">'+d.icon+'</div><div class="team-popup-detail-text"><span class="team-popup-detail-label">'+d.label+'</span>'+(d.href?'<a href="'+d.href+'" class="team-popup-detail-value">'+d.value+'</a>':'<span class="team-popup-detail-value">'+d.value+'</span>')+'</div></div>';}).join('');
+    overlay.classList.add('open');document.body.style.overflow='hidden';
+  }
+  function closePopup(){overlay.classList.remove('open');document.body.style.overflow='';}
+  document.querySelectorAll('.team-card[data-member]').forEach(function(card){card.addEventListener('click',function(){openPopup(card.dataset.member);});});
+  if(closeBtn)closeBtn.addEventListener('click',closePopup);
+  overlay.addEventListener('click',function(e){if(e.target===overlay)closePopup();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closePopup();});
+})();
+
+// ===========================
+// SITE HINTS
+// ===========================
+(function(){
+  var shown=new Set(), activeHint=null, queue=[], isChecking=false;
+  var hints=[
+    {id:'theme',label:'Tip',text:'Switch between dark and light mode using the button at bottom-left.',triggerFn:function(){return window.pageYOffset>200;},delay:2000},
+    {id:'slides',label:'Navigate',text:'Swipe or click the side arrows to explore each Kenyan destination.',triggerFn:function(){var el=document.getElementById('destSlideshow');if(!el)return false;var r=el.getBoundingClientRect();return r.top<window.innerHeight*0.5&&r.bottom>0;},delay:1000},
+    {id:'gallery',label:'Gallery',text:'Click the magnify icon on any image to view it full screen.',triggerFn:function(){var el=document.getElementById('galSlideshow');if(!el)return false;var r=el.getBoundingClientRect();return r.top<window.innerHeight*0.5&&r.bottom>0;},delay:1000},
+    {id:'whatsapp',label:'Quick action',text:'Tap WhatsApp at bottom-right to reach us instantly.',triggerFn:function(){return window.pageYOffset>1200;},delay:2000},
+  ];
+
+  function showHint(hint){
+    if(shown.has(hint.id)||activeHint)return;
+    shown.add(hint.id);activeHint=hint.id;
+    var box=document.createElement('div');box.className='site-hint';
+    box.style.cssText='position:fixed;bottom:110px;right:36px;z-index:99980;';
+    box.innerHTML='<span class="site-hint-label">'+hint.label+'</span><span class="site-hint-text">'+hint.text+'</span><button class="site-hint-close" aria-label="Dismiss">×</button><div class="site-hint-bar"></div>';
     document.body.appendChild(box);
-
-    const scrollHandler = () => {
-      if (!target) return;
-      const r = target.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > window.innerHeight) { dismiss(); return; }
-      applyPos();
-    };
-    window.addEventListener('scroll', scrollHandler, { passive: true });
-    window.addEventListener('resize', applyPos, { passive: true });
-
-    function dismiss() {
-      box.classList.add('hiding');
-      window.removeEventListener('scroll', scrollHandler);
-      window.removeEventListener('resize', applyPos);
-      setTimeout(() => {
-        if (box.parentNode) box.parentNode.removeChild(box);
-        activeHint = null;
-        processQueue();
-      }, 380);
-    }
-
-    const autoTimer = setTimeout(dismiss, 5200);
-    box.querySelector('.site-hint-close').addEventListener('click', () => { clearTimeout(autoTimer); dismiss(); });
+    function dismiss(){box.classList.add('hiding');setTimeout(function(){if(box.parentNode)box.parentNode.removeChild(box);activeHint=null;},380);}
+    var t=setTimeout(dismiss,5200);
+    box.querySelector('.site-hint-close').addEventListener('click',function(){clearTimeout(t);dismiss();});
   }
 
-  function processQueue() {
-    if (activeHint || !queue.length) return;
-    const next = queue.shift();
-    setTimeout(() => showHint(next), next.delay || 800);
-  }
-
-  function checkHints() {
-    hints.forEach(hint => {
-      if (shown.has(hint.id)) return;
-      if (hint.triggerFn && hint.triggerFn()) {
-        if (!queue.find(q => q.id === hint.id)) queue.push(hint);
+  function checkHints(){
+    hints.forEach(function(hint){
+      if(shown.has(hint.id))return;
+      if(hint.triggerFn&&hint.triggerFn()){
+        if(!queue.find(function(q){return q.id===hint.id;}))queue.push(hint);
       }
     });
-    if (!activeHint && queue.length) processQueue();
+    if(!activeHint&&queue.length){var next=queue.shift();setTimeout(function(){showHint(next);},next.delay||800);}
   }
-
-  window.addEventListener('scroll', checkHints, { passive: true });
-  setTimeout(checkHints, 2000);
+  window.addEventListener('scroll',checkHints,{passive:true});
+  setTimeout(checkHints,2000);
 })();
-    
-    </script>
+</script>
 <div id="google_translate_element" style="
   position: fixed;
   bottom: 100px;
