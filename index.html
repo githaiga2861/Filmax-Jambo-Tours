@@ -3991,7 +3991,7 @@ nav.scrolled .nav-brand-idle {
 .blog-view-all-btn {
   font-family: 'Jost', sans-serif;
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 450;
   letter-spacing: 4px;
   text-transform: uppercase;
   color: #080808;
@@ -6212,7 +6212,7 @@ body.light-mode .pkg-cta:hover {
   <div class="pkg-filter-glow" id="pkgFilterGlow"></div>
   <button class="pkg-filter-btn active" data-filter="all">All</button>
   <button class="pkg-filter-btn" data-filter="luxury">Luxury</button>
-  <button class="pkg-filter-btn" data-filter="mid-range">Mid-Range</button>
+  <button class="pkg-filter-btn" data-filter="mid">Mid</button>
   <button class="pkg-filter-btn" data-filter="budget">Budget</button>
 </div>
 <p class="pkg-filter-label" id="pkgFilterLabel">Showing all collections</p>
@@ -6543,7 +6543,6 @@ body.light-mode .pkg-cta:hover {
 <section id="testimonials">
   <div class="container">
     <div class="reveal">
-      <div class="gold-line"><span>Voices from the Wild</span></div>
       <span class="section-label">Guest Chronicles</span>
       <h2 class="section-title">Stories That <br><em style="color: var(--gold);">Stay Forever</em></h2>
     </div>
@@ -6621,7 +6620,6 @@ body.light-mode .pkg-cta:hover {
 <section id="team">
   <div class="container">
     <div class="reveal">
-      <div class="gold-line"><span>The People Behind the Magic</span></div>
       <span class="section-label">Our Team</span>
       <h2 class="section-title">Guided by <br><em style="color: var(--gold);">Passion</em></h2>
       <p class="section-sub">Every journey is shaped by people who genuinely love the wild — and Kenya.</p>
@@ -6690,7 +6688,6 @@ body.light-mode .pkg-cta:hover {
   <div class="container">
     <div class="gallery-intro reveal">
       <div>
-        <div class="gold-line" style="width:100vw;margin-left:calc(-50vw + 50%);padding:0;"><span>Visual Chronicles</span></div>
         <span class="section-label">The Kenya Edit</span>
         <h2 class="section-title">Moments <br><em style="color: var(--gold);">Suspended in Time</em></h2>
       </div>
@@ -7194,7 +7191,6 @@ body.light-mode .pkg-cta:hover {
 <section id="blog">
   <div class="container">
     <div class="reveal">
-      <div class="gold-line"><span>From the Field</span></div>
       <span class="section-label">Safari Journal</span>
       <h2 class="section-title">Stories from <br><em style="color: var(--gold);">the Wild</em></h2>
       <p class="section-sub">Dispatches, guides, and intimate encounters — written by those who live and breathe Kenya.</p>
@@ -7207,7 +7203,7 @@ body.light-mode .pkg-cta:hover {
     </div>
 
     <div class="blog-view-all reveal">
-      <a href="blog.html" class="blog-view-all-btn">View all journal entries</a>
+      <a href="blog.html" class="blog-view-all-btn">View all Blogs</a>
     </div>
 
   </div>
@@ -7218,7 +7214,6 @@ body.light-mode .pkg-cta:hover {
   <div class="container">
 
     <div class="reveal" style="margin-bottom: 64px;">
-      <div class="gold-line" style="justify-content:flex-start;"><span>Still Deciding?</span></div>
       <span class="section-label">Safari Matchmaker</span>
       <h2 class="section-title">Let Us Find Your <br><em style="color: var(--gold);">Perfect Safari</em></h2>
       <p class="section-sub">Five considered questions. Three curated matches. Your Kenya, precisely yours.</p>
@@ -7570,7 +7565,7 @@ body.light-mode .pkg-cta:hover {
           <select id="suBudget" class="auth-input">
             <option value="">Budget Range</option>
             <option value="budget">Budget — Under $2,500</option>
-            <option value="mid-range">Mid-Range — $2,500–$5,000</option>
+            <option value="mid">Mid — $2,500–$5,000</option>
             <option value="luxury">Luxury — $5,000–$12,000</option>
             <option value="ultra">Ultra — $12,000+</option>
           </select>
@@ -7996,7 +7991,7 @@ body.light-mode .pkg-cta:hover {
       return window.allPackages.map(function(p) {
         const name = p.name.replace(/<br>/g,' ').replace(/\s+/g,' ').trim();
         const tierRaw = (p.tier || '').toLowerCase();
-        const tier = tierRaw.includes('ultra') ? 'ultra' : tierRaw.includes('luxury') ? 'luxury' : tierRaw.includes('budget') ? 'budget' : 'mid-range';
+        const tier = tierRaw.includes('ultra') ? 'ultra' : tierRaw.includes('luxury') ? 'luxury' : tierRaw.includes('budget') ? 'budget' : 'mid';
         const features = p.features || [];
         const vibes = [];
         const searchText = (name + ' ' + features.join(' ')).toLowerCase();
@@ -8012,13 +8007,13 @@ body.light-mode .pkg-cta:hover {
       });
     }
     return [
-      { name:'Mara Awakening',       price:'$2,800',  duration:'4 Days', page:'pkg-mara-awakening.html',     tier:'mid-range', vibe:['wildlife'],           durationKey:'short',  priceRaw:2800  },
+      { name:'Mara Awakening',       price:'$2,800',  duration:'4 Days', page:'pkg-mara-awakening.html',     tier:'mid', vibe:['wildlife'],           durationKey:'short',  priceRaw:2800  },
       { name:'Grand Odyssey',        price:'$6,500',  duration:'7 Days', page:'pkg-grand-odyssey.html',      tier:'luxury',    vibe:['wildlife','culture'],  durationKey:'medium', priceRaw:6500  },
       { name:'Ultimate Kenya',       price:'$11,200', duration:'10 Days',page:'pkg-ultimate-kenya.html',     tier:'luxury',    vibe:['wildlife','adventure'],durationKey:'long',   priceRaw:11200 },
       { name:'Amboseli Escape',      price:'$1,950',  duration:'3 Days', page:'pkg-amboseli-express.html',   tier:'budget',    vibe:['wildlife'],           durationKey:'short',  priceRaw:1950  },
-      { name:'Samburu Wilderness',   price:'$3,400',  duration:'5 Days', page:'pkg-samburu-secrets.html',    tier:'mid-range', vibe:['wildlife','adventure'],durationKey:'medium', priceRaw:3400  },
-      { name:'Coastal Safari Blend', price:'$4,200',  duration:'6 Days', page:'pkg-safari-and-sea.html',     tier:'mid-range', vibe:['beach','wildlife'],   durationKey:'medium', priceRaw:4200  },
-      { name:'Lakes & Highlands',    price:'$5,100',  duration:'8 Days', page:'pkg-lake-nakuru-escape.html', tier:'mid-range', vibe:['adventure','culture'],durationKey:'long',   priceRaw:5100  },
+      { name:'Samburu Wilderness',   price:'$3,400',  duration:'5 Days', page:'pkg-samburu-secrets.html',    tier:'mid', vibe:['wildlife','adventure'],durationKey:'medium', priceRaw:3400  },
+      { name:'Coastal Safari Blend', price:'$4,200',  duration:'6 Days', page:'pkg-safari-and-sea.html',     tier:'mid', vibe:['beach','wildlife'],   durationKey:'medium', priceRaw:4200  },
+      { name:'Lakes & Highlands',    price:'$5,100',  duration:'8 Days', page:'pkg-lake-nakuru-escape.html', tier:'mid', vibe:['adventure','culture'],durationKey:'long',   priceRaw:5100  },
       { name:'Kenya Mastery',        price:'$14,500', duration:'12 Days',page:'pkg-grand-odyssey.html',      tier:'ultra',     vibe:['wildlife','culture'],  durationKey:'grand',  priceRaw:14500 },
     ];
   }
@@ -8027,7 +8022,7 @@ body.light-mode .pkg-cta:hover {
     { id:'name',     type:'text',   label:'Step 1 of 5', question:'Welcome. What shall we call you?', sub:'Every great safari begins with a name.', placeholder:'Your first name', minLength:2, pattern:/^[a-zA-ZÀ-ÖØ-öø-ÿ\s'\-]{2,}$/, errorMsg:'Please enter a real name — at least 2 letters.' },
     { id:'vibe',     type:'multi',  label:'Step 2 of 5', question:'What draws you to Kenya?', sub:'Choose everything that stirs something in you.', options:[{value:'wildlife',label:'Wildlife & Safari'},{value:'beach',label:'Coast & Ocean'},{value:'adventure',label:'Adventure & Hiking'},{value:'culture',label:'Culture & People'}] },
     { id:'duration', type:'choice', label:'Step 3 of 5', question:'How long is your dream escape?', sub:'We will shape the perfect rhythm around your time.', options:[{value:'short',label:'3 – 4 Days'},{value:'medium',label:'5 – 7 Days'},{value:'long',label:'8 – 10 Days'},{value:'grand',label:'10+ Days'}] },
-    { id:'budget',   type:'choice', label:'Step 4 of 5', question:'What is your comfort range?', sub:'No judgement — every budget unlocks a remarkable journey.', singleCol:true, options:[{value:'budget',label:'Budget · Under $2,500'},{value:'mid-range',label:'Mid-Range · $2,500–$5,000'},{value:'luxury',label:'Luxury · $5,000–$12,000'},{value:'ultra',label:'Ultra · $12,000+'}] },
+    { id:'budget',   type:'choice', label:'Step 4 of 5', question:'What is your comfort range?', sub:'No judgement — every budget unlocks a remarkable journey.', singleCol:true, options:[{value:'budget',label:'Budget · Under $2,500'},{value:'mid',label:'Mid · $2,500–$5,000'},{value:'luxury',label:'Luxury · $5,000–$12,000'},{value:'ultra',label:'Ultra · $12,000+'}] },
     { id:'travel',   type:'text',   label:'Step 5 of 5', question:'When are you thinking of travelling?', sub:'A rough idea helps us check availability and seasons.', placeholder:'e.g. July 2025, or "not sure yet"', minLength:4, pattern:/^[a-zA-Z0-9\s,\-\/\.]{4,}$/, errorMsg:'Please enter a month, year, or "not sure yet".' },
   ];
 
@@ -8310,13 +8305,13 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a){
 // PACKAGES
 // ===========================
 var allPackages = [
-  {badge:null,        duration:'4 Days · 3 Nights',   name:'Mara<br>Awakening',      price:'$2,800',  page:'pkg-mara-awakening.html',     tier:'mid-range', cardBg:'assets/maasaimara.webp',   features:['Maasai Mara Game Reserve','Private 4x4 Land Cruiser','Luxury Tented Camp','Expert Naturalist Guide','All Meals Included','Sundowner Cocktails']},
+  {badge:null,        duration:'4 Days · 3 Nights',   name:'Mara<br>Awakening',      price:'$2,800',  page:'pkg-mara-awakening.html',     tier:'mid', cardBg:'assets/maasaimara.webp',   features:['Maasai Mara Game Reserve','Private 4x4 Land Cruiser','Luxury Tented Camp','Expert Naturalist Guide','All Meals Included','Sundowner Cocktails']},
   {badge:'Most Exclusive',duration:'7 Days · 6 Nights',name:'Grand<br>Odyssey',      price:'$6,500',  page:'pkg-grand-odyssey.html',      tier:'luxury',    cardBg:'assets/jungle.webp',       features:['Mara + Amboseli + Samburu','Private Charter Flights','5-Star Lodge & Tented Camps','Sunrise Balloon Safari','Cultural Maasai Immersion','Butler & Concierge Service','All-Inclusive Premium']},
   {badge:null,        duration:'10 Days · 9 Nights',  name:'Ultimate<br>Kenya',       price:'$11,200', page:'pkg-ultimate-kenya.html',     tier:'luxury',    cardBg:'assets/Coolelephant.webp', features:['5 Iconic National Parks','Private Conservancy Access','Exclusive Use Bush Camp','Night Safari Drives','Marine Excursion, Diani','Photography Guide Included','Bespoke Farewell Dinner']},
   {badge:'New',       duration:'3 Days · 2 Nights',   name:'Amboseli<br>Escape',      price:'$1,950',  page:'pkg-amboseli-express.html',   tier:'budget',    cardBg:'assets/amboseli.webp',     features:['Amboseli National Park','Kilimanjaro Panorama Views','Private Game Drives','Bush Breakfast Experience','All Meals Included','Expert Naturalist Guide']},
-  {badge:null,        duration:'5 Days · 4 Nights',   name:'Samburu<br>Wilderness',   price:'$3,400',  page:'pkg-samburu-secrets.html',    tier:'mid-range', cardBg:'assets/maasaimen.webp',    features:['Samburu National Reserve','Rare Northern Species','Private Tented Camp','Camel Safari Experience','Cultural Village Visit','All Meals & Transfers']},
-  {badge:'Popular',   duration:'6 Days · 5 Nights',   name:'Coastal<br>Safari Blend', price:'$4,200',  page:'pkg-safari-and-sea.html',     tier:'mid-range', cardBg:'assets/dianibeach.webp',   features:['Tsavo East & West','Diani Beach Extension','Ocean-View Lodge','Snorkelling & Marine Park','Private Game Drives','All-Inclusive Package']},
-  {badge:null,        duration:'8 Days · 7 Nights',   name:'Lakes &<br>Highlands',    price:'$5,100',  page:'pkg-lake-nakuru-escape.html', tier:'mid-range', cardBg:'assets/lakenakuru.webp',   features:['Lake Nakuru & Naivasha','Aberdare Forest Walks','Flamingo Boat Excursion','Mount Kenya Foothills','Luxury Lodge Stays','All Meals & Flights']},
+  {badge:null,        duration:'5 Days · 4 Nights',   name:'Samburu<br>Wilderness',   price:'$3,400',  page:'pkg-samburu-secrets.html',    tier:'mid', cardBg:'assets/maasaimen.webp',    features:['Samburu National Reserve','Rare Northern Species','Private Tented Camp','Camel Safari Experience','Cultural Village Visit','All Meals & Transfers']},
+  {badge:'Popular',   duration:'6 Days · 5 Nights',   name:'Coastal<br>Safari Blend', price:'$4,200',  page:'pkg-safari-and-sea.html',     tier:'mid', cardBg:'assets/dianibeach.webp',   features:['Tsavo East & West','Diani Beach Extension','Ocean-View Lodge','Snorkelling & Marine Park','Private Game Drives','All-Inclusive Package']},
+  {badge:null,        duration:'8 Days · 7 Nights',   name:'Lakes &<br>Highlands',    price:'$5,100',  page:'pkg-lake-nakuru-escape.html', tier:'mid', cardBg:'assets/lakenakuru.webp',   features:['Lake Nakuru & Naivasha','Aberdare Forest Walks','Flamingo Boat Excursion','Mount Kenya Foothills','Luxury Lodge Stays','All Meals & Flights']},
   {badge:'Signature', duration:'12 Days · 11 Nights', name:'Kenya<br>Mastery',        price:'$14,500', page:'pkg-grand-odyssey.html',      tier:'luxury',    cardBg:'assets/mountkenya.webp',   features:['6 Parks & Conservancies','Private Helicopter Transfer','Exclusive Bush Camp','Hot Air Balloon Safari','Michelin-Inspired Bush Dining','Dedicated Personal Guide','Fully Bespoke Itinerary']},
 ];
 
@@ -8329,7 +8324,7 @@ var allPackages = [
     data.forEach(function(pkg){
       const price=pkg.price_high_season||pkg.price_duo||0;
       const days=pkg.duration_days||0, nights=pkg.duration_nights||0;
-      const tier=pkg.category?.toLowerCase().includes('ultra')?'ultra':pkg.category?.toLowerCase().includes('luxury')?'luxury':pkg.category?.toLowerCase().includes('budget')?'budget':'mid-range';
+      const tier=pkg.category?.toLowerCase().includes('ultra')?'ultra':pkg.category?.toLowerCase().includes('luxury')?'luxury':pkg.category?.toLowerCase().includes('budget')?'budget':'mid';
       const exists=allPackages.some(function(p){return p.name.replace(/<br>/g,' ').replace(/\s+/g,' ').trim().toLowerCase()===pkg.name.trim().toLowerCase();});
       if(exists)return;
       allPackages.push({badge:pkg.badge||null,duration:days?days+' Days · '+nights+' Nights':'',name:pkg.name,price:'$'+Number(price).toLocaleString(),page:pkg.detail_page_url||(pkg.slug+'.html'),tier:tier,features:pkg.short_highlights||[],cardBg:pkg.card_bg_image_url||null});
@@ -8364,7 +8359,7 @@ document.addEventListener('DOMContentLoaded',function(){
   var activeFilter='all';
   var currentSet=[0,1,2];
 
-  const labelMap={all:'Showing all collections',luxury:'Showing luxury experiences','mid-range':'Showing mid-range journeys',budget:'Showing budget-friendly safaris'};
+  const labelMap={all:'Showing all collections',luxury:'Showing luxury experiences','mid':'Showing mid journeys',budget:'Showing budget-friendly safaris'};
 
   function positionGlow(btn){if(filterGlow){filterGlow.style.left=btn.offsetLeft+'px';filterGlow.style.width=btn.offsetWidth+'px';}}
 
@@ -8418,7 +8413,7 @@ document.addEventListener('DOMContentLoaded',function(){
     {id:'name',type:'text',label:'Step 1 of 5',question:'What shall we call you?',sub:'Every great safari begins with a name.',placeholder:'Your first name',minLength:2,pattern:/^[a-zA-ZÀ-ÖØ-öø-ÿ\s'\-]{2,}$/,errorMsg:'Please enter a real name.'},
     {id:'vibe',type:'multi',label:'Step 2 of 5',question:'What draws you to Kenya?',sub:'Choose everything that stirs something in you.',options:[{value:'wildlife',label:'Wildlife & Safari'},{value:'beach',label:'Coast & Ocean'},{value:'adventure',label:'Adventure & Hiking'},{value:'culture',label:'Culture & People'}]},
     {id:'duration',type:'choice',label:'Step 3 of 5',question:'How long is your dream escape?',sub:'We will shape the perfect rhythm around your time.',options:[{value:'short',label:'3 – 4 Days'},{value:'medium',label:'5 – 7 Days'},{value:'long',label:'8 – 10 Days'},{value:'grand',label:'10+ Days'}]},
-    {id:'budget',type:'choice',label:'Step 4 of 5',question:'What is your comfort range?',sub:'Every budget unlocks a remarkable journey.',singleCol:true,options:[{value:'budget',label:'Budget · Under $2,500'},{value:'mid-range',label:'Mid-Range · $2,500–$5,000'},{value:'luxury',label:'Luxury · $5,000–$12,000'},{value:'ultra',label:'Ultra · $12,000+'}]},
+    {id:'budget',type:'choice',label:'Step 4 of 5',question:'What is your comfort range?',sub:'Every budget unlocks a remarkable journey.',singleCol:true,options:[{value:'budget',label:'Budget · Under $2,500'},{value:'mid',label:'Mid · $2,500–$5,000'},{value:'luxury',label:'Luxury · $5,000–$12,000'},{value:'ultra',label:'Ultra · $12,000+'}]},
     {id:'travel',type:'text',label:'Step 5 of 5',question:'When are you thinking of travelling?',sub:'A rough idea helps us check availability.',placeholder:'e.g. July 2025, or "not sure yet"',minLength:4,pattern:/^[a-zA-Z0-9\s,\-\/\.]{4,}$/,errorMsg:'Please enter a month, year, or "not sure yet".'},
   ];
 
@@ -8438,7 +8433,7 @@ document.addEventListener('DOMContentLoaded',function(){
       var dk=days<=4?'short':days<=7?'medium':days<=10?'long':'grand';
       return{name:name,price:p.price,duration:p.duration||'',page:p.page||'#packages',tier:tier,vibe:vibes,durationKey:dk,priceRaw:parseInt((p.price||'$0').replace(/\D/g,''))||0};
     }):[
-      {name:'Mara Awakening',price:'$2,800',duration:'4 Days',page:'pkg-mara-awakening.html',tier:'mid-range',vibe:['wildlife'],durationKey:'short',priceRaw:2800},
+      {name:'Mara Awakening',price:'$2,800',duration:'4 Days',page:'pkg-mara-awakening.html',tier:'mid',vibe:['wildlife'],durationKey:'short',priceRaw:2800},
       {name:'Grand Odyssey',price:'$6,500',duration:'7 Days',page:'pkg-grand-odyssey.html',tier:'luxury',vibe:['wildlife','culture'],durationKey:'medium',priceRaw:6500},
       {name:'Ultimate Kenya',price:'$11,200',duration:'10 Days',page:'pkg-ultimate-kenya.html',tier:'luxury',vibe:['wildlife','adventure'],durationKey:'long',priceRaw:11200},
     ];
