@@ -3317,30 +3317,70 @@ nav.scrolled .nav-brand-idle {
     width: 100%;
   }
 
+  /* Track: don't use transform-based centering on mobile.
+     Instead we override it with JS-independent centering via CSS scroll snap */
   .ds-track {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 0;
     padding: 20px 0;
     will-change: transform;
     justify-content: flex-start;
+    /* Force all slides to stack so only active shows */
   }
 
   .ds-slide {
-    flex: 0 0 78vw;
-    width: 78vw;
-    height: 78vw;
+    flex: 0 0 92vw;
+    width: 92vw;
+    height: 56vw;
     min-height: unset;
     max-height: unset;
     margin: 0;
     border-radius: 10px;
-    opacity: 1 !important;
+    /* All non-active slides invisible — active will be shown via JS class */
+    opacity: 0 !important;
     transform: scale(1) translateY(0) !important;
     filter: none !important;
+    pointer-events: none;
+    position: absolute;
+    left: 4vw;
+    top: 0;
+    transition: opacity 0.5s ease !important;
+  }
+
+  /* Only the active slide is visible and interactive */
+  .ds-slide.ds-active {
+    opacity: 1 !important;
+    pointer-events: all;
+    position: relative;
+    left: auto;
+    margin: 0 auto;
+    display: block;
+  }
+
+  /* Hide non-active completely */
+  .ds-slide.ds-next,
+  .ds-slide.ds-prev-slide,
+  .ds-slide.ds-far {
+    opacity: 0 !important;
+    pointer-events: none;
+    position: absolute;
+    visibility: hidden;
+  }
+
+  /* Wrapper needs height to contain the absolute slides */
+  .ds-track {
+    position: relative;
+    min-height: 56vw;
+    height: auto;
   }
 
   .ds-slide .ds-slide-img {
     filter: brightness(0.72) saturate(0.88) !important;
+  }
+
+  .ds-slide.ds-active .ds-slide-img {
+    filter: brightness(0.85) saturate(0.95) !important;
   }
 
   .ds-slide.ds-active {
@@ -3376,13 +3416,24 @@ nav.scrolled .nav-brand-idle {
     brightness: unset !important;
   }
 
+  .ds-slide.ds-active .ds-slide-overlay {
+    display: block !important;
+    opacity: 1 !important;
+    background: linear-gradient(to top, rgba(8,8,8,0.85) 0%, transparent 60%) !important;
+  }
+
   .ds-slide-content {
     padding: 0 18px 22px;
-    opacity: 1 !important;
-    pointer-events: all !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
     z-index: 10 !important;
     text-align: center;
     align-items: center;
+  }
+
+  .ds-slide.ds-active .ds-slide-content {
+    opacity: 1 !important;
+    pointer-events: all !important;
   }
 
   .ds-slide-label,
@@ -5183,6 +5234,67 @@ nav.scrolled .nav-brand-idle {
 }
 
    /* ============================= */
+  /* USER PROFILE PANEL            */
+  /* ============================= */
+  #profileOverlay {
+    position: fixed; inset: 0; z-index: 99988;
+    background: rgba(2,2,2,0.94); backdrop-filter: blur(24px);
+    display: none; align-items: flex-start; justify-content: flex-end;
+    padding: 80px 24px 24px;
+  }
+  #profileOverlay.open { display: flex; }
+  #profilePanel {
+    background: #0a0a0a; border: 1px solid rgba(212,175,55,0.22);
+    width: 420px; max-width: 100%; max-height: calc(100vh - 104px);
+    overflow-y: auto; position: relative;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.98);
+    scrollbar-width: thin; scrollbar-color: rgba(212,175,55,0.3) transparent;
+    animation: profileSlideIn 0.45s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  @keyframes profileSlideIn {
+    from { opacity:0; transform: translateY(-20px) scale(0.97); }
+    to   { opacity:1; transform: translateY(0)     scale(1);    }
+  }
+  #profilePanel::-webkit-scrollbar { width:3px; }
+  #profilePanel::-webkit-scrollbar-thumb { background:rgba(212,175,55,0.3); }
+  .profile-top-line { position:absolute;top:0;left:10%;right:10%;height:2px;background:linear-gradient(to right,transparent,#d4af37,transparent); }
+  .profile-header { padding: 28px 32px 24px; border-bottom: 1px solid rgba(212,175,55,0.1); display:flex;align-items:center;gap:16px; }
+  .profile-avatar { width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#d4af37,#b8860b);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#080808;flex-shrink:0;border:2px solid rgba(212,175,55,0.4); }
+  .profile-name { font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#f0ece4;line-height:1.2; }
+  .profile-email { font-size:11px;letter-spacing:1px;color:rgba(138,128,116,0.8);margin-top:3px; }
+  .profile-close { position:absolute;top:14px;right:16px;background:rgba(8,8,8,0.7);border:1px solid rgba(212,175,55,0.4);color:var(--gold);font-family:'Jost',sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:8px 16px;cursor:none;backdrop-filter:blur(8px);transition:all 0.3s; }
+  .profile-close:hover { background:rgba(212,175,55,0.15);color:#fff; }
+  .profile-tabs { display:flex;border-bottom:1px solid rgba(212,175,55,0.1); }
+  .profile-tab { flex:1;font-family:'Jost',sans-serif;font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:14px 8px;background:none;border:none;color:rgba(138,128,116,0.7);cursor:none;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color 0.3s,border-color 0.3s; }
+  .profile-tab.active { color:#d4af37;border-bottom-color:#d4af37; }
+  .profile-section { padding:24px 32px; }
+  .profile-section-title { font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(212,175,55,0.6);font-family:'Jost',sans-serif;font-weight:800;display:block;margin-bottom:16px; }
+  .profile-field { display:flex;flex-direction:column;gap:3px;margin-bottom:18px; }
+  .profile-field label { font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(138,128,116,0.6);font-family:'Jost',sans-serif; }
+  .profile-field input { background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.15);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:8px 0;outline:none;transition:border-color 0.3s; }
+  .profile-field input:focus { border-bottom-color:#d4af37; }
+  .profile-save-btn { width:100%;font-family:'Jost',sans-serif;font-size:10px;font-weight:700;letter-spacing:5px;text-transform:uppercase;padding:16px;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;border:none;cursor:none;transition:filter 0.3s,transform 0.3s;margin-top:8px; }
+  .profile-save-btn:hover { filter:brightness(1.12);transform:translateY(-2px); }
+  .profile-pkg-card { border:1px solid rgba(212,175,55,0.15);padding:16px;margin-bottom:12px;position:relative;transition:border-color 0.3s; }
+  .profile-pkg-card:hover { border-color:rgba(212,175,55,0.4); }
+  .profile-pkg-name { font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#f0ece4;margin-bottom:4px; }
+  .profile-pkg-meta { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(138,128,116,0.7); }
+  .profile-pkg-price { font-family:'Cormorant Garamond',serif;font-size:20px;color:#d4af37;margin-top:8px; }
+  .profile-pkg-actions { display:flex;gap:8px;margin-top:12px; }
+  .profile-pkg-btn { font-family:'Jost',sans-serif;font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:8px 14px;border:1px solid rgba(212,175,55,0.3);color:rgba(212,175,55,0.8);background:transparent;cursor:none;transition:all 0.3s; }
+  .profile-pkg-btn:hover { background:rgba(212,175,55,0.1);border-color:var(--gold);color:var(--gold); }
+  .profile-pkg-btn.remove { border-color:rgba(224,85,85,0.3);color:rgba(224,85,85,0.7); }
+  .profile-pkg-btn.remove:hover { background:rgba(224,85,85,0.1);border-color:#e05555;color:#e05555; }
+  .profile-empty { text-align:center;padding:32px 16px;font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:rgba(138,128,116,0.6); }
+  .profile-notif { padding:12px 16px;margin-bottom:12px;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:1px; }
+  .profile-notif.success { background:rgba(123,181,110,0.1);border:1px solid rgba(123,181,110,0.3);color:#7bb56e; }
+  .profile-notif.error   { background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.3);color:#e05555; }
+  body.light-mode #profilePanel { background:#f4f0e8;border-color:rgba(154,111,0,0.3); }
+  body.light-mode .profile-name { color:#0a0a0a; }
+  body.light-mode .profile-field input { color:#0a0a0a;border-bottom-color:rgba(154,111,0,0.2); }
+  body.light-mode .profile-pkg-name { color:#0a0a0a; }
+
+  /* ============================= */
   /* UNIFORM PANEL DESIGN SYSTEM   */
   /* ============================= */
   .fj-panel-overlay {
@@ -7097,127 +7209,118 @@ body.light-mode .pkg-cta:hover {
     width: 100%;
   }
 
+  /* Track: positioned container so slides can be absolutely placed */
   .gsl-track {
     padding: 20px 0;
-    gap: 10px;
+    gap: 0;
     justify-content: flex-start;
+    position: relative;
+    min-height: 56vw;
+    height: auto;
   }
 
+  /* All slides: absolutely positioned, invisible by default */
   .gsl-slide {
-    width: 84vw;
+    width: 92vw;
     height: 56vw;
     min-height: 260px;
     border-radius: 6px;
-    flex: 0 0 84vw;
-  }
-
-  /* Active slide: full opacity, centered feel */
-  .gsl-slide.gsl-active {
+    flex: 0 0 92vw;
+    position: absolute;
+    left: 4vw;
+    top: 0;
+    opacity: 0 !important;
     transform: scale(1) translateY(0) !important;
     filter: none !important;
+    pointer-events: none;
+    transition: opacity 0.5s ease !important;
+    visibility: hidden;
+  }
+
+  /* Active slide: fully visible, in normal flow, centered */
+  .gsl-slide.gsl-active {
     opacity: 1 !important;
+    pointer-events: all;
+    position: relative;
+    left: auto;
+    margin: 0 auto;
+    display: block;
+    visibility: visible;
     z-index: 5;
   }
 
-  /* Neighbours: dimmed so active feels centered */
+  /* All non-active: hidden */
   .gsl-slide.gsl-next,
-  .gsl-slide.gsl-prev-slide {
-    transform: scale(1) translateY(0) !important;
-    filter: none !important;
-    opacity: 0.4 !important;
-    z-index: 3;
+  .gsl-slide.gsl-prev-slide,
+  .gsl-slide.gsl-far {
+    opacity: 0 !important;
+    pointer-events: none;
+    visibility: hidden;
   }
 
-  /* Far slides: invisible */
-  .gsl-slide.gsl-far {
-    transform: scale(1) translateY(0) !important;
-    filter: none !important;
+  /* Active slide overlay and content */
+  .gsl-slide.gsl-active .gsl-overlay {
+    opacity: 1 !important;
+    display: block !important;
+    background: linear-gradient(to top, rgba(8,8,8,0.88) 0%, transparent 55%) !important;
+  }
+
+  .gsl-content {
     opacity: 0 !important;
-    z-index: 1;
+    text-align: center;
+    align-items: center;
+    padding: 0 16px 24px;
     pointer-events: none;
   }
 
-  .gsl-slide .gsl-label,
-  .gsl-slide .gsl-title,
-  .gsl-slide .gsl-sub,
-  .gsl-slide .gsl-zoom-btn {
+  .gsl-slide.gsl-active .gsl-content {
+    opacity: 1 !important;
+    pointer-events: all;
+  }
+
+  .gsl-slide.gsl-active .gsl-label,
+  .gsl-slide.gsl-active .gsl-title,
+  .gsl-slide.gsl-active .gsl-sub,
+  .gsl-slide.gsl-active .gsl-zoom-btn {
     opacity: 1 !important;
     transform: translateY(0) !important;
   }
 
-  .gsl-content {
-    opacity: 1 !important;
-    text-align: center;
-    align-items: center;
-    padding: 0 16px 24px;
-  }
-
-  .gsl-text {
-    text-align: center;
-  }
-
-  .gsl-label {
-    text-align: center;
-    display: block;
-  }
-
-  .gsl-title {
-    font-size: 22px;
-    text-align: center;
-  }
-
-  .gsl-sub {
-    font-size: 13px;
-    text-align: center;
-  }
-
-  .gsl-overlay {
-    opacity: 1 !important;
-  }
+  .gsl-text { text-align: center; }
+  .gsl-label { text-align: center; display: block; }
+  .gsl-title { font-size: 22px; text-align: center; }
+  .gsl-sub   { font-size: 13px; text-align: center; }
 
   .gsl-zoom-btn {
     left: 50%;
     transform: translateX(-50%) !important;
     top: 16px;
     right: auto;
+    opacity: 1 !important;
+    transform: translateX(-50%) scale(1) rotate(0deg) !important;
   }
 
-  .gsl-thumb-strip {
-    display: none;
-  }
+  .gsl-thumb-strip { display: none; }
 
-  .gsl-progress {
-    max-width: 84vw;
-  }
+  .gsl-progress { max-width: 92vw; }
+  .gsl-progress.running { width: 92vw; }
 
-  .gsl-progress.running {
-    width: 84vw;
-  }
-
-  /* Controls row centered */
   .gsl-controls {
     justify-content: center;
     gap: 20px;
     padding: 16px 0 0;
   }
 
-  /* Gallery section header centered */
+  /* Section header centered */
   #gallery .gallery-intro {
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
-
-  #gallery .gallery-intro-right {
-    text-align: center;
-    max-width: 100%;
-  }
-
+  #gallery .gallery-intro-right { text-align: center; max-width: 100%; }
   #gallery .section-title,
   #gallery .section-label,
-  #gallery .gold-line {
-    text-align: center;
-  }
+  #gallery .gold-line { text-align: center; }
 }
 
   .gsl-lightbox {
@@ -7543,14 +7646,10 @@ body.light-mode .pkg-cta:hover {
           <a href="#highlights" style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;cursor:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Safaris</a>
           <a href="#wildlife"   style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;cursor:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Destinations</a>
           <a href="#packages"   style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;cursor:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Packages</a>
-          <a href="#gallery"    style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;cursor:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Gallery</a>
-          <a href="#blog"       style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;cursor:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Journal</a>
-          <a href="#contact"    style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;cursor:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Contact</a>
         </div>
       </div>
       <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
         <span style="font-size:11px;color:var(--muted);">© 2025 Filmax Jambo Tours · All rights reserved</span>
-        <span style="font-size:10px;color:var(--muted);letter-spacing:1px;">Crafted with passion in Nairobi 🌍</span>
       </div>
     </div>
   </div>
@@ -7808,168 +7907,208 @@ body.light-mode .pkg-cta:hover {
         <button class="auth-tab-btn" id="tabSignup" onclick="window._switchAuthTab('signup')">Create Account</button>
       </div>
 
-      <div id="authMsgError" class="auth-msg error"></div>
-      <div id="authMsgSuccess" class="auth-msg success"></div>
+      <!-- Messages now appear inline above each panel's button -->
 
       <!-- SIGN IN PANEL -->
       <div id="authPanelSignin">
         <span class="auth-section-label">Your Credentials</span>
-        <input id="siEmail" class="auth-input" type="email" placeholder="Email Address" autocomplete="email"
+        <input id="siEmail" class="auth-input" type="email" placeholder="Email Address *" autocomplete="email"
           onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-        <input id="siPassword" class="auth-input" type="password" placeholder="Password" autocomplete="current-password"
+        <input id="siPassword" class="auth-input" type="password" placeholder="Password *" autocomplete="current-password"
           onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+        <div style="text-align:right;margin-bottom:8px;">
+          <button id="forgotPwBtn" onclick="window._showForgotPassword()" style="background:none;border:none;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;color:rgba(212,175,55,0.6);cursor:none;padding:4px 0;transition:color 0.3s;" onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(212,175,55,0.6)'">Forgot Password?</button>
+        </div>
+        <div id="authMsgErrorSignin" class="auth-msg error"></div>
+        <div id="authMsgSuccessSignin" class="auth-msg success"></div>
         <button class="auth-submit-btn" id="siSubmitBtn" onclick="window._doSignIn()">
           Sign In to Your Account
         </button>
-        <p class="auth-alt-link">No account? <button onclick="window._switchAuthTab('signup')">Create one free</button></p>
+        <p class="auth-alt-link" style="margin-top:16px;">No account? <button onclick="window._switchAuthTab('signup')">Create one free</button></p>
+      </div>
+
+      <!-- FORGOT PASSWORD PANEL -->
+      <div id="authPanelForgot" style="display:none;">
+        <span class="auth-section-label">Reset Your Password</span>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--muted);margin-bottom:24px;line-height:1.7;">Enter the email address on your account and we will send you a secure reset link.</p>
+        <input id="forgotEmail" class="auth-input" type="email" placeholder="Your Email Address *" autocomplete="email"
+          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+        <div id="authMsgErrorForgot" class="auth-msg error"></div>
+        <div id="authMsgSuccessForgot" class="auth-msg success"></div>
+        <button class="auth-submit-btn" id="forgotSubmitBtn" onclick="window._doForgotPassword()" style="margin-top:16px;">
+          Send Reset Link
+        </button>
+        <p class="auth-alt-link" style="margin-top:16px;"><button onclick="window._switchAuthTab('signin')">← Back to Sign In</button></p>
       </div>
 
       <!-- SIGN UP PANEL -->
       <div id="authPanelSignup" style="display:none;">
-        <p style="font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:rgba(212,175,55,0.8);margin-bottom:24px;line-height:1.6;font-weight:600;">All fields marked <span style="color:#e05555;">*</span> are required to create your account.</p>
 
-        <span class="auth-section-label">Personal Details</span>
-        <div class="auth-field-row">
-          <div style="position:relative;">
-            <input id="suFirstName" class="auth-input" type="text" placeholder="First Name *" autocomplete="given-name" required
-              onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+        <span class="auth-section-label">Your Details</span>
+
+        <input id="suFirstName" class="auth-input" type="text" placeholder="First Name *" autocomplete="given-name"
+          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+
+        <input id="suEmail" class="auth-input" type="email" placeholder="Email Address *" autocomplete="email"
+          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+
+        <div style="display:flex;gap:0;align-items:flex-end;margin-bottom:0;">
+          <div class="auth-select-wrap" style="flex:0 0 110px;margin-bottom:0;">
+            <select id="suPhoneCode" class="auth-input auth-select" style="padding-right:24px;font-size:12px;">
+              <option value="+254">🇰🇪 +254</option>
+              <option value="+1">🇺🇸 +1</option>
+              <option value="+44">🇬🇧 +44</option>
+              <option value="+33">🇫🇷 +33</option>
+              <option value="+49">🇩🇪 +49</option>
+              <option value="+34">🇪🇸 +34</option>
+              <option value="+39">🇮🇹 +39</option>
+              <option value="+31">🇳🇱 +31</option>
+              <option value="+32">🇧🇪 +32</option>
+              <option value="+41">🇨🇭 +41</option>
+              <option value="+43">🇦🇹 +43</option>
+              <option value="+46">🇸🇪 +46</option>
+              <option value="+47">🇳🇴 +47</option>
+              <option value="+45">🇩🇰 +45</option>
+              <option value="+358">🇫🇮 +358</option>
+              <option value="+48">🇵🇱 +48</option>
+              <option value="+7">🇷🇺 +7</option>
+              <option value="+380">🇺🇦 +380</option>
+              <option value="+351">🇵🇹 +351</option>
+              <option value="+30">🇬🇷 +30</option>
+              <option value="+90">🇹🇷 +90</option>
+              <option value="+971">🇦🇪 +971</option>
+              <option value="+966">🇸🇦 +966</option>
+              <option value="+974">🇶🇦 +974</option>
+              <option value="+965">🇰🇼 +965</option>
+              <option value="+968">🇴🇲 +968</option>
+              <option value="+962">🇯🇴 +962</option>
+              <option value="+961">🇱🇧 +961</option>
+              <option value="+20">🇪🇬 +20</option>
+              <option value="+212">🇲🇦 +212</option>
+              <option value="+213">🇩🇿 +213</option>
+              <option value="+216">🇹🇳 +216</option>
+              <option value="+218">🇱🇾 +218</option>
+              <option value="+251">🇪🇹 +251</option>
+              <option value="+255">🇹🇿 +255</option>
+              <option value="+256">🇺🇬 +256</option>
+              <option value="+250">🇷🇼 +250</option>
+              <option value="+257">🇧🇮 +257</option>
+              <option value="+253">🇩🇯 +253</option>
+              <option value="+252">🇸🇴 +252</option>
+              <option value="+249">🇸🇩 +249</option>
+              <option value="+263">🇿🇼 +263</option>
+              <option value="+260">🇿🇲 +260</option>
+              <option value="+27">🇿🇦 +27</option>
+              <option value="+264">🇳🇦 +264</option>
+              <option value="+267">🇧🇼 +267</option>
+              <option value="+265">🇲🇼 +265</option>
+              <option value="+258">🇲🇿 +258</option>
+              <option value="+261">🇲🇬 +261</option>
+              <option value="+233">🇬🇭 +233</option>
+              <option value="+234">🇳🇬 +234</option>
+              <option value="+225">🇨🇮 +225</option>
+              <option value="+221">🇸🇳 +221</option>
+              <option value="+237">🇨🇲 +237</option>
+              <option value="+243">🇨🇩 +243</option>
+              <option value="+91">🇮🇳 +91</option>
+              <option value="+92">🇵🇰 +92</option>
+              <option value="+880">🇧🇩 +880</option>
+              <option value="+94">🇱🇰 +94</option>
+              <option value="+977">🇳🇵 +977</option>
+              <option value="+86">🇨🇳 +86</option>
+              <option value="+81">🇯🇵 +81</option>
+              <option value="+82">🇰🇷 +82</option>
+              <option value="+65">🇸🇬 +65</option>
+              <option value="+60">🇲🇾 +60</option>
+              <option value="+66">🇹🇭 +66</option>
+              <option value="+62">🇮🇩 +62</option>
+              <option value="+63">🇵🇭 +63</option>
+              <option value="+84">🇻🇳 +84</option>
+              <option value="+61">🇦🇺 +61</option>
+              <option value="+64">🇳🇿 +64</option>
+              <option value="+55">🇧🇷 +55</option>
+              <option value="+54">🇦🇷 +54</option>
+              <option value="+56">🇨🇱 +56</option>
+              <option value="+57">🇨🇴 +57</option>
+              <option value="+52">🇲🇽 +52</option>
+              <option value="+1-CA">🇨🇦 +1</option>
+            </select>
           </div>
-          <div style="position:relative;">
-            <input id="suLastName" class="auth-input" type="text" placeholder="Last Name *" autocomplete="family-name" required
-              onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-          </div>
-        </div>
-        <input id="suEmail" class="auth-input" type="email" placeholder="Email Address *" autocomplete="email" required
-          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-        <input id="suPhone" class="auth-input" type="tel" placeholder="Phone / WhatsApp Number *" autocomplete="tel" required
-          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-        <div class="auth-field-row">
-          <input id="suPassword" class="auth-input" type="password" placeholder="Password (min 8 chars) *" autocomplete="new-password" required
-            onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-          <input id="suPassConf" class="auth-input" type="password" placeholder="Confirm Password *" autocomplete="new-password" required
+          <input id="suPhone" class="auth-input" type="tel" placeholder="Phone / WhatsApp Number *" autocomplete="tel" style="flex:1;margin-left:8px;"
             onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
         </div>
-        <input id="suDob" class="auth-input" type="text" placeholder="Date of Birth (DD/MM/YYYY) *" required
-          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-        <input id="suNationality" class="auth-input" type="text" placeholder="Country of Residence *" required
-          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-        <div class="auth-select-wrap">
-          <select id="suGender" class="auth-input auth-select">
-            <option value="">Gender *</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="non-binary">Non-Binary</option>
-            <option value="prefer-not">Prefer Not to Say</option>
-          </select>
-        </div>
 
-        <span class="auth-section-label">Safari Preferences</span>
-        <div class="auth-select-wrap">
-          <select id="suBudget" class="auth-input auth-select">
-            <option value="">Budget Range *</option>
-            <option value="student">Student / Backpacker — Under $1,000</option>
-            <option value="budget">Budget — $1,000–$2,500</option>
-            <option value="mid-range">Mid-Range — $2,500–$5,000</option>
-            <option value="upper-mid">Upper Mid — $5,000–$8,000</option>
-            <option value="luxury">Luxury — $8,000–$15,000</option>
-            <option value="ultra">Ultra-Luxury — $15,000+</option>
-            <option value="no-limit">No Budget Limit</option>
-          </select>
-        </div>
-        <div class="auth-select-wrap">
-          <select id="suStyle" class="auth-input auth-select">
-            <option value="">Travel Style *</option>
-            <option value="solo">Solo Traveller</option>
-            <option value="couple">Romantic Couple</option>
-            <option value="honeymoon">Honeymoon</option>
-            <option value="family-young">Family with Young Children (under 10)</option>
-            <option value="family-teen">Family with Teenagers</option>
-            <option value="small-group">Small Group (3–6 people)</option>
-            <option value="large-group">Large Group (7–15 people)</option>
-            <option value="corporate">Corporate / Business Event</option>
-            <option value="school">School / Educational Group</option>
-            <option value="photography">Photography Expedition</option>
-            <option value="seniors">Senior / Accessibility-Conscious</option>
-          </select>
-        </div>
-        <div class="auth-select-wrap">
-          <select id="suInterest" class="auth-input auth-select">
-            <option value="">Primary Safari Interest *</option>
-            <option value="big-five">Wildlife & The Big Five</option>
-            <option value="migration">Great Migration</option>
-            <option value="beach">Beach & Indian Ocean Coast</option>
-            <option value="photography">Wildlife Photography</option>
-            <option value="culture">Maasai Culture & Community</option>
-            <option value="adventure">Adventure & Mountain Hiking</option>
-            <option value="birding">Bird Watching</option>
-            <option value="conservation">Conservation & Volunteering</option>
-            <option value="fishing">Sport Fishing</option>
-            <option value="balloon">Hot Air Balloon Safari</option>
-            <option value="honeymoon-romance">Honeymoon & Romance</option>
-            <option value="family-fun">Family Fun & Kids Activities</option>
-          </select>
-        </div>
-        <div class="auth-select-wrap">
-          <select id="suDuration" class="auth-input auth-select">
-            <option value="">Preferred Trip Duration *</option>
-            <option value="weekend">Weekend Getaway (2–3 days)</option>
-            <option value="short">Short Break (4–5 days)</option>
-            <option value="week">One Week (6–8 days)</option>
-            <option value="extended">Extended (9–14 days)</option>
-            <option value="grand">Grand Tour (15+ days)</option>
-            <option value="flexible">Flexible / Open</option>
-          </select>
-        </div>
-        <div class="auth-select-wrap">
-          <select id="suAccomm" class="auth-input auth-select">
-            <option value="">Accommodation Preference</option>
-            <option value="budget-lodge">Budget Lodge / Hostel</option>
-            <option value="tented-camp">Classic Tented Camp</option>
-            <option value="mid-lodge">Mid-Range Lodge</option>
-            <option value="luxury-lodge">Luxury Lodge</option>
-            <option value="exclusive-camp">Exclusive-Use Bush Camp</option>
-            <option value="treehouse">Treehouse / Unique Stay</option>
-            <option value="beach-resort">Beach Resort</option>
-            <option value="no-preference">No Preference</option>
-          </select>
-        </div>
-        <input id="suTravelDate" class="auth-input" type="text" placeholder="Approximate Travel Date (e.g. July 2026) *" required
+        <input id="suNationality" class="auth-input" type="text" placeholder="Country of Residence *" autocomplete="country-name"
           onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
 
-        <span class="auth-section-label">Emergency Contact</span>
-        <div class="auth-field-row">
-          <input id="suEmergName" class="auth-input" type="text" placeholder="Emergency Contact Name *" required
-            onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-          <input id="suEmergPhone" class="auth-input" type="tel" placeholder="Emergency Contact Phone *" required
-            onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-        </div>
-        <input id="suEmergRelation" class="auth-input" type="text" placeholder="Relationship (e.g. Spouse, Parent)"
+        <span class="auth-section-label" style="margin-top:28px;">Security</span>
+
+        <input id="suPassword" class="auth-input" type="password" placeholder="Create Password (min 8 characters) *" autocomplete="new-password"
           onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
 
-        <span class="auth-section-label">One Last Thing</span>
-        <div class="auth-select-wrap">
-          <select id="suHowHeard" class="auth-input auth-select">
-            <option value="">How did you hear about us?</option>
-            <option value="google">Google Search</option>
-            <option value="instagram">Instagram</option>
-            <option value="facebook">Facebook</option>
-            <option value="tiktok">TikTok</option>
-            <option value="youtube">YouTube</option>
-            <option value="friend">Friend or Family Recommendation</option>
-            <option value="travel-agent">Travel Agent</option>
-            <option value="tripadvisor">TripAdvisor</option>
-            <option value="newspaper">Newspaper / Magazine</option>
-            <option value="repeat">Returning Guest</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        <input id="suSpecialReq" class="auth-input" type="text" placeholder="Any special requirements or medical needs?"
+        <input id="suPassConf" class="auth-input" type="password" placeholder="Confirm Password *" autocomplete="new-password"
           onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
 
-        <button class="auth-submit-btn" id="suSubmitBtn" onclick="window._doSignUp()" style="margin-top:28px;">
+        <div id="authMsgErrorSignup" class="auth-msg error" style="margin-top:12px;"></div>
+        <div id="authMsgSuccessSignup" class="auth-msg success" style="margin-top:12px;"></div>
+
+        <button class="auth-submit-btn" id="suSubmitBtn" onclick="window._doSignUp()" style="margin-top:20px;">
           Create My Safari Account
         </button>
         <p class="auth-alt-link" style="margin-top:16px;">Already have an account? <button onclick="window._switchAuthTab('signin')">Sign in here</button></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- USER PROFILE PANEL -->
+<div id="profileOverlay">
+  <div id="profilePanel">
+    <div class="profile-top-line"></div>
+    <button class="profile-close" onclick="window._closeProfile()">Close ✕</button>
+    <div class="profile-header">
+      <div class="profile-avatar" id="profileAvatar">?</div>
+      <div>
+        <div class="profile-name" id="profileDisplayName">My Account</div>
+        <div class="profile-email" id="profileDisplayEmail"></div>
+      </div>
+    </div>
+    <div class="profile-tabs">
+      <button class="profile-tab active" data-tab="details" onclick="window._profileTab('details')">Details</button>
+      <button class="profile-tab" data-tab="packages" onclick="window._profileTab('packages')">My Packages</button>
+      <button class="profile-tab" data-tab="cart" onclick="window._profileTab('cart')">Cart</button>
+    </div>
+
+    <!-- DETAILS TAB -->
+    <div id="profileTabDetails" class="profile-section">
+      <span class="profile-section-title">Personal Information</span>
+      <div class="profile-field"><label>First Name</label><input id="pfFirstName" type="text" placeholder="First name"></div>
+      <div class="profile-field"><label>Email</label><input id="pfEmail" type="email" placeholder="Email address" readonly style="opacity:0.5;"></div>
+      <div class="profile-field"><label>Phone</label><input id="pfPhone" type="tel" placeholder="Phone number"></div>
+      <div class="profile-field"><label>Country of Residence</label><input id="pfNationality" type="text" placeholder="Country"></div>
+      <div id="profileSaveNotif" style="display:none;"></div>
+      <button class="profile-save-btn" onclick="window._saveProfile()">Save Changes</button>
+      <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(212,175,55,0.1);">
+        <button style="width:100%;font-family:'Jost',sans-serif;font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:14px;background:transparent;border:1px solid rgba(224,85,85,0.35);color:#e05555;cursor:none;transition:background 0.3s;" onclick="window._signOutFromProfile()" onmouseover="this.style.background='rgba(224,85,85,0.1)'" onmouseout="this.style.background='transparent'">Sign Out of Account</button>
+      </div>
+    </div>
+
+    <!-- PACKAGES TAB -->
+    <div id="profileTabPackages" class="profile-section" style="display:none;">
+      <span class="profile-section-title">Saved & Draft Packages</span>
+      <div id="profilePkgList"><div class="profile-empty">No saved packages yet.<br>Browse our <a href="#packages" onclick="window._closeProfile()" style="color:#d4af37;text-decoration:none;">safari collections</a> to get started.</div></div>
+    </div>
+
+    <!-- CART TAB -->
+    <div id="profileTabCart" class="profile-section" style="display:none;">
+      <span class="profile-section-title">Your Safari Cart</span>
+      <div id="profileCartList"><div class="profile-empty">Your cart is empty.<br>Add packages from our <a href="#packages" onclick="window._closeProfile()" style="color:#d4af37;text-decoration:none;">collections</a>.</div></div>
+      <div id="profileCartTotal" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid rgba(212,175,55,0.1);">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;">
+          <span style="font-family:'Jost',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(138,128,116,0.7);">Total Estimate</span>
+          <span id="profileCartTotalNum" style="font-family:'Cormorant Garamond',serif;font-size:28px;color:#d4af37;font-weight:600;"></span>
+        </div>
+        <a href="#contact" onclick="window._closeProfile()" style="display:block;margin-top:16px;font-family:'Jost',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:16px;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;text-decoration:none;text-align:center;">Enquire About These Packages</a>
       </div>
     </div>
   </div>
@@ -8042,10 +8181,9 @@ body.light-mode .pkg-cta:hover {
   }
 
   function clearMsg() {
-    const err = document.getElementById('authMsgError');
-    const ok  = document.getElementById('authMsgSuccess');
-    if (err) err.style.display = 'none';
-    if (ok)  ok.style.display  = 'none';
+    ['authMsgError','authMsgSuccess','authMsgErrorSignin','authMsgSuccessSignin','authMsgErrorSignup','authMsgSuccessSignup','authMsgErrorForgot','authMsgSuccessForgot'].forEach(function(id){
+      var el = document.getElementById(id); if(el) el.style.display = 'none';
+    });
   }
 
   window._openAuth = function(tab) {
@@ -8086,6 +8224,8 @@ body.light-mode .pkg-cta:hover {
     const title = document.getElementById('authModalTitle');
     const sub   = document.getElementById('authModalSub');
     clearMsg();
+    var fg = document.getElementById('authPanelForgot');
+    if (fg) fg.style.display = 'none';
     if (tab === 'signup') {
       if (si) si.style.display = 'none';
       if (su) su.style.display = 'block';
@@ -8118,16 +8258,16 @@ body.light-mode .pkg-cta:hover {
         // Distinguish "invalid credentials" from "user not found"
         const msg = (error.message || '').toLowerCase();
         if (msg.includes('invalid') || msg.includes('wrong') || msg.includes('credentials') || msg.includes('not found') || msg.includes('no user')) {
-          showMsg('error', '❌ No account found with this email. Please create an account first.');
+          showMsgSignin('error', '❌ No account found with this email. Please create an account first.');
           setTimeout(function(){ window._switchAuthTab('signup'); const el=document.getElementById('suEmail'); if(el){el.value=email;} }, 1800);
         } else {
-          showMsg('error', error.message || 'Sign in failed. Please try again.');
+          showMsgSignin('error', error.message || 'Sign in failed. Please try again.');
         }
         if (btn) { btn.textContent = 'Sign In to Your Account'; btn.disabled = false; }
         return;
       }
       // Success — show joy message, auto-close
-      showMsg('success', '🎉 Welcome back, ' + (data.user?.user_metadata?.first_name || 'Explorer') + '! You are now signed in.');
+      showMsgSignin('success', ' Welcome back, ' + (data.user?.user_metadata?.first_name || 'Explorer') + '! You are now signed in.');
       updateNavForUser(data.user);
       setTimeout(function(){
         window._closeAuth();
@@ -8140,20 +8280,78 @@ body.light-mode .pkg-cta:hover {
         setTimeout(function(){ toast.style.opacity='0'; setTimeout(function(){toast.remove();},400); },2400);
       }, 1200);
     } catch(e) {
-      showMsg('error', e.message || 'Sign in failed. Please try again.');
+      showMsgSignin('error', e.message || 'Sign in failed. Please try again.');
     }
     if (btn) { btn.textContent = 'Sign In to Your Account'; btn.disabled = false; }
   };
 
+  function showMsgSignin(type, text) {
+    var err = document.getElementById('authMsgErrorSignin');
+    var ok  = document.getElementById('authMsgSuccessSignin');
+    if (err) err.style.display = 'none';
+    if (ok)  ok.style.display  = 'none';
+    if (type === 'error'   && err) { err.textContent = text; err.style.display = 'block'; }
+    if (type === 'success' && ok)  { ok.textContent  = text; ok.style.display  = 'block'; }
+  }
+  function showMsgSignup(type, text) {
+    var err = document.getElementById('authMsgErrorSignup');
+    var ok  = document.getElementById('authMsgSuccessSignup');
+    if (err) err.style.display = 'none';
+    if (ok)  ok.style.display  = 'none';
+    if (type === 'error'   && err) { err.textContent = text; err.style.display = 'block'; }
+    if (type === 'success' && ok)  { ok.textContent  = text; ok.style.display  = 'block'; }
+  }
+  function showMsgForgot(type, text) {
+    var err = document.getElementById('authMsgErrorForgot');
+    var ok  = document.getElementById('authMsgSuccessForgot');
+    if (err) err.style.display = 'none';
+    if (ok)  ok.style.display  = 'none';
+    if (type === 'error'   && err) { err.textContent = text; err.style.display = 'block'; }
+    if (type === 'success' && ok)  { ok.textContent  = text; ok.style.display  = 'block'; }
+  }
+
+  window._showForgotPassword = function() {
+    document.getElementById('authPanelSignin').style.display = 'none';
+    document.getElementById('authPanelForgot').style.display = 'block';
+    var title = document.getElementById('authModalTitle');
+    var sub   = document.getElementById('authModalSub');
+    if (title) title.innerHTML = 'Reset Your<br><em>Password</em>';
+    if (sub)   sub.textContent = 'We will send a secure link to your inbox.';
+    var siEmail = document.getElementById('siEmail');
+    var fgEmail = document.getElementById('forgotEmail');
+    if (siEmail && fgEmail && siEmail.value) fgEmail.value = siEmail.value;
+  };
+
+  window._doForgotPassword = async function() {
+    const supa = getSupabase();
+    if (!supa) { showMsgForgot('error','Auth service unavailable.'); return; }
+    const email = v('forgotEmail');
+    if (!email) { showMsgForgot('error','Please enter your email address.'); return; }
+    const btn = document.getElementById('forgotSubmitBtn');
+    if (btn) { btn.textContent = 'Sending…'; btn.disabled = true; }
+    try {
+      const { error } = await supa.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin + window.location.pathname + '?reset=true'
+      });
+      if (error) throw error;
+      showMsgForgot('success', '✓ Reset link sent! Check your inbox (and spam folder). You can close this.');
+    } catch(e) {
+      showMsgForgot('error', e.message || 'Failed to send reset link. Please try again.');
+    }
+    if (btn) { btn.textContent = 'Send Reset Link'; btn.disabled = false; }
+  };
+
   window._doSignUp = async function() {
     const supa = getSupabase();
-    if (!supa) { showMsg('error','Auth service unavailable. Please refresh.'); return; }
-    const firstName = v('suFirstName');
-    const lastName  = v('suLastName');
-    const email     = v('suEmail');
-    const phone     = v('suPhone');
-    const pass      = v('suPassword');
-    const passConf  = v('suPassConf');
+    if (!supa) { showMsgSignup('error','Auth service unavailable. Please refresh.'); return; }
+    const firstName   = v('suFirstName');
+    const email       = v('suEmail');
+    const phoneCode   = v('suPhoneCode') || '+254';
+    const phoneRaw    = v('suPhone');
+    const phone       = phoneCode + phoneRaw;
+    const nationality = v('suNationality');
+    const pass        = v('suPassword');
+    const passConf    = v('suPassConf');
     const dob       = v('suDob');
     const nationality = v('suNationality');
     const gender    = v('suGender');
@@ -8165,52 +8363,22 @@ body.light-mode .pkg-cta:hover {
     const emergName = v('suEmergName');
     const emergPhone= v('suEmergPhone');
 
-    // Validate all required fields
-    const required = [
-      [firstName, 'First name'],
-      [lastName,  'Last name'],
-      [email,     'Email address'],
-      [phone,     'Phone number'],
-      [pass,      'Password'],
-      [passConf,  'Password confirmation'],
-      [dob,       'Date of birth'],
-      [nationality,'Country of residence'],
-      [gender,    'Gender'],
-      [budget,    'Budget range'],
-      [style,     'Travel style'],
-      [interest,  'Primary interest'],
-      [duration,  'Trip duration'],
-      [travelDate,'Approximate travel date'],
-      [emergName, 'Emergency contact name'],
-      [emergPhone,'Emergency contact phone'],
-    ];
-    for (let i = 0; i < required.length; i++) {
-      if (!required[i][0]) { showMsg('error', '⚠ ' + required[i][1] + ' is required.'); return; }
-    }
-    if (pass.length < 8) { showMsg('error','Password must be at least 8 characters.'); return; }
-    if (pass !== passConf) { showMsg('error','Passwords do not match. Please re-enter.'); return; }
+    // Validate required fields
+    if (!firstName)   { showMsgSignup('error','⚠ First name is required.'); return; }
+    if (!email)       { showMsgSignup('error','⚠ Email address is required.'); return; }
+    if (!phoneRaw)    { showMsgSignup('error','⚠ Phone number is required.'); return; }
+    if (!nationality) { showMsgSignup('error','⚠ Country of residence is required.'); return; }
+    if (!pass)        { showMsgSignup('error','⚠ Please create a password.'); return; }
+    if (pass.length < 8) { showMsgSignup('error','⚠ Password must be at least 8 characters.'); return; }
+    if (pass !== passConf) { showMsgSignup('error','⚠ Passwords do not match.'); return; }
     const btn = document.getElementById('suSubmitBtn');
     if (btn) { btn.textContent = 'Creating account…'; btn.disabled = true; }
     try {
       const meta = {
-        first_name:        firstName,
-        last_name:         lastName,
-        full_name:         firstName + ' ' + lastName,
-        phone:             phone,
-        date_of_birth:     dob,
-        nationality:       nationality,
-        gender:            gender,
-        budget:            budget,
-        travel_style:      style,
-        primary_interest:  interest,
-        preferred_duration:duration,
-        accommodation:     v('suAccomm'),
-        planned_date:      travelDate,
-        emergency_name:    emergName,
-        emergency_phone:   emergPhone,
-        emergency_relation:v('suEmergRelation'),
-        how_heard:         v('suHowHeard'),
-        special_requirements: v('suSpecialReq')
+        first_name:  firstName,
+        full_name:   firstName,
+        phone:       phone,
+        nationality: nationality
       };
       const { data, error } = await supa.auth.signUp({
         email:    email,
@@ -8225,30 +8393,16 @@ body.light-mode .pkg-cta:hover {
         if (data.user) {
           try {
             await supa.from('profiles').upsert({
-              id:                  data.user.id,
-              email:               email,
-              first_name:          firstName,
-              last_name:           lastName,
-              phone:               phone,
-              date_of_birth:       dob,
-              nationality:         nationality,
-              gender:              gender,
-              budget:              budget,
-              travel_style:        style,
-              primary_interest:    interest,
-              preferred_duration:  duration,
-              accommodation_pref:  v('suAccomm'),
-              planned_date:        travelDate,
-              emergency_name:      emergName,
-              emergency_phone:     emergPhone,
-              emergency_relation:  v('suEmergRelation'),
-              how_heard:           v('suHowHeard'),
-              special_requirements:v('suSpecialReq'),
-              created_at:          new Date().toISOString()
+              id:          data.user.id,
+              email:       email,
+              first_name:  firstName,
+              phone:       phone,
+              nationality: nationality,
+              created_at:  new Date().toISOString()
             });
-          } catch(_) { /* profiles table may not exist yet — data saved in auth.users */ }
+          } catch(_) { /* profiles table may not exist yet — data safely in auth.users metadata */ }
         }
-        showMsg('success', '✓ Account created! Check your email to confirm, then sign in.');
+        showMsgSignup('success', '✓ Account created! Check your email to confirm, then sign in.');
       }
     } catch(e) {
       showMsg('error', e.message || 'Registration failed. Please try again.');
@@ -8256,7 +8410,7 @@ body.light-mode .pkg-cta:hover {
     if (btn) { btn.textContent = 'Create My Safari Account'; btn.disabled = false; }
   };
 
-  function updateNavForUser(user) {
+  window.updateNavForUser = function updateNavForUser(user) {
     window._fjCurrentUser = user;
     const flipWrap  = document.getElementById('authFlipWrap');
     const navLabel  = document.getElementById('authNavLabel');
@@ -8339,10 +8493,10 @@ body.light-mode .pkg-cta:hover {
     const dropLogout = document.getElementById('dropdownLogoutBtn');
     if (dropLogout) dropLogout.addEventListener('click', doSignOut);
 
-    // User chip toggles menu
+    // User chip opens profile panel
     const chip = document.getElementById('authUserChip');
     if (chip) chip.addEventListener('click', function() {
-      document.getElementById('userMenu')?.classList.toggle('open');
+      window._openProfile();
     });
 
     // Close user menu on outside click
@@ -9303,6 +9457,152 @@ document.addEventListener('DOMContentLoaded',function(){
 })();
 
 // ===========================
+// USER PROFILE PANEL
+// ===========================
+(function(){
+  var cart = JSON.parse(localStorage.getItem('fj-cart') || '[]');
+  var drafts = JSON.parse(localStorage.getItem('fj-drafts') || '[]');
+
+  function saveCart() { localStorage.setItem('fj-cart', JSON.stringify(cart)); }
+  function saveDrafts() { localStorage.setItem('fj-drafts', JSON.stringify(drafts)); }
+
+  window._openProfile = function() {
+    var user = window._fjCurrentUser;
+    if (!user) { window._openAuth('signin'); return; }
+    var m = user.user_metadata || {};
+    var name = (m.first_name || user.email.split('@')[0]);
+    document.getElementById('profileAvatar').textContent = name.charAt(0).toUpperCase();
+    document.getElementById('profileDisplayName').textContent = name;
+    document.getElementById('profileDisplayEmail').textContent = user.email;
+    document.getElementById('pfFirstName').value   = m.first_name   || '';
+    document.getElementById('pfEmail').value        = user.email     || '';
+    document.getElementById('pfPhone').value        = m.phone        || '';
+    document.getElementById('pfNationality').value  = m.nationality  || '';
+    window._profileTab('details');
+    var ov = document.getElementById('profileOverlay');
+    if (ov) { ov.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    [document.querySelector('.whatsapp-fab'),document.getElementById('themeToggle'),document.getElementById('google_translate_element')].forEach(function(el){if(el){el.style.opacity='0';el.style.pointerEvents='none';}});
+  };
+
+  window._closeProfile = function() {
+    var ov = document.getElementById('profileOverlay');
+    if (ov) { ov.classList.remove('open'); document.body.style.overflow = ''; }
+    [document.querySelector('.whatsapp-fab'),document.getElementById('themeToggle'),document.getElementById('google_translate_element')].forEach(function(el){if(el){el.style.opacity='1';el.style.pointerEvents='';}});
+  };
+
+  window._profileTab = function(tab) {
+    ['details','packages','cart'].forEach(function(t){
+      var panel = document.getElementById('profileTab' + t.charAt(0).toUpperCase() + t.slice(1));
+      var btn = document.querySelector('.profile-tab[data-tab="'+t+'"]');
+      if (panel) panel.style.display = (t === tab) ? 'block' : 'none';
+      if (btn) btn.classList.toggle('active', t === tab);
+    });
+    if (tab === 'packages') renderDrafts();
+    if (tab === 'cart')     renderCart();
+  };
+
+  window._saveProfile = async function() {
+    var user = window._fjCurrentUser;
+    var notif = document.getElementById('profileSaveNotif');
+    if (!user) return;
+    var SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
+    var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
+    var supa = window.supabase ? window.supabase.createClient(SUPA_URL, SUPA_KEY) : null;
+    if (!supa) return;
+    var btn = document.querySelector('.profile-save-btn');
+    if (btn) { btn.textContent = 'Saving…'; btn.disabled = true; }
+    try {
+      var updates = {
+        data: {
+          first_name:  document.getElementById('pfFirstName').value.trim(),
+          phone:       document.getElementById('pfPhone').value.trim(),
+          nationality: document.getElementById('pfNationality').value.trim()
+        }
+      };
+      var { error } = await supa.auth.updateUser(updates);
+      if (error) throw error;
+      // Also update profiles table
+      try {
+        await supa.from('profiles').upsert({
+          id: user.id,
+          first_name:  updates.data.first_name,
+          phone:       updates.data.phone,
+          nationality: updates.data.nationality
+        });
+      } catch(_) {}
+      if (notif) { notif.className='profile-notif success';notif.textContent='✓ Profile updated successfully.';notif.style.display='block'; setTimeout(function(){notif.style.display='none';},3000); }
+    } catch(e) {
+      if (notif) { notif.className='profile-notif error';notif.textContent='✗ '+e.message;notif.style.display='block'; }
+    }
+    if (btn) { btn.textContent = 'Save Changes'; btn.disabled = false; }
+  };
+
+  window._signOutFromProfile = async function() {
+    var SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
+    var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
+    var supa = window.supabase ? window.supabase.createClient(SUPA_URL, SUPA_KEY) : null;
+    window._closeProfile();
+    if (supa) await supa.auth.signOut();
+    if (window.updateNavForUser) window.updateNavForUser(null);
+  };
+
+  // Cart management
+  window._addToCart = function(pkg) {
+    if (cart.find(function(p){ return p.name === pkg.name; })) return;
+    cart.push(pkg); saveCart();
+    showCartToast(pkg.name + ' added to cart');
+  };
+  window._addToDraft = function(pkg) {
+    if (drafts.find(function(p){ return p.name === pkg.name; })) return;
+    drafts.push(pkg); saveDrafts();
+    showCartToast(pkg.name + ' saved as draft');
+  };
+
+  function showCartToast(msg) {
+    var t = document.createElement('div');
+    t.style.cssText = 'position:fixed;bottom:120px;right:36px;z-index:99999;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;font-family:Jost,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:14px 24px;box-shadow:0 8px 32px rgba(212,175,55,0.4);opacity:0;transition:opacity 0.35s ease;';
+    t.textContent = '✓ ' + msg;
+    document.body.appendChild(t);
+    requestAnimationFrame(function(){ t.style.opacity = '1'; });
+    setTimeout(function(){ t.style.opacity='0'; setTimeout(function(){t.remove();},350); }, 2200);
+  }
+
+  function renderDrafts() {
+    var el = document.getElementById('profilePkgList');
+    if (!el) return;
+    if (!drafts.length) { el.innerHTML = '<div class="profile-empty">No saved packages yet.<br>Browse our <a href="#packages" onclick="window._closeProfile()" style="color:#d4af37;text-decoration:none;">safari collections</a>.</div>'; return; }
+    el.innerHTML = drafts.map(function(pkg, i){
+      return '<div class="profile-pkg-card"><div class="profile-pkg-name">'+pkg.name.replace(/<br>/g,' ')+'</div><div class="profile-pkg-meta">'+pkg.duration+' · '+pkg.tier+'</div><div class="profile-pkg-price">'+pkg.price+'</div><div class="profile-pkg-actions"><a href="'+(pkg.page||'#contact')+'" class="profile-pkg-btn">View</a><button class="profile-pkg-btn" onclick="window._moveToCart('+i+')">Add to Cart</button><button class="profile-pkg-btn remove" onclick="window._removeDraft('+i+')">Remove</button></div></div>';
+    }).join('');
+  }
+
+  function renderCart() {
+    var el = document.getElementById('profileCartList');
+    var totEl = document.getElementById('profileCartTotal');
+    var totNum = document.getElementById('profileCartTotalNum');
+    if (!el) return;
+    if (!cart.length) { el.innerHTML = '<div class="profile-empty">Your cart is empty.<br>Add packages from our <a href="#packages" onclick="window._closeProfile()" style="color:#d4af37;text-decoration:none;">collections</a>.</div>'; if(totEl)totEl.style.display='none'; return; }
+    el.innerHTML = cart.map(function(pkg, i){
+      return '<div class="profile-pkg-card"><div class="profile-pkg-name">'+pkg.name.replace(/<br>/g,' ')+'</div><div class="profile-pkg-meta">'+pkg.duration+' · '+pkg.tier+'</div><div class="profile-pkg-price">'+pkg.price+'</div><div class="profile-pkg-actions"><a href="'+(pkg.page||'#contact')+'" class="profile-pkg-btn">View</a><button class="profile-pkg-btn remove" onclick="window._removeFromCart('+i+')">Remove</button></div></div>';
+    }).join('');
+    var total = cart.reduce(function(s,p){ return s + (parseInt((p.price||'$0').replace(/\D/g,''))||0); },0);
+    if(totEl) totEl.style.display='block';
+    if(totNum) totNum.textContent = '$' + total.toLocaleString();
+  }
+
+  window._moveToCart = function(i) { window._addToCart(drafts[i]); };
+  window._removeDraft = function(i) { drafts.splice(i,1); saveDrafts(); renderDrafts(); };
+  window._removeFromCart = function(i) { cart.splice(i,1); saveCart(); renderCart(); };
+
+  // Click outside to close
+  document.addEventListener('DOMContentLoaded', function(){
+    var ov = document.getElementById('profileOverlay');
+    if (ov) ov.addEventListener('click', function(e){ if(e.target===ov) window._closeProfile(); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') window._closeProfile(); });
+  });
+})();
+
+// ===========================
 // TEAM POPUP
 // ===========================
 (function(){
@@ -9499,7 +9799,42 @@ document.addEventListener('DOMContentLoaded',function(){
   bottom: 100px;
   left: 36px;
   z-index: 200;
+  transition: opacity 1.2s ease;
 "></div>
+
+<script>
+// Google Translate periodic fade
+(function(){
+  var el = document.getElementById('google_translate_element');
+  if (!el) return;
+  var visible = true;
+  var SHOW_DURATION = 12000;  // visible for 12s
+  var HIDE_DURATION = 18000;  // hidden for 18s
+
+  function hide() {
+    visible = false;
+    el.style.opacity = '0';
+    el.style.pointerEvents = 'none';
+    setTimeout(show, HIDE_DURATION);
+  }
+
+  function show() {
+    // Don't show if a menu/panel is open
+    if (document.getElementById('dropdown')?.classList.contains('open')) { setTimeout(show, 3000); return; }
+    if (document.getElementById('authOverlay')?.style.display === 'flex') { setTimeout(show, 3000); return; }
+    if (document.getElementById('profileOverlay')?.classList.contains('open')) { setTimeout(show, 3000); return; }
+    visible = true;
+    el.style.opacity = '1';
+    el.style.pointerEvents = '';
+    setTimeout(hide, SHOW_DURATION);
+  }
+
+  // Start cycle after 8 seconds on page
+  setTimeout(function(){
+    hide();
+  }, 8000);
+})();
+</script>
 
 <script type="text/javascript">
 function googleTranslateElementInit() {
