@@ -2330,6 +2330,18 @@ nav.scrolled .nav-brand-idle {
     overflow: hidden;
   }
 
+  .hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  filter: blur(2px) brightness(0.3);
+  transform: scale(1.02);
+  z-index: -1;
+}
+
   .hero-sky {
     position: absolute;
     inset: 0;
@@ -6177,7 +6189,9 @@ body.light-mode .pkg-cta:hover {
 <!-- HERO -->
 <section id="hero">
   <div class="hero-bg">
-    <div class="hero-sky"></div>
+    <video class="hero-video" autoplay muted loop playsinline preload="auto">
+    <source src="assets/landscape.webm" type="video/webm">
+  </video>
     <div class="hero-overlay"></div>
   </div>
 
