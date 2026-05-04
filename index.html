@@ -2339,24 +2339,9 @@ nav.scrolled .nav-brand-idle {
   object-position: center 30%;
   filter: blur(2px) brightness(0.3);
   transform: scale(1.02);
+  transition: filter 5s cubic-bezier(0.4, 0, 0.2, 1);  
   z-index: -1;
 }
-
-  .hero-sky {
-    position: absolute;
-    inset: 0;
-    background-video: url('assets/landscape.webm');
-    background-size: cover;
-    background-position: center 30%;
-    background-repeat: no-repeat;
-    filter: blur(0px) brightness(1);
-    transform: scale(1.02);
-    transition: filter 5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .hero-sky.settled {
-    filter: blur(2px) brightness(0.3);
-  }
 
   .hero-overlay {
     position: absolute;
