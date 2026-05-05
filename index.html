@@ -7928,12 +7928,12 @@ body.light-mode .pkg-cta:hover {
     font-size: clamp(26px, 4vw, 34px); font-weight: 900;
     line-height: 1.1; color: #f0ece4; margin-bottom: 8px;
   }
-  .auth-tab-btn { font-weight: 700 !important; font-size: 10px !important; letter-spacing: 5px !important; }
+  .auth-tab-btn { font-weight: 700 !important; font-size: 10px !important; letter-spacing: 3px !important; }
   .auth-tab-btn.active { font-size: 11px !important; }
   .auth-input { font-size: 14px !important; font-weight: 500 !important; }
   .auth-input::placeholder { font-weight: 600 !important; font-size: 11px !important; letter-spacing: 2px; }
-  .auth-section-label { font-weight: 800 !important; font-size: 9px !important; letter-spacing: 6px !important; }
-  .auth-submit-btn { font-size: 12px !important; font-weight: 800 !important; letter-spacing: 6px !important; }
+  .auth-section-label { font-weight: 800 !important; font-size: 9px !important; letter-spacing: 2px !important; }
+  .auth-submit-btn { font-size: 12px !important; font-weight: 800 !important; letter-spacing: 5px !important; }
   .auth-alt-link { font-size: 12px !important; font-weight: 600 !important; }
   .auth-alt-link button { font-weight: 700 !important; font-size: 12px !important; text-decoration: underline; }
   /* Tab indicator bar — thicker and more visible */
@@ -7942,14 +7942,14 @@ body.light-mode .pkg-cta:hover {
   #authPanelSignin::before {
     content: 'RETURNING GUEST';
     display: block; font-family: 'Jost',sans-serif; font-size: 8px; font-weight: 800;
-    letter-spacing: 6px; text-transform: uppercase; color: rgba(212,175,55,0.5);
+    letter-spacing: 2px; text-transform: uppercase; color: rgba(212,175,55,0.5);
     margin-bottom: 20px; padding-bottom: 12px;
     border-bottom: 1px solid rgba(212,175,55,0.1);
   }
   #authPanelSignup::before {
     content: 'NEW MEMBER REGISTRATION';
     display: block; font-family: 'Jost',sans-serif; font-size: 8px; font-weight: 800;
-    letter-spacing: 6px; text-transform: uppercase; color: rgba(212,175,55,0.5);
+    letter-spacing: 2px; text-transform: uppercase; color: rgba(212,175,55,0.5);
     margin-bottom: 20px; padding-bottom: 12px;
     border-bottom: 1px solid rgba(212,175,55,0.1);
   }
@@ -8669,7 +8669,7 @@ body.light-mode .pkg-cta:hover {
     if (!ov) return;
     // Hide FABs
     [document.querySelector('.whatsapp-fab'),document.getElementById('themeToggle'),document.getElementById('google_translate_element')].forEach(function(el){if(el){el.style.transition='opacity 0.3s ease';el.style.opacity='0';el.style.pointerEvents='none';}});
-    ov.style.cssText = 'display:flex;opacity:0;pointer-events:none;position:fixed;inset:0;z-index:99990;background:rgba(2,2,2,0.94);backdrop-filter:blur(28px);align-items:center;justify-content:center;padding:20px;transition:opacity 0.4s ease;';
+    ov.style.cssText = 'display:flex;opacity:0;pointer-events:none;position:fixed;inset:0;z-index:99990;background:rgba(8,6,2,0.45);backdrop-filter:blur(12px) saturate(1.4) brightness(0.7);-webkit-backdrop-filter:blur(12px) saturate(1.4) brightness(0.7);align-items:center;justify-content:center;padding:20px;transition:opacity 0.4s ease;';
     clearMsg();
     window._switchAuthTab(tab || 'signin');
     document.body.style.overflow = 'hidden';
@@ -9449,14 +9449,33 @@ body.light-mode .pkg-cta:hover {
     });
   });
   dropdown.querySelectorAll('a').forEach(function(link){
-    link.addEventListener('click',function(){
-      menuBtn.classList.remove('open');dropdown.classList.remove('open');
+    link.addEventListener('click',function(e){
+      var href=link.getAttribute('href');
+      // close menu first without any scroll jump
+      menuBtn.classList.remove('open');
+      dropdown.classList.remove('open');
       var fabs=[document.querySelector('.whatsapp-fab'),document.getElementById('themeToggle'),document.getElementById('google_translate_element')];
       fabs.forEach(function(el){if(el){el.style.opacity='1';el.style.pointerEvents='';el.style.transform='';}});
+      // if it is a same-page anchor, scroll smoothly — never reload
+      if(href&&href.startsWith('#')&&href.length>1){
+        e.preventDefault();
+        var target=document.querySelector(href);
+        if(target)target.scrollIntoView({behavior:'smooth',block:'start'});
+      }
+      // if bare "#" or "index.html" pointing to current page, prevent reload
+      if(!href||href==='#'||href===window.location.pathname||href==='index.html'){
+        e.preventDefault();
+      }
     });
   });
-  dropdown.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){menuBtn.classList.remove('open');dropdown.classList.remove('open');});});
-  document.addEventListener('click',function(e){if(!dropdown.contains(e.target)&&!menuBtn.contains(e.target)){menuBtn.classList.remove('open');dropdown.classList.remove('open');}});
+  document.addEventListener('click',function(e){
+    if(!dropdown.contains(e.target)&&!menuBtn.contains(e.target)){
+      menuBtn.classList.remove('open');
+      dropdown.classList.remove('open');
+      var fabs=[document.querySelector('.whatsapp-fab'),document.getElementById('themeToggle'),document.getElementById('google_translate_element')];
+      fabs.forEach(function(el){if(el){el.style.opacity='1';el.style.pointerEvents='';el.style.transform='';}});
+    }
+  });
 })();
 
 // ===========================
@@ -9473,8 +9492,11 @@ body.light-mode .pkg-cta:hover {
 // ===========================
 document.querySelectorAll('a[href^="#"]').forEach(function(a){
   a.addEventListener('click',function(e){
+    const href=this.getAttribute('href');
+    // bare "#" with no target — do nothing, no scroll, no reload
+    if(!href||href==='#'){e.preventDefault();return;}
     e.preventDefault();
-    const t=document.querySelector(this.getAttribute('href'));
+    const t=document.querySelector(href);
     if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
   });
 });
