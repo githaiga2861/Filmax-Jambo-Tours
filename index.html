@@ -7403,59 +7403,55 @@ body.light-mode .pkg-cta:hover {
     .gsl-progress.running { width: 78vw; }
   }
   @media (max-width: 600px) {
-  .gsl-wrap {
-    overflow: hidden;
-    width: 100%;
-  }
 
-  /* Track: positioned container so slides can be absolutely placed */
-  .gsl-track {
-    padding: 20px 0;
-    gap: 0;
-    justify-content: flex-start;
-    position: relative;
-    min-height: 56vw;
-    height: auto;
-  }
+/* Track becomes a centering container */
+.gsl-track {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+  transform: none !important; /* stop JS sliding offset */
+}
 
-  /* All slides: absolutely positioned, invisible by default */
-  .gsl-slide {
-    width: 92vw;
-    height: 56vw;
-    min-height: 260px;
-    border-radius: 6px;
-    flex: 0 0 92vw;
-    position: absolute;
-    left: 4vw;
-    top: 0;
-    opacity: 0 !important;
-    transform: scale(1) translateY(0) !important;
-    filter: none !important;
-    pointer-events: none;
-    transition: opacity 0.5s ease !important;
-    visibility: hidden;
-  }
+/* All slides stacked perfectly */
+.gsl-slide {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%) !important;
 
-  /* Active slide: fully visible, in normal flow, centered */
-  .gsl-slide.gsl-active {
-    opacity: 1 !important;
-    pointer-events: all;
-    position: relative;
-    left: auto;
-    margin: 0 auto;
-    display: block;
-    visibility: visible;
-    z-index: 5;
-  }
+  width: 92vw;
+  height: 56vw;
+  min-height: 260px;
 
-  /* All non-active: hidden */
-  .gsl-slide.gsl-next,
-  .gsl-slide.gsl-prev-slide,
-  .gsl-slide.gsl-far {
-    opacity: 0 !important;
-    pointer-events: none;
-    visibility: hidden;
-  }
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Active slide ALWAYS dead center */
+.gsl-slide.gsl-active {
+  position: relative;
+  left: auto;
+  transform: none !important;
+
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+  margin: 0 auto;
+  z-index: 5;
+}
+
+/* Kill neighbour slides completely */
+.gsl-slide.gsl-next,
+.gsl-slide.gsl-prev-slide,
+.gsl-slide.gsl-far {
+  opacity: 0 !important;
+  visibility: hidden;
+}
+
+}
 
   /* Active slide overlay and content */
   .gsl-slide.gsl-active .gsl-overlay {
