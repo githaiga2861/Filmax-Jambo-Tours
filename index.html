@@ -6665,17 +6665,17 @@ body.light-mode .pkg-cta:hover {
   pointer-events: none;
 }
 
- /* MOBILE — WIDER RECTANGLE */
+ /* MOBILE — CONTROLLED WIDTH */
 @media (max-width: 768px) {
 
   .pkg-filter-bar {
-    width: 95vw;          /* expand sideways */
-    max-width: 95vw;
+    width: 100%;
+    max-width: calc(100% - 24px); /* small side margins */
     margin: 32px auto 0;
-    justify-content: space-between; /* spreads items */
+    justify-content: center;
   }
 
-} 
+}
 
 .pkg-filter-btn {
   font-family: 'Jost', sans-serif;
