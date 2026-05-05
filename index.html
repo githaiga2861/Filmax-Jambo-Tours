@@ -1611,8 +1611,9 @@ body.light-mode .quiz-enter-btn:hover {
 
   .team-popup-overlay {
     position: fixed; inset: 0; z-index: 99985;
-    background: rgba(4,4,4,0.88);
-    backdrop-filter: blur(18px);
+    background: rgba(8,6,2,0.45);
+    backdrop-filter: blur(12px) saturate(1.4) brightness(0.7);
+    -webkit-backdrop-filter: blur(12px) saturate(1.4) brightness(0.7);
     display: flex; align-items: center; justify-content: center;
     padding: 24px;
     opacity: 0; pointer-events: none;
@@ -1620,13 +1621,15 @@ body.light-mode .quiz-enter-btn:hover {
   }
   .team-popup-overlay.open { opacity: 1; pointer-events: all; }
   .team-popup {
-    background: #0f0f0f;
-    border: 1px solid rgba(212,175,55,0.22);
+    background: rgba(10,8,3,0.82);
+    backdrop-filter: blur(28px) saturate(1.6);
+    -webkit-backdrop-filter: blur(28px) saturate(1.6);
+    border: 1px solid rgba(212,175,55,0.28);
     max-width: 560px; width: 100%;
     max-height: 88vh;
     overflow-y: auto;
     position: relative;
-    box-shadow: 0 40px 120px rgba(0,0,0,0.9), inset 0 1px 0 rgba(212,175,55,0.08);
+    box-shadow: 0 0 0 1px rgba(212,175,55,0.08), 0 40px 120px rgba(0,0,0,0.5), inset 0 1px 0 rgba(212,175,55,0.12);
     transform: translateY(24px) scale(0.97);
     transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
     scrollbar-width: thin;
@@ -2049,10 +2052,12 @@ body.light-mode .quiz-enter-btn:hover {
   pointer-events: none;
   height: 70px;
   width: auto;
+  visibility: hidden;
 }
-  nav.scrolled .nav-logo-link {
+nav.scrolled .nav-logo-link {
   opacity: 1;
   pointer-events: all;
+  visibility: visible;
 }
  .nav-brand-idle {
   display: flex;
@@ -4797,9 +4802,9 @@ nav.scrolled .nav-brand-idle {
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: rgba(4, 4, 4, 0.92);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  background: rgba(8, 6, 2, 0.45);
+  backdrop-filter: blur(12px) saturate(1.4) brightness(0.7);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4) brightness(0.7);
   opacity: 0;
   transition: opacity 0.6s ease;
   pointer-events: none;
@@ -4816,15 +4821,18 @@ nav.scrolled .nav-brand-idle {
 }
 
 .quiz-box {
-  background: #0f0f0f;
-  border: 1px solid rgba(212,175,55,0.18);
-  max-width: 620px;
+  background: rgba(10,8,3,0.82);
+  backdrop-filter: blur(28px) saturate(1.6);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  border: 1px solid rgba(212,175,55,0.28);
+  max-width: 760px;
   width: 100%;
-  padding: 52px 52px 44px;
+  padding: 72px 72px 60px;
   position: relative;
   box-shadow:
-    0 40px 120px rgba(0,0,0,0.9),
-    inset 0 1px 0 rgba(212,175,55,0.08);
+    0 0 0 1px rgba(212,175,55,0.08),
+    0 40px 120px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(212,175,55,0.12);
   transform: translateY(24px);
   transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
 }
@@ -4904,33 +4912,33 @@ nav.scrolled .nav-brand-idle {
 
 .quiz-step-label {
   font-family: 'Jost', sans-serif;
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 5px;
   text-transform: uppercase;
   color: var(--gold);
   display: block;
-  margin-bottom: 14px;
-  opacity: 0.8;
+  margin-bottom: 16px;
+  opacity: 0.9;
 }
 
 .quiz-question {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(20px, 3vw, 28px);
-  font-weight: 700;
+  font-size: clamp(24px, 3.5vw, 36px);
+  font-weight: 900;
   color: var(--text);
-  line-height: 1.3;
+  line-height: 1.25;
   margin-bottom: 8px;
 }
 
 .quiz-sub {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 600;
   font-style: italic;
   color: var(--muted);
-  margin-bottom: 32px;
-  line-height: 1.6;
+  margin-bottom: 36px;
+  line-height: 1.65;
 }
 
 /* Text input */
@@ -4968,15 +4976,15 @@ nav.scrolled .nav-brand-idle {
 }
 
 .quiz-option {
-  background: transparent;
-  border: 1px solid rgba(212,175,55,0.12);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(212,175,55,0.15);
   color: var(--muted);
   font-family: 'Jost', sans-serif;
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 600;
   letter-spacing: 3px;
   text-transform: uppercase;
-  padding: 16px 20px;
+  padding: 18px 24px;
   text-align: left;
   cursor: none;
   position: relative;
@@ -4984,7 +4992,7 @@ nav.scrolled .nav-brand-idle {
   transition: border-color 0.3s, color 0.3s, background 0.3s;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .quiz-option::before {
@@ -5242,16 +5250,21 @@ nav.scrolled .nav-brand-idle {
   /* ============================= */
   #profileOverlay {
     position: fixed; inset: 0; z-index: 99988;
-    background: rgba(2,2,2,0.94); backdrop-filter: blur(24px);
+    background: rgba(8,6,2,0.45);
+    backdrop-filter: blur(12px) saturate(1.4) brightness(0.7);
+    -webkit-backdrop-filter: blur(12px) saturate(1.4) brightness(0.7);
     display: none; align-items: flex-start; justify-content: flex-end;
     padding: 80px 24px 24px;
   }
   #profileOverlay.open { display: flex; }
   #profilePanel {
-    background: #0a0a0a; border: 1px solid rgba(212,175,55,0.22);
-    width: 420px; max-width: 100%; max-height: calc(100vh - 104px);
+    background: rgba(10,8,3,0.82);
+    backdrop-filter: blur(28px) saturate(1.6);
+    -webkit-backdrop-filter: blur(28px) saturate(1.6);
+    border: 1px solid rgba(212,175,55,0.28);
+    width: 480px; max-width: 100%; max-height: calc(100vh - 104px);
     overflow-y: auto; position: relative;
-    box-shadow: 0 40px 120px rgba(0,0,0,0.98);
+    box-shadow: 0 0 0 1px rgba(212,175,55,0.08), 0 40px 120px rgba(0,0,0,0.5);
     scrollbar-width: thin; scrollbar-color: rgba(212,175,55,0.3) transparent;
     animation: profileSlideIn 0.45s cubic-bezier(0.22,1,0.36,1) forwards;
   }
@@ -7854,8 +7867,9 @@ body.light-mode .pkg-cta:hover {
   /* ── AUTH MODAL REDESIGN ── */
   #authOverlay {
     position: fixed; inset: 0; z-index: 99990;
-    background: rgba(2,2,2,0.94);
-    backdrop-filter: blur(28px);
+    background: rgba(8,6,2,0.45);
+    backdrop-filter: blur(12px) saturate(1.4) brightness(0.7);
+    -webkit-backdrop-filter: blur(12px) saturate(1.4) brightness(0.7);
     display: flex; align-items: center; justify-content: center;
     padding: 20px;
     opacity: 0; pointer-events: none;
@@ -7864,14 +7878,16 @@ body.light-mode .pkg-cta:hover {
   #authOverlay.open { opacity: 1; pointer-events: all; }
 
   #authModal {
-    background: #0a0a0a;
-    border: 1px solid rgba(212,175,55,0.25);
+    background: rgba(10,8,3,0.82);
+    backdrop-filter: blur(28px) saturate(1.6);
+    -webkit-backdrop-filter: blur(28px) saturate(1.6);
+    border: 1px solid rgba(212,175,55,0.28);
     max-width: 560px; width: 100%;
     max-height: 92vh; overflow-y: auto;
     position: relative;
-    box-shadow: 0 0 0 1px rgba(212,175,55,0.06),
-                0 40px 120px rgba(0,0,0,0.98),
-                inset 0 1px 0 rgba(212,175,55,0.1);
+    box-shadow: 0 0 0 1px rgba(212,175,55,0.08),
+                0 40px 120px rgba(0,0,0,0.5),
+                inset 0 1px 0 rgba(212,175,55,0.12);
     transform: translateY(32px) scale(0.96);
     transition: transform 0.55s cubic-bezier(0.22,1,0.36,1);
     scrollbar-width: thin;
@@ -8256,55 +8272,323 @@ body.light-mode .pkg-cta:hover {
 </div>
 
 <!-- USER PROFILE PANEL -->
+<style>
+/* ── PROFILE PANEL DASHBOARD ── */
+.prf-dash-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.prf-stat-card {
+  background: rgba(212,175,55,0.06);
+  border: 1px solid rgba(212,175,55,0.14);
+  padding: 16px 18px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, background 0.3s;
+}
+.prf-stat-card:hover { border-color: rgba(212,175,55,0.35); background: rgba(212,175,55,0.1); }
+.prf-stat-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background: linear-gradient(to right, transparent, rgba(212,175,55,0.4), transparent);
+}
+.prf-stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px; font-weight: 900;
+  color: #d4af37; line-height: 1; display: block; margin-bottom: 4px;
+}
+.prf-stat-lbl {
+  font-family: 'Jost', sans-serif;
+  font-size: 8px; font-weight: 700;
+  letter-spacing: 4px; text-transform: uppercase;
+  color: rgba(138,128,116,0.8);
+}
+.prf-section-head {
+  display: flex; align-items: center; gap: 12px;
+  margin: 22px 0 14px;
+}
+.prf-section-head-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(to right, rgba(212,175,55,0.25), transparent);
+}
+.prf-section-head span {
+  font-family: 'Jost', sans-serif;
+  font-size: 8px; font-weight: 800;
+  letter-spacing: 5px; text-transform: uppercase;
+  color: rgba(212,175,55,0.6); white-space: nowrap;
+}
+.prf-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
+.prf-quick-links {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;
+}
+.prf-quick-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(212,175,55,0.1);
+  font-family: 'Jost', sans-serif;
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(138,128,116,0.8);
+  text-decoration: none; cursor: none;
+  transition: border-color 0.3s, color 0.3s, background 0.3s;
+}
+.prf-quick-link:hover { border-color: rgba(212,175,55,0.35); color: #d4af37; background: rgba(212,175,55,0.06); }
+.prf-quick-link-icon { font-size: 14px; flex-shrink: 0; }
+.prf-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px;
+  background: rgba(212,175,55,0.1);
+  border: 1px solid rgba(212,175,55,0.2);
+  font-family: 'Jost', sans-serif;
+  font-size: 8px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+  color: #d4af37;
+}
+.prf-activity-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(212,175,55,0.07);
+}
+.prf-activity-item:last-child { border-bottom: none; }
+.prf-activity-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #d4af37; flex-shrink: 0; margin-top: 5px;
+  box-shadow: 0 0 6px rgba(212,175,55,0.5);
+}
+.prf-activity-text {
+  font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 500;
+  color: rgba(240,236,228,0.75); line-height: 1.5;
+}
+.prf-activity-time {
+  font-size: 9px; color: rgba(138,128,116,0.6); margin-top: 2px; letter-spacing: 1px;
+}
+/* tabs */
+.profile-tabs {
+  display: flex; border-bottom: 1px solid rgba(212,175,55,0.1); overflow-x: auto;
+  scrollbar-width: none;
+}
+.profile-tabs::-webkit-scrollbar { display: none; }
+.profile-tab {
+  flex: 1; font-family: 'Jost', sans-serif;
+  font-size: 8px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase;
+  padding: 13px 6px; background: none; border: none;
+  color: rgba(138,128,116,0.65); cursor: none;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  transition: color 0.3s, border-color 0.3s; white-space: nowrap;
+}
+.profile-tab.active { color: #d4af37; border-bottom-color: #d4af37; }
+</style>
+
 <div id="profileOverlay">
   <div id="profilePanel">
     <div class="profile-top-line"></div>
     <button class="profile-close" onclick="window._closeProfile()">Close ✕</button>
-    <div class="profile-header">
-      <div class="profile-avatar" id="profileAvatar">?</div>
-      <div>
-        <div class="profile-name" id="profileDisplayName">My Account</div>
-        <div class="profile-email" id="profileDisplayEmail"></div>
+
+    <!-- HERO HEADER -->
+    <div class="profile-header" style="padding:32px 28px 20px;border-bottom:1px solid rgba(212,175,55,0.1);display:flex;align-items:center;gap:18px;">
+      <div class="profile-avatar" id="profileAvatar" style="width:64px;height:64px;font-size:24px;flex-shrink:0;">?</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:8px;letter-spacing:5px;text-transform:uppercase;color:rgba(212,175,55,0.6);font-family:'Jost',sans-serif;font-weight:700;margin-bottom:4px;">Safari Member</div>
+        <div class="profile-name" id="profileDisplayName" style="font-size:20px;margin-bottom:2px;">My Account</div>
+        <div class="profile-email" id="profileDisplayEmail" style="font-size:11px;"></div>
+      </div>
+      <div class="prf-badge" id="profileMemberBadge">
+        <span>🦁</span> Explorer
       </div>
     </div>
+
+    <!-- TABS -->
     <div class="profile-tabs">
-      <button class="profile-tab active" data-tab="details" onclick="window._profileTab('details')">Details</button>
-      <button class="profile-tab" data-tab="packages" onclick="window._profileTab('packages')">My Packages</button>
-      <button class="profile-tab" data-tab="cart" onclick="window._profileTab('cart')">Cart</button>
+      <button class="profile-tab active" data-tab="dashboard" onclick="window._profileTab('dashboard')">Dashboard</button>
+      <button class="profile-tab" data-tab="details"   onclick="window._profileTab('details')">Profile</button>
+      <button class="profile-tab" data-tab="packages"  onclick="window._profileTab('packages')">Saved</button>
+      <button class="profile-tab" data-tab="cart"      onclick="window._profileTab('cart')">Cart</button>
+      <button class="profile-tab" data-tab="settings"  onclick="window._profileTab('settings')">Settings</button>
     </div>
 
-    <!-- DETAILS TAB -->
-    <div id="profileTabDetails" class="profile-section">
-      <span class="profile-section-title">Personal Information</span>
-      <div class="profile-field"><label>First Name</label><input id="pfFirstName" type="text" placeholder="First name"></div>
-      <div class="profile-field"><label>Email</label><input id="pfEmail" type="email" placeholder="Email address" readonly style="opacity:0.5;"></div>
-      <div class="profile-field"><label>Phone</label><input id="pfPhone" type="tel" placeholder="Phone number"></div>
-      <div class="profile-field"><label>Country of Residence</label><input id="pfNationality" type="text" placeholder="Country"></div>
-      <div id="profileSaveNotif" style="display:none;"></div>
-      <button class="profile-save-btn" onclick="window._saveProfile()">Save Changes</button>
-      <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(212,175,55,0.1);">
-        <button style="width:100%;font-family:'Jost',sans-serif;font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:14px;background:transparent;border:1px solid rgba(224,85,85,0.35);color:#e05555;cursor:none;transition:background 0.3s;" onclick="window._signOutFromProfile()" onmouseover="this.style.background='rgba(224,85,85,0.1)'" onmouseout="this.style.background='transparent'">Sign Out of Account</button>
+    <!-- ── DASHBOARD TAB ── -->
+    <div id="profileTabDashboard" class="profile-section">
+
+      <!-- Stats row -->
+      <div class="prf-dash-grid" style="margin-top:4px;">
+        <div class="prf-stat-card">
+          <span class="prf-stat-num" id="dashStatSaved">0</span>
+          <span class="prf-stat-lbl">Saved Packages</span>
+        </div>
+        <div class="prf-stat-card">
+          <span class="prf-stat-num" id="dashStatCart">0</span>
+          <span class="prf-stat-lbl">In Cart</span>
+        </div>
+        <div class="prf-stat-card">
+          <span class="prf-stat-num" id="dashStatDays">—</span>
+          <span class="prf-stat-lbl">Preferred Duration</span>
+        </div>
+        <div class="prf-stat-card">
+          <span class="prf-stat-num" id="dashStatBudget">—</span>
+          <span class="prf-stat-lbl">Budget Tier</span>
+        </div>
+      </div>
+
+      <!-- Quick links -->
+      <div class="prf-section-head">
+        <span>Quick Actions</span><div class="prf-section-head-line"></div>
+      </div>
+      <div class="prf-quick-links">
+        <a href="#packages" onclick="window._closeProfile()" class="prf-quick-link"><span class="prf-quick-link-icon">🗺️</span>Browse Safaris</a>
+        <a href="#contact"  onclick="window._closeProfile()" class="prf-quick-link"><span class="prf-quick-link-icon">✉️</span>Send Enquiry</a>
+        <a href="#wildlife" onclick="window._closeProfile()" class="prf-quick-link"><span class="prf-quick-link-icon">🦒</span>Destinations</a>
+        <a href="#testimonials" onclick="window._closeProfile()" class="prf-quick-link"><span class="prf-quick-link-icon">⭐</span>Leave Review</a>
+      </div>
+
+      <!-- Recent activity -->
+      <div class="prf-section-head">
+        <span>Recent Activity</span><div class="prf-section-head-line"></div>
+      </div>
+      <div id="dashActivity">
+        <div class="prf-activity-item">
+          <div class="prf-activity-dot"></div>
+          <div>
+            <div class="prf-activity-text">Welcome to Filmax Jambo Tours — your safari journey begins here.</div>
+            <div class="prf-activity-time">Just now</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sign out -->
+      <div style="margin-top:24px;padding-top:18px;border-top:1px solid rgba(212,175,55,0.08);">
+        <button style="width:100%;font-family:'Jost',sans-serif;font-size:9px;font-weight:800;letter-spacing:5px;text-transform:uppercase;padding:14px;background:transparent;border:1px solid rgba(224,85,85,0.3);color:#e05555;cursor:none;transition:background 0.3s,border-color 0.3s;" onclick="window._signOutFromProfile()" onmouseover="this.style.background='rgba(224,85,85,0.08)'" onmouseout="this.style.background='transparent'">Sign Out of Account</button>
       </div>
     </div>
 
-    <!-- PACKAGES TAB -->
-    <div id="profileTabPackages" class="profile-section" style="display:none;">
-      <span class="profile-section-title">Saved & Draft Packages</span>
-      <div id="profilePkgList"><div class="profile-empty">No saved packages yet.<br>Browse our <a href="#packages" onclick="window._closeProfile()" style="color:#d4af37;text-decoration:none;">safari collections</a> to get started.</div></div>
+    <!-- ── PROFILE / DETAILS TAB ── -->
+    <div id="profileTabDetails" class="profile-section" style="display:none;">
+
+      <div class="prf-section-head" style="margin-top:4px;">
+        <span>Personal Information</span><div class="prf-section-head-line"></div>
+      </div>
+      <div class="prf-field-row">
+        <div class="profile-field"><label>First Name</label><input id="pfFirstName" type="text" placeholder="First name"></div>
+        <div class="profile-field"><label>Last Name</label><input id="pfLastName" type="text" placeholder="Last name"></div>
+      </div>
+      <div class="profile-field"><label>Email Address</label><input id="pfEmail" type="email" placeholder="Email address" readonly style="opacity:0.45;cursor:not-allowed;"></div>
+      <div class="profile-field"><label>Phone / WhatsApp</label><input id="pfPhone" type="tel" placeholder="+254 ..."></div>
+      <div class="profile-field"><label>Country of Residence</label><input id="pfNationality" type="text" placeholder="Country"></div>
+      <div class="profile-field"><label>Date of Birth</label><input id="pfDob" type="text" placeholder="DD / MM / YYYY"></div>
+
+      <div class="prf-section-head">
+        <span>Safari Preferences</span><div class="prf-section-head-line"></div>
+      </div>
+      <div class="prf-field-row">
+        <div class="profile-field">
+          <label>Preferred Duration</label>
+          <select id="pfDuration" style="background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:var(--text);font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;outline:none;width:100%;appearance:none;cursor:none;">
+            <option value="">Select…</option>
+            <option value="3-4 Days">3 – 4 Days</option>
+            <option value="5-7 Days">5 – 7 Days</option>
+            <option value="8-10 Days">8 – 10 Days</option>
+            <option value="10+ Days">10+ Days</option>
+          </select>
+        </div>
+        <div class="profile-field">
+          <label>Budget Tier</label>
+          <select id="pfBudget" style="background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:var(--text);font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;outline:none;width:100%;appearance:none;cursor:none;">
+            <option value="">Select…</option>
+            <option value="Budget">Budget</option>
+            <option value="Mid">Mid-Range</option>
+            <option value="Luxury">Luxury</option>
+            <option value="Ultra">Ultra Luxury</option>
+          </select>
+        </div>
+      </div>
+      <div class="profile-field"><label>Interests (e.g. Wildlife, Beach, Culture)</label><input id="pfInterests" type="text" placeholder="Wildlife, Photography, Beach…"></div>
+      <div class="profile-field"><label>Planned Travel Date</label><input id="pfTravelDate" type="text" placeholder="e.g. July 2026"></div>
+
+      <div class="prf-section-head">
+        <span>Emergency Contact</span><div class="prf-section-head-line"></div>
+      </div>
+      <div class="prf-field-row">
+        <div class="profile-field"><label>Contact Name</label><input id="pfEmergName" type="text" placeholder="Full name"></div>
+        <div class="profile-field"><label>Contact Phone</label><input id="pfEmergPhone" type="tel" placeholder="Phone number"></div>
+      </div>
+
+      <div id="profileSaveNotif" style="display:none;margin-bottom:12px;"></div>
+      <button class="profile-save-btn" onclick="window._saveProfile()">Save All Changes</button>
     </div>
 
-    <!-- CART TAB -->
+    <!-- ── SAVED PACKAGES TAB ── -->
+    <div id="profileTabPackages" class="profile-section" style="display:none;">
+      <div class="prf-section-head" style="margin-top:4px;">
+        <span>Saved & Draft Packages</span><div class="prf-section-head-line"></div>
+      </div>
+      <div id="profilePkgList">
+        <div class="profile-empty">No saved packages yet.<br>Browse our <a href="#packages" onclick="window._closeProfile()" style="color:#d4af37;text-decoration:none;">safari collections</a> to get started.</div>
+      </div>
+    </div>
+
+    <!-- ── CART TAB ── -->
     <div id="profileTabCart" class="profile-section" style="display:none;">
-      <span class="profile-section-title">Your Safari Cart</span>
-      <div id="profileCartList"><div class="profile-empty">Your cart is empty.<br>Add packages from our <a href="#packages" onclick="window._closeProfile()" style="color:#d4af37;text-decoration:none;">collections</a>.</div></div>
+      <div class="prf-section-head" style="margin-top:4px;">
+        <span>Your Safari Cart</span><div class="prf-section-head-line"></div>
+      </div>
+      <div id="profileCartList">
+        <div class="profile-empty">Your cart is empty.<br>Add packages from our <a href="#packages" onclick="window._closeProfile()" style="color:#d4af37;text-decoration:none;">collections</a>.</div>
+      </div>
       <div id="profileCartTotal" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid rgba(212,175,55,0.1);">
-        <div style="display:flex;justify-content:space-between;align-items:baseline;">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;">
           <span style="font-family:'Jost',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(138,128,116,0.7);">Total Estimate</span>
           <span id="profileCartTotalNum" style="font-family:'Cormorant Garamond',serif;font-size:28px;color:#d4af37;font-weight:600;"></span>
         </div>
-        <a href="#contact" onclick="window._closeProfile()" style="display:block;margin-top:16px;font-family:'Jost',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:16px;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;text-decoration:none;text-align:center;">Enquire About These Packages</a>
+        <a href="#contact" onclick="window._closeProfile()" style="display:block;font-family:'Jost',sans-serif;font-size:10px;font-weight:800;letter-spacing:5px;text-transform:uppercase;padding:18px;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;text-decoration:none;text-align:center;">Enquire About These Packages</a>
       </div>
     </div>
+
+    <!-- ── SETTINGS TAB ── -->
+    <div id="profileTabSettings" class="profile-section" style="display:none;">
+
+      <div class="prf-section-head" style="margin-top:4px;">
+        <span>Display & Experience</span><div class="prf-section-head-line"></div>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(212,175,55,0.07);">
+        <div>
+          <div style="font-family:'Jost',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(240,236,228,0.85);margin-bottom:3px;">Theme Mode</div>
+          <div style="font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;color:rgba(138,128,116,0.7);">Switch between dark and light</div>
+        </div>
+        <button onclick="document.getElementById('themeToggle').click();updateSettingsThemeLabel();" id="settingsThemeBtn" style="font-family:'Jost',sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:10px 18px;background:transparent;border:1px solid rgba(212,175,55,0.3);color:#d4af37;cursor:none;transition:all 0.3s;" onmouseover="this.style.background='rgba(212,175,55,0.08)'" onmouseout="this.style.background='transparent'">🌙 Dark</button>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(212,175,55,0.07);">
+        <div>
+          <div style="font-family:'Jost',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(240,236,228,0.85);margin-bottom:3px;">Site Hints</div>
+          <div style="font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;color:rgba(138,128,116,0.7);">Contextual tips while browsing</div>
+        </div>
+        <button onclick="toggleHints(this)" id="settingsHintsBtn" style="font-family:'Jost',sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:10px 18px;background:transparent;border:1px solid rgba(212,175,55,0.3);color:#d4af37;cursor:none;transition:all 0.3s;" onmouseover="this.style.background='rgba(212,175,55,0.08)'" onmouseout="this.style.background='transparent'">Enabled</button>
+      </div>
+
+      <div class="prf-section-head">
+        <span>Notifications</span><div class="prf-section-head-line"></div>
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:rgba(138,128,116,0.7);line-height:1.7;margin-bottom:16px;">Email preferences for safari news, seasonal offers, and booking updates.</div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(212,175,55,0.07);">
+        <span style="font-family:'Jost',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;color:rgba(240,236,228,0.8);">Safari News & Blog Updates</span>
+        <span style="font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;color:rgba(212,175,55,0.6);">Coming Soon</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(212,175,55,0.07);">
+        <span style="font-family:'Jost',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;color:rgba(240,236,228,0.8);">Seasonal Offers & Packages</span>
+        <span style="font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;color:rgba(212,175,55,0.6);">Coming Soon</span>
+      </div>
+
+      <div class="prf-section-head">
+        <span>Account</span><div class="prf-section-head-line"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <button style="width:100%;font-family:'Jost',sans-serif;font-size:9px;font-weight:800;letter-spacing:5px;text-transform:uppercase;padding:14px;background:transparent;border:1px solid rgba(212,175,55,0.25);color:rgba(212,175,55,0.8);cursor:none;transition:all 0.3s;text-align:left;display:flex;align-items:center;gap:12px;" onclick="window._switchAuthTab('signin');window._closeProfile();window._showForgotPassword();window._openAuth('signin');" onmouseover="this.style.background='rgba(212,175,55,0.06)'" onmouseout="this.style.background='transparent'">🔐 <span>Change Password</span></button>
+        <button style="width:100%;font-family:'Jost',sans-serif;font-size:9px;font-weight:800;letter-spacing:5px;text-transform:uppercase;padding:14px;background:transparent;border:1px solid rgba(224,85,85,0.3);color:#e05555;cursor:none;transition:all 0.3s;text-align:left;display:flex;align-items:center;gap:12px;" onclick="window._signOutFromProfile()" onmouseover="this.style.background='rgba(224,85,85,0.06)'" onmouseout="this.style.background='transparent'">🚪 <span>Sign Out of Account</span></button>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -9074,17 +9358,27 @@ body.light-mode .pkg-cta:hover {
 
   // Hero logo scroll-to-nav animation
   let hasFlown=false, heroStartRect=null;
-  window.addEventListener('load',function(){if(heroLogoEl)heroStartRect=heroLogoEl.getBoundingClientRect();});
+  window.addEventListener('load',function(){
+    if(heroLogoEl) heroStartRect=heroLogoEl.getBoundingClientRect();
+    // On hard refresh, if already scrolled, hide hero logo immediately
+    if(window.scrollY>80){
+      if(heroLogoEl) heroLogoEl.style.opacity='0';
+      if(navLogoLink){ navLogoLink.style.opacity='1'; navLogoLink.style.visibility='visible'; navLogoLink.style.pointerEvents='all'; }
+      hasFlown=true;
+    }
+  });
   window.addEventListener('scroll',function(){
     const scrollY=window.scrollY;
     if(navIdleWords){navIdleWords.style.opacity=scrollY>80?'0':'1';}
     if(scrollY>80&&!hasFlown&&heroLogoEl&&navLogoLink){
       hasFlown=true;
       const currentHeroRect=heroLogoEl.getBoundingClientRect();
+      // Hide hero logo immediately so two logos never coexist
+      heroLogoEl.style.opacity='0';
+      heroLogoEl.style.pointerEvents='none';
       const navRect=navLogoLink.getBoundingClientRect();
       const targetHeight=navRect.height*0.85;
       const targetWidth=targetHeight*((heroStartRect||currentHeroRect).width/(heroStartRect||currentHeroRect).height);
-      heroLogoEl.style.opacity='0';
       const clone=heroLogoEl.cloneNode(true);
       clone.removeAttribute('id');
       clone.style.cssText='position:fixed;top:'+currentHeroRect.top+'px;left:'+currentHeroRect.left+'px;width:'+currentHeroRect.width+'px;height:'+currentHeroRect.height+'px;opacity:1;z-index:9997;pointer-events:none;margin:0;transition:none;';
@@ -9096,12 +9390,20 @@ body.light-mode .pkg-cta:hover {
         clone.style.width=targetWidth+'px';
         clone.style.height=targetHeight+'px';
       });});
-      setTimeout(function(){clone.style.opacity='0';setTimeout(function(){clone.remove();navLogoLink.style.opacity='1';navLogoLink.style.pointerEvents='all';},300);},650);
+      setTimeout(function(){
+        clone.style.opacity='0';
+        setTimeout(function(){
+          clone.remove();
+          navLogoLink.style.opacity='1';
+          navLogoLink.style.visibility='visible';
+          navLogoLink.style.pointerEvents='all';
+        },300);
+      },650);
     }
     if(scrollY<=80&&hasFlown){
       hasFlown=false;
-      if(navLogoLink){navLogoLink.style.opacity='0';navLogoLink.style.pointerEvents='none';}
-      if(heroLogoEl){heroLogoEl.style.opacity='1';}
+      if(navLogoLink){ navLogoLink.style.opacity='0'; navLogoLink.style.visibility='hidden'; navLogoLink.style.pointerEvents='none'; }
+      if(heroLogoEl){ heroLogoEl.style.opacity='1'; heroLogoEl.style.pointerEvents=''; }
     }
   });
 })();
@@ -9684,15 +9986,42 @@ document.addEventListener('DOMContentLoaded',function(){
   };
 
   window._profileTab = function(tab) {
-    ['details','packages','cart'].forEach(function(t){
+    ['dashboard','details','packages','cart','settings'].forEach(function(t){
       var panel = document.getElementById('profileTab' + t.charAt(0).toUpperCase() + t.slice(1));
       var btn = document.querySelector('.profile-tab[data-tab="'+t+'"]');
       if (panel) panel.style.display = (t === tab) ? 'block' : 'none';
       if (btn) btn.classList.toggle('active', t === tab);
     });
-    if (tab === 'packages') renderDrafts();
-    if (tab === 'cart')     renderCart();
+    if (tab === 'packages')  renderDrafts();
+    if (tab === 'cart')      renderCart();
+    if (tab === 'dashboard') refreshDashboard();
+    if (tab === 'settings')  updateSettingsThemeLabel();
   };
+
+  function refreshDashboard(){
+    var s=document.getElementById('dashStatSaved'); if(s) s.textContent=drafts.length||'0';
+    var c=document.getElementById('dashStatCart');  if(c) c.textContent=cart.length||'0';
+    var user=window._fjCurrentUser; if(!user)return;
+    var m=user.user_metadata||{};
+    var dur=document.getElementById('dashStatDays');   if(dur) dur.textContent=m.preferred_duration||'—';
+    var bud=document.getElementById('dashStatBudget'); if(bud) bud.textContent=m.budget_tier||'—';
+    var badge=document.getElementById('profileMemberBadge');
+    if(badge){ var tot=drafts.length+cart.length; badge.innerHTML=tot>=5?'<span>🦁</span> Safari Pro':tot>=2?'<span>🐘</span> Adventurer':'<span>🦒</span> Explorer'; }
+  }
+
+  function updateSettingsThemeLabel(){
+    var btn=document.getElementById('settingsThemeBtn');
+    if(!btn)return;
+    var isLight=document.body.classList.contains('light-mode');
+    btn.textContent=isLight?'☀️ Light':'🌙 Dark';
+  }
+
+  function toggleHints(btn){
+    var disabled=localStorage.getItem('fj-hints-disabled')==='true';
+    localStorage.setItem('fj-hints-disabled',disabled?'false':'true');
+    btn.textContent=disabled?'Enabled':'Disabled';
+    btn.style.color=disabled?'#d4af37':'rgba(138,128,116,0.6)';
+  }
 
   window._saveProfile = async function() {
     var user = window._fjCurrentUser;
