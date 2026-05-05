@@ -2328,6 +2328,13 @@ nav.scrolled .nav-brand-idle {
     inset: 0;
     z-index: 0;
     overflow: hidden;
+    /* Liquid glass fallback shown before video loads */
+    background:
+      radial-gradient(ellipse at 30% 40%, rgba(212,175,55,0.18) 0%, transparent 55%),
+      radial-gradient(ellipse at 75% 60%, rgba(184,134,11,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 20%, rgba(255,220,80,0.08) 0%, transparent 45%),
+      linear-gradient(135deg, #0a0800 0%, #111008 25%, #0d0c08 50%, #080808 100%);
+    backdrop-filter: blur(0px);
   }
 
   .hero-video {
@@ -2337,8 +2344,8 @@ nav.scrolled .nav-brand-idle {
   height: 100%;
   object-fit: cover;
   object-position: center 30%;
-  filter: blur(2px) brightness(0.3);
-  transform: scale(1.02);
+  filter: blur(0px) brightness(0.72) saturate(1.08);
+  transform: scale(1.0);
   transition: filter 5s cubic-bezier(0.4, 0, 0.2, 1);  
   z-index: -1;
 }
@@ -2348,12 +2355,12 @@ nav.scrolled .nav-brand-idle {
     inset: 0;
     background: linear-gradient(
       to bottom,
-      rgba(8, 8, 8, 0.6) 0%,
-      rgba(5, 4, 2, 0.45) 35%,
-      rgba(20, 14, 2, 0.55) 65%,
-      rgba(8, 8, 8, 0.92) 100%
+      rgba(8, 8, 8, 0.18) 0%,
+      rgba(5, 4, 2, 0.10) 30%,
+      rgba(10, 7, 1, 0.22) 60%,
+      rgba(8, 8, 8, 0.72) 100%
     );
-     box-shadow: inset 0 0 200px rgba(180, 130, 10, 0.12);
+    box-shadow: inset 0 0 120px rgba(180, 130, 10, 0.07);
   }
   .hero-content {
     position: relative;
@@ -5767,8 +5774,7 @@ body.light-mode .pkg-cta:hover {
 }
 
 #hero .hero-sky {
-  filter: blur(2px) brightness(0.3) !important;
-  background-video: url('assets/landscape.webm') !important;
+  filter: blur(0px) brightness(0.72) saturate(1.08) !important;
   background-size: cover !important;
   background-position: center 30% !important;
 }
@@ -5904,6 +5910,199 @@ body.light-mode .pkg-cta:hover {
 #hero #hero-logo {
   filter: drop-shadow(0 0 12px rgba(212,175,55,0.5))
           drop-shadow(0 0 28px rgba(212,175,55,0.2)) !important;
+}
+</style>
+<style>
+/* ============================= */
+/* MOBILE — CENTRE ALIGN TEXT    */
+/* ============================= */
+@media (max-width: 768px) {
+
+  /* Section labels, titles, subs — all sections */
+  .section-label,
+  .section-title,
+  .section-sub {
+    text-align: center !important;
+  }
+
+  /* Hero eyebrow + subtitle */
+  .hero-eyebrow,
+  .hero-subtitle {
+    text-align: center !important;
+  }
+
+  /* Highlights section header */
+  #highlights .container > .reveal {
+    text-align: center !important;
+  }
+  #highlights .section-sub {
+    margin: 0 auto !important;
+  }
+
+  /* Wildlife / destinations header */
+  #wildlife .wildlife-header,
+  #wildlife .wildlife-header > div {
+    text-align: center !important;
+    align-items: center !important;
+  }
+  #wildlife .section-sub {
+    margin: 0 auto !important;
+    text-align: center !important;
+  }
+
+  /* Packages header */
+  #packages .container > .reveal {
+    text-align: center !important;
+  }
+  #packages .section-sub {
+    margin: 0 auto !important;
+  }
+
+  /* Testimonials header */
+  #testimonials .container > .reveal {
+    text-align: center !important;
+  }
+
+  /* Team header */
+  #team .container > .reveal {
+    text-align: center !important;
+  }
+  #team .section-sub {
+    margin: 0 auto !important;
+  }
+
+  /* Gallery header */
+  #gallery .container .reveal,
+  #gallery .gallery-intro,
+  #gallery .gallery-intro > div {
+    text-align: center !important;
+    align-items: center !important;
+  }
+  #gallery .gallery-intro-right {
+    text-align: center !important;
+    max-width: 100% !important;
+  }
+
+  /* Blog header */
+  #blog .container > .reveal {
+    text-align: center !important;
+  }
+  #blog .section-sub {
+    margin: 0 auto !important;
+  }
+
+  /* Inline quiz header */
+  #inline-quiz .container > .reveal {
+    text-align: center !important;
+  }
+  #inline-quiz .section-sub {
+    margin: 0 auto !important;
+  }
+
+  /* Contact header */
+  #contact .container > .reveal {
+    text-align: center !important;
+  }
+
+  /* Highlight cards — card number, title, text */
+  .card-number,
+  .card-title,
+  .card-text {
+    text-align: center !important;
+  }
+
+  /* Highlight card inner layout */
+  .highlight-card {
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  /* Stats bar items */
+  .stat-num,
+  .stat-label {
+    text-align: center !important;
+  }
+
+  /* Gold divider line — centre it */
+  .divider {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* Gold line decorative — centre */
+  .gold-line {
+    justify-content: center !important;
+  }
+
+  /* Package cards — centre inner text */
+  .pkg-name,
+  .pkg-duration,
+  .pkg-price,
+  .pkg-badge {
+    text-align: center !important;
+  }
+
+  /* Testimonials — already centred mostly, reinforce */
+  .testimonial-text,
+  .quote-mark {
+    text-align: center !important;
+  }
+
+  /* Team cards */
+  .team-name,
+  .team-role,
+  .team-bio {
+    text-align: center !important;
+  }
+
+  /* Contact info headings */
+  .contact-info p {
+    text-align: center !important;
+  }
+  .contact-detail {
+    justify-content: center !important;
+  }
+
+  /* Section sub max-width on mobile */
+  .section-sub {
+    max-width: 100% !important;
+  }
+
+  /* Destinations slideshow slide content — reinforce centre */
+  .ds-slide-label,
+  .ds-slide-title,
+  .ds-slide-tagline {
+    text-align: center !important;
+  }
+
+  /* Gallery slideshow content */
+  .gsl-label,
+  .gsl-title,
+  .gsl-sub {
+    text-align: center !important;
+  }
+
+  /* Blog cards — leave mostly as-is but centre category */
+  .blog-card-category {
+    text-align: center !important;
+  }
+
+  /* Footer bottom — stack and centre */
+  .footer-bottom {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 20px !important;
+  }
+
+  /* Quiz step labels and questions — centre on mobile */
+  .quiz-step-label,
+  .quiz-question,
+  .quiz-sub {
+    text-align: center !important;
+  }
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
