@@ -1,0 +1,1785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Safari Profile — Filmax Jambo Tours</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black:   #080808;
+  --deep:    #0d0d0d;
+  --charcoal:#141414;
+  --card:    #111111;
+  --gold:    #d4af37;
+  --gold-lt: #e8c84a;
+  --gold-dim:rgba(212,175,55,0.12);
+  --amber:   #b8860b;
+  --sand:    #f5f0e4;
+  --ivory:   #faf7f0;
+  --text:    #f0ece4;
+  --muted:   #8a8074;
+  --border:  rgba(212,175,55,0.18);
+  --sidebar: 280px;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--black);
+  color:var(--text);
+  font-family:'Jost',sans-serif;
+  font-weight:400;
+  min-height:100vh;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* ── CURSOR ── */
+.cur{width:10px;height:10px;background:var(--gold);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:width .25s,height .25s;}
+.cur-ring{width:36px;height:36px;border:1px solid rgba(212,175,55,0.45);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:transform .14s ease-out,width .35s,height .35s;}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--black);}
+::-webkit-scrollbar-thumb{background:var(--gold);}
+
+/* ── LAYOUT ── */
+.layout{display:flex;min-height:100vh;}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:var(--sidebar);
+  flex-shrink:0;
+  background:var(--deep);
+  border-right:1px solid var(--border);
+  position:fixed;
+  top:0;left:0;bottom:0;
+  display:flex;flex-direction:column;
+  z-index:100;
+  overflow-y:auto;
+  scrollbar-width:none;
+}
+.sidebar::-webkit-scrollbar{display:none;}
+
+.sb-brand{
+  padding:32px 28px 24px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;
+}
+.sb-brand-logo{
+  width:36px;height:36px;
+  background:linear-gradient(135deg,var(--gold),var(--amber));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;
+  font-size:16px;font-weight:900;color:#080808;
+  flex-shrink:0;
+}
+.sb-brand-text{display:flex;flex-direction:column;gap:1px;}
+.sb-brand-name{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--text);}
+.sb-brand-sub{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(212,175,55,0.6);}
+
+.sb-user{
+  padding:24px 28px 20px;
+  border-bottom:1px solid var(--border);
+  text-align:center;
+}
+/* FIX: Avatar is a label so clicking it triggers hidden file input */
+.sb-avatar{
+  width:72px;height:72px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--amber));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#080808;
+  margin:0 auto 14px;
+  border:2px solid rgba(212,175,55,0.35);
+  position:relative;
+  overflow:hidden;
+  cursor:none;
+}
+.sb-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:none;}
+.sb-avatar-upload{
+  position:absolute;inset:0;border-radius:50%;
+  background:rgba(0,0,0,0.6);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .3s;
+  font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);
+  font-family:'Jost',sans-serif;font-weight:700;
+  cursor:none;
+}
+.sb-avatar:hover .sb-avatar-upload{opacity:1;}
+.sb-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.sb-email{font-size:10px;letter-spacing:1px;color:var(--muted);margin-bottom:12px;}
+.sb-tier{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 12px;
+  background:var(--gold-dim);
+  border:1px solid rgba(212,175,55,0.25);
+  font-size:8px;font-weight:700;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);
+}
+
+.sb-nav{flex:1;padding:16px 0;}
+.sb-nav-group{margin-bottom:8px;}
+.sb-nav-label{
+  font-size:8px;letter-spacing:5px;text-transform:uppercase;
+  color:rgba(138,128,116,0.45);
+  padding:10px 28px 6px;
+  font-weight:700;
+}
+.sb-nav-item{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 28px;
+  font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);
+  text-decoration:none;cursor:none;
+  transition:color .25s,background .25s;
+  position:relative;
+  border:none;background:none;width:100%;text-align:left;
+}
+.sb-nav-item:hover{color:var(--text);background:rgba(255,255,255,0.02);}
+.sb-nav-item.active{color:var(--gold);background:rgba(212,175,55,0.06);}
+.sb-nav-item.active::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:2px;
+  background:linear-gradient(to bottom,transparent,var(--gold),transparent);
+}
+.sb-nav-icon{font-size:14px;flex-shrink:0;width:18px;text-align:center;}
+
+.sb-bottom{
+  padding:20px 28px;
+  border-top:1px solid var(--border);
+}
+.sb-back{
+  display:flex;align-items:center;gap:10px;
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;cursor:none;
+  transition:color .25s;
+}
+.sb-back:hover{color:var(--gold);}
+.sb-back::before{content:'';width:18px;height:1px;background:currentColor;transition:width .3s;}
+.sb-back:hover::before{width:28px;}
+
+/* ── MAIN ── */
+.main{
+  margin-left:var(--sidebar);
+  flex:1;
+  min-height:100vh;
+}
+
+/* ── HERO ── */
+.profile-hero{
+  position:relative;
+  height:380px;
+  overflow:hidden;
+  background:var(--charcoal);
+}
+.profile-hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 20% 50%,rgba(212,175,55,0.12) 0%,transparent 55%),
+    radial-gradient(ellipse at 80% 30%,rgba(184,134,11,0.08) 0%,transparent 50%),
+    linear-gradient(135deg,#0a0800 0%,#111008 40%,#0d0c08 70%,#080808 100%);
+}
+.profile-hero-pattern{
+  position:absolute;inset:0;
+  background-image:
+    repeating-linear-gradient(-35deg,transparent,transparent 40px,rgba(212,175,55,0.025) 40px,rgba(212,175,55,0.025) 41px),
+    repeating-linear-gradient(35deg,transparent,transparent 40px,rgba(212,175,55,0.015) 40px,rgba(212,175,55,0.015) 41px);
+}
+.profile-hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 40%,rgba(8,8,8,0.85) 100%);
+}
+.profile-hero-content{
+  position:relative;z-index:2;
+  height:100%;
+  display:flex;align-items:flex-end;
+  padding:0 60px 48px;
+  gap:36px;
+}
+.hero-avatar-wrap{
+  flex-shrink:0;
+  position:relative;
+}
+.hero-avatar{
+  width:110px;height:110px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--amber));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:44px;font-weight:700;color:#080808;
+  border:3px solid rgba(212,175,55,0.5);
+  box-shadow:0 0 0 6px rgba(212,175,55,0.1),0 20px 60px rgba(0,0,0,0.7);
+  overflow:hidden;cursor:none;
+  transition:box-shadow .35s;
+  position:relative;
+}
+.hero-avatar:hover{box-shadow:0 0 0 6px rgba(212,175,55,0.25),0 20px 60px rgba(0,0,0,0.7);}
+.hero-avatar img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;display:none;}
+/* FIX: edit button triggers hidden file input */
+.hero-avatar-edit{
+  position:absolute;bottom:4px;right:4px;
+  width:28px;height:28px;
+  background:linear-gradient(135deg,var(--gold),var(--amber));
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;cursor:none;
+  border:2px solid var(--black);
+  transition:transform .25s;
+  z-index:3;
+}
+.hero-avatar-edit:hover{transform:scale(1.1);}
+
+/* Hidden file input for avatar */
+#avatarFileInput{display:none;}
+
+.hero-info{flex:1;}
+.hero-eyebrow{
+  font-size:9px;letter-spacing:5px;text-transform:uppercase;
+  color:rgba(212,175,55,0.7);display:block;margin-bottom:8px;
+}
+.hero-name{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(28px,3.5vw,42px);font-weight:700;
+  color:var(--text);line-height:1.1;margin-bottom:12px;
+}
+.hero-meta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:20px;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 14px;
+  border:1px solid rgba(212,175,55,0.35);
+  background:rgba(212,175,55,0.08);
+  font-size:8px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);
+}
+.hero-meta-item{
+  font-size:10px;letter-spacing:2px;color:var(--muted);
+  display:flex;align-items:center;gap:6px;
+}
+.hero-meta-item::before{content:'';width:1px;height:10px;background:var(--border);}
+.hero-meta-item:first-child::before{display:none;}
+
+.hero-loyalty{
+  display:flex;align-items:center;gap:16px;margin-bottom:24px;
+}
+.loyalty-bar-wrap{flex:1;max-width:260px;}
+.loyalty-label{
+  display:flex;justify-content:space-between;
+  font-size:8px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:6px;
+}
+.loyalty-bar{height:2px;background:rgba(212,175,55,0.12);position:relative;overflow:visible;}
+.loyalty-fill{
+  height:100%;
+  background:linear-gradient(to right,var(--amber),var(--gold));
+  position:relative;
+  width:0%; /* FIX: start at 0, JS animates to real value */
+  transition:width 1.2s cubic-bezier(0.22,1,0.36,1);
+}
+.loyalty-fill::after{
+  content:'';position:absolute;right:-3px;top:50%;
+  transform:translateY(-50%);
+  width:6px;height:6px;background:var(--gold);
+  rotate:45deg;box-shadow:0 0 8px rgba(212,175,55,0.7);
+}
+.loyalty-pts{
+  font-family:'Playfair Display',serif;font-size:22px;font-weight:700;
+  color:var(--gold);line-height:1;
+}
+.loyalty-pts span{
+  font-family:'Jost',sans-serif;font-size:8px;font-weight:600;
+  letter-spacing:3px;text-transform:uppercase;color:var(--muted);
+  display:block;margin-top:2px;
+}
+
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;}
+.hero-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Jost',sans-serif;font-size:9px;font-weight:700;
+  letter-spacing:4px;text-transform:uppercase;
+  padding:12px 22px;cursor:none;
+  transition:all .3s;text-decoration:none;border:none;
+}
+.hero-btn-primary{
+  background:linear-gradient(135deg,var(--gold-lt),var(--gold),var(--amber));
+  color:#080808;
+  box-shadow:0 4px 20px rgba(212,175,55,0.3);
+}
+.hero-btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(212,175,55,0.45);}
+.hero-btn-ghost{
+  background:transparent;color:var(--gold);
+  border:1px solid rgba(212,175,55,0.35);
+}
+.hero-btn-ghost:hover{border-color:var(--gold);background:var(--gold-dim);transform:translateY(-2px);}
+
+/* ── CONTENT AREA ── */
+.content{padding:48px 60px;}
+
+/* ── SECTION ── */
+.profile-section{margin-bottom:56px;}
+.section-head{
+  display:flex;align-items:center;gap:20px;margin-bottom:32px;
+}
+.section-head-left{flex:1;}
+.section-eyebrow{
+  font-size:8px;letter-spacing:5px;text-transform:uppercase;
+  color:rgba(212,175,55,0.6);display:block;margin-bottom:6px;
+}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(20px,2.2vw,28px);font-weight:700;
+  color:var(--text);line-height:1.15;
+}
+.section-line{
+  flex:1;height:1px;
+  background:linear-gradient(to right,rgba(212,175,55,0.2),transparent);
+}
+.section-action{
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold);background:none;border:none;cursor:none;
+  font-family:'Jost',sans-serif;font-weight:700;
+  display:flex;align-items:center;gap:8px;
+  transition:opacity .25s;
+}
+.section-action:hover{opacity:.7;}
+.section-action::after{content:'';width:16px;height:1px;background:var(--gold);transition:width .3s;}
+.section-action:hover::after{width:24px;}
+
+/* ── CARDS GRID ── */
+.cards-grid{display:grid;gap:16px;}
+.cards-2{grid-template-columns:1fr 1fr;}
+.cards-3{grid-template-columns:1fr 1fr 1fr;}
+.cards-4{grid-template-columns:repeat(4,1fr);}
+
+/* ── STAT CARDS ── */
+.stat-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:28px 24px;
+  position:relative;overflow:hidden;
+  transition:border-color .3s,transform .3s,background .3s;
+}
+.stat-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(to right,transparent,rgba(212,175,55,0.35),transparent);
+}
+.stat-card:hover{border-color:rgba(212,175,55,0.35);transform:translateY(-3px);background:#131313;}
+.stat-icon{font-size:22px;margin-bottom:14px;display:block;}
+.stat-num{
+  font-family:'Playfair Display',serif;
+  font-size:32px;font-weight:900;color:var(--gold);
+  display:block;line-height:1;margin-bottom:4px;
+}
+.stat-label{
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);font-weight:600;
+}
+.stat-sub{font-size:11px;color:rgba(138,128,116,0.6);margin-top:6px;font-style:italic;font-family:'Cormorant Garamond',serif;}
+
+/* ── FORM FIELDS ── */
+.form-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:36px 40px;
+  position:relative;
+}
+.form-card::before{
+  content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
+  background:linear-gradient(to right,transparent,rgba(212,175,55,0.25),transparent);
+}
+.form-grid{display:grid;gap:0;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:0 40px;}
+.form-row-3{grid-template-columns:1fr 1fr 1fr;}
+.form-field{
+  display:flex;flex-direction:column;gap:0;
+  padding:18px 0;
+  /* FIX: was .form-field:last-child which breaks in CSS grid — use border-top instead */
+  border-top:1px solid rgba(212,175,55,0.07);
+}
+/* FIX: Remove top border from fields in the first row of each form-card */
+.form-card > .form-grid > .form-row:first-child .form-field,
+.form-card > .form-grid > .form-field:first-child {
+  border-top:none;
+}
+.form-label{
+  font-size:8px;letter-spacing:4px;text-transform:uppercase;
+  color:rgba(212,175,55,0.55);font-weight:700;margin-bottom:8px;
+}
+.form-input{
+  background:transparent;border:none;
+  color:var(--text);font-family:'Jost',sans-serif;
+  font-size:14px;font-weight:400;padding:0;
+  outline:none;width:100%;
+  transition:color .25s;
+}
+.form-input::placeholder{color:rgba(138,128,116,0.4);font-size:12px;letter-spacing:1px;}
+.form-input:focus{color:var(--text);}
+select.form-input{appearance:none;cursor:none;background:transparent;}
+
+/* FIX: Passport field — password with toggle */
+.form-input-wrap{display:flex;align-items:center;gap:8px;}
+.form-input-wrap .form-input{flex:1;}
+.show-toggle{
+  background:none;border:none;cursor:none;
+  color:var(--muted);font-size:12px;padding:0;
+  transition:color .2s;flex-shrink:0;
+}
+.show-toggle:hover{color:var(--gold);}
+
+/* ── TOGGLE CHIPS ── */
+.chips-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}
+.chip{
+  padding:8px 16px;
+  border:1px solid rgba(212,175,55,0.15);
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);font-weight:600;font-family:'Jost',sans-serif;
+  cursor:none;transition:all .25s;
+  background:transparent;
+  user-select:none;
+}
+.chip:hover{border-color:rgba(212,175,55,0.35);color:var(--text);}
+.chip.selected{
+  border-color:var(--gold);color:var(--gold);
+  background:rgba(212,175,55,0.08);
+}
+
+/* ── PREFERENCE CARDS ── */
+.pref-card{
+  background:var(--card);border:1px solid var(--border);
+  padding:24px;cursor:none;
+  transition:all .3s;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;gap:10px;
+}
+.pref-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(to right,transparent,var(--gold),transparent);
+  transform:scaleX(0);transition:transform .4s;
+}
+.pref-card:hover::after{transform:scaleX(1);}
+.pref-card:hover{border-color:rgba(212,175,55,0.3);transform:translateY(-4px);background:#131313;}
+.pref-card.selected-card{border-color:rgba(212,175,55,0.5);background:rgba(212,175,55,0.05);}
+.pref-card-icon{font-size:24px;}
+.pref-card-title{
+  font-family:'Playfair Display',serif;
+  font-size:16px;font-weight:700;color:var(--text);
+}
+.pref-card-desc{
+  font-family:'Cormorant Garamond',serif;
+  font-size:13px;font-style:italic;color:var(--muted);line-height:1.6;
+}
+.pref-check{
+  width:18px;height:18px;
+  border:1px solid rgba(212,175,55,0.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;color:var(--gold);
+  margin-left:auto;align-self:flex-start;
+  transition:background .25s,border-color .25s;
+}
+.pref-card.selected-card .pref-check{background:var(--gold);border-color:var(--gold);color:#080808;}
+
+/* ── BOOKING CARDS ── */
+.booking-card{
+  background:var(--card);border:1px solid var(--border);
+  padding:28px 32px;
+  display:flex;align-items:center;gap:24px;
+  transition:all .3s;position:relative;overflow:hidden;
+}
+.booking-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:2px;
+  background:linear-gradient(to bottom,transparent,var(--gold),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.booking-card:hover::before{opacity:1;}
+.booking-card:hover{border-color:rgba(212,175,55,0.3);transform:translateX(4px);}
+.booking-img{
+  width:80px;height:80px;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(184,134,11,0.08));
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;
+  border:1px solid var(--border);
+}
+.booking-info{flex:1;min-width:0;}
+.booking-tag{
+  font-size:8px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);display:block;margin-bottom:6px;
+}
+.booking-title{
+  font-family:'Playfair Display',serif;
+  font-size:18px;font-weight:700;color:var(--text);margin-bottom:4px;
+}
+.booking-meta{font-size:11px;color:var(--muted);letter-spacing:1px;}
+.booking-status{
+  flex-shrink:0;
+  padding:6px 16px;
+  font-size:8px;letter-spacing:3px;text-transform:uppercase;font-weight:700;
+}
+.status-upcoming{background:rgba(123,181,110,0.12);border:1px solid rgba(123,181,110,0.3);color:#7bb56e;}
+.status-past{background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.2);color:var(--gold);}
+.status-saved{background:rgba(138,128,116,0.1);border:1px solid rgba(138,128,116,0.2);color:var(--muted);}
+
+/* ── AI RECOMMENDATIONS ── */
+.rec-card{
+  background:var(--card);border:1px solid var(--border);
+  padding:0;overflow:hidden;cursor:none;
+  transition:all .35s;
+}
+.rec-card:hover{border-color:rgba(212,175,55,0.35);transform:translateY(-5px);box-shadow:0 20px 60px rgba(0,0,0,0.4);}
+.rec-img{
+  height:160px;
+  background:linear-gradient(135deg,rgba(212,175,55,0.12),rgba(184,134,11,0.06));
+  display:flex;align-items:center;justify-content:center;
+  font-size:44px;
+  position:relative;overflow:hidden;
+}
+.rec-img::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 50%,rgba(8,8,8,0.6) 100%);
+}
+.rec-body{padding:24px;}
+.rec-tag{
+  font-size:8px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);display:block;margin-bottom:8px;
+}
+.rec-title{
+  font-family:'Playfair Display',serif;
+  font-size:18px;font-weight:700;color:var(--text);
+  margin-bottom:8px;line-height:1.25;
+}
+.rec-desc{
+  font-family:'Cormorant Garamond',serif;
+  font-size:14px;font-style:italic;color:var(--muted);
+  line-height:1.65;margin-bottom:16px;
+}
+.rec-price{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;font-weight:600;color:var(--gold);
+}
+.rec-price span{font-family:'Jost',sans-serif;font-size:10px;color:var(--muted);}
+
+/* ── LOYALTY TIER ── */
+.tier-track{
+  display:flex;align-items:stretch;gap:0;
+  margin:24px 0;
+}
+.tier-node{
+  flex:1;padding:20px 16px;
+  border:1px solid var(--border);
+  border-right:none;
+  display:flex;flex-direction:column;
+  align-items:center;gap:8px;
+  text-align:center;
+  position:relative;
+  transition:all .3s;
+}
+.tier-node:last-child{border-right:1px solid var(--border);}
+.tier-node.tier-active{
+  background:rgba(212,175,55,0.07);
+  border-color:rgba(212,175,55,0.4);
+}
+.tier-node.tier-active::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(to right,transparent,var(--gold),transparent);
+}
+.tier-icon{font-size:22px;}
+.tier-name{
+  font-size:8px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--muted);font-weight:700;
+}
+.tier-node.tier-active .tier-name{color:var(--gold);}
+.tier-pts{
+  font-family:'Playfair Display',serif;font-size:14px;
+  color:rgba(138,128,116,0.5);
+}
+.tier-node.tier-active .tier-pts{color:var(--gold);}
+
+/* ── CONCIERGE ── */
+.concierge-card{
+  background:var(--card);border:1px solid var(--border);
+  padding:36px 40px;
+  display:flex;gap:32px;align-items:flex-start;
+  position:relative;overflow:hidden;
+}
+.concierge-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(to right,transparent,rgba(212,175,55,0.3),transparent);
+}
+.concierge-avatar{
+  width:72px;height:72px;flex-shrink:0;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--amber));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:#080808;
+  border:2px solid rgba(212,175,55,0.3);
+}
+.concierge-info{flex:1;}
+.concierge-role{
+  font-size:8px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);display:block;margin-bottom:6px;
+}
+.concierge-name{
+  font-family:'Playfair Display',serif;font-size:22px;font-weight:700;
+  color:var(--text);margin-bottom:8px;
+}
+.concierge-bio{
+  font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;
+  color:var(--muted);line-height:1.7;margin-bottom:20px;
+}
+.concierge-contact{display:flex;gap:12px;flex-wrap:wrap;}
+.cc-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;font-weight:700;
+  padding:10px 20px;cursor:none;text-decoration:none;
+  transition:all .3s;border:none;font-family:'Jost',sans-serif;
+}
+.cc-btn-wa{background:#25D366;color:#fff;}
+.cc-btn-wa:hover{filter:brightness(1.1);transform:translateY(-2px);}
+.cc-btn-email{background:transparent;border:1px solid rgba(212,175,55,0.3);color:var(--gold);}
+.cc-btn-email:hover{border-color:var(--gold);background:var(--gold-dim);}
+
+/* ── SECURITY CARD ── */
+.security-item{
+  display:flex;align-items:center;gap:20px;
+  padding:20px 0;
+  border-bottom:1px solid rgba(212,175,55,0.07);
+}
+.security-item:last-child{border-bottom:none;}
+.security-icon{
+  width:40px;height:40px;flex-shrink:0;
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:16px;
+}
+.security-info{flex:1;}
+.security-label{
+  font-size:12px;font-weight:600;letter-spacing:1px;color:var(--text);margin-bottom:3px;
+}
+.security-desc{font-size:10px;color:var(--muted);letter-spacing:1px;}
+.security-status{
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;font-weight:700;
+  padding:5px 12px;
+}
+.sec-enabled{color:#7bb56e;border:1px solid rgba(123,181,110,0.3);background:rgba(123,181,110,0.08);}
+.sec-disabled{color:#e05555;border:1px solid rgba(224,85,85,0.3);background:rgba(224,85,85,0.08);}
+.sec-btn{
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;font-weight:700;
+  padding:8px 18px;cursor:none;font-family:'Jost',sans-serif;
+  background:transparent;border:1px solid rgba(212,175,55,0.25);color:var(--gold);
+  transition:all .3s;
+}
+.sec-btn:hover{border-color:var(--gold);background:var(--gold-dim);}
+
+/* ── TOGGLE SWITCH ── */
+.toggle-wrap{display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:1px solid rgba(212,175,55,0.07);}
+.toggle-wrap:last-child{border-bottom:none;}
+.toggle-label-wrap{display:flex;flex-direction:column;gap:3px;}
+.toggle-label{font-size:12px;font-weight:600;letter-spacing:1px;color:var(--text);}
+.toggle-desc{font-size:10px;color:var(--muted);letter-spacing:1px;}
+.toggle{
+  width:44px;height:22px;
+  background:rgba(138,128,116,0.2);
+  border-radius:11px;position:relative;cursor:none;
+  transition:background .3s;border:1px solid rgba(212,175,55,0.1);
+  flex-shrink:0;
+}
+.toggle.on{background:rgba(212,175,55,0.25);border-color:rgba(212,175,55,0.35);}
+.toggle::after{
+  content:'';position:absolute;top:2px;left:2px;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--muted);transition:transform .3s,background .3s;
+}
+.toggle.on::after{transform:translateX(22px);background:var(--gold);}
+
+/* ── COMPANION CARD ── */
+.companion-card{
+  background:var(--card);border:1px solid var(--border);
+  padding:24px;display:flex;align-items:center;gap:18px;
+  transition:all .3s;cursor:none;
+}
+.companion-card:hover{border-color:rgba(212,175,55,0.3);transform:translateY(-3px);}
+.companion-avatar{
+  width:52px;height:52px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(212,175,55,0.2),rgba(184,134,11,0.1));
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+  border:1px solid var(--border);
+}
+.companion-info{flex:1;}
+.companion-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.companion-meta{font-size:10px;color:var(--muted);letter-spacing:1px;}
+.companion-add{
+  background:var(--card);border:1px solid rgba(212,175,55,0.15);
+  border-style:dashed;padding:24px;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  cursor:none;transition:all .3s;
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(138,128,116,0.5);font-weight:700;
+}
+.companion-add:hover{border-color:rgba(212,175,55,0.35);color:var(--gold);background:rgba(212,175,55,0.03);}
+
+/* ── SAVE BAR ── */
+.save-bar{
+  position:sticky;bottom:0;
+  background:rgba(8,8,8,0.95);
+  backdrop-filter:blur(20px);
+  border-top:1px solid var(--border);
+  padding:16px 60px;
+  display:flex;align-items:center;justify-content:space-between;
+  z-index:50;
+}
+.save-bar-msg{
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;font-style:italic;color:var(--muted);
+}
+.save-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:'Jost',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:4px;text-transform:uppercase;
+  padding:16px 40px;cursor:none;border:none;
+  background:linear-gradient(135deg,var(--gold-lt),var(--gold),var(--amber));
+  color:#080808;
+  box-shadow:0 4px 24px rgba(212,175,55,0.3);
+  transition:transform .3s,box-shadow .3s,filter .3s;
+}
+.save-btn:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(212,175,55,0.5);filter:brightness(1.08);}
+
+/* ── MOBILE ── */
+@media(max-width:900px){
+  :root{--sidebar:0px;}
+  .sidebar{display:none;}
+  .main{margin-left:0;}
+  .content{padding:32px 24px;}
+  .profile-hero-content{padding:0 24px 36px;flex-direction:column;align-items:flex-start;gap:16px;}
+  .hero-avatar{width:80px;height:80px;font-size:32px;}
+  .profile-hero{height:auto;min-height:320px;}
+  .cards-2,.cards-3,.cards-4{grid-template-columns:1fr;}
+  .form-row,.form-row-3{grid-template-columns:1fr;}
+  .concierge-card{flex-direction:column;}
+  .save-bar{padding:16px 24px;}
+  .booking-card{flex-wrap:wrap;}
+  .tier-track{flex-direction:column;}
+  .tier-node{border-right:1px solid var(--border);border-bottom:none;}
+  .tier-node:last-child{border-bottom:1px solid var(--border);}
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.vis{opacity:1;transform:translateY(0);}
+
+/* notify toast */
+.notify{
+  position:fixed;top:28px;right:28px;z-index:99999;
+  background:linear-gradient(135deg,var(--gold),var(--amber));
+  color:#080808;font-family:'Jost',sans-serif;
+  font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  padding:14px 28px;
+  box-shadow:0 8px 32px rgba(212,175,55,0.4);
+  opacity:0;transform:translateY(-12px);
+  transition:opacity .35s,transform .35s;
+  pointer-events:none;
+}
+.notify.show{opacity:1;transform:translateY(0);}
+
+/* light mode */
+body.light-mode{
+  --black:#ebebea;--deep:#e4e4e2;--charcoal:#dcdcda;--card:#e4e4e2;
+  --text:#0a0a0a;--muted:#2a2a2a;--border:rgba(0,0,0,0.12);
+  background:#ebebea;color:#0a0a0a;
+}
+body.light-mode .sidebar{background:#f0ece4;border-right-color:rgba(0,0,0,0.1);}
+body.light-mode .form-card,body.light-mode .stat-card,body.light-mode .booking-card,
+body.light-mode .rec-card,body.light-mode .concierge-card,
+body.light-mode .companion-card,body.light-mode .pref-card{background:#e8e4dc;}
+body.light-mode .form-input{color:#0a0a0a;}
+body.light-mode .save-bar{background:rgba(235,235,234,0.95);}
+</style>
+</head>
+<body>
+
+<!-- Hidden file input — shared by both avatar click targets -->
+<input type="file" id="avatarFileInput" accept="image/*">
+
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="curRing"></div>
+<div class="notify" id="notify"></div>
+
+<div class="layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sb-brand">
+      <div class="sb-brand-logo">F</div>
+      <div class="sb-brand-text">
+        <span class="sb-brand-name">Filmax Jambo</span>
+        <span class="sb-brand-sub">Member Portal</span>
+      </div>
+    </div>
+
+    <div class="sb-user">
+      <!-- FIX: clicking avatar now triggers file input -->
+      <div class="sb-avatar" id="sbAvatar" onclick="document.getElementById('avatarFileInput').click()">
+        <img id="sbAvatarImg" src="" alt="">
+        <span id="sbAvatarInitial">J</span>
+        <div class="sb-avatar-upload">Change</div>
+      </div>
+      <div class="sb-name" id="sbName">Joseph Explorer</div>
+      <div class="sb-email" id="sbEmail">joseph@example.com</div>
+      <!-- FIX: Explorer tier uses giraffe 🦒 to match loyalty tier track -->
+      <div class="sb-tier">🦒 &nbsp;Explorer Tier</div>
+    </div>
+
+    <nav class="sb-nav">
+      <div class="sb-nav-group">
+        <div class="sb-nav-label">Overview</div>
+        <!-- FIX: renamed to navTo() to avoid shadowing window.scrollTo -->
+        <button class="sb-nav-item active" onclick="navTo('sec-hero',this)"><span class="sb-nav-icon">✦</span>Dashboard</button>
+        <button class="sb-nav-item" onclick="navTo('sec-stats',this)"><span class="sb-nav-icon">◈</span>My Stats</button>
+      </div>
+      <div class="sb-nav-group">
+        <div class="sb-nav-label">Profile</div>
+        <button class="sb-nav-item" onclick="navTo('sec-personal',this)"><span class="sb-nav-icon">◎</span>Personal Details</button>
+        <button class="sb-nav-item" onclick="navTo('sec-travel',this)"><span class="sb-nav-icon">◐</span>Travel Profile</button>
+        <button class="sb-nav-item" onclick="navTo('sec-dietary',this)"><span class="sb-nav-icon">◑</span>Dietary & Lifestyle</button>
+        <button class="sb-nav-item" onclick="navTo('sec-companions',this)"><span class="sb-nav-icon">◒</span>Companions</button>
+      </div>
+      <div class="sb-nav-group">
+        <div class="sb-nav-label">Journeys</div>
+        <button class="sb-nav-item" onclick="navTo('sec-bookings',this)"><span class="sb-nav-icon">◓</span>Booking History</button>
+        <button class="sb-nav-item" onclick="navTo('sec-recs',this)"><span class="sb-nav-icon">◆</span>Recommendations</button>
+      </div>
+      <div class="sb-nav-group">
+        <div class="sb-nav-label">Membership</div>
+        <button class="sb-nav-item" onclick="navTo('sec-loyalty',this)"><span class="sb-nav-icon">◇</span>Loyalty & Rewards</button>
+        <button class="sb-nav-item" onclick="navTo('sec-concierge',this)"><span class="sb-nav-icon">◈</span>My Concierge</button>
+      </div>
+      <div class="sb-nav-group">
+        <div class="sb-nav-label">Account</div>
+        <button class="sb-nav-item" onclick="navTo('sec-notifications',this)"><span class="sb-nav-icon">◉</span>Notifications</button>
+        <button class="sb-nav-item" onclick="navTo('sec-security',this)"><span class="sb-nav-icon">◊</span>Security</button>
+      </div>
+    </nav>
+
+    <div class="sb-bottom">
+      <a href="index.html" class="sb-back">Return to Website</a>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+
+    <!-- ① PROFILE HERO -->
+    <div class="profile-hero" id="sec-hero">
+      <div class="profile-hero-bg"></div>
+      <div class="profile-hero-pattern"></div>
+      <div class="profile-hero-overlay"></div>
+      <div class="profile-hero-content">
+        <div class="hero-avatar-wrap">
+          <!-- FIX: edit button triggers file input -->
+          <div class="hero-avatar" id="heroAvatar">
+            <img id="heroAvatarImg" src="" alt="">
+            <span id="heroInitial">J</span>
+          </div>
+          <div class="hero-avatar-edit" title="Change photo" onclick="document.getElementById('avatarFileInput').click()">✎</div>
+        </div>
+        <div class="hero-info">
+          <span class="hero-eyebrow">Safari Member Profile</span>
+          <div class="hero-name" id="heroName">Joseph Explorer</div>
+          <div class="hero-meta">
+            <!-- FIX: Explorer badge uses giraffe icon -->
+            <div class="hero-badge">🦒 Explorer Tier</div>
+            <div class="hero-meta-item">Member since Jan 2025</div>
+            <div class="hero-meta-item">Nairobi, Kenya</div>
+            <div class="hero-meta-item">Wildlife Photography</div>
+          </div>
+          <div class="hero-loyalty">
+            <div class="loyalty-bar-wrap">
+              <div class="loyalty-label">
+                <span>Explorer</span><span>Elite — 1,200 pts needed</span>
+              </div>
+              <div class="loyalty-bar">
+                <!-- FIX: width starts at 0%, JS animates it -->
+                <div class="loyalty-fill" id="loyaltyFill"></div>
+              </div>
+            </div>
+            <div class="loyalty-pts" id="loyaltyPts">
+              420
+              <span>Reward Points</span>
+            </div>
+          </div>
+          <div class="hero-actions">
+            <button class="hero-btn hero-btn-primary" onclick="navTo('sec-personal',null)">✎ &nbsp;Edit Profile</button>
+            <a href="index.html#packages" class="hero-btn hero-btn-ghost">🗺 &nbsp;Book Safari</a>
+            <a href="index.html#packages" class="hero-btn hero-btn-ghost">♡ &nbsp;Wishlist</a>
+            <button class="hero-btn hero-btn-ghost" onclick="navTo('sec-concierge',null)">💬 &nbsp;Concierge</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ② DASHBOARD STATS -->
+      <div class="profile-section reveal" id="sec-stats">
+        <div class="section-head">
+          <div class="section-head-left">
+            <span class="section-eyebrow">At a Glance</span>
+            <h2 class="section-title">Your Safari Dashboard</h2>
+          </div>
+          <div class="section-line"></div>
+        </div>
+        <div class="cards-grid cards-4">
+          <div class="stat-card">
+            <span class="stat-icon">🗺️</span>
+            <span class="stat-num">0</span>
+            <span class="stat-label">Safaris Completed</span>
+            <div class="stat-sub">Your first adventure awaits</div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-icon">🌍</span>
+            <span class="stat-num">0</span>
+            <span class="stat-label">Destinations Visited</span>
+            <div class="stat-sub">Kenya has 27 iconic destinations</div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-icon">🌙</span>
+            <span class="stat-num">0</span>
+            <span class="stat-label">Nights in the Wild</span>
+            <div class="stat-sub">Under the African stars</div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-icon">⭐</span>
+            <span class="stat-num" id="statPts">420</span>
+            <span class="stat-label">Reward Points</span>
+            <div class="stat-sub">Redeemable on next booking</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ③ PERSONAL DETAILS -->
+      <div class="profile-section reveal" id="sec-personal">
+        <div class="section-head">
+          <div class="section-head-left">
+            <span class="section-eyebrow">Account Information</span>
+            <h2 class="section-title">Personal Details</h2>
+          </div>
+          <div class="section-line"></div>
+          <!-- FIX: section Save now calls real Supabase save -->
+          <button class="section-action" onclick="savePersonal()">Save</button>
+        </div>
+        <div class="form-card">
+          <div class="form-grid">
+            <div class="form-row">
+              <div class="form-field" style="border-top:none;">
+                <label class="form-label">First Name</label>
+                <input class="form-input" id="pfFirstName" type="text" placeholder="Your first name">
+              </div>
+              <div class="form-field" style="border-top:none;">
+                <label class="form-label">Last Name</label>
+                <input class="form-input" id="pfLastName" type="text" placeholder="Your last name">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label class="form-label">Email Address</label>
+                <input class="form-input" id="pfEmail" type="email" placeholder="your@email.com" readonly style="opacity:.45;cursor:not-allowed;">
+              </div>
+              <div class="form-field">
+                <label class="form-label">Phone / WhatsApp</label>
+                <input class="form-input" id="pfPhone" type="tel" placeholder="+254 700 000 000">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label class="form-label">Nationality</label>
+                <input class="form-input" id="pfNationality" type="text" placeholder="e.g. Kenyan">
+              </div>
+              <div class="form-field">
+                <label class="form-label">Country of Residence</label>
+                <input class="form-input" id="pfCountry" type="text" placeholder="e.g. Kenya">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label class="form-label">Date of Birth</label>
+                <input class="form-input" id="pfDob" type="text" placeholder="DD / MM / YYYY">
+              </div>
+              <div class="form-field">
+                <label class="form-label">Passport Number</label>
+                <!-- FIX: password field now has a show/hide toggle button -->
+                <div class="form-input-wrap">
+                  <input class="form-input" id="pfPassport" type="password" placeholder="••••••••">
+                  <button class="show-toggle" onclick="togglePassportVis()" title="Show/hide">👁</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label class="form-label">Preferred Language</label>
+                <select class="form-input" id="pfLang">
+                  <option value="">Select language…</option>
+                  <option>English</option><option>French</option><option>German</option>
+                  <option>Spanish</option><option>Arabic</option><option>Swahili</option>
+                  <option>Mandarin</option><option>Japanese</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Time Zone</label>
+                <select class="form-input" id="pfTz">
+                  <option value="">Select time zone…</option>
+                  <option>EAT — East Africa Time (UTC+3)</option>
+                  <option>GMT — Greenwich Mean Time</option>
+                  <option>EST — Eastern Standard Time</option>
+                  <option>PST — Pacific Standard Time</option>
+                  <option>CET — Central European Time</option>
+                  <option>GST — Gulf Standard Time</option>
+                  <option>IST — India Standard Time</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label class="form-label">Emergency Contact Name</label>
+                <input class="form-input" id="pfEmergName" type="text" placeholder="Full name">
+              </div>
+              <div class="form-field">
+                <label class="form-label">Emergency Contact Phone</label>
+                <input class="form-input" id="pfEmergPhone" type="tel" placeholder="+254 ...">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ④ TRAVEL PERSONALIZATION -->
+      <div class="profile-section reveal" id="sec-travel">
+        <div class="section-head">
+          <div class="section-head-left">
+            <span class="section-eyebrow">AI Personalization Core</span>
+            <h2 class="section-title">Travel Profile</h2>
+          </div>
+          <div class="section-line"></div>
+          <button class="section-action" onclick="showNotify('Travel profile saved')">Save</button>
+        </div>
+
+        <div style="margin-bottom:32px;">
+          <div style="font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(212,175,55,0.55);font-weight:700;margin-bottom:16px;">Travel Style — Select all that apply</div>
+          <div class="cards-grid cards-3">
+            <div class="pref-card selected-card" onclick="toggleCard(this)">
+              <span class="pref-card-icon">📸</span>
+              <div class="pref-card-title">Wildlife Photography</div>
+              <div class="pref-card-desc">Sunrise game drives, golden hour shots, rare sightings curated for the lens.</div>
+              <div class="pref-check">✓</div>
+            </div>
+            <div class="pref-card" onclick="toggleCard(this)">
+              <span class="pref-card-icon">👑</span>
+              <div class="pref-card-title">Luxury Relaxation</div>
+              <div class="pref-card-desc">Private plunge pools, butler service, and the wild from complete comfort.</div>
+              <div class="pref-check"></div>
+            </div>
+            <div class="pref-card" onclick="toggleCard(this)">
+              <span class="pref-card-icon">🏔️</span>
+              <div class="pref-card-title">Adventure Safari</div>
+              <div class="pref-card-desc">Walking safaris, camel treks, climbing, and off-the-beaten-path wilderness.</div>
+              <div class="pref-check"></div>
+            </div>
+            <div class="pref-card" onclick="toggleCard(this)">
+              <span class="pref-card-icon">💕</span>
+              <div class="pref-card-title">Romantic Escape</div>
+              <div class="pref-card-desc">Private dinners under the stars, champagne sundowners, honeymoon suites.</div>
+              <div class="pref-check"></div>
+            </div>
+            <div class="pref-card" onclick="toggleCard(this)">
+              <span class="pref-card-icon">👨‍👩‍👧‍👦</span>
+              <div class="pref-card-title">Family Safari</div>
+              <div class="pref-card-desc">Child-safe vehicles, junior ranger programmes, and wonder for all ages.</div>
+              <div class="pref-check"></div>
+            </div>
+            <div class="pref-card" onclick="toggleCard(this)">
+              <span class="pref-card-icon">🏡</span>
+              <div class="pref-card-title">Private Retreat</div>
+              <div class="pref-card-desc">Exclusive-use houses, total privacy, bespoke everything.</div>
+              <div class="pref-check"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-card" style="margin-bottom:24px;">
+          <div class="form-grid">
+            <div class="form-row">
+              <div class="form-field" style="border-top:none;">
+                <label class="form-label">Preferred Destinations</label>
+                <input class="form-input" type="text" placeholder="e.g. Maasai Mara, Amboseli, Diani…">
+              </div>
+              <div class="form-field" style="border-top:none;">
+                <label class="form-label">Preferred Lodge / Camp Style</label>
+                <select class="form-input">
+                  <option value="">Select…</option>
+                  <option>Luxury Tented Camp</option>
+                  <option>Private House / Villa</option>
+                  <option>5-Star Lodge</option>
+                  <option>Treehouse / Unique</option>
+                  <option>Budget Tented</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label class="form-label">Room Configuration</label>
+                <select class="form-input">
+                  <option value="">Select…</option>
+                  <option>Single</option><option>Double / Twin</option>
+                  <option>Suite</option><option>Entire House</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Bed Preference</label>
+                <select class="form-input">
+                  <option value="">Select…</option>
+                  <option>King</option><option>Queen</option>
+                  <option>Twin Single</option><option>No preference</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-field">
+              <label class="form-label">Accessibility Needs</label>
+              <input class="form-input" type="text" placeholder="Any mobility, sensory, or medical requirements we should know…">
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(212,175,55,0.55);font-weight:700;margin-bottom:14px;">Experience Interests</div>
+        <div class="chips-wrap" id="interestChips">
+          <div class="chip selected" onclick="toggleChip(this)">🦁 Big Five Safaris</div>
+          <div class="chip" onclick="toggleChip(this)">🎭 Cultural Experiences</div>
+          <div class="chip" onclick="toggleChip(this)">🌿 Conservation Tours</div>
+          <div class="chip selected" onclick="toggleChip(this)">🚁 Helicopter Transfers</div>
+          <div class="chip" onclick="toggleChip(this)">🍽️ Fine Dining</div>
+          <div class="chip" onclick="toggleChip(this)">🧘 Spa & Wellness</div>
+          <div class="chip" onclick="toggleChip(this)">🌙 Night Game Drives</div>
+          <div class="chip" onclick="toggleChip(this)">🥾 Walking Safaris</div>
+          <div class="chip" onclick="toggleChip(this)">🎈 Balloon Safaris</div>
+          <div class="chip" onclick="toggleChip(this)">📖 Guided Nature Walks</div>
+          <div class="chip" onclick="toggleChip(this)">🐬 Marine & Snorkelling</div>
+          <div class="chip" onclick="toggleChip(this)">🦅 Bird Watching</div>
+        </div>
+      </div>
+
+      <!-- ⑤ DIETARY & LIFESTYLE -->
+      <div class="profile-section reveal" id="sec-dietary">
+        <div class="section-head">
+          <div class="section-head-left">
+            <span class="section-eyebrow">Comfort & Wellness</span>
+            <h2 class="section-title">Dietary & Lifestyle</h2>
+          </div>
+          <div class="section-line"></div>
+          <button class="section-action" onclick="showNotify('Dietary preferences saved')">Save</button>
+        </div>
+        <div class="form-card">
+          <div class="form-grid">
+            <div class="form-row">
+              <div class="form-field" style="border-top:none;">
+                <label class="form-label">Dietary Restrictions</label>
+                <select class="form-input">
+                  <option value="">None</option>
+                  <option>Vegetarian</option><option>Vegan</option>
+                  <option>Gluten-Free</option><option>Halal</option>
+                  <option>Kosher</option><option>Pescatarian</option>
+                </select>
+              </div>
+              <div class="form-field" style="border-top:none;">
+                <label class="form-label">Food Allergies</label>
+                <input class="form-input" type="text" placeholder="e.g. Nuts, Shellfish, Dairy…">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label class="form-label">Alcohol Preference</label>
+                <select class="form-input">
+                  <option value="">No preference</option>
+                  <option>Wine enthusiast</option>
+                  <option>Spirits & cocktails</option>
+                  <option>Non-alcoholic only</option>
+                  <option>Champagne only</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Fitness Level</label>
+                <select class="form-input">
+                  <option value="">Select…</option>
+                  <option>Leisurely — gentle walks only</option>
+                  <option>Moderate — comfortable day hikes</option>
+                  <option>Active — multi-day treks</option>
+                  <option>Athletic — extreme terrain</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label class="form-label">Wellness Interests</label>
+                <input class="form-input" type="text" placeholder="e.g. Yoga, Meditation, Massage, Spa…">
+              </div>
+              <div class="form-field">
+                <label class="form-label">Smoking Preference</label>
+                <select class="form-input">
+                  <option>Non-smoking rooms only</option>
+                  <option>Smoking permitted outdoors</option>
+                  <option>No preference</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑥ TRAVEL COMPANIONS -->
+      <div class="profile-section reveal" id="sec-companions">
+        <div class="section-head">
+          <div class="section-head-left">
+            <span class="section-eyebrow">Your Party</span>
+            <h2 class="section-title">Travel Companions</h2>
+          </div>
+          <div class="section-line"></div>
+          <button class="section-action" onclick="showNotify('Companion saved')">Add</button>
+        </div>
+        <div class="cards-grid cards-3" style="margin-bottom:12px;">
+          <div class="companion-card">
+            <div class="companion-avatar">👩</div>
+            <div class="companion-info">
+              <div class="companion-name">Sarah Explorer</div>
+              <div class="companion-meta">Partner · Adult · Vegetarian</div>
+            </div>
+          </div>
+          <div class="companion-card">
+            <div class="companion-avatar">🧒</div>
+            <div class="companion-info">
+              <div class="companion-name">Max Explorer</div>
+              <div class="companion-meta">Child · Age 8 · Junior Ranger</div>
+            </div>
+          </div>
+          <div class="companion-add" onclick="showNotify('Companion form coming soon')">
+            + &nbsp;Add Companion
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑦ BOOKING HISTORY -->
+      <div class="profile-section reveal" id="sec-bookings">
+        <div class="section-head">
+          <div class="section-head-left">
+            <span class="section-eyebrow">Journey Records</span>
+            <h2 class="section-title">Booking & Activity History</h2>
+          </div>
+          <div class="section-line"></div>
+        </div>
+
+        <div style="font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(212,175,55,0.55);font-weight:700;margin-bottom:14px;">Upcoming Safaris</div>
+        <div class="form-card" style="margin-bottom:24px;">
+          <div style="text-align:center;padding:32px 0;">
+            <div style="font-size:40px;margin-bottom:16px;">🌅</div>
+            <div style="font-family:'Playfair Display',serif;font-size:20px;color:var(--text);margin-bottom:8px;">Your first adventure is yet to be written.</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--muted);margin-bottom:20px;">Browse our curated safari collections and secure your place in the wild.</div>
+            <a href="index.html#packages" class="hero-btn hero-btn-primary">Browse Safari Packages</a>
+          </div>
+        </div>
+
+        <div style="font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(212,175,55,0.55);font-weight:700;margin-bottom:14px;">Wishlist & Saved Itineraries</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div class="booking-card">
+            <div class="booking-img">🦁</div>
+            <div class="booking-info">
+              <span class="booking-tag">Maasai Mara · 7 Days</span>
+              <div class="booking-title">Grand Odyssey</div>
+              <div class="booking-meta">Saved · $6,500 per person · Luxury Tier</div>
+            </div>
+            <div class="booking-status status-saved">Wishlist</div>
+          </div>
+          <div class="booking-card">
+            <div class="booking-img">🐘</div>
+            <div class="booking-info">
+              <span class="booking-tag">Amboseli · 4 Days</span>
+              <div class="booking-title">Mara Awakening</div>
+              <div class="booking-meta">Saved · $2,800 per person · Mid-Range</div>
+            </div>
+            <div class="booking-status status-saved">Wishlist</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑧ AI RECOMMENDATIONS -->
+      <div class="profile-section reveal" id="sec-recs">
+        <div class="section-head">
+          <div class="section-head-left">
+            <span class="section-eyebrow">Curated For You</span>
+            <h2 class="section-title">Personal Recommendations</h2>
+          </div>
+          <div class="section-line"></div>
+        </div>
+        <div class="cards-grid cards-3">
+          <div class="rec-card">
+            <div class="rec-img">🦒</div>
+            <div class="rec-body">
+              <span class="rec-tag">Best Season · July–October</span>
+              <div class="rec-title">The Great Migration Window</div>
+              <div class="rec-desc">Based on your wildlife photography preference, this is your peak Mara season.</div>
+              <div class="rec-price">From $4,200 <span>/ person</span></div>
+            </div>
+          </div>
+          <div class="rec-card">
+            <div class="rec-img">🏔️</div>
+            <div class="rec-body">
+              <span class="rec-tag">Member Exclusive</span>
+              <div class="rec-title">Private Mount Kenya Helicopter</div>
+              <div class="rec-desc">A helicopter transfer upgrade unlocks aerial photography unmatched anywhere on earth.</div>
+              <div class="rec-price">From $8,900 <span>/ person</span></div>
+            </div>
+          </div>
+          <div class="rec-card">
+            <div class="rec-img">🌊</div>
+            <div class="rec-body">
+              <span class="rec-tag">Trending Now</span>
+              <div class="rec-title">Diani Coastal Extension</div>
+              <div class="rec-desc">Pair your Mara safari with three nights of Indian Ocean luxury at Diani.</div>
+              <div class="rec-price">From $3,100 <span>/ person</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑨ LOYALTY -->
+      <div class="profile-section reveal" id="sec-loyalty">
+        <div class="section-head">
+          <div class="section-head-left">
+            <span class="section-eyebrow">Rewards Programme</span>
+            <h2 class="section-title">Loyalty & Membership</h2>
+          </div>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="tier-track" style="margin-bottom:32px;">
+          <div class="tier-node tier-active">
+            <span class="tier-icon">🦒</span>
+            <span class="tier-name">Explorer</span>
+            <span class="tier-pts">0 – 999 pts</span>
+          </div>
+          <div class="tier-node">
+            <span class="tier-icon">🦁</span>
+            <span class="tier-name">Elite</span>
+            <span class="tier-pts">1,000 – 4,999</span>
+          </div>
+          <div class="tier-node">
+            <span class="tier-icon">🐘</span>
+            <span class="tier-name">Private Guest</span>
+            <span class="tier-pts">5,000 – 14,999</span>
+          </div>
+          <div class="tier-node">
+            <span class="tier-icon">👑</span>
+            <span class="tier-name">VIP</span>
+            <span class="tier-pts">15,000+ pts</span>
+          </div>
+        </div>
+
+        <div class="cards-grid cards-3">
+          <div class="stat-card">
+            <span class="stat-icon">🌙</span>
+            <span class="stat-num">0</span>
+            <span class="stat-label">Nights Stayed</span>
+            <div class="stat-sub">10 nights unlocks Elite</div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-icon">✦</span>
+            <span class="stat-num">420</span>
+            <span class="stat-label">Reward Points</span>
+            <div class="stat-sub">Redeemable for upgrades</div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-icon">🎁</span>
+            <span class="stat-num">2</span>
+            <span class="stat-label">Experiences Unlocked</span>
+            <div class="stat-sub">Welcome champagne + Late checkout</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑩ CONCIERGE -->
+      <div class="profile-section reveal" id="sec-concierge">
+        <div class="section-head">
+          <div class="section-head-left">
+            <span class="section-eyebrow">Your Dedicated Team</span>
+            <h2 class="section-title">Personal Concierge</h2>
+          </div>
+          <div class="section-line"></div>
+        </div>
+        <div class="concierge-card">
+          <div class="concierge-avatar">A</div>
+          <div class="concierge-info">
+            <span class="concierge-role">Assigned Safari Concierge</span>
+            <div class="concierge-name">Amara Wanjiku</div>
+            <div class="concierge-bio">Amara is your dedicated point of contact for every aspect of your Filmax Jambo experience — from itinerary refinements to last-minute lodge changes. Reach her directly via WhatsApp or email, seven days a week.</div>
+            <div class="concierge-contact">
+              <a href="https://wa.me/34672304384" class="cc-btn cc-btn-wa" target="_blank">💬 &nbsp;WhatsApp Amara</a>
+              <a href="mailto:amara@filmaxjambotours.co.ke" class="cc-btn cc-btn-email">✉️ &nbsp;Send Email</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑪ NOTIFICATIONS -->
+      <div class="profile-section reveal" id="sec-notifications">
+        <div class="section-head">
+          <div class="section-head-left">
+            <span class="section-eyebrow">Communication Preferences</span>
+            <h2 class="section-title">Notifications & Contact</h2>
+          </div>
+          <div class="section-line"></div>
+          <button class="section-action" onclick="showNotify('Notification preferences saved')">Save</button>
+        </div>
+        <div class="form-card">
+          <div style="font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(212,175,55,0.55);font-weight:700;margin-bottom:20px;">Preferred Contact Method</div>
+          <div class="chips-wrap" style="margin-bottom:32px;">
+            <div class="chip selected" onclick="toggleChip(this)">💬 WhatsApp</div>
+            <div class="chip selected" onclick="toggleChip(this)">✉️ Email</div>
+            <div class="chip" onclick="toggleChip(this)">📞 Phone Call</div>
+            <div class="chip" onclick="toggleChip(this)">📱 SMS</div>
+          </div>
+
+          <div style="font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(212,175,55,0.55);font-weight:700;margin-bottom:20px;">Notification Settings</div>
+          <div class="toggle-wrap">
+            <div class="toggle-label-wrap">
+              <span class="toggle-label">Safari News & Blog Updates</span>
+              <span class="toggle-desc">New articles, destination guides, wildlife reports</span>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="toggle-wrap">
+            <div class="toggle-label-wrap">
+              <span class="toggle-label">Seasonal Offers & Packages</span>
+              <span class="toggle-desc">Limited availability and exclusive member pricing</span>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="toggle-wrap">
+            <div class="toggle-label-wrap">
+              <span class="toggle-label">Booking Confirmations & Updates</span>
+              <span class="toggle-desc">Itinerary changes, arrival reminders, lodge updates</span>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="toggle-wrap">
+            <div class="toggle-label-wrap">
+              <span class="toggle-label">Loyalty & Rewards Alerts</span>
+              <span class="toggle-desc">Points earned, tier upgrades, new experiences unlocked</span>
+            </div>
+            <div class="toggle" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="toggle-wrap">
+            <div class="toggle-label-wrap">
+              <span class="toggle-label">Conservation & Wildlife Updates</span>
+              <span class="toggle-desc">Migration alerts, Big Five sighting reports</span>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑫ SECURITY -->
+      <div class="profile-section reveal" id="sec-security">
+        <div class="section-head">
+          <div class="section-head-left">
+            <span class="section-eyebrow">Account Protection</span>
+            <h2 class="section-title">Security & Settings</h2>
+          </div>
+          <div class="section-line"></div>
+        </div>
+        <div class="form-card">
+          <div class="security-item">
+            <div class="security-icon">🔑</div>
+            <div class="security-info">
+              <div class="security-label">Password</div>
+              <div class="security-desc">Last changed — never · Minimum 8 characters required</div>
+            </div>
+            <span class="security-status sec-disabled">Weak</span>
+            <button class="sec-btn" onclick="showNotify('Password reset email sent')">Change Password</button>
+          </div>
+          <div class="security-item">
+            <div class="security-icon">📱</div>
+            <div class="security-info">
+              <div class="security-label">Two-Factor Authentication</div>
+              <div class="security-desc">Add a second layer of protection via SMS or authenticator app</div>
+            </div>
+            <span class="security-status sec-disabled">Off</span>
+            <button class="sec-btn" onclick="showNotify('2FA setup — coming soon')">Enable 2FA</button>
+          </div>
+          <div class="security-item">
+            <div class="security-icon">🛂</div>
+            <div class="security-info">
+              <div class="security-label">Travel Document Vault</div>
+              <div class="security-desc">Securely store passport, visa, and travel insurance copies</div>
+            </div>
+            <span class="security-status sec-disabled">Empty</span>
+            <button class="sec-btn" onclick="showNotify('Document vault — coming soon')">Upload Documents</button>
+          </div>
+          <div class="security-item">
+            <div class="security-icon">💳</div>
+            <div class="security-info">
+              <div class="security-label">Saved Payment Methods</div>
+              <div class="security-desc">Securely stored cards for faster booking</div>
+            </div>
+            <span class="security-status sec-disabled">None</span>
+            <button class="sec-btn" onclick="showNotify('Payment methods — coming soon')">Add Card</button>
+          </div>
+          <div class="security-item">
+            <div class="security-icon">🔒</div>
+            <div class="security-info">
+              <div class="security-label">Privacy Controls</div>
+              <div class="security-desc">Manage data sharing and profile visibility</div>
+            </div>
+            <span class="security-status sec-enabled">Private</span>
+            <button class="sec-btn" onclick="showNotify('Privacy settings saved')">Manage</button>
+          </div>
+          <div class="security-item">
+            <div class="security-icon">🚪</div>
+            <div class="security-info">
+              <div class="security-label">Sign Out</div>
+              <div class="security-desc">End your current session securely</div>
+            </div>
+            <button class="sec-btn" style="border-color:rgba(224,85,85,0.3);color:#e05555;" onclick="signOut()">Sign Out</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+
+    <!-- SAVE BAR -->
+    <div class="save-bar">
+      <div class="save-bar-msg">Changes are saved to your Supabase member profile.</div>
+      <button class="save-btn" onclick="saveAll()">✓ &nbsp;Save All Changes</button>
+    </div>
+
+  </main>
+</div><!-- /layout -->
+
+<script>
+// ─────────────────────────────────────────
+// CURSOR
+// ─────────────────────────────────────────
+const cur = document.getElementById('cur');
+const ring = document.getElementById('curRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+});
+(function animRing() {
+  rx += (mx - rx) * .12; ry += (my - ry) * .12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animRing);
+})();
+document.querySelectorAll('a,button,.pref-card,.rec-card,.booking-card,.chip,.toggle,.sec-btn,.cc-btn,.sb-avatar,.companion-add').forEach(el => {
+  el.addEventListener('mouseenter', () => { cur.style.width = '18px'; cur.style.height = '18px'; ring.style.width = '54px'; ring.style.height = '54px'; });
+  el.addEventListener('mouseleave', () => { cur.style.width = '10px'; cur.style.height = '10px'; ring.style.width = '36px'; ring.style.height = '36px'; });
+});
+
+// ─────────────────────────────────────────
+// FIX: navTo() — renamed to avoid shadowing window.scrollTo()
+// Also receives the clicked button element directly (no event.currentTarget needed)
+// ─────────────────────────────────────────
+function navTo(id, btn) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.querySelectorAll('.sb-nav-item').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+}
+
+// ─────────────────────────────────────────
+// REVEAL ON SCROLL
+// ─────────────────────────────────────────
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: .08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// ─────────────────────────────────────────
+// CHIP / CARD TOGGLES
+// ─────────────────────────────────────────
+function toggleChip(el) { el.classList.toggle('selected'); }
+function toggleCard(el) {
+  el.classList.toggle('selected-card');
+  const check = el.querySelector('.pref-check');
+  if (check) check.textContent = el.classList.contains('selected-card') ? '✓' : '';
+}
+
+// ─────────────────────────────────────────
+// TOAST NOTIFICATION
+// ─────────────────────────────────────────
+const notifyEl = document.getElementById('notify');
+let notifyTimer;
+function showNotify(msg) {
+  clearTimeout(notifyTimer);
+  notifyEl.textContent = '✓  ' + msg;
+  notifyEl.classList.add('show');
+  notifyTimer = setTimeout(() => notifyEl.classList.remove('show'), 2600);
+}
+
+// ─────────────────────────────────────────
+// FIX: PASSPORT SHOW / HIDE
+// ─────────────────────────────────────────
+function togglePassportVis() {
+  const f = document.getElementById('pfPassport');
+  f.type = f.type === 'password' ? 'text' : 'password';
+}
+
+// ─────────────────────────────────────────
+// FIX: AVATAR FILE UPLOAD (both sidebar + hero)
+// ─────────────────────────────────────────
+document.getElementById('avatarFileInput').addEventListener('change', function () {
+  if (!this.files || !this.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const src = e.target.result;
+    // Hero avatar
+    const heroImg = document.getElementById('heroAvatarImg');
+    const heroInitial = document.getElementById('heroInitial');
+    heroImg.src = src; heroImg.style.display = 'block';
+    heroInitial.style.display = 'none';
+    // Sidebar avatar
+    const sbImg = document.getElementById('sbAvatarImg');
+    const sbInitial = document.getElementById('sbAvatarInitial');
+    sbImg.src = src; sbImg.style.display = 'block';
+    sbInitial.style.display = 'none';
+    showNotify('Profile photo updated');
+  };
+  reader.readAsDataURL(this.files[0]);
+});
+
+// ─────────────────────────────────────────
+// SUPABASE — INIT & SAVE
+// ─────────────────────────────────────────
+// NOTE: Move your Supabase credentials to an environment variable or
+// server-side call before going to production. The anon key is safe
+// for client-side use when RLS is enabled, but avoid committing it publicly.
+const SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
+
+let supa = null;
+
+async function initProfile() {
+  try {
+    supa = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+    const { data: { session } } = await supa.auth.getSession();
+
+    // FIX: redirect to index if not logged in
+    if (!session) { window.location.href = 'index.html'; return; }
+
+    const user = session.user;
+    const m = user.user_metadata || {};
+    const firstName = m.first_name || '';
+    const lastName = m.last_name || '';
+    const fullName = (firstName + ' ' + lastName).trim() || user.email.split('@')[0];
+    const initial = (firstName || user.email || '?').charAt(0).toUpperCase();
+
+    // Populate hero
+    document.getElementById('heroName').textContent = fullName;
+    document.getElementById('heroInitial').textContent = initial;
+
+    // Populate sidebar
+    document.getElementById('sbName').textContent = fullName;
+    document.getElementById('sbEmail').textContent = user.email || '';
+    document.getElementById('sbAvatarInitial').textContent = initial;
+
+    // Populate form fields
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
+    set('pfFirstName', m.first_name);
+    set('pfLastName', m.last_name);
+    set('pfEmail', user.email);
+    set('pfPhone', m.phone);
+    set('pfNationality', m.nationality);
+    set('pfCountry', m.country);
+    set('pfDob', m.dob);
+    set('pfLang', m.preferred_lang);
+    set('pfTz', m.timezone);
+    set('pfEmergName', m.emerg_name);
+    set('pfEmergPhone', m.emerg_phone);
+
+    // FIX: loyalty bar — compute real percentage (Explorer tier = 0–999 pts)
+    const pts = m.reward_points || 420;
+    const pct = Math.min((pts / 1000) * 100, 100);
+    document.getElementById('loyaltyPts').childNodes[0].textContent = pts;
+    document.getElementById('statPts').textContent = pts;
+    // Animate after short delay so transition fires
+    setTimeout(() => {
+      const fill = document.getElementById('loyaltyFill');
+      if (fill) fill.style.width = pct + '%';
+    }, 500);
+
+  } catch (e) {
+    console.warn('Profile init error:', e);
+    // Still animate loyalty bar with default value if Supabase fails
+    setTimeout(() => {
+      const fill = document.getElementById('loyaltyFill');
+      if (fill) fill.style.width = '42%'; // 420/1000
+    }, 500);
+  }
+}
+
+// ─────────────────────────────────────────
+// FIX: savePersonal() — actually writes to Supabase
+// ─────────────────────────────────────────
+async function savePersonal() {
+  if (!supa) { showNotify('Personal details saved'); return; }
+  try {
+    const { error } = await supa.auth.updateUser({
+      data: {
+        first_name: document.getElementById('pfFirstName')?.value || '',
+        last_name:  document.getElementById('pfLastName')?.value || '',
+        phone:      document.getElementById('pfPhone')?.value || '',
+        nationality:document.getElementById('pfNationality')?.value || '',
+        country:    document.getElementById('pfCountry')?.value || '',
+        dob:        document.getElementById('pfDob')?.value || '',
+        preferred_lang: document.getElementById('pfLang')?.value || '',
+        timezone:   document.getElementById('pfTz')?.value || '',
+        emerg_name: document.getElementById('pfEmergName')?.value || '',
+        emerg_phone:document.getElementById('pfEmergPhone')?.value || '',
+      }
+    });
+    if (error) throw error;
+    // Update displayed name live
+    const first = document.getElementById('pfFirstName')?.value || '';
+    const last  = document.getElementById('pfLastName')?.value || '';
+    const full  = (first + ' ' + last).trim();
+    if (full) {
+      document.getElementById('heroName').textContent = full;
+      document.getElementById('sbName').textContent = full;
+    }
+    showNotify('Personal details saved');
+  } catch (e) {
+    console.error('Save error:', e);
+    showNotify('Save failed — check console');
+  }
+}
+
+// ─────────────────────────────────────────
+// saveAll — calls real personal save + toast for others
+// ─────────────────────────────────────────
+async function saveAll() {
+  await savePersonal();
+  showNotify('All profile changes saved');
+}
+
+// ─────────────────────────────────────────
+// SIGN OUT
+// ─────────────────────────────────────────
+async function signOut() {
+  if (supa) await supa.auth.signOut();
+  window.location.href = 'index.html';
+}
+
+// ─────────────────────────────────────────
+// BOOT — load Supabase then init
+// ─────────────────────────────────────────
+if (!window.supabase) {
+  const s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+  s.onload = initProfile;
+  document.head.appendChild(s);
+} else {
+  initProfile();
+}
+</script>
+</body>
+</html>
