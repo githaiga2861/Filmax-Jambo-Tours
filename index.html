@@ -9986,7 +9986,7 @@ document.addEventListener('DOMContentLoaded',function(){
   window._openProfile = function() {
     var user = window._fjCurrentUser;
     if (!user) { window._openAuth('signin'); return; }
-    window.location.href = "/profile.html";
+    window.location.href = "Filmax-Jambo-Tours/profile.html";
     var m = user.user_metadata || {};
     var name = (m.first_name || user.email.split('@')[0]);
     document.getElementById('profileAvatar').textContent = name.charAt(0).toUpperCase();
