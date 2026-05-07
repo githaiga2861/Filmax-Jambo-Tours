@@ -6318,7 +6318,8 @@ body.light-mode .pkg-cta:hover {
 </div>
   <div id="userMenu" style="position:absolute;top:calc(100% + 10px);right:0;background:rgba(12,12,12,0.97);border:1px solid rgba(212,175,55,0.2);min-width:200px;z-index:200;backdrop-filter:blur(20px);opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity 0.3s,transform 0.3s;">
     <div id="userMenuName" style="padding:14px 20px 10px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#d4af37;border-bottom:1px solid rgba(212,175,55,0.1);">Welcome</div>
-    <a href="#contact" class="user-menu-item" onclick="document.getElementById('userMenu').classList.remove('open')">My Bookings</a>
+    <a href="profile.html" class="user-menu-item">My Profile</a>
+    <a href="profile.html#sec-bookings" class="user-menu-item">My Bookings</a>
     <button class="user-menu-item" id="userMenuSignOut">Sign Out</button>
   </div>
 </div>
@@ -6335,7 +6336,10 @@ body.light-mode .pkg-cta:hover {
   <div id="dropdownUserHeader" style="display:none;margin-bottom:24px;padding:20px 0 20px;border-bottom:1px solid rgba(212,175,55,0.15);">
     <span style="font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:6px;font-family:'Jost',sans-serif;">Signed In As</span>
     <span id="dropdownUserName" style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text);display:block;margin-bottom:16px;"></span>
-    <button id="dropdownLogoutBtn" style="font-family:'Jost',sans-serif;font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#e05555;background:transparent;border:1px solid rgba(224,85,85,0.35);padding:10px 20px;cursor:none;width:100%;transition:background 0.3s,border-color 0.3s;" onmouseenter="this.style.background='rgba(224,85,85,0.1)'" onmouseleave="this.style.background='transparent'">Sign Out</button>
+    <div style="display:flex;gap:8px;flex-direction:column;">
+      <a href="profile.html" style="font-family:'Jost',sans-serif;font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#d4af37;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.3);padding:10px 20px;cursor:none;width:100%;text-decoration:none;display:block;text-align:center;transition:background 0.3s;" onmouseenter="this.style.background='rgba(212,175,55,0.15)'" onmouseleave="this.style.background='rgba(212,175,55,0.08)'">My Profile</a>
+      <button id="dropdownLogoutBtn" style="font-family:'Jost',sans-serif;font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#e05555;background:transparent;border:1px solid rgba(224,85,85,0.35);padding:10px 20px;cursor:none;width:100%;transition:background 0.3s,border-color 0.3s;" onmouseenter="this.style.background='rgba(224,85,85,0.1)'" onmouseleave="this.style.background='transparent'">Sign Out</button>
+    </div>
   </div>
   <a href="index.html" class="dropdown-back">Back to Home</a>
 <a href="#wildlife" class="dropdown-link">Destinations</a>
@@ -8271,326 +8275,58 @@ body.light-mode .pkg-cta:hover {
   </div>
 </div>
 
-<!-- USER PROFILE PANEL -->
+<!-- USER PROFILE PANEL REMOVED — see profile.html -->
 <style>
-/* ── PROFILE PANEL DASHBOARD ── */
-.prf-dash-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-.prf-stat-card {
-  background: rgba(212,175,55,0.06);
-  border: 1px solid rgba(212,175,55,0.14);
-  padding: 16px 18px;
-  position: relative;
-  overflow: hidden;
-  transition: border-color 0.3s, background 0.3s;
-}
-.prf-stat-card:hover { border-color: rgba(212,175,55,0.35); background: rgba(212,175,55,0.1); }
-.prf-stat-card::before {
-  content:''; position:absolute; top:0; left:0; right:0; height:1px;
-  background: linear-gradient(to right, transparent, rgba(212,175,55,0.4), transparent);
-}
-.prf-stat-num {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px; font-weight: 900;
-  color: #d4af37; line-height: 1; display: block; margin-bottom: 4px;
-}
-.prf-stat-lbl {
-  font-family: 'Jost', sans-serif;
-  font-size: 8px; font-weight: 700;
-  letter-spacing: 4px; text-transform: uppercase;
-  color: rgba(138,128,116,0.8);
-}
-.prf-section-head {
-  display: flex; align-items: center; gap: 12px;
-  margin: 22px 0 14px;
-}
-.prf-section-head-line {
-  flex: 1; height: 1px;
-  background: linear-gradient(to right, rgba(212,175,55,0.25), transparent);
-}
-.prf-section-head span {
-  font-family: 'Jost', sans-serif;
-  font-size: 8px; font-weight: 800;
-  letter-spacing: 5px; text-transform: uppercase;
-  color: rgba(212,175,55,0.6); white-space: nowrap;
-}
-.prf-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
-.prf-quick-links {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;
-}
-.prf-quick-link {
-  display: flex; align-items: center; gap: 10px;
-  padding: 12px 14px;
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(212,175,55,0.1);
-  font-family: 'Jost', sans-serif;
-  font-size: 9px; font-weight: 700;
-  letter-spacing: 3px; text-transform: uppercase;
-  color: rgba(138,128,116,0.8);
-  text-decoration: none; cursor: none;
-  transition: border-color 0.3s, color 0.3s, background 0.3s;
-}
-.prf-quick-link:hover { border-color: rgba(212,175,55,0.35); color: #d4af37; background: rgba(212,175,55,0.06); }
-.prf-quick-link-icon { font-size: 14px; flex-shrink: 0; }
-.prf-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 5px 12px;
-  background: rgba(212,175,55,0.1);
-  border: 1px solid rgba(212,175,55,0.2);
-  font-family: 'Jost', sans-serif;
-  font-size: 8px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
-  color: #d4af37;
-}
-.prf-activity-item {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(212,175,55,0.07);
-}
-.prf-activity-item:last-child { border-bottom: none; }
-.prf-activity-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: #d4af37; flex-shrink: 0; margin-top: 5px;
-  box-shadow: 0 0 6px rgba(212,175,55,0.5);
-}
-.prf-activity-text {
-  font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 500;
-  color: rgba(240,236,228,0.75); line-height: 1.5;
-}
-.prf-activity-time {
-  font-size: 9px; color: rgba(138,128,116,0.6); margin-top: 2px; letter-spacing: 1px;
-}
-/* tabs */
-.profile-tabs {
-  display: flex; border-bottom: 1px solid rgba(212,175,55,0.1); overflow-x: auto;
-  scrollbar-width: none;
-}
-.profile-tabs::-webkit-scrollbar { display: none; }
-.profile-tab {
-  flex: 1; font-family: 'Jost', sans-serif;
-  font-size: 8px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase;
-  padding: 13px 6px; background: none; border: none;
-  color: rgba(138,128,116,0.65); cursor: none;
-  border-bottom: 2px solid transparent; margin-bottom: -1px;
-  transition: color 0.3s, border-color 0.3s; white-space: nowrap;
-}
-.profile-tab.active { color: #d4af37; border-bottom-color: #d4af37; }
+/* profile panel styles removed */
 </style>
-
-<div id="profileOverlay">
-  <div id="profilePanel">
-    <div class="profile-top-line"></div>
-    <button class="profile-close" onclick="window._closeProfile()">Close ✕</button>
-
-    <!-- HERO HEADER -->
-    <div class="profile-header" style="padding:32px 28px 20px;border-bottom:1px solid rgba(212,175,55,0.1);display:flex;align-items:center;gap:18px;">
-      <div class="profile-avatar" id="profileAvatar" style="width:64px;height:64px;font-size:24px;flex-shrink:0;">?</div>
-      <div style="flex:1;min-width:0;">
-        <div style="font-size:8px;letter-spacing:5px;text-transform:uppercase;color:rgba(212,175,55,0.6);font-family:'Jost',sans-serif;font-weight:700;margin-bottom:4px;">Safari Member</div>
-        <div class="profile-name" id="profileDisplayName" style="font-size:20px;margin-bottom:2px;">My Account</div>
-        <div class="profile-email" id="profileDisplayEmail" style="font-size:11px;"></div>
-      </div>
-      <div class="prf-badge" id="profileMemberBadge">
-        <span>🦁</span> Explorer
-      </div>
-    </div>
-
-    <!-- TABS -->
-    <div class="profile-tabs">
-      <button class="profile-tab active" data-tab="dashboard" onclick="window._profileTab('dashboard')">Dashboard</button>
-      <button class="profile-tab" data-tab="details"   onclick="window._profileTab('details')">Profile</button>
-      <button class="profile-tab" data-tab="packages"  onclick="window._profileTab('packages')">Saved</button>
-      <button class="profile-tab" data-tab="cart"      onclick="window._profileTab('cart')">Cart</button>
-      <button class="profile-tab" data-tab="settings"  onclick="window._profileTab('settings')">Settings</button>
-    </div>
-
-    <!-- ── DASHBOARD TAB ── -->
-    <div id="profileTabDashboard" class="profile-section">
-
-      <!-- Stats row -->
-      <div class="prf-dash-grid" style="margin-top:4px;">
-        <div class="prf-stat-card">
-          <span class="prf-stat-num" id="dashStatSaved">0</span>
-          <span class="prf-stat-lbl">Saved Packages</span>
-        </div>
-        <div class="prf-stat-card">
-          <span class="prf-stat-num" id="dashStatCart">0</span>
-          <span class="prf-stat-lbl">In Cart</span>
-        </div>
-        <div class="prf-stat-card">
-          <span class="prf-stat-num" id="dashStatDays">—</span>
-          <span class="prf-stat-lbl">Preferred Duration</span>
-        </div>
-        <div class="prf-stat-card">
-          <span class="prf-stat-num" id="dashStatBudget">—</span>
-          <span class="prf-stat-lbl">Budget Tier</span>
-        </div>
-      </div>
-
-      <!-- Quick links -->
-      <div class="prf-section-head">
-        <span>Quick Actions</span><div class="prf-section-head-line"></div>
-      </div>
-      <div class="prf-quick-links">
-        <a href="#packages" onclick="window._closeProfile()" class="prf-quick-link"><span class="prf-quick-link-icon">🗺️</span>Browse Safaris</a>
-        <a href="#contact"  onclick="window._closeProfile()" class="prf-quick-link"><span class="prf-quick-link-icon">✉️</span>Send Enquiry</a>
-        <a href="#wildlife" onclick="window._closeProfile()" class="prf-quick-link"><span class="prf-quick-link-icon">🦒</span>Destinations</a>
-        <a href="#testimonials" onclick="window._closeProfile()" class="prf-quick-link"><span class="prf-quick-link-icon">⭐</span>Leave Review</a>
-      </div>
-
-      <!-- Recent activity -->
-      <div class="prf-section-head">
-        <span>Recent Activity</span><div class="prf-section-head-line"></div>
-      </div>
-      <div id="dashActivity">
-        <div class="prf-activity-item">
-          <div class="prf-activity-dot"></div>
-          <div>
-            <div class="prf-activity-text">Welcome to Filmax Jambo Tours — your safari journey begins here.</div>
-            <div class="prf-activity-time">Just now</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sign out -->
-      <div style="margin-top:24px;padding-top:18px;border-top:1px solid rgba(212,175,55,0.08);">
-        <button style="width:100%;font-family:'Jost',sans-serif;font-size:9px;font-weight:800;letter-spacing:5px;text-transform:uppercase;padding:14px;background:transparent;border:1px solid rgba(224,85,85,0.3);color:#e05555;cursor:none;transition:background 0.3s,border-color 0.3s;" onclick="window._signOutFromProfile()" onmouseover="this.style.background='rgba(224,85,85,0.08)'" onmouseout="this.style.background='transparent'">Sign Out of Account</button>
-      </div>
-    </div>
-
-    <!-- ── PROFILE / DETAILS TAB ── -->
-    <div id="profileTabDetails" class="profile-section" style="display:none;">
-
-      <div class="prf-section-head" style="margin-top:4px;">
-        <span>Personal Information</span><div class="prf-section-head-line"></div>
-      </div>
-      <div class="prf-field-row">
-        <div class="profile-field"><label>First Name</label><input id="pfFirstName" type="text" placeholder="First name"></div>
-        <div class="profile-field"><label>Last Name</label><input id="pfLastName" type="text" placeholder="Last name"></div>
-      </div>
-      <div class="profile-field"><label>Email Address</label><input id="pfEmail" type="email" placeholder="Email address" readonly style="opacity:0.45;cursor:not-allowed;"></div>
-      <div class="profile-field"><label>Phone / WhatsApp</label><input id="pfPhone" type="tel" placeholder="+254 ..."></div>
-      <div class="profile-field"><label>Country of Residence</label><input id="pfNationality" type="text" placeholder="Country"></div>
-      <div class="profile-field"><label>Date of Birth</label><input id="pfDob" type="text" placeholder="DD / MM / YYYY"></div>
-
-      <div class="prf-section-head">
-        <span>Safari Preferences</span><div class="prf-section-head-line"></div>
-      </div>
-      <div class="prf-field-row">
-        <div class="profile-field">
-          <label>Preferred Duration</label>
-          <select id="pfDuration" style="background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:var(--text);font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;outline:none;width:100%;appearance:none;cursor:none;">
-            <option value="">Select…</option>
-            <option value="3-4 Days">3 – 4 Days</option>
-            <option value="5-7 Days">5 – 7 Days</option>
-            <option value="8-10 Days">8 – 10 Days</option>
-            <option value="10+ Days">10+ Days</option>
-          </select>
-        </div>
-        <div class="profile-field">
-          <label>Budget Tier</label>
-          <select id="pfBudget" style="background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:var(--text);font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;outline:none;width:100%;appearance:none;cursor:none;">
-            <option value="">Select…</option>
-            <option value="Budget">Budget</option>
-            <option value="Mid">Mid-Range</option>
-            <option value="Luxury">Luxury</option>
-            <option value="Ultra">Ultra Luxury</option>
-          </select>
-        </div>
-      </div>
-      <div class="profile-field"><label>Interests (e.g. Wildlife, Beach, Culture)</label><input id="pfInterests" type="text" placeholder="Wildlife, Photography, Beach…"></div>
-      <div class="profile-field"><label>Planned Travel Date</label><input id="pfTravelDate" type="text" placeholder="e.g. July 2026"></div>
-
-      <div class="prf-section-head">
-        <span>Emergency Contact</span><div class="prf-section-head-line"></div>
-      </div>
-      <div class="prf-field-row">
-        <div class="profile-field"><label>Contact Name</label><input id="pfEmergName" type="text" placeholder="Full name"></div>
-        <div class="profile-field"><label>Contact Phone</label><input id="pfEmergPhone" type="tel" placeholder="Phone number"></div>
-      </div>
-
-      <div id="profileSaveNotif" style="display:none;margin-bottom:12px;"></div>
-      <button class="profile-save-btn" onclick="window._saveProfile()">Save All Changes</button>
-    </div>
-
-    <!-- ── SAVED PACKAGES TAB ── -->
-    <div id="profileTabPackages" class="profile-section" style="display:none;">
-      <div class="prf-section-head" style="margin-top:4px;">
-        <span>Saved & Draft Packages</span><div class="prf-section-head-line"></div>
-      </div>
-      <div id="profilePkgList">
-        <div class="profile-empty">No saved packages yet.<br>Browse our <a href="#packages" onclick="window._closeProfile()" style="color:#d4af37;text-decoration:none;">safari collections</a> to get started.</div>
-      </div>
-    </div>
-
-    <!-- ── CART TAB ── -->
-    <div id="profileTabCart" class="profile-section" style="display:none;">
-      <div class="prf-section-head" style="margin-top:4px;">
-        <span>Your Safari Cart</span><div class="prf-section-head-line"></div>
-      </div>
-      <div id="profileCartList">
-        <div class="profile-empty">Your cart is empty.<br>Add packages from our <a href="#packages" onclick="window._closeProfile()" style="color:#d4af37;text-decoration:none;">collections</a>.</div>
-      </div>
-      <div id="profileCartTotal" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid rgba(212,175,55,0.1);">
-        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;">
-          <span style="font-family:'Jost',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(138,128,116,0.7);">Total Estimate</span>
-          <span id="profileCartTotalNum" style="font-family:'Cormorant Garamond',serif;font-size:28px;color:#d4af37;font-weight:600;"></span>
-        </div>
-        <a href="#contact" onclick="window._closeProfile()" style="display:block;font-family:'Jost',sans-serif;font-size:10px;font-weight:800;letter-spacing:5px;text-transform:uppercase;padding:18px;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;text-decoration:none;text-align:center;">Enquire About These Packages</a>
-      </div>
-    </div>
-
-    <!-- ── SETTINGS TAB ── -->
-    <div id="profileTabSettings" class="profile-section" style="display:none;">
-
-      <div class="prf-section-head" style="margin-top:4px;">
-        <span>Display & Experience</span><div class="prf-section-head-line"></div>
-      </div>
-
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(212,175,55,0.07);">
-        <div>
-          <div style="font-family:'Jost',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(240,236,228,0.85);margin-bottom:3px;">Theme Mode</div>
-          <div style="font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;color:rgba(138,128,116,0.7);">Switch between dark and light</div>
-        </div>
-        <button onclick="document.getElementById('themeToggle').click();updateSettingsThemeLabel();" id="settingsThemeBtn" style="font-family:'Jost',sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:10px 18px;background:transparent;border:1px solid rgba(212,175,55,0.3);color:#d4af37;cursor:none;transition:all 0.3s;" onmouseover="this.style.background='rgba(212,175,55,0.08)'" onmouseout="this.style.background='transparent'">🌙 Dark</button>
-      </div>
-
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(212,175,55,0.07);">
-        <div>
-          <div style="font-family:'Jost',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(240,236,228,0.85);margin-bottom:3px;">Site Hints</div>
-          <div style="font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;color:rgba(138,128,116,0.7);">Contextual tips while browsing</div>
-        </div>
-        <button onclick="toggleHints(this)" id="settingsHintsBtn" style="font-family:'Jost',sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:10px 18px;background:transparent;border:1px solid rgba(212,175,55,0.3);color:#d4af37;cursor:none;transition:all 0.3s;" onmouseover="this.style.background='rgba(212,175,55,0.08)'" onmouseout="this.style.background='transparent'">Enabled</button>
-      </div>
-
-      <div class="prf-section-head">
-        <span>Notifications</span><div class="prf-section-head-line"></div>
-      </div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:rgba(138,128,116,0.7);line-height:1.7;margin-bottom:16px;">Email preferences for safari news, seasonal offers, and booking updates.</div>
-
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(212,175,55,0.07);">
-        <span style="font-family:'Jost',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;color:rgba(240,236,228,0.8);">Safari News & Blog Updates</span>
-        <span style="font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;color:rgba(212,175,55,0.6);">Coming Soon</span>
-      </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(212,175,55,0.07);">
-        <span style="font-family:'Jost',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;color:rgba(240,236,228,0.8);">Seasonal Offers & Packages</span>
-        <span style="font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;color:rgba(212,175,55,0.6);">Coming Soon</span>
-      </div>
-
-      <div class="prf-section-head">
-        <span>Account</span><div class="prf-section-head-line"></div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:8px;">
-        <button style="width:100%;font-family:'Jost',sans-serif;font-size:9px;font-weight:800;letter-spacing:5px;text-transform:uppercase;padding:14px;background:transparent;border:1px solid rgba(212,175,55,0.25);color:rgba(212,175,55,0.8);cursor:none;transition:all 0.3s;text-align:left;display:flex;align-items:center;gap:12px;" onclick="window._switchAuthTab('signin');window._closeProfile();window._showForgotPassword();window._openAuth('signin');" onmouseover="this.style.background='rgba(212,175,55,0.06)'" onmouseout="this.style.background='transparent'">🔐 <span>Change Password</span></button>
-        <button style="width:100%;font-family:'Jost',sans-serif;font-size:9px;font-weight:800;letter-spacing:5px;text-transform:uppercase;padding:14px;background:transparent;border:1px solid rgba(224,85,85,0.3);color:#e05555;cursor:none;transition:all 0.3s;text-align:left;display:flex;align-items:center;gap:12px;" onclick="window._signOutFromProfile()" onmouseover="this.style.background='rgba(224,85,85,0.06)'" onmouseout="this.style.background='transparent'">🚪 <span>Sign Out of Account</span></button>
-      </div>
-    </div>
+<div id="profileOverlay" style="display:none;"></div>
+<div id="profilePanel" style="display:none;">
+  <div id="profileTabDashboard"></div>
+  <div id="profileTabDetails"></div>
+  <div id="profileTabPackages"></div>
+  <div id="profileTabCart"></div>
+  <div id="profileTabSettings"></div>
+  <input id="pfFirstName" style="display:none;">
+  <input id="pfLastName" style="display:none;">
+  <input id="pfEmail" style="display:none;">
+  <input id="pfPhone" style="display:none;">
+  <input id="pfNationality" style="display:none;">
+  <input id="pfDob" style="display:none;">
+  <input id="pfDuration" style="display:none;">
+  <input id="pfBudget" style="display:none;">
+  <input id="pfInterests" style="display:none;">
+  <input id="pfTravelDate" style="display:none;">
+  <input id="pfEmergName" style="display:none;">
+  <input id="pfEmergPhone" style="display:none;">
+  <div id="profileSaveNotif"></div>
+  <div id="profileAvatar"></div>
+  <div id="profileDisplayName"></div>
+  <div id="profileDisplayEmail"></div>
+  <div id="profileMemberBadge"></div>
+  <div id="dashStatSaved"></div>
+  <div id="dashStatCart"></div>
+  <div id="dashStatDays"></div>
+  <div id="dashStatBudget"></div>
+  <div id="dashActivity"></div>
+  <div id="profilePkgList"></div>
+  <div id="profileCartList"></div>
+  <div id="profileCartTotal"></div>
+  <div id="profileCartTotalNum"></div>
+  <button id="settingsThemeBtn" style="display:none;"></button>
+  <button id="settingsHintsBtn" style="display:none;"></button>
+  <div class="profile-top-line" style="display:none;"></div>
+  <div class="profile-close" style="display:none;"></div>
+  <div class="profile-header" style="display:none;"></div>
+  <div class="profile-tabs" style="display:none;"></div>
+</div>
+<!-- END PROFILE STUBS -->
+<style>
+/* profile panel styles removed */
 
   </div>
 </div>
+
+<!-- END OF PROFILE STUBS -->
 
 <!-- TEAM MEMBER POPUP -->
 <div class="team-popup-overlay" id="teamPopupOverlay">
@@ -8970,10 +8706,10 @@ body.light-mode .pkg-cta:hover {
     const dropLogout = document.getElementById('dropdownLogoutBtn');
     if (dropLogout) dropLogout.addEventListener('click', doSignOut);
 
-    // User chip opens profile panel
+    // User chip — go to profile page
     const chip = document.getElementById('authUserChip');
     if (chip) chip.addEventListener('click', function() {
-      window._openProfile();
+      window.location.href = 'profile.html';
     });
 
     // Close user menu on outside click
@@ -9974,178 +9710,28 @@ document.addEventListener('DOMContentLoaded',function(){
 })();
 
 // ===========================
-// USER PROFILE PANEL
+// USER PROFILE — uses profile.html
 // ===========================
-(function(){
+window._openProfile = function() {
+  if (!window._fjCurrentUser) { window._openAuth('signin'); return; }
+  window.location.href = 'profile.html';
+};
+window._closeProfile = function() {};
+window._profileTab   = function() {};
+window._saveProfile  = function() {};
+window._addToCart = function(pkg) {
   var cart = JSON.parse(localStorage.getItem('fj-cart') || '[]');
-  var drafts = JSON.parse(localStorage.getItem('fj-drafts') || '[]');
-
-  function saveCart() { localStorage.setItem('fj-cart', JSON.stringify(cart)); }
-  function saveDrafts() { localStorage.setItem('fj-drafts', JSON.stringify(drafts)); }
-
-  window._openProfile = function() {
-    var user = window._fjCurrentUser;
-    if (!user) { window._openAuth('signin'); return; }
-    window.location.href = "Filmax-Jambo-Tours/profile.html";
-    var m = user.user_metadata || {};
-    var name = (m.first_name || user.email.split('@')[0]);
-    document.getElementById('profileAvatar').textContent = name.charAt(0).toUpperCase();
-    document.getElementById('profileDisplayName').textContent = name;
-    document.getElementById('profileDisplayEmail').textContent = user.email;
-    document.getElementById('pfFirstName').value   = m.first_name   || '';
-    document.getElementById('pfEmail').value        = user.email     || '';
-    document.getElementById('pfPhone').value        = m.phone        || '';
-    document.getElementById('pfNationality').value  = m.nationality  || '';
-    window._profileTab('details');
-    var ov = document.getElementById('profileOverlay');
-    if (ov) { ov.classList.add('open'); document.body.style.overflow = 'hidden'; }
-    [document.querySelector('.whatsapp-fab'),document.getElementById('themeToggle'),document.getElementById('google_translate_element')].forEach(function(el){if(el){el.style.opacity='0';el.style.pointerEvents='none';}});
-  };
-
-  window._closeProfile = function() {
-    var ov = document.getElementById('profileOverlay');
-    if (ov) { ov.classList.remove('open'); document.body.style.overflow = ''; }
-    [document.querySelector('.whatsapp-fab'),document.getElementById('themeToggle'),document.getElementById('google_translate_element')].forEach(function(el){if(el){el.style.opacity='1';el.style.pointerEvents='';}});
-  };
-
-  window._profileTab = function(tab) {
-    ['dashboard','details','packages','cart','settings'].forEach(function(t){
-      var panel = document.getElementById('profileTab' + t.charAt(0).toUpperCase() + t.slice(1));
-      var btn = document.querySelector('.profile-tab[data-tab="'+t+'"]');
-      if (panel) panel.style.display = (t === tab) ? 'block' : 'none';
-      if (btn) btn.classList.toggle('active', t === tab);
-    });
-    if (tab === 'packages')  renderDrafts();
-    if (tab === 'cart')      renderCart();
-    if (tab === 'dashboard') refreshDashboard();
-    if (tab === 'settings')  updateSettingsThemeLabel();
-  };
-
-  function refreshDashboard(){
-    var s=document.getElementById('dashStatSaved'); if(s) s.textContent=drafts.length||'0';
-    var c=document.getElementById('dashStatCart');  if(c) c.textContent=cart.length||'0';
-    var user=window._fjCurrentUser; if(!user)return;
-    var m=user.user_metadata||{};
-    var dur=document.getElementById('dashStatDays');   if(dur) dur.textContent=m.preferred_duration||'—';
-    var bud=document.getElementById('dashStatBudget'); if(bud) bud.textContent=m.budget_tier||'—';
-    var badge=document.getElementById('profileMemberBadge');
-    if(badge){ var tot=drafts.length+cart.length; badge.innerHTML=tot>=5?'<span>🦁</span> Safari Pro':tot>=2?'<span>🐘</span> Adventurer':'<span>🦒</span> Explorer'; }
-  }
-
-  function updateSettingsThemeLabel(){
-    var btn=document.getElementById('settingsThemeBtn');
-    if(!btn)return;
-    var isLight=document.body.classList.contains('light-mode');
-    btn.textContent=isLight?'☀️ Light':'🌙 Dark';
-  }
-
-  function toggleHints(btn){
-    var disabled=localStorage.getItem('fj-hints-disabled')==='true';
-    localStorage.setItem('fj-hints-disabled',disabled?'false':'true');
-    btn.textContent=disabled?'Enabled':'Disabled';
-    btn.style.color=disabled?'#d4af37':'rgba(138,128,116,0.6)';
-  }
-
-  window._saveProfile = async function() {
-    var user = window._fjCurrentUser;
-    var notif = document.getElementById('profileSaveNotif');
-    if (!user) return;
-    var SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
-    var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
-    var supa = window.supabase ? window.supabase.createClient(SUPA_URL, SUPA_KEY) : null;
-    if (!supa) return;
-    var btn = document.querySelector('.profile-save-btn');
-    if (btn) { btn.textContent = 'Saving…'; btn.disabled = true; }
-    try {
-      var updates = {
-        data: {
-          first_name:  document.getElementById('pfFirstName').value.trim(),
-          phone:       document.getElementById('pfPhone').value.trim(),
-          nationality: document.getElementById('pfNationality').value.trim()
-        }
-      };
-      var { error } = await supa.auth.updateUser(updates);
-      if (error) throw error;
-      // Also update profiles table
-      try {
-        await supa.from('profiles').upsert({
-          id: user.id,
-          first_name:  updates.data.first_name,
-          phone:       updates.data.phone,
-          nationality: updates.data.nationality
-        });
-      } catch(_) {}
-      if (notif) { notif.className='profile-notif success';notif.textContent='✓ Profile updated successfully.';notif.style.display='block'; setTimeout(function(){notif.style.display='none';},3000); }
-    } catch(e) {
-      if (notif) { notif.className='profile-notif error';notif.textContent='✗ '+e.message;notif.style.display='block'; }
-    }
-    if (btn) { btn.textContent = 'Save Changes'; btn.disabled = false; }
-  };
-
-  window._signOutFromProfile = async function() {
-    var SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
-    var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
-    var supa = window.supabase ? window.supabase.createClient(SUPA_URL, SUPA_KEY) : null;
-    window._closeProfile();
-    if (supa) await supa.auth.signOut();
-    if (window.updateNavForUser) window.updateNavForUser(null);
-  };
-
-  // Cart management
-  window._addToCart = function(pkg) {
-    if (cart.find(function(p){ return p.name === pkg.name; })) return;
-    cart.push(pkg); saveCart();
-    showCartToast(pkg.name + ' added to cart');
-  };
-  window._addToDraft = function(pkg) {
-    if (drafts.find(function(p){ return p.name === pkg.name; })) return;
-    drafts.push(pkg); saveDrafts();
-    showCartToast(pkg.name + ' saved as draft');
-  };
-
-  function showCartToast(msg) {
-    var t = document.createElement('div');
-    t.style.cssText = 'position:fixed;bottom:120px;right:36px;z-index:99999;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;font-family:Jost,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:14px 24px;box-shadow:0 8px 32px rgba(212,175,55,0.4);opacity:0;transition:opacity 0.35s ease;';
-    t.textContent = '✓ ' + msg;
-    document.body.appendChild(t);
-    requestAnimationFrame(function(){ t.style.opacity = '1'; });
-    setTimeout(function(){ t.style.opacity='0'; setTimeout(function(){t.remove();},350); }, 2200);
-  }
-
-  function renderDrafts() {
-    var el = document.getElementById('profilePkgList');
-    if (!el) return;
-    if (!drafts.length) { el.innerHTML = '<div class="profile-empty">No saved packages yet.<br>Browse our <a href="#packages" onclick="window._closeProfile()" style="color:#d4af37;text-decoration:none;">safari collections</a>.</div>'; return; }
-    el.innerHTML = drafts.map(function(pkg, i){
-      return '<div class="profile-pkg-card"><div class="profile-pkg-name">'+pkg.name.replace(/<br>/g,' ')+'</div><div class="profile-pkg-meta">'+pkg.duration+' · '+pkg.tier+'</div><div class="profile-pkg-price">'+pkg.price+'</div><div class="profile-pkg-actions"><a href="'+(pkg.page||'#contact')+'" class="profile-pkg-btn">View</a><button class="profile-pkg-btn" onclick="window._moveToCart('+i+')">Add to Cart</button><button class="profile-pkg-btn remove" onclick="window._removeDraft('+i+')">Remove</button></div></div>';
-    }).join('');
-  }
-
-  function renderCart() {
-    var el = document.getElementById('profileCartList');
-    var totEl = document.getElementById('profileCartTotal');
-    var totNum = document.getElementById('profileCartTotalNum');
-    if (!el) return;
-    if (!cart.length) { el.innerHTML = '<div class="profile-empty">Your cart is empty.<br>Add packages from our <a href="#packages" onclick="window._closeProfile()" style="color:#d4af37;text-decoration:none;">collections</a>.</div>'; if(totEl)totEl.style.display='none'; return; }
-    el.innerHTML = cart.map(function(pkg, i){
-      return '<div class="profile-pkg-card"><div class="profile-pkg-name">'+pkg.name.replace(/<br>/g,' ')+'</div><div class="profile-pkg-meta">'+pkg.duration+' · '+pkg.tier+'</div><div class="profile-pkg-price">'+pkg.price+'</div><div class="profile-pkg-actions"><a href="'+(pkg.page||'#contact')+'" class="profile-pkg-btn">View</a><button class="profile-pkg-btn remove" onclick="window._removeFromCart('+i+')">Remove</button></div></div>';
-    }).join('');
-    var total = cart.reduce(function(s,p){ return s + (parseInt((p.price||'$0').replace(/\D/g,''))||0); },0);
-    if(totEl) totEl.style.display='block';
-    if(totNum) totNum.textContent = '$' + total.toLocaleString();
-  }
-
-  window._moveToCart = function(i) { window._addToCart(drafts[i]); };
-  window._removeDraft = function(i) { drafts.splice(i,1); saveDrafts(); renderDrafts(); };
-  window._removeFromCart = function(i) { cart.splice(i,1); saveCart(); renderCart(); };
-
-  // Click outside to close
-  document.addEventListener('DOMContentLoaded', function(){
-    var ov = document.getElementById('profileOverlay');
-    if (ov) ov.addEventListener('click', function(e){ if(e.target===ov) window._closeProfile(); });
-    document.addEventListener('keydown', function(e){ if(e.key==='Escape') window._closeProfile(); });
-  });
-})();
+  if (cart.find(function(p){ return p.name === pkg.name; })) return;
+  cart.push(pkg);
+  localStorage.setItem('fj-cart', JSON.stringify(cart));
+  var t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:120px;right:36px;z-index:99999;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;font-family:Jost,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:14px 24px;box-shadow:0 8px 32px rgba(212,175,55,0.4);opacity:0;transition:opacity 0.35s ease;';
+  t.textContent = '✓ ' + pkg.name.replace(/<br>/g,' ') + ' added to cart';
+  document.body.appendChild(t);
+  requestAnimationFrame(function(){ t.style.opacity='1'; });
+  setTimeout(function(){ t.style.opacity='0'; setTimeout(function(){t.remove();},350); },2200);
+};
+window._addToDraft = window._addToCart;
 
 // ===========================
 // TEAM POPUP
