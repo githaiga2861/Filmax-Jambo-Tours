@@ -1667,7 +1667,20 @@ async function initProfile() {
     if (!session) { window.location.href = 'index.html'; return; }
 
     const user = session.user;
-    const m = user.user_metadata || {};
+
+// Load profile from database
+const { data: profile, error } = await supa
+  .from('profiles')
+  .select('*')
+  .eq('id', user.id)
+  .single();
+
+if (error) {
+  console.error('Profile load error:', error);
+  return;
+}
+
+const m = profile || {};
     const firstName = m.first_name || '';
     const lastName = m.last_name || '';
     const fullName = (firstName + ' ' + lastName).trim() || user.email.split('@')[0];
@@ -1721,35 +1734,42 @@ async function initProfile() {
 // FIX: savePersonal() — actually writes to Supabase
 // ─────────────────────────────────────────
 async function savePersonal() {
-  if (!supa) { showNotify('Personal details saved'); return; }
+  if (!supa) return;
+
   try {
-    const { error } = await supa.auth.updateUser({
-      data: {
-        first_name: document.getElementById('pfFirstName')?.value || '',
-        last_name:  document.getElementById('pfLastName')?.value || '',
-        phone:      document.getElementById('pfPhone')?.value || '',
-        nationality:document.getElementById('pfNationality')?.value || '',
-        country:    document.getElementById('pfCountry')?.value || '',
-        dob:        document.getElementById('pfDob')?.value || '',
-        preferred_lang: document.getElementById('pfLang')?.value || '',
-        timezone:   document.getElementById('pfTz')?.value || '',
-        emerg_name: document.getElementById('pfEmergName')?.value || '',
-        emerg_phone:document.getElementById('pfEmergPhone')?.value || '',
-      }
-    });
+    const { data: { user } } = await supa.auth.getUser();
+
+    const payload = {
+      id: user.id,
+      email: user.email,
+      first_name: document.getElementById('pfFirstName')?.value || '',
+      phone: document.getElementById('pfPhone')?.value || '',
+      nationality: document.getElementById('pfNationality')?.value || '',
+      country: document.getElementById('pfCountry')?.value || '',
+      dob: document.getElementById('pfDob')?.value || '',
+      preferred_lang: document.getElementById('pfLang')?.value || '',
+      timezone: document.getElementById('pfTz')?.value || '',
+      emerg_name: document.getElementById('pfEmergName')?.value || '',
+      emerg_phone: document.getElementById('pfEmergPhone')?.value || ''
+    };
+
+    const { error } = await supa
+      .from('profiles')
+      .upsert(payload);
+
     if (error) throw error;
-    // Update displayed name live
-    const first = document.getElementById('pfFirstName')?.value || '';
-    const last  = document.getElementById('pfLastName')?.value || '';
-    const full  = (first + ' ' + last).trim();
+
+    const full = payload.first_name;
     if (full) {
       document.getElementById('heroName').textContent = full;
       document.getElementById('sbName').textContent = full;
     }
+
     showNotify('Personal details saved');
+
   } catch (e) {
-    console.error('Save error:', e);
-    showNotify('Save failed — check console');
+    console.error(e);
+    showNotify('Save failed');
   }
 }
 
