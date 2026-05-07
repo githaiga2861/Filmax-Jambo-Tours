@@ -1881,6 +1881,25 @@ body.light-mode .quiz-enter-btn:hover {
   }
   .auth-success.visible { display: block; }
 
+  .password-wrapper {
+  position: relative;
+}
+
+.toggle-eye {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  user-select: none;
+  font-size: 18px;
+}
+
+.auth-input {
+  width: 100%;
+  padding-right: 35px;
+}
+
   .user-menu {
     position: absolute; top: 100%; right: 0; margin-top: 8px;
     background: rgba(12,12,12,0.97); border: 1px solid var(--border);
@@ -8259,9 +8278,11 @@ body.light-mode .pkg-cta:hover {
 
         <input id="suPassword" class="auth-input" type="password" placeholder="Create Password (min 8 characters) *" autocomplete="new-password"
           onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+        <span class="toggle-eye" onclick="togglePassword('suPass', this)">👁</span>
 
         <input id="suPassConf" class="auth-input" type="password" placeholder="Confirm Password *" autocomplete="new-password"
           onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+        <span class="toggle-eye" onclick="togglePassword('suPassConf', this)">👁</span>
 
         <div id="authMsgErrorSignup" class="auth-msg error" style="margin-top:12px;"></div>
         <div id="authMsgSuccessSignup" class="auth-msg success" style="margin-top:12px;"></div>
@@ -8508,6 +8529,17 @@ body.light-mode .pkg-cta:hover {
     if (type === 'error'   && err) { err.textContent = text; err.style.display = 'block'; }
     if (type === 'success' && ok)  { ok.textContent  = text; ok.style.display  = 'block'; }
   }
+  function togglePassword(id, eye) {
+  const input = document.getElementById(id);
+
+  if (input.type === "password") {
+    input.type = "text";
+    eye.textContent = "🙈";
+  } else {
+    input.type = "password";
+    eye.textContent = "👁";
+  }
+}
 
   window._showForgotPassword = function() {
     document.getElementById('authPanelSignin').style.display = 'none';
