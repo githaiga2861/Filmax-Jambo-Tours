@@ -713,6 +713,65 @@ select.form-input{appearance:none;cursor:none;background:transparent;}
 }
 .companion-add:hover{border-color:rgba(212,175,55,0.35);color:var(--gold);background:rgba(212,175,55,0.03);}
 
+/* ── STICKY MINI NAV ── */
+.mini-nav{
+  position:fixed;top:0;left:var(--sidebar);right:0;
+  height:52px;z-index:200;
+  background:rgba(8,8,8,0.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 60px;
+  transform:translateY(-100%);
+  transition:transform .4s cubic-bezier(0.22,1,0.36,1);
+}
+.mini-nav.visible{transform:translateY(0);}
+.mini-nav-name{
+  font-family:'Playfair Display',serif;
+  font-size:15px;font-weight:700;color:var(--text);
+}
+.mini-nav-actions{display:flex;gap:10px;align-items:center;}
+.mini-nav-save{
+  font-family:'Jost',sans-serif;font-size:9px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;
+  padding:8px 20px;border:none;cursor:none;
+  background:linear-gradient(135deg,var(--gold-lt),var(--gold),var(--amber));
+  color:#080808;opacity:0.4;pointer-events:none;
+  transition:opacity .3s,transform .3s;
+}
+.mini-nav-save.active{opacity:1;pointer-events:all;}
+.mini-nav-save.active:hover{transform:translateY(-1px);}
+.mini-nav-discard{
+  font-family:'Jost',sans-serif;font-size:9px;font-weight:600;
+  letter-spacing:3px;text-transform:uppercase;
+  padding:8px 16px;cursor:none;
+  background:transparent;border:1px solid rgba(212,175,55,0.2);
+  color:var(--muted);display:none;
+  transition:border-color .3s,color .3s;
+}
+.mini-nav-discard.visible{display:block;}
+.mini-nav-discard:hover{border-color:rgba(212,175,55,0.4);color:var(--text);}
+@media(max-width:900px){.mini-nav{left:0;padding:0 24px;}}
+
+/* ── EDIT MODE CONTROLS ── */
+.section-edit-btn{
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(212,175,55,0.55);background:none;border:1px solid rgba(212,175,55,0.18);
+  padding:7px 16px;cursor:none;font-family:'Jost',sans-serif;font-weight:600;
+  display:flex;align-items:center;gap:7px;
+  transition:color .25s,border-color .25s;
+}
+.section-edit-btn:hover{color:var(--gold);border-color:rgba(212,175,55,0.4);}
+.section-edit-btn.editing{color:var(--gold);border-color:var(--gold);background:rgba(212,175,55,0.05);}
+
+/* Read-only overlay on form inputs when not editing */
+.form-field.locked .form-input{
+  pointer-events:none;
+  color:var(--muted);
+  opacity:0.7;
+}
+.form-field.locked select.form-input{cursor:not-allowed;}
+
 /* ── SAVE BAR ── */
 .save-bar{
   position:sticky;bottom:0;
@@ -722,6 +781,7 @@ select.form-input{appearance:none;cursor:none;background:transparent;}
   padding:16px 60px;
   display:flex;align-items:center;justify-content:space-between;
   z-index:50;
+  transition:opacity .3s;
 }
 .save-bar-msg{
   font-family:'Cormorant Garamond',serif;
@@ -735,9 +795,51 @@ select.form-input{appearance:none;cursor:none;background:transparent;}
   background:linear-gradient(135deg,var(--gold-lt),var(--gold),var(--amber));
   color:#080808;
   box-shadow:0 4px 24px rgba(212,175,55,0.3);
-  transition:transform .3s,box-shadow .3s,filter .3s;
+  transition:transform .3s,box-shadow .3s,filter .3s,opacity .3s;
+  opacity:0.4;pointer-events:none;
 }
-.save-btn:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(212,175,55,0.5);filter:brightness(1.08);}
+.save-btn.active{opacity:1;pointer-events:all;}
+.save-btn.active:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(212,175,55,0.5);filter:brightness(1.08);}
+
+/* ── UNSAVED CHANGES GUARD ── */
+.discard-overlay{
+  position:fixed;inset:0;z-index:9999;
+  background:rgba(8,8,8,0.7);
+  backdrop-filter:blur(12px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.discard-overlay.open{opacity:1;pointer-events:all;}
+.discard-box{
+  background:var(--card);border:1px solid var(--border);
+  padding:40px 48px;max-width:420px;width:100%;
+  position:relative;text-align:center;
+}
+.discard-box::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,0.4),transparent);}
+.discard-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:10px;}
+.discard-sub{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--muted);margin-bottom:28px;line-height:1.6;}
+.discard-actions{display:flex;gap:12px;justify-content:center;}
+.discard-save-btn{
+  font-family:'Jost',sans-serif;font-size:9px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;padding:12px 28px;
+  background:linear-gradient(135deg,var(--gold-lt),var(--gold),var(--amber));
+  color:#080808;border:none;cursor:none;transition:transform .3s;
+}
+.discard-save-btn:hover{transform:translateY(-2px);}
+.discard-cancel-btn{
+  font-family:'Jost',sans-serif;font-size:9px;font-weight:600;
+  letter-spacing:3px;text-transform:uppercase;padding:12px 22px;
+  background:transparent;border:1px solid rgba(212,175,55,0.25);
+  color:var(--muted);cursor:none;transition:border-color .3s,color .3s;
+}
+.discard-cancel-btn:hover{border-color:var(--gold);color:var(--text);}
+.discard-abandon-btn{
+  font-family:'Jost',sans-serif;font-size:9px;font-weight:600;
+  letter-spacing:3px;text-transform:uppercase;padding:12px 22px;
+  background:transparent;border:1px solid rgba(224,85,85,0.25);
+  color:#e05555;cursor:none;transition:border-color .3s;
+}
+.discard-abandon-btn:hover{border-color:#e05555;}
 
 /* ── MOBILE ── */
 @media(max-width:900px){
@@ -799,6 +901,28 @@ body.light-mode .save-bar{background:rgba(235,235,234,0.95);}
 <div class="cur" id="cur"></div>
 <div class="cur-ring" id="curRing"></div>
 <div class="notify" id="notify"></div>
+
+<!-- STICKY MINI NAV -->
+<div class="mini-nav" id="miniNav">
+  <div class="mini-nav-name" id="miniNavName">Loading…</div>
+  <div class="mini-nav-actions">
+    <button class="mini-nav-discard" id="miniNavDiscard" onclick="openDiscardDialog()">Discard</button>
+    <button class="mini-nav-save" id="miniNavSave" onclick="saveAll()">✓ Save Changes</button>
+  </div>
+</div>
+
+<!-- DISCARD DIALOG -->
+<div class="discard-overlay" id="discardOverlay">
+  <div class="discard-box">
+    <div class="discard-title">Unsaved Changes</div>
+    <p class="discard-sub">You have unsaved changes. Would you like to save them before leaving, or discard?</p>
+    <div class="discard-actions">
+      <button class="discard-save-btn" onclick="saveAll();closeDiscardDialog();">Save Changes</button>
+      <button class="discard-cancel-btn" onclick="closeDiscardDialog()">Keep Editing</button>
+      <button class="discard-abandon-btn" onclick="abandonChanges()">Discard</button>
+    </div>
+  </div>
+</div>
 
 <div class="layout">
 
@@ -960,10 +1084,9 @@ body.light-mode .save-bar{background:rgba(235,235,234,0.95);}
             <h2 class="section-title">Personal Details</h2>
           </div>
           <div class="section-line"></div>
-          <!-- FIX: section Save now calls real Supabase save -->
-          <button class="section-action" onclick="savePersonal()">Save</button>
+          <button class="section-edit-btn" id="editPersonalBtn" onclick="startEditSection('personalCard', 'editPersonalBtn')">✎ &nbsp;Edit</button>
         </div>
-        <div class="form-card">
+        <div class="form-card" id="personalCard">
           <div class="form-grid">
             <div class="form-row">
               <div class="form-field" style="border-top:none;">
@@ -1548,14 +1671,59 @@ body.light-mode .save-bar{background:rgba(235,235,234,0.95);}
 
     <!-- SAVE BAR -->
     <div class="save-bar">
-      <div class="save-bar-msg">Changes are saved to your Supabase member profile.</div>
-      <button class="save-btn" onclick="saveAll()">✓ &nbsp;Save All Changes</button>
+      <div class="save-bar-msg">Click a section's pencil icon to begin editing, then save.</div>
+      <button class="save-btn" id="saveAllBtn" onclick="saveAll()">✓ &nbsp;Save All Changes</button>
     </div>
 
   </main>
 </div><!-- /layout -->
 
 <script>
+// ─────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────
+let _hasUnsavedChanges = false;
+let _pendingNavUrl = null;
+let _editingSections = new Set();
+
+function markDirty() {
+  _hasUnsavedChanges = true;
+  const saveBtn = document.getElementById('saveAllBtn');
+  const miniSave = document.getElementById('miniNavSave');
+  const miniDiscard = document.getElementById('miniNavDiscard');
+  if (saveBtn) { saveBtn.classList.add('active'); }
+  if (miniSave) { miniSave.classList.add('active'); }
+  if (miniDiscard) { miniDiscard.classList.add('visible'); }
+}
+
+function markClean() {
+  _hasUnsavedChanges = false;
+  const saveBtn = document.getElementById('saveAllBtn');
+  const miniSave = document.getElementById('miniNavSave');
+  const miniDiscard = document.getElementById('miniNavDiscard');
+  if (saveBtn) { saveBtn.classList.remove('active'); }
+  if (miniSave) { miniSave.classList.remove('active'); }
+  if (miniDiscard) { miniDiscard.classList.remove('visible'); }
+}
+
+function openDiscardDialog() {
+  document.getElementById('discardOverlay').classList.add('open');
+}
+function closeDiscardDialog() {
+  document.getElementById('discardOverlay').classList.remove('open');
+}
+function abandonChanges() {
+  markClean();
+  closeDiscardDialog();
+  if (_pendingNavUrl) { window.location.href = _pendingNavUrl; }
+  else { history.back(); }
+}
+
+// Intercept back button and sidebar links
+window.addEventListener('beforeunload', function(e) {
+  if (_hasUnsavedChanges) { e.preventDefault(); e.returnValue = ''; }
+});
+
 // ─────────────────────────────────────────
 // CURSOR
 // ─────────────────────────────────────────
@@ -1663,132 +1831,273 @@ async function initProfile() {
   try {
     supa = window.supabase.createClient(SUPA_URL, SUPA_KEY);
     const { data: { session } } = await supa.auth.getSession();
-
-    // FIX: redirect to index if not logged in
     if (!session) { window.location.href = 'index.html'; return; }
-
     const user = session.user;
 
-// Load profile from database
-const { data: profile, error } = await supa
-  .from('profiles')
-  .select('*')
-  .eq('id', user.id)
-  .single();
+    // Load ONLY from profiles table — single source of truth
+    const { data: profile, error } = await supa
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single();
 
-if (error) {
-  console.error('Profile load error:', error);
-  return;
-}
+    if (error && error.code !== 'PGRST116') {
+      console.error('Profile load error:', error);
+    }
 
-const m = profile || {};
+    const m = profile || {};
+
+    // Never fall back to email as display name
     const firstName = m.first_name || '';
-    const lastName = m.last_name || '';
-    const fullName = (firstName + ' ' + lastName).trim() || user.email.split('@')[0];
-    const initial = (firstName || user.email || '?').charAt(0).toUpperCase();
+    const lastName  = m.last_name  || '';
+    const fullName  = (firstName + ' ' + lastName).trim() || 'Member';
+    const initial   = firstName.charAt(0).toUpperCase() || 'M';
+
+    // Member since — from profiles.created_at
+    const memberSince = m.created_at
+      ? new Date(m.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+      : new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 
     // Populate hero
-    document.getElementById('heroName').textContent = fullName;
-    document.getElementById('heroInitial').textContent = initial;
+    const heroNameEl = document.getElementById('heroName');
+    const heroInitEl = document.getElementById('heroInitial');
+    const heroImgEl  = document.getElementById('heroAvatarImg');
+    if (heroNameEl) heroNameEl.textContent = fullName;
+    if (heroInitEl) heroInitEl.textContent = initial;
+    if (heroImgEl && m.avatar_url) {
+      heroImgEl.src = m.avatar_url;
+      heroImgEl.style.display = 'block';
+      heroInitEl.style.display = 'none';
+    }
+
+    // Update hero meta — member since
+    const memberSinceEls = document.querySelectorAll('.hero-meta-item');
+    if (memberSinceEls[0]) memberSinceEls[0].textContent = 'Member since ' + memberSince;
 
     // Populate sidebar
-    document.getElementById('sbName').textContent = fullName;
-    document.getElementById('sbEmail').textContent = user.email || '';
-    document.getElementById('sbAvatarInitial').textContent = initial;
+    const sbNameEl    = document.getElementById('sbName');
+    const sbEmailEl   = document.getElementById('sbEmail');
+    const sbInitialEl = document.getElementById('sbAvatarInitial');
+    const sbImgEl     = document.getElementById('sbAvatarImg');
+    if (sbNameEl)    sbNameEl.textContent    = fullName;
+    if (sbEmailEl)   sbEmailEl.textContent   = user.email || '';
+    if (sbInitialEl) sbInitialEl.textContent = initial;
+    if (sbImgEl && m.avatar_url) {
+      sbImgEl.src = m.avatar_url;
+      sbImgEl.style.display = 'block';
+      sbInitialEl.style.display = 'none';
+    }
 
-    // Populate form fields
-    const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
-    set('pfFirstName', m.first_name);
-    set('pfLastName', m.last_name);
-    set('pfEmail', user.email);
-    set('pfPhone', m.phone);
-    set('pfNationality', m.nationality);
-    set('pfCountry', m.country);
-    set('pfDob', m.dob);
-    set('pfLang', m.preferred_lang);
-    set('pfTz', m.timezone);
-    set('pfEmergName', m.emerg_name);
-    set('pfEmergPhone', m.emerg_phone);
+    // Mini-nav name
+    const miniNavName = document.getElementById('miniNavName');
+    if (miniNavName) miniNavName.textContent = fullName;
 
-    // FIX: loyalty bar — compute real percentage (Explorer tier = 0–999 pts)
-    const pts = m.reward_points || 420;
+    // Populate ALL form fields from profiles only
+    const setField = (id, val) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.value = val || '';
+    };
+    setField('pfFirstName',  m.first_name);
+    setField('pfLastName',   m.last_name);
+    setField('pfEmail',      user.email);       // email from auth, read-only
+    setField('pfPhone',      m.phone);
+    setField('pfNationality',m.nationality);
+    setField('pfCountry',    m.country);
+    setField('pfDob',        m.dob);
+    setField('pfLang',       m.preferred_lang);
+    setField('pfTz',         m.timezone);
+    setField('pfEmergName',  m.emerg_name);
+    setField('pfEmergPhone', m.emerg_phone);
+
+    // Passport — stored hashed display only, never expose raw
+    const ppEl = document.getElementById('pfPassport');
+    if (ppEl) ppEl.value = m.passport ? '••••••••' : '';
+
+    // Loyalty bar
+    const pts = Number(m.reward_points) || 420;
     const pct = Math.min((pts / 1000) * 100, 100);
-    document.getElementById('loyaltyPts').childNodes[0].textContent = pts;
-    document.getElementById('statPts').textContent = pts;
-    // Animate after short delay so transition fires
+    const loyaltyPtsEl = document.getElementById('loyaltyPts');
+    const statPtsEl    = document.getElementById('statPts');
+    if (loyaltyPtsEl) loyaltyPtsEl.childNodes[0].textContent = pts;
+    if (statPtsEl)    statPtsEl.textContent = pts;
+
     setTimeout(() => {
       const fill = document.getElementById('loyaltyFill');
       if (fill) fill.style.width = pct + '%';
     }, 500);
 
+    // Lock all form fields by default — require "Edit" click
+    lockAllSections();
+
+    // Watch any input change → mark dirty
+    document.querySelectorAll('.form-input').forEach(inp => {
+      inp.addEventListener('input', markDirty);
+      inp.addEventListener('change', markDirty);
+    });
+
+    // Sticky mini-nav on scroll
+    window.addEventListener('scroll', () => {
+      const mn = document.getElementById('miniNav');
+      if (mn) mn.classList.toggle('visible', window.scrollY > 280);
+    });
+
   } catch (e) {
     console.warn('Profile init error:', e);
-    // Still animate loyalty bar with default value if Supabase fails
     setTimeout(() => {
       const fill = document.getElementById('loyaltyFill');
-      if (fill) fill.style.width = '42%'; // 420/1000
+      if (fill) fill.style.width = '42%';
     }, 500);
   }
 }
 
-// ─────────────────────────────────────────
-// FIX: savePersonal() — actually writes to Supabase
-// ─────────────────────────────────────────
-async function savePersonal() {
-  if (!supa) return;
+// Lock all form sections — read-only until Edit clicked
+function lockAllSections() {
+  document.querySelectorAll('.form-field').forEach(field => {
+    field.classList.add('locked');
+    const inp = field.querySelector('.form-input');
+    if (inp) { inp.setAttribute('readonly', true); inp.style.cursor = 'default'; }
+    const sel = field.querySelector('select.form-input');
+    if (sel) { sel.setAttribute('disabled', true); }
+  });
+}
 
-  try {
-    const { data: { user } } = await supa.auth.getUser();
-
-    const payload = {
-      id: user.id,
-      email: user.email,
-      first_name: document.getElementById('pfFirstName')?.value || '',
-      phone: document.getElementById('pfPhone')?.value || '',
-      nationality: document.getElementById('pfNationality')?.value || '',
-      country: document.getElementById('pfCountry')?.value || '',
-      dob: document.getElementById('pfDob')?.value || '',
-      preferred_lang: document.getElementById('pfLang')?.value || '',
-      timezone: document.getElementById('pfTz')?.value || '',
-      emerg_name: document.getElementById('pfEmergName')?.value || '',
-      emerg_phone: document.getElementById('pfEmergPhone')?.value || ''
-    };
-
-    const { error } = await supa
-      .from('profiles')
-      .upsert(payload);
-
-    if (error) throw error;
-
-    const full = payload.first_name;
-    if (full) {
-      document.getElementById('heroName').textContent = full;
-      document.getElementById('sbName').textContent = full;
-    }
-
-    showNotify('Personal details saved');
-
-  } catch (e) {
-    console.error(e);
-    showNotify('Save failed');
-  }
+// Enable editing for a specific form card
+function enableSection(cardId) {
+  const card = document.getElementById(cardId);
+  if (!card) return;
+  card.querySelectorAll('.form-field').forEach(field => {
+    field.classList.remove('locked');
+    const inp = field.querySelector('.form-input');
+    if (inp) { inp.removeAttribute('readonly'); inp.style.cursor = ''; }
+    const sel = field.querySelector('select.form-input');
+    if (sel) { sel.removeAttribute('disabled'); }
+  });
+  _editingSections.add(cardId);
+  // Focus first editable input
+  const first = card.querySelector('input.form-input:not([readonly])');
+  if (first) setTimeout(() => first.focus(), 50);
+}
 }
 
 // ─────────────────────────────────────────
-// saveAll — calls real personal save + toast for others
+// SAVE ALL — single write to profiles table
 // ─────────────────────────────────────────
+function getVal(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
 async function saveAll() {
-  await savePersonal();
-  showNotify('All profile changes saved');
+  if (!supa) return;
+  try {
+    const { data: { user } } = await supa.auth.getUser();
+    if (!user) return;
+
+    const firstName = getVal('pfFirstName');
+    const lastName  = getVal('pfLastName');
+
+    // Enforce real name — never allow empty or email-like
+    if (!firstName || firstName.includes('@')) {
+      showNotify('Please enter your real first name');
+      return;
+    }
+
+    const payload = {
+      id:             user.id,
+      email:          user.email,
+      first_name:     firstName,
+      last_name:      lastName,
+      phone:          getVal('pfPhone'),
+      nationality:    getVal('pfNationality'),
+      country:        getVal('pfCountry'),
+      dob:            getVal('pfDob'),
+      preferred_lang: getVal('pfLang'),
+      timezone:       getVal('pfTz'),
+      emerg_name:     getVal('pfEmergName'),
+      emerg_phone:    getVal('pfEmergPhone'),
+      updated_at:     new Date().toISOString()
+    };
+
+    // Handle passport — only update if user typed a new value (not the masked ••••••••)
+    const ppRaw = getVal('pfPassport');
+    if (ppRaw && ppRaw !== '••••••••') {
+      payload.passport = ppRaw;
+    }
+
+    const { error } = await supa.from('profiles').upsert(payload, { onConflict: 'id' });
+    if (error) throw error;
+
+    // Update display name everywhere
+    const fullName = (firstName + ' ' + lastName).trim();
+    const initial  = firstName.charAt(0).toUpperCase();
+
+    const els = {
+      heroName:    document.getElementById('heroName'),
+      heroInitial: document.getElementById('heroInitial'),
+      sbName:      document.getElementById('sbName'),
+      miniNavName: document.getElementById('miniNavName'),
+    };
+    if (els.heroName)    els.heroName.textContent    = fullName;
+    if (els.heroInitial) els.heroInitial.textContent = initial;
+    if (els.sbName)      els.sbName.textContent      = fullName;
+    if (els.miniNavName) els.miniNavName.textContent = fullName;
+
+    // Re-lock all sections
+    lockAllSections();
+    _editingSections.clear();
+
+    markClean();
+    showNotify('Profile updated successfully');
+
+  } catch (e) {
+    console.error('Save error:', e);
+    showNotify('Save failed — please try again');
+  }
+}
+
+// Alias for section-level save buttons
+async function savePersonal() { await saveAll(); }
+
+// ─────────────────────────────────────────
+// EDIT SECTION TOGGLE
+// ─────────────────────────────────────────
+function startEditSection(cardId, btnId) {
+  enableSection(cardId);
+  markDirty();
+  const btn = document.getElementById(btnId);
+  if (btn) {
+    btn.textContent = '✓ Editing…';
+    btn.classList.add('editing');
+  }
 }
 
 // ─────────────────────────────────────────
 // SIGN OUT
 // ─────────────────────────────────────────
 async function signOut() {
+  if (_hasUnsavedChanges) {
+    _pendingNavUrl = 'index.html';
+    openDiscardDialog();
+    return;
+  }
   if (supa) await supa.auth.signOut();
   window.location.href = 'index.html';
 }
+
+// Intercept sidebar "Return to Website" link
+document.addEventListener('DOMContentLoaded', () => {
+  const backLink = document.querySelector('.sb-back');
+  if (backLink) {
+    backLink.addEventListener('click', function(e) {
+      if (_hasUnsavedChanges) {
+        e.preventDefault();
+        _pendingNavUrl = backLink.href || 'index.html';
+        openDiscardDialog();
+      }
+    });
+  }
+});
 
 // ─────────────────────────────────────────
 // BOOT — load Supabase then init
