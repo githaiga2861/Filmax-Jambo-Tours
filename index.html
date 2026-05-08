@@ -8118,8 +8118,14 @@ body.light-mode .pkg-cta:hover {
         <span class="auth-section-label">Your Credentials</span>
         <input id="siEmail" class="auth-input" type="email" placeholder="Email Address *" autocomplete="email"
           onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-        <input id="siPassword" class="auth-input" type="password" placeholder="Password *" autocomplete="current-password"
-          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+        <div style="position:relative;">
+          <input id="siPassword" class="auth-input" type="password" placeholder="Password *" autocomplete="current-password"
+            style="padding-right:36px;"
+            onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+          <button type="button" onclick="(function(){var f=document.getElementById('siPassword');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'👁':'🙈';}).call(this)"
+            style="position:absolute;right:0;top:14px;background:none;border:none;cursor:none;color:rgba(138,128,116,0.6);font-size:14px;padding:0;line-height:1;transition:color 0.2s;"
+            onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'">👁</button>
+        </div>
         <div style="text-align:right;margin-bottom:8px;">
           <button id="forgotPwBtn" onclick="window._showForgotPassword()" style="background:none;border:none;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;color:rgba(212,175,55,0.6);cursor:none;padding:4px 0;transition:color 0.3s;" onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(212,175,55,0.6)'">Forgot Password?</button>
         </div>
@@ -8247,11 +8253,23 @@ body.light-mode .pkg-cta:hover {
 
         <span class="auth-section-label" style="margin-top:28px;">Security</span>
 
-        <input id="suPassword" class="auth-input" type="password" placeholder="Create Password (min 8 characters) *" autocomplete="new-password"
-          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-  
-        <input id="suPassConf" class="auth-input" type="password" placeholder="Confirm Password *" autocomplete="new-password"
-          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+        <div style="position:relative;">
+          <input id="suPassword" class="auth-input" type="password" placeholder="Create Password (min 8 characters) *" autocomplete="new-password"
+            style="padding-right:36px;"
+            onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+          <button type="button" onclick="(function(){var f=document.getElementById('suPassword');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'👁':'🙈';}).call(this)"
+            style="position:absolute;right:0;top:14px;background:none;border:none;cursor:none;color:rgba(138,128,116,0.6);font-size:14px;padding:0;line-height:1;transition:color 0.2s;"
+            onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'">👁</button>
+        </div>
+
+        <div style="position:relative;">
+          <input id="suPassConf" class="auth-input" type="password" placeholder="Confirm Password *" autocomplete="new-password"
+            style="padding-right:36px;"
+            onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+          <button type="button" onclick="(function(){var f=document.getElementById('suPassConf');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'👁':'🙈';}).call(this)"
+            style="position:absolute;right:0;top:14px;background:none;border:none;cursor:none;color:rgba(138,128,116,0.6);font-size:14px;padding:0;line-height:1;transition:color 0.2s;"
+            onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'">👁</button>
+        </div>
 
         <div id="authMsgErrorSignup" class="auth-msg error" style="margin-top:12px;"></div>
         <div id="authMsgSuccessSignup" class="auth-msg success" style="margin-top:12px;"></div>
@@ -8592,14 +8610,25 @@ body.light-mode .pkg-cta:hover {
         if (data.user) {
           try {
             await supa.from('profiles').upsert({
-              id:          data.user.id,
-              email:       email,
-              first_name:  firstName,
-              phone:       phone,
-              nationality: nationality,
-              created_at:  new Date().toISOString()
-            });
-          } catch(_) { /* profiles table may not exist yet — data safely in auth.users metadata */ }
+              id:           data.user.id,
+              email:        email,
+              first_name:   firstName,
+              last_name:    '',
+              phone:        phone,
+              nationality:  nationality,
+              country:      nationality,
+              dob:          '',
+              passport:     '',
+              preferred_lang: '',
+              timezone:     '',
+              emerg_name:   '',
+              emerg_phone:  '',
+              avatar_url:   '',
+              reward_points: 420,
+              created_at:   new Date().toISOString(),
+              updated_at:   new Date().toISOString()
+            }, { onConflict: 'id' });
+          } catch(e) { console.warn('Profile insert error:', e); }
         }
         showMsgSignup('success', '✓ Account created! Check your email to confirm, then sign in.');
       }
