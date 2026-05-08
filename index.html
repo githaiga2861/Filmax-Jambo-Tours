@@ -7062,22 +7062,69 @@ body.light-mode .pkg-cta:hover {
     border:none;cursor:none;position:relative;overflow:hidden;transition:filter 0.3s,transform 0.3s,box-shadow 0.3s;box-shadow:0 8px 32px rgba(212,175,55,0.25);display:inline-block;animation:pulseViewAll 3s ease-in-out infinite 2s;">Sign In to Leave a Review</button>
     </div>
 
-    <div id="testimonialFormOpen" style="display:none;max-width:600px;margin:48px auto 0;padding:40px;border:1px solid rgba(212,175,55,0.12);">
-      <div style="display:flex;flex-direction:column;gap:0;">
-        <textarea id="testimonialText" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:var(--text);font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;padding:14px 0;outline:none;resize:none;height:120px;transition:border-color 0.3s;margin-bottom:16px;" placeholder="Tell future guests about your safari experience..." onfocus="this.style.borderBottomColor='var(--gold)'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.2)'"></textarea>
-        <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;">
-          <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);">Rating</span>
-          <div id="starRating" style="display:flex;gap:6px;">
-            <span class="star-btn" data-val="1" style="font-size:20px;cursor:none;opacity:0.35;transition:opacity 0.2s;">★</span>
-            <span class="star-btn" data-val="2" style="font-size:20px;cursor:none;opacity:0.35;transition:opacity 0.2s;">★</span>
-            <span class="star-btn" data-val="3" style="font-size:20px;cursor:none;opacity:0.35;transition:opacity 0.2s;">★</span>
-            <span class="star-btn" data-val="4" style="font-size:20px;cursor:none;opacity:0.35;transition:opacity 0.2s;">★</span>
-            <span class="star-btn" data-val="5" style="font-size:20px;cursor:none;opacity:0.35;transition:opacity 0.2s;">★</span>
-          </div>
+    <div id="testimonialFormOpen" style="display:none;max-width:640px;margin:56px auto 0;">
+      <div style="position:relative;background:rgba(13,13,13,0.8);border:1px solid rgba(212,175,55,0.18);padding:44px 48px 40px;">
+        <!-- top gold line -->
+        <div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,0.45),transparent);"></div>
+
+        <div style="margin-bottom:28px;">
+          <span style="font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(212,175,55,0.6);font-family:'Jost',sans-serif;font-weight:700;display:block;margin-bottom:10px;">Share Your Experience</span>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--muted);line-height:1.7;margin:0;">Your words help future travellers discover their perfect Kenyan adventure.</p>
         </div>
-        <div id="testimonialFormMsg" style="display:none;font-size:12px;padding:12px 16px;margin-bottom:12px;"></div>
-        <button class="btn-primary" id="testimonialSubmitBtn" style="max-width:280px;cursor:none;">Submit for Review</button>
-        <p style="font-size:11px;color:var(--muted);margin-top:12px;font-style:italic;">Your review will be reviewed by our team before publishing.</p>
+
+        <!-- Star rating row -->
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(212,175,55,0.08);">
+          <span style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(138,128,116,0.7);font-family:'Jost',sans-serif;font-weight:700;flex-shrink:0;">Your Rating</span>
+          <div id="starRating" style="display:flex;gap:4px;align-items:center;">
+            <span class="star-btn" data-val="1" style="font-size:24px;cursor:none;opacity:0.28;color:var(--gold);transition:opacity 0.2s,transform 0.15s;display:inline-block;">★</span>
+            <span class="star-btn" data-val="2" style="font-size:24px;cursor:none;opacity:0.28;color:var(--gold);transition:opacity 0.2s,transform 0.15s;display:inline-block;">★</span>
+            <span class="star-btn" data-val="3" style="font-size:24px;cursor:none;opacity:0.28;color:var(--gold);transition:opacity 0.2s,transform 0.15s;display:inline-block;">★</span>
+            <span class="star-btn" data-val="4" style="font-size:24px;cursor:none;opacity:0.28;color:var(--gold);transition:opacity 0.2s,transform 0.15s;display:inline-block;">★</span>
+            <span class="star-btn" data-val="5" style="font-size:24px;cursor:none;opacity:0.28;color:var(--gold);transition:opacity 0.2s,transform 0.15s;display:inline-block;">★</span>
+          </div>
+          <span id="starLabel" style="font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:rgba(138,128,116,0.5);margin-left:4px;transition:color 0.2s;"></span>
+        </div>
+
+        <!-- Textarea -->
+        <div style="position:relative;margin-bottom:28px;">
+          <label style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(212,175,55,0.55);font-family:'Jost',sans-serif;font-weight:700;display:block;margin-bottom:10px;">Your Review</label>
+          <textarea id="testimonialText"
+            style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:var(--text);font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;line-height:1.8;padding:10px 0 14px;outline:none;resize:none;min-height:120px;transition:border-color 0.3s;"
+            placeholder="Describe your safari experience in your own words…"
+            onfocus="this.style.borderBottomColor='rgba(212,175,55,0.6)'"
+            onblur="this.style.borderBottomColor='rgba(212,175,55,0.18)'"
+            oninput="document.getElementById('charCount').textContent=this.value.length+' / 500';"
+            maxlength="500"></textarea>
+          <span id="charCount" style="position:absolute;bottom:-18px;right:0;font-size:9px;letter-spacing:2px;color:rgba(138,128,116,0.4);font-family:'Jost',sans-serif;">0 / 500</span>
+        </div>
+
+        <!-- Destination tag (optional) -->
+        <div style="margin-bottom:28px;">
+          <label style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(212,175,55,0.55);font-family:'Jost',sans-serif;font-weight:700;display:block;margin-bottom:10px;">Destination (Optional)</label>
+          <select id="testimonialDestination"
+            style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:var(--muted);font-family:'Jost',sans-serif;font-size:13px;padding:10px 0;outline:none;appearance:none;cursor:none;transition:border-color 0.3s;"
+            onfocus="this.style.borderBottomColor='rgba(212,175,55,0.6)'"
+            onblur="this.style.borderBottomColor='rgba(212,175,55,0.18)'">
+            <option value="">Select destination…</option>
+            <option>Maasai Mara</option>
+            <option>Amboseli</option>
+            <option>Diani Beach</option>
+            <option>Lake Nakuru</option>
+            <option>Mount Kenya</option>
+            <option>Samburu</option>
+            <option>Tsavo</option>
+            <option>Full Kenya Circuit</option>
+          </select>
+        </div>
+
+        <!-- Message -->
+        <div id="testimonialFormMsg" style="display:none;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:1px;padding:13px 18px;margin-bottom:18px;border-radius:0;"></div>
+
+        <!-- Actions -->
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+          <p style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:rgba(138,128,116,0.55);margin:0;line-height:1.6;">Reviews are moderated<br>before publishing.</p>
+          <button class="btn-primary" id="testimonialSubmitBtn" style="padding:16px 36px;cursor:none;font-size:10px;letter-spacing:4px;">Submit Review</button>
+        </div>
       </div>
     </div>
   </div>
@@ -8750,15 +8797,35 @@ body.light-mode .pkg-cta:hover {
       if (pf && !pf.value) pf.value = m.phone || '';
     });
 
-    // Star rating
+    // Star rating with label
     let selectedStars = 0;
+    const starLabels = ['','Poor','Fair','Good','Great','Exceptional'];
     document.querySelectorAll('.star-btn').forEach(function(star) {
+      star.addEventListener('mouseenter', function() {
+        const hov = parseInt(star.dataset.val);
+        document.querySelectorAll('.star-btn').forEach(function(s, i) {
+          s.style.opacity   = i < hov ? '1' : '0.22';
+          s.style.transform = i < hov ? 'scale(1.12)' : 'scale(1)';
+        });
+        const lbl = document.getElementById('starLabel');
+        if (lbl) lbl.textContent = starLabels[hov] || '';
+      });
+      star.addEventListener('mouseleave', function() {
+        document.querySelectorAll('.star-btn').forEach(function(s, i) {
+          s.style.opacity   = i < selectedStars ? '1' : '0.28';
+          s.style.transform = 'scale(1)';
+        });
+        const lbl = document.getElementById('starLabel');
+        if (lbl) lbl.textContent = selectedStars ? starLabels[selectedStars] : '';
+      });
       star.addEventListener('click', function() {
         selectedStars = parseInt(star.dataset.val);
         document.querySelectorAll('.star-btn').forEach(function(s, i) {
-          s.style.opacity = i < selectedStars ? '1' : '0.3';
-          s.style.color   = i < selectedStars ? '#d4af37' : '';
+          s.style.opacity   = i < selectedStars ? '1' : '0.28';
+          s.style.transform = 'scale(1)';
         });
+        const lbl = document.getElementById('starLabel');
+        if (lbl) { lbl.textContent = starLabels[selectedStars]; lbl.style.color = '#d4af37'; }
       });
     });
 
