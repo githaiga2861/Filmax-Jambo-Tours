@@ -1780,28 +1780,75 @@ document.querySelectorAll('.toggle').forEach(t=>{
 
 // ── AVATAR UPLOAD ──────────────────────────────────
 document.getElementById('avatarFileInput').addEventListener('change', async function() {
-  if (!this.files || !this.files[0] || !supa || !_currentUser) return;
+  if (!this.files || !this.files[0]) { showNotify('No file selected', true); return; }
+  if (!supa)         { showNotify('Not connected to database', true); return; }
+  if (!_currentUser) { showNotify('Not signed in', true); return; }
+
   const file = this.files[0];
-  const ext  = file.name.split('.').pop();
-  const path = `avatars/${_currentUser.id}.${ext}`;
+
+  // Validate file type and size (max 5MB)
+  const allowed = ['image/jpeg','image/png','image/webp','image/gif'];
+  if (!allowed.includes(file.type)) { showNotify('Please use JPG, PNG, or WEBP', true); return; }
+  if (file.size > 5 * 1024 * 1024) { showNotify('Image must be under 5MB', true); return; }
 
   showNotify('Uploading photo…');
-  const { error: upErr } = await supa.storage.from('avatars').upload(path, file, { upsert:true });
-  if (upErr) { showNotify('Upload failed', true); return; }
 
-  const { data: { publicUrl } } = supa.storage.from('avatars').getPublicUrl(path);
+  try {
+    // Always use same filename per user so it overwrites, never accumulates
+    const ext  = file.type.split('/')[1].replace('jpeg','jpg');
+    const path = `${_currentUser.id}/avatar.${ext}`;
 
-  // Update DB
-  await supa.from('profiles').upsert({ id:_currentUser.id, avatar_url:publicUrl, updated_at:new Date().toISOString() }, { onConflict:'id' });
+    // Upload to storage
+    const { data: uploadData, error: upErr } = await supa.storage
+      .from('avatars')
+      .upload(path, file, { upsert: true, contentType: file.type });
 
-  // Update UI
-  ['heroAvatarImg','sbAvatarImg'].forEach(imgId=>{
-    const img = document.getElementById(imgId);
-    if (img) { img.src=publicUrl+'?t='+Date.now(); img.style.display='block'; }
-  });
-  document.getElementById('heroInitial').style.display='none';
-  document.getElementById('sbAvatarInitial').style.display='none';
-  showNotify('Profile photo updated');
+    if (upErr) {
+      console.error('Storage upload error:', upErr);
+      showNotify('Upload failed: ' + upErr.message, true);
+      return;
+    }
+
+    // Get public URL
+    const { data: urlData } = supa.storage.from('avatars').getPublicUrl(path);
+    if (!urlData?.publicUrl) {
+      showNotify('Could not get image URL — is bucket public?', true);
+      return;
+    }
+
+    // Cache-bust so browser doesn't show old image
+    const publicUrl = urlData.publicUrl + '?t=' + Date.now();
+
+    // Save URL to profiles table
+    const { error: dbErr } = await supa.from('profiles').upsert({
+      id:         _currentUser.id,
+      avatar_url: urlData.publicUrl, // store clean URL without cache-bust
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'id' });
+
+    if (dbErr) {
+      console.error('DB save error:', dbErr);
+      showNotify('Photo uploaded but not saved — ' + dbErr.message, true);
+      return;
+    }
+
+    // Update both avatars in UI
+    ['heroAvatarImg','sbAvatarImg'].forEach(imgId => {
+      const img = document.getElementById(imgId);
+      if (img) { img.src = publicUrl; img.style.display = 'block'; }
+    });
+    document.getElementById('heroInitial').style.display  = 'none';
+    document.getElementById('sbAvatarInitial').style.display = 'none';
+
+    showNotify('Profile photo updated');
+
+  } catch(e) {
+    console.error('Avatar upload exception:', e);
+    showNotify('Upload failed — ' + e.message, true);
+  }
+
+  // Reset input so same file can be re-selected if needed
+  this.value = '';
 });
 
 // ── HELPERS ────────────────────────────────────────
