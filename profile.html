@@ -1754,16 +1754,7 @@ function closeDiscardDialog() { document.getElementById('discardOverlay').classL
 function abandonChanges() {
   markClean();
   closeDiscardDialog();
-  if (_pendingNavUrl) {
-    window.location.href = _pendingNavUrl;
-  } else {
-    // null = go back
-    if (document.referrer && document.referrer.includes(window.location.hostname)) {
-      history.back();
-    } else {
-      window.location.href = 'https://githaiga2861.github.io/Filmax-Jambo-Tours/index.html';
-    }
-  }
+  window.location.href = _pendingNavUrl || 'https://githaiga2861.github.io/Filmax-Jambo-Tours/index.html';
 }
 
 // ── CURSOR ─────────────────────────────────────────
@@ -2176,16 +2167,11 @@ function populateUI(m, userEmail) {
 
   function handleBackToSite() {
   if (_hasUnsavedChanges) {
-    _pendingNavUrl = null;
+    _pendingNavUrl = 'https://githaiga2861.github.io/Filmax-Jambo-Tours/index.html';
     openDiscardDialog();
     return;
   }
-  // Go back if there's history, otherwise fall back to index
-  if (document.referrer && document.referrer.includes(window.location.hostname)) {
-    history.back();
-  } else {
-    window.location.href = 'https://githaiga2861.github.io/Filmax-Jambo-Tours/index.html';
-  }
+  window.location.href = 'https://githaiga2861.github.io/Filmax-Jambo-Tours/index.html';
 }
 
   // Avatar
