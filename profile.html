@@ -879,23 +879,235 @@ select.form-input{appearance:none;cursor:none;background:transparent;}
 }
 .discard-abandon-btn:hover{border-color:#e05555;}
 
+/* ═══════════════════════════════════════
+   IFRAME MODAL ADJUSTMENTS
+   When rendered inside the index.html modal overlay,
+   the sidebar is hidden and layout collapses to full width
+   ═══════════════════════════════════════ */
+body.in-modal {
+  cursor: auto !important;
+}
+body.in-modal .cur,
+body.in-modal .cur-ring {
+  display: none !important;
+}
+body.in-modal .layout {
+  min-height: 100vh;
+}
+body.in-modal .sidebar {
+  display: none !important;
+}
+body.in-modal .main {
+  margin-left: 0 !important;
+}
+body.in-modal .mini-nav {
+  left: 0 !important;
+}
+body.in-modal .save-bar {
+  padding: 14px 32px;
+}
+body.in-modal .content {
+  padding: 36px 40px;
+}
+body.in-modal .profile-hero-content {
+  padding: 0 40px 40px;
+}
+
+/* ── IMPROVED TYPOGRAPHY — larger, clearer ── */
+.form-label {
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: rgba(212,175,55,0.75);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.form-input {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.3px;
+  line-height: 1.5;
+  padding: 4px 0;
+}
+/* Locked (read-only) state — visible but clearly inactive */
+.form-field.locked .form-input {
+  color: rgba(240,236,228,0.55);
+  opacity: 1;
+  pointer-events: none;
+}
+.form-field.locked {
+  position: relative;
+}
+.form-field.locked::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  cursor: default;
+}
+select.form-input {
+  font-size: 15px;
+  font-weight: 500;
+}
+.form-input::placeholder {
+  font-size: 13px;
+  color: rgba(138,128,116,0.5);
+  letter-spacing: 0.5px;
+}
+
+/* Section titles — larger */
+.section-title {
+  font-size: clamp(22px, 2.4vw, 30px);
+}
+.section-eyebrow {
+  font-size: 9px;
+  letter-spacing: 5px;
+  color: rgba(212,175,55,0.75);
+}
+
+/* Stat cards — bigger numbers */
+.stat-num {
+  font-size: 36px;
+}
+.stat-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  margin-top: 4px;
+}
+.stat-sub {
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+/* Hero name */
+.hero-name {
+  font-size: clamp(30px, 3.8vw, 46px);
+  margin-bottom: 14px;
+}
+.hero-eyebrow {
+  font-size: 10px;
+  letter-spacing: 5px;
+  margin-bottom: 6px;
+}
+
+/* Sidebar text */
+.sb-name {
+  font-size: 17px;
+  margin-bottom: 5px;
+}
+.sb-email {
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+.sb-nav-item {
+  font-size: 10px;
+  padding: 12px 28px;
+  letter-spacing: 2.5px;
+}
+.sb-nav-label {
+  font-size: 9px;
+  letter-spacing: 4px;
+  padding: 12px 28px 7px;
+}
+
+/* Booking cards */
+.booking-title { font-size: 19px; }
+.booking-meta  { font-size: 12px; }
+.booking-tag   { font-size: 9px; }
+
+/* Rec cards */
+.rec-title { font-size: 19px; }
+.rec-desc  { font-size: 15px; }
+.rec-price { font-size: 22px; }
+.rec-tag   { font-size: 9px; letter-spacing: 4px; }
+
+/* Companion cards */
+.companion-name { font-size: 15px; }
+.companion-meta { font-size: 11px; }
+
+/* Concierge */
+.concierge-name { font-size: 24px; }
+.concierge-bio  { font-size: 16px; line-height: 1.75; }
+.concierge-role { font-size: 9px; letter-spacing: 4px; }
+
+/* Security */
+.security-label { font-size: 13px; }
+.security-desc  { font-size: 11px; }
+
+/* Toggle */
+.toggle-label { font-size: 13px; }
+.toggle-desc  { font-size: 11px; }
+
+/* Pref cards */
+.pref-card-title { font-size: 17px; }
+.pref-card-desc  { font-size: 14px; }
+
+/* Chip */
+.chip { font-size: 10px; letter-spacing: 2.5px; padding: 9px 18px; }
+
+/* Save bar */
+.save-bar-msg { font-size: 14px; }
+.save-btn {
+  font-size: 10px;
+  padding: 15px 36px;
+  letter-spacing: 4px;
+}
+
+/* Tier track */
+.tier-name { font-size: 9px; letter-spacing: 3px; }
+.tier-pts  { font-size: 13px; }
+
+/* Form card padding */
+.form-card { padding: 32px 36px; }
+.form-field { padding: 16px 0; }
+
+/* Prevent any horizontal overflow */
+* { max-width: 100%; box-sizing: border-box; }
+img, video, iframe, table { max-width: 100%; }
+.form-row {
+  min-width: 0;
+}
+.form-field {
+  min-width: 0;
+  overflow: hidden;
+}
+.form-input {
+  min-width: 0;
+  width: 100%;
+}
+.cards-grid {
+  min-width: 0;
+}
+.hero-meta {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.hero-actions {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 /* ── MOBILE ── */
 @media(max-width:900px){
   :root{--sidebar:0px;}
   .sidebar{display:none;}
   .main{margin-left:0;}
-  .content{padding:32px 24px;}
-  .profile-hero-content{padding:0 24px 36px;flex-direction:column;align-items:flex-start;gap:16px;}
+  .content{padding:24px 20px;}
+  .profile-hero-content{padding:0 20px 32px;flex-direction:column;align-items:flex-start;gap:14px;}
   .hero-avatar{width:80px;height:80px;font-size:32px;}
-  .profile-hero{height:auto;min-height:320px;}
+  .profile-hero{height:auto;min-height:300px;}
   .cards-2,.cards-3,.cards-4{grid-template-columns:1fr;}
   .form-row,.form-row-3{grid-template-columns:1fr;}
   .concierge-card{flex-direction:column;}
-  .save-bar{padding:16px 24px;}
+  .save-bar{padding:14px 20px;}
   .booking-card{flex-wrap:wrap;}
   .tier-track{flex-direction:column;}
   .tier-node{border-right:1px solid var(--border);border-bottom:none;}
   .tier-node:last-child{border-bottom:1px solid var(--border);}
+  .form-card{padding:24px 20px;}
+  .hero-name{font-size:28px;}
+  .section-title{font-size:22px;}
+  .save-btn{padding:13px 24px;font-size:10px;}
+  .mini-nav{padding:0 20px;}
 }
 
 /* ── ANIMATIONS ── */
@@ -1019,7 +1231,7 @@ body.light-mode .save-bar{background:rgba(235,235,234,0.95);}
     </nav>
 
     <div class="sb-bottom">
-      <button class="sb-back-btn" id="backToSiteBtn" onclick="handleBackToSite()">
+      <button class="sb-back-btn" id="backToSiteBtn">
         <span class="sb-back-icon">←</span>
         <span>Back to Website</span>
       </button>
@@ -2472,6 +2684,109 @@ if (!window.supabase) {
 } else {
   initProfile();
 }
+
+// ═══════════════════════════════════════════════════
+// MODAL BRIDGE — only active when loaded inside iframe
+// ═══════════════════════════════════════════════════
+(function () {
+  function inIframe() {
+    try { return window.self !== window.top; } catch(_) { return true; }
+  }
+
+  if (!inIframe()) {
+    // Standalone mode — wire back button normally
+    document.getElementById('backToSiteBtn')?.addEventListener('click', function() {
+      if (_hasUnsavedChanges) {
+        _pendingNavUrl = null;
+        openDiscardDialog();
+      } else {
+        history.back();
+      }
+    });
+    return;
+  }
+
+  // ── Running inside modal iframe ──
+  document.body.classList.add('in-modal');
+
+  // Disable custom cursor inside iframe
+  const curEl  = document.getElementById('cur');
+  const ringEl = document.getElementById('curRing');
+  if (curEl)  curEl.style.display  = 'none';
+  if (ringEl) ringEl.style.display = 'none';
+  document.body.style.cursor = 'auto';
+
+  // Back button → tell parent to close modal
+  document.getElementById('backToSiteBtn')?.addEventListener('click', function() {
+    if (_hasUnsavedChanges) {
+      _pendingNavUrl = '__CLOSE_MODAL__';
+      openDiscardDialog();
+    } else {
+      window.top.postMessage({ type: 'FJ_PROFILE_NAVIGATE_AWAY' }, '*');
+    }
+  });
+
+  // Override abandonChanges when inside modal
+  const _origAbandon = window.abandonChanges;
+  window.abandonChanges = function() {
+    markClean();
+    closeDiscardDialog();
+    if (_pendingNavUrl === '__CLOSE_MODAL__') {
+      window.top.postMessage({ type: 'FJ_PROFILE_CLOSE_CONFIRMED' }, '*');
+    } else if (typeof _origAbandon === 'function') {
+      _origAbandon();
+    }
+  };
+
+  // Override signOut inside modal — sign out then close
+  const _origSignOut = window.signOut;
+  window.signOut = async function() {
+    if (_hasUnsavedChanges) {
+      _pendingNavUrl = '__CLOSE_MODAL__';
+      openDiscardDialog();
+      return;
+    }
+    if (supa) await supa.auth.signOut();
+    window.top.postMessage({ type: 'FJ_PROFILE_SIGNED_OUT' }, '*');
+  };
+
+  // After save — notify parent to update nav name
+  const _origSaveAll = window.saveAll;
+  window.saveAll = async function() {
+    await _origSaveAll();
+    const fn = document.getElementById('pfFirstName')?.value.trim() || '';
+    const ln = document.getElementById('pfLastName')?.value.trim()  || '';
+    window.top.postMessage({ type:'FJ_PROFILE_SAVED', firstName:fn, lastName:ln }, '*');
+  };
+
+  // Listen for messages from parent
+  window.addEventListener('message', function(e) {
+    if (!e.data || typeof e.data !== 'object') return;
+    switch (e.data.type) {
+
+      case 'FJ_PROFILE_CHECK_DIRTY':
+        window.top.postMessage({
+          type:  'FJ_PROFILE_DIRTY_RESPONSE',
+          dirty: !!_hasUnsavedChanges
+        }, '*');
+        break;
+
+      case 'FJ_PROFILE_REQUEST_CLOSE':
+        if (_hasUnsavedChanges) {
+          _pendingNavUrl = '__CLOSE_MODAL__';
+          openDiscardDialog();
+        } else {
+          window.top.postMessage({ type:'FJ_PROFILE_CLOSE_CONFIRMED' }, '*');
+        }
+        break;
+
+      case 'FJ_THEME':
+        document.body.classList.toggle('light-mode', !!e.data.light);
+        break;
+    }
+  });
+
+})();
 </script>
 </body>
 </html>
