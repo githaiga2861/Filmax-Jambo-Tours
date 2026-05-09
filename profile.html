@@ -148,9 +148,47 @@ body{
 .sb-nav-icon{font-size:14px;flex-shrink:0;width:18px;text-align:center;}
 
 .sb-bottom{
-  padding:20px 28px;
+  padding:16px 20px;
   border-top:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
+.sb-back-btn{
+  display:flex;align-items:center;gap:10px;
+  font-family:'Jost',sans-serif;
+  font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold);text-decoration:none;cursor:none;
+  padding:12px 16px;
+  border:1px solid rgba(212,175,55,0.5);
+  background:rgba(212,175,55,0.08);
+  transition:all .25s;
+  position:relative;overflow:hidden;
+}
+.sb-back-btn:hover{
+  background:rgba(212,175,55,0.18);
+  border-color:var(--gold);
+  transform:translateX(-3px);
+}
+.sb-back-icon{font-size:15px;transition:transform .3s;}
+.sb-back-btn:hover .sb-back-icon{transform:translateX(-5px);}
+.sb-signout-btn{
+  display:flex;align-items:center;gap:10px;
+  font-family:'Jost',sans-serif;
+  font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  color:#e05555;cursor:none;
+  padding:12px 16px;
+  border:1px solid rgba(224,85,85,0.5);
+  background:rgba(224,85,85,0.08);
+  transition:all .25s;width:100%;text-align:left;
+}
+.sb-signout-btn:hover{
+  background:rgba(224,85,85,0.18);
+  border-color:#e05555;
+  transform:translateX(3px);
+}
+.sb-signout-icon{font-size:15px;transition:transform .3s;}
+.sb-signout-btn:hover .sb-signout-icon{transform:rotate(90deg);}
 .sb-back{
   display:flex;align-items:center;gap:10px;
   font-size:9px;letter-spacing:3px;text-transform:uppercase;
@@ -981,7 +1019,14 @@ body.light-mode .save-bar{background:rgba(235,235,234,0.95);}
     </nav>
 
     <div class="sb-bottom">
-      <a href="index.html" class="sb-back">Return to Website</a>
+      <a href="index.html" class="sb-back-btn" id="backToSiteBtn">
+        <span class="sb-back-icon">←</span>
+        <span>Return to Website</span>
+      </a>
+      <button class="sb-signout-btn" onclick="signOut()">
+        <span class="sb-signout-icon">⏻</span>
+        <span>Sign Out</span>
+      </button>
     </div>
   </aside>
 
