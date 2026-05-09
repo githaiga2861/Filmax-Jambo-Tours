@@ -8618,7 +8618,7 @@ body.light-mode .pkg-cta:hover {
       const { error } = await supa.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: window.location.origin + '/profile.html',
+          redirectTo: 'https://githaiga2861.github.io/Filmax-Jambo-Tours/profile.html',
           queryParams: {
             access_type: 'offline',
             prompt: 'consent',
@@ -8641,7 +8641,7 @@ body.light-mode .pkg-cta:hover {
     if (btn) { btn.textContent = 'Sending…'; btn.disabled = true; }
     try {
       const { error } = await supa.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.origin + window.location.pathname + '?reset=true'
+        redirectTo: 'https://githaiga2861.github.io/Filmax-Jambo-Tours/index.html?reset=true'
       });
       if (error) throw error;
       showMsgForgot('success', '✓ Reset link sent! Check your inbox (and spam folder). You can close this.');
