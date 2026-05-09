@@ -1004,6 +1004,7 @@ body.light-mode .save-bar{background:rgba(235,235,234,0.95);}
         </div>
         <div class="hero-info">
           <span class="hero-eyebrow">Safari Member Profile</span>
+          <span class="hero-eyebrow" id="heroGreeting">Welcome</span>
           <div class="hero-name" id="heroName">Joseph Explorer</div>
           <div class="hero-meta">
             <!-- FIX: Explorer badge uses giraffe icon -->
@@ -2029,6 +2030,82 @@ function startEditSection(cardId, btnId) {
 }
 
 // ── POPULATE UI FROM DB ROW ─────────────────────────
+function getGreeting(firstName, timezone) {
+  try {
+    const now  = new Date();
+    const tz   = timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const hour = parseInt(
+      new Intl.DateTimeFormat('en-US', {
+        hour: 'numeric', hour12: false, timeZone: tz
+      }).format(now)
+    );
+
+    const name = firstName || 'Explorer';
+
+    const mornings = [
+      `☀️ Rise and shine, ${name} — the savanna awaits`,
+      `🌄 The golden hour is yours, ${name}`,
+      `☕ Good morning, ${name} — the wild never sleeps`,
+      `🦅 Morning, ${name} — the eagles are already up`,
+      `🌅 A fresh dawn, ${name} — make it extraordinary`,
+      `✨ Good morning, ${name} — today could change everything`,
+      `🌞 The Mara is glowing, ${name} — good morning`,
+      `🦒 Good morning, ${name} — the giraffes are already grazing`,
+    ];
+
+    const afternoons = [
+      `🌤 Good afternoon, ${name} — the adventure continues`,
+      `🦁 The lions are resting, ${name} — are you?`,
+      `🌿 Midday magic, ${name} — the wild is alive`,
+      `☀️ Good afternoon, ${name} — the savanna is at its warmest`,
+      `🐘 The herd is moving, ${name} — good afternoon`,
+      `🗺️ Good afternoon, ${name} — where will you go next?`,
+      `🌾 The golden grass sways, ${name} — good afternoon`,
+      `🦓 Afternoon, ${name} — the zebras are on the move`,
+    ];
+
+    const evenings = [
+      `🌅 Good evening, ${name} — sundowner time`,
+      `🔥 The campfire is calling, ${name} — good evening`,
+      `🌇 Golden hour is magic, ${name} — good evening`,
+      `🍷 Good evening, ${name} — raise a glass to the wild`,
+      `🌄 The sky is painted just for you, ${name}`,
+      `✨ Evening falls, ${name} — and the stars begin to gather`,
+      `🦋 Good evening, ${name} — the bush comes alive at dusk`,
+      `🌠 Almost starlight, ${name} — good evening`,
+    ];
+
+    const nights = [
+      `🌙 Good night, ${name} — the stars are your ceiling tonight`,
+      `🔭 The Southern Cross shines, ${name} — good night`,
+      `🦉 The owls are watching, ${name} — rest well`,
+      `🌌 A thousand stars over the Mara, ${name} — good night`,
+      `🕯️ Night has fallen, ${name} — tomorrow brings new wonders`,
+      `🐆 The leopards hunt by night, ${name} — sleep sound`,
+      `✨ Goodnight, ${name} — dream of the wild`,
+      `🌙 The bush is whispering, ${name} — time to rest`,
+    ];
+
+    let pool;
+    if      (hour >= 5  && hour < 12) pool = mornings;
+    else if (hour >= 12 && hour < 17) pool = afternoons;
+    else if (hour >= 17 && hour < 21) pool = evenings;
+    else                               pool = nights;
+
+    const lastKey = 'fjt_last_greeting_' + (firstName || 'x');
+    const lastIdx = parseInt(sessionStorage.getItem(lastKey) ?? '-1');
+    let idx;
+    do { idx = Math.floor(Math.random() * pool.length); }
+    while (idx === lastIdx && pool.length > 1);
+    sessionStorage.setItem(lastKey, idx);
+
+    return pool[idx];
+
+  } catch(e) {
+    return `✦ Welcome back, ${firstName || 'Explorer'}`;
+  }
+}
+
 function populateUI(m, userEmail) {
   const firstName = m.first_name || '';
   const lastName  = m.last_name  || '';
@@ -2037,6 +2114,9 @@ function populateUI(m, userEmail) {
 
   // Names & IDs
   document.getElementById('heroName').textContent    = fullName;
+  // Greeting
+  const greetingEl = document.getElementById('heroGreeting');
+  if (greetingEl) {greetingEl.textContent = getGreeting(firstName, m.timezone);}
   document.getElementById('heroInitial').textContent = initial;
   document.getElementById('sbName').textContent      = fullName;
   document.getElementById('sbEmail').textContent     = userEmail || '';
