@@ -2170,6 +2170,26 @@
 
 <!-- Mobile inline quote card — appears between hero and tabs on mobile only -->
 <div class="mobile-quote-card" id="mobileQuoteCard"></div>
+<!-- PROFILE MODAL -->
+<div id="profileModalOverlay" role="dialog" aria-modal="true" aria-label="User Profile" style="position:fixed;inset:0;z-index:99986;display:none;align-items:center;justify-content:center;padding:32px 40px;opacity:0;pointer-events:none;transition:opacity 0.45s ease;background:rgba(4,3,1,0.42);backdrop-filter:blur(10px) saturate(1.1) brightness(0.78);-webkit-backdrop-filter:blur(10px) saturate(1.1) brightness(0.78);">
+  <div id="profileModalBox" style="position:relative;width:min(1080px,88vw);height:min(86vh,860px);background:rgba(8,8,8,0.93);border:1px solid rgba(212,175,55,0.2);box-shadow:0 52px 160px rgba(0,0,0,0.88);display:flex;flex-direction:column;overflow:hidden;transform:translateY(40px) scale(0.97);transition:transform 0.52s cubic-bezier(0.22,1,0.36,1);">
+    <div style="position:absolute;top:0;left:7%;right:7%;height:1px;background:linear-gradient(to right,transparent,#d4af37,transparent);z-index:10;pointer-events:none;"></div>
+    <div id="profileModalLoader" style="position:absolute;inset:0;z-index:8;background:#080808;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transition:opacity 0.4s ease;">
+      <img src="assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.webp" alt="" style="width:72px;opacity:0.55;">
+      <div style="width:140px;height:1px;background:rgba(212,175,55,0.1);overflow:hidden;position:relative;"><div style="position:absolute;top:0;left:-60%;width:60%;height:100%;background:linear-gradient(to right,transparent,#d4af37,transparent);animation:pmSweep 1.5s ease-in-out infinite;"></div></div>
+      <span style="font-family:'Jost',sans-serif;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(212,175,55,0.4);">Loading your profile</span>
+    </div>
+    <iframe id="profileModalIframe" title="User Profile" style="width:100%;flex:1;border:none;display:block;background:#080808;overflow:hidden;"></iframe>
+  </div>
+</div>
+<style>
+#profileModalOverlay.open{opacity:1!important;pointer-events:all!important;}
+#profileModalOverlay.open #profileModalBox{transform:translateY(0) scale(1)!important;}
+.pm-loader-hidden{opacity:0!important;pointer-events:none!important;}
+@keyframes pmSweep{0%{left:-60%;}100%{left:160%;}}
+@media(max-width:768px){#profileModalOverlay{padding:16px!important;align-items:flex-end!important;}#profileModalBox{width:100%!important;height:90dvh!important;}}
+</style>
+
 <div id="hintsContainer" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99970;"></div>
 <script>
 (function(){
@@ -2998,5 +3018,20 @@ if (tabsEl) {
   updateAllButtons();
 })();
 </script>  
+<script>
+(function(){
+  var SUPA_URL='https://kwriicxzkgkcseorcqdi.supabase.co';
+  var SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
+  var _supa=window.supabase?window.supabase.createClient(SUPA_URL,SUPA_KEY):null;
+  var _pmScrollY=0,_pmIsOpen=false,_pmLoaded=false,_fjCurrentUser=null;
+  if(_supa){_supa.auth.getSession().then(function(r){if(r.data&&r.data.session)_fjCurrentUser=r.data.session.user;});_supa.auth.onAuthStateChange(function(e,s){_fjCurrentUser=s?s.user:null;});}
+  window._openProfile=function(){if(!_fjCurrentUser){window._openAuth&&window._openAuth('signin');return;}if(_pmIsOpen)return;_pmIsOpen=true;_pmScrollY=window.scrollY;document.body.style.position='fixed';document.body.style.top='-'+_pmScrollY+'px';document.body.style.left='0';document.body.style.right='0';document.body.style.overflow='hidden';var ov=document.getElementById('profileModalOverlay');ov.style.display='flex';requestAnimationFrame(function(){requestAnimationFrame(function(){ov.classList.add('open');});});var fr=document.getElementById('profileModalIframe');var ld=document.getElementById('profileModalLoader');if(!_pmLoaded){fr.onload=function(){_pmLoaded=true;setTimeout(function(){if(ld)ld.style.opacity='0';},280);};fr.src='profile.html';}else{if(ld)ld.style.opacity='0';}};
+  function _pmDoClose(){clearTimeout(window._pmCloseTimer);if(!_pmIsOpen)return;_pmIsOpen=false;var ov=document.getElementById('profileModalOverlay');ov.classList.remove('open');setTimeout(function(){ov.style.display='none';document.body.style.position='';document.body.style.top='';document.body.style.left='';document.body.style.right='';document.body.style.overflow='';window.scrollTo({top:_pmScrollY,behavior:'instant'});},460);}
+  window._closeProfileModal=function(){if(!_pmIsOpen)return;var fr=document.getElementById('profileModalIframe');if(fr&&fr.contentWindow){try{fr.contentWindow.postMessage({type:'FJ_PROFILE_CHECK_DIRTY'},'*');clearTimeout(window._pmCloseTimer);window._pmCloseTimer=setTimeout(_pmDoClose,250);return;}catch(_){}}; _pmDoClose();};
+  window.addEventListener('message',function(e){if(!e.data||typeof e.data!=='object')return;if(e.data.type==='FJ_PROFILE_DIRTY_RESPONSE'){clearTimeout(window._pmCloseTimer);if(e.data.dirty){try{document.getElementById('profileModalIframe').contentWindow.postMessage({type:'FJ_PROFILE_REQUEST_CLOSE'},'*');}catch(_){}}else _pmDoClose();}if(e.data.type==='FJ_PROFILE_CLOSE_CONFIRMED'||e.data.type==='FJ_PROFILE_NAVIGATE_AWAY')_pmDoClose();if(e.data.type==='FJ_PROFILE_SIGNED_OUT'){_pmDoClose();_fjCurrentUser=null;}});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&_pmIsOpen)window._closeProfileModal();});
+  document.getElementById('profileModalOverlay')?.addEventListener('click',function(e){if(e.target===this)window._closeProfileModal();});
+})();
+</script>
 </body>
 </html>
