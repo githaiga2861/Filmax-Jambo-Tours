@@ -4177,10 +4177,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  document.getElementById('nav-packages')?.addEventListener('click', () => showView('packages'));
-  document.getElementById('nav-drafts')?.addEventListener('click', () => showView('drafts'));
-  document.getElementById('nav-categories')?.addEventListener('click', () => { showView('categories'); loadCategoriesList(); });
-  document.getElementById('nav-new')?.addEventListener('click', () => startNewPackage());
+  // All nav items wired here as backup (onclick attributes handle primary)
+  const navWires = {
+    'nav-dashboard':   () => showView('dashboard'),
+    'nav-packages':    () => showView('packages'),
+    'nav-drafts':      () => showView('drafts'),
+    'nav-categories':  () => showView('categories'),
+    'nav-new':         () => startNewPackage(),
+    'nav-enquiries':   () => showView('enquiries'),
+    'nav-confirmed':   () => showView('confirmed'),
+    'nav-blog-posts':  () => showView('blog-posts'),
+    'nav-blog-drafts': () => showView('blog-drafts'),
+    'nav-new-blog':    () => startNewBlog(),
+    'nav-members':     () => showView('members'),
+    'nav-testimonials':() => showView('testimonials'),
+    'nav-team':        () => showView('team'),
+    'nav-site':        () => showView('site-settings'),
+  };
+  Object.entries(navWires).forEach(([id, fn]) => {
+    document.getElementById(id)?.addEventListener('click', fn);
+  });
 
   // Clear invalid state on input
   document.addEventListener('input', e => {
@@ -4589,6 +4605,93 @@ function initRealtime() {
     .subscribe();
 }
 
+// ===========================
+// SITE SETTINGS
+// ===========================
+
+async function loadSiteSettings() {
+  const { data, error } = await db.from('site_settings').select('*');
+  if (error || !data) { showToast('Could not load site settings', 'error'); return; }
+
+  data.forEach(row => {
+    const v = row.value || {};
+    if (row.id === 'concierge') {
+      setVal('ss-concierge-name', v.name);
+      setVal('ss-concierge-role', v.role);
+      setVal('ss-whatsapp',       v.whatsapp);
+      setVal('ss-email',          v.email);
+      setVal('ss-concierge-bio',  v.bio);
+    }
+    if (row.id === 'hero') {
+      setVal('ss-hero-eyebrow',  v.eyebrow);
+      setVal('ss-hero-subtitle', v.subtitle);
+    }
+    if (row.id === 'business') {
+      setVal('ss-office',      v.office);
+      setVal('ss-hours',       v.hours);
+      setVal('ss-phone',       v.phone);
+      setVal('ss-footer-desc', v.footer_desc);
+    }
+    if (row.id === 'stats') {
+      setVal('ss-stat1-num',   v.stat1_num);
+      setVal('ss-stat1-label', v.stat1_label);
+      setVal('ss-stat2-num',   v.stat2_num);
+      setVal('ss-stat2-label', v.stat2_label);
+      setVal('ss-stat3-num',   v.stat3_num);
+      setVal('ss-stat3-label', v.stat3_label);
+      setVal('ss-stat4-num',   v.stat4_num);
+      setVal('ss-stat4-label', v.stat4_label);
+    }
+  });
+}
+
+function setVal(id, val) {
+  const el = document.getElementById(id);
+  if (el && val !== undefined && val !== null) el.value = val;
+}
+
+async function saveSiteSettings() {
+  const rows = [
+    { id: 'concierge', value: {
+      name:     document.getElementById('ss-concierge-name')?.value || '',
+      role:     document.getElementById('ss-concierge-role')?.value || '',
+      whatsapp: document.getElementById('ss-whatsapp')?.value || '',
+      email:    document.getElementById('ss-email')?.value || '',
+      bio:      document.getElementById('ss-concierge-bio')?.value || '',
+    }},
+    { id: 'hero', value: {
+      eyebrow:  document.getElementById('ss-hero-eyebrow')?.value || '',
+      subtitle: document.getElementById('ss-hero-subtitle')?.value || '',
+    }},
+    { id: 'business', value: {
+      office:      document.getElementById('ss-office')?.value || '',
+      hours:       document.getElementById('ss-hours')?.value || '',
+      phone:       document.getElementById('ss-phone')?.value || '',
+      footer_desc: document.getElementById('ss-footer-desc')?.value || '',
+    }},
+    { id: 'stats', value: {
+      stat1_num:   document.getElementById('ss-stat1-num')?.value || '',
+      stat1_label: document.getElementById('ss-stat1-label')?.value || '',
+      stat2_num:   document.getElementById('ss-stat2-num')?.value || '',
+      stat2_label: document.getElementById('ss-stat2-label')?.value || '',
+      stat3_num:   document.getElementById('ss-stat3-num')?.value || '',
+      stat3_label: document.getElementById('ss-stat3-label')?.value || '',
+      stat4_num:   document.getElementById('ss-stat4-num')?.value || '',
+      stat4_label: document.getElementById('ss-stat4-label')?.value || '',
+    }},
+  ];
+
+  for (const row of rows) {
+    const { error } = await db.from('site_settings')
+      .upsert({ ...row, updated_at: new Date().toISOString() }, { onConflict: 'id' });
+    if (error) { showToast('Error saving ' + row.id + ': ' + error.message, 'error'); return; }
+  }
+
+  showToast('Site settings saved — website updates automatically ✓', 'success');
+  const status = document.getElementById('siteSettingsSaveStatus');
+  if (status) { status.textContent = '✓ Saved at ' + new Date().toLocaleTimeString(); status.style.opacity = '1'; setTimeout(() => status.style.opacity = '0', 3000); }
+}
+  
 let editingBlogId = null;
 
 async function ensureBlogsTable() {
