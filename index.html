@@ -8696,7 +8696,10 @@ body.light-mode .pkg-cta:hover {
       const { data, error } = await supa.auth.signUp({
         email:    email,
         password: pass,
-        options:  { data: meta }
+        options:  {
+          data: meta,
+          emailRedirectTo: 'https://githaiga2861.github.io/Filmax-Jambo-Tours/index.html'
+        }
       });
       if (error) throw error;
       if (data?.user?.identities?.length === 0) {
