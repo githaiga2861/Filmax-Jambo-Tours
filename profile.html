@@ -2228,33 +2228,91 @@ async function initProfile() {
     if (!session) { window.location.href='index.html'; return; }
     _currentUser = session.user;
 
-    // Load profile row (created by trigger on signup)
-    const { data: profile, error } = await supa
+    const meta = _currentUser.user_metadata || {};
+
+    // Load profile row
+    let { data: profile, error } = await supa
       .from('profiles').select('*').eq('id', _currentUser.id).single();
 
     if (error && error.code !== 'PGRST116') console.error('Profile load error:', error);
 
-    // If row missing (old users before trigger), create it now
+    // Extract best available name — profiles table wins, fallback to Google metadata
+    const extractedFirstName = profile?.first_name
+      || meta.first_name
+      || (meta.full_name ? meta.full_name.split(' ')[0] : '')
+      || (meta.name ? meta.name.split(' ')[0] : '')
+      || '';
+
+    const extractedLastName = profile?.last_name
+      || meta.last_name
+      || (meta.full_name ? meta.full_name.split(' ').slice(1).join(' ') : '')
+      || (meta.name ? meta.name.split(' ').slice(1).join(' ') : '')
+      || '';
+
+    const extractedAvatar = profile?.avatar_url
+      || meta.avatar_url
+      || meta.picture
+      || '';
+
+    const extractedPhone = profile?.phone || meta.phone || '';
+    const extractedNationality = profile?.nationality || meta.nationality || '';
+    const extractedCountry = profile?.country || meta.country || '';
+
+    // If row missing, create it now with all available data
     if (!profile) {
-      await supa.from('profiles').upsert({
-        id:         _currentUser.id,
-        email:      _currentUser.email,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      }, { onConflict:'id' });
+      const { data: newProfile } = await supa.from('profiles').upsert({
+        id:          _currentUser.id,
+        email:       _currentUser.email,
+        first_name:  extractedFirstName,
+        last_name:   extractedLastName,
+        avatar_url:  extractedAvatar,
+        phone:       extractedPhone,
+        nationality: extractedNationality,
+        country:     extractedCountry,
+        reward_points: 420,
+        created_at:  new Date().toISOString(),
+        updated_at:  new Date().toISOString(),
+      }, { onConflict:'id' }).select().single();
+      profile = newProfile;
+    } else {
+      // If existing row is missing name/avatar (Google user, trigger may have missed),
+      // patch it now without overwriting any data the user already set
+      const patch = {};
+      if (!profile.first_name && extractedFirstName) patch.first_name = extractedFirstName;
+      if (!profile.last_name  && extractedLastName)  patch.last_name  = extractedLastName;
+      if (!profile.avatar_url && extractedAvatar)    patch.avatar_url = extractedAvatar;
+      if (!profile.phone      && extractedPhone)     patch.phone      = extractedPhone;
+      if (Object.keys(patch).length > 0) {
+        patch.updated_at = new Date().toISOString();
+        await supa.from('profiles').update(patch).eq('id', _currentUser.id);
+        // Merge patch into local profile object so UI shows correct data
+        profile = { ...profile, ...patch };
+      }
     }
 
-    populateUI(profile || {}, _currentUser.email);
+    // Always ensure profile reflects best available data for UI
+    const mergedProfile = {
+      ...profile,
+      first_name: profile.first_name || extractedFirstName,
+      last_name:  profile.last_name  || extractedLastName,
+      avatar_url: profile.avatar_url || extractedAvatar,
+      phone:      profile.phone      || extractedPhone,
+      nationality:profile.nationality|| extractedNationality,
+      country:    profile.country    || extractedCountry,
+    };
+
+    populateUI(mergedProfile, _currentUser.email);
     lockAllSections();
 
     // Watch inputs for dirty state
-    document.querySelectorAll('input.form-input:not([readonly])').forEach(inp=>{
+    document.querySelectorAll('input.form-input').forEach(inp=>{
       inp.addEventListener('input', markDirty);
+      inp.addEventListener('change', markDirty);
     });
 
     // Sticky mini-nav
     window.addEventListener('scroll', ()=>{
-      document.getElementById('miniNav')?.classList.toggle('visible', window.scrollY>280);
+      document.getElementById('miniNav')?.classList.toggle('visible', window.scrollY > 280);
     });
 
     // Guard sidebar back link
@@ -2270,7 +2328,7 @@ async function initProfile() {
     console.warn('Profile init error:', e);
     setTimeout(()=>{
       const fill = document.getElementById('loyaltyFill');
-      if (fill) fill.style.width='42%';
+      if (fill) fill.style.width = '42%';
     }, 500);
   }
 }
