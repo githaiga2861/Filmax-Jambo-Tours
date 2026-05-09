@@ -8752,7 +8752,21 @@ body.light-mode .pkg-cta:hover {
       const displayName = ((m.first_name||'') + ' ' + (m.last_name||'')).trim() || user.email.split('@')[0];
       // Nav: don't show name in nav bar — show chip icon only
       if (flipWrap)  flipWrap.classList.add('signed-in');
-      if (navLabel)  navLabel.textContent = ''; // no name shown in nav
+      if (navLabel)  navLabel.textContent = displayName;
+      // Add gold glow to nav to signal signed-in state
+      const navbar = document.getElementById('navbar');
+      if (navbar && !document.getElementById('fj-signedin-dot')) {
+        const dot = document.createElement('div');
+        dot.id = 'fj-signedin-dot';
+        dot.style.cssText = 'position:fixed;top:12px;right:160px;width:6px;height:6px;background:var(--gold);border-radius:50%;box-shadow:0 0 8px rgba(212,175,55,0.9);z-index:200;animation:goldPulse 2s ease-in-out infinite;';
+        document.body.appendChild(dot);
+        if (!document.getElementById('fj-signedin-style')) {
+          const st = document.createElement('style');
+          st.id = 'fj-signedin-style';
+          st.textContent = '@keyframes goldPulse{0%,100%{box-shadow:0 0 6px rgba(212,175,55,0.8),0 0 0 0 rgba(212,175,55,0.4);}50%{box-shadow:0 0 12px rgba(212,175,55,1),0 0 0 6px rgba(212,175,55,0);}}';
+          document.head.appendChild(st);
+        }
+      }
       if (menuName)  menuName.textContent = displayName;
       // Hamburger: show user name at top, hide sign in/up buttons
       if (dropUserHeader) dropUserHeader.style.display = 'block';
@@ -8766,6 +8780,8 @@ body.light-mode .pkg-cta:hover {
     } else {
       if (flipWrap)  flipWrap.classList.remove('signed-in');
       if (navLabel)  navLabel.textContent = 'My Account';
+      const dot = document.getElementById('fj-signedin-dot');
+      if (dot) dot.remove();
       if (dropUserHeader) dropUserHeader.style.display = 'none';
       if (dropAuthBtn)    dropAuthBtn.style.display = '';
       if (dropSignup)     dropSignup.style.display  = '';
@@ -9489,21 +9505,15 @@ document.addEventListener('DOMContentLoaded',function(){
 // INLINE QUIZ
 // ===========================
 (function(){
-  const container=document.getElementById('iqStepContainer');
-  const progress=document.getElementById('iqProgress');
+  var container=document.getElementById('iqStepContainer');
+  var progress=document.getElementById('iqProgress');
   if(!container)return;
 
-  const steps=[
-    {id:'name',type:'text',label:'Step 1 of 5',question:'What shall we call you?',sub:'Every great safari begins with a name.',placeholder:'Your first name',minLength:2,pattern:/^[a-zA-ZÀ-ÖØ-öø-ÿ\s'\-]{2,}$/,errorMsg:'Please enter a real name.'},
-    {id:'vibe',type:'multi',label:'Step 2 of 5',question:'What draws you to Kenya?',sub:'Choose everything that stirs something in you.',options:[{value:'wildlife',label:'Wildlife & Safari'},{value:'beach',label:'Coast & Ocean'},{value:'adventure',label:'Adventure & Hiking'},{value:'culture',label:'Culture & People'}]},
-    {id:'duration',type:'choice',label:'Step 3 of 5',question:'How long is your dream escape?',sub:'We will shape the perfect rhythm around your time.',options:[{value:'short',label:'3 – 4 Days'},{value:'medium',label:'5 – 7 Days'},{value:'long',label:'8 – 10 Days'},{value:'grand',label:'10+ Days'}]},
-    {id:'budget',type:'choice',label:'Step 4 of 5',question:'What is your comfort range?',sub:'Every budget unlocks a remarkable journey.',singleCol:true,options:[{value:'budget',label:'Budget · Under $2,500'},{value:'mid',label:'Mid · $2,500–$5,000'},{value:'luxury',label:'Luxury · $5,000–$12,000'},{value:'ultra',label:'Ultra · $12,000+'}]},
-    {id:'travel',type:'text',label:'Step 5 of 5',question:'When are you thinking of travelling?',sub:'A rough idea helps us check availability.',placeholder:'e.g. July 2025, or "not sure yet"',minLength:4,pattern:/^[a-zA-Z0-9\s,\-\/\.]{4,}$/,errorMsg:'Please enter a month, year, or "not sure yet".'},
-  ];
+  // Check if user is signed in and get their name
+  var _iqUserName = null;
+  var _iqUserSignedIn = false;
 
-  var current=0, answers={};
-
-  function getResults(){
+  function getLivePool(){
     var pool=(window.allPackages&&window.allPackages.length)?window.allPackages.map(function(p){
       var name=p.name.replace(/<br>/g,' ').replace(/\s+/g,' ').trim();
       var tier=(p.tier||'').toLowerCase();
@@ -9521,6 +9531,75 @@ document.addEventListener('DOMContentLoaded',function(){
       {name:'Grand Odyssey',price:'$6,500',duration:'7 Days',page:'pkg-grand-odyssey.html',tier:'luxury',vibe:['wildlife','culture'],durationKey:'medium',priceRaw:6500},
       {name:'Ultimate Kenya',price:'$11,200',duration:'10 Days',page:'pkg-ultimate-kenya.html',tier:'luxury',vibe:['wildlife','adventure'],durationKey:'long',priceRaw:11200},
     ];
+    return pool;
+  }
+
+  // Steps without name (for signed-in users)
+  var stepsNoName=[
+    {id:'vibe',type:'multi',label:'Step 1 of 4',question:'What draws you to Kenya?',sub:'Choose everything that stirs something in you.',options:[{value:'wildlife',label:'Wildlife & Safari'},{value:'beach',label:'Coast & Ocean'},{value:'adventure',label:'Adventure & Hiking'},{value:'culture',label:'Culture & People'}]},
+    {id:'duration',type:'choice',label:'Step 2 of 4',question:'How long is your dream escape?',sub:'We will shape the perfect rhythm around your time.',options:[{value:'short',label:'3 – 4 Days'},{value:'medium',label:'5 – 7 Days'},{value:'long',label:'8 – 10 Days'},{value:'grand',label:'10+ Days'}]},
+    {id:'budget',type:'choice',label:'Step 3 of 4',question:'What is your comfort range?',sub:'Every budget unlocks a remarkable journey.',singleCol:true,options:[{value:'budget',label:'Budget · Under $2,500'},{value:'mid',label:'Mid · $2,500–$5,000'},{value:'luxury',label:'Luxury · $5,000–$12,000'},{value:'ultra',label:'Ultra · $12,000+'}]},
+    {id:'travel',type:'text',label:'Step 4 of 4',question:'When are you thinking of travelling?',sub:'A rough idea helps us check availability.',placeholder:'e.g. July 2025, or "not sure yet"',minLength:4,pattern:/^[a-zA-Z0-9\s,\-\/\.]{4,}$/},
+  ];
+
+  // Steps with name (for guests)
+  var stepsWithName=[
+    {id:'name',type:'text',label:'Step 1 of 5',question:'What shall we call you?',sub:'Every great safari begins with a name.',placeholder:'Your first name',minLength:2,pattern:/^[a-zA-ZÀ-ÖØ-öø-ÿ\s'\-]{2,}$/},
+    {id:'vibe',type:'multi',label:'Step 2 of 5',question:'What draws you to Kenya?',sub:'Choose everything that stirs something in you.',options:[{value:'wildlife',label:'Wildlife & Safari'},{value:'beach',label:'Coast & Ocean'},{value:'adventure',label:'Adventure & Hiking'},{value:'culture',label:'Culture & People'}]},
+    {id:'duration',type:'choice',label:'Step 3 of 5',question:'How long is your dream escape?',sub:'We will shape the perfect rhythm around your time.',options:[{value:'short',label:'3 – 4 Days'},{value:'medium',label:'5 – 7 Days'},{value:'long',label:'8 – 10 Days'},{value:'grand',label:'10+ Days'}]},
+    {id:'budget',type:'choice',label:'Step 4 of 5',question:'What is your comfort range?',sub:'Every budget unlocks a remarkable journey.',singleCol:true,options:[{value:'budget',label:'Budget · Under $2,500'},{value:'mid',label:'Mid · $2,500–$5,000'},{value:'luxury',label:'Luxury · $5,000–$12,000'},{value:'ultra',label:'Ultra · $12,000+'}]},
+    {id:'travel',type:'text',label:'Step 5 of 5',question:'When are you thinking of travelling?',sub:'A rough idea helps us check availability.',placeholder:'e.g. July 2025, or "not sure yet"',minLength:4,pattern:/^[a-zA-Z0-9\s,\-\/\.]{4,}$/},
+  ];
+
+  // Greetings for signed-in users (first step replaces name step)
+  var personalizedIntros = [
+    function(n){ return 'Ready to plan your next adventure, '+n+'?'; },
+    function(n){ return 'Welcome back, '+n+'. Let\'s find your perfect safari.'; },
+    function(n){ return n+', shall we find your ideal Kenya escape?'; },
+    function(n){ return 'Good to see you, '+n+'. Let\'s match you to the wild.'; },
+    function(n){ return n+', your next safari story is waiting to be written.'; },
+  ];
+
+  var current=0, answers={}, steps=stepsWithName;
+
+  function initQuiz() {
+    // Try to get signed-in user
+    try {
+      var SUPA_URL='https://kwriicxzkgkcseorcqdi.supabase.co';
+      var SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
+      var supa=window.supabase?window.supabase.createClient(SUPA_URL,SUPA_KEY):null;
+      if(supa){
+        supa.auth.getSession().then(function(res){
+          var session=res.data&&res.data.session;
+          if(session&&session.user){
+            var m=session.user.user_metadata||{};
+            _iqUserName=m.first_name||(m.full_name?m.full_name.split(' ')[0]:'')||session.user.email.split('@')[0]||null;
+            // Also check profiles table
+            supa.from('profiles').select('first_name').eq('id',session.user.id).single().then(function(r){
+              if(r.data&&r.data.first_name)_iqUserName=r.data.first_name;
+              _iqUserSignedIn=true;
+              answers.name=_iqUserName;
+              steps=stepsNoName;
+              current=0;
+              renderStep(0);
+            });
+          } else {
+            steps=stepsWithName;
+            renderStep(0);
+          }
+        });
+      } else {
+        steps=stepsWithName;
+        renderStep(0);
+      }
+    } catch(e){
+      steps=stepsWithName;
+      renderStep(0);
+    }
+  }
+
+  function getResults(){
+    var pool=getLivePool();
     var vibes=Array.isArray(answers.vibe)?answers.vibe:[];
     return pool.map(function(pkg){
       var score=0;
@@ -9531,22 +9610,35 @@ document.addEventListener('DOMContentLoaded',function(){
     }).sort(function(a,b){return b.score-a.score||a.priceRaw-b.priceRaw;}).slice(0,3);
   }
 
-  function setProgress(step){if(progress)progress.style.width=((step+1)/(steps.length+1)*100)+'%';}
+  function setProgress(step){
+    if(progress)progress.style.width=((step+1)/(steps.length+1)*100)+'%';
+  }
 
   function renderStep(index){
     setProgress(index);
     if(index>=steps.length){renderResults();return;}
+
+    // For signed-in users, show personalized intro above first question
+    var personalizedBanner='';
+    if(_iqUserSignedIn&&index===0&&_iqUserName){
+      var introFns=personalizedIntros;
+      var intro=introFns[Math.floor(Math.random()*introFns.length)](_iqUserName);
+      personalizedBanner='<div style="background:rgba(212,175,55,0.07);border:1px solid rgba(212,175,55,0.2);border-left:3px solid var(--gold);padding:14px 18px;margin-bottom:24px;font-family:\'Cormorant Garamond\',serif;font-size:16px;font-style:italic;color:rgba(212,175,55,0.9);">'+intro+'</div>';
+    }
+
     var step=steps[index], isText=step.type==='text', isMulti=step.type==='multi';
     var selVibes=Array.isArray(answers.vibe)?answers.vibe:[];
     var hasAnswer=isText?!!answers[step.id]:isMulti?selVibes.length>0:!!answers[step.id];
-    container.innerHTML='<div class="quiz-step"><span class="quiz-step-label">'+step.label+'</span><h2 class="quiz-question">'+step.question+'</h2><p class="quiz-sub">'+step.sub+'</p>'+
-      (isText?'<input class="quiz-input" id="iqIn" type="text" placeholder="'+step.placeholder+'" value="'+(answers[step.id]||'')+'" autocomplete="off">':
+
+    container.innerHTML='<div class="quiz-step">'+personalizedBanner+
+      '<span class="quiz-step-label">'+step.label+'</span><h2 class="quiz-question">'+step.question+'</h2><p class="quiz-sub">'+step.sub+'</p>'+
+      (isText?'<input class="quiz-input" id="iqIn" type="text" placeholder="'+(step.placeholder||'')+'" value="'+(answers[step.id]||'')+'" autocomplete="off">':
         '<div class="quiz-options'+(step.singleCol?' single-col':'')+'" id="iqOpts">'+step.options.map(function(opt){var sel=isMulti?selVibes.includes(opt.value):answers[step.id]===opt.value;return'<button class="quiz-option'+(sel?' selected':'')+'" data-value="'+opt.value+'">'+opt.label+'</button>';}).join('')+'</div>'+
         (isMulti?'<p style="font-family:Jost,sans-serif;font-size:9px;letter-spacing:3px;color:rgba(212,175,55,0.6);margin-top:10px;text-transform:uppercase;" id="iqHint">'+selVibes.length+' selected — press Continue when ready</p>':''))+
       '<div class="quiz-nav">'+(index>0?'<button class="quiz-btn-back" id="iqBk">Back</button>':'<span></span>')+
       '<button class="quiz-btn-next'+(hasAnswer?' ready':'')+'" id="iqNx">'+(index===steps.length-1?'See My Safaris':'Continue')+'</button></div></div>';
 
-    var nx=document.getElementById('iqNx'), bk=document.getElementById('iqBk');
+    var nx=document.getElementById('iqNx'),bk=document.getElementById('iqBk');
     if(isText){
       var inp=document.getElementById('iqIn');
       function valid(){return inp.value.trim().length>=(step.minLength||1)&&(!step.pattern||step.pattern.test(inp.value.trim()));}
@@ -9576,14 +9668,15 @@ document.addEventListener('DOMContentLoaded',function(){
 
   function renderResults(){
     setProgress(steps.length);
-    var results=getResults(), name=answers.name?answers.name.split(' ')[0]:'Explorer';
-    container.innerHTML='<div class="quiz-step"><div class="quiz-results-intro"><span class="quiz-step-label">Curated For You</span><h2 class="quiz-question">Your Safari Awaits,<br>'+name+'.</h2><p class="quiz-sub">Based on your answers, these experiences were made for you.</p></div><div class="quiz-result-cards">'+
+    var results=getResults();
+    var name=_iqUserName||(answers.name?answers.name.split(' ')[0]:'Explorer');
+    container.innerHTML='<div class="quiz-step"><div class="quiz-results-intro"><span class="quiz-step-label">Curated For You</span><h2 class="quiz-question">Your Safari Awaits,<br>'+name+'.</h2><p class="quiz-sub">Based on your preferences, these experiences were made for you.</p></div><div class="quiz-result-cards">'+
       results.map(function(pkg){return'<div class="quiz-result-card"><div class="quiz-result-info"><div class="quiz-result-name">'+pkg.name+'</div><div class="quiz-result-meta">'+pkg.duration+' · '+pkg.tier+'</div></div><div class="quiz-result-price">'+pkg.price+'</div><a href="'+pkg.page+'" class="quiz-result-link">View</a></div>';}).join('')+
       '</div><button class="quiz-btn-next ready" id="iqCont" style="width:100%;text-align:center;margin-top:24px;">Speak to Our Safari Team</button></div>';
     document.getElementById('iqCont').addEventListener('click',function(){document.querySelector('#contact').scrollIntoView({behavior:'smooth',block:'start'});});
   }
 
-  renderStep(0);
+  initQuiz();
 })();
 
 // ===========================
