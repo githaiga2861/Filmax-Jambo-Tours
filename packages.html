@@ -1148,9 +1148,27 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
-  const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
+  const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Flb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
   const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
-</script>  
+</script>
+
+<style>
+#profileModalOverlay{position:fixed;inset:0;z-index:99986;display:none;align-items:center;justify-content:center;padding:32px 40px;opacity:0;pointer-events:none;transition:opacity 0.45s ease;background:rgba(4,3,1,0.42);backdrop-filter:blur(10px) saturate(1.1) brightness(0.78);-webkit-backdrop-filter:blur(10px) saturate(1.1) brightness(0.78);}
+#profileModalOverlay.open{opacity:1;pointer-events:all;}
+#profileModalBox{position:relative;width:min(1080px,88vw);height:min(86vh,860px);background:rgba(8,8,8,0.93);border:1px solid rgba(212,175,55,0.2);box-shadow:0 0 0 1px rgba(212,175,55,0.06),0 52px 160px rgba(0,0,0,0.88),inset 0 1px 0 rgba(212,175,55,0.08);display:flex;flex-direction:column;overflow:hidden;transform:translateY(40px) scale(0.97);transition:transform 0.52s cubic-bezier(0.22,1,0.36,1);}
+#profileModalOverlay.open #profileModalBox{transform:translateY(0) scale(1);}
+#profileModalBox::before{content:'';position:absolute;top:0;left:7%;right:7%;height:1px;background:linear-gradient(to right,transparent,#d4af37,transparent);z-index:10;pointer-events:none;}
+#profileModalIframe{width:100%;flex:1;border:none;display:block;background:#080808;overflow:hidden;}
+#profileModalLoader{position:absolute;inset:0;z-index:8;background:#080808;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transition:opacity 0.4s ease;pointer-events:none;}
+#profileModalLoader.hidden{opacity:0;pointer-events:none;}
+.pm-loader-logo{width:72px;opacity:0.55;animation:pmPulse 2.2s ease-in-out infinite;}
+@keyframes pmPulse{0%,100%{opacity:0.45;transform:scale(1);}50%{opacity:0.85;transform:scale(1.05);}}
+.pm-loader-bar{width:140px;height:1px;background:rgba(212,175,55,0.1);position:relative;overflow:hidden;}
+.pm-loader-bar::after{content:'';position:absolute;top:0;left:-60%;width:60%;height:100%;background:linear-gradient(to right,transparent,#d4af37,transparent);animation:pmSweep 1.5s ease-in-out infinite;}
+@keyframes pmSweep{0%{left:-60%;}100%{left:160%;}}
+.pm-loader-text{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(212,175,55,0.4);}
+@media(max-width:768px){#profileModalOverlay{padding:16px;align-items:flex-end;}#profileModalBox{width:100%;height:90dvh;border-left:none;border-right:none;border-bottom:none;}}
+</style>  
 </head>
 <body>
 
@@ -2371,6 +2389,73 @@ window._revealObserver = new IntersectionObserver(entries => {
 
 document.querySelectorAll('.reveal').forEach(el => window._revealObserver.observe(el));
 </script>  
+<!-- PROFILE MODAL -->
+<div id="profileModalOverlay" role="dialog" aria-modal="true" aria-label="User Profile">
+  <div id="profileModalBox">
+    <div id="profileModalLoader">
+      <img class="pm-loader-logo" src="assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.webp" alt="">
+      <div class="pm-loader-bar"></div>
+      <span class="pm-loader-text">Loading your profile</span>
+    </div>
+    <iframe id="profileModalIframe" title="User Profile"></iframe>
+  </div>
+</div>
+
+<!-- AUTH MODAL (copied from index.html) -->
+<div id="authOverlay" style="display:none;opacity:0;pointer-events:none;position:fixed;inset:0;z-index:99990;background:rgba(8,6,2,0.45);backdrop-filter:blur(12px) saturate(1.4) brightness(0.7);-webkit-backdrop-filter:blur(12px) saturate(1.4) brightness(0.7);align-items:center;justify-content:center;padding:20px;transition:opacity 0.4s ease;">
+  <div id="authModal" style="background:rgba(10,8,3,0.82);backdrop-filter:blur(28px) saturate(1.6);-webkit-backdrop-filter:blur(28px) saturate(1.6);border:1px solid rgba(212,175,55,0.28);max-width:560px;width:100%;max-height:92vh;overflow-y:auto;position:relative;box-shadow:0 0 0 1px rgba(212,175,55,0.08),0 40px 120px rgba(0,0,0,0.5),inset 0 1px 0 rgba(212,175,55,0.12);transform:translateY(32px) scale(0.96);transition:transform 0.55s cubic-bezier(0.22,1,0.36,1);">
+    <div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(to right,transparent,#d4af37,transparent);"></div>
+    <button id="authModalClose" onclick="window._closeAuth()" style="position:absolute;top:16px;right:18px;z-index:10;background:none;border:1px solid rgba(212,175,55,0.2);color:rgba(138,128,116,0.8);font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:8px 16px;cursor:pointer;transition:color 0.3s,border-color 0.3s;">Close</button>
+    <div style="padding:52px 48px 48px;">
+      <span style="font-family:'Jost',sans-serif;font-size:8px;letter-spacing:6px;text-transform:uppercase;color:rgba(212,175,55,0.6);display:block;margin-bottom:10px;">Filmax Jambo Tours</span>
+      <h2 id="authModalTitle" style="font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:#f0ece4;margin-bottom:8px;line-height:1.1;">Welcome<br><em style="font-style:italic;color:#d4af37;font-weight:400;">Back</em></h2>
+      <p id="authModalSub" style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:rgba(138,128,116,0.9);margin-bottom:32px;line-height:1.6;">Sign in to access your safari journey and saved preferences.</p>
+      <div style="display:flex;gap:0;margin-bottom:32px;border-bottom:1px solid rgba(212,175,55,0.12);">
+        <button id="tabSignin" onclick="window._switchAuthTab('signin')" style="font-family:'Jost',sans-serif;font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#d4af37;background:none;border:none;border-bottom:2px solid #d4af37;padding:12px 28px 12px 0;cursor:pointer;margin-bottom:-1px;transition:color 0.3s,border-color 0.3s;">Sign In</button>
+        <button id="tabSignup" onclick="window._switchAuthTab('signup')" style="font-family:'Jost',sans-serif;font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(138,128,116,0.7);background:none;border:none;border-bottom:2px solid transparent;padding:12px 28px 12px 0;cursor:pointer;margin-bottom:-1px;transition:color 0.3s,border-color 0.3s;">Create Account</button>
+      </div>
+      <div id="authPanelSignin">
+        <div id="authMsgErrorSignin" style="display:none;background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.35);color:#e07070;font-size:11px;padding:13px 18px;margin-bottom:16px;"></div>
+        <div id="authMsgSuccessSignin" style="display:none;background:rgba(123,181,110,0.1);border:1px solid rgba(123,181,110,0.35);color:#7bb56e;font-size:11px;padding:13px 18px;margin-bottom:16px;text-align:center;"></div>
+        <input id="siEmail" type="email" placeholder="EMAIL ADDRESS *" autocomplete="email" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.18)'">
+        <div style="position:relative;">
+          <input id="siPassword" type="password" placeholder="PASSWORD *" autocomplete="current-password" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 36px 14px 0;margin-bottom:8px;outline:none;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.18)'">
+          <button type="button" onclick="(function(){var f=document.getElementById('siPassword');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'👁':'🙈';}).call(this)" style="position:absolute;right:0;top:14px;background:none;border:none;color:rgba(138,128,116,0.6);font-size:14px;cursor:pointer;padding:0;">👁</button>
+        </div>
+        <div style="text-align:right;margin-bottom:20px;"><button onclick="window._showForgotPassword&&window._showForgotPassword()" style="background:none;border:none;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;color:rgba(212,175,55,0.6);cursor:pointer;padding:4px 0;">Forgot Password?</button></div>
+        <button onclick="window._doSignIn()" style="width:100%;font-family:'Jost',sans-serif;font-size:11px;font-weight:700;letter-spacing:5px;text-transform:uppercase;padding:20px;background:linear-gradient(135deg,#f0c84a,#d4af37,#b8860b);color:#080808;border:none;cursor:pointer;transition:transform 0.3s;">Sign In to Your Account</button>
+        <p style="text-align:center;margin-top:16px;font-family:'Jost',sans-serif;font-size:11px;color:rgba(138,128,116,0.7);">No account? <button onclick="window._switchAuthTab('signup')" style="background:none;border:none;color:#d4af37;font-family:'Jost',sans-serif;font-size:11px;cursor:pointer;text-decoration:underline;">Create one free</button></p>
+      </div>
+      <div id="authPanelForgot" style="display:none;">
+        <div id="authMsgErrorForgot" style="display:none;background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.35);color:#e07070;font-size:11px;padding:13px 18px;margin-bottom:16px;"></div>
+        <div id="authMsgSuccessForgot" style="display:none;background:rgba(123,181,110,0.1);border:1px solid rgba(123,181,110,0.35);color:#7bb56e;font-size:11px;padding:13px 18px;margin-bottom:16px;text-align:center;"></div>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--muted);margin-bottom:24px;line-height:1.7;">Enter the email address on your account and we'll send a secure reset link.</p>
+        <input id="forgotEmail" type="email" placeholder="YOUR EMAIL ADDRESS *" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:20px;outline:none;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.18)'">
+        <button onclick="window._doForgotPassword&&window._doForgotPassword()" style="width:100%;font-family:'Jost',sans-serif;font-size:11px;font-weight:700;letter-spacing:5px;text-transform:uppercase;padding:20px;background:linear-gradient(135deg,#f0c84a,#d4af37,#b8860b);color:#080808;border:none;cursor:pointer;">Send Reset Link</button>
+        <p style="text-align:center;margin-top:16px;font-family:'Jost',sans-serif;font-size:11px;color:rgba(138,128,116,0.7);"><button onclick="window._switchAuthTab('signin')" style="background:none;border:none;color:#d4af37;cursor:pointer;text-decoration:underline;">← Back to Sign In</button></p>
+      </div>
+      <div id="authPanelSignup" style="display:none;">
+        <div id="authMsgErrorSignup" style="display:none;background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.35);color:#e07070;font-size:11px;padding:13px 18px;margin-bottom:16px;"></div>
+        <div id="authMsgSuccessSignup" style="display:none;background:rgba(123,181,110,0.1);border:1px solid rgba(123,181,110,0.35);color:#7bb56e;font-size:11px;padding:13px 18px;margin-bottom:16px;text-align:center;"></div>
+        <input id="suFirstName" type="text" placeholder="FIRST NAME *" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.18)'">
+        <input id="suEmail" type="email" placeholder="EMAIL ADDRESS *" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.18)'">
+        <input id="suPhone" type="tel" placeholder="PHONE / WHATSAPP *" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.18)'">
+        <input id="suNationality" type="text" placeholder="COUNTRY OF RESIDENCE *" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 0;margin-bottom:16px;outline:none;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.18)'">
+        <div style="position:relative;margin-bottom:16px;">
+          <input id="suPassword" type="password" placeholder="CREATE PASSWORD (MIN 8 CHARS) *" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 36px 14px 0;outline:none;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.18)'">
+          <button type="button" onclick="(function(){var f=document.getElementById('suPassword');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'👁':'🙈';}).call(this)" style="position:absolute;right:0;top:14px;background:none;border:none;color:rgba(138,128,116,0.6);font-size:14px;cursor:pointer;padding:0;">👁</button>
+        </div>
+        <div style="position:relative;margin-bottom:20px;">
+          <input id="suPassConf" type="password" placeholder="CONFIRM PASSWORD *" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:14px 36px 14px 0;outline:none;" onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor='rgba(212,175,55,0.18)'">
+          <button type="button" onclick="(function(){var f=document.getElementById('suPassConf');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'👁':'🙈';}).call(this)" style="position:absolute;right:0;top:14px;background:none;border:none;color:rgba(138,128,116,0.6);font-size:14px;cursor:pointer;padding:0;">👁</button>
+        </div>
+        <button onclick="window._doSignUp()" style="width:100%;font-family:'Jost',sans-serif;font-size:11px;font-weight:700;letter-spacing:5px;text-transform:uppercase;padding:20px;background:linear-gradient(135deg,#f0c84a,#d4af37,#b8860b);color:#080808;border:none;cursor:pointer;">Create My Safari Account</button>
+        <p style="text-align:center;margin-top:16px;font-family:'Jost',sans-serif;font-size:11px;color:rgba(138,128,116,0.7);">Already have an account? <button onclick="window._switchAuthTab('signin')" style="background:none;border:none;color:#d4af37;cursor:pointer;text-decoration:underline;">Sign in here</button></p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="hintsContainer" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99970;"></div>
 
 <script>
@@ -2515,6 +2600,161 @@ document.querySelectorAll('.reveal').forEach(el => window._revealObserver.observ
 
   window.addEventListener('scroll', checkHints, { passive: true });
   setTimeout(checkHints, 1200);
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ── Shared modal system for all non-index pages ──
+(function(){
+  var SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
+  var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
+  var _supa = window.supabase ? window.supabase.createClient(SUPA_URL, SUPA_KEY) : null;
+  var _pmScrollY=0,_pmIsOpen=false,_pmLoaded=false;
+  var _fjCurrentUser=null;
+
+  // Auth state
+  if (_supa) {
+    _supa.auth.getSession().then(function(res){
+      if(res.data&&res.data.session) _fjCurrentUser = res.data.session.user;
+    });
+    _supa.auth.onAuthStateChange(function(e,s){ _fjCurrentUser = s?s.user:null; });
+  }
+
+  // Profile modal
+  window._openProfile = function(){
+    if(!_fjCurrentUser){window._openAuth('signin');return;}
+    if(_pmIsOpen)return;
+    _pmIsOpen=true;
+    _pmScrollY=window.scrollY;
+    document.body.style.position='fixed';
+    document.body.style.top='-'+_pmScrollY+'px';
+    document.body.style.left='0';document.body.style.right='0';document.body.style.overflow='hidden';
+    var ov=document.getElementById('profileModalOverlay');
+    ov.style.display='flex';
+    requestAnimationFrame(function(){requestAnimationFrame(function(){ov.classList.add('open');});});
+    var fr=document.getElementById('profileModalIframe');
+    var ld=document.getElementById('profileModalLoader');
+    if(!_pmLoaded){
+      if(ld)ld.classList.remove('hidden');
+      fr.onload=function(){_pmLoaded=true;setTimeout(function(){if(ld)ld.classList.add('hidden');},280);};
+      fr.src='profile.html';
+    } else {
+      if(ld)ld.classList.add('hidden');
+    }
+  };
+  window._closeProfileModal=function(){
+    if(!_pmIsOpen)return;
+    var fr=document.getElementById('profileModalIframe');
+    if(fr&&fr.contentWindow){
+      try{fr.contentWindow.postMessage({type:'FJ_PROFILE_CHECK_DIRTY'},'*');
+      clearTimeout(window._pmCloseTimer);
+      window._pmCloseTimer=setTimeout(_pmDoClose,250);return;}catch(_){}
+    }
+    _pmDoClose();
+  };
+  function _pmDoClose(){
+    clearTimeout(window._pmCloseTimer);
+    if(!_pmIsOpen)return;
+    _pmIsOpen=false;
+    var ov=document.getElementById('profileModalOverlay');
+    ov.classList.remove('open');
+    setTimeout(function(){
+      ov.style.display='none';
+      document.body.style.position='';document.body.style.top='';
+      document.body.style.left='';document.body.style.right='';document.body.style.overflow='';
+      window.scrollTo({top:_pmScrollY,behavior:'instant'});
+    },460);
+  }
+  window.addEventListener('message',function(e){
+    if(!e.data||typeof e.data!=='object')return;
+    if(e.data.type==='FJ_PROFILE_DIRTY_RESPONSE'){clearTimeout(window._pmCloseTimer);if(e.data.dirty){try{document.getElementById('profileModalIframe').contentWindow.postMessage({type:'FJ_PROFILE_REQUEST_CLOSE'},'*');}catch(_){}}else{_pmDoClose();}}
+    if(e.data.type==='FJ_PROFILE_CLOSE_CONFIRMED')_pmDoClose();
+    if(e.data.type==='FJ_PROFILE_NAVIGATE_AWAY')_pmDoClose();
+    if(e.data.type==='FJ_PROFILE_SIGNED_OUT'){_pmDoClose();_fjCurrentUser=null;}
+  });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&_pmIsOpen)window._closeProfileModal();});
+  document.getElementById('profileModalOverlay')?.addEventListener('click',function(e){if(e.target===this)window._closeProfileModal();});
+
+  // Auth modal
+  window._openAuth=function(tab){
+    var ov=document.getElementById('authOverlay');
+    if(!ov)return;
+    ov.style.display='flex';
+    requestAnimationFrame(function(){ov.style.opacity='1';ov.style.pointerEvents='all';});
+    document.getElementById('authModal').style.transform='translateY(0) scale(1)';
+    document.body.style.overflow='hidden';
+    window._switchAuthTab(tab||'signin');
+  };
+  window._closeAuth=function(){
+    var ov=document.getElementById('authOverlay');
+    if(!ov)return;
+    ov.style.opacity='0';ov.style.pointerEvents='none';
+    document.body.style.overflow='';
+    setTimeout(function(){ov.style.display='none';},420);
+  };
+  window._switchAuthTab=function(tab){
+    var si=document.getElementById('authPanelSignin');
+    var su=document.getElementById('authPanelSignup');
+    var fg=document.getElementById('authPanelForgot');
+    var tsi=document.getElementById('tabSignin');
+    var tsu=document.getElementById('tabSignup');
+    var title=document.getElementById('authModalTitle');
+    var sub=document.getElementById('authModalSub');
+    ['authMsgErrorSignin','authMsgSuccessSignin','authMsgErrorSignup','authMsgSuccessSignup','authMsgErrorForgot','authMsgSuccessForgot'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});
+    if(fg)fg.style.display='none';
+    if(tab==='signup'){
+      if(si)si.style.display='none';if(su)su.style.display='block';
+      if(tsi){tsi.style.color='rgba(138,128,116,0.7)';tsi.style.borderBottomColor='transparent';}
+      if(tsu){tsu.style.color='#d4af37';tsu.style.borderBottomColor='#d4af37';}
+      if(title)title.innerHTML='Join the<br><em style="font-style:italic;color:#d4af37;font-weight:400;">Journey</em>';
+      if(sub)sub.textContent='Create your free account to unlock the full safari experience.';
+    } else {
+      if(su)su.style.display='none';if(si)si.style.display='block';
+      if(tsu){tsu.style.color='rgba(138,128,116,0.7)';tsu.style.borderBottomColor='transparent';}
+      if(tsi){tsi.style.color='#d4af37';tsi.style.borderBottomColor='#d4af37';}
+      if(title)title.innerHTML='Welcome<br><em style="font-style:italic;color:#d4af37;font-weight:400;">Back</em>';
+      if(sub)sub.textContent='Sign in to access your safari journey and saved preferences.';
+    }
+  };
+  window._doSignIn=async function(){
+    if(!_supa)return;
+    var email=document.getElementById('siEmail')?.value.trim();
+    var pass=document.getElementById('siPassword')?.value;
+    var errEl=document.getElementById('authMsgErrorSignin');
+    var okEl=document.getElementById('authMsgSuccessSignin');
+    if(!email||!pass){if(errEl){errEl.textContent='Please enter your email and password.';errEl.style.display='block';}return;}
+    try{
+      var res=await _supa.auth.signInWithPassword({email:email,password:pass});
+      if(res.error){if(errEl){errEl.textContent=res.error.message;errEl.style.display='block';}return;}
+      _fjCurrentUser=res.data.user;
+      if(okEl){okEl.textContent='✓ Signed in successfully!';okEl.style.display='block';}
+      setTimeout(function(){window._closeAuth();},1200);
+    }catch(e){if(errEl){errEl.textContent=e.message;errEl.style.display='block';}}
+  };
+  window._doSignUp=async function(){
+    if(!_supa)return;
+    var fn=document.getElementById('suFirstName')?.value.trim();
+    var email=document.getElementById('suEmail')?.value.trim();
+    var phone=document.getElementById('suPhone')?.value.trim();
+    var nat=document.getElementById('suNationality')?.value.trim();
+    var pass=document.getElementById('suPassword')?.value;
+    var conf=document.getElementById('suPassConf')?.value;
+    var errEl=document.getElementById('authMsgErrorSignup');
+    var okEl=document.getElementById('authMsgSuccessSignup');
+    if(!fn||!email||!pass){if(errEl){errEl.textContent='Please fill all required fields.';errEl.style.display='block';}return;}
+    if(pass.length<8){if(errEl){errEl.textContent='Password must be at least 8 characters.';errEl.style.display='block';}return;}
+    if(pass!==conf){if(errEl){errEl.textContent='Passwords do not match.';errEl.style.display='block';}return;}
+    try{
+      var res=await _supa.auth.signUp({email:email,password:pass,options:{data:{first_name:fn,phone:phone,nationality:nat}}});
+      if(res.error){if(errEl){errEl.textContent=res.error.message;errEl.style.display='block';}return;}
+      if(res.data.user){
+        try{await _supa.from('profiles').upsert({id:res.data.user.id,email:email,first_name:fn,phone:phone,nationality:nat,created_at:new Date().toISOString(),updated_at:new Date().toISOString()},{onConflict:'id'});}catch(_){}
+      }
+      if(okEl){okEl.textContent='✓ Account created! Check your email to confirm.';okEl.style.display='block';}
+    }catch(e){if(errEl){errEl.textContent=e.message;errEl.style.display='block';}}
+  };
+  document.getElementById('authOverlay')?.addEventListener('click',function(e){if(e.target===this)window._closeAuth();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')window._closeAuth();});
 })();
 </script>
 </body>
