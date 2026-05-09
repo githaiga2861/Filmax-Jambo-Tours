@@ -1679,332 +1679,411 @@ body.light-mode .save-bar{background:rgba(235,235,234,0.95);}
 </div><!-- /layout -->
 
 <script>
-// ─────────────────────────────────────────
-// STATE
-// ─────────────────────────────────────────
+// ═══════════════════════════════════════════════════
+// FILMAX JAMBO — PROFILE PAGE SCRIPT
+// Every setting on this page saves to profiles table
+// ═══════════════════════════════════════════════════
+
+// ── STATE ──────────────────────────────────────────
 let _hasUnsavedChanges = false;
-let _pendingNavUrl = null;
-let _editingSections = new Set();
+let _pendingNavUrl     = null;
+let _editingSections   = new Set();
+let supa               = null;
+let _currentUser       = null;
 
 function markDirty() {
   _hasUnsavedChanges = true;
-  const saveBtn = document.getElementById('saveAllBtn');
-  const miniSave = document.getElementById('miniNavSave');
-  const miniDiscard = document.getElementById('miniNavDiscard');
-  if (saveBtn) { saveBtn.classList.add('active'); }
-  if (miniSave) { miniSave.classList.add('active'); }
-  if (miniDiscard) { miniDiscard.classList.add('visible'); }
+  document.getElementById('saveAllBtn')?.classList.add('active');
+  document.getElementById('miniNavSave')?.classList.add('active');
+  document.getElementById('miniNavDiscard')?.classList.add('visible');
 }
-
 function markClean() {
   _hasUnsavedChanges = false;
-  const saveBtn = document.getElementById('saveAllBtn');
-  const miniSave = document.getElementById('miniNavSave');
-  const miniDiscard = document.getElementById('miniNavDiscard');
-  if (saveBtn) { saveBtn.classList.remove('active'); }
-  if (miniSave) { miniSave.classList.remove('active'); }
-  if (miniDiscard) { miniDiscard.classList.remove('visible'); }
+  document.getElementById('saveAllBtn')?.classList.remove('active');
+  document.getElementById('miniNavSave')?.classList.remove('active');
+  document.getElementById('miniNavDiscard')?.classList.remove('visible');
 }
-
-function openDiscardDialog() {
-  document.getElementById('discardOverlay').classList.add('open');
-}
-function closeDiscardDialog() {
-  document.getElementById('discardOverlay').classList.remove('open');
-}
+function openDiscardDialog()  { document.getElementById('discardOverlay').classList.add('open'); }
+function closeDiscardDialog() { document.getElementById('discardOverlay').classList.remove('open'); }
 function abandonChanges() {
   markClean();
   closeDiscardDialog();
-  if (_pendingNavUrl) { window.location.href = _pendingNavUrl; }
-  else { history.back(); }
+  if (_pendingNavUrl) window.location.href = _pendingNavUrl;
+  else history.back();
 }
-
-// Intercept back button and sidebar links
-window.addEventListener('beforeunload', function(e) {
+window.addEventListener('beforeunload', e => {
   if (_hasUnsavedChanges) { e.preventDefault(); e.returnValue = ''; }
 });
 
-// ─────────────────────────────────────────
-// CURSOR
-// ─────────────────────────────────────────
+// ── CURSOR ─────────────────────────────────────────
 const cur = document.getElementById('cur');
 const ring = document.getElementById('curRing');
-let mx = 0, my = 0, rx = 0, ry = 0;
+let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+  mx=e.clientX; my=e.clientY;
+  cur.style.left=mx+'px'; cur.style.top=my+'px';
 });
-(function animRing() {
-  rx += (mx - rx) * .12; ry += (my - ry) * .12;
-  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+(function animRing(){
+  rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
   requestAnimationFrame(animRing);
 })();
-document.querySelectorAll('a,button,.pref-card,.rec-card,.booking-card,.chip,.toggle,.sec-btn,.cc-btn,.sb-avatar,.companion-add').forEach(el => {
-  el.addEventListener('mouseenter', () => { cur.style.width = '18px'; cur.style.height = '18px'; ring.style.width = '54px'; ring.style.height = '54px'; });
-  el.addEventListener('mouseleave', () => { cur.style.width = '10px'; cur.style.height = '10px'; ring.style.width = '36px'; ring.style.height = '36px'; });
+document.querySelectorAll('a,button,.pref-card,.rec-card,.booking-card,.chip,.toggle,.sec-btn,.cc-btn,.sb-avatar,.companion-add').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ cur.style.width='18px';cur.style.height='18px';ring.style.width='54px';ring.style.height='54px'; });
+  el.addEventListener('mouseleave',()=>{ cur.style.width='10px';cur.style.height='10px';ring.style.width='36px';ring.style.height='36px'; });
 });
 
-// ─────────────────────────────────────────
-// FIX: navTo() — renamed to avoid shadowing window.scrollTo()
-// Also receives the clicked button element directly (no event.currentTarget needed)
-// ─────────────────────────────────────────
+// ── NAV ────────────────────────────────────────────
 function navTo(id, btn) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  document.querySelectorAll('.sb-nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById(id)?.scrollIntoView({ behavior:'smooth', block:'start' });
+  document.querySelectorAll('.sb-nav-item').forEach(b=>b.classList.remove('active'));
   if (btn) btn.classList.add('active');
 }
 
-// ─────────────────────────────────────────
-// REVEAL ON SCROLL
-// ─────────────────────────────────────────
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
-}, { threshold: .08, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+// ── REVEAL ON SCROLL ───────────────────────────────
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('vis'); });
+},{ threshold:.08, rootMargin:'0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-// ─────────────────────────────────────────
-// CHIP / CARD TOGGLES
-// ─────────────────────────────────────────
-function toggleChip(el) { el.classList.toggle('selected'); }
+// ── TOAST ──────────────────────────────────────────
+const notifyEl = document.getElementById('notify');
+let notifyTimer;
+function showNotify(msg,isError=false) {
+  clearTimeout(notifyTimer);
+  notifyEl.textContent = (isError ? '✕  ' : '✓  ') + msg;
+  notifyEl.style.background = isError
+    ? 'linear-gradient(135deg,#e05555,#b83333)'
+    : 'linear-gradient(135deg,var(--gold-lt),var(--gold),var(--amber))';
+  notifyEl.classList.add('show');
+  notifyTimer = setTimeout(()=>notifyEl.classList.remove('show'), 2800);
+}
+
+// ── PASSPORT TOGGLE ────────────────────────────────
+function togglePassportVis() {
+  const f = document.getElementById('pfPassport');
+  f.type = f.type==='password' ? 'text' : 'password';
+}
+
+// ── CHIP / CARD TOGGLES ────────────────────────────
+function toggleChip(el) { el.classList.toggle('selected'); markDirty(); }
 function toggleCard(el) {
   el.classList.toggle('selected-card');
   const check = el.querySelector('.pref-check');
   if (check) check.textContent = el.classList.contains('selected-card') ? '✓' : '';
+  markDirty();
 }
-
-// ─────────────────────────────────────────
-// TOAST NOTIFICATION
-// ─────────────────────────────────────────
-const notifyEl = document.getElementById('notify');
-let notifyTimer;
-function showNotify(msg) {
-  clearTimeout(notifyTimer);
-  notifyEl.textContent = '✓  ' + msg;
-  notifyEl.classList.add('show');
-  notifyTimer = setTimeout(() => notifyEl.classList.remove('show'), 2600);
-}
-
-// ─────────────────────────────────────────
-// FIX: PASSPORT SHOW / HIDE
-// ─────────────────────────────────────────
-function togglePassportVis() {
-  const f = document.getElementById('pfPassport');
-  f.type = f.type === 'password' ? 'text' : 'password';
-}
-
-// ─────────────────────────────────────────
-// FIX: AVATAR FILE UPLOAD (both sidebar + hero)
-// ─────────────────────────────────────────
-document.getElementById('avatarFileInput').addEventListener('change', function () {
-  if (!this.files || !this.files[0]) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const src = e.target.result;
-    // Hero avatar
-    const heroImg = document.getElementById('heroAvatarImg');
-    const heroInitial = document.getElementById('heroInitial');
-    heroImg.src = src; heroImg.style.display = 'block';
-    heroInitial.style.display = 'none';
-    // Sidebar avatar
-    const sbImg = document.getElementById('sbAvatarImg');
-    const sbInitial = document.getElementById('sbAvatarInitial');
-    sbImg.src = src; sbImg.style.display = 'block';
-    sbInitial.style.display = 'none';
-    showNotify('Profile photo updated');
-  };
-  reader.readAsDataURL(this.files[0]);
+// Toggle switches
+document.querySelectorAll('.toggle').forEach(t=>{
+  t.addEventListener('click', ()=>{ t.classList.toggle('on'); markDirty(); });
 });
 
-// ─────────────────────────────────────────
-// SUPABASE — INIT & SAVE
-// ─────────────────────────────────────────
-// NOTE: Move your Supabase credentials to an environment variable or
-// server-side call before going to production. The anon key is safe
-// for client-side use when RLS is enabled, but avoid committing it publicly.
-const SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
-const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
+// ── AVATAR UPLOAD ──────────────────────────────────
+document.getElementById('avatarFileInput').addEventListener('change', async function() {
+  if (!this.files || !this.files[0] || !supa || !_currentUser) return;
+  const file = this.files[0];
+  const ext  = file.name.split('.').pop();
+  const path = `avatars/${_currentUser.id}.${ext}`;
 
-let supa = null;
+  showNotify('Uploading photo…');
+  const { error: upErr } = await supa.storage.from('avatars').upload(path, file, { upsert:true });
+  if (upErr) { showNotify('Upload failed', true); return; }
 
-async function initProfile() {
-  try {
-    supa = window.supabase.createClient(SUPA_URL, SUPA_KEY);
-    const { data: { session } } = await supa.auth.getSession();
-    if (!session) { window.location.href = 'index.html'; return; }
-    const user = session.user;
+  const { data: { publicUrl } } = supa.storage.from('avatars').getPublicUrl(path);
 
-    // Load ONLY from profiles table — single source of truth
-    const { data: profile, error } = await supa
-      .from('profiles')
-      .select('*')
-      .eq('id', user.id)
-      .single();
+  // Update DB
+  await supa.from('profiles').upsert({ id:_currentUser.id, avatar_url:publicUrl, updated_at:new Date().toISOString() }, { onConflict:'id' });
 
-    if (error && error.code !== 'PGRST116') {
-      console.error('Profile load error:', error);
+  // Update UI
+  ['heroAvatarImg','sbAvatarImg'].forEach(imgId=>{
+    const img = document.getElementById(imgId);
+    if (img) { img.src=publicUrl+'?t='+Date.now(); img.style.display='block'; }
+  });
+  document.getElementById('heroInitial').style.display='none';
+  document.getElementById('sbAvatarInitial').style.display='none';
+  showNotify('Profile photo updated');
+});
+
+// ── HELPERS ────────────────────────────────────────
+function getVal(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+function setField(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.value = val || '';
+}
+
+// Collect all selected chips inside a container
+function getSelectedChips(containerId) {
+  const c = document.getElementById(containerId);
+  if (!c) return [];
+  return Array.from(c.querySelectorAll('.chip.selected'))
+    .map(el => el.textContent.trim());
+}
+
+// Collect all selected pref-cards (travel styles)
+function getSelectedCards() {
+  return Array.from(document.querySelectorAll('.pref-card.selected-card'))
+    .map(el => el.querySelector('.pref-card-title')?.textContent.trim())
+    .filter(Boolean);
+}
+
+// Get toggle state by its label text
+function getToggleState(labelText) {
+  const toggles = document.querySelectorAll('.toggle-wrap');
+  for (const wrap of toggles) {
+    const label = wrap.querySelector('.toggle-label')?.textContent.trim();
+    if (label === labelText) {
+      return wrap.querySelector('.toggle')?.classList.contains('on') ?? false;
     }
+  }
+  return false;
+}
 
-    const m = profile || {};
-
-    // Never fall back to email as display name
-    const firstName = m.first_name || '';
-    const lastName  = m.last_name  || '';
-    const fullName  = (firstName + ' ' + lastName).trim() || 'Member';
-    const initial   = firstName.charAt(0).toUpperCase() || 'M';
-
-    // Member since — from profiles.created_at
-    const memberSince = m.created_at
-      ? new Date(m.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-      : new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-
-    // Populate hero
-    const heroNameEl = document.getElementById('heroName');
-    const heroInitEl = document.getElementById('heroInitial');
-    const heroImgEl  = document.getElementById('heroAvatarImg');
-    if (heroNameEl) heroNameEl.textContent = fullName;
-    if (heroInitEl) heroInitEl.textContent = initial;
-    if (heroImgEl && m.avatar_url) {
-      heroImgEl.src = m.avatar_url;
-      heroImgEl.style.display = 'block';
-      heroInitEl.style.display = 'none';
+// Set toggle by label text
+function setToggle(labelText, isOn) {
+  const toggles = document.querySelectorAll('.toggle-wrap');
+  for (const wrap of toggles) {
+    const label = wrap.querySelector('.toggle-label')?.textContent.trim();
+    if (label === labelText) {
+      const t = wrap.querySelector('.toggle');
+      if (t) { isOn ? t.classList.add('on') : t.classList.remove('on'); }
     }
-
-    // Update hero meta — member since
-    const memberSinceEls = document.querySelectorAll('.hero-meta-item');
-    if (memberSinceEls[0]) memberSinceEls[0].textContent = 'Member since ' + memberSince;
-
-    // Populate sidebar
-    const sbNameEl    = document.getElementById('sbName');
-    const sbEmailEl   = document.getElementById('sbEmail');
-    const sbInitialEl = document.getElementById('sbAvatarInitial');
-    const sbImgEl     = document.getElementById('sbAvatarImg');
-    if (sbNameEl)    sbNameEl.textContent    = fullName;
-    if (sbEmailEl)   sbEmailEl.textContent   = user.email || '';
-    if (sbInitialEl) sbInitialEl.textContent = initial;
-    if (sbImgEl && m.avatar_url) {
-      sbImgEl.src = m.avatar_url;
-      sbImgEl.style.display = 'block';
-      sbInitialEl.style.display = 'none';
-    }
-
-    // Mini-nav name
-    const miniNavName = document.getElementById('miniNavName');
-    if (miniNavName) miniNavName.textContent = fullName;
-
-    // Populate ALL form fields from profiles only
-    const setField = (id, val) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.value = val || '';
-    };
-    setField('pfFirstName',  m.first_name);
-    setField('pfLastName',   m.last_name);
-    setField('pfEmail',      user.email);       // email from auth, read-only
-    setField('pfPhone',      m.phone);
-    setField('pfNationality',m.nationality);
-    setField('pfCountry',    m.country);
-    setField('pfDob',        m.dob);
-    setField('pfLang',       m.preferred_lang);
-    setField('pfTz',         m.timezone);
-    setField('pfEmergName',  m.emerg_name);
-    setField('pfEmergPhone', m.emerg_phone);
-
-    // Passport — stored hashed display only, never expose raw
-    const ppEl = document.getElementById('pfPassport');
-    if (ppEl) ppEl.value = m.passport ? '••••••••' : '';
-
-    // Loyalty bar
-    const pts = Number(m.reward_points) || 420;
-    const pct = Math.min((pts / 1000) * 100, 100);
-    const loyaltyPtsEl = document.getElementById('loyaltyPts');
-    const statPtsEl    = document.getElementById('statPts');
-    if (loyaltyPtsEl) loyaltyPtsEl.childNodes[0].textContent = pts;
-    if (statPtsEl)    statPtsEl.textContent = pts;
-
-    setTimeout(() => {
-      const fill = document.getElementById('loyaltyFill');
-      if (fill) fill.style.width = pct + '%';
-    }, 500);
-
-    // Lock all form fields by default — require "Edit" click
-    lockAllSections();
-
-    // Watch any input change → mark dirty
-    document.querySelectorAll('.form-input').forEach(inp => {
-      inp.addEventListener('input', markDirty);
-      inp.addEventListener('change', markDirty);
-    });
-
-    // Sticky mini-nav on scroll
-    window.addEventListener('scroll', () => {
-      const mn = document.getElementById('miniNav');
-      if (mn) mn.classList.toggle('visible', window.scrollY > 280);
-    });
-
-  } catch (e) {
-    console.warn('Profile init error:', e);
-    setTimeout(() => {
-      const fill = document.getElementById('loyaltyFill');
-      if (fill) fill.style.width = '42%';
-    }, 500);
   }
 }
 
-// Lock all form sections — read-only until Edit clicked
+// Contact method chips (in Notifications section)
+function getContactMethods() {
+  const chips = document.querySelectorAll('#sec-notifications .chip.selected');
+  return Array.from(chips).map(c => c.textContent.trim());
+}
+function setContactChips(arr) {
+  const chips = document.querySelectorAll('#sec-notifications .chip');
+  chips.forEach(chip => {
+    const label = chip.textContent.trim();
+    arr.includes(label) ? chip.classList.add('selected') : chip.classList.remove('selected');
+  });
+}
+
+// Interest chips (in Travel Profile section)
+function setInterestChips(arr) {
+  const chips = document.querySelectorAll('#interestChips .chip');
+  chips.forEach(chip => {
+    const label = chip.textContent.trim();
+    arr.includes(label) ? chip.classList.add('selected') : chip.classList.remove('selected');
+  });
+}
+
+// Travel style cards
+function setTravelStyleCards(arr) {
+  document.querySelectorAll('.pref-card').forEach(card => {
+    const title = card.querySelector('.pref-card-title')?.textContent.trim();
+    const check = card.querySelector('.pref-check');
+    if (arr.includes(title)) {
+      card.classList.add('selected-card');
+      if (check) check.textContent = '✓';
+    } else {
+      card.classList.remove('selected-card');
+      if (check) check.textContent = '';
+    }
+  });
+}
+
+// Travel Profile form fields (no IDs, use positional selects inside #sec-travel)
+function getTravelFormSelects() {
+  const selects = document.querySelectorAll('#sec-travel .form-card select.form-input');
+  return {
+    lodge_style:   selects[0]?.value || '',
+    room_config:   selects[1]?.value || '',
+    bed_preference:selects[2]?.value || '',
+  };
+}
+function getTravelFormInputs() {
+  const inputs = document.querySelectorAll('#sec-travel .form-card input.form-input');
+  return {
+    preferred_destinations: inputs[0]?.value.trim() || '',
+    accessibility_needs:    inputs[1]?.value.trim() || '',
+  };
+}
+function setTravelFormSelects(m) {
+  const selects = document.querySelectorAll('#sec-travel .form-card select.form-input');
+  if (selects[0]) selects[0].value = m.lodge_style    || '';
+  if (selects[1]) selects[1].value = m.room_config    || '';
+  if (selects[2]) selects[2].value = m.bed_preference || '';
+}
+function setTravelFormInputs(m) {
+  const inputs = document.querySelectorAll('#sec-travel .form-card input.form-input');
+  if (inputs[0]) inputs[0].value = m.preferred_destinations || '';
+  if (inputs[1]) inputs[1].value = m.accessibility_needs    || '';
+}
+
+// Dietary form (no IDs)
+function getDietaryValues() {
+  const selects = document.querySelectorAll('#sec-dietary select.form-input');
+  const inputs  = document.querySelectorAll('#sec-dietary input.form-input');
+  return {
+    dietary_restrictions: selects[0]?.value || '',
+    alcohol_preference:   selects[1]?.value || '',
+    fitness_level:        selects[2]?.value || '',
+    smoking_preference:   selects[3]?.value || '',
+    food_allergies:       inputs[0]?.value.trim() || '',
+    wellness_interests:   inputs[1]?.value.trim() || '',
+  };
+}
+function setDietaryValues(m) {
+  const selects = document.querySelectorAll('#sec-dietary select.form-input');
+  const inputs  = document.querySelectorAll('#sec-dietary input.form-input');
+  if (selects[0]) selects[0].value = m.dietary_restrictions || '';
+  if (selects[1]) selects[1].value = m.alcohol_preference   || '';
+  if (selects[2]) selects[2].value = m.fitness_level        || '';
+  if (selects[3]) selects[3].value = m.smoking_preference   || '';
+  if (inputs[0])  inputs[0].value  = m.food_allergies       || '';
+  if (inputs[1])  inputs[1].value  = m.wellness_interests   || '';
+}
+
+// ── LOCK / UNLOCK ──────────────────────────────────
 function lockAllSections() {
   document.querySelectorAll('.form-field').forEach(field => {
     field.classList.add('locked');
     const inp = field.querySelector('.form-input');
-    if (inp) { inp.setAttribute('readonly', true); inp.style.cursor = 'default'; }
+    if (inp) { inp.setAttribute('readonly',''); inp.style.cursor='default'; }
     const sel = field.querySelector('select.form-input');
-    if (sel) { sel.setAttribute('disabled', true); }
+    if (sel) sel.setAttribute('disabled','');
+  });
+  // Also lock travel/dietary inputs that have no IDs
+  document.querySelectorAll('#sec-travel input.form-input, #sec-travel select.form-input,#sec-dietary input.form-input,#sec-dietary select.form-input').forEach(el => {
+    el.setAttribute('readonly',''); el.setAttribute('disabled',''); el.style.cursor='default';
   });
 }
-
-// Enable editing for a specific form card
 function enableSection(cardId) {
   const card = document.getElementById(cardId);
   if (!card) return;
   card.querySelectorAll('.form-field').forEach(field => {
     field.classList.remove('locked');
     const inp = field.querySelector('.form-input');
-    if (inp) { inp.removeAttribute('readonly'); inp.style.cursor = ''; }
+    if (inp) { inp.removeAttribute('readonly'); inp.style.cursor=''; }
     const sel = field.querySelector('select.form-input');
-    if (sel) { sel.removeAttribute('disabled'); }
+    if (sel) sel.removeAttribute('disabled');
+  });
+  // For sections without .form-field wrappers
+  card.querySelectorAll('input.form-input, select.form-input').forEach(el => {
+    el.removeAttribute('readonly'); el.removeAttribute('disabled'); el.style.cursor='';
   });
   _editingSections.add(cardId);
-  // Focus first editable input
   const first = card.querySelector('input.form-input:not([readonly])');
-  if (first) setTimeout(() => first.focus(), 50);
+  if (first) setTimeout(()=>first.focus(), 50);
 }
-  
-// ─────────────────────────────────────────
-// SAVE ALL — single write to profiles table
-// ─────────────────────────────────────────
-function getVal(id) {
-  const el = document.getElementById(id);
-  return el ? el.value.trim() : '';
+function startEditSection(cardId, btnId) {
+  enableSection(cardId);
+  markDirty();
+  const btn = document.getElementById(btnId);
+  if (btn) { btn.textContent='✓ Editing…'; btn.classList.add('editing'); }
 }
 
+// ── POPULATE UI FROM DB ROW ─────────────────────────
+function populateUI(m, userEmail) {
+  const firstName = m.first_name || '';
+  const lastName  = m.last_name  || '';
+  const fullName  = (firstName+' '+lastName).trim() || 'Member';
+  const initial   = firstName.charAt(0).toUpperCase() || 'M';
+
+  // Names & IDs
+  document.getElementById('heroName').textContent    = fullName;
+  document.getElementById('heroInitial').textContent = initial;
+  document.getElementById('sbName').textContent      = fullName;
+  document.getElementById('sbEmail').textContent     = userEmail || '';
+  document.getElementById('miniNavName').textContent = fullName;
+  const sbInit = document.getElementById('sbAvatarInitial');
+  if (sbInit) sbInit.textContent = initial;
+
+  // Avatar
+  if (m.avatar_url) {
+    ['heroAvatarImg','sbAvatarImg'].forEach(id=>{
+      const img = document.getElementById(id);
+      if (img) { img.src=m.avatar_url; img.style.display='block'; }
+    });
+    document.getElementById('heroInitial').style.display='none';
+    if (sbInit) sbInit.style.display='none';
+  }
+
+  // Member since
+  const since = m.created_at
+    ? new Date(m.created_at).toLocaleDateString('en-US',{month:'short',year:'numeric'})
+    : new Date().toLocaleDateString('en-US',{month:'short',year:'numeric'});
+  const metaItems = document.querySelectorAll('.hero-meta-item');
+  if (metaItems[0]) metaItems[0].textContent = 'Member since '+since;
+
+  // Personal details form
+  setField('pfFirstName',  m.first_name);
+  setField('pfLastName',   m.last_name);
+  setField('pfEmail',      userEmail);
+  setField('pfPhone',      m.phone);
+  setField('pfNationality',m.nationality);
+  setField('pfCountry',    m.country);
+  setField('pfDob',        m.dob);
+  setField('pfLang',       m.preferred_lang);
+  setField('pfTz',         m.timezone);
+  setField('pfEmergName',  m.emerg_name);
+  setField('pfEmergPhone', m.emerg_phone);
+  const ppEl = document.getElementById('pfPassport');
+  if (ppEl) ppEl.value = m.passport ? '••••••••' : '';
+
+  // Travel profile
+  setTravelStyleCards(m.travel_styles  || []);
+  setInterestChips(m.experience_interests || []);
+  setTravelFormSelects(m);
+  setTravelFormInputs(m);
+
+  // Dietary
+  setDietaryValues(m);
+
+  // Notifications
+  setContactChips(m.contact_methods || ['💬 WhatsApp','✉️ Email']);
+  setToggle('Safari News & Blog Updates',          m.notify_blog     ?? true);
+  setToggle('Seasonal Offers & Packages',          m.notify_offers   ?? true);
+  setToggle('Booking Confirmations & Updates',     m.notify_bookings ?? true);
+  setToggle('Loyalty & Rewards Alerts',            m.notify_loyalty  ?? false);
+  setToggle('Conservation & Wildlife Updates',     m.notify_wildlife ?? true);
+
+  // Loyalty bar & points
+  const pts = Number(m.reward_points) || 420;
+  const pct = Math.min((pts/1000)*100, 100);
+  document.getElementById('loyaltyPts').childNodes[0].textContent = pts;
+  document.getElementById('statPts').textContent = pts;
+  setTimeout(()=>{
+    const fill = document.getElementById('loyaltyFill');
+    if (fill) fill.style.width = pct+'%';
+  }, 500);
+}
+
+// ── SAVE ALL ────────────────────────────────────────
 async function saveAll() {
-  if (!supa) return;
-  try {
-    const { data: { user } } = await supa.auth.getUser();
-    if (!user) return;
+  if (!supa || !_currentUser) return;
 
+  const btn = document.getElementById('saveAllBtn');
+  if (btn) btn.textContent = '⟳  Saving…';
+
+  try {
     const firstName = getVal('pfFirstName');
     const lastName  = getVal('pfLastName');
-
-    // Enforce real name — never allow empty or email-like
     if (!firstName || firstName.includes('@')) {
-      showNotify('Please enter your real first name');
+      showNotify('Please enter your first name', true);
+      if (btn) btn.textContent = '✓  Save All Changes';
       return;
     }
 
+    // Collect all settings
+    const travelForm    = getTravelFormSelects();
+    const travelInputs  = getTravelFormInputs();
+    const dietary       = getDietaryValues();
+
     const payload = {
-      id:             user.id,
-      email:          user.email,
+      id:             _currentUser.id,
+      email:          _currentUser.email,
+      updated_at:     new Date().toISOString(),
+
+      // Personal
       first_name:     firstName,
       last_name:      lastName,
       phone:          getVal('pfPhone'),
@@ -2015,65 +2094,72 @@ async function saveAll() {
       timezone:       getVal('pfTz'),
       emerg_name:     getVal('pfEmergName'),
       emerg_phone:    getVal('pfEmergPhone'),
-      updated_at:     new Date().toISOString()
+
+      // Travel profile
+      travel_styles:          getSelectedCards(),
+      preferred_destinations: travelInputs.preferred_destinations,
+      lodge_style:            travelForm.lodge_style,
+      room_config:            travelForm.room_config,
+      bed_preference:         travelForm.bed_preference,
+      accessibility_needs:    travelInputs.accessibility_needs,
+      experience_interests:   getSelectedChips('interestChips'),
+
+      // Dietary & lifestyle
+      dietary_restrictions: dietary.dietary_restrictions,
+      food_allergies:       dietary.food_allergies,
+      alcohol_preference:   dietary.alcohol_preference,
+      fitness_level:        dietary.fitness_level,
+      wellness_interests:   dietary.wellness_interests,
+      smoking_preference:   dietary.smoking_preference,
+
+      // Notifications
+      contact_methods: getContactMethods(),
+      notify_blog:     getToggleState('Safari News & Blog Updates'),
+      notify_offers:   getToggleState('Seasonal Offers & Packages'),
+      notify_bookings: getToggleState('Booking Confirmations & Updates'),
+      notify_loyalty:  getToggleState('Loyalty & Rewards Alerts'),
+      notify_wildlife: getToggleState('Conservation & Wildlife Updates'),
     };
 
-    // Handle passport — only update if user typed a new value (not the masked ••••••••)
+    // Passport: only update if user typed a new real value
     const ppRaw = getVal('pfPassport');
-    if (ppRaw && ppRaw !== '••••••••') {
-      payload.passport = ppRaw;
-    }
+    if (ppRaw && ppRaw !== '••••••••') payload.passport = ppRaw;
 
-    const { error } = await supa.from('profiles').upsert(payload, { onConflict: 'id' });
+    const { error } = await supa.from('profiles').upsert(payload, { onConflict:'id' });
     if (error) throw error;
 
-    // Update display name everywhere
-    const fullName = (firstName + ' ' + lastName).trim();
+    // Update display name
+    const fullName = (firstName+' '+lastName).trim();
     const initial  = firstName.charAt(0).toUpperCase();
+    document.getElementById('heroName').textContent    = fullName;
+    document.getElementById('heroInitial').textContent = initial;
+    document.getElementById('sbName').textContent      = fullName;
+    document.getElementById('miniNavName').textContent = fullName;
+    const sbInit = document.getElementById('sbAvatarInitial');
+    if (sbInit) sbInit.textContent = initial;
 
-    const els = {
-      heroName:    document.getElementById('heroName'),
-      heroInitial: document.getElementById('heroInitial'),
-      sbName:      document.getElementById('sbName'),
-      miniNavName: document.getElementById('miniNavName'),
-    };
-    if (els.heroName)    els.heroName.textContent    = fullName;
-    if (els.heroInitial) els.heroInitial.textContent = initial;
-    if (els.sbName)      els.sbName.textContent      = fullName;
-    if (els.miniNavName) els.miniNavName.textContent = fullName;
-
-    // Re-lock all sections
     lockAllSections();
     _editingSections.clear();
 
-    markClean();
-    showNotify('Profile updated successfully');
+    // Reset edit buttons
+    document.querySelectorAll('.section-edit-btn').forEach(b=>{
+      b.textContent='✎  Edit'; b.classList.remove('editing');
+    });
 
-  } catch (e) {
+    markClean();
+    if (btn) btn.textContent = '✓  Saved!';
+    setTimeout(()=>{ if (btn) btn.textContent='✓  Save All Changes'; }, 2000);
+    showNotify('All changes saved successfully');
+
+  } catch(e) {
     console.error('Save error:', e);
-    showNotify('Save failed — please try again');
+    if (btn) btn.textContent = '✓  Save All Changes';
+    showNotify('Save failed — '+e.message, true);
   }
 }
-
-// Alias for section-level save buttons
 async function savePersonal() { await saveAll(); }
 
-// ─────────────────────────────────────────
-// EDIT SECTION TOGGLE
-// ─────────────────────────────────────────
-function startEditSection(cardId, btnId) {
-  enableSection(cardId);
-  markDirty();
-  const btn = document.getElementById(btnId);
-  if (btn) {
-    btn.textContent = '✓ Editing…';
-    btn.classList.add('editing');
-  }
-}
-
-// ─────────────────────────────────────────
-// SIGN OUT
-// ─────────────────────────────────────────
+// ── SIGN OUT ────────────────────────────────────────
 async function signOut() {
   if (_hasUnsavedChanges) {
     _pendingNavUrl = 'index.html';
@@ -2084,23 +2170,65 @@ async function signOut() {
   window.location.href = 'index.html';
 }
 
-// Intercept sidebar "Return to Website" link
-document.addEventListener('DOMContentLoaded', () => {
-  const backLink = document.querySelector('.sb-back');
-  if (backLink) {
-    backLink.addEventListener('click', function(e) {
+// ── INIT ────────────────────────────────────────────
+async function initProfile() {
+  const SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
+  const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
+
+  try {
+    supa = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+    const { data:{ session } } = await supa.auth.getSession();
+    if (!session) { window.location.href='index.html'; return; }
+    _currentUser = session.user;
+
+    // Load profile row (created by trigger on signup)
+    const { data: profile, error } = await supa
+      .from('profiles').select('*').eq('id', _currentUser.id).single();
+
+    if (error && error.code !== 'PGRST116') console.error('Profile load error:', error);
+
+    // If row missing (old users before trigger), create it now
+    if (!profile) {
+      await supa.from('profiles').upsert({
+        id:         _currentUser.id,
+        email:      _currentUser.email,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      }, { onConflict:'id' });
+    }
+
+    populateUI(profile || {}, _currentUser.email);
+    lockAllSections();
+
+    // Watch inputs for dirty state
+    document.querySelectorAll('input.form-input:not([readonly])').forEach(inp=>{
+      inp.addEventListener('input', markDirty);
+    });
+
+    // Sticky mini-nav
+    window.addEventListener('scroll', ()=>{
+      document.getElementById('miniNav')?.classList.toggle('visible', window.scrollY>280);
+    });
+
+    // Guard sidebar back link
+    document.querySelector('.sb-back')?.addEventListener('click', function(e) {
       if (_hasUnsavedChanges) {
         e.preventDefault();
-        _pendingNavUrl = backLink.href || 'index.html';
+        _pendingNavUrl = this.href || 'index.html';
         openDiscardDialog();
       }
     });
-  }
-});
 
-// ─────────────────────────────────────────
-// BOOT — load Supabase then init
-// ─────────────────────────────────────────
+  } catch(e) {
+    console.warn('Profile init error:', e);
+    setTimeout(()=>{
+      const fill = document.getElementById('loyaltyFill');
+      if (fill) fill.style.width='42%';
+    }, 500);
+  }
+}
+
+// ── BOOT ────────────────────────────────────────────
 if (!window.supabase) {
   const s = document.createElement('script');
   s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
