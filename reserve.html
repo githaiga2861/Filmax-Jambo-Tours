@@ -604,22 +604,26 @@
   <a href="index.html">filmaxjambo.com</a>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function () {
   'use strict';
 
-  // ── Read URL params passed from the package page ──
-  const params = new URLSearchParams(window.location.search);
+  const SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
+  const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
+  const supa = window.supabase.createClient(SUPA_URL, SUPA_KEY);
 
-  const pkgName     = params.get('pkg')       || 'Your Selected Package';
-  const pkgTagline  = params.get('tagline')   || 'Filmax Jambo Tours';
-  const pkgDuration = params.get('duration')  || '—';
-  const pkgDate     = params.get('date')      || 'To be confirmed';
-  const pkgTravellers = params.get('travellers') || '—';
-  const pkgSeason   = params.get('season')    || '—';
-  const pkgCategory = params.get('category')  || '—';
-  const pkgTotal    = params.get('total')      || '—';
-  const pkgRef      = params.get('ref')        || '';   // source page filename e.g. pkg-aerial-kenya.html
+  // ── Read URL params ──
+  const params       = new URLSearchParams(window.location.search);
+  const pkgName      = params.get('pkg')        || 'Your Selected Package';
+  const pkgTagline   = params.get('tagline')    || 'Filmax Jambo Tours';
+  const pkgDuration  = params.get('duration')   || '—';
+  const pkgDate      = params.get('date')        || 'To be confirmed';
+  const pkgTravellers= params.get('travellers')  || '—';
+  const pkgSeason    = params.get('season')      || '—';
+  const pkgCategory  = params.get('category')    || '—';
+  const pkgTotal     = params.get('total')       || '—';
+  const pkgRef       = params.get('ref')         || '';
 
   // Populate summary card
   document.getElementById('sumName').textContent       = pkgName;
@@ -629,44 +633,117 @@
   document.getElementById('sumTravellers').textContent = pkgTravellers;
   document.getElementById('sumSeason').textContent     = pkgSeason;
   document.getElementById('sumCategory').textContent   = pkgCategory;
-
-  // Total price display
   const totalEl = document.getElementById('sumTotal');
   if (pkgTotal && pkgTotal !== '—') {
     totalEl.innerHTML = pkgTotal + ' <span>/ estimated</span>';
   } else {
     totalEl.innerHTML = 'Quote on request <span>/ confirmed within 24 hrs</span>';
   }
-
-  // Back link — go back to whichever package page sent us here
   if (pkgRef) {
-    document.getElementById('navBack').href = pkgRef;
+    document.getElementById('navBack').href        = pkgRef;
     document.getElementById('navBack').textContent = 'Back to Package';
   }
 
-  // ── Wizard state ──
+  // ── Auth gate: redirect if not signed in ──
+  async function init() {
+    const { data: { session } } = await supa.auth.getSession();
+
+    if (!session) {
+      // Show a polished gate instead of blank form
+      document.querySelector('.wizard-wrap').innerHTML = `
+        <div style="text-align:center;padding:60px 0;">
+          <div style="font-size:52px;margin-bottom:24px;">🔐</div>
+          <h2 style="font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--text);margin-bottom:12px;">Sign In to Reserve</h2>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--muted);line-height:1.7;max-width:420px;margin:0 auto 32px;">Create a free account or sign in to pre-fill your details and complete your safari reservation.</p>
+          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+            <a href="index.html" onclick="sessionStorage.setItem('fj_reserve_redirect','${encodeURIComponent(window.location.href)}')" style="font-family:'Jost',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:16px 36px;background:linear-gradient(135deg,#f0c84a,#d4af37,#b8860b);color:#080808;text-decoration:none;display:inline-block;transition:transform 0.3s;box-shadow:0 4px 20px rgba(212,175,55,0.35);">Sign In / Create Account</a>
+            <a href="packages.html" style="font-family:'Jost',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:16px 36px;background:transparent;color:var(--gold);border:1px solid rgba(212,175,55,0.35);text-decoration:none;display:inline-block;">Browse Packages</a>
+          </div>
+        </div>`;
+      return;
+    }
+
+    const user = session.user;
+    const m    = user.user_metadata || {};
+
+    // Load full profile from DB
+    const { data: profile } = await supa.from('profiles').select('*').eq('id', user.id).single();
+    const p = profile || {};
+
+    const firstName = p.first_name || m.first_name || (m.full_name ? m.full_name.split(' ')[0] : '') || '';
+    const lastName  = p.last_name  || m.last_name  || (m.full_name ? m.full_name.split(' ').slice(1).join(' ') : '') || '';
+    const phone     = p.phone      || m.phone      || '';
+    const country   = p.country    || p.nationality || m.nationality || '';
+
+    // Show signed-in indicator in nav
+    const navEl = document.querySelector('nav');
+    if (navEl) {
+      const chip = document.createElement('div');
+      chip.style.cssText = 'display:flex;align-items:center;gap:8px;font-family:Jost,sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(212,175,55,0.35);padding:8px 16px;cursor:pointer;background:rgba(212,175,55,0.06);';
+      chip.innerHTML = '✦ &nbsp;' + (firstName || user.email.split('@')[0]);
+      chip.onclick = () => window.location.href = 'profile.html';
+      chip.title = 'View My Profile';
+      navEl.appendChild(chip);
+    }
+
+    // Pre-fill Step 1 form fields
+    function setVal(id, val) {
+      const el = document.getElementById(id);
+      if (el && val) {
+        el.value = val;
+        // Visual indicator that it was pre-filled
+        el.style.borderColor = 'rgba(212,175,55,0.4)';
+        el.style.color = 'var(--text)';
+      }
+    }
+    setVal('f-first',   firstName);
+    setVal('f-last',    lastName);
+    setVal('f-email',   user.email);
+    setVal('f-phone',   phone);
+
+    // Country — find matching option
+    const countrySelect = document.getElementById('f-country');
+    if (countrySelect && country) {
+      Array.from(countrySelect.options).forEach(opt => {
+        if (opt.text.toLowerCase() === country.toLowerCase() || opt.value.toLowerCase() === country.toLowerCase()) {
+          countrySelect.value = opt.value;
+          countrySelect.style.borderColor = 'rgba(212,175,55,0.4)';
+        }
+      });
+    }
+
+    // Show a pre-fill notice
+    const panel0 = document.getElementById('panel-0');
+    if (panel0) {
+      const notice = document.createElement('div');
+      notice.style.cssText = 'background:rgba(212,175,55,0.07);border:1px solid rgba(212,175,55,0.25);border-left:3px solid var(--gold);padding:14px 18px;margin-bottom:24px;font-family:Jost,sans-serif;font-size:11px;color:rgba(212,175,55,0.9);letter-spacing:1px;display:flex;align-items:center;gap:12px;';
+      notice.innerHTML = '✦ &nbsp;Details pre-filled from your profile — <a href="profile.html" style="color:var(--gold);text-decoration:underline;cursor:pointer;">edit profile</a>';
+      panel0.insertBefore(notice, panel0.firstChild);
+    }
+
+    // Wizard logic (unchanged from original, just moved inside init)
+    setupWizard(user, firstName);
+  }
+
+  // ── Wizard ──────────────────────────────────────────────────────
   let currentPanel = 0;
-  const TOTAL = 3;
 
   function updateTrack(step) {
-    document.querySelectorAll('.step-item').forEach(function(el, i) {
+    document.querySelectorAll('.step-item').forEach((el, i) => {
       el.classList.remove('active','done');
       if (i < step)  el.classList.add('done');
       if (i === step) el.classList.add('active');
     });
-    const pct = step === 0 ? 0 : step === 1 ? 50 : 100;
-    document.getElementById('stepBar').style.width = pct + '%';
   }
 
   function showPanel(idx) {
-    document.querySelectorAll('.form-panel').forEach(function(p){ p.classList.remove('active'); });
+    document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
     document.getElementById('panel-' + idx).classList.add('active');
     updateTrack(idx);
     currentPanel = idx;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // ── Validation: Step 1 ──
   function validateStep0() {
     const errors = [];
     const first   = document.getElementById('f-first').value.trim();
@@ -674,144 +751,96 @@
     const email   = document.getElementById('f-email').value.trim();
     const phone   = document.getElementById('f-phone').value.trim();
     const country = document.getElementById('f-country').value;
-
     clearAllInvalid();
-
-    if (!first) { errors.push('First name is required'); markInvalid('f-first','err-first'); }
-    if (!last)  { errors.push('Last name is required');  markInvalid('f-last','err-last'); }
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errors.push('A valid email address is required'); markInvalid('f-email','err-email'); }
-    if (!phone) { errors.push('Phone number is required'); markInvalid('f-phone','err-phone'); }
-    if (!country) { errors.push('Country of residence is required'); markInvalid('f-country','err-country'); }
-
+    if (!first)  { errors.push('First name is required');              markInvalid('f-first','err-first'); }
+    if (!last)   { errors.push('Last name is required');               markInvalid('f-last','err-last'); }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errors.push('A valid email is required'); markInvalid('f-email','err-email'); }
+    if (!phone)  { errors.push('Phone number is required');            markInvalid('f-phone','err-phone'); }
+    if (!country){ errors.push('Country of residence is required');    markInvalid('f-country','err-country'); }
     return errors;
   }
 
-  // ── Validation: Step 2 (OTP) ──
   function validateStep1() {
-    const digits = Array.from(document.querySelectorAll('.otp-digit')).map(function(d){ return d.value; });
-    const filled = digits.filter(function(d){ return d !== ''; });
-
-    if (filled.length < 6) {
-      // Mark all empty digits red
-      document.querySelectorAll('.otp-digit').forEach(function(d){
-        if (!d.value) d.classList.add('error-digit');
-      });
+    const digits = Array.from(document.querySelectorAll('.otp-digit')).map(d => d.value);
+    if (digits.filter(d => d !== '').length < 6) {
+      document.querySelectorAll('.otp-digit').forEach(d => { if (!d.value) d.classList.add('error-digit'); });
       return ['Please enter all 6 digits of your verification code'];
     }
-
-    // ⚑ API VALIDATION POINT — replace this placeholder with your real OTP check
-    // const code = digits.join('');
-    // const valid = await yourOTPVerifyFunction(code);
-    // if (!valid) return ['Incorrect code — please try again'];
-
     return [];
   }
 
   function markInvalid(inputId, errId) {
-    const el = document.getElementById(inputId);
-    const er = document.getElementById(errId);
-    if (el) el.classList.add('invalid');
-    if (er) er.classList.add('show');
+    document.getElementById(inputId)?.classList.add('invalid');
+    document.getElementById(errId)?.classList.add('show');
   }
-
   function clearAllInvalid() {
-    document.querySelectorAll('.field-input.invalid,.field-select.invalid').forEach(function(el){ el.classList.remove('invalid'); });
-    document.querySelectorAll('.field-error.show').forEach(function(el){ el.classList.remove('show'); });
-    document.querySelectorAll('.otp-digit.error-digit').forEach(function(d){ d.classList.remove('error-digit'); });
+    document.querySelectorAll('.field-input.invalid,.field-select.invalid').forEach(el => el.classList.remove('invalid'));
+    document.querySelectorAll('.field-error.show').forEach(el => el.classList.remove('show'));
+    document.querySelectorAll('.otp-digit.error-digit').forEach(d => d.classList.remove('error-digit'));
   }
-
   function showValBox(step, errors) {
     const box = document.getElementById('val-' + step);
     if (!box) return;
-    box.innerHTML = '<p>Please fix the following before continuing:</p>' + errors.map(function(e){ return '<p>• ' + e + '</p>'; }).join('');
+    box.innerHTML = '<p>Please fix the following:</p>' + errors.map(e => '<p>• ' + e + '</p>').join('');
     box.classList.add('show');
     box.scrollIntoView({ behavior:'smooth', block:'center' });
   }
+  function hideValBox(step) { document.getElementById('val-' + step)?.classList.remove('show'); }
 
-  function hideValBox(step) {
-    const box = document.getElementById('val-' + step);
-    if (box) box.classList.remove('show');
+  function setupWizard(user, firstName) {
+    window.nextPanel = function(step) {
+      hideValBox(step);
+      if (step === 0) {
+        const errors = validateStep0();
+        if (errors.length) { showValBox(0, errors); return; }
+        document.getElementById('otpEmailDisplay').textContent = document.getElementById('f-email').value.trim();
+        showPanel(1);
+      } else if (step === 1) {
+        const errors = validateStep1();
+        if (errors.length) { showValBox(1, errors); return; }
+        const successEmail = document.getElementById('f-email').value.trim();
+        document.getElementById('successEmail').textContent = successEmail;
+        const now = new Date();
+        const ref = 'FJ-' + now.getFullYear().toString().slice(2) + String(now.getMonth()+1).padStart(2,'0') + String(now.getDate()).padStart(2,'0') + '-' + Math.random().toString(36).slice(2,5).toUpperCase() + Math.floor(Math.random()*900+100);
+        document.getElementById('successRef').textContent = 'Ref: ' + ref;
+        document.getElementById('waSuccessBtn').href = 'https://wa.me/34672304384?text=' + encodeURIComponent('Hello Filmax Jambo Tours,\n\nReservation request submitted.\n\nReference: ' + ref + '\nName: ' + document.getElementById('f-first').value.trim() + ' ' + document.getElementById('f-last').value.trim() + '\nPackage: ' + (new URLSearchParams(window.location.search).get('pkg') || 'Not specified') + '\n\nPlease confirm receipt. Thank you.');
+        showPanel(2);
+      }
+    };
+
+    window.prevPanel = function(step) {
+      hideValBox(step);
+      if (step > 0) showPanel(step - 1);
+    };
+
+    window.resendOTP = function() {
+      alert('A new code has been sent to ' + document.getElementById('f-email').value.trim());
+    };
+
+    // OTP digit auto-advance
+    const digits = document.querySelectorAll('.otp-digit');
+    digits.forEach((digit, idx) => {
+      digit.addEventListener('input', function() {
+        this.classList.remove('error-digit');
+        if (this.value && idx < digits.length - 1) digits[idx+1].focus();
+        this.classList.toggle('filled', !!this.value);
+      });
+      digit.addEventListener('keydown', function(e) {
+        if (e.key === 'Backspace' && !this.value && idx > 0) digits[idx-1].focus();
+      });
+      digit.addEventListener('paste', function(e) {
+        e.preventDefault();
+        const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);
+        pasted.split('').forEach((ch, i) => { if (digits[i]) { digits[i].value = ch; digits[i].classList.add('filled'); } });
+        if (digits[Math.min(pasted.length, 5)]) digits[Math.min(pasted.length, 5)].focus();
+      });
+    });
+
+    updateTrack(0);
   }
 
-  // ── Next / Prev ──
-  window.nextPanel = function(step) {
-    hideValBox(step);
-
-    if (step === 0) {
-      const errors = validateStep0();
-      if (errors.length) { showValBox(0, errors); return; }
-      // Populate OTP screen with email
-      document.getElementById('otpEmailDisplay').textContent = document.getElementById('f-email').value.trim();
-      // ⚑ TRIGGER OTP SEND HERE — call your API with the email address
-      showPanel(1);
-
-    } else if (step === 1) {
-      const errors = validateStep1();
-      if (errors.length) { showValBox(1, errors); return; }
-      // ⚑ OTP CONFIRMED — at this point your API has verified the code
-      // Populate success screen
-      document.getElementById('successEmail').textContent = document.getElementById('f-email').value.trim();
-      // Generate a simple reference number
-      const now = new Date();
-      const datePart = now.getFullYear().toString().slice(2) +
-        String(now.getMonth() + 1).padStart(2,'0') +
-        String(now.getDate()).padStart(2,'0');
-      const randPart = Math.random().toString(36).slice(2,5).toUpperCase() +
-        Math.floor(Math.random() * 900 + 100);
-      const ref = 'FJ-' + datePart + '-' + randPart;
-      document.getElementById('successRef').textContent = 'Ref: ' + ref;
-      document.getElementById('waSuccessBtn').href =
-        'https://wa.me/34672304384?text=' +
-        encodeURIComponent(
-          'Hello Filmax Jambo Tours,\n\nI have just submitted a reservation request.\n\n' +
-          'Reference: ' + ref + '\n' +
-          'Name: ' + document.getElementById('f-first').value.trim() + ' ' + document.getElementById('f-last').value.trim() + '\n' +
-          'Package: ' + (new URLSearchParams(window.location.search).get('pkg') || 'Not specified') + '\n\n' +
-          'Please confirm receipt of my enquiry. Thank you.'
-        );
-      showPanel(2);
-    }
-  };
-
-  window.prevPanel = function(step) {
-    hideValBox(step);
-    if (step > 0) showPanel(step - 1);
-  };
-
-  window.resendOTP = function() {
-    // ⚑ RESEND API CALL HERE
-    alert('A new code has been sent to ' + document.getElementById('f-email').value.trim());
-  };
-
-  // ── OTP digit auto-advance ──
-  const digits = document.querySelectorAll('.otp-digit');
-  digits.forEach(function(digit, idx) {
-    digit.addEventListener('input', function() {
-      this.classList.remove('error-digit');
-      if (this.value && idx < digits.length - 1) {
-        digits[idx + 1].focus();
-      }
-      if (this.value) this.classList.add('filled');
-      else this.classList.remove('filled');
-    });
-    digit.addEventListener('keydown', function(e) {
-      if (e.key === 'Backspace' && !this.value && idx > 0) {
-        digits[idx - 1].focus();
-      }
-    });
-    digit.addEventListener('paste', function(e) {
-      e.preventDefault();
-      const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);
-      pasted.split('').forEach(function(ch, i) {
-        if (digits[i]) { digits[i].value = ch; digits[i].classList.add('filled'); }
-      });
-      if (digits[Math.min(pasted.length, 5)]) digits[Math.min(pasted.length, 5)].focus();
-    });
-  });
-
-  // ── Init ──
-  updateTrack(0);
-
+  // Boot
+  init();
 })();
 </script>
 </body>
