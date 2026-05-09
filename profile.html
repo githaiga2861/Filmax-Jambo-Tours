@@ -1019,10 +1019,10 @@ body.light-mode .save-bar{background:rgba(235,235,234,0.95);}
     </nav>
 
     <div class="sb-bottom">
-      <a href="index.html" class="sb-back-btn" id="backToSiteBtn">
+      <button class="sb-back-btn" id="backToSiteBtn" onclick="handleBackToSite()">
         <span class="sb-back-icon">←</span>
-        <span>Return to Website</span>
-      </a>
+        <span>Back to Website</span>
+      </button>
       <button class="sb-signout-btn" onclick="signOut()">
         <span class="sb-signout-icon">⏻</span>
         <span>Sign Out</span>
@@ -1754,12 +1754,17 @@ function closeDiscardDialog() { document.getElementById('discardOverlay').classL
 function abandonChanges() {
   markClean();
   closeDiscardDialog();
-  if (_pendingNavUrl) window.location.href = _pendingNavUrl;
-  else history.back();
+  if (_pendingNavUrl) {
+    window.location.href = _pendingNavUrl;
+  } else {
+    // null = go back
+    if (document.referrer && document.referrer.includes(window.location.hostname)) {
+      history.back();
+    } else {
+      window.location.href = 'https://githaiga2861.github.io/Filmax-Jambo-Tours/index.html';
+    }
+  }
 }
-window.addEventListener('beforeunload', e => {
-  if (_hasUnsavedChanges) { e.preventDefault(); e.returnValue = ''; }
-});
 
 // ── CURSOR ─────────────────────────────────────────
 const cur = document.getElementById('cur');
@@ -2169,6 +2174,20 @@ function populateUI(m, userEmail) {
   const sbInit = document.getElementById('sbAvatarInitial');
   if (sbInit) sbInit.textContent = initial;
 
+  function handleBackToSite() {
+  if (_hasUnsavedChanges) {
+    _pendingNavUrl = null;
+    openDiscardDialog();
+    return;
+  }
+  // Go back if there's history, otherwise fall back to index
+  if (document.referrer && document.referrer.includes(window.location.hostname)) {
+    history.back();
+  } else {
+    window.location.href = 'https://githaiga2861.github.io/Filmax-Jambo-Tours/index.html';
+  }
+}
+
   // Avatar
   if (m.avatar_url) {
     ['heroAvatarImg','sbAvatarImg'].forEach(id=>{
@@ -2440,11 +2459,11 @@ async function initProfile() {
       document.getElementById('miniNav')?.classList.toggle('visible', window.scrollY > 280);
     });
 
-    // Guard sidebar back link
-    document.querySelector('.sb-back')?.addEventListener('click', function(e) {
+    // Guard sidebar back button
+    document.getElementById('backToSiteBtn')?.addEventListener('click', function(e) {
       if (_hasUnsavedChanges) {
         e.preventDefault();
-        _pendingNavUrl = this.href || 'index.html';
+        _pendingNavUrl = null; // null = history.back()
         openDiscardDialog();
       }
     });
