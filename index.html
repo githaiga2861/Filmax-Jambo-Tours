@@ -10614,6 +10614,95 @@ window.addEventListener('load', function() {
     hintsQueue.push(hint);
   }
 
+  // ===========================
+// SITE SETTINGS — LIVE APPLY
+// ===========================
+(function() {
+  const SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
+  const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
+  const supa = window.supabase ? window.supabase.createClient(SUPA_URL, SUPA_KEY) : null;
+  if (!supa) return;
+
+  function applySettings(row) {
+    const v = row.value || {};
+    if (row.id === 'concierge') {
+      // Concierge name
+      document.querySelectorAll('.concierge-name').forEach(el => el.textContent = v.name || el.textContent);
+      // WhatsApp links sitewide
+      if (v.whatsapp) {
+        const num = v.whatsapp.replace(/\D/g, '');
+        document.querySelectorAll('a[href*="wa.me"]').forEach(el => {
+          const msg = el.href.split('?text=')[1] || '';
+          el.href = 'https://wa.me/' + num + (msg ? '?text=' + msg : '');
+        });
+        document.querySelectorAll('.whatsapp-fab').forEach(el => {
+          const msg = el.href.split('?text=')[1] || '';
+          el.href = 'https://wa.me/' + num + (msg ? '?text=' + msg : '');
+        });
+      }
+      // Contact email
+      document.querySelectorAll('.contact-detail-value').forEach(el => {
+        if (el.textContent.includes('@filmaxjambotours') && v.email) el.textContent = v.email;
+      });
+      // Concierge bio
+      document.querySelectorAll('.concierge-bio').forEach(el => {
+        if (v.bio) el.textContent = v.bio;
+      });
+    }
+    if (row.id === 'hero') {
+      if (v.eyebrow) {
+        const ey = document.querySelector('.hero-eyebrow');
+        if (ey) ey.textContent = v.eyebrow;
+      }
+      if (v.subtitle) {
+        const sub = document.querySelector('.hero-subtitle');
+        if (sub) sub.textContent = v.subtitle;
+      }
+    }
+    if (row.id === 'business') {
+      document.querySelectorAll('.contact-detail-value').forEach(el => {
+        if (el.textContent.includes('Mon') && v.hours) el.textContent = v.hours;
+        if (el.textContent.includes('Nairobi') && v.office) el.textContent = v.office;
+      });
+      if (v.footer_desc) {
+        const fb = document.querySelector('.footer-brand p');
+        if (fb) fb.textContent = v.footer_desc;
+      }
+    }
+    if (row.id === 'stats') {
+      const statNums   = document.querySelectorAll('.stat-num');
+      const statLabels = document.querySelectorAll('.stat-label');
+      const vals = [
+        { num: v.stat1_num, label: v.stat1_label },
+        { num: v.stat2_num, label: v.stat2_label },
+        { num: v.stat3_num, label: v.stat3_label },
+        { num: v.stat4_num, label: v.stat4_label },
+      ];
+      vals.forEach((s, i) => {
+        if (statNums[i]   && s.num)   statNums[i].textContent   = s.num;
+        if (statLabels[i] && s.label) statLabels[i].textContent = s.label;
+      });
+    }
+  }
+
+  // Load on page visit
+  async function loadSiteSettings() {
+    const { data } = await supa.from('site_settings').select('*');
+    if (data) data.forEach(applySettings);
+  }
+
+  // Real-time: apply instantly when admin saves
+  supa.channel('site-settings-live')
+    .on('postgres_changes', {
+      event: 'UPDATE', schema: 'public', table: 'site_settings'
+    }, payload => {
+      applySettings(payload.new);
+    })
+    .subscribe();
+
+  loadSiteSettings();
+})();
+
   // Pre-queue all hints immediately, but don't show until 15s in
   hints.forEach(function(h){ queueHint(h); });
 
