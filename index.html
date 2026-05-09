@@ -6463,18 +6463,22 @@ body.light-mode .pkg-cta:hover {
     gap: 8px;
     font-family: 'Jost', sans-serif;
     font-size: 9px;
-    font-weight: 500;
-    letter-spacing: 3px;
+    font-weight: 700;
+    letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--gold);
     background: rgba(212,175,55,0.08);
     border: 1px solid rgba(212,175,55,0.35);
-    padding: 0 16px;
+    padding: 0 18px;
     height: 40px;
     cursor: none;
     transition: background 0.3s;
     position: relative;
     z-index: 2;
+    max-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .auth-user-chip:hover { background: rgba(212,175,55,0.14); }
   .auth-flip-wrap.signed-in .auth-user-chip { display: flex; }
@@ -8766,7 +8770,26 @@ body.light-mode .pkg-cta:hover {
         return;
       }
       // Success — show joy message, auto-close
-      showMsgSignin('success', ' Welcome back, ' + (data.user?.user_metadata?.first_name || 'Explorer') + '! You are now signed in.');
+      // Fetch real first name from profiles table for welcome message
+      const _welcomeSupa = window.supabase
+        ? window.supabase.createClient(
+            'https://kwriicxzkgkcseorcqdi.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo'
+          )
+        : null;
+      let _welcomeName = data.user?.user_metadata?.first_name || 'Explorer';
+      if (_welcomeSupa && data.user?.id) {
+        _welcomeSupa.from('profiles').select('first_name').eq('id', data.user.id).single()
+          .then(({ data: pd }) => {
+            if (pd?.first_name) _welcomeName = pd.first_name;
+            showMsgSignin('success', '✓ Welcome back, ' + _welcomeName + '! You are now signed in.');
+          })
+          .catch(() => {
+            showMsgSignin('success', '✓ Welcome back, ' + _welcomeName + '! You are now signed in.');
+          });
+      } else {
+        showMsgSignin('success', '✓ Welcome back, ' + _welcomeName + '! You are now signed in.');
+      }
       updateNavForUser(data.user);
       setTimeout(function(){
         window._closeAuth();
@@ -8957,59 +8980,87 @@ body.light-mode .pkg-cta:hover {
 
   window.updateNavForUser = function updateNavForUser(user) {
     window._fjCurrentUser = user;
-    const flipWrap  = document.getElementById('authFlipWrap');
-    const navLabel  = document.getElementById('authNavLabel');
-    const menuName  = document.getElementById('userMenuName');
-    const locked    = document.getElementById('testimonialFormLocked');
-    const openFrm   = document.getElementById('testimonialFormOpen');
-    const dropLabel = document.getElementById('dropdownAuthLabel');
-    const dropSignup = document.getElementById('dropdownSignupBtn');
+    const flipWrap       = document.getElementById('authFlipWrap');
+    const navLabel       = document.getElementById('authNavLabel');
+    const menuName       = document.getElementById('userMenuName');
+    const locked         = document.getElementById('testimonialFormLocked');
+    const openFrm        = document.getElementById('testimonialFormOpen');
+    const dropSignup     = document.getElementById('dropdownSignupBtn');
     const dropUserHeader = document.getElementById('dropdownUserHeader');
     const dropUserName   = document.getElementById('dropdownUserName');
     const dropAuthBtn    = document.getElementById('dropdownAuthBtn');
+
     if (user) {
-      const m = user.user_metadata || {};
-      const displayName = ((m.first_name||'') + ' ' + (m.last_name||'')).trim() || user.email.split('@')[0];
-      // Nav: don't show name in nav bar — show chip icon only
-      if (flipWrap)  flipWrap.classList.add('signed-in');
-      if (navLabel)  navLabel.textContent = displayName;
-      // Add gold glow to nav to signal signed-in state
-      const navbar = document.getElementById('navbar');
-      if (navbar && !document.getElementById('fj-signedin-dot')) {
-        const dot = document.createElement('div');
-        dot.id = 'fj-signedin-dot';
-        dot.style.cssText = 'position:fixed;top:12px;right:160px;width:6px;height:6px;background:var(--gold);border-radius:50%;box-shadow:0 0 8px rgba(212,175,55,0.9);z-index:200;animation:goldPulse 2s ease-in-out infinite;';
-        document.body.appendChild(dot);
-        if (!document.getElementById('fj-signedin-style')) {
-          const st = document.createElement('style');
-          st.id = 'fj-signedin-style';
-          st.textContent = '@keyframes goldPulse{0%,100%{box-shadow:0 0 6px rgba(212,175,55,0.8),0 0 0 0 rgba(212,175,55,0.4);}50%{box-shadow:0 0 12px rgba(212,175,55,1),0 0 0 6px rgba(212,175,55,0);}}';
-          document.head.appendChild(st);
-        }
-      }
-      if (menuName)  menuName.textContent = displayName;
-      // Hamburger: show user name at top, hide sign in/up buttons
+      if (flipWrap) flipWrap.classList.add('signed-in');
+      if (locked)   locked.style.display  = 'none';
+      if (openFrm)  openFrm.style.display = '';
       if (dropUserHeader) dropUserHeader.style.display = 'block';
-      if (dropUserName)   dropUserName.textContent = displayName;
-      if (dropAuthBtn)    dropAuthBtn.style.display = 'none';
-      if (dropSignup)     dropSignup.style.display  = 'none';
-      if (locked)  locked.style.display = 'none';
-      if (openFrm) openFrm.style.display = '';
-      // Store user data for quiz autofill
-      window._fjUserMeta = m;
+      if (dropAuthBtn)    dropAuthBtn.style.display    = 'none';
+      if (dropSignup)     dropSignup.style.display     = 'none';
+
+      // Always fetch first name from profiles table — never use email as name
+      const SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
+      const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
+
+      function applyName(firstName) {
+        // Never show email — always show real first name
+        const display = firstName || 'Member';
+        if (navLabel)    navLabel.textContent    = display;
+        if (menuName)    menuName.textContent    = display;
+        if (dropUserName) dropUserName.textContent = display;
+        window._fjUserMeta = { ...(user.user_metadata || {}), first_name: firstName };
+      }
+
+      // Try profiles table first
+      try {
+        const supa = window.supabase
+          ? window.supabase.createClient(SUPA_URL, SUPA_KEY)
+          : null;
+
+        if (supa) {
+          supa.from('profiles')
+            .select('first_name, last_name')
+            .eq('id', user.id)
+            .single()
+            .then(({ data, error }) => {
+              if (!error && data && data.first_name) {
+                applyName(data.first_name);
+              } else {
+                // Fallback: try user_metadata (Google OAuth populates this)
+                const m = user.user_metadata || {};
+                const metaFirst = m.first_name
+                  || (m.full_name ? m.full_name.split(' ')[0] : '')
+                  || (m.name      ? m.name.split(' ')[0]      : '')
+                  || '';
+                applyName(metaFirst);
+              }
+            })
+            .catch(() => {
+              const m = user.user_metadata || {};
+              applyName(m.first_name || '');
+            });
+        } else {
+          // Supabase not ready — use metadata
+          const m = user.user_metadata || {};
+          applyName(m.first_name || '');
+        }
+      } catch (_) {
+        const m = user.user_metadata || {};
+        applyName(m.first_name || '');
+      }
+
     } else {
+      // Signed out
       if (flipWrap)  flipWrap.classList.remove('signed-in');
       if (navLabel)  navLabel.textContent = 'My Account';
-      const dot = document.getElementById('fj-signedin-dot');
-      if (dot) dot.remove();
       if (dropUserHeader) dropUserHeader.style.display = 'none';
-      if (dropAuthBtn)    dropAuthBtn.style.display = '';
-      if (dropSignup)     dropSignup.style.display  = '';
-      if (locked)  locked.style.display = '';
+      if (dropAuthBtn)    dropAuthBtn.style.display    = '';
+      if (dropSignup)     dropSignup.style.display     = '';
+      if (locked)  locked.style.display  = '';
       if (openFrm) openFrm.style.display = 'none';
       window._fjUserMeta = null;
     }
-  }
+  };
 
   // Init session on load
   document.addEventListener('DOMContentLoaded', function() {
