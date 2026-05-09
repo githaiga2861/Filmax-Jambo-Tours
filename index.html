@@ -9861,6 +9861,20 @@ window._addToCart = function(pkg) {
 };
 window._addToDraft = window._addToCart;
 
+// Save scroll position whenever user leaves index.html
+window.addEventListener('beforeunload', function() {
+  sessionStorage.setItem('fjt_scroll', window.scrollY);
+});  
+
+// Restore scroll position if returning from profile page
+window.addEventListener('load', function() {
+  const savedScroll = sessionStorage.getItem('fjt_scroll');
+  if (savedScroll && document.referrer.includes('profile.html')) {
+    window.scrollTo({ top: parseInt(savedScroll), behavior: 'instant' });
+    sessionStorage.removeItem('fjt_scroll');
+  }
+});  
+
 // ===========================
 // TEAM POPUP
 // ===========================
