@@ -438,6 +438,88 @@
   .admin-layout:not(.sidebar-collapsed) .sidebar-pulltab {
     display: none;
   }
+
+  /* ── Members view ── */
+  .member-row {
+    background:var(--charcoal);border:1px solid var(--border);
+    padding:16px 20px;display:grid;
+    grid-template-columns:44px 1fr auto auto;
+    align-items:center;gap:16px;
+    transition:border-color 0.2s;
+  }
+  .member-row:hover { border-color:rgba(212,175,55,0.35); }
+  .member-avatar {
+    width:40px;height:40px;border-radius:50%;
+    background:linear-gradient(135deg,var(--gold),var(--amber));
+    display:flex;align-items:center;justify-content:center;
+    font-size:15px;font-weight:700;color:var(--black);
+    flex-shrink:0;overflow:hidden;border:1px solid rgba(212,175,55,0.3);
+  }
+  .member-avatar img { width:100%;height:100%;object-fit:cover;border-radius:50%; }
+  .member-name { font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px; }
+  .member-meta { font-size:10px;color:var(--muted);letter-spacing:1px; }
+  .member-tier {
+    font-size:8px;letter-spacing:3px;text-transform:uppercase;
+    padding:4px 10px;border:1px solid rgba(212,175,55,0.3);color:var(--gold);
+  }
+  .member-date { font-size:10px;color:var(--muted);letter-spacing:1px;text-align:right; }
+
+  /* ── Testimonials ── */
+  .testimonial-admin-card {
+    background:var(--charcoal);border:1px solid var(--border);
+    padding:24px;position:relative;
+  }
+  .testimonial-admin-card.pending { border-left:3px solid var(--amber); }
+  .testimonial-admin-card.approved { border-left:3px solid rgba(80,180,80,0.8); }
+  .testimonial-admin-card.rejected { border-left:3px solid rgba(180,60,60,0.6); }
+  .testimonial-admin-meta {
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:12px;flex-wrap:wrap;gap:8px;
+  }
+  .testimonial-admin-author { font-size:13px;font-weight:600;color:var(--text); }
+  .testimonial-admin-date { font-size:10px;color:var(--muted);letter-spacing:1px; }
+  .testimonial-admin-text {
+    font-size:14px;color:var(--muted);line-height:1.75;
+    font-style:italic;margin-bottom:16px;
+  }
+  .testimonial-admin-rating { color:var(--gold);font-size:14px;margin-bottom:12px; }
+  .testimonial-admin-actions { display:flex;gap:8px;flex-wrap:wrap; }
+
+  /* ── Enquiries ── */
+  .enquiry-card {
+    background:var(--charcoal);border:1px solid var(--border);
+    padding:20px 24px;
+  }
+  .enquiry-card.status-new { border-left:3px solid var(--amber); }
+  .enquiry-card.status-contacted { border-left:3px solid var(--gold); }
+  .enquiry-card.status-confirmed { border-left:3px solid rgba(80,180,80,0.8); }
+  .enquiry-card.status-closed { border-left:3px solid rgba(138,128,116,0.5); }
+  .enquiry-header {
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:12px;flex-wrap:wrap;gap:8px;
+  }
+  .enquiry-name { font-size:15px;font-weight:600;color:var(--text); }
+  .enquiry-date { font-size:10px;color:var(--muted);letter-spacing:1px; }
+  .enquiry-package { font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px; }
+  .enquiry-contact { font-size:12px;color:var(--muted);margin-bottom:10px;display:flex;gap:16px;flex-wrap:wrap; }
+  .enquiry-message { font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:14px;font-style:italic; }
+  .enquiry-actions { display:flex;gap:8px;flex-wrap:wrap;align-items:center; }
+  .enquiry-status-select {
+    background:var(--card);border:1px solid var(--border);
+    color:var(--text);font-family:inherit;font-size:10px;
+    padding:6px 10px;outline:none;cursor:pointer;
+    transition:border-color 0.2s;letter-spacing:1px;
+  }
+  .enquiry-status-select:focus { border-color:var(--gold); }
+
+  @media (max-width:767px) {
+    .member-row { grid-template-columns:40px 1fr;gap:10px; }
+    .member-row .member-tier, .member-row .member-date { display:none; }
+    .enquiry-header { flex-direction:column;align-items:flex-start; }
+    .enquiry-contact { flex-direction:column;gap:4px; }
+    #memberKpiRow { grid-template-columns:1fr 1fr !important; }
+  }
+  
   /* ── Mobile open button (phone only) ── */
   .mobile-open-btn {
     display: none;
@@ -588,6 +670,16 @@
       <div class="nav-sub-item" onclick="showView('blog-drafts')" id="nav-blog-drafts">Draft Posts</div>
     </div>
 
+    <!-- Members group -->
+    <div class="nav-group-header" onclick="toggleNavGroup('group-members')" id="nav-members-header">
+      <span>👥 Members</span>
+      <span class="nav-group-arrow" id="arrow-group-members">▾</span>
+    </div>
+    <div class="nav-group" id="group-members">
+      <div class="nav-sub-item" onclick="showView('members')" id="nav-members">All Members</div>
+      <div class="nav-sub-item" onclick="showView('testimonials')" id="nav-testimonials">Testimonials</div>
+    </div>
+  
     <!-- Settings group -->
     <div class="nav-group-header" onclick="toggleNavGroup('group-settings')" id="nav-settings-header">
       <span>⚙️ Settings</span>
@@ -1192,8 +1284,108 @@
   </div>
 </div>
   
-  <!-- VIEW: All Blog Posts -->
-    <div class="view" id="view-blog-posts">
+  <!-- VIEW: Members -->
+<div class="view" id="view-members">
+  <div class="view-header">
+    <div class="view-title"><span>Registered Users</span>All Members</div>
+    <div style="display:flex;gap:12px;align-items:center;">
+      <input type="text" id="memberSearch" placeholder="Search by name or email..." 
+        style="background:var(--card);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:12px;padding:10px 14px;outline:none;width:280px;"
+        oninput="filterMembers(this.value)">
+      <button class="btn btn-outline btn-sm" onclick="exportMembersCSV()">↓ Export CSV</button>
+    </div>
+  </div>
+  <!-- Stats row -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;" id="memberKpiRow">
+    <div class="dash-kpi">
+      <span class="dash-kpi-label">Total Members</span>
+      <span class="dash-kpi-num" id="mem-total">—</span>
+      <span class="dash-kpi-sub">All time</span>
+    </div>
+    <div class="dash-kpi">
+      <span class="dash-kpi-label">This Month</span>
+      <span class="dash-kpi-num" id="mem-month">—</span>
+      <span class="dash-kpi-sub">New signups</span>
+    </div>
+    <div class="dash-kpi">
+      <span class="dash-kpi-label">With Avatar</span>
+      <span class="dash-kpi-num" id="mem-avatar">—</span>
+      <span class="dash-kpi-sub">Profile complete</span>
+    </div>
+    <div class="dash-kpi">
+      <span class="dash-kpi-label">Google Signups</span>
+      <span class="dash-kpi-num" id="mem-google">—</span>
+      <span class="dash-kpi-sub">OAuth users</span>
+    </div>
+  </div>
+  <div id="membersList" style="display:flex;flex-direction:column;gap:10px;">
+    <p style="color:var(--muted);">Loading members...</p>
+  </div>
+</div>
+
+<!-- VIEW: Testimonials -->
+<div class="view" id="view-testimonials">
+  <div class="view-header">
+    <div class="view-title"><span>User Reviews</span>Testimonials</div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-outline btn-sm" onclick="loadTestimonials('pending')" id="tFilter-pending">Pending</button>
+      <button class="btn btn-outline btn-sm" onclick="loadTestimonials('approved')" id="tFilter-approved">Approved</button>
+      <button class="btn btn-outline btn-sm" onclick="loadTestimonials('rejected')" id="tFilter-rejected">Rejected</button>
+      <button class="btn btn-outline btn-sm" onclick="loadTestimonials('all')" id="tFilter-all">All</button>
+    </div>
+  </div>
+  <div id="testimonialsList" style="display:flex;flex-direction:column;gap:16px;">
+    <p style="color:var(--muted);">Loading testimonials...</p>
+  </div>
+</div>
+
+<!-- VIEW: Enquiries (real) -->
+<div class="view" id="view-enquiries">
+  <div class="view-header">
+    <div class="view-title"><span>Bookings</span>Enquiries</div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <select id="enqStatusFilter" onchange="loadEnquiries(this.value)"
+        style="background:var(--card);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:11px;padding:8px 12px;outline:none;">
+        <option value="all">All Enquiries</option>
+        <option value="new">New</option>
+        <option value="contacted">Contacted</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="closed">Closed</option>
+      </select>
+      <button class="btn btn-outline btn-sm" onclick="exportEnquiriesCSV()">↓ Export CSV</button>
+    </div>
+  </div>
+  <!-- Enquiry KPIs -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;">
+    <div class="dash-kpi">
+      <span class="dash-kpi-label">New</span>
+      <span class="dash-kpi-num" id="enq-new">—</span>
+      <span class="dash-kpi-sub">Awaiting response</span>
+    </div>
+    <div class="dash-kpi">
+      <span class="dash-kpi-label">Contacted</span>
+      <span class="dash-kpi-num" id="enq-contacted">—</span>
+      <span class="dash-kpi-sub">In discussion</span>
+    </div>
+    <div class="dash-kpi">
+      <span class="dash-kpi-label">Confirmed</span>
+      <span class="dash-kpi-num" id="enq-confirmed">—</span>
+      <span class="dash-kpi-sub">Bookings secured</span>
+    </div>
+    <div class="dash-kpi">
+      <span class="dash-kpi-label">This Month</span>
+      <span class="dash-kpi-num" id="enq-month">—</span>
+      <span class="dash-kpi-sub">Total received</span>
+    </div>
+  </div>
+  <div id="enquiriesList" style="display:flex;flex-direction:column;gap:12px;">
+    <p style="color:var(--muted);">Loading enquiries...</p>
+  </div>
+</div>
+
+
+    <!-- VIEW: All Blog Posts -->
+    <div class="view" id="view-blog-posts">  
       <div class="view-header">
         <div class="view-title"><span>Content</span>All Blog Posts</div>
         <button class="btn btn-gold" onclick="startNewBlog()">+ New Post</button>
@@ -1448,6 +1640,7 @@ function showAdmin() {
   loadCategories();
   initNavGroups();
   showView('dashboard');
+  initRealtime();
 
   // After categories load (slight delay so <select> is populated), restore any unsaved draft
   setTimeout(() => {
@@ -1508,8 +1701,24 @@ function showView(name) {
     const el = document.getElementById('nav-new-blog');
     if (el) el.classList.add('active');
   }
-  if (name === 'enquiries' || name === 'confirmed') {
+  if (name === 'enquiries') {
     openNavGroup('group-bookings');
+    loadEnquiries('all');
+  }
+  if (name === 'confirmed') {
+    openNavGroup('group-bookings');
+  }
+  if (name === 'members') {
+    openNavGroup('group-members');
+    loadMembers();
+    const el = document.getElementById('nav-members');
+    if (el) el.classList.add('active');
+  }
+  if (name === 'testimonials') {
+    openNavGroup('group-members');
+    loadTestimonials('pending');
+    const el = document.getElementById('nav-testimonials');
+    if (el) el.classList.add('active');
   }
   if (name === 'team' || name === 'site-settings') {
     openNavGroup('group-settings');   // ← was toggleNavGroup
@@ -2047,7 +2256,18 @@ async function loadDashboard() {
   document.getElementById('kpi-published-num').textContent = publishedCount ?? '—';
   document.getElementById('kpi-drafts-num').textContent    = draftCount ?? '—';
   document.getElementById('kpi-categories-num').textContent = catCount ?? '—';
-  document.getElementById('kpi-enquiries-num').textContent  = '—'; // wire up when enquiries table exists
+  // Members count
+  const { count: membersCount } = await db.from('profiles').select('*', { count:'exact', head:true });
+  document.getElementById('kpi-enquiries-num').textContent = membersCount ?? '—';
+
+  // Enquiries count
+  const { count: enqCount } = await db.from('enquiries').select('*', { count:'exact', head:true });
+  // Update enquiries KPI label
+  const enqKpi = document.getElementById('kpi-enquiries');
+  if (enqKpi) {
+    enqKpi.querySelector('.dash-kpi-label').textContent = 'Members';
+    enqKpi.querySelector('.dash-kpi-sub').textContent   = 'Registered users';
+  }
 
   // Booking placeholders
   document.getElementById('dash-new-enq').textContent  = '—';
@@ -3883,8 +4103,398 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ===========================
-// BLOG MANAGEMENT
+// MEMBERS MANAGEMENT
 // ===========================
+
+let allMembers = [];
+
+async function loadMembers() {
+  const list = document.getElementById('membersList');
+  if (!list) return;
+  list.innerHTML = '<p style="color:var(--muted);">Loading members...</p>';
+
+  const { data, error } = await db.from('profiles')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error || !data) {
+    list.innerHTML = '<p style="color:var(--muted);">Could not load members. Check RLS policies.</p>';
+    return;
+  }
+
+  allMembers = data;
+
+  // KPI stats
+  const now = new Date();
+  const thisMonth = data.filter(m => {
+    const d = new Date(m.created_at);
+    return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+  });
+  const withAvatar = data.filter(m => m.avatar_url && m.avatar_url.trim() !== '');
+
+  document.getElementById('mem-total').textContent  = data.length;
+  document.getElementById('mem-month').textContent  = thisMonth.length;
+  document.getElementById('mem-avatar').textContent = withAvatar.length;
+
+  // Google signups — check user metadata via auth (approximate with avatar_url from Google)
+  const googleApprox = data.filter(m => m.avatar_url && m.avatar_url.includes('googleusercontent'));
+  document.getElementById('mem-google').textContent = googleApprox.length;
+
+  renderMembersList(data);
+}
+
+function renderMembersList(data) {
+  const list = document.getElementById('membersList');
+  if (!data.length) {
+    list.innerHTML = '<p style="color:var(--muted);">No members found.</p>';
+    return;
+  }
+
+  list.innerHTML = data.map(m => {
+    const firstName = m.first_name || '';
+    const lastName  = m.last_name  || '';
+    const fullName  = (firstName + ' ' + lastName).trim() || 'Unknown';
+    const initial   = firstName.charAt(0).toUpperCase() || '?';
+    const email     = m.email || '—';
+    const joined    = m.created_at
+      ? new Date(m.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })
+      : '—';
+    const tier      = m.tier || 'Explorer';
+    const phone     = m.phone || '—';
+    const nationality = m.nationality || '—';
+    const points    = m.reward_points || 0;
+
+    const avatarHTML = m.avatar_url
+      ? `<div class="member-avatar"><img src="${m.avatar_url}" alt="${fullName}" onerror="this.parentNode.innerHTML='${initial}'"></div>`
+      : `<div class="member-avatar">${initial}</div>`;
+
+    return `
+      <div class="member-row" id="member-${m.id}">
+        ${avatarHTML}
+        <div>
+          <div class="member-name">${fullName}</div>
+          <div class="member-meta">${email} · ${phone} · ${nationality} · ${points} pts</div>
+        </div>
+        <div class="member-tier">${tier}</div>
+        <div class="member-date">
+          ${joined}
+          <div style="margin-top:6px;display:flex;gap:6px;">
+            <button class="btn btn-outline btn-sm" onclick="viewMemberDetail('${m.id}')">View</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteMember('${m.id}','${fullName}')">Remove</button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function filterMembers(query) {
+  if (!query.trim()) { renderMembersList(allMembers); return; }
+  const q = query.toLowerCase();
+  const filtered = allMembers.filter(m =>
+    (m.first_name||'').toLowerCase().includes(q) ||
+    (m.last_name||'').toLowerCase().includes(q)  ||
+    (m.email||'').toLowerCase().includes(q)       ||
+    (m.phone||'').toLowerCase().includes(q)       ||
+    (m.nationality||'').toLowerCase().includes(q)
+  );
+  renderMembersList(filtered);
+}
+
+function viewMemberDetail(id) {
+  const m = allMembers.find(x => x.id === id);
+  if (!m) return;
+  const fullName = ((m.first_name||'') + ' ' + (m.last_name||'')).trim() || 'Unknown';
+  const joined   = m.created_at ? new Date(m.created_at).toLocaleDateString('en-GB', { weekday:'long', year:'numeric', month:'long', day:'numeric' }) : '—';
+  const updated  = m.updated_at ? new Date(m.updated_at).toLocaleDateString('en-GB', { year:'numeric', month:'short', day:'numeric' }) : '—';
+
+  const detail = `
+    <div style="background:var(--charcoal);border:1px solid var(--border);padding:32px;max-width:640px;">
+      <div style="position:absolute;top:0;left:10%;right:10%;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent);"></div>
+      <div style="display:flex;align-items:center;gap:20px;margin-bottom:24px;">
+        <div class="member-avatar" style="width:56px;height:56px;font-size:22px;">
+          ${m.avatar_url ? `<img src="${m.avatar_url}" alt="${fullName}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : (m.first_name||'?').charAt(0).toUpperCase()}
+        </div>
+        <div>
+          <div style="font-size:20px;font-weight:700;color:var(--text);">${fullName}</div>
+          <div style="font-size:10px;color:var(--gold);letter-spacing:3px;text-transform:uppercase;margin-top:4px;">${m.tier||'Explorer'} · ${m.reward_points||0} pts</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:12px;">
+        <div><span style="color:var(--gold);font-size:9px;letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:4px;">Email</span><span style="color:var(--text);">${m.email||'—'}</span></div>
+        <div><span style="color:var(--gold);font-size:9px;letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:4px;">Phone</span><span style="color:var(--text);">${m.phone||'—'}</span></div>
+        <div><span style="color:var(--gold);font-size:9px;letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:4px;">Nationality</span><span style="color:var(--text);">${m.nationality||'—'}</span></div>
+        <div><span style="color:var(--gold);font-size:9px;letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:4px;">Country</span><span style="color:var(--text);">${m.country||'—'}</span></div>
+        <div><span style="color:var(--gold);font-size:9px;letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:4px;">Language</span><span style="color:var(--text);">${m.preferred_lang||'—'}</span></div>
+        <div><span style="color:var(--gold);font-size:9px;letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:4px;">Timezone</span><span style="color:var(--text);">${m.timezone||'—'}</span></div>
+        <div><span style="color:var(--gold);font-size:9px;letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:4px;">Emergency Contact</span><span style="color:var(--text);">${m.emerg_name||'—'} ${m.emerg_phone?'· '+m.emerg_phone:''}</span></div>
+        <div><span style="color:var(--gold);font-size:9px;letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:4px;">Joined</span><span style="color:var(--text);">${joined}</span></div>
+        <div><span style="color:var(--gold);font-size:9px;letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:4px;">Last Updated</span><span style="color:var(--text);">${updated}</span></div>
+        <div><span style="color:var(--gold);font-size:9px;letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:4px;">Travel Style</span><span style="color:var(--text);">${(m.travel_styles||[]).join(', ')||'—'}</span></div>
+        <div><span style="color:var(--gold);font-size:9px;letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:4px;">Dietary</span><span style="color:var(--text);">${m.dietary_restrictions||'—'}</span></div>
+        <div><span style="color:var(--gold);font-size:9px;letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:4px;">Destinations Preferred</span><span style="color:var(--text);">${m.preferred_destinations||'—'}</span></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:24px;flex-wrap:wrap;">
+        <a href="mailto:${m.email}" class="btn btn-gold btn-sm" style="text-decoration:none;">✉️ Email Member</a>
+        ${m.phone ? `<a href="https://wa.me/${m.phone.replace(/\D/g,'')}" target="_blank" class="btn btn-outline btn-sm" style="text-decoration:none;">💬 WhatsApp</a>` : ''}
+        <button class="btn btn-danger btn-sm" onclick="deleteMember('${m.id}','${fullName}')">Remove Account</button>
+      </div>
+    </div>`;
+
+  // Show in a simple overlay
+  let overlay = document.getElementById('memberDetailOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'memberDetailOverlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(8,6,2,0.75);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:24px;';
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+    document.body.appendChild(overlay);
+  }
+  overlay.innerHTML = '<div style="position:relative;max-width:640px;width:100%;">' +
+    '<button onclick="document.getElementById(\'memberDetailOverlay\').remove()" style="position:absolute;top:-36px;right:0;background:none;border:1px solid rgba(212,175,55,0.3);color:var(--gold);font-family:inherit;font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:8px 16px;cursor:pointer;">Close</button>' +
+    detail + '</div>';
+}
+
+async function deleteMember(id, name) {
+  if (!confirm(`Remove ${name} from the platform? This cannot be undone.`)) return;
+  const { error } = await db.from('profiles').delete().eq('id', id);
+  if (error) { showToast('Error: ' + error.message, 'error'); return; }
+  showToast(`${name} removed from platform`);
+  loadMembers();
+}
+
+function exportMembersCSV() {
+  if (!allMembers.length) { showToast('No members to export', 'error'); return; }
+  const headers = ['First Name','Last Name','Email','Phone','Nationality','Country','Tier','Reward Points','Joined','Travel Styles','Dietary'];
+  const rows = allMembers.map(m => [
+    m.first_name||'', m.last_name||'', m.email||'', m.phone||'',
+    m.nationality||'', m.country||'', m.tier||'Explorer', m.reward_points||0,
+    m.created_at ? new Date(m.created_at).toLocaleDateString('en-GB') : '',
+    (m.travel_styles||[]).join('; '),
+    m.dietary_restrictions||''
+  ]);
+  const csv = [headers, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = 'filmax-members-' + new Date().toISOString().split('T')[0] + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Members exported as CSV ✓', 'success');
+}
+
+// ===========================
+// TESTIMONIALS MODERATION
+// ===========================
+
+async function loadTestimonials(filter = 'pending') {
+  const list = document.getElementById('testimonialsList');
+  if (!list) return;
+  list.innerHTML = '<p style="color:var(--muted);">Loading...</p>';
+
+  // Highlight active filter button
+  ['pending','approved','rejected','all'].forEach(f => {
+    const btn = document.getElementById('tFilter-' + f);
+    if (btn) btn.className = 'btn btn-sm ' + (f === filter ? 'btn-gold' : 'btn-outline');
+  });
+
+  let query = db.from('testimonials_pending').select('*').order('created_at', { ascending: false });
+  if (filter !== 'all') query = query.eq('status', filter);
+
+  const { data, error } = await query;
+
+  if (error) { list.innerHTML = '<p style="color:var(--muted);">Error loading testimonials: ' + error.message + '</p>'; return; }
+  if (!data?.length) { list.innerHTML = '<p style="color:var(--muted);">No ' + filter + ' testimonials.</p>'; return; }
+
+  list.innerHTML = data.map(t => {
+    const stars = '★'.repeat(t.rating||5) + '☆'.repeat(5-(t.rating||5));
+    const date  = t.created_at ? new Date(t.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }) : '—';
+    return `
+      <div class="testimonial-admin-card ${t.status||'pending'}">
+        <div class="testimonial-admin-meta">
+          <div>
+            <div class="testimonial-admin-author">${t.author_name||'Anonymous'} <span style="color:var(--muted);font-size:11px;font-weight:400;">· ${t.author_loc||'—'}</span></div>
+            ${t.destination ? `<div style="font-size:10px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-top:3px;">${t.destination}</div>` : ''}
+          </div>
+          <div style="text-align:right;">
+            <div class="testimonial-admin-date">${date}</div>
+            <span class="badge ${t.status==='approved'?'badge-published':t.status==='rejected'?'badge-draft':'badge-featured'}" style="margin-top:6px;display:inline-block;">${t.status||'pending'}</span>
+          </div>
+        </div>
+        <div class="testimonial-admin-rating">${stars}</div>
+        <div class="testimonial-admin-text">"${t.text||''}"</div>
+        <div class="testimonial-admin-actions">
+          ${t.status !== 'approved'  ? `<button class="btn btn-publish btn-sm" onclick="updateTestimonialStatus('${t.id}','approved')">✓ Approve</button>` : ''}
+          ${t.status !== 'rejected'  ? `<button class="btn btn-danger btn-sm" onclick="updateTestimonialStatus('${t.id}','rejected')">✕ Reject</button>` : ''}
+          ${t.status !== 'pending'   ? `<button class="btn btn-outline btn-sm" onclick="updateTestimonialStatus('${t.id}','pending')">Reset to Pending</button>` : ''}
+          <button class="btn btn-danger btn-sm" onclick="deleteTestimonial('${t.id}')">Delete</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+async function updateTestimonialStatus(id, status) {
+  const { error } = await db.from('testimonials_pending').update({ status }).eq('id', id);
+  if (error) { showToast('Error: ' + error.message, 'error'); return; }
+  showToast('Testimonial marked as ' + status);
+  const activeFilter = document.querySelector('[id^="tFilter-"].btn-gold')?.id?.replace('tFilter-','') || 'pending';
+  loadTestimonials(activeFilter);
+}
+
+async function deleteTestimonial(id) {
+  if (!confirm('Permanently delete this testimonial?')) return;
+  await db.from('testimonials_pending').delete().eq('id', id);
+  showToast('Testimonial deleted');
+  const activeFilter = document.querySelector('[id^="tFilter-"].btn-gold')?.id?.replace('tFilter-','') || 'pending';
+  loadTestimonials(activeFilter);
+}
+
+// ===========================
+// ENQUIRIES MANAGEMENT
+// ===========================
+
+let allEnquiries = [];
+
+async function loadEnquiries(statusFilter = 'all') {
+  const list = document.getElementById('enquiriesList');
+  if (!list) return;
+  list.innerHTML = '<p style="color:var(--muted);">Loading enquiries...</p>';
+
+  let query = db.from('enquiries').select('*').order('created_at', { ascending: false });
+  if (statusFilter !== 'all') query = query.eq('status', statusFilter);
+
+  const { data, error } = await query;
+
+  if (error) { list.innerHTML = '<p style="color:var(--muted);">Error: ' + error.message + '</p>'; return; }
+
+  allEnquiries = data || [];
+
+  // KPI counts
+  const [newCount, contactedCount, confirmedCount] = await Promise.all([
+    db.from('enquiries').select('*', { count:'exact', head:true }).eq('status','new'),
+    db.from('enquiries').select('*', { count:'exact', head:true }).eq('status','contacted'),
+    db.from('enquiries').select('*', { count:'exact', head:true }).eq('status','confirmed'),
+  ]);
+  document.getElementById('enq-new').textContent       = newCount.count ?? '—';
+  document.getElementById('enq-contacted').textContent  = contactedCount.count ?? '—';
+  document.getElementById('enq-confirmed').textContent  = confirmedCount.count ?? '—';
+
+  const now = new Date();
+  const thisMonthCount = (data||[]).filter(e => {
+    const d = new Date(e.created_at);
+    return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+  }).length;
+  document.getElementById('enq-month').textContent = thisMonthCount;
+
+  if (!data?.length) {
+    list.innerHTML = '<p style="color:var(--muted);">No enquiries found.</p>';
+    return;
+  }
+
+  list.innerHTML = data.map(e => {
+    const fullName = ((e.first_name||'') + ' ' + (e.last_name||'')).trim() || 'Unknown';
+    const date = e.created_at
+      ? new Date(e.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' })
+      : '—';
+    const waMsg = encodeURIComponent(`Hello ${e.first_name||''},\n\nThank you for your enquiry about ${e.package_name||'our safari packages'}. I am Amara from Filmax Jambo Tours and I would love to help you plan your perfect Kenya safari.\n\nCould we schedule a call to discuss your requirements?\n\nWarm regards,\nFilmax Jambo Tours`);
+
+    return `
+      <div class="enquiry-card status-${e.status||'new'}">
+        <div class="enquiry-header">
+          <div>
+            <div class="enquiry-name">${fullName}</div>
+            ${e.package_name ? `<div class="enquiry-package">${e.package_name}</div>` : ''}
+          </div>
+          <div class="enquiry-date">${date}</div>
+        </div>
+        <div class="enquiry-contact">
+          ${e.email ? `<span>✉️ <a href="mailto:${e.email}" style="color:var(--gold);text-decoration:none;">${e.email}</a></span>` : ''}
+          ${e.phone ? `<span>📞 ${e.phone}</span>` : ''}
+          ${e.country ? `<span>🌍 ${e.country}</span>` : ''}
+        </div>
+        ${e.message ? `<div class="enquiry-message">"${e.message}"</div>` : ''}
+        <div class="enquiry-actions">
+          <select class="enquiry-status-select" onchange="updateEnquiryStatus('${e.id}',this.value)">
+            <option value="new"       ${e.status==='new'       ?'selected':''}>New</option>
+            <option value="contacted" ${e.status==='contacted' ?'selected':''}>Contacted</option>
+            <option value="confirmed" ${e.status==='confirmed' ?'selected':''}>Confirmed</option>
+            <option value="closed"    ${e.status==='closed'    ?'selected':''}>Closed</option>
+          </select>
+          ${e.email ? `<a href="mailto:${e.email}?subject=Your Filmax Jambo Safari Enquiry" class="btn btn-outline btn-sm" style="text-decoration:none;">✉️ Email</a>` : ''}
+          ${e.phone ? `<a href="https://wa.me/${e.phone.replace(/\D/g,'')}?text=${waMsg}" target="_blank" class="btn btn-outline btn-sm" style="text-decoration:none;color:#25D366;border-color:rgba(37,211,102,0.4);">💬 WhatsApp</a>` : ''}
+          <button class="btn btn-danger btn-sm" onclick="deleteEnquiry('${e.id}')">Delete</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+async function updateEnquiryStatus(id, status) {
+  const { error } = await db.from('enquiries').update({ status, updated_at: new Date().toISOString() }).eq('id', id);
+  if (error) { showToast('Error: ' + error.message, 'error'); return; }
+  showToast('Status updated to ' + status);
+}
+
+async function deleteEnquiry(id) {
+  if (!confirm('Delete this enquiry permanently?')) return;
+  await db.from('enquiries').delete().eq('id', id);
+  showToast('Enquiry deleted');
+  loadEnquiries(document.getElementById('enqStatusFilter')?.value || 'all');
+}
+
+function exportEnquiriesCSV() {
+  if (!allEnquiries.length) { showToast('No enquiries to export', 'error'); return; }
+  const headers = ['Name','Email','Phone','Country','Package','Message','Status','Date'];
+  const rows = allEnquiries.map(e => [
+    ((e.first_name||'') + ' ' + (e.last_name||'')).trim(),
+    e.email||'', e.phone||'', e.country||'', e.package_name||'',
+    e.message||'', e.status||'new',
+    e.created_at ? new Date(e.created_at).toLocaleDateString('en-GB') : ''
+  ]);
+  const csv = [headers, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = 'filmax-enquiries-' + new Date().toISOString().split('T')[0] + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Enquiries exported ✓', 'success');
+}
+
+// ===========================
+// REAL-TIME NOTIFICATIONS
+// ===========================
+
+function initRealtime() {
+  // New member signups
+  db.channel('admin-members')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'profiles' }, payload => {
+      const name = ((payload.new.first_name||'') + ' ' + (payload.new.last_name||'')).trim() || 'New member';
+      showToast('🎉 New signup: ' + name, 'success');
+      // Refresh members count in dashboard
+      document.getElementById('kpi-enquiries-num').textContent = '↑';
+      if (document.getElementById('view-members').classList.contains('active')) loadMembers();
+    })
+    .subscribe();
+
+  // New enquiries
+  db.channel('admin-enquiries')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'enquiries' }, payload => {
+      const name = ((payload.new.first_name||'') + ' ' + (payload.new.last_name||'')).trim() || 'Someone';
+      showToast('📋 New enquiry from ' + name + (payload.new.package_name ? ' — ' + payload.new.package_name : ''), 'success');
+      if (document.getElementById('view-enquiries').classList.contains('active')) {
+        loadEnquiries(document.getElementById('enqStatusFilter')?.value || 'all');
+      }
+    })
+    .subscribe();
+
+  // New testimonials
+  db.channel('admin-testimonials')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'testimonials_pending' }, payload => {
+      showToast('⭐ New testimonial from ' + (payload.new.author_name || 'a guest') + ' — awaiting review');
+    })
+    .subscribe();
+}
 
 let editingBlogId = null;
 
