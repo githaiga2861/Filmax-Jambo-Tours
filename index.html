@@ -8717,6 +8717,7 @@ body.light-mode .pkg-cta:hover {
               emerg_phone:  '',
               avatar_url:   '',
               reward_points: 420,
+              timezone:     Intl.DateTimeFormat().resolvedOptions().timeZone,
               created_at:   new Date().toISOString(),
               updated_at:   new Date().toISOString()
             }, { onConflict: 'id' });
