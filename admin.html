@@ -597,6 +597,38 @@
     user-select: none;
     transition: transform 0.3s;
   }
+
+/* ── ENQUIRIES ── */
+.enq-table{width:100%;border-collapse:collapse;min-width:600px;}
+.enq-table th{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(212,175,55,0.7);padding:14px 16px;text-align:left;font-weight:600;border-bottom:1px solid rgba(212,175,55,0.15);}
+.enq-table td{padding:14px 16px;font-size:13px;color:#8a8074;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:top;word-break:break-word;}
+.enq-table tr:hover td{background:rgba(212,175,55,0.03);}
+.enq-table td:first-child{color:#f0ece4;font-weight:500;}
+.enq-status{display:inline-block;font-size:8px;letter-spacing:3px;text-transform:uppercase;font-weight:700;padding:4px 10px;}
+.enq-status.new{background:rgba(212,175,55,0.12);color:#d4af37;border:1px solid rgba(212,175,55,0.3);}
+.enq-status.replied{background:rgba(123,181,110,0.1);color:#7bb56e;border:1px solid rgba(123,181,110,0.3);}
+.enq-status.closed{background:rgba(138,128,116,0.1);color:#8a8074;border:1px solid rgba(138,128,116,0.2);}
+.enq-reply-btn{font-family:'Jost',sans-serif;font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:7px 14px;background:transparent;border:1px solid rgba(212,175,55,0.25);color:rgba(212,175,55,0.8);cursor:pointer;transition:all .25s;white-space:nowrap;}
+.enq-reply-btn:hover{background:rgba(212,175,55,0.1);border-color:#d4af37;color:#d4af37;}
+.enq-reply-panel{background:rgba(13,13,13,0.9);border:1px solid rgba(212,175,55,0.2);padding:20px;margin-top:8px;display:none;}
+.enq-reply-panel.open{display:block;}
+.enq-reply-textarea{width:100%;background:rgba(255,255,255,0.03);border:none;border-bottom:1px solid rgba(212,175,55,0.2);color:#f0ece4;font-family:'Jost',sans-serif;font-size:13px;padding:10px 0;outline:none;resize:vertical;min-height:80px;transition:border-color .3s;box-sizing:border-box;}
+.enq-reply-textarea:focus{border-bottom-color:#d4af37;}
+.enq-send-btn{font-family:'Jost',sans-serif;font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:11px 22px;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;border:none;cursor:pointer;margin-top:10px;transition:filter .25s,transform .25s;}
+.enq-send-btn:hover{filter:brightness(1.1);transform:translateY(-1px);}
+.enq-overflow-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.enq-msg-preview{max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.enq-filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;align-items:center;}
+.enq-filter-btn{font-family:'Jost',sans-serif;font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;padding:8px 16px;background:transparent;border:1px solid rgba(212,175,55,0.15);color:#8a8074;cursor:pointer;transition:all .25s;}
+.enq-filter-btn.active,.enq-filter-btn:hover{border-color:rgba(212,175,55,0.4);color:#d4af37;background:rgba(212,175,55,0.06);}
+.enq-count-badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;background:#d4af37;color:#080808;font-size:9px;font-weight:700;letter-spacing:1px;border-radius:10px;margin-left:6px;}
+.enq-empty{text-align:center;padding:60px 20px;font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:rgba(138,128,116,0.6);}
+/* Mobile overflow guard */
+@media(max-width:768px){
+  .enq-table th:nth-child(3),.enq-table td:nth-child(3),
+  .enq-table th:nth-child(4),.enq-table td:nth-child(4){display:none;}
+  .enq-msg-preview{max-width:160px;}
+} 
 </style>
 </head>
 <body>
@@ -5013,6 +5045,160 @@ async function deleteBlogPost(id) {
   loadBlogDrafts();
   showToast('Post deleted');
 }
+ // ── ENQUIRIES MODULE ───────────────────────────────────
+async function loadEnquiries(statusFilter) {
+  const container = document.getElementById('enquiriesContainer');
+  if (!container) return;
+
+  statusFilter = statusFilter || 'all';
+
+  // Filter buttons
+  container.innerHTML = `
+    <div class="enq-filter-row">
+      <button class="enq-filter-btn ${statusFilter==='all'?'active':''}" onclick="loadEnquiries('all')">All</button>
+      <button class="enq-filter-btn ${statusFilter==='new'?'active':''}" onclick="loadEnquiries('new')">New <span class="enq-count-badge" id="enqCountNew">…</span></button>
+      <button class="enq-filter-btn ${statusFilter==='replied'?'active':''}" onclick="loadEnquiries('replied')">Replied</button>
+      <button class="enq-filter-btn ${statusFilter==='closed'?'active':''}" onclick="loadEnquiries('closed')">Closed</button>
+    </div>
+    <div class="enq-overflow-wrap">
+      <div style="text-align:center;padding:40px;color:rgba(138,128,116,0.6);font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;">Loading enquiries…</div>
+    </div>
+  `;
+
+  try {
+    let query = supa.from('enquiries').select('*').order('created_at', { ascending: false });
+    if (statusFilter !== 'all') query = query.eq('status', statusFilter);
+    const { data: enquiries, error } = await query;
+    if (error) throw error;
+
+    // Count new
+    const { count: newCount } = await supa.from('enquiries').select('*', { count: 'exact', head: true }).eq('status', 'new');
+    const newBadge = document.getElementById('enqCountNew');
+    if (newBadge) newBadge.textContent = newCount || 0;
+
+    const wrap = container.querySelector('.enq-overflow-wrap');
+    if (!enquiries || !enquiries.length) {
+      wrap.innerHTML = '<div class="enq-empty">No enquiries found.</div>';
+      return;
+    }
+
+    wrap.innerHTML = `
+      <table class="enq-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="enqTbody"></tbody>
+      </table>
+    `;
+
+    const tbody = document.getElementById('enqTbody');
+    enquiries.forEach(function(enq) {
+      const date = new Date(enq.created_at).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>
+          <div style="font-weight:600;color:#f0ece4;">${escHtml(enq.name || '—')}</div>
+          <div class="enq-msg-preview" style="font-size:11px;color:#8a8074;margin-top:3px;" title="${escHtml(enq.message || '')}">${escHtml(enq.message || '')}</div>
+        </td>
+        <td><a href="mailto:${escHtml(enq.email||'')}" style="color:#d4af37;text-decoration:none;">${escHtml(enq.email||'—')}</a></td>
+        <td>${escHtml(enq.phone||'—')}</td>
+        <td style="white-space:nowrap;">${date}</td>
+        <td><span class="enq-status ${enq.status||'new'}">${enq.status||'new'}</span></td>
+        <td>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button class="enq-reply-btn" onclick="toggleReply('${enq.id}')">Reply</button>
+            ${enq.status!=='closed'?`<button class="enq-reply-btn" style="border-color:rgba(138,128,116,0.2);color:rgba(138,128,116,0.7);" onclick="markEnquiry('${enq.id}','closed')">Close</button>`:''}
+          </div>
+          <div class="enq-reply-panel" id="reply-${enq.id}">
+            <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(212,175,55,0.6);margin-bottom:8px;">Reply to ${escHtml(enq.name||enq.email)}</div>
+            <textarea class="enq-reply-textarea" id="replyText-${enq.id}" placeholder="Type your reply…"></textarea>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+              <button class="enq-send-btn" onclick="sendReply('${enq.id}','${escHtml(enq.email)}','${escHtml(enq.name||'')}')">Send Reply</button>
+              <button onclick="markEnquiry('${enq.id}','replied')" style="font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:9px 16px;background:transparent;border:1px solid rgba(123,181,110,0.3);color:#7bb56e;cursor:pointer;">Mark Replied</button>
+            </div>
+            <div id="replyMsg-${enq.id}" style="display:none;margin-top:8px;font-size:11px;padding:10px;"></div>
+          </div>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+  } catch(e) {
+    console.error('Enquiries error:', e);
+    const wrap = container.querySelector('.enq-overflow-wrap');
+    if (wrap) wrap.innerHTML = '<div class="enq-empty">Error loading enquiries: ' + escHtml(e.message) + '</div>';
+  }
+}
+
+function toggleReply(id) {
+  const panel = document.getElementById('reply-' + id);
+  if (!panel) return;
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) {
+    const ta = document.getElementById('replyText-' + id);
+    if (ta) setTimeout(function(){ ta.focus(); }, 80);
+  }
+}
+
+async function markEnquiry(id, status) {
+  try {
+    await supa.from('enquiries').update({ status: status, updated_at: new Date().toISOString() }).eq('id', id);
+    const badge = document.querySelector(`#reply-${id}`)?.closest('tr')?.querySelector('.enq-status');
+    if (badge) { badge.textContent = status; badge.className = 'enq-status ' + status; }
+  } catch(e) { alert('Error: ' + e.message); }
+}
+
+async function sendReply(id, toEmail, toName) {
+  const ta  = document.getElementById('replyText-' + id);
+  const msg = document.getElementById('replyMsg-' + id);
+  const reply = ta?.value.trim();
+  if (!reply) return;
+
+  // Save reply to DB
+  try {
+    await supa.from('enquiry_replies').insert({
+      enquiry_id: id,
+      reply_text: reply,
+      sent_at:    new Date().toISOString(),
+      sent_by:    'admin'
+    });
+    await supa.from('enquiries').update({ status: 'replied', updated_at: new Date().toISOString() }).eq('id', id);
+
+    // Show mailto fallback (server email requires backend — use mailto for now)
+    const subject = encodeURIComponent('Re: Your Filmax Jambo Tours Enquiry');
+    const body    = encodeURIComponent(reply + '\n\n— Filmax Jambo Tours Team\nhello@filmaxjambotours.co.ke');
+    window.open(`mailto:${toEmail}?subject=${subject}&body=${body}`);
+
+    if (msg) {
+      msg.style.display = 'block';
+      msg.style.background = 'rgba(123,181,110,0.1)';
+      msg.style.border = '1px solid rgba(123,181,110,0.3)';
+      msg.style.color = '#7bb56e';
+      msg.textContent = '✓ Reply saved. Your email client opened to send the message.';
+    }
+    if (ta) ta.value = '';
+    markEnquiry(id, 'replied');
+  } catch(e) {
+    if (msg) {
+      msg.style.display = 'block';
+      msg.style.background = 'rgba(224,85,85,0.1)';
+      msg.style.border = '1px solid rgba(224,85,85,0.3)';
+      msg.style.color = '#e07070';
+      msg.textContent = 'Error: ' + e.message;
+    }
+  }
+}
+
+function escHtml(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+} 
 </script>
 </body>
 </html>
