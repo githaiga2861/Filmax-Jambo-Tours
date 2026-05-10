@@ -913,10 +913,16 @@ body.light-mode .gallery-img {
     filter: brightness(1) saturate(1) !important;
   }
 
-/* ═══════════════════════════════════════════════
-   PROFILE MODAL OVERLAY
-   Renders profile.html inside an iframe overlay
-   ═══════════════════════════════════════════════ */
+/* Cursor stays active over profile modal iframe */
+#profileModalIframe {
+  pointer-events: all;
+  cursor: none;
+}
+#profileModalBox {
+  cursor: none;
+}
+
+/* ── PROFILE MODAL OVERLAY — iframe embed ── */
 #profileModalOverlay {
   position: fixed;
   inset: 0;
@@ -9018,8 +9024,9 @@ body.light-mode .pkg-cta:hover {
           : null;
 
         if (supa) {
+          // Always fetch fresh from Supabase — never rely on cached browser state
           supa.from('profiles')
-            .select('first_name, last_name')
+            .select('first_name, last_name, avatar_url')
             .eq('id', user.id)
             .single()
             .then(({ data, error }) => {
