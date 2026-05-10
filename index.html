@@ -8048,6 +8048,7 @@ body.light-mode .pkg-cta:hover {
         <input type="email" placeholder="Email Address">
         <input type="tel" placeholder="Phone / WhatsApp">
         <textarea placeholder="Tell us your dream safari..."></textarea>
+        <div id="enquiryMsg" style="display:none;font-family:'Jost',sans-serif;font-size:12px;padding:13px 18px;margin-bottom:12px;letter-spacing:1px;"></div>
         <button class="btn-primary" id="sendEnquiryBtn" type="button" style="cursor: none;">Send Enquiry</button>
       </div>
     </div>
@@ -8857,6 +8858,11 @@ body.light-mode .pkg-cta:hover {
   window._doSignUp = async function() {
     const supa = getSupabase();
     if (!supa) { showMsgSignup('error','Auth service unavailable. Please refresh.'); return; }
+
+    // Clear previous messages
+    ['authMsgErrorSignup','authMsgSuccessSignup'].forEach(function(id){
+      var el = document.getElementById(id); if(el) el.style.display='none';
+    });
     const firstName   = v('suFirstName');
     const email       = v('suEmail');
     const phoneCode   = v('suPhoneCode') || '+254';
@@ -8892,17 +8898,37 @@ body.light-mode .pkg-cta:hover {
         phone:       phone,
         nationality: nationality
       };
+      // First check if account already exists by attempting a password reset
+      // (Supabase signUp with existing email returns identities=[])
       const { data, error } = await supa.auth.signUp({
         email:    email,
         password: pass,
-        options:  {
-          data: meta,
-          emailRedirectTo: 'https://githaiga2861.github.io/Filmax-Jambo-Tours/index.html'
-        }
+        options:  { data: meta }
       });
-      if (error) throw error;
+      if (error) {
+        // Handle specific "User already registered" error
+        if (error.message && (error.message.toLowerCase().includes('already') || error.message.toLowerCase().includes('registered'))) {
+          showMsgSignup('error', '⚠ An account with this email already exists.');
+          setTimeout(function(){
+            window._switchAuthTab('signin');
+            var siEmail = document.getElementById('siEmail');
+            if (siEmail) siEmail.value = email;
+            showMsgSignin('error', '⚠ Account already exists. Please sign in with your password.');
+          }, 1400);
+          return;
+        }
+        throw error;
+      }
       if (data?.user?.identities?.length === 0) {
-        showMsg('error','An account with this email already exists. Please sign in.');
+        // Supabase signals existing account this way
+        showMsgSignup('error', '⚠ An account with this email already exists.');
+        setTimeout(function(){
+          window._switchAuthTab('signin');
+          var siEmail = document.getElementById('siEmail');
+          if (siEmail) siEmail.value = email;
+          showMsgSignin('error', '⚠ Account found. Please sign in with your password.');
+        }, 1400);
+        return;
       } else {
         // Also write to profiles table if it exists
         if (data.user) {
@@ -8930,6 +8956,12 @@ body.light-mode .pkg-cta:hover {
           } catch(e) { console.warn('Profile insert error:', e); }
         }
         showMsgSignup('success', '✓ Account created! Check your email to confirm, then sign in.');
+        // Auto-switch to sign in after 2s
+        setTimeout(function(){
+          window._switchAuthTab('signin');
+          var siEmail = document.getElementById('siEmail');
+          if (siEmail) siEmail.value = email;
+        }, 2200);
       }
     } catch(e) {
       showMsg('error', e.message || 'Registration failed. Please try again.');
@@ -9079,6 +9111,73 @@ body.light-mode .pkg-cta:hover {
       if (menu && !menu.contains(e.target) && chip && !chip.contains(e.target) && wrap && !wrap.contains(e.target)) {
         menu.classList.remove('open');
       }
+    });
+
+    // ── CONTACT FORM SUBMIT ────────────────────────────
+    document.getElementById('sendEnquiryBtn')?.addEventListener('click', async function() {
+      const btn = this;
+      const fields   = document.querySelectorAll('#contact .contact-form input, #contact .contact-form textarea');
+      const nameVal  = fields[0]?.value.trim() || '';
+      const emailVal = fields[1]?.value.trim() || '';
+      const phoneVal = fields[2]?.value.trim() || '';
+      const msgVal   = fields[3]?.value.trim() || '';
+      const msgEl    = document.getElementById('enquiryMsg');
+
+      function showEnquiryMsg(type, text) {
+        if (!msgEl) return;
+        msgEl.style.display = 'block';
+        msgEl.textContent = text;
+        msgEl.style.background = type === 'success' ? 'rgba(123,181,110,0.1)' : 'rgba(224,85,85,0.1)';
+        msgEl.style.border = type === 'success' ? '1px solid rgba(123,181,110,0.35)' : '1px solid rgba(224,85,85,0.35)';
+        msgEl.style.color  = type === 'success' ? '#7bb56e' : '#e07070';
+      }
+
+      if (!nameVal || !emailVal || !msgVal) {
+        showEnquiryMsg('error', '⚠ Please fill in your name, email and message.');
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+        showEnquiryMsg('error', '⚠ Please enter a valid email address.');
+        return;
+      }
+
+      btn.textContent = 'Sending…';
+      btn.style.opacity = '0.6';
+      btn.style.pointerEvents = 'none';
+
+      try {
+        const supa = window.supabase ? window.supabase.createClient(
+          'https://kwriicxzkgkcseorcqdi.supabase.co',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo'
+        ) : null;
+
+        if (!supa) throw new Error('Database unavailable');
+
+        const payload = {
+          name:       nameVal,
+          email:      emailVal,
+          phone:      phoneVal || null,
+          message:    msgVal,
+          status:     'new',
+          user_id:    window._fjCurrentUser?.id || null,
+          created_at: new Date().toISOString(),
+          source:     'contact_form'
+        };
+
+        const { error } = await supa.from('enquiries').insert(payload);
+        if (error) throw error;
+
+        showEnquiryMsg('success', '✓ Enquiry sent! We\'ll be in touch within 24 hours.');
+        fields.forEach(function(f){ f.value = ''; });
+
+      } catch(e) {
+        console.error('Enquiry error:', e);
+        showEnquiryMsg('error', '⚠ Could not send enquiry. Please email us directly at hello@filmaxjambotours.co.ke');
+      }
+
+      btn.textContent = 'Send Enquiry';
+      btn.style.opacity = '';
+      btn.style.pointerEvents = '';
     });
 
     // Auto-fill contact form
