@@ -598,6 +598,72 @@
     transition: transform 0.3s;
   }
 
+  /* ── ADMIN LAYOUT STABILITY ── */
+html, body { overflow-x: hidden !important; width: 100% !important; }
+.admin-layout, .admin-main, .admin-content, .admin-sidebar {
+  overflow-x: hidden;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+/* Prevent input focus from shifting layout */
+input, textarea, select {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+/* Modal/overlay must not add scrollbar to body */
+body.admin-modal-open {
+  overflow: hidden !important;
+  width: 100vw !important;
+}
+/* Tables scroll internally, not the page */
+.admin-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+/* Fix sidebar/main grid on mobile */
+@media (max-width: 900px) {
+  .admin-layout {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .admin-sidebar {
+    width: 100% !important;
+    position: relative !important;
+    height: auto !important;
+  }
+  .admin-main, .admin-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 20px 16px !important;
+  }
+}
+
+  .admin-save-bar {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(8,8,8,0.97);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(212,175,55,0.18);
+  padding: 14px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  z-index: 100;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+  flex-wrap: wrap;
+}
+.admin-save-bar.visible { transform: translateY(0); }
+.admin-save-msg { font-family: 'Cormorant Garamond', serif; font-size: 14px; font-style: italic; color: rgba(212,175,55,0.8); }
+.admin-save-btn { font-family: 'Jost', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; padding: 12px 24px; background: linear-gradient(135deg,#d4af37,#b8860b); color: #080808; border: none; cursor: pointer; transition: filter .3s, transform .3s; }
+.admin-save-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.admin-discard-btn { font-family: 'Jost', sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; padding: 12px 18px; background: transparent; border: 1px solid rgba(212,175,55,0.2); color: rgba(138,128,116,0.8); cursor: pointer; transition: border-color .3s; }
+.admin-discard-btn:hover { border-color: rgba(212,175,55,0.5); color: #f0ece4; }
+
 /* ── ENQUIRIES ── */
 .enq-table{width:100%;border-collapse:collapse;min-width:600px;}
 .enq-table th{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(212,175,55,0.7);padding:14px 16px;text-align:left;font-weight:600;border-bottom:1px solid rgba(212,175,55,0.15);}
@@ -5198,7 +5264,162 @@ async function sendReply(id, toEmail, toName) {
 
 function escHtml(str) {
   return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-} 
+}
+ // ── ADMIN DIRTY STATE ──────────────────────────────────
+var _adminDirty = false;
+var _adminDirtyCallbacks = [];
+
+function adminMarkDirty(saveCallback) {
+  _adminDirty = true;
+  if (saveCallback) _adminDirtyCallbacks.push(saveCallback);
+  document.getElementById('adminSaveBar')?.classList.add('visible');
+}
+
+async function adminSaveChanges() {
+  try {
+    for (var i = 0; i < _adminDirtyCallbacks.length; i++) {
+      await _adminDirtyCallbacks[i]();
+    }
+    _adminDirty = false;
+    _adminDirtyCallbacks = [];
+    document.getElementById('adminSaveBar')?.classList.remove('visible');
+    // Toast
+    showAdminToast('Changes saved and live on website');
+  } catch(e) {
+    showAdminToast('Save failed: ' + e.message, true);
+  }
+}
+
+function adminDiscardChanges() {
+  if (!confirm('Discard all unsaved changes?')) return;
+  _adminDirty = false;
+  _adminDirtyCallbacks = [];
+  document.getElementById('adminSaveBar')?.classList.remove('visible');
+  location.reload();
+}
+
+function showAdminToast(msg, isError) {
+  var toast = document.createElement('div');
+  toast.style.cssText = 'position:fixed;top:24px;right:24px;z-index:99999;font-family:Jost,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:14px 24px;box-shadow:0 8px 32px rgba(0,0,0,0.4);opacity:0;transform:translateY(-8px);transition:all .35s;pointer-events:none;' + (isError ? 'background:rgba(224,85,85,0.9);color:#fff;' : 'background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;');
+  toast.textContent = (isError ? '✕  ' : '✓  ') + msg;
+  document.body.appendChild(toast);
+  requestAnimationFrame(function(){ toast.style.opacity='1'; toast.style.transform='translateY(0)'; });
+  setTimeout(function(){ toast.style.opacity='0'; setTimeout(function(){ toast.remove(); }, 400); }, 2800);
+}
+
+// Watch all admin form inputs for changes
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.admin-form input, .admin-form textarea, .admin-form select').forEach(function(el) {
+    el.addEventListener('input', function() { adminMarkDirty(); });
+    el.addEventListener('change', function() { adminMarkDirty(); });
+  });
+});
+
+// Warn on page leave with unsaved changes
+window.addEventListener('beforeunload', function(e) {
+  if (_adminDirty) { e.preventDefault(); e.returnValue = ''; }
+});
+
+ // ── TESTIMONIALS ADMIN ──────────────────────────────────
+async function loadTestimonialsAdmin() {
+  const container = document.getElementById('testimonialsAdminContainer');
+  if (!container) return;
+  container.innerHTML = '<div style="color:rgba(138,128,116,0.6);font-style:italic;padding:20px;">Loading…</div>';
+  try {
+    const { data, error } = await supa.from('testimonials_pending').select('*').order('created_at', { ascending: false });
+    if (error) throw error;
+    if (!data || !data.length) {
+      container.innerHTML = '<div style="text-align:center;padding:60px;font-family:\'Cormorant Garamond\',serif;font-size:17px;font-style:italic;color:rgba(138,128,116,0.6);">No pending testimonials.</div>';
+      return;
+    }
+    container.innerHTML = data.map(function(t) {
+      return `<div style="background:#111;border:1px solid rgba(212,175,55,0.12);padding:24px;margin-bottom:12px;position:relative;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+          <div style="flex:1;min-width:0;">
+            <div style="font-family:'Playfair Display',serif;font-size:16px;color:#f0ece4;margin-bottom:4px;">${escHtml(t.author_name||'Anonymous')}</div>
+            <div style="font-size:10px;letter-spacing:2px;color:#8a8074;margin-bottom:12px;">${escHtml(t.author_loc||'')} · ${new Date(t.created_at).toLocaleDateString('en-GB')}</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:#8a8074;line-height:1.7;">"${escHtml(t.text)}"</div>
+            <div style="margin-top:8px;">
+              ${'★'.repeat(t.rating||5)}<span style="color:rgba(212,175,55,0.3)">${'★'.repeat(5-(t.rating||5))}</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0;">
+            <button onclick="approveTestimonial('${t.id}')" style="font-family:'Jost',sans-serif;font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:8px 14px;background:rgba(123,181,110,0.1);border:1px solid rgba(123,181,110,0.35);color:#7bb56e;cursor:pointer;">✓ Approve</button>
+            <button onclick="rejectTestimonial('${t.id}')" style="font-family:'Jost',sans-serif;font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:8px 14px;background:rgba(224,85,85,0.08);border:1px solid rgba(224,85,85,0.25);color:#e05555;cursor:pointer;">✕ Reject</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    container.innerHTML = '<div style="color:#e07070;padding:20px;">Error: ' + escHtml(e.message) + '</div>';
+  }
+}
+
+async function approveTestimonial(id) {
+  try {
+    const { data: t } = await supa.from('testimonials_pending').select('*').eq('id', id).single();
+    if (t) {
+      await supa.from('testimonials').insert({ author_name: t.author_name, author_loc: t.author_loc, text: t.text, rating: t.rating, created_at: new Date().toISOString() });
+    }
+    await supa.from('testimonials_pending').delete().eq('id', id);
+    loadTestimonialsAdmin();
+  } catch(e) { alert('Error: ' + e.message); }
+}
+
+async function rejectTestimonial(id) {
+  if (!confirm('Delete this testimonial?')) return;
+  await supa.from('testimonials_pending').delete().eq('id', id);
+  loadTestimonialsAdmin();
+}
+
+// ── BLOG ADMIN ──────────────────────────────────────────
+async function loadBlogAdmin() {
+  const container = document.getElementById('blogListContainer');
+  if (!container) return;
+  container.innerHTML = '<div style="color:rgba(138,128,116,0.6);font-style:italic;padding:20px;">Loading posts…</div>';
+  try {
+    const { data, error } = await supa.from('blogs').select('id,title,slug,category,is_published,published_date').order('created_at', { ascending: false });
+    if (error) throw error;
+    if (!data || !data.length) {
+      container.innerHTML = '<div style="text-align:center;padding:40px;font-style:italic;color:rgba(138,128,116,0.6);">No blog posts yet. Create your first post.</div>';
+      return;
+    }
+    container.innerHTML = data.map(function(b) {
+      return `<div style="display:flex;align-items:center;gap:16px;background:#111;border:1px solid rgba(212,175,55,0.1);padding:18px 20px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:0;">
+          <div style="font-family:'Playfair Display',serif;font-size:16px;color:#f0ece4;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escHtml(b.title)}</div>
+          <div style="font-size:10px;color:#8a8074;letter-spacing:2px;">${escHtml(b.category||'Uncategorized')} · ${b.published_date?new Date(b.published_date).toLocaleDateString('en-GB'):'Draft'}</div>
+        </div>
+        <span style="font-size:8px;letter-spacing:3px;text-transform:uppercase;font-weight:700;padding:4px 10px;${b.is_published?'background:rgba(123,181,110,0.1);border:1px solid rgba(123,181,110,0.3);color:#7bb56e':'background:rgba(138,128,116,0.1);border:1px solid rgba(138,128,116,0.2);color:#8a8074'}">${b.is_published?'Published':'Draft'}</span>
+        <div style="display:flex;gap:8px;flex-shrink:0;">
+          <button onclick="togglePublish('${b.id}',${b.is_published})" style="font-family:'Jost',sans-serif;font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:7px 14px;background:transparent;border:1px solid rgba(212,175,55,0.2);color:rgba(212,175,55,0.8);cursor:pointer;">${b.is_published?'Unpublish':'Publish'}</button>
+          <button onclick="deleteBlogPost('${b.id}')" style="font-family:'Jost',sans-serif;font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:7px 12px;background:transparent;border:1px solid rgba(224,85,85,0.2);color:#e05555;cursor:pointer;">Delete</button>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    container.innerHTML = '<div style="color:#e07070;padding:20px;">Error: ' + escHtml(e.message) + '</div>';
+  }
+}
+
+async function togglePublish(id, currentState) {
+  await supa.from('blogs').update({ is_published: !currentState, updated_at: new Date().toISOString() }).eq('id', id);
+  loadBlogAdmin();
+}
+
+async function deleteBlogPost(id) {
+  if (!confirm('Delete this post permanently?')) return;
+  await supa.from('blogs').delete().eq('id', id);
+  loadBlogAdmin();
+}
+  
 </script>
+<div class="admin-save-bar" id="adminSaveBar">
+  <span class="admin-save-msg">You have unsaved changes</span>
+  <div style="display:flex;gap:10px;">
+    <button class="admin-discard-btn" onclick="adminDiscardChanges()">Discard</button>
+    <button class="admin-save-btn" onclick="adminSaveChanges()">✓ Save Changes</button>
+  </div>
+</div>  
 </body>
 </html>
