@@ -8658,11 +8658,21 @@ body.light-mode .pkg-cta:hover {
     if (type === 'success') { ok.textContent  = text; ok.style.display  = 'block'; }
   }
 
-  function clearMsg() {
-    ['authMsgError','authMsgSuccess','authMsgErrorSignin','authMsgSuccessSignin','authMsgErrorSignup','authMsgSuccessSignup','authMsgErrorForgot','authMsgSuccessForgot'].forEach(function(id){
-      var el = document.getElementById(id); if(el) el.style.display = 'none';
-    });
-  }
+  function clearMessages() {
+  [
+    'authMsgError',
+    'authMsgSuccess',
+    'authMsgErrorSignin',
+    'authMsgSuccessSignin',
+    'authMsgErrorSignup',
+    'authMsgSuccessSignup',
+    'authMsgErrorForgot',
+    'authMsgSuccessForgot'
+  ].forEach(function(id){
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+}
 
   window._openAuth = function(tab) {
     const ov = document.getElementById('authOverlay');
@@ -8670,7 +8680,7 @@ body.light-mode .pkg-cta:hover {
     // Hide FABs
     [document.querySelector('.whatsapp-fab'),document.getElementById('themeToggle'),document.getElementById('google_translate_element')].forEach(function(el){if(el){el.style.transition='opacity 0.3s ease';el.style.opacity='0';el.style.pointerEvents='none';}});
     ov.style.cssText = 'display:flex;opacity:0;pointer-events:none;position:fixed;inset:0;z-index:99990;background:rgba(8,6,2,0.45);backdrop-filter:blur(12px) saturate(1.4) brightness(0.7);-webkit-backdrop-filter:blur(12px) saturate(1.4) brightness(0.7);align-items:center;justify-content:center;padding:20px;transition:opacity 0.4s ease;';
-    clearMsg();
+    clearMessages();
     window._switchAuthTab(tab || 'signin');
     document.body.style.overflow = 'hidden';
     setTimeout(function() {
@@ -8694,6 +8704,7 @@ body.light-mode .pkg-cta:hover {
     }, 420);
   };
 
+
   window._switchAuthTab = function(tab) {
     const si  = document.getElementById('authPanelSignin');
     const su  = document.getElementById('authPanelSignup');
@@ -8701,7 +8712,7 @@ body.light-mode .pkg-cta:hover {
     const tsu = document.getElementById('tabSignup');
     const title = document.getElementById('authModalTitle');
     const sub   = document.getElementById('authModalSub');
-    clearMsg();
+    clearMessages();
     var fg = document.getElementById('authPanelForgot');
     if (fg) fg.style.display = 'none';
     if (tab === 'signup') {
