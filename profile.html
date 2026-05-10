@@ -2634,9 +2634,15 @@ async function initProfile() {
 
   try {
     supa = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+
+    // Refresh session to prevent stale auth on iPhone Safari
+    const { data: refreshData } = await supa.auth.refreshSession();
+    const freshSession = refreshData?.session;
+
     const { data:{ session } } = await supa.auth.getSession();
-    if (!session) { window.location.href='index.html'; return; }
-    _currentUser = session.user;
+    const activeSession = freshSession || session;
+    if (!activeSession) { window.location.href='index.html'; return; }
+    _currentUser = activeSession.user;
 
     const meta = _currentUser.user_metadata || {};
 
@@ -2696,16 +2702,27 @@ async function initProfile() {
       }
     }
 
-    // Always ensure profile reflects best available data for UI
+    // ALWAYS render from the profiles table row — never from browser cache or auth metadata
+    // Only fill gaps from metadata if the DB row genuinely has empty fields
     const mergedProfile = {
       ...profile,
-      first_name: profile.first_name || extractedFirstName,
-      last_name:  profile.last_name  || extractedLastName,
-      avatar_url: profile.avatar_url || extractedAvatar,
-      phone:      profile.phone      || extractedPhone,
-      nationality:profile.nationality|| extractedNationality,
-      country:    profile.country    || extractedCountry,
+      // Only use extracted values if the DB column is genuinely empty/null
+      first_name:  profile?.first_name  || extractedFirstName  || '',
+      last_name:   profile?.last_name   || extractedLastName   || '',
+      avatar_url:  profile?.avatar_url  || extractedAvatar     || '',
+      phone:       profile?.phone       || extractedPhone       || '',
+      nationality: profile?.nationality || extractedNationality || '',
+      country:     profile?.country     || extractedCountry     || '',
+      // Always preserve DB values that exist
+      reward_points: profile?.reward_points ?? 0,
+      created_at:    profile?.created_at,
     };
+
+    // Clear any stale localStorage/sessionStorage profile data
+    try {
+      sessionStorage.removeItem('fj_profile_cache');
+      localStorage.removeItem('fj_profile_cache');
+    } catch(_) {}
 
     populateUI(mergedProfile, _currentUser.email);
     lockAllSections();
