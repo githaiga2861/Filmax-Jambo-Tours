@@ -8959,7 +8959,6 @@ body.light-mode .pkg-cta:hover {
               dob:          '',
               passport:     '',
               preferred_lang: '',
-              timezone:     '',
               emerg_name:   '',
               emerg_phone:  '',
               avatar_url:   '',
@@ -8979,8 +8978,9 @@ body.light-mode .pkg-cta:hover {
         }, 2200);
       }
     } catch(e) {
-      showMsg('error', e.message || 'Registration failed. Please try again.');
-    }
+  console.error(e);
+  showMsgSignup('error', e.message || 'Registration failed. Please try again.');
+}
     if (btn) { btn.textContent = 'Create My Safari Account'; btn.disabled = false; }
   };
 
