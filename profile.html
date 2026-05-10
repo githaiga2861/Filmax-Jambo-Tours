@@ -2422,13 +2422,16 @@ function getGreeting(firstName, timezone) {
 }
 
 function populateUI(m, userEmail) {
-  const firstName = m.first_name || '';
-  const lastName  = m.last_name  || '';
-  const fullName  = (firstName+' '+lastName).trim() || 'Member';
-  const initial   = firstName.charAt(0).toUpperCase() || 'M';
+  // Always read from DB row only — never from placeholders
+  const firstName = (m.first_name || '').trim();
+  const lastName  = (m.last_name  || '').trim();
+  // If no real name saved yet, show empty until user fills it in
+  const fullName  = (firstName + ' ' + lastName).trim() || '';
+  const initial   = firstName.charAt(0).toUpperCase() || (userEmail ? userEmail.charAt(0).toUpperCase() : '?');
+  const displayName = fullName || userEmail?.split('@')[0] || 'Member';
 
-  // Names & IDs
-  document.getElementById('heroName').textContent    = fullName;
+  // Names & IDs — use displayName which never falls back to "Joseph Explorer"
+  document.getElementById('heroName').textContent    = displayName;
   // Greeting
   const greetingEl = document.getElementById('heroGreeting');
   if (greetingEl) {greetingEl.textContent = getGreeting(firstName, m.timezone);}
@@ -2584,8 +2587,8 @@ async function saveAll() {
     const initial  = firstName.charAt(0).toUpperCase();
     document.getElementById('heroName').textContent    = fullName;
     document.getElementById('heroInitial').textContent = initial;
-    document.getElementById('sbName').textContent      = fullName;
-    document.getElementById('miniNavName').textContent = fullName;
+    document.getElementById('sbName').textContent      = displayName;
+    document.getElementById('miniNavName').textContent = displayName;
     const sbInit = document.getElementById('sbAvatarInitial');
     if (sbInit) sbInit.textContent = initial;
 
@@ -2640,27 +2643,23 @@ async function initProfile() {
 
     if (error && error.code !== 'PGRST116') console.error('Profile load error:', error);
 
-    // Extract best available name — profiles table wins, fallback to Google metadata
-    const extractedFirstName = profile?.first_name
-      || meta.first_name
-      || (meta.full_name ? meta.full_name.split(' ')[0] : '')
-      || (meta.name ? meta.name.split(' ')[0] : '')
-      || '';
+    // Extract name — ONLY from profiles table or verified OAuth metadata
+    // NEVER fallback to placeholder names like "Joseph Explorer"
+    const metaFirst = (meta.first_name || '').trim()
+      || ((meta.full_name || '').trim() ? meta.full_name.trim().split(/\s+/)[0] : '')
+      || ((meta.name || '').trim() ? meta.name.trim().split(/\s+/)[0] : '');
+    const metaLast  = (meta.last_name || '').trim()
+      || ((meta.full_name || '').trim() ? meta.full_name.trim().split(/\s+/).slice(1).join(' ') : '')
+      || ((meta.name || '').trim() ? meta.name.trim().split(/\s+/).slice(1).join(' ') : '');
 
-    const extractedLastName = profile?.last_name
-      || meta.last_name
-      || (meta.full_name ? meta.full_name.split(' ').slice(1).join(' ') : '')
-      || (meta.name ? meta.name.split(' ').slice(1).join(' ') : '')
-      || '';
-
-    const extractedAvatar = profile?.avatar_url
-      || meta.avatar_url
-      || meta.picture
-      || '';
-
-    const extractedPhone = profile?.phone || meta.phone || '';
-    const extractedNationality = profile?.nationality || meta.nationality || '';
-    const extractedCountry = profile?.country || meta.country || '';
+    const extractedFirstName = (profile?.first_name || '').trim() || metaFirst;
+    const extractedLastName  = (profile?.last_name  || '').trim() || metaLast;
+    const extractedAvatar    = (profile?.avatar_url || '').trim()
+      || (meta.avatar_url || '').trim()
+      || (meta.picture    || '').trim();
+    const extractedPhone       = (profile?.phone       || '').trim() || (meta.phone       || '').trim();
+    const extractedNationality = (profile?.nationality || '').trim() || (meta.nationality || '').trim();
+    const extractedCountry     = (profile?.country     || '').trim() || (meta.country     || '').trim();
 
     // If row missing, create it now with all available data
     if (!profile) {
