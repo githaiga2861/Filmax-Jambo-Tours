@@ -1091,6 +1091,34 @@ body.light-mode #profileModalClose:hover {
     filter: brightness(0.5) saturate(0.6) !important;
   }
 
+/* ── HIGHLIGHT VIDEO CARDS ── */
+.highlight-card video.hc-bg {
+  filter: brightness(0.32) saturate(0.6);
+  transition: filter 0.5s ease;
+}
+.highlight-card:hover video.hc-bg {
+  filter: brightness(0.42) saturate(0.75);
+}
+
+@keyframes hcTextFadeOut {
+  0%   { opacity: 1; }
+  60%  { opacity: 1; }
+  100% { opacity: 0; pointer-events: none; }
+}
+.hc-fade-text {
+  animation: hcTextFadeOut 4.5s ease forwards;
+}
+/* Stagger cards */
+.highlight-card:nth-child(2) .hc-fade-text { animation-delay: 0.4s; }
+.highlight-card:nth-child(3) .hc-fade-text { animation-delay: 0.8s; }
+
+/* Fade text back in on hover */
+.highlight-card:hover .hc-fade-text {
+  animation: none;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
 body.light-mode .hc-bg {
     filter: brightness(0.45) saturate(0.75) sepia(0) !important;
     mix-blend-mode: normal;
@@ -6612,38 +6640,41 @@ body.light-mode .pkg-cta:hover {
   </div>
   <div class="highlights-grid">
     <div class="highlight-card reveal">
-      <img class="hc-bg" src="assets/girraffefeeding.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
-      <div class="hc-bg-overlay"></div>
-      <div class="card-number">01</div>
+      <video class="hc-bg" autoplay muted loop playsinline preload="auto" aria-hidden="true" style="object-fit:cover;width:100%;height:100%;position:absolute;inset:0;z-index:0;display:block;pointer-events:none;">
+        <source src="assets/highlight1.webm" type="video/webm">
+      </video>
+      <div class="card-number hc-fade-text">01</div>
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:20px;display:block;opacity:0.7;">
         <path d="M4 14h20M14 4l10 10-10 10" stroke="#d4af37" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      <h3 class="card-title">Curated Journeys</h3>
-      <p class="card-text">Every itinerary is thoughtfully designed to balance iconic wildlife encounters with hidden experiences, creating a safari that feels entirely your own.</p>
+      <h3 class="card-title hc-fade-text">Curated Journeys</h3>
+      <p class="card-text hc-fade-text">Every itinerary is thoughtfully designed to balance iconic wildlife encounters with hidden experiences, creating a safari that feels entirely your own.</p>
     </div>
     <div class="highlight-card reveal" style="transition-delay:0.1s">
-      <img class="hc-bg" src="assets/maasaimen.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
-      <div class="hc-bg-overlay"></div>
-      <div class="card-number">02</div>
+      <video class="hc-bg" autoplay muted loop playsinline preload="auto" aria-hidden="true" style="object-fit:cover;width:100%;height:100%;position:absolute;inset:0;z-index:0;display:block;pointer-events:none;">
+        <source src="assets/highlight2.webm" type="video/webm">
+      </video>
+      <div class="card-number hc-fade-text">02</div>
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:20px;display:block;opacity:0.7;">
         <circle cx="14" cy="14" r="10" stroke="#d4af37" stroke-width="1"/>
         <path d="M14 4v4M14 20v4M4 14h4M20 14h4" stroke="#d4af37" stroke-width="1" stroke-linecap="round"/>
         <circle cx="14" cy="14" r="2.5" stroke="#d4af37" stroke-width="1"/>
       </svg>
-      <h3 class="card-title">Local Mastery</h3>
-      <p class="card-text">Our guides and partners possess deep knowledge of Kenya's landscapes and rhythms of the wild — allowing you to experience moments most travelers never see.</p>
+      <h3 class="card-title hc-fade-text">Local Mastery</h3>
+      <p class="card-text hc-fade-text">Our guides and partners possess deep knowledge of Kenya's landscapes and rhythms of the wild — allowing you to experience moments most travelers never see.</p>
     </div>
      <div class="highlight-card reveal" style="transition-delay:0.2s">
-      <img class="hc-bg" src="assets/jwmarriott.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
-      <div class="hc-bg-overlay"></div>
-      <div class="card-number">03</div>
+      <video class="hc-bg" autoplay muted loop playsinline preload="auto" aria-hidden="true" style="object-fit:cover;width:100%;height:100%;position:absolute;inset:0;z-index:0;display:block;pointer-events:none;">
+        <source src="assets/highlight3.webm" type="video/webm">
+      </video>
+      <div class="card-number hc-fade-text">03</div>
       <svg width="28" height="28"
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:20px;display:block;opacity:0.7;">
         <path d="M14 3v4M14 21v4M3 14h4M21 14h4M6.2 6.2l2.8 2.8M19 19l2.8 2.8M19 9l2.8-2.8M6.2 21.8l2.8-2.8" stroke="#d4af37" stroke-width="1" stroke-linecap="round"/>
         <circle cx="14" cy="14" r="4.5" stroke="#d4af37" stroke-width="1"/>
       </svg>
-      <h3 class="card-title">Effortless Luxury</h3>
-      <p class="card-text">From the moment you arrive to your final farewell, every detail is handled with precision so your only focus is the wonder of the journey.</p>
+      <h3 class="card-title hc-fade-text">Effortless Luxury</h3>
+      <p class="card-text hc-fade-text">From the moment you arrive to your final farewell, every detail is handled with precision so your only focus is the wonder of the journey.</p>
     </div>
   </div>
   <div class="container">
