@@ -150,8 +150,12 @@
 
   /* Buttons */
   .btn { font-family:'Jost',sans-serif; font-size:10px; letter-spacing:3px; text-transform:uppercase; padding:16px 32px; cursor:pointer; border:none; transition:all .2s; }
-  .btn-gold { background:linear-gradient(135deg,var(--gold),var(--amber)); color:var(--black); font-weight:600; }
-  .btn-gold:hover { box-shadow:0 8px 30px rgba(212,175,55,.4); transform:translateY(-1px); }
+  .btn-gold { background: linear-gradient(135deg, #f0c84a 0%, #d4af37 35%, #b8860b 65%, #c9921a 100%); color: #1a0e00; font-weight: 700; position: relative; overflow: hidden; box-shadow: 0 2px 0 rgba(255,255,255,.25) inset, 0 -2px 0 rgba(0,0,0,.35) inset, 0 4px 16px rgba(212,175,55,.4), 0 1px 3px rgba(0,0,0,.5); transition: transform .3s, box-shadow .3s, filter .3s; animation: pulseGoldBtn 3s ease-in-out infinite 2s; }
+  .btn-gold::before { content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%; background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.08) 30%, rgba(255,255,255,.45) 50%, rgba(255,255,255,.08) 70%, transparent 100%); transform: skewX(-15deg); }
+  .btn-gold:hover::before { animation: metalShine .6s ease forwards; }
+  .btn-gold:hover { box-shadow: 0 16px 48px rgba(212,175,55,.5) !important; transform: translateY(-2px); filter: brightness(1.08); animation: none; }
+  @keyframes metalShine { 0% { left: -100%; } 100% { left: 160%; } }
+  @keyframes pulseGoldBtn { 0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,55,.4), 0 4px 16px rgba(212,175,55,.4); } 50% { box-shadow: 0 0 0 14px rgba(212,175,55,0), 0 4px 16px rgba(212,175,55,.4); } }
   .btn-outline { background:transparent; color:var(--gold); border:1px solid var(--border); }
   .btn-outline:hover { border-color:var(--gold); background:var(--gold-dim); }
   .btn-row { display:flex; gap:12px; align-items:center; justify-content:space-between; margin-top:36px; padding-top:28px; border-top:1px solid var(--border-subtle); }
@@ -659,7 +663,7 @@
           <h2 style="font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--text);margin-bottom:12px;">Sign In to Reserve</h2>
           <p style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--muted);line-height:1.7;max-width:420px;margin:0 auto 32px;">Create a free account or sign in to pre-fill your details and complete your safari reservation.</p>
           <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-            <a href="index.html" onclick="sessionStorage.setItem('fj_reserve_redirect','${encodeURIComponent(window.location.href)}')" style="font-family:'Jost',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:16px 36px;background:linear-gradient(135deg,#f0c84a,#d4af37,#b8860b);color:#080808;text-decoration:none;display:inline-block;transition:transform 0.3s;box-shadow:0 4px 20px rgba(212,175,55,0.35);">Sign In / Create Account</a>
+            <a href="index.html" onclick="sessionStorage.setItem('fj_reserve_redirect','${encodeURIComponent(window.location.href)}')" style="font-family:'Jost',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:16px 36px;background:linear-gradient(135deg,#f0c84a 0%,#d4af37 35%,#b8860b 65%,#c9921a 100%);color:#1a0e00;text-decoration:none;display:inline-block;box-shadow:0 2px 0 rgba(255,255,255,.22) inset,0 -2px 0 rgba(0,0,0,.35) inset,0 8px 28px rgba(212,175,55,.35);transition:transform 0.3s,box-shadow 0.3s,filter 0.3s;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 16px 48px rgba(212,175,55,0.5)';this.style.filter='brightness(1.08)'" onmouseout="this.style.transform='';this.style.boxShadow='0 2px 0 rgba(255,255,255,.22) inset,0 -2px 0 rgba(0,0,0,.35) inset,0 8px 28px rgba(212,175,55,.35)';this.style.filter=''">Sign In / Create Account</a>
             <a href="packages.html" style="font-family:'Jost',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:16px 36px;background:transparent;color:var(--gold);border:1px solid rgba(212,175,55,0.35);text-decoration:none;display:inline-block;">Browse Packages</a>
           </div>
         </div>`;
