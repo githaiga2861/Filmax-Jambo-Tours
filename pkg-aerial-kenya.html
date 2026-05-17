@@ -560,10 +560,12 @@
   .sidebar-detail-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
   .sidebar-detail-value { font-size: 13px; color: var(--text); text-align: right; }
   .sidebar-details { margin-bottom: 32px; }
-  .btn-book-now { display: block; text-align: center; font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 4px; text-transform: uppercase; padding: 20px; background: linear-gradient(135deg, var(--gold), var(--amber)); color: var(--black); text-decoration: none; cursor: none; position: relative; overflow: hidden; transition: transform .3s, box-shadow .3s; margin-bottom: 12px; }
-  .btn-book-now::before { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,.2); transform: translateX(-100%) skewX(-15deg); transition: transform .5s; }
-  .btn-book-now:hover::before { transform: translateX(200%) skewX(-15deg); }
-  .btn-book-now:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(212,175,55,.4); }
+  .btn-book-now { display: block; text-align: center; font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 4px; text-transform: uppercase; padding: 20px; background: linear-gradient(135deg, #f0c84a 0%, #d4af37 35%, #b8860b 65%, #c9921a 100%); color: #1a0e00; text-decoration: none; cursor: none; position: relative; overflow: hidden; transition: transform .3s, box-shadow .3s, filter .3s; margin-bottom: 12px; box-shadow: 0 2px 0 rgba(255,255,255,.25) inset, 0 -2px 0 rgba(0,0,0,.35) inset, 0 4px 16px rgba(212,175,55,.4), 0 1px 3px rgba(0,0,0,.5); animation: pulseGoldBtn 3s ease-in-out infinite 2s; }
+  .btn-book-now::before { content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%; background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.08) 30%, rgba(255,255,255,.45) 50%, rgba(255,255,255,.08) 70%, transparent 100%); transform: skewX(-15deg); }
+  .btn-book-now:hover::before { animation: metalShine .6s ease forwards; }
+  .btn-book-now:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(212,175,55,.5) !important; filter: brightness(1.08); animation: none; }
+  @keyframes metalShine { 0% { left: -100%; } 100% { left: 160%; } }
+  @keyframes pulseGoldBtn { 0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,55,.4), 0 4px 16px rgba(212,175,55,.4); } 50% { box-shadow: 0 0 0 14px rgba(212,175,55,0), 0 4px 16px rgba(212,175,55,.4); } }
   /* ── Quote Builder Sidebar ── */
   .sq-label { font-size: 8px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 12px; }
   .sq-price-display { margin-bottom: 6px; }
@@ -703,31 +705,34 @@
     letter-spacing: 4px;
     text-transform: uppercase;
     padding: 22px;
-    background: linear-gradient(135deg, var(--gold), var(--amber));
-    color: var(--black);
+    background: linear-gradient(135deg, #f0c84a 0%, #d4af37 35%, #b8860b 65%, #c9921a 100%);
+    color: #1a0e00;
     text-decoration: none;
     cursor: none;
     position: relative;
     overflow: hidden;
-    transition: transform .3s, box-shadow .3s;
+    transition: transform .3s, box-shadow .3s, filter .3s;
+    box-shadow: 0 2px 0 rgba(255,255,255,.25) inset, 0 -2px 0 rgba(0,0,0,.35) inset, 0 4px 16px rgba(212,175,55,.4);
   }
 
   .mobile-reserve-btn::before {
     content: '';
     position: absolute;
-    inset: 0;
-    background: rgba(255,255,255,.2);
-    transform: translateX(-100%) skewX(-15deg);
-    transition: transform .5s;
+    top: 0; left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.08) 30%, rgba(255,255,255,.45) 50%, rgba(255,255,255,.08) 70%, transparent 100%);
+    transform: skewX(-15deg);
   }
 
   .mobile-reserve-btn:hover::before {
-    transform: translateX(200%) skewX(-15deg);
+    animation: metalShine .6s ease forwards;
   }
 
   .mobile-reserve-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(212,175,55,.4);
+    transform: translateY(-3px);
+    box-shadow: 0 16px 48px rgba(212,175,55,.5) !important;
+    filter: brightness(1.08);
   }
 
   .mobile-reserve-sub {
@@ -903,6 +908,32 @@
   body.light-mode .mobile-book-bar { background: rgba(240,236,228,0.97); border-top-color: rgba(0,0,0,0.1); }
   body.light-mode .mobile-book-price-num { color: #9a6f00; }
   body.light-mode .mobile-book-price-label { color: #5e5040; }
+  /* Match index.html font-weight and text-fill rules for light mode */
+  body.light-mode * { font-weight: 500 !important; }
+  body.light-mode h1, body.light-mode h2, body.light-mode h3, body.light-mode h4, body.light-mode h5 { font-weight: 700; }
+  body.light-mode .sec-title { color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 700; background: none !important; -webkit-background-clip: unset !important; }
+  body.light-mode .sec-label { color: #9a6f00 !important; }
+  body.light-mode .overview-intro p { color: #1a1a1a !important; -webkit-text-fill-color: #1a1a1a !important; font-weight: 500; }
+  body.light-mode .day-desc { color: #1a1a1a !important; -webkit-text-fill-color: #1a1a1a !important; font-weight: 500; }
+  body.light-mode .day-title { color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 700; }
+  body.light-mode .rates-intro { color: #1a1a1a !important; -webkit-text-fill-color: #1a1a1a !important; }
+  body.light-mode .rates-season-note { color: #1a1a1a !important; -webkit-text-fill-color: #1a1a1a !important; font-weight: 500; }
+  body.light-mode .rates-season-title { color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 700; }
+  body.light-mode .inclusion-list li { color: #1a1a1a !important; -webkit-text-fill-color: #1a1a1a !important; font-weight: 500; }
+  body.light-mode .getting-there-intro { color: #1a1a1a !important; }
+  body.light-mode .gt-card-title { color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 700; }
+  body.light-mode .gt-card-desc { color: #1a1a1a !important; -webkit-text-fill-color: #1a1a1a !important; font-weight: 500; }
+  body.light-mode .operator-intro { color: #1a1a1a !important; }
+  body.light-mode .operator-value-title { color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 700; }
+  body.light-mode .operator-value-desc { color: #1a1a1a !important; -webkit-text-fill-color: #1a1a1a !important; font-weight: 500; }
+  body.light-mode .lodge-card-name { color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 700; }
+  body.light-mode .lodge-card-desc { color: #1a1a1a !important; -webkit-text-fill-color: #1a1a1a !important; font-weight: 500; }
+  body.light-mode .booking-title { color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 700; }
+  body.light-mode .related-name { color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 700; }
+  body.light-mode .footer-brand h2 { color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 700; }
+  body.light-mode .footer-brand p, body.light-mode .footer-col a { color: #333333 !important; -webkit-text-fill-color: #333333 !important; font-weight: 500; }
+  body.light-mode .footer-bottom span { color: #333333 !important; -webkit-text-fill-color: #333333 !important; font-weight: 500; }
+  body.light-mode .btn-book-now { background: linear-gradient(135deg,#f0c84a,#d4af37,#b8860b,#c9921a) !important; color: #080808 !important; -webkit-text-fill-color: #080808 !important; }
 
   .site-hint { position: absolute; z-index: 99980; max-width: 240px; width: max-content; background: rgba(10,10,10,0.94); border: 1px solid rgba(212,175,55,0.4); backdrop-filter: blur(18px); padding: 12px 32px 12px 14px; pointer-events: all; cursor: none; box-shadow: 0 8px 32px rgba(0,0,0,0.6); animation: hintSlideIn 0.45s cubic-bezier(0.22,1,0.36,1) forwards; }
   body.light-mode .site-hint { background: rgba(240,236,228,0.97); border-color: rgba(154,111,0,0.45); box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
