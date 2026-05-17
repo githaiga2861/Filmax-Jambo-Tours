@@ -1100,23 +1100,14 @@ body.light-mode #profileModalClose:hover {
   filter: brightness(0.42) saturate(0.75);
 }
 
-@keyframes hcTextFadeOut {
-  0%   { opacity: 1; }
-  60%  { opacity: 1; }
-  100% { opacity: 0; pointer-events: none; }
-}
 .hc-fade-text {
-  animation: hcTextFadeOut 4.5s ease forwards;
-}
-/* Stagger cards */
-.highlight-card:nth-child(2) .hc-fade-text { animation-delay: 0.4s; }
-.highlight-card:nth-child(3) .hc-fade-text { animation-delay: 0.8s; }
-
-/* Fade text back in on hover */
-.highlight-card:hover .hc-fade-text {
-  animation: none;
   opacity: 1;
-  transition: opacity 0.4s ease;
+  transition: filter 0.35s ease;
+}
+
+/* Brightness lift on hover */
+.highlight-card:hover .hc-fade-text {
+  filter: brightness(1.1);
 }
 
 body.light-mode .hc-bg {
@@ -2736,6 +2727,13 @@ nav.scrolled .nav-brand-idle {
   100% { background-position: 200% center; }
 }
 
+@keyframes dsTaglineShine {
+  0%   { background-position: 200% center; filter: brightness(1); }
+  40%  { background-position: -20% center; filter: brightness(1.35); }
+  65%  { background-position: -20% center; filter: brightness(1.35); }
+  100% { background-position: 200% center; filter: brightness(1); }
+}
+
   .btn-primary {
     font-family: 'Jost', sans-serif;
     font-size: 11px;
@@ -3251,24 +3249,24 @@ nav.scrolled .nav-brand-idle {
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(14px, 1.5vw, 17px);
     font-style: italic;
-    color: var(--muted);
+    color: #ffffff;
     margin-bottom: 24px;
     background: linear-gradient(
     90deg,
-    #8a8074 0%,
-    #8a8074 25%,
-    #f0ece4 45%,
+    #e8e0d0 0%,
+    #ffffff 25%,
+    #ffffff 45%,
     #ffffff 50%,
-    #f0ece4 55%,
-    #8a8074 75%,
-    #8a8074 100%
+    #ffffff 55%,
+    #ffffff 75%,
+    #e8e0d0 100%
   );
   background-size: 300% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   background-position: 200% center;
-  animation: subtitleShine 5s 1.5s ease-in-out infinite;
+  animation: dsTaglineShine 5s 1.5s ease-in-out infinite;
     line-height: 1.6;
     transform: translateY(12px);
     opacity: 0;
@@ -6619,7 +6617,7 @@ body.light-mode .pkg-cta:hover {
     <p class="hero-subtitle">The wild calls, will you answer?</p>
     <div class="hero-actions">
       <a href="#packages" class="btn-primary">Book Your Safari</a>
-      <a href="#wildlife" class="btn-ghost">Explore Experiences</a>
+      <a href="#wildlife" class="btn-ghost">Explore Destinations</a>
     </div>
   </div>
 
@@ -6753,7 +6751,7 @@ body.light-mode .pkg-cta:hover {
           <h2 class="ds-slide-title">Maasai Mara</h2>
           <p class="ds-slide-tagline">Where the Great Migration rewrites the laws of nature every year.</p>
           <a href="packages.html?destination=maasai-mara" class="ds-slide-btn">
-            <svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M1 4h12M8.5 1L12 4l-3.5 3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Destination Packages
           </a>
         </div>
       </div>
@@ -6773,7 +6771,7 @@ body.light-mode .pkg-cta:hover {
           <h2 class="ds-slide-title">Diani Beach</h2>
           <p class="ds-slide-tagline">Ivory sands, turquoise waters, and the warmth of coastal Kenya.</p>
           <a href="packages.html?destination=diani-beach" class="ds-slide-btn">
-            <svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M1 4h12M8.5 1L12 4l-3.5 3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Destination Packages
           </a>
         </div>
       </div>
@@ -6793,7 +6791,7 @@ body.light-mode .pkg-cta:hover {
           <h2 class="ds-slide-title">Amboseli</h2>
           <p class="ds-slide-tagline">Kilimanjaro at dawn, elephant herds at dusk — pure iconic Africa.</p>
           <a href="packages.html?destination=amboseli" class="ds-slide-btn">
-            <svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M1 4h12M8.5 1L12 4l-3.5 3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Destination Packages
           </a>
         </div>
       </div>
@@ -6813,7 +6811,7 @@ body.light-mode .pkg-cta:hover {
           <h2 class="ds-slide-title">Lake Nakuru</h2>
           <p class="ds-slide-tagline">Hippos at the water's edge, flamingos on the horizon, silence all around.</p>
            <a href="packages.html?destination=lake-nakuru" class="ds-slide-btn">
-            <svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M1 4h12M8.5 1L12 4l-3.5 3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Destination Packages
           </a>
         </div>
       </div>
@@ -6833,7 +6831,7 @@ body.light-mode .pkg-cta:hover {
           <h2 class="ds-slide-title">Mount Kenya</h2>
           <p class="ds-slide-tagline">Africa's second peak — ancient glaciers, cedar forests, rare mountain wildlife.</p>
           <a href="packages.html?destination=mount-kenya" class="ds-slide-btn">
-            <svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M1 4h12M8.5 1L12 4l-3.5 3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Destination Packages
           </a>
         </div>
       </div>
