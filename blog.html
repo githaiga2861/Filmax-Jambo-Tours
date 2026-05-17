@@ -137,6 +137,19 @@ body.light-mode .nav-back:hover { color: #9a6f00; }
 body.light-mode .nav-back::before { background: #5e5040; }
 body.light-mode .nav-back:hover::before { background: #9a6f00; }
 body.light-mode .nav-logo-img { filter: drop-shadow(0 0 8px rgba(184,134,11,0.5)); }
+/* Match index.html light-mode font weight and text-fill rules */
+body.light-mode * { font-weight: 500 !important; }
+body.light-mode h1, body.light-mode h2, body.light-mode h3, body.light-mode h4 { font-weight: 700; }
+body.light-mode .section-title { color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 700; background: none !important; -webkit-background-clip: unset !important; }
+body.light-mode .section-label { color: #9a6f00 !important; }
+body.light-mode .blog-post-card-title { color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 700; }
+body.light-mode .blog-post-card:hover .blog-post-card-title { color: #9a6f00 !important; -webkit-text-fill-color: #9a6f00 !important; }
+body.light-mode .blog-post-card-excerpt { color: #1a1a1a !important; -webkit-text-fill-color: #1a1a1a !important; font-weight: 500; }
+body.light-mode .blog-post-card-date { color: #5e5040 !important; font-weight: 500; }
+body.light-mode .blog-filter-btn { color: #1a1a1a !important; font-weight: 600; }
+body.light-mode .blog-filter-btn.active { color: #9a6f00 !important; font-weight: 700; }
+body.light-mode footer span, body.light-mode footer p { color: #333333 !important; -webkit-text-fill-color: #333333 !important; font-weight: 500; }
+body.light-mode .gold-line span { color: #5e5040 !important; font-weight: 500; }
 
 .site-hint { position: absolute; z-index: 99980; max-width: 240px; width: max-content; background: rgba(10,10,10,0.94); border: 1px solid rgba(212,175,55,0.4); backdrop-filter: blur(18px); padding: 12px 32px 12px 14px; pointer-events: all; cursor: none; box-shadow: 0 8px 32px rgba(0,0,0,0.6); animation: hintSlideIn 0.45s cubic-bezier(0.22,1,0.36,1) forwards; }
 body.light-mode .site-hint { background: rgba(240,236,228,0.97); border-color: rgba(154,111,0,0.45); box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
