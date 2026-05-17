@@ -1716,7 +1716,39 @@ body.light-mode .quiz-enter-btn:hover {
     border-color: rgba(184,134,11,0.25);
   }
 
-  body.light-mode .quiz-top-line {
+  /* Testimonial locked container — light mode grey match */
+body.light-mode .testimonial-locked-container {
+  background: #d8d4cc !important;
+  border: 1px solid rgba(0,0,0,0.1) !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+body.light-mode .testimonial-locked-container button.btn-primary-gold {
+  background: linear-gradient(135deg, #e8c84a, #d4af37) !important;
+  color: #080808 !important;
+  -webkit-text-fill-color: #080808 !important;
+  filter: brightness(1.12) saturate(1.2) !important;
+  box-shadow: 0 8px 28px rgba(212,175,55,0.4) !important;
+}
+body.light-mode .testimonial-locked-container button[onclick*="signin"] {
+  background: linear-gradient(135deg, #e8c84a, #d4af37) !important;
+  color: #080808 !important;
+  box-shadow: 0 8px 28px rgba(212,175,55,0.4) !important;
+}
+body.light-mode .testimonial-locked-container button[onclick*="signup"] {
+  background: transparent !important;
+  color: #7a5500 !important;
+  border-color: rgba(122,85,0,0.5) !important;
+}
+body.light-mode .testimonial-locked-container > div[style*="32px"] {
+  color: var(--gold) !important;
+}
+body.light-mode .testimonial-locked-container > div[style*="22px"] {
+  color: #0a0a0a !important;
+}
+body.light-mode .testimonial-locked-container p {
+  color: #2a2a2a !important;
+}
+body.light-mode .quiz-top-line {
     background: linear-gradient(to right, transparent, var(--gold), transparent);
   }
 
@@ -7261,7 +7293,7 @@ body.light-mode .pkg-cta:hover {
     </div>
   </div>
 
-    <div id="testimonialFormLocked" style="text-align:center;max-width:600px;margin:48px auto 0;padding:44px 40px;border:1px solid rgba(212,175,55,0.12);position:relative;background:rgba(13,13,13,0.6);">
+    <div id="testimonialFormLocked" style="text-align:center;max-width:600px;margin:48px auto 0;padding:44px 40px;border:1px solid rgba(212,175,55,0.12);position:relative;background:rgba(13,13,13,0.6);" class="testimonial-locked-container">
       <div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,0.4),transparent);"></div>
       <div style="font-size:32px;margin-bottom:16px;">✦</div>
       <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:10px;">Share Your Safari Experience</div>
@@ -7537,7 +7569,7 @@ body.light-mode .pkg-cta:hover {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: eyebrowShine 4s 1s ease-in-out infinite;
+    animation: eyebrowShine 4s 1s ease-in-out infinite, cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite 0.5s;
     transform: translateY(14px);
     opacity: 0;
     transition: opacity 0.6s 0.3s ease, transform 0.6s 0.3s ease;
@@ -7553,6 +7585,7 @@ body.light-mode .pkg-cta:hover {
     transform: translateY(20px);
     opacity: 0;
     transition: opacity 0.7s 0.55s ease, transform 0.7s 0.55s ease;
+    animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite 1s;
   }
   .gsl-slide.gsl-active .gsl-title { opacity: 1; transform: translateY(0); }
   .gsl-sub {
@@ -7566,7 +7599,7 @@ body.light-mode .pkg-cta:hover {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: subtitleShine 5s 1.5s ease-in-out infinite;
+    animation: subtitleShine 5s 1.5s ease-in-out infinite, cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite 1.5s;
     transform: translateY(12px);
     opacity: 0;
     transition: opacity 0.6s 0.75s ease, transform 0.6s 0.75s ease;
@@ -9626,56 +9659,77 @@ body.light-mode .pkg-cta:hover {
   document.addEventListener('DOMContentLoaded',function(){window.scrollTo(0,0);});
   window.addEventListener('load',function(){window.scrollTo(0,0);});
 
-  // Hero logo scroll-to-nav animation
+  // Hero logo scroll-to-nav animation — single source of truth
+  // Nav logo is ALWAYS hidden until JS explicitly shows it after flight
+  if(navLogoLink){
+    navLogoLink.style.opacity='0';
+    navLogoLink.style.visibility='hidden';
+    navLogoLink.style.pointerEvents='none';
+  }
+
   let hasFlown=false, heroStartRect=null;
-  window.addEventListener('load',function(){
-    if(heroLogoEl) heroStartRect=heroLogoEl.getBoundingClientRect();
-    // On hard refresh, if already scrolled, hide hero logo immediately
-    if(window.scrollY>80){
-      if(heroLogoEl) heroLogoEl.style.opacity='0';
-      if(navLogoLink){ navLogoLink.style.opacity='1'; navLogoLink.style.visibility='visible'; navLogoLink.style.pointerEvents='all'; }
+
+  function syncLogoState(scrollY, animate){
+    if(navIdleWords) navIdleWords.style.opacity = scrollY>80 ? '0' : '1';
+
+    if(scrollY>80 && !hasFlown){
       hasFlown=true;
-    }
-  });
-  window.addEventListener('scroll',function(){
-    const scrollY=window.scrollY;
-    if(navIdleWords){navIdleWords.style.opacity=scrollY>80?'0':'1';}
-    if(scrollY>80&&!hasFlown&&heroLogoEl&&navLogoLink){
-      hasFlown=true;
-      const currentHeroRect=heroLogoEl.getBoundingClientRect();
-      // Hide hero logo immediately so two logos never coexist
-      heroLogoEl.style.opacity='0';
-      heroLogoEl.style.pointerEvents='none';
-      const navRect=navLogoLink.getBoundingClientRect();
-      const targetHeight=navRect.height*0.85;
-      const targetWidth=targetHeight*((heroStartRect||currentHeroRect).width/(heroStartRect||currentHeroRect).height);
-      const clone=heroLogoEl.cloneNode(true);
-      clone.removeAttribute('id');
-      clone.style.cssText='position:fixed;top:'+currentHeroRect.top+'px;left:'+currentHeroRect.left+'px;width:'+currentHeroRect.width+'px;height:'+currentHeroRect.height+'px;opacity:1;z-index:9997;pointer-events:none;margin:0;transition:none;';
-      document.body.appendChild(clone);
-      requestAnimationFrame(function(){requestAnimationFrame(function(){
-        clone.style.transition='top 0.65s cubic-bezier(0.76,0,0.24,1),left 0.65s cubic-bezier(0.76,0,0.24,1),width 0.65s cubic-bezier(0.76,0,0.24,1),height 0.65s cubic-bezier(0.76,0,0.24,1),opacity 0.3s ease 0.45s';
-        clone.style.top=(navRect.top+(navRect.height-targetHeight)/2)+'px';
-        clone.style.left=navRect.left+'px';
-        clone.style.width=targetWidth+'px';
-        clone.style.height=targetHeight+'px';
-      });});
-      setTimeout(function(){
-        clone.style.opacity='0';
+      // Immediately hide hero logo — only one logo ever visible
+      if(heroLogoEl){ heroLogoEl.style.opacity='0'; heroLogoEl.style.pointerEvents='none'; }
+
+      if(!animate){
+        // Instant — no clone, just reveal nav logo
+        if(navLogoLink){
+          navLogoLink.style.visibility='visible';
+          navLogoLink.style.opacity='1';
+          navLogoLink.style.pointerEvents='all';
+        }
+        return;
+      }
+
+      // Animated flight: clone from hero position to nav position
+      const currentRect = heroLogoEl ? heroLogoEl.getBoundingClientRect() : null;
+      const navRect     = navLogoLink ? navLogoLink.getBoundingClientRect() : null;
+      if(currentRect && navRect && heroLogoEl){
+        const tH = navRect.height * 0.85;
+        const tW = tH * ((heroStartRect||currentRect).width / Math.max((heroStartRect||currentRect).height,1));
+        const clone = heroLogoEl.cloneNode(true);
+        clone.removeAttribute('id');
+        clone.style.cssText = 'position:fixed;top:'+(currentRect.top)+'px;left:'+(currentRect.left)+'px;width:'+(currentRect.width)+'px;height:'+(currentRect.height)+'px;opacity:1;z-index:9997;pointer-events:none;margin:0;transition:none;animation:none;';
+        document.body.appendChild(clone);
+        requestAnimationFrame(function(){ requestAnimationFrame(function(){
+          clone.style.transition='top 0.6s cubic-bezier(0.76,0,0.24,1),left 0.6s cubic-bezier(0.76,0,0.24,1),width 0.6s cubic-bezier(0.76,0,0.24,1),height 0.6s cubic-bezier(0.76,0,0.24,1),opacity 0.25s ease 0.45s';
+          clone.style.top  = (navRect.top + (navRect.height - tH)/2) + 'px';
+          clone.style.left = navRect.left + 'px';
+          clone.style.width  = tW + 'px';
+          clone.style.height = tH + 'px';
+          clone.style.opacity = '0';
+        }); });
         setTimeout(function(){
           clone.remove();
-          navLogoLink.style.opacity='1';
-          navLogoLink.style.visibility='visible';
-          navLogoLink.style.pointerEvents='all';
-        },300);
-      },650);
+          if(navLogoLink){ navLogoLink.style.visibility='visible'; navLogoLink.style.opacity='1'; navLogoLink.style.pointerEvents='all'; }
+        }, 680);
+      } else {
+        if(navLogoLink){ navLogoLink.style.visibility='visible'; navLogoLink.style.opacity='1'; navLogoLink.style.pointerEvents='all'; }
+      }
     }
-    if(scrollY<=80&&hasFlown){
+
+    if(scrollY<=80 && hasFlown){
       hasFlown=false;
       if(navLogoLink){ navLogoLink.style.opacity='0'; navLogoLink.style.visibility='hidden'; navLogoLink.style.pointerEvents='none'; }
       if(heroLogoEl){ heroLogoEl.style.opacity='1'; heroLogoEl.style.pointerEvents=''; }
     }
+  }
+
+  window.addEventListener('load', function(){
+    if(heroLogoEl) heroStartRect = heroLogoEl.getBoundingClientRect();
+    // On refresh-while-scrolled: instant snap, no animation
+    syncLogoState(window.scrollY, false);
   });
+
+  window.addEventListener('scroll', function(){
+    syncLogoState(window.scrollY, true);
+  }, { passive: true });
 })();
 
 // ===========================
