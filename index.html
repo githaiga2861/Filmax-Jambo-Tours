@@ -1127,11 +1127,12 @@ body.light-mode .hc-bg {
 
   /* Highlight card text — always light on the browned image */
   body.light-mode .highlight-card .card-number {
-    background: var(--gold);
+    background: #d4af37;
     -webkit-background-clip: text !important;
     background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     filter: brightness(1.15) !important;
+    animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite;
   }
 
   body.light-mode .highlight-card .card-title {
