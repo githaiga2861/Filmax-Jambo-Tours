@@ -3178,31 +3178,47 @@ body.light-mode .auth-select option { background:#f4f0e8;color:#0a0a0a; }
   };
 
   function showToast(text) {
+    // Remove any existing toast first — prevents stacking
+    var existing = document.getElementById('fj-pkg-toast');
+    if (existing) existing.remove();
     var t = document.createElement('div');
-    t.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:99999;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;font-family:Jost,sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:18px 40px;box-shadow:0 8px 40px rgba(212,175,55,0.5);opacity:0;transition:opacity 0.4s ease;white-space:nowrap;';
+    t.id = 'fj-pkg-toast';
+    t.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:99999;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;font-family:Jost,sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:18px 40px;box-shadow:0 8px 24px rgba(212,175,55,0.35);opacity:0;transition:opacity 0.4s ease;white-space:nowrap;pointer-events:none;';
     t.textContent = text;
     document.body.appendChild(t);
     requestAnimationFrame(function(){ t.style.opacity = '1'; });
-    setTimeout(function(){ t.style.opacity = '0'; setTimeout(function(){ t.remove(); }, 400); }, 2600);
+    setTimeout(function(){ t.style.opacity = '0'; setTimeout(function(){ if(t.parentNode) t.remove(); }, 400); }, 2800);
   }
 
   // ── INIT SESSION ────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', function() {
     var supa = getSupa(); if (!supa) return;
 
+    // Track whether a session already existed when this page loaded
+    var _hadSessionOnLoad = false;
+
     supa.auth.getSession().then(function(res) {
       if (res.data && res.data.session && res.data.session.user) {
+        _hadSessionOnLoad = true;
         updateNavForUser(res.data.session.user);
       }
     });
 
     supa.auth.onAuthStateChange(function(event, session) {
       updateNavForUser(session ? session.user : null);
-      if (event === 'SIGNED_IN' && session && !window._fjSigningInViaForm) {
+      // Only toast on a FRESH sign-in that happened on THIS page —
+      // never on session restore from a previous page
+      if (event === 'SIGNED_IN' && !_hadSessionOnLoad && session && !window._fjSigningInViaForm) {
+        _hadSessionOnLoad = true;
         var m = session.user.user_metadata || {};
-        var name = m.first_name || (m.full_name ? m.full_name.split(' ')[0] : '') || 'Explorer';
-        showToast('✓ Welcome back, ' + name + '!');
+        var name = m.first_name
+          || (m.full_name ? m.full_name.split(' ')[0] : '')
+          || (m.name      ? m.name.split(' ')[0]      : '')
+          || 'Explorer';
+        var isNew = session.user.created_at && (Date.now() - new Date(session.user.created_at).getTime()) < 10000;
+        showToast(isNew ? '✓ Welcome, ' + name + '!' : '✓ Welcome back, ' + name + '!');
       }
+      if (event === 'SIGNED_IN') _hadSessionOnLoad = true;
     });
 
     // Close auth modal on backdrop click
