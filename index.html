@@ -6715,6 +6715,12 @@ body.light-mode .pkg-cta:hover {
     <div class="scroll-line"></div>
   </div>
 
+  <!-- Ambient hero audio -->
+  <audio id="heroAudio" loop preload="auto" style="display:none;">
+    <source src="assets/hero-ambient.mp3" type="audio/mpeg">
+    <source src="assets/hero-ambient.ogg" type="audio/ogg">
+  </audio>
+
   <!-- Sound toggle -->
   <button id="heroSoundBtn" aria-label="Toggle sound" style="
     position:absolute;
@@ -10698,40 +10704,47 @@ document.addEventListener('DOMContentLoaded',function(){
 
 })();
 // ===========================
-// HERO VIDEO SOUND TOGGLE
+// HERO AMBIENT SOUND TOGGLE
 // ===========================
 (function(){
-  var btn = document.getElementById('heroSoundBtn');
-  var video = document.querySelector('.hero-video');
+  var btn       = document.getElementById('heroSoundBtn');
+  var audio     = document.getElementById('heroAudio');
   var iconMuted = document.getElementById('heroIconMuted');
   var iconSound = document.getElementById('heroIconSound');
-  if(!btn || !video) return;
+  if(!btn || !audio) return;
+
+  var playing = false;
+
+  function setMuted(){
+    audio.pause();
+    playing = false;
+    iconMuted.style.display = 'block';
+    iconSound.style.display = 'none';
+    btn.style.borderColor   = 'rgba(212,175,55,0.4)';
+    btn.style.background    = 'rgba(8,8,8,0.55)';
+  }
+
+  function setPlaying(){
+    audio.volume = 0.45;
+    audio.play().catch(function(){
+      // Browser still blocked — show muted state
+      setMuted();
+    });
+    playing = true;
+    iconMuted.style.display = 'none';
+    iconSound.style.display = 'block';
+    btn.style.borderColor   = 'rgba(212,175,55,0.85)';
+    btn.style.background    = 'rgba(212,175,55,0.12)';
+  }
 
   btn.addEventListener('click', function(){
-    if(video.muted){
-      video.muted = false;
-      video.volume = 0.45;
-      iconMuted.style.display = 'none';
-      iconSound.style.display = 'block';
-      btn.style.borderColor = 'rgba(212,175,55,0.85)';
-      btn.style.background  = 'rgba(212,175,55,0.12)';
-    } else {
-      video.muted = true;
-      iconMuted.style.display = 'block';
-      iconSound.style.display = 'none';
-      btn.style.borderColor = 'rgba(212,175,55,0.4)';
-      btn.style.background  = 'rgba(8,8,8,0.55)';
-    }
+    playing ? setMuted() : setPlaying();
   });
 
-  // If user scrolls past hero, mute automatically and reset icon
+  // Auto-pause when user scrolls past hero
   window.addEventListener('scroll', function(){
-    if(window.scrollY > window.innerHeight * 0.8 && !video.muted){
-      video.muted = true;
-      iconMuted.style.display = 'block';
-      iconSound.style.display = 'none';
-      btn.style.borderColor = 'rgba(212,175,55,0.4)';
-      btn.style.background  = 'rgba(8,8,8,0.55)';
+    if(playing && window.scrollY > window.innerHeight * 0.8){
+      setMuted();
     }
   }, { passive:true });
 })();
