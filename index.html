@@ -8848,7 +8848,9 @@ body.light-mode .pkg-cta:hover {
     const btn = document.getElementById('siSubmitBtn');
     if (btn) { btn.textContent = 'Signing in…'; btn.disabled = true; }
     try {
-      const { data, error } = await supa.auth.signInWithPassword({ email, password: pass });
+      window._fjSigningInViaForm = true;
+    const { data, error } = await supa.auth.signInWithPassword({ email, password: pass });
+    setTimeout(function(){ window._fjSigningInViaForm = false; }, 200);
       if (error) {
         // Distinguish "invalid credentials" from "user not found"
         const msg = (error.message || '').toLowerCase();
@@ -9203,12 +9205,29 @@ body.light-mode .pkg-cta:hover {
     const supa = getSupabase();
     if (!supa) return;
 
+    var _hadSessionOnLoad = false;
     supa.auth.getSession().then(function(res) {
-      if (res.data?.session?.user) updateNavForUser(res.data.session.user);
+      if (res.data?.session?.user) {
+        _hadSessionOnLoad = true;
+        updateNavForUser(res.data.session.user);
+      }
     });
 
     supa.auth.onAuthStateChange(function(event, session) {
       updateNavForUser(session?.user || null);
+      if (event === 'SIGNED_IN' && !_hadSessionOnLoad && session?.user && !window._fjSigningInViaForm) {
+        _hadSessionOnLoad = true;
+        var m = session.user.user_metadata || {};
+        var name = m.first_name || (m.full_name ? m.full_name.split(' ')[0] : '') || (m.name ? m.name.split(' ')[0] : '') || 'Explorer';
+        var isNew = session.user.created_at && (Date.now() - new Date(session.user.created_at).getTime()) < 10000;
+        var toast = document.createElement('div');
+        toast.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:99999;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;font-family:Jost,sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:18px 40px;box-shadow:0 8px 40px rgba(212,175,55,0.5);opacity:0;transition:opacity 0.4s ease;white-space:nowrap;';
+        toast.textContent = isNew ? '✓ Welcome to Filmax Jambo Tours, ' + name + '!' : '✓ Welcome back, ' + name + '!';
+        document.body.appendChild(toast);
+        requestAnimationFrame(function(){ toast.style.opacity = '1'; });
+        setTimeout(function(){ toast.style.opacity = '0'; setTimeout(function(){ toast.remove(); }, 400); }, 3500);
+      }
+      if (event === 'SIGNED_IN') _hadSessionOnLoad = true;
     });
 
     // Close modal on overlay click
