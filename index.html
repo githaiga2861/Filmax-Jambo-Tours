@@ -8892,6 +8892,8 @@ body.light-mode .pkg-cta:hover {
         document.body.appendChild(toast);
         requestAnimationFrame(function(){ toast.style.opacity='1'; });
         setTimeout(function(){ toast.style.opacity='0'; setTimeout(function(){toast.remove();},400); },2400);
+        // Open profile modal after auth modal finishes closing
+        setTimeout(function(){ if(window._fjCurrentUser) window._openProfile(); }, 520);
       }, 1200);
     } catch(e) {
       showMsgSignin('error', e.message || 'Sign in failed. Please try again.');
@@ -9086,13 +9088,23 @@ body.light-mode .pkg-cta:hover {
             }, { onConflict: 'id' });
           } catch(e) { console.warn('Profile insert error:', e); }
         }
-        showMsgSignup('success', '✓ Account created! Check your email to confirm, then sign in.');
-        // Auto-switch to sign in after 2s
-        setTimeout(function(){
-          window._switchAuthTab('signin');
-          var siEmail = document.getElementById('siEmail');
-          if (siEmail) siEmail.value = email;
-        }, 2200);
+        // If Supabase returned a session (no email confirmation required), sign in and open profile
+        if (data.session) {
+          updateNavForUser(data.user);
+          showMsgSignup('success', '✓ Account created! Welcome to Filmax Jambo Tours.');
+          setTimeout(function(){
+            window._closeAuth();
+            setTimeout(function(){ if(window._fjCurrentUser) window._openProfile(); }, 520);
+          }, 1200);
+        } else {
+          // Email confirmation required — prompt user to confirm then sign in
+          showMsgSignup('success', '✓ Account created! Check your email to confirm, then sign in.');
+          setTimeout(function(){
+            window._switchAuthTab('signin');
+            var siEmail = document.getElementById('siEmail');
+            if (siEmail) siEmail.value = email;
+          }, 2200);
+        }
       }
     } catch(e) {
   console.error(e);
