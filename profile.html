@@ -39,7 +39,7 @@ body{
   background:var(--black);
   color:var(--text);
   font-family:'Jost',sans-serif;
-  font-weight:400;
+  font-weight:500;
   min-height:100vh;
   overflow-x:hidden;
   cursor:none;
@@ -87,7 +87,7 @@ body{
 }
 .sb-brand-text{display:flex;flex-direction:column;gap:1px;}
 .sb-brand-name{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--text);}
-.sb-brand-sub{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(212,175,55,0.6);}
+.sb-brand-sub{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(212,175,55,0.7);font-weight:600;}
 
 .sb-user{
   padding:24px 28px 20px;
@@ -118,7 +118,7 @@ body{
 }
 .sb-avatar:hover .sb-avatar-upload{opacity:1;}
 .sb-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px;}
-.sb-email{font-size:10px;letter-spacing:1px;color:var(--muted);margin-bottom:12px;}
+.sb-email{font-size:10px;letter-spacing:1px;color:var(--muted);margin-bottom:12px;font-weight:600;}
 .sb-tier{
   display:inline-flex;align-items:center;gap:6px;
   padding:5px 12px;
@@ -132,15 +132,15 @@ body{
 .sb-nav-group{margin-bottom:8px;}
 .sb-nav-label{
   font-size:8px;letter-spacing:5px;text-transform:uppercase;
-  color:rgba(138,128,116,0.45);
+  color:rgba(138,128,116,0.65);
   padding:10px 28px 6px;
   font-weight:700;
 }
 .sb-nav-item{
   display:flex;align-items:center;gap:12px;
   padding:11px 28px;
-  font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;
-  color:var(--muted);
+  font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,0.85);
   text-decoration:none;cursor:none;
   transition:color .25s,background .25s;
   position:relative;
@@ -281,7 +281,8 @@ body{
 .hero-info{flex:1;}
 .hero-eyebrow{
   font-size:9px;letter-spacing:5px;text-transform:uppercase;
-  color:rgba(212,175,55,0.7);display:block;margin-bottom:8px;
+  color:rgba(212,175,55,0.85);display:block;margin-bottom:8px;
+  font-weight:700;
 }
 .hero-name{
   font-family:'Playfair Display',serif;
@@ -292,13 +293,14 @@ body{
 .hero-badge{
   display:inline-flex;align-items:center;gap:6px;
   padding:5px 14px;
-  border:1px solid rgba(212,175,55,0.35);
-  background:rgba(212,175,55,0.08);
-  font-size:8px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);
+  border:1px solid rgba(212,175,55,0.45);
+  background:rgba(212,175,55,0.12);
+  font-size:8px;font-weight:800;letter-spacing:4px;text-transform:uppercase;color:var(--gold);
 }
 .hero-meta-item{
-  font-size:10px;letter-spacing:2px;color:var(--muted);
+  font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.85);
   display:flex;align-items:center;gap:6px;
+  font-weight:600;
 }
 .hero-meta-item::before{content:'';width:1px;height:10px;background:var(--border);}
 .hero-meta-item:first-child::before{display:none;}
@@ -310,7 +312,8 @@ body{
 .loyalty-label{
   display:flex;justify-content:space-between;
   font-size:8px;letter-spacing:3px;text-transform:uppercase;
-  color:var(--muted);margin-bottom:6px;
+  color:rgba(255,255,255,0.8);margin-bottom:6px;
+  font-weight:600;
 }
 .loyalty-bar{height:2px;background:rgba(212,175,55,0.12);position:relative;overflow:visible;}
 .loyalty-fill{
@@ -331,8 +334,8 @@ body{
   color:var(--gold);line-height:1;
 }
 .loyalty-pts span{
-  font-family:'Jost',sans-serif;font-size:8px;font-weight:600;
-  letter-spacing:3px;text-transform:uppercase;color:var(--muted);
+  font-family:'Jost',sans-serif;font-size:8px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.8);
   display:block;margin-top:2px;
 }
 
@@ -367,7 +370,8 @@ body{
 .section-head-left{flex:1;}
 .section-eyebrow{
   font-size:8px;letter-spacing:5px;text-transform:uppercase;
-  color:rgba(212,175,55,0.6);display:block;margin-bottom:6px;
+  color:rgba(212,175,55,0.85);display:block;margin-bottom:6px;
+  font-weight:700;
 }
 .section-title{
   font-family:'Playfair Display',serif;
@@ -416,9 +420,9 @@ body{
 }
 .stat-label{
   font-size:9px;letter-spacing:3px;text-transform:uppercase;
-  color:var(--muted);font-weight:600;
+  color:rgba(255,255,255,0.85);font-weight:700;
 }
-.stat-sub{font-size:11px;color:rgba(138,128,116,0.6);margin-top:6px;font-style:italic;font-family:'Cormorant Garamond',serif;}
+.stat-sub{font-size:11px;color:rgba(200,190,170,0.75);margin-top:6px;font-style:italic;font-family:'Cormorant Garamond',serif;font-weight:500;}
 
 /* ── FORM FIELDS ── */
 .form-card{
@@ -447,7 +451,7 @@ body{
 }
 .form-label{
   font-size:8px;letter-spacing:4px;text-transform:uppercase;
-  color:rgba(212,175,55,0.55);font-weight:700;margin-bottom:8px;
+  color:rgba(212,175,55,0.85);font-weight:700;margin-bottom:8px;
 }
 .form-input{
   background:transparent;border:none;
@@ -509,7 +513,8 @@ select.form-input{appearance:none;cursor:none;background:transparent;}
 }
 .pref-card-desc{
   font-family:'Cormorant Garamond',serif;
-  font-size:13px;font-style:italic;color:var(--muted);line-height:1.6;
+  font-size:13px;font-style:italic;color:rgba(255,255,255,0.82);line-height:1.6;
+  font-weight:500;
 }
 .pref-check{
   width:18px;height:18px;
@@ -546,16 +551,17 @@ select.form-input{appearance:none;cursor:none;background:transparent;}
 .booking-tag{
   font-size:8px;letter-spacing:4px;text-transform:uppercase;
   color:var(--gold);display:block;margin-bottom:6px;
+  font-weight:700;
 }
 .booking-title{
   font-family:'Playfair Display',serif;
   font-size:18px;font-weight:700;color:var(--text);margin-bottom:4px;
 }
-.booking-meta{font-size:11px;color:var(--muted);letter-spacing:1px;}
+.booking-meta{font-size:11px;color:rgba(255,255,255,0.8);letter-spacing:1px;font-weight:600;}
 .booking-status{
   flex-shrink:0;
   padding:6px 16px;
-  font-size:8px;letter-spacing:3px;text-transform:uppercase;font-weight:700;
+  font-size:8px;letter-spacing:3px;text-transform:uppercase;font-weight:800;
 }
 .status-upcoming{background:rgba(123,181,110,0.12);border:1px solid rgba(123,181,110,0.3);color:#7bb56e;}
 .status-past{background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.2);color:var(--gold);}
@@ -583,6 +589,7 @@ select.form-input{appearance:none;cursor:none;background:transparent;}
 .rec-tag{
   font-size:8px;letter-spacing:4px;text-transform:uppercase;
   color:var(--gold);display:block;margin-bottom:8px;
+  font-weight:700;
 }
 .rec-title{
   font-family:'Playfair Display',serif;
@@ -591,14 +598,15 @@ select.form-input{appearance:none;cursor:none;background:transparent;}
 }
 .rec-desc{
   font-family:'Cormorant Garamond',serif;
-  font-size:14px;font-style:italic;color:var(--muted);
+  font-size:14px;font-style:italic;color:rgba(255,255,255,0.85);
   line-height:1.65;margin-bottom:16px;
+  font-weight:500;
 }
 .rec-price{
   font-family:'Cormorant Garamond',serif;
   font-size:20px;font-weight:600;color:var(--gold);
 }
-.rec-price span{font-family:'Jost',sans-serif;font-size:10px;color:var(--muted);}
+.rec-price span{font-family:'Jost',sans-serif;font-size:10px;color:rgba(255,255,255,0.75);font-weight:600;}
 
 /* ── LOYALTY TIER ── */
 .tier-track{
@@ -627,12 +635,13 @@ select.form-input{appearance:none;cursor:none;background:transparent;}
 .tier-icon{font-size:22px;}
 .tier-name{
   font-size:8px;letter-spacing:4px;text-transform:uppercase;
-  color:var(--muted);font-weight:700;
+  color:rgba(255,255,255,0.8);font-weight:700;
 }
 .tier-node.tier-active .tier-name{color:var(--gold);}
 .tier-pts{
   font-family:'Playfair Display',serif;font-size:14px;
-  color:rgba(138,128,116,0.5);
+  color:rgba(200,190,170,0.75);
+  font-weight:500;
 }
 .tier-node.tier-active .tier-pts{color:var(--gold);}
 
@@ -659,6 +668,7 @@ select.form-input{appearance:none;cursor:none;background:transparent;}
 .concierge-role{
   font-size:8px;letter-spacing:4px;text-transform:uppercase;
   color:var(--gold);display:block;margin-bottom:6px;
+  font-weight:700;
 }
 .concierge-name{
   font-family:'Playfair Display',serif;font-size:22px;font-weight:700;
@@ -666,7 +676,8 @@ select.form-input{appearance:none;cursor:none;background:transparent;}
 }
 .concierge-bio{
   font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;
-  color:var(--muted);line-height:1.7;margin-bottom:20px;
+  color:rgba(255,255,255,0.85);line-height:1.7;margin-bottom:20px;
+  font-weight:500;
 }
 .concierge-contact{display:flex;gap:12px;flex-wrap:wrap;}
 .cc-btn{
@@ -696,7 +707,7 @@ select.form-input{appearance:none;cursor:none;background:transparent;}
 .security-label{
   font-size:12px;font-weight:600;letter-spacing:1px;color:var(--text);margin-bottom:3px;
 }
-.security-desc{font-size:10px;color:var(--muted);letter-spacing:1px;}
+.security-desc{font-size:10px;color:rgba(255,255,255,0.75);letter-spacing:1px;font-weight:600;}
 .security-status{
   font-size:9px;letter-spacing:3px;text-transform:uppercase;font-weight:700;
   padding:5px 12px;
@@ -716,7 +727,7 @@ select.form-input{appearance:none;cursor:none;background:transparent;}
 .toggle-wrap:last-child{border-bottom:none;}
 .toggle-label-wrap{display:flex;flex-direction:column;gap:3px;}
 .toggle-label{font-size:12px;font-weight:600;letter-spacing:1px;color:var(--text);}
-.toggle-desc{font-size:10px;color:var(--muted);letter-spacing:1px;}
+.toggle-desc{font-size:10px;color:rgba(255,255,255,0.75);letter-spacing:1px;font-weight:600;}
 .toggle{
   width:44px;height:22px;
   background:rgba(138,128,116,0.2);
@@ -747,7 +758,7 @@ select.form-input{appearance:none;cursor:none;background:transparent;}
 }
 .companion-info{flex:1;}
 .companion-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px;}
-.companion-meta{font-size:10px;color:var(--muted);letter-spacing:1px;}
+.companion-meta{font-size:10px;color:rgba(255,255,255,0.78);letter-spacing:1px;font-weight:600;}
 .companion-add{
   background:var(--card);border:1px solid rgba(212,175,55,0.15);
   border-style:dashed;padding:24px;
@@ -830,7 +841,8 @@ select.form-input{appearance:none;cursor:none;background:transparent;}
 }
 .save-bar-msg{
   font-family:'Cormorant Garamond',serif;
-  font-size:15px;font-style:italic;color:var(--muted);
+  font-size:15px;font-style:italic;color:rgba(255,255,255,0.8);
+  font-weight:500;
 }
 .save-btn{
   display:inline-flex;align-items:center;gap:10px;
@@ -924,13 +936,13 @@ body.in-modal .profile-hero-content {
 .form-label {
   font-size: 9px;
   letter-spacing: 3px;
-  color: rgba(212,175,55,0.75);
+  color: rgba(212,175,55,0.9);
   font-weight: 700;
   margin-bottom: 10px;
 }
 .form-input {
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text);
   letter-spacing: 0.3px;
   line-height: 1.5;
@@ -938,9 +950,10 @@ body.in-modal .profile-hero-content {
 }
 /* Locked (read-only) state — visible but clearly inactive */
 .form-field.locked .form-input {
-  color: rgba(240,236,228,0.55);
+  color: rgba(240,236,228,0.72);
   opacity: 1;
   pointer-events: none;
+  font-weight: 500;
 }
 .form-field.locked {
   position: relative;
@@ -1156,8 +1169,22 @@ body.light-mode .sidebar{background:#f0ece4;border-right-color:rgba(0,0,0,0.1);}
 body.light-mode .form-card,body.light-mode .stat-card,body.light-mode .booking-card,
 body.light-mode .rec-card,body.light-mode .concierge-card,
 body.light-mode .companion-card,body.light-mode .pref-card{background:#e8e4dc;}
-body.light-mode .form-input{color:#0a0a0a;}
+body.light-mode .form-input{color:#0a0a0a;font-weight:600;}
 body.light-mode .save-bar{background:rgba(235,235,234,0.95);}
+body.light-mode { font-weight: 600; }
+body.light-mode .sb-nav-label { color: rgba(80,60,20,0.75) !important; }
+body.light-mode .hero-meta-item { color: rgba(10,10,10,0.85) !important; }
+body.light-mode .loyalty-label { color: rgba(10,10,10,0.75) !important; }
+body.light-mode .stat-sub { color: rgba(40,30,10,0.7) !important; }
+body.light-mode .booking-meta { color: rgba(10,10,10,0.8) !important; }
+body.light-mode .rec-desc { color: rgba(10,10,10,0.82) !important; }
+body.light-mode .concierge-bio { color: rgba(10,10,10,0.82) !important; }
+body.light-mode .toggle-desc { color: rgba(10,10,10,0.72) !important; }
+body.light-mode .security-desc { color: rgba(10,10,10,0.72) !important; }
+body.light-mode .pref-card-desc { color: rgba(10,10,10,0.78) !important; }
+body.light-mode .companion-meta { color: rgba(10,10,10,0.75) !important; }
+body.light-mode .tier-pts { color: rgba(40,30,10,0.65) !important; }
+body.light-mode .form-label { color: rgba(154,111,0,0.9) !important; }   
 </style>
 </head>
 <body>
