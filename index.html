@@ -43,7 +43,7 @@ window.addEventListener('load', function(){
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,400&family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@200;400;500;500&display=swap" rel="stylesheet">
-<link rel="preload" href="assets/landscape.webm" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="assets/landscape.webm" as="video" crossorigin="anonymous">
 <link rel="preload" as="image" href="assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.webp" fetchpriority="high">
 <style>
 /* ── GLOBAL OVERFLOW GUARD — prevents ALL horizontal scroll ── */
@@ -6722,7 +6722,6 @@ body.light-mode .pkg-cta:hover {
   <!-- Ambient hero audio -->
   <audio id="heroAudio" loop preload="auto" style="display:none;">
     <source src="assets/hero-ambient.mp3" type="audio/mpeg">
-    <source src="assets/hero-ambient.ogg" type="audio/ogg">
   </audio>
 
   <!-- Sound toggle -->
@@ -7481,7 +7480,7 @@ body.light-mode .pkg-cta:hover {
     <div class="team-grid">
      <div class="team-card reveal" data-member="filmer" style="cursor:none;">
      <div class="team-avatar">
-       <img src="assets/team-filmer.webp" alt="Filmer Mageto" onerror="this.style.display='none';this.parentNode.innerHTML='F';">
+       <img src="data:image/webp;base64," alt="Filmer Mageto" onerror="this.style.display='none';this.parentNode.innerHTML='F';">
         </div>
         <h3 class="team-name">Filmer Mageto</h3>
         <span class="team-role">Founder & Lead Guide</span>
@@ -7492,7 +7491,7 @@ body.light-mode .pkg-cta:hover {
       </div>
        <div class="team-card reveal" data-member="amara" style="transition-delay:0.1s;cursor:none;">
         <div class="team-avatar">
-          <img src="assets/team-amara.webp" alt="Amara Wanjiku" onerror="this.style.display='none';this.parentNode.innerHTML='A';">
+          <img src="data:image/webp;base64," alt="Amara Wanjiku" onerror="this.style.display='none';this.parentNode.innerHTML='A';">
         </div>
         <h3 class="team-name">Amara Wanjiku</h3>
         <span class="team-role">Safari Experience Director</span>
@@ -9517,14 +9516,22 @@ body.light-mode .pkg-cta:hover {
       });
     }
     return [
-      { name:'Mara Awakening',       price:'$2,800',  duration:'4 Days', page:'pkg-mara-awakening.html',     tier:'mid', vibe:['wildlife'],           durationKey:'short',  priceRaw:2800  },
-      { name:'Grand Odyssey',        price:'$6,500',  duration:'7 Days', page:'pkg-grand-odyssey.html',      tier:'luxury',    vibe:['wildlife','culture'],  durationKey:'medium', priceRaw:6500  },
-      { name:'Ultimate Kenya',       price:'$11,200', duration:'10 Days',page:'pkg-ultimate-kenya.html',     tier:'luxury',    vibe:['wildlife','adventure'],durationKey:'long',   priceRaw:11200 },
-      { name:'Amboseli Escape',      price:'$1,950',  duration:'3 Days', page:'pkg-amboseli-express.html',   tier:'budget',    vibe:['wildlife'],           durationKey:'short',  priceRaw:1950  },
-      { name:'Samburu Wilderness',   price:'$3,400',  duration:'5 Days', page:'pkg-samburu-secrets.html',    tier:'mid', vibe:['wildlife','adventure'],durationKey:'medium', priceRaw:3400  },
-      { name:'Coastal Safari Blend', price:'$4,200',  duration:'6 Days', page:'pkg-safari-and-sea.html',     tier:'mid', vibe:['beach','wildlife'],   durationKey:'medium', priceRaw:4200  },
-      { name:'Lakes & Highlands',    price:'$5,100',  duration:'8 Days', page:'pkg-lake-nakuru-escape.html', tier:'mid', vibe:['adventure','culture'],durationKey:'long',   priceRaw:5100  },
-      { name:'Kenya Mastery',        price:'$14,500', duration:'12 Days',page:'pkg-grand-odyssey.html',      tier:'ultra',     vibe:['wildlife','culture'],  durationKey:'grand',  priceRaw:14500 },
+      { name:'Mara Awakening',             price:'$2,800',  duration:'4 Days', page:'pkg-mara-awakening.html',          tier:'mid',    vibe:['wildlife'],              durationKey:'short',  priceRaw:2800  },
+      { name:'Grand Odyssey',              price:'$6,500',  duration:'7 Days', page:'pkg-grand-odyssey.html',           tier:'luxury', vibe:['wildlife','culture'],    durationKey:'medium', priceRaw:6500  },
+      { name:'Ultimate Kenya',             price:'$11,200', duration:'10 Days',page:'pkg-ultimate-kenya.html',          tier:'luxury', vibe:['wildlife','adventure'],  durationKey:'long',   priceRaw:11200 },
+      { name:'Amboseli Escape',            price:'$1,950',  duration:'3 Days', page:'pkg-amboseli-express.html',        tier:'budget', vibe:['wildlife'],              durationKey:'short',  priceRaw:1950  },
+      { name:'Samburu Wilderness',         price:'$3,400',  duration:'5 Days', page:'pkg-samburu-secrets.html',         tier:'mid',    vibe:['wildlife','adventure'],  durationKey:'medium', priceRaw:3400  },
+      { name:'Coastal Safari Blend',       price:'$4,200',  duration:'6 Days', page:'pkg-safari-and-sea.html',          tier:'mid',    vibe:['beach','wildlife'],      durationKey:'medium', priceRaw:4200  },
+      { name:'Lakes & Highlands',          price:'$5,100',  duration:'8 Days', page:'pkg-lake-nakuru-escape.html',      tier:'mid',    vibe:['adventure','culture'],   durationKey:'long',   priceRaw:5100  },
+      { name:'Kenya Mastery',              price:'$14,500', duration:'12 Days',page:'pkg-grand-odyssey.html',           tier:'ultra',  vibe:['wildlife','culture'],    durationKey:'grand',  priceRaw:14500 },
+      { name:'Nairobi Wild',               price:'$680',    duration:'2 Days', page:'pkg-nairobi-wild.html',            tier:'budget', vibe:['wildlife'],              durationKey:'short',  priceRaw:680   },
+      { name:"Hell's Gate Trek",           price:'$590',    duration:'2 Days', page:'pkg-hells-gate-trek.html',         tier:'budget', vibe:['adventure'],             durationKey:'short',  priceRaw:590   },
+      { name:'Lamu Archipelago',           price:'$4,200',  duration:'5 Days', page:'pkg-lamu-archipelago.html',        tier:'mid',    vibe:['beach','culture'],       durationKey:'medium', priceRaw:4200  },
+      { name:'Birding Kenya',              price:'$4,800',  duration:'6 Days', page:'pkg-birding-kenya.html',           tier:'mid',    vibe:['wildlife','adventure'],  durationKey:'medium', priceRaw:4800  },
+      { name:'Family Wild',                price:'$4,100',  duration:'6 Days', page:'pkg-family-wild.html',             tier:'mid',    vibe:['wildlife','culture'],    durationKey:'medium', priceRaw:4100  },
+      { name:'Photography Expedition',     price:'$7,400',  duration:'7 Days', page:'pkg-photography-expedition.html',  tier:'luxury', vibe:['wildlife'],              durationKey:'medium', priceRaw:7400  },
+      { name:'Private Conservancy Sojourn',price:'$14,800', duration:'6 Days', page:'pkg-private-conservancy.html',     tier:'ultra',  vibe:['wildlife'],              durationKey:'medium', priceRaw:14800 },
+      { name:'Migration Witness',          price:'$8,900',  duration:'5 Days', page:'pkg-migration-witness.html',       tier:'luxury', vibe:['wildlife'],              durationKey:'medium', priceRaw:8900  },
     ];
   }
 
@@ -9973,14 +9980,22 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a){
 // PACKAGES
 // ===========================
 var allPackages = [
-  {badge:null,        duration:'4 Days · 3 Nights',   name:'Mara<br>Awakening',      price:'$2,800',  page:'pkg-mara-awakening.html',     tier:'mid', cardBg:'assets/maasaimara.webp',   features:['Maasai Mara Game Reserve','Private 4x4 Land Cruiser','Luxury Tented Camp','Expert Naturalist Guide','All Meals Included','Sundowner Cocktails']},
-  {badge:'Most Exclusive',duration:'7 Days · 6 Nights',name:'Grand<br>Odyssey',      price:'$6,500',  page:'pkg-grand-odyssey.html',      tier:'luxury',    cardBg:'assets/jungle.webp',       features:['Mara + Amboseli + Samburu','Private Charter Flights','5-Star Lodge & Tented Camps','Sunrise Balloon Safari','Cultural Maasai Immersion','Butler & Concierge Service','All-Inclusive Premium']},
-  {badge:null,        duration:'10 Days · 9 Nights',  name:'Ultimate<br>Kenya',       price:'$11,200', page:'pkg-ultimate-kenya.html',     tier:'luxury',    cardBg:'assets/Coolelephant.webp', features:['5 Iconic National Parks','Private Conservancy Access','Exclusive Use Bush Camp','Night Safari Drives','Marine Excursion, Diani','Photography Guide Included','Bespoke Farewell Dinner']},
-  {badge:'New',       duration:'3 Days · 2 Nights',   name:'Amboseli<br>Escape',      price:'$1,950',  page:'pkg-amboseli-express.html',   tier:'budget',    cardBg:'assets/amboseli.webp',     features:['Amboseli National Park','Kilimanjaro Panorama Views','Private Game Drives','Bush Breakfast Experience','All Meals Included','Expert Naturalist Guide']},
-  {badge:null,        duration:'5 Days · 4 Nights',   name:'Samburu<br>Wilderness',   price:'$3,400',  page:'pkg-samburu-secrets.html',    tier:'mid', cardBg:'assets/maasaimen.webp',    features:['Samburu National Reserve','Rare Northern Species','Private Tented Camp','Camel Safari Experience','Cultural Village Visit','All Meals & Transfers']},
-  {badge:'Popular',   duration:'6 Days · 5 Nights',   name:'Coastal<br>Safari Blend', price:'$4,200',  page:'pkg-safari-and-sea.html',     tier:'mid', cardBg:'assets/dianibeach.webp',   features:['Tsavo East & West','Diani Beach Extension','Ocean-View Lodge','Snorkelling & Marine Park','Private Game Drives','All-Inclusive Package']},
-  {badge:null,        duration:'8 Days · 7 Nights',   name:'Lakes &<br>Highlands',    price:'$5,100',  page:'pkg-lake-nakuru-escape.html', tier:'mid', cardBg:'assets/lakenakuru.webp',   features:['Lake Nakuru & Naivasha','Aberdare Forest Walks','Flamingo Boat Excursion','Mount Kenya Foothills','Luxury Lodge Stays','All Meals & Flights']},
-  {badge:'Signature', duration:'12 Days · 11 Nights', name:'Kenya<br>Mastery',        price:'$14,500', page:'pkg-grand-odyssey.html',      tier:'luxury',    cardBg:'assets/mountkenya.webp',   features:['6 Parks & Conservancies','Private Helicopter Transfer','Exclusive Bush Camp','Hot Air Balloon Safari','Michelin-Inspired Bush Dining','Dedicated Personal Guide','Fully Bespoke Itinerary']},
+  {badge:null,        duration:'4 Days · 3 Nights',   name:'Mara<br>Awakening',             price:'$2,800',  page:'pkg-mara-awakening.html',        tier:'mid',    cardBg:'assets/maasaimara.webp',   features:['Maasai Mara Game Reserve','Private 4x4 Land Cruiser','Luxury Tented Camp','Expert Naturalist Guide','All Meals Included','Sundowner Cocktails']},
+  {badge:'Most Exclusive',duration:'7 Days · 6 Nights',name:'Grand<br>Odyssey',             price:'$6,500',  page:'pkg-grand-odyssey.html',         tier:'luxury', cardBg:'assets/jungle.webp',       features:['Mara + Amboseli + Samburu','Private Charter Flights','5-Star Lodge & Tented Camps','Sunrise Balloon Safari','Cultural Maasai Immersion','Butler & Concierge Service','All-Inclusive Premium']},
+  {badge:null,        duration:'10 Days · 9 Nights',  name:'Ultimate<br>Kenya',             price:'$11,200', page:'pkg-ultimate-kenya.html',        tier:'luxury', cardBg:'assets/Coolelephant.webp', features:['5 Iconic National Parks','Private Conservancy Access','Exclusive Use Bush Camp','Night Safari Drives','Marine Excursion, Diani','Photography Guide Included','Bespoke Farewell Dinner']},
+  {badge:'New',       duration:'3 Days · 2 Nights',   name:'Amboseli<br>Escape',            price:'$1,950',  page:'pkg-amboseli-express.html',      tier:'budget', cardBg:'assets/amboseli.webp',     features:['Amboseli National Park','Kilimanjaro Panorama Views','Private Game Drives','Bush Breakfast Experience','All Meals Included','Expert Naturalist Guide']},
+  {badge:null,        duration:'5 Days · 4 Nights',   name:'Samburu<br>Wilderness',         price:'$3,400',  page:'pkg-samburu-secrets.html',       tier:'mid',    cardBg:'assets/maasaimen.webp',    features:['Samburu National Reserve','Rare Northern Species','Private Tented Camp','Camel Safari Experience','Cultural Village Visit','All Meals & Transfers']},
+  {badge:'Popular',   duration:'6 Days · 5 Nights',   name:'Coastal<br>Safari Blend',       price:'$4,200',  page:'pkg-safari-and-sea.html',        tier:'mid',    cardBg:'assets/dianibeach.webp',   features:['Tsavo East & West','Diani Beach Extension','Ocean-View Lodge','Snorkelling & Marine Park','Private Game Drives','All-Inclusive Package']},
+  {badge:null,        duration:'8 Days · 7 Nights',   name:'Lakes &<br>Highlands',          price:'$5,100',  page:'pkg-lake-nakuru-escape.html',    tier:'mid',    cardBg:'assets/lakenakuru.webp',   features:['Lake Nakuru & Naivasha','Aberdare Forest Walks','Flamingo Boat Excursion','Mount Kenya Foothills','Luxury Lodge Stays','All Meals & Flights']},
+  {badge:'Signature', duration:'12 Days · 11 Nights', name:'Kenya<br>Mastery',              price:'$14,500', page:'pkg-grand-odyssey.html',         tier:'luxury', cardBg:'assets/mountkenya.webp',   features:['6 Parks & Conservancies','Private Helicopter Transfer','Exclusive Bush Camp','Hot Air Balloon Safari','Michelin-Inspired Bush Dining','Dedicated Personal Guide','Fully Bespoke Itinerary']},
+  {badge:null,        duration:'2 Days · 1 Night',    name:'Nairobi<br>Wild',               price:'$680',    page:'pkg-nairobi-wild.html',          tier:'budget', cardBg:'assets/maasaimara.webp',   features:['Nairobi National Park','Giraffes & Elephants','Boutique City-Edge Lodge','Private 4x4 Throughout','Full Board','Expert Naturalist Guide']},
+  {badge:null,        duration:'2 Days · 1 Night',    name:"Hell's<br>Gate Trek",           price:'$590',    page:'pkg-hells-gate-trek.html',       tier:'budget', cardBg:'assets/maasaimara.webp',   features:["Hell's Gate National Park",'Cycling Through Gorge','Rappelling & Gorge Walk','Lake Naivasha Boat Ride','Full Board','2–8 Guests']},
+  {badge:null,        duration:'5 Days · 4 Nights',   name:'Lamu<br>Archipelago',           price:'$4,200',  page:'pkg-lamu-archipelago.html',      tier:'mid',    cardBg:'assets/dianibeach.webp',   features:['Lamu & Manda Island','Boutique Heritage Hotel','Charter & Private Dhow','UNESCO Old Town','Full Board & Sundowners','Ideal for Couples']},
+  {badge:null,        duration:'6 Days · 5 Nights',   name:'Birding<br>Kenya',              price:'$4,800',  page:'pkg-birding-kenya.html',         tier:'mid',    cardBg:'assets/lakenakuru.webp',   features:['Nakuru, Kakamega & Mara','250–400 Bird Species','African Bird Club Guide','Full Board','2–6 Guests','All Transfers Included']},
+  {badge:null,        duration:'6 Days · 5 Nights',   name:'Family<br>Wild',                price:'$4,100',  page:'pkg-family-wild.html',           tier:'mid',    cardBg:'assets/maasaimara.webp',   features:['Nairobi + Maasai Mara','Junior Ranger Programme','Private Vehicle Always','Full Board','6 Days Family Adventure','Expert Family Guide']},
+  {badge:null,        duration:'7 Days · 6 Nights',   name:'Photography<br>Expedition',     price:'$7,400',  page:'pkg-photography-expedition.html',tier:'luxury', cardBg:'assets/maasaimara.webp',   features:['Mara + Amboseli Locations','Nat Geo Professional Guide','Max 4 Guests Strictly','Private Charter Flights','All-Inclusive Premium','Full Photography Tuition']},
+  {badge:'Exclusive', duration:'6 Days · 5 Nights',   name:'Private<br>Conservancy',        price:'$14,800', page:'pkg-private-conservancy.html',   tier:'ultra',  cardBg:'assets/maasaimara.webp',   features:['Full Conservancy Buyout','Exclusive-Use Tented Villa','Private Charter Flights','All-Inclusive Premium','Per Couple — Fully Private','Bespoke Butler Service']},
+  {badge:null,        duration:'5 Days · 4 Nights',   name:'Migration<br>Witness',          price:'$8,900',  page:'pkg-migration-witness.html',     tier:'luxury', cardBg:'assets/maasaimara.webp',   features:['Great Migration River Crossings','July–October Only','Private River Camp','Private Charter Flights','All-Inclusive Fine Dining','Expert Migration Guide']},
 ];
 
 (async function(){
@@ -10098,6 +10113,19 @@ document.addEventListener('DOMContentLoaded',function(){
       {name:'Mara Awakening',price:'$2,800',duration:'4 Days',page:'pkg-mara-awakening.html',tier:'mid',vibe:['wildlife'],durationKey:'short',priceRaw:2800},
       {name:'Grand Odyssey',price:'$6,500',duration:'7 Days',page:'pkg-grand-odyssey.html',tier:'luxury',vibe:['wildlife','culture'],durationKey:'medium',priceRaw:6500},
       {name:'Ultimate Kenya',price:'$11,200',duration:'10 Days',page:'pkg-ultimate-kenya.html',tier:'luxury',vibe:['wildlife','adventure'],durationKey:'long',priceRaw:11200},
+      {name:'Amboseli Escape',price:'$1,950',duration:'3 Days',page:'pkg-amboseli-express.html',tier:'budget',vibe:['wildlife'],durationKey:'short',priceRaw:1950},
+      {name:'Samburu Wilderness',price:'$3,400',duration:'5 Days',page:'pkg-samburu-secrets.html',tier:'mid',vibe:['wildlife','adventure'],durationKey:'medium',priceRaw:3400},
+      {name:'Coastal Safari Blend',price:'$4,200',duration:'6 Days',page:'pkg-safari-and-sea.html',tier:'mid',vibe:['beach','wildlife'],durationKey:'medium',priceRaw:4200},
+      {name:'Lakes & Highlands',price:'$5,100',duration:'8 Days',page:'pkg-lake-nakuru-escape.html',tier:'mid',vibe:['adventure','culture'],durationKey:'long',priceRaw:5100},
+      {name:'Kenya Mastery',price:'$14,500',duration:'12 Days',page:'pkg-grand-odyssey.html',tier:'ultra',vibe:['wildlife','culture'],durationKey:'grand',priceRaw:14500},
+      {name:'Nairobi Wild',price:'$680',duration:'2 Days',page:'pkg-nairobi-wild.html',tier:'budget',vibe:['wildlife'],durationKey:'short',priceRaw:680},
+      {name:"Hell's Gate Trek",price:'$590',duration:'2 Days',page:'pkg-hells-gate-trek.html',tier:'budget',vibe:['adventure'],durationKey:'short',priceRaw:590},
+      {name:'Lamu Archipelago',price:'$4,200',duration:'5 Days',page:'pkg-lamu-archipelago.html',tier:'mid',vibe:['beach','culture'],durationKey:'medium',priceRaw:4200},
+      {name:'Birding Kenya',price:'$4,800',duration:'6 Days',page:'pkg-birding-kenya.html',tier:'mid',vibe:['wildlife','adventure'],durationKey:'medium',priceRaw:4800},
+      {name:'Family Wild',price:'$4,100',duration:'6 Days',page:'pkg-family-wild.html',tier:'mid',vibe:['wildlife','culture'],durationKey:'medium',priceRaw:4100},
+      {name:'Photography Expedition',price:'$7,400',duration:'7 Days',page:'pkg-photography-expedition.html',tier:'luxury',vibe:['wildlife'],durationKey:'medium',priceRaw:7400},
+      {name:'Private Conservancy Sojourn',price:'$14,800',duration:'6 Days',page:'pkg-private-conservancy.html',tier:'ultra',vibe:['wildlife'],durationKey:'medium',priceRaw:14800},
+      {name:'Migration Witness',price:'$8,900',duration:'5 Days',page:'pkg-migration-witness.html',tier:'luxury',vibe:['wildlife'],durationKey:'medium',priceRaw:8900},
     ];
     return pool;
   }
