@@ -6430,7 +6430,7 @@ body.light-mode .pkg-cta:hover {
 <meta name="google-translate-customization" content="YOUR_ID">    
 </head>
 <body>
-  
+<script>window._fjt_fresh=!sessionStorage.getItem('loaderSeen');</script>
 <!-- QUESTIONNAIRE OVERLAY -->
 <div id="quiz-overlay">
   <div class="quiz-box">
@@ -11141,6 +11141,107 @@ function googleTranslateElementInit() {
   }, 'google_translate_element');
 }
 </script>
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>    
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     LOADER REFINEMENT — smoother animation, gold progress, tagline
+     (new CSS only; does not alter any existing classes or keyframes)
+     ═══════════════════════════════════════════════════════════════════════ -->
+<style>
+/* Override the logo animation to a smooth breath-glow instead of hard pulse.
+   Higher specificity (#loader .loader-logo) takes precedence over .loader-logo */
+#loader .loader-logo {
+  animation-name: fjt-loader-breathe !important;
+  animation-duration: 3.4s !important;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1) !important;
+  animation-iteration-count: infinite !important;
+}
+@keyframes fjt-loader-breathe {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 0px rgba(212,175,55,0));
+  }
+  50% {
+    transform: scale(1.038);
+    filter: drop-shadow(0 0 24px rgba(212,175,55,0.28)) drop-shadow(0 0 6px rgba(212,175,55,0.18));
+  }
+}
+
+/* Premium progress line — fills over the loader duration */
+.fjt-ldr-progress {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 0%;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(212,175,55,0.35) 20%,
+    rgba(212,175,55,0.75) 50%,
+    rgba(212,175,55,0.35) 80%,
+    transparent 100%);
+  z-index: 100001;
+  pointer-events: none;
+}
+
+/* Elegant tagline beneath the logo */
+.fjt-ldr-tagline {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 64px;
+  text-align: center;
+  font-family: 'Jost', sans-serif;
+  font-size: 7.5px;
+  letter-spacing: 10px;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0);
+  z-index: 100001;
+  pointer-events: none;
+  transition: color 1.4s cubic-bezier(0.22,1,0.36,1);
+}
+.fjt-ldr-tagline.fjt-ldr-tag-vis {
+  color: rgba(212,175,55,0.38);
+}
+</style>
+
+<script>
+/* ── LOADER ENHANCEMENT ── runs only on first-ever load of the session ── */
+(function () {
+  if (!window._fjt_fresh) return;
+
+  /* Progress bar — fills over 4.1 s matching the existing 4200 ms loader hold */
+  var prog = document.createElement('div');
+  prog.className = 'fjt-ldr-progress';
+  document.body.appendChild(prog);
+
+  /* Tagline — fades in after the logo settles (~0.9 s) */
+  var tag = document.createElement('div');
+  tag.className = 'fjt-ldr-tagline';
+  tag.textContent = 'Kenya Awaits';
+  document.body.appendChild(tag);
+
+  /* Start progress animation on next paint */
+  requestAnimationFrame(function () {
+    prog.style.transition = 'width 4.05s cubic-bezier(0.25, 0.1, 0.4, 1)';
+    prog.style.width = '100%';
+    setTimeout(function () { tag.classList.add('fjt-ldr-tag-vis'); }, 900);
+  });
+
+  /* Fade out both elements just before the paper-tear fires (4200 ms) */
+  setTimeout(function () {
+    prog.style.transition = 'opacity 0.4s ease';
+    prog.style.opacity    = '0';
+    tag.style.transition  = 'color 0.4s ease';
+    tag.classList.remove('fjt-ldr-tag-vis');
+    setTimeout(function () {
+      if (prog.parentNode) prog.remove();
+      if (tag.parentNode)  tag.remove();
+    }, 500);
+  }, 3900);
+})();
+</script>
+
+<script src="hints.js"></script>
 </body>
 </html>
