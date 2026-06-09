@@ -98,10 +98,11 @@
   .sidebar-detail-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
   .sidebar-detail-value{font-size:13px;color:var(--text);text-align:right}
   .sidebar-details{margin-bottom:32px}
-  .btn-book-now{display:block;text-align:center;font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;padding:20px;background:linear-gradient(135deg,var(--gold),var(--amber));color:var(--black);text-decoration:none;cursor:none;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;margin-bottom:12px}
+  .btn-book-now{display:block;text-align:center;font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;padding:20px;background:linear-gradient(135deg,#f0c84a 0%,#d4af37 35%,#b8860b 65%,#c9921a 100%);color:#1a0e00;box-shadow:0 2px 0 rgba(255,255,255,0.25) inset,0 -2px 0 rgba(0,0,0,0.35) inset,0 4px 16px rgba(212,175,55,0.4),0 1px 3px rgba(0,0,0,0.5);animation:pulseCTA 3s ease-in-out infinite 2s;text-decoration:none;cursor:none;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;margin-bottom:12px}
   .btn-book-now::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.2);transform:translateX(-100%) skewX(-15deg);transition:transform .5s}
   .btn-book-now:hover::before{transform:translateX(200%) skewX(-15deg)}
-  .btn-book-now:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(212,175,55,.4)}
+  .btn-book-now:hover{transform:translateY(-2px);box-shadow:0 16px 48px rgba(212,175,55,.5);animation:none;filter:brightness(1.08)}
+  @keyframes pulseCTA{0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,0.4),0 4px 16px rgba(212,175,55,0.4);}50%{box-shadow:0 0 0 14px rgba(212,175,55,0),0 4px 16px rgba(212,175,55,0.4);}}
   .btn-whatsapp{display:flex;align-items:center;justify-content:center;gap:10px;text-align:center;font-family:'Jost',sans-serif;font-size:10px;font-weight:400;letter-spacing:4px;text-transform:uppercase;padding:16px;background:transparent;color:var(--gold);border:1px solid var(--border);text-decoration:none;cursor:none;transition:background .3s,border-color .3s}
   .btn-whatsapp:hover{background:var(--gold-dim);border-color:var(--gold)}
   .btn-whatsapp svg{width:16px;height:16px;fill:var(--gold)}

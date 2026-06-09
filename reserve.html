@@ -202,8 +202,69 @@
   }
   @media (max-width:480px) {
     .page-wrap { padding:90px 16px 48px; }
-    .otp-digit { width:38px; height:50px; font-size:20px; }
   }
+
+  /* ── FIELD EXTRAS ── */
+  .field-label-sub { font-size:8px; letter-spacing:1px; text-transform:none; color:var(--muted); font-weight:300; margin-left:5px; }
+  .field-input[type=number] { -moz-appearance:textfield; }
+  .field-input[type=number]::-webkit-outer-spin-button,
+  .field-input[type=number]::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
+  .field-input[type=date] { color-scheme:dark; }
+  .field-input[type=date]::-webkit-calendar-picker-indicator { filter:invert(0.7) sepia(1) hue-rotate(10deg) saturate(3); cursor:pointer; opacity:0.7; }
+
+  /* ── REVIEW PANEL ── */
+  .review-grid { border:1px solid var(--border); margin-bottom:24px; }
+  .review-row { display:flex; justify-content:space-between; align-items:flex-start; padding:14px 18px; border-bottom:1px solid var(--border-subtle); }
+  .review-row:last-child { border-bottom:none; }
+  .review-row-label { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--muted); padding-top:3px; flex-shrink:0; }
+  .review-row-val { font-size:14px; font-weight:600; color:var(--text); text-align:right; max-width:60%; line-height:1.5; }
+
+  /* ── WHATSAPP FAB ── */
+  .whatsapp-fab { position:fixed; bottom:36px; right:36px; width:60px; height:60px; background:#25D366; border-radius:50%; display:flex; align-items:center; justify-content:center; z-index:90; text-decoration:none; box-shadow:0 8px 30px rgba(37,211,102,0.4); cursor:none; transition:transform .3s,box-shadow .3s; }
+  .whatsapp-fab:hover { transform:scale(1.1); }
+  .whatsapp-fab svg { width:28px; height:28px; fill:white; }
+
+  /* ── THEME TOGGLE ── */
+  .theme-toggle { position:fixed; bottom:36px; left:36px; z-index:200; width:48px; height:48px; border-radius:50%; border:1px solid rgba(212,175,55,0.2); background:#141414; display:flex; align-items:center; justify-content:center; cursor:none; transition:background .4s,border-color .4s,transform .3s,box-shadow .3s; box-shadow:0 4px 20px rgba(0,0,0,0.4); }
+  .theme-toggle:hover { transform:scale(1.08); box-shadow:0 8px 32px rgba(212,175,55,0.3); border-color:#d4af37; }
+  .theme-toggle-icon { width:18px; height:18px; position:relative; transition:transform .5s cubic-bezier(0.22,1,0.36,1); }
+  .theme-toggle:hover .theme-toggle-icon { transform:rotate(20deg); }
+  .theme-toggle-icon .sun { position:absolute; inset:0; opacity:1; transition:opacity .4s ease,transform .4s ease; transform:scale(1); }
+  .theme-toggle-icon .moon { position:absolute; inset:0; opacity:0; transition:opacity .4s ease,transform .4s ease; transform:scale(0.6) rotate(90deg); }
+  .theme-tooltip { position:absolute; left:58px; white-space:nowrap; background:#141414; border:1px solid rgba(212,175,55,0.2); color:#f0ece4; font-family:'Jost',sans-serif; font-size:9px; letter-spacing:3px; text-transform:uppercase; padding:7px 14px; opacity:0; transform:translateX(-6px); transition:opacity .3s,transform .3s; pointer-events:none; }
+  .theme-toggle:hover .theme-tooltip { opacity:1; transform:translateX(0); }
+
+  /* ── LIGHT MODE ── */
+  body.light-mode {
+    --black:#ebebea; --deep:#e0e0de; --charcoal:#d8d8d6; --card:#f0f0ee;
+    --gold:#9a6f00; --gold-light:#b8860b; --gold-dim:rgba(153,111,0,0.1);
+    --amber:#7a5500; --text:#0a0a0a; --muted:#2a2a2a;
+    --border:rgba(0,0,0,0.12); --border-subtle:rgba(0,0,0,0.06);
+    --red:rgba(180,50,50,0.9); --green:rgba(50,150,50,0.9);
+  }
+  body.light-mode nav { background:rgba(220,216,210,0.97); border-bottom-color:rgba(184,134,11,0.2); }
+  body.light-mode .summary-card { background:#d8d8d6; }
+  body.light-mode .step-track { background:#d8d8d6; }
+  body.light-mode .summary-total-block { background:rgba(153,111,0,0.08); }
+  body.light-mode .field-input,
+  body.light-mode .field-select,
+  body.light-mode .field-textarea { background:#f0f0ee; color:#0a0a0a; }
+  body.light-mode .field-select option { background:#e0e0de; }
+  body.light-mode .field-input[type=date] { color-scheme:light; }
+  body.light-mode .field-input[type=date]::-webkit-calendar-picker-indicator { filter:none; opacity:0.6; }
+  body.light-mode .btn-gold { background:linear-gradient(135deg,#e8c84a,#d4af37) !important; color:#080808 !important; filter:brightness(1.08) saturate(1.15); box-shadow:0 8px 28px rgba(212,175,55,0.4) !important; }
+  body.light-mode .btn-gold:hover { filter:brightness(1.18) saturate(1.25); box-shadow:0 16px 48px rgba(212,175,55,0.7) !important; }
+  body.light-mode .btn-outline { color:#9a6f00 !important; border-color:rgba(154,111,0,0.4); }
+  body.light-mode .btn-outline:hover { background:rgba(154,111,0,0.08); border-color:#9a6f00; }
+  body.light-mode .review-grid { background:#f0f0ee; }
+  body.light-mode .val-box { background:rgba(180,50,50,0.06); }
+  body.light-mode .otp-note { background:rgba(153,111,0,0.05); }
+  body.light-mode .theme-toggle { background:#d4d0c8; box-shadow:0 4px 20px rgba(0,0,0,0.15); }
+  body.light-mode .theme-toggle-icon .sun { opacity:0; transform:scale(0.6) rotate(-90deg); }
+  body.light-mode .theme-toggle-icon .moon { opacity:1; transform:scale(1) rotate(0deg); }
+  body.light-mode .theme-tooltip { background:#d4d0c8; color:#0a0a0a; }
+  body.light-mode .whatsapp-fab { box-shadow:0 8px 30px rgba(37,211,102,0.25); }
+  body.light-mode .page-footer { background:var(--black); border-top-color:rgba(0,0,0,0.1); }
 </style>
 </head>
 <body>
@@ -232,7 +293,7 @@
       </div>
       <div class="step-item" data-step="1">
         <div class="step-num">2</div>
-        <div class="step-label">Verify Email</div>
+        <div class="step-label">Confirm</div>
       </div>
       <div class="step-item" data-step="2">
         <div class="step-num">3</div>
@@ -479,9 +540,46 @@
         </div>
       </div>
 
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label">Adults <span class="req">*</span><span class="field-label-sub">(age 12+)</span></label>
+          <input type="number" class="field-input" id="f-adults" min="1" max="30" value="2" placeholder="2">
+          <span class="field-error" id="err-adults">At least 1 adult is required</span>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Children<span class="field-label-sub">(age 2–11)</span></label>
+          <input type="number" class="field-input" id="f-children" min="0" max="20" value="0" placeholder="0">
+        </div>
+      </div>
+
       <div class="field-row full">
         <div class="field-group">
-          <label class="field-label">Message <span style="color:var(--muted);font-weight:300;letter-spacing:0;text-transform:none;font-size:9px;">(optional)</span></label>
+          <label class="field-label">Preferred Travel Start Date <span class="req">*</span></label>
+          <input type="date" class="field-input" id="f-date">
+          <span class="field-error" id="err-date">Please select a preferred travel date</span>
+        </div>
+      </div>
+
+      <div class="field-row full">
+        <div class="field-group">
+          <label class="field-label">How Did You Hear About Us?</label>
+          <select class="field-select" id="f-how-heard">
+            <option value="">Select an option...</option>
+            <option value="Google Search">Google Search</option>
+            <option value="Social Media">Social Media (Instagram / Facebook)</option>
+            <option value="Friend or Family">Friend or Family Recommendation</option>
+            <option value="Travel Agent">Travel Agent</option>
+            <option value="Blog or Article">Travel Blog or Article</option>
+            <option value="Email Newsletter">Email Newsletter</option>
+            <option value="Returning Guest">Returning Guest</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row full">
+        <div class="field-group">
+          <label class="field-label">Special Requests <span style="color:var(--muted);font-weight:300;letter-spacing:0;text-transform:none;font-size:9px;">(optional)</span></label>
           <textarea class="field-textarea" id="f-message" placeholder="Any special requests, questions, or context you'd like us to know before we reach out..."></textarea>
           <span class="field-hint">This helps your concierge prepare a more relevant quote.</span>
         </div>
@@ -496,38 +594,20 @@
     </div>
 
     <!-- =====================
-         STEP 2 — EMAIL OTP
+         STEP 2 — REVIEW & CONFIRM
     ===================== -->
     <div class="form-panel" id="panel-1">
-      <div class="panel-title">Verify Your Email</div>
-      <p class="panel-sub">We've sent a 6-digit code to confirm your address. Enter it below to complete your reservation request.</p>
+      <div class="panel-title">Review Your Request</div>
+      <p class="panel-sub">Please confirm the details below before we submit your reservation. Your dedicated concierge will be in touch within 24 hours.</p>
 
-      <p class="otp-intro">A verification code has been sent to<br><span class="otp-email-display" id="otpEmailDisplay">—</span></p>
-
-      <!-- ⚑ OTP API PLACEHOLDER — connect your email OTP API here -->
-      <!-- On load of this step, call your API to send the OTP to the address in f-email -->
-      <!-- On "Confirm" click, validate the entered 6 digits against your API response -->
-      <div class="otp-note">
-        <strong style="color:var(--gold);font-size:10px;letter-spacing:2px;text-transform:uppercase;">API Connection Point</strong><br>
-        Connect your OTP delivery and verification API here. The 6 input fields below capture the code. Trigger send on step load, verify on "Confirm" click.
-      </div>
-
-      <div class="otp-box-wrap" id="otpBoxes">
-        <input class="otp-digit" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]">
-        <input class="otp-digit" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]">
-        <input class="otp-digit" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]">
-        <input class="otp-digit" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]">
-        <input class="otp-digit" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]">
-        <input class="otp-digit" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]">
-      </div>
-      <p class="otp-resend">Didn't receive it? <button onclick="resendOTP()">Resend code</button></p>
+      <div class="review-grid" id="reviewGrid"></div>
 
       <div class="val-box" id="val-1"></div>
 
       <div class="btn-row">
-        <button class="btn btn-outline" onclick="prevPanel(1)">← Back</button>
+        <button class="btn btn-outline" onclick="prevPanel(1)">← Edit Details</button>
         <div class="btn-row-right">
-          <button class="btn btn-gold" onclick="nextPanel(1)">Confirm & Submit →</button>
+          <button class="btn btn-gold" id="confirmBtn" onclick="nextPanel(1)">Confirm & Submit →</button>
         </div>
       </div>
     </div>
@@ -612,6 +692,18 @@
   <a href="index.html">filmaxjambo.com</a>
 </footer>
 
+<a href="https://wa.me/34672304384?text=Hello%20Filmax%20Jambo%20Tours%2C%20I'd%20like%20to%20book%20a%20safari!" class="whatsapp-fab" target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
+  <span class="theme-tooltip" id="themeTooltip">Light Mode</span>
+  <div class="theme-toggle-icon">
+    <svg class="sun" width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="3.5" stroke="rgba(212,175,55,0.8)" stroke-width="1.2"/><path d="M9 1v2M9 15v2M1 9h2M15 9h2M3.22 3.22l1.42 1.42M13.36 13.36l1.42 1.42M3.22 14.78l1.42-1.42M13.36 4.64l1.42-1.42" stroke="rgba(212,175,55,0.8)" stroke-width="1.2" stroke-linecap="round"/></svg>
+    <svg class="moon" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M15.5 11.5A7 7 0 0 1 6.5 2.5a7 7 0 1 0 9 9z" stroke="rgba(184,134,11,0.9)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+</button>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function () {
@@ -622,16 +714,16 @@
   const supa = window.supabase.createClient(SUPA_URL, SUPA_KEY);
 
   // ── Read URL params ──
-  const params       = new URLSearchParams(window.location.search);
-  const pkgName      = params.get('pkg')        || 'Your Selected Package';
-  const pkgTagline   = params.get('tagline')    || 'Filmax Jambo Tours';
-  const pkgDuration  = params.get('duration')   || '—';
-  const pkgDate      = params.get('date')        || 'To be confirmed';
-  const pkgTravellers= params.get('travellers')  || '—';
-  const pkgSeason    = params.get('season')      || '—';
-  const pkgCategory  = params.get('category')    || '—';
-  const pkgTotal     = params.get('total')       || '—';
-  const pkgRef       = params.get('ref')         || '';
+  const params        = new URLSearchParams(window.location.search);
+  const pkgName       = params.get('pkg')        || 'Your Selected Package';
+  const pkgTagline    = params.get('tagline')    || 'Filmax Jambo Tours';
+  const pkgDuration   = params.get('duration')   || '—';
+  const pkgDate       = params.get('date')       || 'To be confirmed';
+  const pkgTravellers = params.get('travellers') || '—';
+  const pkgSeason     = params.get('season')     || '—';
+  const pkgCategory   = params.get('category')   || '—';
+  const pkgTotal      = params.get('total')      || '—';
+  const pkgRef        = params.get('ref')        || '';
 
   // Populate summary card
   document.getElementById('sumName').textContent       = pkgName;
@@ -652,12 +744,30 @@
     document.getElementById('navBack').textContent = 'Back to Package';
   }
 
-  // ── Auth gate: redirect if not signed in ──
+  // ── Theme toggle ──
+  (function () {
+    const tt = document.getElementById('themeToggle');
+    if (!tt) return;
+    const tip = document.getElementById('themeTooltip');
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    function applyTheme(isLight) {
+      document.body.classList.toggle('light-mode', isLight);
+      if (tip) tip.textContent = isLight ? 'Dark Mode' : 'Light Mode';
+      if (metaTheme) metaTheme.content = isLight ? '#ebebea' : '#000000';
+    }
+    applyTheme(localStorage.getItem('fjt-theme') === 'light');
+    tt.addEventListener('click', function () {
+      const isLight = !document.body.classList.contains('light-mode');
+      localStorage.setItem('fjt-theme', isLight ? 'light' : 'dark');
+      applyTheme(isLight);
+    });
+  })();
+
+  // ── Auth gate ──
   async function init() {
     const { data: { session } } = await supa.auth.getSession();
 
     if (!session) {
-      // Show a polished gate instead of blank form
       document.querySelector('.wizard-wrap').innerHTML = `
         <div style="text-align:center;padding:60px 0;">
           <div style="font-size:52px;margin-bottom:24px;">🔐</div>
@@ -674,7 +784,6 @@
     const user = session.user;
     const m    = user.user_metadata || {};
 
-    // Load full profile from DB
     const { data: profile } = await supa.from('profiles').select('*').eq('id', user.id).single();
     const p = profile || {};
 
@@ -683,36 +792,34 @@
     const phone     = p.phone      || m.phone      || '';
     const country   = p.country    || p.nationality || m.nationality || '';
 
-    // Show signed-in indicator in nav
+    // Signed-in indicator in nav
     const navEl = document.querySelector('nav');
     if (navEl) {
       const chip = document.createElement('div');
       chip.style.cssText = 'display:flex;align-items:center;gap:8px;font-family:Jost,sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(212,175,55,0.35);padding:8px 16px;cursor:pointer;background:rgba(212,175,55,0.06);';
       chip.innerHTML = '✦ &nbsp;' + (firstName || user.email.split('@')[0]);
-      chip.onclick = () => window.location.href = 'profile.html';
+      chip.onclick = function () { window.location.href = 'profile.html'; };
       chip.title = 'View My Profile';
       navEl.appendChild(chip);
     }
 
-    // Pre-fill Step 1 form fields
+    // Pre-fill form
     function setVal(id, val) {
       const el = document.getElementById(id);
       if (el && val) {
         el.value = val;
-        // Visual indicator that it was pre-filled
         el.style.borderColor = 'rgba(212,175,55,0.4)';
         el.style.color = 'var(--text)';
       }
     }
-    setVal('f-first',   firstName);
-    setVal('f-last',    lastName);
-    setVal('f-email',   user.email);
-    setVal('f-phone',   phone);
+    setVal('f-first', firstName);
+    setVal('f-last',  lastName);
+    setVal('f-email', user.email);
+    setVal('f-phone', phone);
 
-    // Country — find matching option
     const countrySelect = document.getElementById('f-country');
     if (countrySelect && country) {
-      Array.from(countrySelect.options).forEach(opt => {
+      Array.from(countrySelect.options).forEach(function (opt) {
         if (opt.text.toLowerCase() === country.toLowerCase() || opt.value.toLowerCase() === country.toLowerCase()) {
           countrySelect.value = opt.value;
           countrySelect.style.borderColor = 'rgba(212,175,55,0.4)';
@@ -720,7 +827,6 @@
       });
     }
 
-    // Show a pre-fill notice
     const panel0 = document.getElementById('panel-0');
     if (panel0) {
       const notice = document.createElement('div');
@@ -729,7 +835,23 @@
       panel0.insertBefore(notice, panel0.firstChild);
     }
 
-    // Wizard logic (unchanged from original, just moved inside init)
+    // Live summary updates from new form fields
+    function updateSummaryFromForm() {
+      const adults   = document.getElementById('f-adults')?.value || '';
+      const children = parseInt(document.getElementById('f-children')?.value || '0');
+      const tdate    = document.getElementById('f-date')?.value || '';
+      const sumTravEl = document.getElementById('sumTravellers');
+      const sumDateEl = document.getElementById('sumDate');
+      if (sumTravEl && adults) {
+        const a = parseInt(adults);
+        sumTravEl.textContent = a + ' adult' + (a !== 1 ? 's' : '') + (children > 0 ? ' + ' + children + ' child' + (children !== 1 ? 'ren' : '') : '');
+      }
+      if (sumDateEl && tdate) sumDateEl.textContent = tdate;
+    }
+    document.getElementById('f-adults')?.addEventListener('input', updateSummaryFromForm);
+    document.getElementById('f-children')?.addEventListener('input', updateSummaryFromForm);
+    document.getElementById('f-date')?.addEventListener('input', updateSummaryFromForm);
+
     setupWizard(user, firstName);
   }
 
@@ -737,15 +859,15 @@
   let currentPanel = 0;
 
   function updateTrack(step) {
-    document.querySelectorAll('.step-item').forEach((el, i) => {
-      el.classList.remove('active','done');
+    document.querySelectorAll('.step-item').forEach(function (el, i) {
+      el.classList.remove('active', 'done');
       if (i < step)  el.classList.add('done');
       if (i === step) el.classList.add('active');
     });
   }
 
   function showPanel(idx) {
-    document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.form-panel').forEach(function (p) { p.classList.remove('active'); });
     document.getElementById('panel-' + idx).classList.add('active');
     updateTrack(idx);
     currentPanel = idx;
@@ -753,96 +875,139 @@
   }
 
   function validateStep0() {
-    const errors = [];
+    const errors  = [];
     const first   = document.getElementById('f-first').value.trim();
     const last    = document.getElementById('f-last').value.trim();
     const email   = document.getElementById('f-email').value.trim();
     const phone   = document.getElementById('f-phone').value.trim();
     const country = document.getElementById('f-country').value;
+    const adults  = parseInt(document.getElementById('f-adults')?.value || '0');
+    const tdate   = document.getElementById('f-date')?.value || '';
     clearAllInvalid();
-    if (!first)  { errors.push('First name is required');              markInvalid('f-first','err-first'); }
-    if (!last)   { errors.push('Last name is required');               markInvalid('f-last','err-last'); }
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errors.push('A valid email is required'); markInvalid('f-email','err-email'); }
-    if (!phone)  { errors.push('Phone number is required');            markInvalid('f-phone','err-phone'); }
-    if (!country){ errors.push('Country of residence is required');    markInvalid('f-country','err-country'); }
+    if (!first)   { errors.push('First name is required');             markInvalid('f-first',   'err-first'); }
+    if (!last)    { errors.push('Last name is required');              markInvalid('f-last',    'err-last'); }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errors.push('A valid email is required'); markInvalid('f-email', 'err-email'); }
+    if (!phone)   { errors.push('Phone number is required');           markInvalid('f-phone',   'err-phone'); }
+    if (!country) { errors.push('Country of residence is required');   markInvalid('f-country', 'err-country'); }
+    if (isNaN(adults) || adults < 1) { errors.push('At least 1 adult is required'); markInvalid('f-adults', 'err-adults'); }
+    if (!tdate)   { errors.push('Preferred travel date is required');  markInvalid('f-date',    'err-date'); }
     return errors;
   }
 
-  function validateStep1() {
-    const digits = Array.from(document.querySelectorAll('.otp-digit')).map(d => d.value);
-    if (digits.filter(d => d !== '').length < 6) {
-      document.querySelectorAll('.otp-digit').forEach(d => { if (!d.value) d.classList.add('error-digit'); });
-      return ['Please enter all 6 digits of your verification code'];
-    }
-    return [];
-  }
+  function validateStep1() { return []; }
 
   function markInvalid(inputId, errId) {
     document.getElementById(inputId)?.classList.add('invalid');
     document.getElementById(errId)?.classList.add('show');
   }
   function clearAllInvalid() {
-    document.querySelectorAll('.field-input.invalid,.field-select.invalid').forEach(el => el.classList.remove('invalid'));
-    document.querySelectorAll('.field-error.show').forEach(el => el.classList.remove('show'));
-    document.querySelectorAll('.otp-digit.error-digit').forEach(d => d.classList.remove('error-digit'));
+    document.querySelectorAll('.field-input.invalid,.field-select.invalid').forEach(function (el) { el.classList.remove('invalid'); });
+    document.querySelectorAll('.field-error.show').forEach(function (el) { el.classList.remove('show'); });
   }
   function showValBox(step, errors) {
     const box = document.getElementById('val-' + step);
     if (!box) return;
-    box.innerHTML = '<p>Please fix the following:</p>' + errors.map(e => '<p>• ' + e + '</p>').join('');
+    box.innerHTML = '<p>Please fix the following:</p>' + errors.map(function (e) { return '<p>• ' + e + '</p>'; }).join('');
     box.classList.add('show');
-    box.scrollIntoView({ behavior:'smooth', block:'center' });
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
   function hideValBox(step) { document.getElementById('val-' + step)?.classList.remove('show'); }
 
   function setupWizard(user, firstName) {
-    window.nextPanel = function(step) {
+    window.nextPanel = async function (step) {
       hideValBox(step);
+
       if (step === 0) {
         const errors = validateStep0();
         if (errors.length) { showValBox(0, errors); return; }
-        document.getElementById('otpEmailDisplay').textContent = document.getElementById('f-email').value.trim();
+
+        // Build review grid
+        const rFirst    = document.getElementById('f-first').value.trim();
+        const rLast     = document.getElementById('f-last').value.trim();
+        const rEmail    = document.getElementById('f-email').value.trim();
+        const rPhone    = document.getElementById('f-phone').value.trim();
+        const rCountry  = document.getElementById('f-country').value;
+        const rAdults   = document.getElementById('f-adults')?.value || '1';
+        const rChildren = document.getElementById('f-children')?.value || '0';
+        const rDate     = document.getElementById('f-date')?.value || '';
+        const rHow      = document.getElementById('f-how-heard')?.value || '';
+        const rMsg      = document.getElementById('f-message')?.value?.trim() || '';
+        const aNum = parseInt(rAdults), cNum = parseInt(rChildren);
+        const travStr = aNum + ' adult' + (aNum !== 1 ? 's' : '') + (cNum > 0 ? ' + ' + cNum + ' child' + (cNum !== 1 ? 'ren' : '') : '');
+        const rows = [
+          ['Traveller',   rFirst + ' ' + rLast],
+          ['Email',       rEmail],
+          ['Phone',       rPhone],
+          ['Country',     rCountry],
+          ['Package',     pkgName],
+          ['Travel Date', rDate],
+          ['Travellers',  travStr]
+        ];
+        if (rHow) rows.push(['How Heard', rHow]);
+        if (rMsg) rows.push(['Notes', rMsg.slice(0, 100) + (rMsg.length > 100 ? '…' : '')]);
+        document.getElementById('reviewGrid').innerHTML = rows.map(function (row) {
+          return '<div class="review-row"><span class="review-row-label">' + row[0] + '</span><span class="review-row-val">' + row[1] + '</span></div>';
+        }).join('');
+
         showPanel(1);
+
       } else if (step === 1) {
         const errors = validateStep1();
         if (errors.length) { showValBox(1, errors); return; }
+
+        const confirmBtn = document.getElementById('confirmBtn');
+        if (confirmBtn) { confirmBtn.disabled = true; confirmBtn.textContent = 'Submitting…'; }
+
         const successEmail = document.getElementById('f-email').value.trim();
         document.getElementById('successEmail').textContent = successEmail;
+
         const now = new Date();
-        const ref = 'FJ-' + now.getFullYear().toString().slice(2) + String(now.getMonth()+1).padStart(2,'0') + String(now.getDate()).padStart(2,'0') + '-' + Math.random().toString(36).slice(2,5).toUpperCase() + Math.floor(Math.random()*900+100);
+        const ref = 'FJ-' + now.getFullYear().toString().slice(2) + String(now.getMonth() + 1).padStart(2, '0') + String(now.getDate()).padStart(2, '0') + '-' + Math.random().toString(36).slice(2, 5).toUpperCase() + Math.floor(Math.random() * 900 + 100);
         document.getElementById('successRef').textContent = 'Ref: ' + ref;
-        document.getElementById('waSuccessBtn').href = 'https://wa.me/34672304384?text=' + encodeURIComponent('Hello Filmax Jambo Tours,\n\nReservation request submitted.\n\nReference: ' + ref + '\nName: ' + document.getElementById('f-first').value.trim() + ' ' + document.getElementById('f-last').value.trim() + '\nPackage: ' + (new URLSearchParams(window.location.search).get('pkg') || 'Not specified') + '\n\nPlease confirm receipt. Thank you.');
+
+        const adults   = parseInt(document.getElementById('f-adults')?.value || '1');
+        const children = parseInt(document.getElementById('f-children')?.value || '0');
+        const tdate    = document.getElementById('f-date')?.value || null;
+        const howHeard = document.getElementById('f-how-heard')?.value || null;
+        const message  = document.getElementById('f-message')?.value?.trim() || null;
+
+        try {
+          await supa.from('reservations').insert({
+            user_id:      user.id,
+            ref_number:   ref,
+            package_name: pkgName,
+            first_name:   document.getElementById('f-first').value.trim(),
+            last_name:    document.getElementById('f-last').value.trim(),
+            email:        successEmail,
+            phone:        document.getElementById('f-phone').value.trim(),
+            country:      document.getElementById('f-country').value,
+            adults:       adults,
+            children:     children,
+            travel_date:  tdate,
+            how_heard:    howHeard,
+            message:      message,
+            status:       'pending'
+          });
+        } catch (e) { /* non-blocking */ }
+
+        const travText = adults + ' adult' + (adults !== 1 ? 's' : '') + (children > 0 ? ', ' + children + ' child' + (children !== 1 ? 'ren' : '') : '');
+        document.getElementById('waSuccessBtn').href = 'https://wa.me/34672304384?text=' + encodeURIComponent(
+          'Hello Filmax Jambo Tours,\n\nReservation request submitted.\n\nReference: ' + ref +
+          '\nName: ' + document.getElementById('f-first').value.trim() + ' ' + document.getElementById('f-last').value.trim() +
+          '\nPackage: ' + pkgName +
+          '\nTravel Date: ' + (tdate || 'Flexible') +
+          '\nTravellers: ' + travText +
+          '\n\nPlease confirm receipt. Thank you.'
+        );
+
         showPanel(2);
       }
     };
 
-    window.prevPanel = function(step) {
+    window.prevPanel = function (step) {
       hideValBox(step);
       if (step > 0) showPanel(step - 1);
     };
-
-    window.resendOTP = function() {
-      alert('A new code has been sent to ' + document.getElementById('f-email').value.trim());
-    };
-
-    // OTP digit auto-advance
-    const digits = document.querySelectorAll('.otp-digit');
-    digits.forEach((digit, idx) => {
-      digit.addEventListener('input', function() {
-        this.classList.remove('error-digit');
-        if (this.value && idx < digits.length - 1) digits[idx+1].focus();
-        this.classList.toggle('filled', !!this.value);
-      });
-      digit.addEventListener('keydown', function(e) {
-        if (e.key === 'Backspace' && !this.value && idx > 0) digits[idx-1].focus();
-      });
-      digit.addEventListener('paste', function(e) {
-        e.preventDefault();
-        const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);
-        pasted.split('').forEach((ch, i) => { if (digits[i]) { digits[i].value = ch; digits[i].classList.add('filled'); } });
-        if (digits[Math.min(pasted.length, 5)]) digits[Math.min(pasted.length, 5)].focus();
-      });
-    });
 
     updateTrack(0);
   }
