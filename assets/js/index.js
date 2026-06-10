@@ -244,7 +244,7 @@ window._fjt_fresh=!sessionStorage.getItem('loaderSeen');
     if (btn) { btn.textContent = 'Sending…'; btn.disabled = true; }
     try {
       const { error } = await supa.auth.resetPasswordForEmail(email, {
-        redirectTo: 'https://githaiga2861.github.io/Filmax-Jambo-Tours/index.html?reset=true'
+        redirectTo: 'https://filmaxjambotours.com/reset-password.html'
       });
       if (error) throw error;
       showMsgForgot('success', '✓ Reset link sent! Check your inbox (and spam folder). You can close this.');
