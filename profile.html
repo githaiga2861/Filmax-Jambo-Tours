@@ -1131,7 +1131,51 @@ img, video, iframe, table { max-width: 100%; }
   .mini-nav{padding:0 20px;}
 }
 
+
+/* ── TYPOGRAPHY BOOST ── */
+.sb-name { font-size: 19px !important; font-weight: 800 !important; color: #ffffff; }
+.sb-email { font-size: 12px !important; letter-spacing: 0.5px; color: rgba(240,236,228,0.8); }
+.sb-nav-item { font-size: 11px !important; letter-spacing: 2.5px !important; font-weight: 700 !important; padding: 13px 28px !important; }
+.sb-nav-label { font-size: 9px !important; letter-spacing: 5px !important; font-weight: 800 !important; }
+.sb-brand-name { font-size: 12px !important; letter-spacing: 3px !important; font-weight: 800 !important; }
+.sb-brand-sub { font-size: 9px !important; letter-spacing: 3px !important; font-weight: 700 !important; }
+.section-title { font-size: clamp(24px,2.6vw,32px) !important; font-weight: 900 !important; }
+.section-eyebrow { font-size: 10px !important; letter-spacing: 5px !important; font-weight: 800 !important; color: rgba(212,175,55,0.9); }
+.form-label { font-size: 11px !important; letter-spacing: 3.5px !important; font-weight: 800 !important; color: rgba(212,175,55,0.95); }
+.form-input { font-size: 16px !important; font-weight: 700 !important; color: #ffffff; }
+.stat-num { font-size: 40px !important; font-weight: 900 !important; }
+.stat-label { font-size: 12px !important; letter-spacing: 3px !important; font-weight: 800 !important; color: rgba(255,255,255,0.95); }
+.stat-sub { font-size: 13px !important; font-weight: 600 !important; color: rgba(212,200,180,0.9); }
+.booking-title { font-size: 20px !important; font-weight: 800 !important; color: #ffffff; }
+.booking-meta { font-size: 13px !important; font-weight: 700 !important; color: rgba(240,236,228,0.85); }
+.booking-tag { font-size: 10px !important; letter-spacing: 3px !important; font-weight: 800 !important; }
+.rec-title { font-size: 20px !important; font-weight: 800 !important; color: #ffffff; }
+.rec-desc { font-size: 15px !important; font-weight: 600 !important; color: rgba(212,200,180,0.9); }
+.rec-tag { font-size: 10px !important; letter-spacing: 3px !important; font-weight: 800 !important; }
+.rec-price { font-size: 24px !important; font-weight: 800 !important; }
+.concierge-name { font-size: 26px !important; font-weight: 900 !important; color: #ffffff; }
+.concierge-bio { font-size: 16px !important; font-weight: 600 !important; line-height: 1.8 !important; color: rgba(212,200,180,0.95); }
+.concierge-role { font-size: 10px !important; letter-spacing: 4px !important; font-weight: 800 !important; }
+.toggle-label { font-size: 15px !important; font-weight: 800 !important; color: #ffffff; }
+.toggle-desc { font-size: 12px !important; font-weight: 600 !important; color: rgba(212,200,180,0.85); }
+.security-label { font-size: 15px !important; font-weight: 800 !important; color: #ffffff; }
+.security-desc { font-size: 12px !important; font-weight: 600 !important; color: rgba(212,200,180,0.85); }
+.pref-card-title { font-size: 18px !important; font-weight: 800 !important; color: #ffffff; }
+.pref-card-desc { font-size: 14px !important; font-weight: 600 !important; color: rgba(212,200,180,0.9); line-height: 1.65 !important; }
+.chip { font-size: 11px !important; letter-spacing: 2px !important; font-weight: 700 !important; padding: 10px 20px !important; }
+.companion-name { font-size: 16px !important; font-weight: 800 !important; color: #ffffff; }
+.companion-meta { font-size: 12px !important; font-weight: 700 !important; color: rgba(212,200,180,0.85); }
+.tier-name { font-size: 10px !important; letter-spacing: 3px !important; font-weight: 800 !important; }
+.tier-pts { font-size: 14px !important; font-weight: 700 !important; color: rgba(212,200,180,0.85); }
+.hero-name { font-size: clamp(32px,4vw,50px) !important; font-weight: 900 !important; color: #ffffff !important; }
+.hero-eyebrow { font-size: 11px !important; letter-spacing: 5px !important; font-weight: 800 !important; }
+.loyalty-pts { font-size: 26px !important; font-weight: 900 !important; color: var(--gold); }
+.save-bar-msg { font-size: 15px !important; font-weight: 600 !important; color: rgba(240,236,228,0.9); }
+.save-btn { font-size: 11px !important; letter-spacing: 4px !important; font-weight: 800 !important; }
+.panel-title { font-size: 24px !important; font-weight: 900 !important; color: #ffffff; }
+
 /* ── ANIMATIONS ── */
+@keyframes spin{to{transform:rotate(360deg);}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
 @keyframes greetingShine{
   0%   {background-position:200% center;}
@@ -1713,24 +1757,10 @@ body.light-mode .form-label { color: rgba(154,111,0,0.9) !important; }
           <div class="section-line"></div>
           <button class="section-action" onclick="showNotify('Companion saved')">Add</button>
         </div>
-        <div class="cards-grid cards-3" style="margin-bottom:12px;">
-          <div class="companion-card">
-            <div class="companion-avatar">👩</div>
-            <div class="companion-info">
-              <div class="companion-name">Sarah Explorer</div>
-              <div class="companion-meta">Partner · Adult · Vegetarian</div>
-            </div>
-          </div>
-          <div class="companion-card">
-            <div class="companion-avatar">🧒</div>
-            <div class="companion-info">
-              <div class="companion-name">Max Explorer</div>
-              <div class="companion-meta">Child · Age 8 · Junior Ranger</div>
-            </div>
-          </div>
-          <div class="companion-add" onclick="showNotify('Companion form coming soon')">
-            + &nbsp;Add Companion
-          </div>
+        <div class="form-card" style="text-align:center;padding:36px;">
+          <div style="font-size:36px;margin-bottom:14px;">👥</div>
+          <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:800;color:var(--text);margin-bottom:8px;">Travel companions coming soon.</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--muted);line-height:1.7;">Add travel companions to your profile for smoother group bookings.</div>
         </div>
       </div>
 
@@ -1739,40 +1769,24 @@ body.light-mode .form-label { color: rgba(154,111,0,0.9) !important; }
         <div class="section-head">
           <div class="section-head-left">
             <span class="section-eyebrow">Journey Records</span>
-            <h2 class="section-title">Booking & Activity History</h2>
+            <h2 class="section-title">My Reservations</h2>
           </div>
           <div class="section-line"></div>
         </div>
 
-        <div style="font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(212,175,55,0.55);font-weight:700;margin-bottom:14px;">Upcoming Safaris</div>
-        <div class="form-card" style="margin-bottom:24px;">
-          <div style="text-align:center;padding:32px 0;">
-            <div style="font-size:40px;margin-bottom:16px;">🌅</div>
-            <div style="font-family:'Playfair Display',serif;font-size:20px;color:var(--text);margin-bottom:8px;">Your first adventure is yet to be written.</div>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--muted);margin-bottom:20px;">Browse our curated safari collections and secure your place in the wild.</div>
-            <a href="index.html#packages" class="hero-btn hero-btn-primary">Browse Safari Packages</a>
-          </div>
+        <div id="bookingsLoadingState" style="text-align:center;padding:40px 0;">
+          <div style="width:28px;height:28px;border:2px solid rgba(212,175,55,0.15);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px;"></div>
+          <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(212,175,55,0.6);font-family:'Jost',sans-serif;font-weight:700;">Loading your reservations…</div>
         </div>
 
-        <div style="font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(212,175,55,0.55);font-weight:700;margin-bottom:14px;">Wishlist & Saved Itineraries</div>
-        <div style="display:flex;flex-direction:column;gap:12px;">
-          <div class="booking-card">
-            <div class="booking-img">🦁</div>
-            <div class="booking-info">
-              <span class="booking-tag">Maasai Mara · 7 Days</span>
-              <div class="booking-title">Grand Odyssey</div>
-              <div class="booking-meta">Saved · $6,500 per person · Luxury Tier</div>
-            </div>
-            <div class="booking-status status-saved">Wishlist</div>
-          </div>
-          <div class="booking-card">
-            <div class="booking-img">🐘</div>
-            <div class="booking-info">
-              <span class="booking-tag">Amboseli · 4 Days</span>
-              <div class="booking-title">Mara Awakening</div>
-              <div class="booking-meta">Saved · $2,800 per person · Mid-Range</div>
-            </div>
-            <div class="booking-status status-saved">Wishlist</div>
+        <div id="bookingsList" style="display:none;flex-direction:column;gap:16px;"></div>
+
+        <div id="bookingsEmpty" style="display:none;">
+          <div class="form-card" style="text-align:center;padding:48px 40px;">
+            <div style="font-size:48px;margin-bottom:20px;">🌅</div>
+            <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:800;color:var(--text);margin-bottom:10px;">Your first adventure is yet to be written.</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:var(--muted);margin-bottom:28px;line-height:1.7;">Browse our curated safari collections and secure your place in the wild.</div>
+            <a href="packages.html" style="display:inline-block;font-family:'Jost',sans-serif;font-size:10px;font-weight:800;letter-spacing:4px;text-transform:uppercase;padding:16px 36px;background:linear-gradient(135deg,#f0c84a,#d4af37,#b8860b);color:#080808;text-decoration:none;">Browse Safari Packages</a>
           </div>
         </div>
       </div>
@@ -1786,34 +1800,10 @@ body.light-mode .form-label { color: rgba(154,111,0,0.9) !important; }
           </div>
           <div class="section-line"></div>
         </div>
-        <div class="cards-grid cards-3">
-          <div class="rec-card">
-            <div class="rec-img">🦒</div>
-            <div class="rec-body">
-              <span class="rec-tag">Best Season · July–October</span>
-              <div class="rec-title">The Great Migration Window</div>
-              <div class="rec-desc">Based on your wildlife photography preference, this is your peak Mara season.</div>
-              <div class="rec-price">From $4,200 <span>/ person</span></div>
-            </div>
-          </div>
-          <div class="rec-card">
-            <div class="rec-img">🏔️</div>
-            <div class="rec-body">
-              <span class="rec-tag">Member Exclusive</span>
-              <div class="rec-title">Private Mount Kenya Helicopter</div>
-              <div class="rec-desc">A helicopter transfer upgrade unlocks aerial photography unmatched anywhere on earth.</div>
-              <div class="rec-price">From $8,900 <span>/ person</span></div>
-            </div>
-          </div>
-          <div class="rec-card">
-            <div class="rec-img">🌊</div>
-            <div class="rec-body">
-              <span class="rec-tag">Trending Now</span>
-              <div class="rec-title">Diani Coastal Extension</div>
-              <div class="rec-desc">Pair your Mara safari with three nights of Indian Ocean luxury at Diani.</div>
-              <div class="rec-price">From $3,100 <span>/ person</span></div>
-            </div>
-          </div>
+        <div class="form-card" style="text-align:center;padding:36px;">
+          <div style="font-size:36px;margin-bottom:14px;">✦</div>
+          <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:800;color:var(--text);margin-bottom:8px;">Personalised recommendations appear here.</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--muted);line-height:1.7;">Complete your travel profile to unlock curated safari matches based on your preferences.</div>
         </div>
       </div>
 
