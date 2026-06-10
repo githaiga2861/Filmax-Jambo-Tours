@@ -17,7 +17,7 @@
     --deep: #0d0d0d;
     --charcoal: #141414;
     --card: #111111;
-    --gold: #d4af37;
+    --gold: #d4af37; /* dark mode */
     --gold-light: #e8c84a;
     --gold-dim: rgba(212,175,55,0.15);
     --amber:   #b8860b;
@@ -155,12 +155,15 @@ body{
 .sb-nav-icon{font-size:14px;flex-shrink:0;width:18px;text-align:center;}
 
 .sb-bottom{
-  padding:16px 20px;
+  padding:14px 20px;
   border-top:1px solid var(--border);
   display:flex;
-  flex-direction:column;
-  gap:10px;
+  flex-direction:row;
+  gap:8px;
 }
+.sb-back-btn{flex:1;}
+.sb-signout-btn{flex:0 0 auto;width:auto;}
+
 .sb-back-btn{
   display:flex;align-items:center;gap:10px;
   font-family:'Jost',sans-serif;
@@ -692,7 +695,7 @@ select.form-input{appearance:none;cursor:none;background:transparent;}
 .cc-btn-email:hover{border-color:var(--gold);background:var(--gold-dim);}
 
 /* ── SECURITY CARD ── */
-.security-item{
+.security-item{flex-wrap:wrap;
   display:flex;align-items:center;gap:20px;
   padding:20px 0;
   border-bottom:1px solid rgba(212,175,55,0.07);
@@ -714,7 +717,7 @@ select.form-input{appearance:none;cursor:none;background:transparent;}
 }
 .sec-enabled{color:#7bb56e;border:1px solid rgba(123,181,110,0.3);background:rgba(123,181,110,0.08);}
 .sec-disabled{color:#e05555;border:1px solid rgba(224,85,85,0.3);background:rgba(224,85,85,0.08);}
-.sec-btn{
+.sec-btn{white-space:nowrap;flex-shrink:0;
   font-size:9px;letter-spacing:3px;text-transform:uppercase;font-weight:700;
   padding:8px 18px;cursor:none;font-family:'Jost',sans-serif;
   background:transparent;border:1px solid rgba(212,175,55,0.25);color:var(--gold);
@@ -1132,6 +1135,10 @@ img, video, iframe, table { max-width: 100%; }
 }
 
 
+/* ── QUOTE SIZE FIX ── */
+.booking-card blockquote,
+.booking-card .quote-text { font-size: 13px !important; }
+
 /* ── TYPOGRAPHY BOOST ── */
 .sb-name { font-size: 19px !important; font-weight: 800 !important; color: #ffffff; }
 .sb-email { font-size: 12px !important; letter-spacing: 0.5px; color: rgba(240,236,228,0.8); }
@@ -1174,6 +1181,83 @@ img, video, iframe, table { max-width: 100%; }
 .save-btn { font-size: 11px !important; letter-spacing: 4px !important; font-weight: 800 !important; }
 .panel-title { font-size: 24px !important; font-weight: 900 !important; color: #ffffff; }
 
+
+/* ── HERO ALWAYS DARK (even in light mode) ── */
+.profile-hero,
+.profile-hero-bg,
+.profile-hero-pattern {
+  background-color: #0d0804 !important;
+}
+body.light-mode .profile-hero {
+  background: #0d0804 !important;
+}
+body.light-mode .profile-hero-bg {
+  background:
+    radial-gradient(ellipse at 20% 50%,rgba(212,175,55,0.12) 0%,transparent 55%),
+    radial-gradient(ellipse at 80% 30%,rgba(184,134,11,0.08) 0%,transparent 50%),
+    linear-gradient(135deg,#0a0800 0%,#111008 40%,#0d0c08 70%,#080808 100%) !important;
+}
+body.light-mode .hero-eyebrow {
+  background: linear-gradient(90deg,#d4af37 0%,#d4af37 30%,#fffbe8 48%,#ffffff 50%,#fffbe8 52%,#d4af37 70%,#d4af37 100%) !important;
+  background-size: 300% auto !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+body.light-mode .hero-name { color: #ffffff !important; }
+body.light-mode .hero-meta-item { color: rgba(240,236,228,0.9) !important; }
+body.light-mode .hero-badge {
+  background: rgba(212,175,55,0.15) !important;
+  border-color: rgba(212,175,55,0.4) !important;
+  color: #d4af37 !important;
+}
+body.light-mode .loyalty-label { color: rgba(240,236,228,0.8) !important; }
+body.light-mode .loyalty-pts { color: #d4af37 !important; }
+body.light-mode .hero-btn-ghost {
+  color: #d4af37 !important;
+  border-color: rgba(212,175,55,0.4) !important;
+}
+body.light-mode .hero-btn-ghost:hover {
+  background: rgba(212,175,55,0.12) !important;
+}
+
+/* ── LIGHT MODE TOP BAR IN MODAL ── */
+body.light-mode #profileTopBar {
+  background: rgba(245,239,230,0.98) !important;
+  border-bottom-color: rgba(139,90,0,0.15) !important;
+}
+body.light-mode #topBarName { color: #0a0806 !important; }
+body.light-mode #topBarReturnBtn {
+  color: #9a6f00 !important;
+  background: rgba(154,111,0,0.08) !important;
+  border-color: rgba(154,111,0,0.3) !important;
+}
+
+/* ── GOLD CONSISTENCY IN LIGHT MODE ── */
+body.light-mode { --gold: #9a6f00; --gold-light: #b07a1f; --amber: #7a5500; }
+
+/* ── SECURITY SECTION OVERFLOW FIX ── */
+.security-item {
+  flex-wrap: wrap;
+  row-gap: 10px;
+}
+.security-info { min-width: 0; flex: 1 1 160px; }
+.security-status { flex-shrink: 0; }
+.sec-btn { flex-shrink: 0; white-space: nowrap; }
+
+/* ── SB BOTTOM ROW ── */
+body.light-mode .sb-back-btn {
+  color: #9a6f00 !important;
+  background: rgba(154,111,0,0.08) !important;
+  border-color: rgba(154,111,0,0.3) !important;
+  font-size: 9px !important;
+}
+body.light-mode .sb-signout-btn {
+  color: #c0392b !important;
+  background: rgba(192,57,43,0.07) !important;
+  border-color: rgba(192,57,43,0.3) !important;
+}
+
 /* ── ANIMATIONS ── */
 @keyframes spin{to{transform:rotate(360deg);}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
@@ -1208,7 +1292,7 @@ img, video, iframe, table { max-width: 100%; }
 body.light-mode{
   --black:#f5efe6;--deep:#efe8dc;--charcoal:#e8dfd3;--card:#ffffff;
   --text:#0a0806;--muted:#3a2e24;--border:rgba(139,90,0,0.15);
-  --gold:#9a6500;--amber:#7a4f00;--gold-dim:rgba(154,101,0,0.1);
+  --gold:#9a6f00;--amber:#7a5500;--gold-dim:rgba(153,111,0,0.15);
   background:#f5efe6;color:#0a0806;
 }
 body.light-mode .sidebar{background:#efe8dc;border-right:1px solid rgba(139,90,0,0.15);}
@@ -1386,7 +1470,7 @@ body.light-mode #heroGreeting{-webkit-text-fill-color:var(--gold);}
     <div class="sb-bottom">
       <button class="sb-back-btn" id="backToSiteBtn">
         <span class="sb-back-icon">←</span>
-        <span>Back to Website</span>
+        <span>Website</span>
       </button>
       <button class="sb-signout-btn" onclick="signOut()">
         <span class="sb-signout-icon">⏻</span>
@@ -1936,14 +2020,14 @@ body.light-mode #heroGreeting{-webkit-text-fill-color:var(--gold);}
           <div class="section-line"></div>
         </div>
         <div class="concierge-card">
-          <div class="concierge-avatar">A</div>
+          <div class="concierge-avatar" style="background:linear-gradient(135deg,#d4af37,#b8860b);overflow:hidden;"><img src="assets/team-githaiga.webp" alt="Filmer Mageto" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;" onerror="this.style.display='none'"></div>
           <div class="concierge-info">
-            <span class="concierge-role">Assigned Safari Concierge</span>
-            <div class="concierge-name">Amara Wanjiku</div>
-            <div class="concierge-bio">Amara is your dedicated point of contact for every aspect of your Filmax Jambo experience — from itinerary refinements to last-minute lodge changes. Reach her directly via WhatsApp or email, seven days a week.</div>
+            <span class="concierge-role">Founder &amp; Lead Guide · Your Personal Concierge</span>
+            <div class="concierge-name">Filmer Mageto</div>
+            <div class="concierge-bio">Filmer is your direct point of contact for every aspect of your safari — from the first question to your final farewell. With over a decade guiding Kenya's finest reserves, he ensures every detail of your journey is extraordinary.</div>
             <div class="concierge-contact">
-              <a href="https://wa.me/34672304384" class="cc-btn cc-btn-wa" target="_blank">💬 &nbsp;WhatsApp Amara</a>
-              <a href="mailto:amara@filmaxjambotours.co.ke" class="cc-btn cc-btn-email">✉️ &nbsp;Send Email</a>
+              <a href="https://wa.me/34672304384" class="cc-btn cc-btn-wa" target="_blank">💬 &nbsp;WhatsApp Filmer</a>
+              <a href="mailto:hello@filmaxjambotours.com" class="cc-btn cc-btn-email">✉️ &nbsp;Send Email</a>
             </div>
           </div>
         </div>
