@@ -1223,7 +1223,6 @@ body.light-mode .pref-card{background:#ffffff;border-color:rgba(139,90,0,0.12);}
 body.light-mode .form-input{color:#0a0806;font-weight:700;font-size:15px;}
 body.light-mode .save-bar{background:rgba(245,239,230,0.97);border-top-color:rgba(139,90,0,0.15);}
 body.light-mode .mini-nav{background:rgba(245,239,230,0.97);border-bottom-color:rgba(139,90,0,0.15);}
-body.light-mode .profile-hero{background:linear-gradient(135deg,#2a1a08 0%,#1a0e04 50%,#0d0804 100%);}
 body.light-mode .sb-brand{border-bottom-color:rgba(139,90,0,0.15);}
 body.light-mode .sb-user{border-bottom-color:rgba(139,90,0,0.15);}
 body.light-mode .sb-name{color:#0a0806;}
@@ -1294,7 +1293,6 @@ body.light-mode .sb-back-btn{background:rgba(154,101,0,0.08);border-color:rgba(1
 body.light-mode .sb-signout-btn{background:rgba(224,85,85,0.06);}
 body.light-mode .profile-hero-bg{background:linear-gradient(135deg,#2a1a08,#1a0e04,#0d0804);}
 body.light-mode .hero-name{color:#ffffff;}
-body.light-mode .hero-eyebrow{-webkit-text-fill-color:var(--gold);}
 body.light-mode #heroGreeting{-webkit-text-fill-color:var(--gold);}
 </style>
 </head>
@@ -2810,6 +2808,7 @@ async function initProfile() {
     } catch(_) {}
 
     populateUI(mergedProfile, _currentUser.email);
+    loadBookings(_currentUser.id);
     lockAllSections();
 
     // Watch inputs for dirty state
@@ -2842,7 +2841,57 @@ async function initProfile() {
 }
 
 // ── BOOT ────────────────────────────────────────────
-if (!window.supabase) {
+
+  async function loadBookings(userId) {
+    const loadEl  = document.getElementById('bookingsLoadingState');
+    const listEl  = document.getElementById('bookingsList');
+    const emptyEl = document.getElementById('bookingsEmpty');
+    if (!loadEl || !listEl || !emptyEl) return;
+    try {
+      const { data, error } = await supa
+        .from('reservations').select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false });
+      loadEl.style.display = 'none';
+      if (error || !data || data.length === 0) { emptyEl.style.display = 'block'; return; }
+      const statusMap = {
+        pending:   { label: 'Pending',   cls: 'status-saved',    icon: '⏳' },
+        confirmed: { label: 'Confirmed', cls: 'status-upcoming', icon: '✓'  },
+        completed: { label: 'Completed', cls: 'status-past',     icon: '★'  },
+        cancelled: { label: 'Cancelled', cls: 'status-past',     icon: '✕'  },
+      };
+      listEl.style.display = 'flex';
+      listEl.innerHTML = data.map(function(r) {
+        var s = statusMap[r.status] || statusMap.pending;
+        var dateStr = r.travel_date
+          ? new Date(r.travel_date).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })
+          : 'Date TBC';
+        var trav = (r.adults || 1) + (r.children > 0 ? ' + ' + r.children + ' child' + (r.children !== 1 ? 'ren' : '') : '');
+        var emoji = r.adults > 4 ? '🦁' : r.adults > 2 ? '🐘' : '🦒';
+        var waMsg = encodeURIComponent('Hello, reservation Ref: ' + r.ref_number + ' for ' + r.package_name + '. I would like to follow up.');
+        return '<div class="booking-card" style="flex-direction:column;align-items:flex-start;gap:12px;">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;width:100%;flex-wrap:wrap;gap:8px;">' +
+          '<div style="display:flex;align-items:center;gap:16px;">' +
+          '<div class="booking-img" style="font-size:28px;">' + emoji + '</div>' +
+          '<div class="booking-info">' +
+          '<span class="booking-tag">' + r.package_name + '</span>' +
+          '<div class="booking-title">' + dateStr + '</div>' +
+          '<div class="booking-meta">' + trav + ' &middot; Ref: ' + r.ref_number + '</div>' +
+          '</div></div>' +
+          '<div class="booking-status ' + s.cls + '">' + s.icon + ' ' + s.label + '</div>' +
+          '</div>' +
+          '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;">' +
+          '<a href="https://wa.me/34672304384?text=' + waMsg + '" target="_blank" style="font-family:Jost,sans-serif;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#25D366;border:1px solid rgba(37,211,102,0.3);padding:8px 16px;text-decoration:none;">💬 Follow Up</a>' +
+          '<a href="mailto:hello@filmaxjambotours.com?subject=Re: ' + r.ref_number + '" style="font-family:Jost,sans-serif;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(212,175,55,0.25);padding:8px 16px;text-decoration:none;">✉ Email Us</a>' +
+          '</div></div>';
+      }).join('');
+    } catch(e) {
+      if (loadEl) loadEl.style.display = 'none';
+      if (emptyEl) emptyEl.style.display = 'block';
+    }
+  }
+
+  if (!window.supabase) {
   const s = document.createElement('script');
   s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
   s.onload = initProfile;
