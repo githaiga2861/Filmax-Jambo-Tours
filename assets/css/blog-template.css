@@ -68,7 +68,7 @@ body.light-mode .theme-toggle-icon .moon { opacity: 1; transform: scale(1) rotat
 .theme-toggle:hover .theme-tooltip { opacity: 1; transform: translateX(0); }
 body.light-mode .theme-tooltip { background: #d4d0c8; color: #0a0a0a; }
 
-body.light-mode { background: #ebebea; color: #0a0a0a; --gold: #9a6f00; --amber: #7a5500; --text: #0a0a0a; --muted: #2a2a2a; --border: rgba(0,0,0,0.15); --charcoal: #dcdcda; --black: #ebebea; }
+body.light-mode { background: #ebebea; color: #0a0a0a; --gold: #c9960c; --amber: #7a5500; --text: #0a0a0a; --muted: #2a2a2a; --border: rgba(0,0,0,0.15); --charcoal: #dcdcda; --black: #ebebea; }
 body.light-mode nav { background: rgba(220,216,210,0.97); border-bottom-color: rgba(184,134,11,0.2); }
 body.light-mode .nav-back { color: #5e5040; }
 body.light-mode .nav-back:hover { color: #9a6f00; }

@@ -781,7 +781,7 @@
 
   body.light-mode {
     --black: #ebebea; --deep: #e4e4e2; --charcoal: #dcdcda; --card: #e4e4e2;
-    --gold: #9a6f00; --gold-light: #b8860b; --gold-dim: rgba(154,111,0,0.12);
+    --gold: #c9960c; --gold-light: #b8860b; --gold-dim: rgba(154,111,0,0.12);
     --amber: #7a5500; --text: #0a0a0a; --muted: #2a2a2a;
     --border: rgba(0,0,0,0.15);
     background: #ebebea; color: #0a0a0a;

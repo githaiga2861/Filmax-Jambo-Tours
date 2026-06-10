@@ -1182,81 +1182,11 @@ img, video, iframe, table { max-width: 100%; }
 .panel-title { font-size: 24px !important; font-weight: 900 !important; color: #ffffff; }
 
 
-/* ── HERO ALWAYS DARK (even in light mode) ── */
-.profile-hero,
-.profile-hero-bg,
-.profile-hero-pattern {
-  background-color: #0d0804 !important;
-}
-body.light-mode .profile-hero {
-  background: #0d0804 !important;
-}
-body.light-mode .profile-hero-bg {
-  background:
-    radial-gradient(ellipse at 20% 50%,rgba(212,175,55,0.12) 0%,transparent 55%),
-    radial-gradient(ellipse at 80% 30%,rgba(184,134,11,0.08) 0%,transparent 50%),
-    linear-gradient(135deg,#0a0800 0%,#111008 40%,#0d0c08 70%,#080808 100%) !important;
-}
-body.light-mode .hero-eyebrow {
-  background: linear-gradient(90deg,#d4af37 0%,#d4af37 30%,#fffbe8 48%,#ffffff 50%,#fffbe8 52%,#d4af37 70%,#d4af37 100%) !important;
-  background-size: 300% auto !important;
-  -webkit-background-clip: text !important;
-  background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-}
-body.light-mode .hero-name { color: #ffffff !important; }
-body.light-mode .hero-meta-item { color: rgba(240,236,228,0.9) !important; }
-body.light-mode .hero-badge {
-  background: rgba(212,175,55,0.15) !important;
-  border-color: rgba(212,175,55,0.4) !important;
-  color: #d4af37 !important;
-}
-body.light-mode .loyalty-label { color: rgba(240,236,228,0.8) !important; }
-body.light-mode .loyalty-pts { color: #d4af37 !important; }
-body.light-mode .hero-btn-ghost {
-  color: #d4af37 !important;
-  border-color: rgba(212,175,55,0.4) !important;
-}
-body.light-mode .hero-btn-ghost:hover {
-  background: rgba(212,175,55,0.12) !important;
-}
-
-/* ── LIGHT MODE TOP BAR IN MODAL ── */
-body.light-mode #profileTopBar {
-  background: rgba(245,239,230,0.98) !important;
-  border-bottom-color: rgba(139,90,0,0.15) !important;
-}
-body.light-mode #topBarName { color: #0a0806 !important; }
-body.light-mode #topBarReturnBtn {
-  color: #9a6f00 !important;
-  background: rgba(154,111,0,0.08) !important;
-  border-color: rgba(154,111,0,0.3) !important;
-}
-
-/* ── GOLD CONSISTENCY IN LIGHT MODE ── */
-body.light-mode { --gold: #9a6f00; --gold-light: #b07a1f; --amber: #7a5500; }
-
 /* ── SECURITY SECTION OVERFLOW FIX ── */
-.security-item {
-  flex-wrap: wrap;
-  row-gap: 10px;
-}
+.security-item { flex-wrap: wrap; row-gap: 10px; }
 .security-info { min-width: 0; flex: 1 1 160px; }
 .security-status { flex-shrink: 0; }
 .sec-btn { flex-shrink: 0; white-space: nowrap; }
-
-/* ── SB BOTTOM ROW ── */
-body.light-mode .sb-back-btn {
-  color: #9a6f00 !important;
-  background: rgba(154,111,0,0.08) !important;
-  border-color: rgba(154,111,0,0.3) !important;
-  font-size: 9px !important;
-}
-body.light-mode .sb-signout-btn {
-  color: #c0392b !important;
-  background: rgba(192,57,43,0.07) !important;
-  border-color: rgba(192,57,43,0.3) !important;
-}
 
 /* ── ANIMATIONS ── */
 @keyframes spin{to{transform:rotate(360deg);}}
@@ -1292,7 +1222,7 @@ body.light-mode .sb-signout-btn {
 body.light-mode{
   --black:#f5efe6;--deep:#efe8dc;--charcoal:#e8dfd3;--card:#ffffff;
   --text:#0a0806;--muted:#3a2e24;--border:rgba(139,90,0,0.15);
-  --gold:#9a6f00;--amber:#7a5500;--gold-dim:rgba(153,111,0,0.15);
+  --gold:#c9960c;--amber:#a07800;--gold-dim:rgba(201,150,12,0.15);
   background:#f5efe6;color:#0a0806;
 }
 body.light-mode .sidebar{background:#efe8dc;border-right:1px solid rgba(139,90,0,0.15);}
@@ -1375,9 +1305,21 @@ body.light-mode .discard-sub{color:#3a2e24;}
 body.light-mode .discard-cancel-btn{color:#3a2e24;border-color:rgba(139,90,0,0.3);}
 body.light-mode .sb-back-btn{background:rgba(154,101,0,0.08);border-color:rgba(154,101,0,0.35);}
 body.light-mode .sb-signout-btn{background:rgba(224,85,85,0.06);}
-body.light-mode .profile-hero-bg{background:linear-gradient(135deg,#2a1a08,#1a0e04,#0d0804);}
-body.light-mode .hero-name{color:#ffffff;}
-body.light-mode #heroGreeting{-webkit-text-fill-color:var(--gold);}
+body.light-mode .profile-hero{background:#f5efe6;}
+body.light-mode .profile-hero-bg{
+  background:
+    radial-gradient(ellipse at 20% 60%,rgba(212,175,55,0.08) 0%,transparent 55%),
+    radial-gradient(ellipse at 80% 20%,rgba(184,134,11,0.06) 0%,transparent 50%),
+    linear-gradient(135deg,#f0e8d8 0%,#ece0ca 40%,#e8d8bc 70%,#f5efe6 100%);
+}
+body.light-mode .hero-name{color:#0a0806 !important;}
+body.light-mode #heroGreeting{-webkit-text-fill-color:var(--gold) !important;color:var(--gold) !important;}
+body.light-mode .hero-meta-item{color:#3a2e24 !important;}
+body.light-mode .hero-badge{background:rgba(154,111,0,0.12) !important;border-color:rgba(154,111,0,0.35) !important;color:var(--gold) !important;}
+body.light-mode .loyalty-label{color:#3a2e24 !important;}
+body.light-mode .loyalty-pts{color:var(--gold) !important;}
+body.light-mode .hero-btn-ghost{color:var(--gold) !important;border-color:rgba(154,111,0,0.4) !important;}
+body.light-mode .profile-hero-overlay{background:linear-gradient(to bottom,transparent 40%,rgba(245,239,230,0.7) 100%) !important;}
 </style>
 </head>
 <body>
@@ -1486,49 +1428,50 @@ body.light-mode #heroGreeting{-webkit-text-fill-color:var(--gold);}
     <div id="profileTopBar" style="
       display:none;
       position:sticky;
-      top:0;
-      left:0;right:0;
+      top:0;left:0;right:0;
       z-index:300;
-      background:rgba(8,8,8,0.96);
+      background:rgba(8,8,8,0.97);
       backdrop-filter:blur(20px);
       border-bottom:1px solid rgba(212,175,55,0.15);
-      padding:12px 40px;
+      padding:0 24px;
       align-items:center;
       justify-content:space-between;
-      gap:16px;
+      height:48px;
+      gap:12px;
     ">
-      <!-- Left: user name -->
-      <div style="display:flex;align-items:center;gap:14px;">
-        <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#d4af37,#b8860b);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:#080808;flex-shrink:0;border:1px solid rgba(212,175,55,0.4);">
+      <!-- Nav line 1: avatar + name -->
+      <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+        <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#d4af37,#b8860b);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:13px;font-weight:700;color:#080808;flex-shrink:0;border:1px solid rgba(212,175,55,0.35);">
           <span id="topBarInitial">?</span>
         </div>
-        <span id="topBarName" style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#f0ece4;letter-spacing:0.5px;"></span>
+        <span id="topBarName" style="font-family:'Jost',sans-serif;font-size:11px;font-weight:700;color:#f0ece4;letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;"></span>
       </div>
 
-      <!-- Right: return + sign out -->
-      <div style="display:flex;align-items:center;gap:10px;">
+      <!-- Nav line 2: section label -->
+      <div style="flex:1;text-align:center;">
+        <span style="font-family:'Jost',sans-serif;font-size:8px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(212,175,55,0.6);">My Profile</span>
+      </div>
+
+      <!-- Nav line 3: back + signout -->
+      <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
         <button id="topBarReturnBtn" style="
           font-family:'Jost',sans-serif;font-size:8px;font-weight:700;
           letter-spacing:3px;text-transform:uppercase;
           color:#d4af37;background:rgba(212,175,55,0.08);
-          border:1px solid rgba(212,175,55,0.35);
-          padding:9px 18px;cursor:none;
-          display:flex;align-items:center;gap:7px;
-          transition:background .25s,border-color .25s;
-        ">
-          <span style="font-size:12px;">←</span> Return to Website
-        </button>
+          border:1px solid rgba(212,175,55,0.3);
+          padding:7px 12px;cursor:none;
+          display:flex;align-items:center;gap:5px;
+          transition:background .25s;white-space:nowrap;
+        ">← Back</button>
         <button onclick="signOut()" title="Sign Out" style="
-          font-family:'Jost',sans-serif;font-size:8px;font-weight:700;
-          letter-spacing:3px;text-transform:uppercase;
+          font-family:'Jost',sans-serif;font-size:13px;
           color:#e05555;background:rgba(224,85,85,0.06);
-          border:1px solid rgba(224,85,85,0.3);
-          padding:9px 14px;cursor:none;
-          display:flex;align-items:center;gap:6px;
-          transition:background .25s,border-color .25s;
-        ">
-          <span style="font-size:13px;">⏻</span>
-        </button>
+          border:1px solid rgba(224,85,85,0.25);
+          padding:7px 10px;cursor:none;
+          display:flex;align-items:center;
+          transition:background .25s;
+          line-height:1;
+        ">🚪</button>
       </div>
     </div>
 
