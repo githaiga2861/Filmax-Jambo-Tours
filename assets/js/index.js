@@ -249,7 +249,7 @@ window._fjt_fresh=!sessionStorage.getItem('loaderSeen');
       if (error) throw error;
       showMsgForgot('success', '✓ Reset link sent! Check your inbox (and spam folder). You can close this.');
     } catch(e) {
-      showMsgForgot('error', e.message || 'Failed to send reset link. Please try again.');
+      showMsgForgot('error', JSON.stringify(e) + ' | ' + (e.message||'') + ' | status:' + (e.status||'') + ' | code:' + (e.code||''));
     }
     if (btn) { btn.textContent = 'Send Reset Link'; btn.disabled = false; }
   };
