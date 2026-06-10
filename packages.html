@@ -15,6 +15,24 @@
 
 
   
+<style id="filter-sticky-style">
+.filter-system {
+  position: sticky;
+  top: 72px;
+  z-index: 90;
+  background: rgba(8,8,8,0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(212,175,55,0.15);
+  margin: 0;
+  padding: 0;
+}
+.filter-toggle-bar { padding: 14px 48px; }
+@media(max-width:768px){
+  .filter-toggle-bar { padding: 12px 20px; }
+  .filter-system { top: 60px; }
+}
+</style>
 </head>
 <body>
 
