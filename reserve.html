@@ -990,6 +990,32 @@
           });
         } catch (e) { /* non-blocking */ }
 
+        // Send booking confirmation email
+        try {
+          await fetch('https://kwriicxzkgkcseorcqdi.supabase.co/functions/v1/send-booking-confirmation', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo'
+            },
+            body: JSON.stringify({
+              ref_number:      ref,
+              first_name:      document.getElementById('f-first').value.trim(),
+              last_name:       document.getElementById('f-last').value.trim(),
+              email:           successEmail,
+              phone:           document.getElementById('f-phone').value.trim(),
+              country:         document.getElementById('f-country').value,
+              adults:          adults,
+              children:        children,
+              travel_date:     tdate,
+              package_name:    pkgName,
+              how_heard:       howHeard,
+              message:         message,
+              estimated_total: pkgTotal && pkgTotal !== '--' ? pkgTotal : null
+            })
+          });
+        } catch(emailErr) { console.warn('Email send failed:', emailErr); }
+
         const travText = adults + ' adult' + (adults !== 1 ? 's' : '') + (children > 0 ? ', ' + children + ' child' + (children !== 1 ? 'ren' : '') : '');
         document.getElementById('waSuccessBtn').href = 'https://wa.me/34672304384?text=' + encodeURIComponent(
           'Hello Filmax Jambo Tours,\n\nReservation request submitted.\n\nReference: ' + ref +
