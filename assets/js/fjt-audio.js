@@ -6,7 +6,17 @@
 (function () {
   'use strict';
 
-  const AUDIO_SRC     = (function(){ var s = document.createElement('script'); var scripts = document.getElementsByTagName('script'); for(var i=0;i<scripts.length;i++){ if(scripts[i].src && scripts[i].src.indexOf('fjt-audio.js')>-1){ return scripts[i].src.replace('assets/js/fjt-audio.js','assets/hero-ambient.mp3'); } } return 'assets/hero-ambient.mp3'; })();
+  var AUDIO_SRC = 'assets/hero-ambient.mp3';
+  (function(){
+    var scripts = document.getElementsByTagName('script');
+    for (var i = 0; i < scripts.length; i++) {
+      var ss = scripts[i].getAttribute('src');
+      if (ss && ss.indexOf('fjt-audio.js') > -1) {
+        AUDIO_SRC = ss.replace(/assets\/js\/fjt-audio\.js.*$/, 'assets/hero-ambient.mp3');
+        break;
+      }
+    }
+  })();
   const STORAGE_KEY   = 'fjt_audio';
   const PROMPT_KEY    = 'fjt_audio_prompted';
   const VOL_FULL      = 1.0;
@@ -28,10 +38,8 @@
   audio.preload  = 'auto';
   audio.volume   = 0;
   audio.style.display = 'none';
-  var src = document.createElement('source');
-  src.src  = AUDIO_SRC;
-  src.type = 'audio/mpeg';
-  audio.appendChild(src);
+  audio.src = AUDIO_SRC;
+  audio.type = 'audio/mpeg';
   document.body.appendChild(audio);
 
   // ── Volume fade ────────────────────────────────────────────────
