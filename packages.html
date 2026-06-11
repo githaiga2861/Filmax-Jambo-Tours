@@ -18,19 +18,23 @@
 <style id="filter-sticky-style">
 .filter-system {
   position: sticky;
-  top: 60px;
+  top: 88px;
   z-index: 90;
   background: rgba(8,8,8,0.97);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(212,175,55,0.3);
-  margin-top: 5px;
+  border: 1px solid rgba(212,175,55,0.35);
+  margin: 8px 20px 0;
   padding: 0;
+}
+body.light-mode .filter-system {
+  background: rgba(255,255,255,0.97);
+  border-color: rgba(154,111,0,0.3);
 }
 .filter-toggle-bar { padding: 14px 48px; }
 @media(max-width:768px){
   .filter-toggle-bar { padding: 12px 20px; }
-  .filter-system { top: 60px; }
+  .filter-system { top: 70px; margin: 5px 10px 0; }
 }
 </style>
 <link rel="stylesheet" href="assets/css/fjt-animations.css">
