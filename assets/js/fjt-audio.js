@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  const AUDIO_SRC     = '/Filmax-Jambo-Tours/assets/hero-ambient.mp3';
+  const AUDIO_SRC     = (function(){ var s = document.createElement('script'); var scripts = document.getElementsByTagName('script'); for(var i=0;i<scripts.length;i++){ if(scripts[i].src && scripts[i].src.indexOf('fjt-audio.js')>-1){ return scripts[i].src.replace('assets/js/fjt-audio.js','assets/hero-ambient.mp3'); } } return 'assets/hero-ambient.mp3'; })();
   const STORAGE_KEY   = 'fjt_audio';
   const PROMPT_KEY    = 'fjt_audio_prompted';
   const VOL_FULL      = 1.0;
