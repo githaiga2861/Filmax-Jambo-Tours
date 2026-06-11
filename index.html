@@ -24,36 +24,19 @@
 
 <style id="pkg-filter-float-style">
 /* pkg-filter-bar floating */
-#pkgFilterBar {
-  transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
-}
 #pkgFilterBar.floating {
   position: fixed;
-  top: 82px;
+  top: 88px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 89;
-  background: rgba(8,8,8,0.82);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid (212,175,55,0.5);
-  padding: 10px 28px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 2px 0 rgba(212,175,55,0.1) inset;
-  animation: filterPop 0.4s cubic-bezier(0.22,1,0.36,1);
-  border-radius: 0;
-  width: auto;
-  min-width: 320px;
-}
-@keyframes filterPop {
-  0%   { transform: translateX(-50%) translateY(-8px) scale(0.97); opacity:0.6; }
-  100% { transform: translateX(-50%) translateY(0)    scale(1);    opacity:1;   }
-}
-body.light-mode #pkgFilterBar.floating {
-  background: rgba(245,239,230,0.92);
-  border-color: rgba(154,111,0,0.25);
+  margin: 0 auto;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background: rgba(8,8,8,0.55);
 }
 @media(max-width:768px){
-  #pkgFilterBar.floating { top:68px; padding:8px 16px; min-width:280px; }
+  #pkgFilterBar.floating { top: 74px; }
 }
 </style>
 
@@ -1418,7 +1401,7 @@ body.light-mode #pkgFilterBar.floating {
 
 
 <!-- HIGHLIGHT VIDEO MODAL -->
-<div id="hcModalOverlay" style="position:fixed;inset:0;z-index:99990;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity 0.35s ease;">
+<div id="hcModalOverlay">
   <div id="hcModalBlur" style="position:fixed;inset:0;backdrop-filter:blur(14px) brightness(0.55);-webkit-backdrop-filter:blur(14px) brightness(0.55);background:rgba(4,3,1,0.15);z-index:-1;"></div>
   <div id="hcModalBox" style="position:relative;width:100%;max-width:860px;max-height:90vh;border:1px solid rgba(212,175,55,0.35);background:#000;overflow:hidden;transform:scale(0.95);transition:transform 0.35s cubic-bezier(0.22,1,0.36,1);box-shadow:0 0 0 1px rgba(212,175,55,0.12),0 32px 80px rgba(0,0,0,0.7);">
     <button id="hcModalClose" style="position:absolute;top:14px;right:14px;width:36px;height:36px;background:rgba(8,8,8,0.8);border:1px solid rgba(212,175,55,0.55);color:#d4af37;font-size:16px;display:flex;align-items:center;justify-content:center;cursor:none;z-index:10;transition:background .25s;backdrop-filter:blur(6px);">✕</button>
@@ -1430,13 +1413,13 @@ body.light-mode #pkgFilterBar.floating {
   </div>
 </div>
 <script>
-document.addEventListener('DOMContentLoaded', function(){
+(function(){
   var overlay = document.getElementById('hcModalOverlay');
   var video   = document.getElementById('hcModalVideo');
   var closeBtn= document.getElementById('hcModalClose');
   var numEl   = document.getElementById('hcModalNum');
   var titleEl = document.getElementById('hcModalTitle');
-  if (!overlay || !video) { console.warn('modal elements missing'); return; }
+  if (!overlay || !video) return;
   var cards = [
     { num:'01', title:'Curated Journeys',   src:'assets/highlight1.webm' },
     { num:'02', title:'Local Mastery',       src:'assets/highlight2.webm' },
@@ -1463,10 +1446,9 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   });
   function closeModal(){
-    // Fade out the video audio
     var fadeOut = setInterval(function(){
-      if (video.volume > 0.08) {
-        video.volume -= 0.08;
+      if (video.volume > 0.1) {
+        video.volume -= 0.1;
       } else {
         clearInterval(fadeOut);
         video.pause();
@@ -1476,14 +1458,13 @@ document.addEventListener('DOMContentLoaded', function(){
     }, 40);
     overlay.classList.remove('open');
     document.body.style.overflow = '';
-    // Welcome ambient audio back
     var amb = document.getElementById('fjtAmbientAudio');
     if (amb && amb.dataset.wasPlaying === '1') {
       amb.dataset.wasPlaying = '';
       amb.volume = 0;
       amb.play().catch(function(){});
       var fadeIn = setInterval(function(){
-        if (amb.volume < 0.92) { amb.volume += 0.08; }
+        if (amb.volume < 0.9) { amb.volume += 0.1; }
         else { amb.volume = 1.0; clearInterval(fadeIn); }
       }, 50);
     }
@@ -1495,6 +1476,6 @@ document.addEventListener('DOMContentLoaded', function(){
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape') closeModal();
   });
-});
+})();
 </script>
 </body>
