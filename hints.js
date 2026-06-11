@@ -16,8 +16,8 @@
 
   /* ── TIMING CONSTANTS ───────────────────────────────────────────────── */
   var DISPLAY_MS = 5000;  /* how long each hint stays visible              */
-  var GAP_MS     = 6000;  /* pause AFTER a hint fades out, before next     */
-  var FADE_MS    = 380;   /* CSS transition duration for fade in / fade out */
+  var GAP_MS     = 7000;  /* pause AFTER a hint fades out, before next     */
+  var FADE_MS    = 480;   /* CSS transition duration for fade in / fade out */
 
   /* ── GLOBAL MUTEX ───────────────────────────────────────────────────── */
   /* Only ONE hint may ever be visible. Any code path that would show a
@@ -36,7 +36,7 @@
         'Open the navigation menu — explore destinations, packages, gallery and our journey journal'],
       ['.btn-primary',
         'Begin your Kenya journey — browse and book a curated safari expedition tailored entirely to you'],
-      ['#heroSoundBtn',
+      ['#fjtSoundBtn, #heroSoundBtn',
         'Toggle immersive ambient audio — hear the sounds of the Kenyan wilderness as you explore the site'],
       ['#themeToggle',
         'Switch between dark and light mode to suit your viewing comfort'],
@@ -52,6 +52,8 @@
         'Explore the complete collection of all our curated safari packages'],
       ['.blog-view-all-btn',
         'Read expert safari stories, destination guides and wildlife reports from our naturalists'],
+      ['#inline-quiz, .quiz-box',
+        'Not sure which safari suits you? Answer a few quick questions and we\'ll match you to your perfect journey — tap here to begin'],
     ],
 
     'packages.html': [
@@ -189,7 +191,12 @@
 
     /* Element must exist and be within the viewport right now */
     if (!el || !isInViewport(el)) {
-      /* Skip this hint — wait GAP_MS then try the next one */
+      /* Not in view — requeue this hint at the end and try the next one */
+      if (typeof h._retries === 'undefined') h._retries = 0;
+      if (h._retries < 2) {
+        h._retries++;
+        validHints.push(h);
+      }
       scheduleShow(idx + 1, GAP_MS);
       return;
     }
@@ -264,6 +271,20 @@
      ───────────────────────────────────────────────────────────────────── */
   function onBodyClick(e) {
     if (engineDone || !isHintActive) return;
+
+    /* If the click is on the hint bubble itself and it targets the quiz,
+       scroll the user to the inline quiz section. */
+    if (bubble && bubble.contains(e.target) && curEl &&
+        (curEl.id === 'inline-quiz' || curEl.closest('#inline-quiz'))) {
+      var quiz = document.getElementById('inline-quiz');
+      if (quiz) {
+        e.stopPropagation();
+        clearTimeout(mainTimer);
+        quiz.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        beginDismiss(curIdx + 1);
+        return;
+      }
+    }
 
     var tag = (e.target.tagName || '').toUpperCase();
     var ignored = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA', 'VIDEO', 'LABEL'];
