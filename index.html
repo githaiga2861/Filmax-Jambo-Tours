@@ -1394,7 +1394,7 @@ body.light-mode #pkgFilterBar.floating {
 <script src="hints.js"></script>
 <script src="assets/js/index.js" defer></script>
 <script src="assets/js/fjt-audio.js" defer></script>
-
+<script>
 // ── PKG FILTER BAR FLOATING ──────────────────────────────────────
 (function(){
   var bar = document.getElementById('pkgFilterBar');
@@ -1413,9 +1413,23 @@ body.light-mode #pkgFilterBar.floating {
     });
   }, { passive: true });
 })();
+</script>
 
 
-// ── HIGHLIGHT CARD MODAL ─────────────────────────────────────────
+
+<!-- HIGHLIGHT VIDEO MODAL -->
+<div id="hcModalOverlay" style="position:fixed;inset:0;z-index:99990;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity 0.35s ease;">
+  <div id="hcModalBlur" style="position:fixed;inset:0;backdrop-filter:blur(14px) brightness(0.55);-webkit-backdrop-filter:blur(14px) brightness(0.55);background:rgba(4,3,1,0.15);z-index:-1;"></div>
+  <div id="hcModalBox" style="position:relative;width:100%;max-width:860px;max-height:90vh;border:1px solid rgba(212,175,55,0.35);background:#000;overflow:hidden;transform:scale(0.95);transition:transform 0.35s cubic-bezier(0.22,1,0.36,1);box-shadow:0 0 0 1px rgba(212,175,55,0.12),0 32px 80px rgba(0,0,0,0.7);">
+    <button id="hcModalClose" style="position:absolute;top:14px;right:14px;width:36px;height:36px;background:rgba(8,8,8,0.8);border:1px solid rgba(212,175,55,0.55);color:#d4af37;font-size:16px;display:flex;align-items:center;justify-content:center;cursor:none;z-index:10;transition:background .25s;backdrop-filter:blur(6px);">✕</button>
+    <div id="hcModalNum" style="position:absolute;top:14px;left:14px;font-family:'Playfair Display',serif;font-size:11px;font-weight:800;letter-spacing:4px;color:rgba(212,175,55,0.7);background:rgba(8,8,8,0.7);padding:5px 10px;border:1px solid rgba(212,175,55,0.2);backdrop-filter:blur(6px);z-index:10;"></div>
+    <video id="hcModalVideo" playsinline style="width:100%;max-height:85vh;display:block;object-fit:cover;"></video>
+    <div style="position:absolute;bottom:0;left:0;right:0;padding:48px 28px 20px;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,transparent 100%);display:flex;align-items:flex-end;">
+      <div id="hcModalTitle" style="font-family:'Playfair Display',serif;font-size:clamp(18px,3vw,26px);font-weight:700;color:#ffffff;text-align:center;width:100%;text-shadow:0 2px 12px rgba(0,0,0,0.8);"></div>
+    </div>
+  </div>
+</div>
+<script>
 (function(){
   var overlay = document.getElementById('hcModalOverlay');
   var video   = document.getElementById('hcModalVideo');
@@ -1423,13 +1437,11 @@ body.light-mode #pkgFilterBar.floating {
   var numEl   = document.getElementById('hcModalNum');
   var titleEl = document.getElementById('hcModalTitle');
   if (!overlay || !video) return;
-
   var cards = [
     { num:'01', title:'Curated Journeys',   src:'assets/highlight1.webm' },
     { num:'02', title:'Local Mastery',       src:'assets/highlight2.webm' },
     { num:'03', title:'Effortless Luxury',   src:'assets/highlight3.webm' },
   ];
-
   document.querySelectorAll('.highlight-card').forEach(function(card, i){
     card.style.cursor = 'none';
     card.addEventListener('click', function(){
@@ -1444,14 +1456,12 @@ body.light-mode #pkgFilterBar.floating {
       document.body.style.overflow = 'hidden';
     });
   });
-
   function closeModal(){
     overlay.classList.remove('open');
     video.pause();
     video.src = '';
     document.body.style.overflow = '';
   }
-
   closeBtn.addEventListener('click', closeModal);
   overlay.addEventListener('click', function(e){
     if (e.target === overlay) closeModal();
@@ -1460,6 +1470,5 @@ body.light-mode #pkgFilterBar.floating {
     if (e.key === 'Escape') closeModal();
   });
 })();
-
+</script>
 </body>
-</html>

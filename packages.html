@@ -893,11 +893,6 @@
         <p class="auth-alt-link" style="margin-top:16px;">Already have an account? <button onclick="window._switchAuthTab('signin')">Sign in here</button></p>
       </div>
     </div>
-    <div style="padding:16px 24px 20px;border-top:1px solid rgba(212,175,55,0.12);display:flex;justify-content:flex-end;">
-    <button id="fjtFilterOkBtn" style="font-family:'Jost',sans-serif;font-size:10px;font-weight:800;letter-spacing:4px;text-transform:uppercase;padding:12px 32px;background:linear-gradient(135deg,#f0c84a,#d4af37,#b8860b);color:#080808;border:none;cursor:none;transition:transform .25s,box-shadow .25s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(212,175,55,0.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-      Apply Filters
-    </button>
-  </div>
 </div>
 </div>
 
@@ -909,21 +904,6 @@
 <script src="hints.js"></script>
 <script src="assets/js/packages.js" defer></script>
 <script src="assets/js/fjt-audio.js" defer></script>
-
-// ── FILTER OK BUTTON ──────────────────────────────────────────────
-(function(){
-  var okBtn = document.getElementById('fjtFilterOkBtn');
-  var panel = document.getElementById('filterPanel');
-  var toggleBtn = document.getElementById('filterToggleBtn');
-  if (!okBtn || !panel) return;
-  okBtn.addEventListener('click', function(){
-    panel.classList.remove('open');
-    if (toggleBtn) {
-      toggleBtn.classList.remove('active');
-      toggleBtn.textContent = 'Filters';
-    }
-  });
-})();
 
 </body>
 </html>
