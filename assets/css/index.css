@@ -1487,7 +1487,10 @@ body.light-mode .pkg-filter-btn.active {
 }
 
   body.light-mode .section-label {
-    color: var(--gold);
+    color: #6b4a00 !important;
+    -webkit-text-fill-color: #6b4a00 !important;
+    font-weight: 800 !important;
+    opacity: 1 !important;
   }
 
   body.light-mode .gold-line::before,
