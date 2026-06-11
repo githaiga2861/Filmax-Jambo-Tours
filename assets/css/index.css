@@ -6527,7 +6527,7 @@ body.light-mode .pkg-cta:hover {
   content: '';
   position: absolute;
   inset: 0;
-  border: 2px solid rgba(212,175,55,0.15);
+  border: 2px solid rgba(212,175,55,0.45);
   pointer-events: none;
 }
 
