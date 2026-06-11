@@ -1430,13 +1430,13 @@ body.light-mode #pkgFilterBar.floating {
   </div>
 </div>
 <script>
-(function(){
+document.addEventListener('DOMContentLoaded', function(){
   var overlay = document.getElementById('hcModalOverlay');
   var video   = document.getElementById('hcModalVideo');
   var closeBtn= document.getElementById('hcModalClose');
   var numEl   = document.getElementById('hcModalNum');
   var titleEl = document.getElementById('hcModalTitle');
-  if (!overlay || !video) return;
+  if (!overlay || !video) { console.warn('modal elements missing'); return; }
   var cards = [
     { num:'01', title:'Curated Journeys',   src:'assets/highlight1.webm' },
     { num:'02', title:'Local Mastery',       src:'assets/highlight2.webm' },
@@ -1458,19 +1458,35 @@ body.light-mode #pkgFilterBar.floating {
       video.play().catch(function(err){ console.warn('video play:', err); });
       overlay.classList.add('open');
       document.body.style.overflow = 'hidden';
-      // Pause ambient audio while watching
       var amb = document.getElementById('fjtAmbientAudio');
       if (amb && !amb.paused) { amb.dataset.wasPlaying = '1'; amb.pause(); }
     });
   });
   function closeModal(){
+    // Fade out the video audio
+    var fadeOut = setInterval(function(){
+      if (video.volume > 0.08) {
+        video.volume -= 0.08;
+      } else {
+        clearInterval(fadeOut);
+        video.pause();
+        video.src = '';
+        video.volume = 1.0;
+      }
+    }, 40);
     overlay.classList.remove('open');
-    video.pause();
-    video.src = '';
     document.body.style.overflow = '';
-    // Resume ambient audio
+    // Welcome ambient audio back
     var amb = document.getElementById('fjtAmbientAudio');
-    if (amb && amb.dataset.wasPlaying === '1') { amb.dataset.wasPlaying = ''; amb.play().catch(function(){}); }
+    if (amb && amb.dataset.wasPlaying === '1') {
+      amb.dataset.wasPlaying = '';
+      amb.volume = 0;
+      amb.play().catch(function(){});
+      var fadeIn = setInterval(function(){
+        if (amb.volume < 0.92) { amb.volume += 0.08; }
+        else { amb.volume = 1.0; clearInterval(fadeIn); }
+      }, 50);
+    }
   }
   closeBtn.addEventListener('click', closeModal);
   overlay.addEventListener('click', function(e){
@@ -1479,6 +1495,6 @@ body.light-mode #pkgFilterBar.floating {
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape') closeModal();
   });
-})();
+});
 </script>
 </body>
