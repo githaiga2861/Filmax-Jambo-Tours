@@ -20,6 +20,149 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
 <meta name="google-translate-customization" content="YOUR_ID">    
+<link rel="stylesheet" href="assets/css/fjt-animations.css">
+
+<style id="pkg-filter-float-style">
+/* pkg-filter-bar floating */
+#pkgFilterBar {
+  transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+#pkgFilterBar.floating {
+  position: fixed;
+  top: 82px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 89;
+  background: rgba(8,8,8,0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(212,175,55,0.22);
+  padding: 10px 28px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 2px 0 rgba(212,175,55,0.1) inset;
+  animation: filterPop 0.4s cubic-bezier(0.22,1,0.36,1);
+  border-radius: 0;
+  width: auto;
+  min-width: 320px;
+}
+@keyframes filterPop {
+  0%   { transform: translateX(-50%) translateY(-8px) scale(0.97); opacity:0.6; }
+  100% { transform: translateX(-50%) translateY(0)    scale(1);    opacity:1;   }
+}
+body.light-mode #pkgFilterBar.floating {
+  background: rgba(245,239,230,0.92);
+  border-color: rgba(154,111,0,0.25);
+}
+@media(max-width:768px){
+  #pkgFilterBar.floating { top:68px; padding:8px 16px; min-width:280px; }
+}
+</style>
+
+<style id="hc-modal-style">
+/* Highlight video modal */
+#hcModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99990;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+#hcModalOverlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+#hcModalBlur {
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(14px) brightness(0.55);
+  -webkit-backdrop-filter: blur(14px) brightness(0.55);
+  background: rgba(4,3,1,0.15);
+  z-index: -1;
+}
+#hcModalBox {
+  position: relative;
+  width: 100%;
+  max-width: 860px;
+  max-height: 90vh;
+  border: 1px solid rgba(212,175,55,0.35);
+  background: #000;
+  overflow: hidden;
+  transform: scale(0.95);
+  transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+  box-shadow: 0 0 0 1px rgba(212,175,55,0.12), 0 32px 80px rgba(0,0,0,0.7);
+}
+#hcModalOverlay.open #hcModalBox {
+  transform: scale(1);
+}
+#hcModalVideo {
+  width: 100%;
+  max-height: 85vh;
+  display: block;
+  object-fit: cover;
+}
+#hcModalClose {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  background: rgba(8,8,8,0.8);
+  border: 1px solid rgba(212,175,55,0.55);
+  color: #d4af37;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: none;
+  z-index: 10;
+  transition: background .25s, border-color .25s;
+  backdrop-filter: blur(6px);
+}
+#hcModalClose:hover { background: rgba(212,175,55,0.15); border-color: #d4af37; }
+#hcModalMeta {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 48px 28px 20px;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+#hcModalNum {
+  font-family: 'Playfair Display', serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: rgba(212,175,55,0.7);
+  flex-shrink: 0;
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(8,8,8,0.7);
+  padding: 5px 10px;
+  border: 1px solid rgba(212,175,55,0.2);
+  backdrop-filter: blur(6px);
+}
+#hcModalTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(18px, 3vw, 26px);
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  width: 100%;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.8);
+}
+@media(max-width:600px){
+  #hcModalBox { max-height: 70vh; }
+  #hcModalTitle { font-size: 16px; }
+}
+</style>
 </head>
 <body>
 
@@ -1250,5 +1393,73 @@
 
 <script src="hints.js"></script>
 <script src="assets/js/index.js" defer></script>
+<script src="assets/js/fjt-audio.js" defer></script>
+
+// ── PKG FILTER BAR FLOATING ──────────────────────────────────────
+(function(){
+  var bar = document.getElementById('pkgFilterBar');
+  var sec = document.getElementById('packages');
+  if (!bar || !sec) return;
+  var ticking = false;
+  window.addEventListener('scroll', function(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){
+      ticking = false;
+      var rect = sec.getBoundingClientRect();
+      var barH = bar.offsetHeight;
+      var inSection = rect.top <= 82 && rect.bottom >= barH + 82;
+      bar.classList.toggle('floating', inSection);
+    });
+  }, { passive: true });
+})();
+
+
+// ── HIGHLIGHT CARD MODAL ─────────────────────────────────────────
+(function(){
+  var overlay = document.getElementById('hcModalOverlay');
+  var video   = document.getElementById('hcModalVideo');
+  var closeBtn= document.getElementById('hcModalClose');
+  var numEl   = document.getElementById('hcModalNum');
+  var titleEl = document.getElementById('hcModalTitle');
+  if (!overlay || !video) return;
+
+  var cards = [
+    { num:'01', title:'Curated Journeys',   src:'assets/highlight1.webm' },
+    { num:'02', title:'Local Mastery',       src:'assets/highlight2.webm' },
+    { num:'03', title:'Effortless Luxury',   src:'assets/highlight3.webm' },
+  ];
+
+  document.querySelectorAll('.highlight-card').forEach(function(card, i){
+    card.style.cursor = 'none';
+    card.addEventListener('click', function(){
+      var c = cards[i];
+      if (!c) return;
+      numEl.textContent   = c.num;
+      titleEl.textContent = c.title;
+      video.src = c.src;
+      video.load();
+      video.play().catch(function(){});
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeModal(){
+    overlay.classList.remove('open');
+    video.pause();
+    video.src = '';
+    document.body.style.overflow = '';
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e){
+    if (e.target === overlay) closeModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeModal();
+  });
+})();
+
 </body>
 </html>

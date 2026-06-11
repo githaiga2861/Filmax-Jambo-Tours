@@ -1,0 +1,228 @@
+/* ═══════════════════════════════════════════════════
+   FJT ANIMATIONS — Premium staggered reveal system
+   Applied globally across all pages
+   ═══════════════════════════════════════════════════ */
+
+/* ── BASE REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── STAGGER VARIANTS ── */
+.reveal-delay-1 { transition-delay: 0.08s !important; }
+.reveal-delay-2 { transition-delay: 0.16s !important; }
+.reveal-delay-3 { transition-delay: 0.24s !important; }
+.reveal-delay-4 { transition-delay: 0.32s !important; }
+.reveal-delay-5 { transition-delay: 0.40s !important; }
+.reveal-delay-6 { transition-delay: 0.48s !important; }
+
+/* ── DIRECTION VARIANTS ── */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition:
+    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(32px);
+  transition:
+    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.94);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+.reveal-fade {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.reveal-fade.visible { opacity: 1; }
+
+/* ── SECTION TITLES ── */
+.section-title.reveal,
+.page-title.reveal,
+h1.reveal, h2.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── EYEBROWS / LABELS ── */
+.section-label.reveal,
+.section-eyebrow.reveal,
+.page-eyebrow.reveal {
+  opacity: 0;
+  transform: translateY(12px) scaleX(0.96);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: left center;
+}
+.section-label.reveal.visible,
+.section-eyebrow.reveal.visible,
+.page-eyebrow.reveal.visible {
+  opacity: 1;
+  transform: translateY(0) scaleX(1);
+}
+
+/* ── CARDS ── */
+.highlight-card.reveal,
+.package-card.reveal,
+.blog-card.reveal,
+.team-card.reveal,
+.stat-card.reveal,
+.booking-card.reveal,
+.rec-card.reveal,
+.testimonial.reveal,
+.related-card.reveal {
+  opacity: 0;
+  transform: translateY(36px) scale(0.97);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.highlight-card.reveal.visible,
+.package-card.reveal.visible,
+.blog-card.reveal.visible,
+.team-card.reveal.visible,
+.stat-card.reveal.visible,
+.booking-card.reveal.visible,
+.rec-card.reveal.visible,
+.testimonial.reveal.visible,
+.related-card.reveal.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* ── GRIDS — auto stagger children ── */
+.highlights-grid .highlight-card.reveal:nth-child(1) { transition-delay: 0s; }
+.highlights-grid .highlight-card.reveal:nth-child(2) { transition-delay: 0.12s; }
+.highlights-grid .highlight-card.reveal:nth-child(3) { transition-delay: 0.24s; }
+
+.packages-grid .package-card.reveal:nth-child(1) { transition-delay: 0s; }
+.packages-grid .package-card.reveal:nth-child(2) { transition-delay: 0.1s; }
+.packages-grid .package-card.reveal:nth-child(3) { transition-delay: 0.2s; }
+
+.blog-grid .blog-card.reveal:nth-child(1) { transition-delay: 0s; }
+.blog-grid .blog-card.reveal:nth-child(2) { transition-delay: 0.1s; }
+.blog-grid .blog-card.reveal:nth-child(3) { transition-delay: 0.2s; }
+
+.team-grid .team-card.reveal:nth-child(1) { transition-delay: 0s; }
+.team-grid .team-card.reveal:nth-child(2) { transition-delay: 0.12s; }
+.team-grid .team-card.reveal:nth-child(3) { transition-delay: 0.24s; }
+
+.cards-grid .stat-card.reveal:nth-child(1) { transition-delay: 0s; }
+.cards-grid .stat-card.reveal:nth-child(2) { transition-delay: 0.08s; }
+.cards-grid .stat-card.reveal:nth-child(3) { transition-delay: 0.16s; }
+.cards-grid .stat-card.reveal:nth-child(4) { transition-delay: 0.24s; }
+
+.testimonials-slider .testimonial.reveal:nth-child(1) { transition-delay: 0s; }
+.testimonials-slider .testimonial.reveal:nth-child(2) { transition-delay: 0.12s; }
+.testimonials-slider .testimonial.reveal:nth-child(3) { transition-delay: 0.24s; }
+
+/* ── STATS BAR ── */
+.stats-bar.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22,1,0.36,1);
+}
+.stats-bar.reveal.visible { opacity: 1; transform: translateY(0); }
+.stats-bar .stat-item { transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22,1,0.36,1); }
+
+/* ── FILTER BARS ── */
+.pkg-filter-bar.reveal,
+.filter-system.reveal {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+.pkg-filter-bar.reveal.visible,
+.filter-system.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── FORM CARDS ── */
+.form-card.reveal,
+.summary-card.reveal,
+.concierge-card.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1);
+}
+.form-card.reveal.visible,
+.summary-card.reveal.visible,
+.concierge-card.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── PKG DETAIL SECTIONS ── */
+.pkg-overview.reveal,
+.pkg-highlights.reveal,
+.pkg-itinerary.reveal,
+.pkg-inclusions.reveal,
+.pkg-practical.reveal,
+.sidebar-card.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.75s cubic-bezier(0.22,1,0.36,1), transform 0.75s cubic-bezier(0.22,1,0.36,1);
+}
+.pkg-overview.reveal.visible,
+.pkg-highlights.reveal.visible,
+.pkg-itinerary.reveal.visible,
+.pkg-inclusions.reveal.visible,
+.pkg-practical.reveal.visible,
+.sidebar-card.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── DIVIDERS / GOLD LINES ── */
+.gold-line.reveal {
+  opacity: 0;
+  transform: scaleX(0.6);
+  transition: opacity 0.6s ease, transform 0.8s cubic-bezier(0.22,1,0.36,1);
+  transform-origin: center;
+}
+.gold-line.reveal.visible { opacity: 1; transform: scaleX(1); }
+
+/* ── CONTACT SECTION ── */
+.contact-info.reveal { transition-delay: 0s; }
+.contact-form.reveal { transition-delay: 0.15s; }
+
+/* ── REDUCE MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-scale,
+  .reveal-fade {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
