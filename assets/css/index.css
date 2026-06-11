@@ -6518,9 +6518,13 @@ body.light-mode .pkg-cta:hover {
   gap: 0;
   margin: 52px auto 0;
   position: relative;
-  width: fit-content;
-  max-width: calc(100vw - 48px);
+  width: 100%;
+  max-width: 560px;
   flex-wrap: nowrap;
+}
+.pkg-filter-bar .pkg-filter-btn {
+  flex: 1;
+  text-align: center;
 }
 
 .pkg-filter-bar::before {
