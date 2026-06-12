@@ -2190,7 +2190,7 @@ body.light-mode .quiz-top-line {
   body.light-mode .auth-overlay { background: rgba(200,196,188,0.9); }
   body.light-mode .auth-btn-nav { color: var(--gold); border-color: rgba(122,79,0,0.35); }
   body.light-mode #userMenu { background: rgba(232,228,220,0.98) !important; border-color: rgba(0,0,0,0.12) !important; }
-  body.light-mode #userMenuName { color: #9a6f00 !important; border-bottom-color: rgba(154,111,0,0.12) !important; }
+  body.light-mode #userMenuName { color: var(--gold) !important; border-bottom-color: rgba(122,79,0,0.15) !important; }
   body.light-mode .user-menu-item { color: #1a1a1a; }
   body.light-mode .user-menu-item:hover { color: var(--gold); }
   body.light-mode .testimonial-form-locked { border-color: rgba(154,111,0,0.15); }
