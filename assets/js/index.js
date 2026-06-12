@@ -1161,16 +1161,14 @@ window._fjt_fresh=!sessionStorage.getItem('loaderSeen');
     entries.forEach(function(e){
       if (e.isIntersecting) {
         var el = e.target;
-        var delay = parseFloat(el.style.transitionDelay) || 0;
-        setTimeout(function(){ el.classList.add('visible'); }, delay * 1000);
+        setTimeout(function(){ el.classList.add('visible'); }, 60);
         obs.unobserve(el);
       }
     });
   }, {threshold: 0.08, rootMargin: '0px 0px -30px 0px'});
-  // Small delay so CSS is fully painted before observer fires
   setTimeout(function(){
     reveals.forEach(function(el){ obs.observe(el); });
-  }, 120);
+  }, 150);
 })();
 
 // ===========================
