@@ -7691,3 +7691,45 @@ body.light-mode .pkg-cta:hover {
 .fjt-ldr-tagline.fjt-ldr-tag-vis {
   color: rgba(212,175,55,0.38);
 }
+
+/* ── LIGHT MODE FILTER BAR ── */
+body.light-mode .pkg-filter-bar,
+body.light-mode #pkgFilterBar.floating {
+  background: rgba(255,255,255,0.88) !important;
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+}
+body.light-mode .pkg-filter-btn {
+  color: #1a1a1a !important;
+}
+body.light-mode .pkg-filter-btn.active {
+  color: var(--gold) !important;
+  border-color: var(--gold) !important;
+}
+
+/* ── LIGHT MODE GOLD UNIFICATION ── */
+body.light-mode .quiz-box {
+  border-image: none !important;
+  border: 1px solid rgba(122,79,0,0.4) !important;
+  background: #d8d4cc !important;
+}
+body.light-mode .quiz-step-label,
+body.light-mode .quiz-result-name,
+body.light-mode .quiz-result-meta {
+  color: var(--gold) !important;
+  -webkit-text-fill-color: var(--gold) !important;
+}
+body.light-mode .quiz-option {
+  border-color: rgba(122,79,0,0.3) !important;
+}
+body.light-mode .quiz-option.selected {
+  border-color: var(--gold) !important;
+  color: var(--gold) !important;
+}
+body.light-mode .user-menu {
+  background: #ffffff;
+  border-color: rgba(122,79,0,0.2);
+}
+body.light-mode .user-menu-name {
+  color: #1a1a1a;
+}
