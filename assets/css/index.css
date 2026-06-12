@@ -7773,3 +7773,12 @@ body.light-mode #testimonialFormLocked button[style*="background:transparent"] {
   color: var(--gold) !important;
   border-color: rgba(122,79,0,0.4) !important;
 }
+
+/* ── LIGHT MODE CARD BORDERS ── */
+body.light-mode .highlight-card,
+body.light-mode .package-card,
+body.light-mode .team-card,
+body.light-mode .blog-card,
+body.light-mode .testimonial {
+  border: 1px solid rgba(122,79,0,0.18) !important;
+}
