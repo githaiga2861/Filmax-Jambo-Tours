@@ -3995,7 +3995,7 @@ nav.scrolled .nav-brand-idle {
     letter-spacing: 4px;
     text-transform: uppercase;
     padding: 15px;
-    border: 1px solid var(--border);
+    border: 2px solid var(--border);
     color: var(--gold);
     text-decoration: none;
     position: relative;
