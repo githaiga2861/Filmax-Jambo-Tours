@@ -1156,9 +1156,21 @@ window._fjt_fresh=!sessionStorage.getItem('loaderSeen');
 // REVEAL ANIMATIONS
 // ===========================
 (function(){
-  const reveals=document.querySelectorAll('.reveal');
-  const obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
-  reveals.forEach(function(el){obs.observe(el);});
+  var reveals = document.querySelectorAll('.reveal');
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) {
+        var el = e.target;
+        var delay = parseFloat(el.style.transitionDelay) || 0;
+        setTimeout(function(){ el.classList.add('visible'); }, delay * 1000);
+        obs.unobserve(el);
+      }
+    });
+  }, {threshold: 0.08, rootMargin: '0px 0px -30px 0px'});
+  // Small delay so CSS is fully painted before observer fires
+  setTimeout(function(){
+    reveals.forEach(function(el){ obs.observe(el); });
+  }, 120);
 })();
 
 // ===========================
