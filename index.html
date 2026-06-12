@@ -27,10 +27,13 @@
 #pkgFilterBar.floating {
   position: fixed;
   top: 88px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 89;
+  left: 0;
+  right: 0;
   margin: 0 auto;
+  width: 560px;
+  max-width: calc(100vw - 48px);
+  transform: none;
+  z-index: 89;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   background: rgba(8,8,8,0.55);
