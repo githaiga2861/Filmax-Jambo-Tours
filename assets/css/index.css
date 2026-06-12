@@ -356,9 +356,9 @@ body.light-mode .blog-card-title {
 
 
   body.light-mode nav {
-    background: rgba(220,216,210,0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(184,134,11,0.15);
+    background: transparent;
+    backdrop-filter: none;
+    border-bottom: 1px solid transparent;
   }
 
   body.light-mode .dropdown {
@@ -7785,8 +7785,8 @@ body.light-mode .testimonial {
 
 /* ── HEADER / NAV — keep dark mode colours in light mode ── */
 body.light-mode nav {
-  background: rgba(8,8,8,0.82) !important;
-  border-bottom-color: rgba(212,175,55,0.12) !important;
+  background: transparent !important;
+  border-bottom-color: transparent !important;
 }
 body.light-mode .nav-link {
   color: #ffffff !important;
