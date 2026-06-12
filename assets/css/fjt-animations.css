@@ -266,3 +266,47 @@ h1.reveal, h2.reveal {
 .section-label.reveal { transition-delay: 0s; }
 .section-title.reveal { transition-delay: 0.12s; }
 .section-sub.reveal   { transition-delay: 0.24s; }
+
+/* ── STRONGER STAGGER OVERRIDES ── */
+.reveal {
+  opacity: 0 !important;
+  transform: translateY(60px) !important;
+  transition: opacity 1s cubic-bezier(0.22,1,0.36,1), transform 1s cubic-bezier(0.22,1,0.36,1) !important;
+}
+.reveal.visible {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+}
+.section-label.reveal { transition-delay: 0s !important; }
+.section-title.reveal  { transition-delay: 0.18s !important; }
+.section-sub.reveal    { transition-delay: 0.32s !important; }
+
+@keyframes fjtStaggerIn {
+  0%   { opacity: 0; transform: translateY(70px) scale(0.94); }
+  100% { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+.highlights-grid.visible .highlight-card,
+.packages-grid.visible .package-card,
+.team-grid.visible .team-card,
+.blog-grid.visible .blog-card {
+  animation: fjtStaggerIn 0.9s cubic-bezier(0.22,1,0.36,1) forwards !important;
+}
+.highlights-grid.visible .highlight-card:nth-child(1),
+.packages-grid.visible .package-card:nth-child(1),
+.team-grid.visible .team-card:nth-child(1),
+.blog-grid.visible .blog-card:nth-child(1) { animation-delay: 0.05s !important; }
+.highlights-grid.visible .highlight-card:nth-child(2),
+.packages-grid.visible .package-card:nth-child(2),
+.team-grid.visible .team-card:nth-child(2),
+.blog-grid.visible .blog-card:nth-child(2) { animation-delay: 0.25s !important; }
+.highlights-grid.visible .highlight-card:nth-child(3),
+.packages-grid.visible .package-card:nth-child(3),
+.team-grid.visible .team-card:nth-child(3),
+.blog-grid.visible .blog-card:nth-child(3) { animation-delay: 0.45s !important; }
+.packages-grid.visible .package-card:nth-child(4),
+.team-grid.visible .team-card:nth-child(4),
+.blog-grid.visible .blog-card:nth-child(4) { animation-delay: 0.65s !important; }
+.packages-grid.visible .package-card:nth-child(5) { animation-delay: 0.85s !important; }
+.packages-grid.visible .package-card:nth-child(6) { animation-delay: 1.05s !important; }
+.packages-grid.visible .package-card:nth-child(7) { animation-delay: 1.25s !important; }
+.packages-grid.visible .package-card:nth-child(n+8) { animation-delay: 1.45s !important; }
