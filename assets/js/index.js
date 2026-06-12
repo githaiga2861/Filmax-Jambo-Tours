@@ -419,9 +419,7 @@ window._fjt_fresh=!sessionStorage.getItem('loaderSeen');
 
       // Try profiles table first
       try {
-        const supa = window.supabase
-          ? window.supabase.createClient(SUPA_URL, SUPA_KEY)
-          : null;
+        const supa = getSupabase();
 
         if (supa) {
           // Always fetch fresh from Supabase — never rely on cached browser state
