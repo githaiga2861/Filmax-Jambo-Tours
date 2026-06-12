@@ -14,7 +14,13 @@ window._fjt_fresh=!sessionStorage.getItem('loaderSeen');
   const SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
   const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
 
-  function getSupabase() { return window.supabase ? window.supabase.createClient(SUPA_URL, SUPA_KEY) : null; }
+  var _supaInstance = null;
+  function getSupabase() {
+    if (_supaInstance) return _supaInstance;
+    if (!window.supabase) return null;
+    _supaInstance = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+    return _supaInstance;
+  }
 
   function v(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
 
