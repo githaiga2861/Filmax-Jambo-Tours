@@ -67,19 +67,29 @@
 
 <div class="mobile-quote-inject" id="mobileQuoteInject"></div>
 <div class="pkg-main" id="pkgMain">
-  <div class="pkg-content">
-    
+    <div class="pkg-content">
+    <div class="pkg-tabs-wrapper" id="pkgTabsWrapper">
+      <div class="pkg-tabs" role="tablist">
+        <button class="pkg-tab active" data-tab="overview" role="tab">Overview</button>
+        <button class="pkg-tab" data-tab="itinerary" role="tab">Day by Day</button>
+        <button class="pkg-tab" data-tab="inclusions" role="tab">Inclusions</button>
+        <button class="pkg-tab" data-tab="practical" role="tab">Good to Know</button>
+      </div>
+    </div>
 
-    <div class="pkg-overview reveal">
+    <div class="pkg-tab-panel active" id="panel-overview">
+      <div class="pkg-overview reveal">
       <span class="sec-label">The Journey</span>
       <h2 class="sec-title">For Those Who Hunt with a Lens</h2>
       <p>Wildlife photography is not about equipment — it is about knowledge, patience, and positioning. The Photography Expedition pairs a professional wildlife photographer (whose work appears in National Geographic, BBC Wildlife, and GEO) with the most meticulously outfitted safari vehicle in Kenya.</p><p>Maximum four guests. Custom camera rigs on every window position. Bean bags, gimbal mounts, and a vehicle fitted with a raised hide platform. The photographer manages the light; your guide manages the wildlife. Post-processing sessions each evening cover RAW workflow, composition principles, and species identification. You will return home with images you could not have made anywhere else.</p>
       <div class="sec-divider"></div>
     </div>
 
-    <div class="pkg-highlights reveal"><div class="pkg-highlight-item"><span class="phi-icon">📸</span><span class="phi-label">Led By</span><span class="phi-value">Pro National Geographic Photographer</span></div><div class="pkg-highlight-item"><span class="phi-icon">🎥</span><span class="phi-label">Equipment</span><span class="phi-value">Custom Camera Rigs & Mounts</span></div><div class="pkg-highlight-item"><span class="phi-icon">💻</span><span class="phi-label">Evening</span><span class="phi-value">Daily Post-Processing Sessions</span></div><div class="pkg-highlight-item"><span class="phi-icon">👥</span><span class="phi-label">Group</span><span class="phi-value">Maximum 4 Guests Only</span></div><div class="pkg-highlight-item"><span class="phi-icon">🦁</span><span class="phi-label">Locations</span><span class="phi-value">Mara + Amboseli</span></div><div class="pkg-highlight-item"><span class="phi-icon">✦</span><span class="phi-label">Standard</span><span class="phi-value">All-Inclusive Premium</span></div></div>
+    <div class="pkg-highlights reveal"><div class="pkg-highlight-item"><span class="phi-icon">📸</span><span class="phi-label">Led By</span><span class="phi-value">Pro National Geographic Photographer</span></div>
+    </div>
 
-    <div class="pkg-itinerary reveal">
+    <div class="pkg-tab-panel" id="panel-itinerary">
+      <div class="pkg-itinerary reveal">
       <span class="sec-label">Day by Day</span>
       <h2 class="sec-title">Your Itinerary</h2>
       <div class="sec-divider"></div>
@@ -134,8 +144,10 @@
         <ul class="day-activities"><li>Final dawn session</li><li>Review and print selection</li><li>Charter to Nairobi</li><li>Departure</li></ul>
       </div>
     </div>
+    </div>
 
-    <div class="pkg-inclusions reveal">
+    <div class="pkg-tab-panel" id="panel-inclusions">
+      <div class="pkg-inclusions reveal">
       <div class="inclusion-group">
         <span class="sec-label">What's Included</span>
         <h3 class="sec-title" style="font-size:22px">Included</h3>
@@ -147,8 +159,10 @@
         <ul class="inclusion-list excl"><li>International flights</li><li>Kenya visa</li><li>Personal camera equipment</li><li>Drone permits (can be arranged)</li><li>Personal insurance</li><li>Gratuities</li></ul>
       </div>
     </div>
+    </div>
 
-    <div class="pkg-practical reveal">
+    <div class="pkg-tab-panel" id="panel-practical">
+      <div class="pkg-practical reveal">
       <span class="sec-label">Good to Know</span>
       <h2 class="sec-title">Practical Information</h2>
       <div class="practical-grid"><div class="practical-item"><span class="practical-item-label">Best Season</span><span class="practical-item-value">Year-round · Specific light: Jan–Feb, Jul–Oct ideal</span></div><div class="practical-item"><span class="practical-item-label">Camera Level</span><span class="practical-item-value">All levels welcome — from enthusiast to professional</span></div><div class="practical-item"><span class="practical-item-label">Equipment Provided</span><span class="practical-item-value">All vehicle rigs and mounts. Bring your own camera body and lenses.</span></div><div class="practical-item"><span class="practical-item-label">Group Size</span><span class="practical-item-value">MAXIMUM 4 guests. This is strictly enforced.</span></div><div class="practical-item"><span class="practical-item-label">Accommodation</span><span class="practical-item-value">Luxury camps with good data/WiFi for editing</span></div><div class="practical-item"><span class="practical-item-label">Booking Lead Time</span><span class="practical-item-value">Minimum 60 days</span></div><div class="practical-item"><span class="practical-item-label">Deposit</span><span class="practical-item-value">35% at confirmation</span></div><div class="practical-item"><span class="practical-item-label">Recommended Lenses</span><span class="practical-item-value">400mm+ for wildlife, 24-70mm for landscapes</span></div></div>
@@ -163,7 +177,6 @@
       </div>
     </div>
 
-  
   </div>
 
   <div class="pkg-sidebar">

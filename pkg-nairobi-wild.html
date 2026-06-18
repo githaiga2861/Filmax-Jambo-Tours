@@ -67,19 +67,29 @@
 
 <div class="mobile-quote-inject" id="mobileQuoteInject"></div>
 <div class="pkg-main" id="pkgMain">
-  <div class="pkg-content">
-    
+    <div class="pkg-content">
+    <div class="pkg-tabs-wrapper" id="pkgTabsWrapper">
+      <div class="pkg-tabs" role="tablist">
+        <button class="pkg-tab active" data-tab="overview" role="tab">Overview</button>
+        <button class="pkg-tab" data-tab="itinerary" role="tab">Day by Day</button>
+        <button class="pkg-tab" data-tab="inclusions" role="tab">Inclusions</button>
+        <button class="pkg-tab" data-tab="practical" role="tab">Good to Know</button>
+      </div>
+    </div>
 
-    <div class="pkg-overview reveal">
+    <div class="pkg-tab-panel active" id="panel-overview">
+      <div class="pkg-overview reveal">
       <span class="sec-label">The Journey</span>
       <h2 class="sec-title">Lions With a City Skyline</h2>
       <p>The world's only capital city with a national park on its doorstep — and the wildlife is entirely real. Buffalo, rhinoceros, lion, cheetah, giraffe, zebra and over 500 bird species live within Nairobi National Park, and from the park's northern boundary the Nairobi city skyline is visible. There is nowhere else on earth where this is possible.</p><p>The Nairobi Wild break is designed for travellers with limited time who refuse to compromise on experience. Two days in and around Nairobi deliver more genuine wildlife encounters than most people receive in a lifetime.</p>
       <div class="sec-divider"></div>
     </div>
 
-    <div class="pkg-highlights reveal"><div class="pkg-highlight-item"><span class="phi-icon">🦁</span><span class="phi-label">Wildlife</span><span class="phi-value">Lions Against City Skyline</span></div><div class="pkg-highlight-item"><span class="phi-icon">🦒</span><span class="phi-label">Experience</span><span class="phi-value">Giraffe Centre Hand-Feeding</span></div><div class="pkg-highlight-item"><span class="phi-icon">🐘</span><span class="phi-label">Conservation</span><span class="phi-value">Elephant Orphanage Visit</span></div><div class="pkg-highlight-item"><span class="phi-icon">🏨</span><span class="phi-label">Stay</span><span class="phi-value">Boutique City-Edge Lodge</span></div><div class="pkg-highlight-item"><span class="phi-icon">🚗</span><span class="phi-label">Transfers</span><span class="phi-value">Private 4x4 Vehicle</span></div><div class="pkg-highlight-item"><span class="phi-icon">✦</span><span class="phi-label">Board Basis</span><span class="phi-value">Full Board</span></div></div>
+    <div class="pkg-highlights reveal"><div class="pkg-highlight-item"><span class="phi-icon">🦁</span><span class="phi-label">Wildlife</span><span class="phi-value">Lions Against City Skyline</span></div>
+    </div>
 
-    <div class="pkg-itinerary reveal">
+    <div class="pkg-tab-panel" id="panel-itinerary">
+      <div class="pkg-itinerary reveal">
       <span class="sec-label">Day by Day</span>
       <h2 class="sec-title">Your Itinerary</h2>
       <div class="sec-divider"></div>
@@ -99,8 +109,10 @@
         <ul class="day-activities"><li>Nairobi Museum visit</li><li>Karen Blixen homestead</li><li>City market option</li><li>Farewell Kenyan lunch</li></ul>
       </div>
     </div>
+    </div>
 
-    <div class="pkg-inclusions reveal">
+    <div class="pkg-tab-panel" id="panel-inclusions">
+      <div class="pkg-inclusions reveal">
       <div class="inclusion-group">
         <span class="sec-label">What's Included</span>
         <h3 class="sec-title" style="font-size:22px">Included</h3>
@@ -112,8 +124,10 @@
         <ul class="inclusion-list excl"><li>International flights</li><li>Kenya visa</li><li>Personal shopping</li><li>Gratuities</li><li>Personal travel insurance</li></ul>
       </div>
     </div>
+    </div>
 
-    <div class="pkg-practical reveal">
+    <div class="pkg-tab-panel" id="panel-practical">
+      <div class="pkg-practical reveal">
       <span class="sec-label">Good to Know</span>
       <h2 class="sec-title">Practical Information</h2>
       <div class="practical-grid"><div class="practical-item"><span class="practical-item-label">Best Season</span><span class="practical-item-value">Year-round — Nairobi is safari-ready 365 days</span></div><div class="practical-item"><span class="practical-item-label">Fitness Level</span><span class="practical-item-value">Low — vehicle-based and walking</span></div><div class="practical-item"><span class="practical-item-label">Group Size</span><span class="practical-item-value">Min 1 · Max 6</span></div><div class="practical-item"><span class="practical-item-label">Accommodation</span><span class="practical-item-value">Boutique city-edge lodge, 15 mins from NNP</span></div><div class="practical-item"><span class="practical-item-label">DSWT Tip</span><span class="practical-item-value">The 11am and 3pm bottle feeding sessions are most spectacular</span></div><div class="practical-item"><span class="practical-item-label">Booking Lead Time</span><span class="practical-item-value">As little as 7 days. Confirm DSWT session.</span></div><div class="practical-item"><span class="practical-item-label">Deposit</span><span class="practical-item-value">50% at confirmation</span></div><div class="practical-item"><span class="practical-item-label">What to Pack</span><span class="practical-item-value">Comfortable walking shoes, neutral casual wear</span></div></div>
@@ -128,7 +142,6 @@
       </div>
     </div>
 
-  
   </div>
 
   <div class="pkg-sidebar">

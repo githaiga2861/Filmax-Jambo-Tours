@@ -67,19 +67,29 @@
 
 <div class="mobile-quote-inject" id="mobileQuoteInject"></div>
 <div class="pkg-main" id="pkgMain">
-  <div class="pkg-content">
-    
+    <div class="pkg-content">
+    <div class="pkg-tabs-wrapper" id="pkgTabsWrapper">
+      <div class="pkg-tabs" role="tablist">
+        <button class="pkg-tab active" data-tab="overview" role="tab">Overview</button>
+        <button class="pkg-tab" data-tab="itinerary" role="tab">Day by Day</button>
+        <button class="pkg-tab" data-tab="inclusions" role="tab">Inclusions</button>
+        <button class="pkg-tab" data-tab="practical" role="tab">Good to Know</button>
+      </div>
+    </div>
 
-    <div class="pkg-overview reveal">
+    <div class="pkg-tab-panel active" id="panel-overview">
+      <div class="pkg-overview reveal">
       <span class="sec-label">The Journey</span>
       <h2 class="sec-title">Your First Encounter with the Wild</h2>
       <p>The Maasai Mara needs no introduction. Africa's most celebrated wildlife arena — a boundless plain where predator and prey have enacted their ancient drama since time immemorial. The Mara Awakening is designed for the first-time safari traveller who refuses to compromise on quality.</p><p>Four days is the ideal duration to experience the Mara properly. Two full days of game drives allow you to move with the rhythms of the ecosystem — early mornings with the big cats, midday elephant encounters at the Mara River, golden afternoon light painting the savannah. This is Kenya as it was meant to be experienced.</p>
       <div class="sec-divider"></div>
     </div>
 
-    <div class="pkg-highlights reveal"><div class="pkg-highlight-item"><span class="phi-icon">🚗</span><span class="phi-label">Transfers</span><span class="phi-value">Private 4x4 Land Cruiser</span></div><div class="pkg-highlight-item"><span class="phi-icon">🏕️</span><span class="phi-label">Accommodation</span><span class="phi-value">Luxury Tented Camp</span></div><div class="pkg-highlight-item"><span class="phi-icon">🌅</span><span class="phi-label">Signature</span><span class="phi-value">Sundowner Cocktails</span></div><div class="pkg-highlight-item"><span class="phi-icon">🦁</span><span class="phi-label">Wildlife</span><span class="phi-value">Big Five Territory</span></div><div class="pkg-highlight-item"><span class="phi-icon">👥</span><span class="phi-label">Group Size</span><span class="phi-value">Max 6 per vehicle</span></div><div class="pkg-highlight-item"><span class="phi-icon">✦</span><span class="phi-label">Board Basis</span><span class="phi-value">Full Board + Sundowners</span></div></div>
+    <div class="pkg-highlights reveal"><div class="pkg-highlight-item"><span class="phi-icon">🚗</span><span class="phi-label">Transfers</span><span class="phi-value">Private 4x4 Land Cruiser</span></div>
+    </div>
 
-    <div class="pkg-itinerary reveal">
+    <div class="pkg-tab-panel" id="panel-itinerary">
+      <div class="pkg-itinerary reveal">
       <span class="sec-label">Day by Day</span>
       <h2 class="sec-title">Your Itinerary</h2>
       <div class="sec-divider"></div>
@@ -113,8 +123,10 @@
         <ul class="day-activities"><li>Final dawn drive</li><li>Bush breakfast</li><li>Scenic return drive</li><li>Nairobi transfer assistance</li></ul>
       </div>
     </div>
+    </div>
 
-    <div class="pkg-inclusions reveal">
+    <div class="pkg-tab-panel" id="panel-inclusions">
+      <div class="pkg-inclusions reveal">
       <div class="inclusion-group">
         <span class="sec-label">What's Included</span>
         <h3 class="sec-title" style="font-size:22px">Included</h3>
@@ -126,8 +138,10 @@
         <ul class="inclusion-list excl"><li>International flights to/from Nairobi</li><li>Kenya visa fees (currently $50 USD / eVisa)</li><li>Personal travel insurance (strongly recommended)</li><li>Laundry services</li><li>Personal shopping and curios</li><li>Gratuities and tips (discretionary)</li><li>Any services not specified in itinerary</li></ul>
       </div>
     </div>
+    </div>
 
-    <div class="pkg-practical reveal">
+    <div class="pkg-tab-panel" id="panel-practical">
+      <div class="pkg-practical reveal">
       <span class="sec-label">Good to Know</span>
       <h2 class="sec-title">Practical Information</h2>
       <div class="practical-grid"><div class="practical-item"><span class="practical-item-label">Best Season</span><span class="practical-item-value">Year-round · Peak: Jul–Oct (Migration)</span></div><div class="practical-item"><span class="practical-item-label">Fitness Level</span><span class="practical-item-value">Low — all activities vehicle-based</span></div><div class="practical-item"><span class="practical-item-label">Group Size</span><span class="practical-item-value">Minimum 2 · Maximum 6 per vehicle</span></div><div class="practical-item"><span class="practical-item-label">Accommodation</span><span class="practical-item-value">Luxury tented camp, en-suite bathrooms</span></div><div class="practical-item"><span class="practical-item-label">Vaccinations</span><span class="practical-item-value">Yellow fever from some countries. Consult travel clinic.</span></div><div class="practical-item"><span class="practical-item-label">Booking Lead Time</span><span class="practical-item-value">Minimum 30 days in advance</span></div><div class="practical-item"><span class="practical-item-label">Deposit</span><span class="practical-item-value">30% at confirmation. Balance 45 days before departure.</span></div><div class="practical-item"><span class="practical-item-label">What to Pack</span><span class="practical-item-value">Neutral tones, layers, binoculars, sun protection</span></div></div>
@@ -142,7 +156,6 @@
       </div>
     </div>
 
-  
   </div>
 
   <div class="pkg-sidebar">

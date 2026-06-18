@@ -67,19 +67,29 @@
 
 <div class="mobile-quote-inject" id="mobileQuoteInject"></div>
 <div class="pkg-main" id="pkgMain">
-  <div class="pkg-content">
-    
+    <div class="pkg-content">
+    <div class="pkg-tabs-wrapper" id="pkgTabsWrapper">
+      <div class="pkg-tabs" role="tablist">
+        <button class="pkg-tab active" data-tab="overview" role="tab">Overview</button>
+        <button class="pkg-tab" data-tab="itinerary" role="tab">Day by Day</button>
+        <button class="pkg-tab" data-tab="inclusions" role="tab">Inclusions</button>
+        <button class="pkg-tab" data-tab="practical" role="tab">Good to Know</button>
+      </div>
+    </div>
 
-    <div class="pkg-overview reveal">
+    <div class="pkg-tab-panel active" id="panel-overview">
+      <div class="pkg-overview reveal">
       <span class="sec-label">The Journey</span>
       <h2 class="sec-title">Ancient Swahili Culture, White Coral Shores</h2>
       <p>Lamu is a world apart. The oldest continuously inhabited settlement in East Africa — a UNESCO World Heritage Site — Lamu Old Town has no cars, its narrow coral-stone lanes unchanged for eight centuries. Donkeys carry goods. Dhows sail by the same stars that guided Arab merchants in the 9th century.</p><p>The Lamu Archipelago offers a Kenya that has nothing to do with safari — an intimate encounter with one of the world's great living cultures, set against the backdrop of the Indian Ocean's most perfect islands. White coral beaches, dhow sailing, octopus grilled on open fires, and a silence that is the rarest luxury of all.</p>
       <div class="sec-divider"></div>
     </div>
 
-    <div class="pkg-highlights reveal"><div class="pkg-highlight-item"><span class="phi-icon">🏛️</span><span class="phi-label">Culture</span><span class="phi-value">UNESCO Lamu Old Town</span></div><div class="pkg-highlight-item"><span class="phi-icon">⛵</span><span class="phi-label">Experience</span><span class="phi-value">Private Dhow Sunset Cruise</span></div><div class="pkg-highlight-item"><span class="phi-icon">🤿</span><span class="phi-label">Marine</span><span class="phi-value">Manda Island Snorkelling</span></div><div class="pkg-highlight-item"><span class="phi-icon">🍳</span><span class="phi-label">Culinary</span><span class="phi-value">Swahili Cooking Masterclass</span></div><div class="pkg-highlight-item"><span class="phi-icon">🏨</span><span class="phi-label">Stay</span><span class="phi-value">Boutique Heritage Hotel</span></div><div class="pkg-highlight-item"><span class="phi-icon">🌴</span><span class="phi-label">Vibe</span><span class="phi-value">No Cars · Pure Swahili</span></div></div>
+    <div class="pkg-highlights reveal"><div class="pkg-highlight-item"><span class="phi-icon">🏛️</span><span class="phi-label">Culture</span><span class="phi-value">UNESCO Lamu Old Town</span></div>
+    </div>
 
-    <div class="pkg-itinerary reveal">
+    <div class="pkg-tab-panel" id="panel-itinerary">
+      <div class="pkg-itinerary reveal">
       <span class="sec-label">Day by Day</span>
       <h2 class="sec-title">Your Itinerary</h2>
       <div class="sec-divider"></div>
@@ -120,8 +130,10 @@
         <ul class="day-activities"><li>Final morning at leisure</li><li>Dhow to airstrip</li><li>Charter to Nairobi</li><li>Transfer assistance</li></ul>
       </div>
     </div>
+    </div>
 
-    <div class="pkg-inclusions reveal">
+    <div class="pkg-tab-panel" id="panel-inclusions">
+      <div class="pkg-inclusions reveal">
       <div class="inclusion-group">
         <span class="sec-label">What's Included</span>
         <h3 class="sec-title" style="font-size:22px">Included</h3>
@@ -133,8 +145,10 @@
         <ul class="inclusion-list excl"><li>International flights to/from Nairobi</li><li>Kenya visa fees (currently $50 USD / eVisa)</li><li>Personal travel insurance (strongly recommended)</li><li>Laundry services</li><li>Personal shopping and curios</li><li>Gratuities and tips (discretionary)</li><li>Any services not specified in itinerary</li></ul>
       </div>
     </div>
+    </div>
 
-    <div class="pkg-practical reveal">
+    <div class="pkg-tab-panel" id="panel-practical">
+      <div class="pkg-practical reveal">
       <span class="sec-label">Good to Know</span>
       <h2 class="sec-title">Practical Information</h2>
       <div class="practical-grid"><div class="practical-item"><span class="practical-item-label">Best Season</span><span class="practical-item-value">Jul–Sep (dry, steady breeze) · Dec–Feb (warm, calm)</span></div><div class="practical-item"><span class="practical-item-label">Fitness Level</span><span class="practical-item-value">Low. Some cobbled walking in Old Town.</span></div><div class="practical-item"><span class="practical-item-label">Group Size</span><span class="practical-item-value">Min 2 · Ideal for couples</span></div><div class="practical-item"><span class="practical-item-label">Accommodation</span><span class="practical-item-value">Historic Swahili heritage hotel</span></div><div class="practical-item"><span class="practical-item-label">Note</span><span class="practical-item-value">No cars on Lamu Island — all transport by foot or donkey</span></div><div class="practical-item"><span class="practical-item-label">Booking Lead Time</span><span class="practical-item-value">Minimum 30 days</span></div><div class="practical-item"><span class="practical-item-label">Deposit</span><span class="practical-item-value">30% at confirmation</span></div><div class="practical-item"><span class="practical-item-label">What to Pack</span><span class="practical-item-value">Lightweight resort wear, modest cover-up for town, snorkel gear optional</span></div></div>
@@ -149,7 +163,6 @@
       </div>
     </div>
 
-  
   </div>
 
   <div class="pkg-sidebar">

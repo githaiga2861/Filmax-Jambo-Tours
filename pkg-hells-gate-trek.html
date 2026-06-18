@@ -67,19 +67,29 @@
 
 <div class="mobile-quote-inject" id="mobileQuoteInject"></div>
 <div class="pkg-main" id="pkgMain">
-  <div class="pkg-content">
-    
+    <div class="pkg-content">
+    <div class="pkg-tabs-wrapper" id="pkgTabsWrapper">
+      <div class="pkg-tabs" role="tablist">
+        <button class="pkg-tab active" data-tab="overview" role="tab">Overview</button>
+        <button class="pkg-tab" data-tab="itinerary" role="tab">Day by Day</button>
+        <button class="pkg-tab" data-tab="inclusions" role="tab">Inclusions</button>
+        <button class="pkg-tab" data-tab="practical" role="tab">Good to Know</button>
+      </div>
+    </div>
 
-    <div class="pkg-overview reveal">
+    <div class="pkg-tab-panel active" id="panel-overview">
+      <div class="pkg-overview reveal">
       <span class="sec-label">The Journey</span>
       <h2 class="sec-title">Walk, Cycle and Rappel Through Kenya's Most Dramatic Gorge</h2>
       <p>Hell's Gate is Kenya's most active national park — not in the wildlife sense, but in the most literal sense. You walk here. Or cycle. Or rappel into the gorge on a rope. The park is one of only two in Kenya where visitors are allowed to walk and cycle freely among the wildlife — zebra, giraffe, buffalo and kongoni graze around you as you move through on foot.</p><p>The Fischer Tower volcanic plugs rise against the sky like a scene from another planet. The gorge itself — carved by millennia of geothermal activity — descends through walls of polished rock into chambers lit by distant shafts of light. Geothermal activity still steams from vents in the valley floor. A geothermal spa evening completes the experience.</p>
       <div class="sec-divider"></div>
     </div>
 
-    <div class="pkg-highlights reveal"><div class="pkg-highlight-item"><span class="phi-icon">🚶</span><span class="phi-label">Unique</span><span class="phi-value">Walk Freely Among Wildlife</span></div><div class="pkg-highlight-item"><span class="phi-icon">🚲</span><span class="phi-label">Active</span><span class="phi-value">Cycling & Hiking Options</span></div><div class="pkg-highlight-item"><span class="phi-icon">🧗</span><span class="phi-label">Adventure</span><span class="phi-value">Gorge Rappelling</span></div><div class="pkg-highlight-item"><span class="phi-icon">♨️</span><span class="phi-label">Signature</span><span class="phi-value">Geothermal Spa Evening</span></div><div class="pkg-highlight-item"><span class="phi-icon">🌋</span><span class="phi-label">Landscape</span><span class="phi-value">Fischer Tower Volcanic Plugs</span></div><div class="pkg-highlight-item"><span class="phi-icon">✦</span><span class="phi-label">Board Basis</span><span class="phi-value">Full Board</span></div></div>
+    <div class="pkg-highlights reveal"><div class="pkg-highlight-item"><span class="phi-icon">🚶</span><span class="phi-label">Unique</span><span class="phi-value">Walk Freely Among Wildlife</span></div>
+    </div>
 
-    <div class="pkg-itinerary reveal">
+    <div class="pkg-tab-panel" id="panel-itinerary">
+      <div class="pkg-itinerary reveal">
       <span class="sec-label">Day by Day</span>
       <h2 class="sec-title">Your Itinerary</h2>
       <div class="sec-divider"></div>
@@ -99,8 +109,10 @@
         <ul class="day-activities"><li>Upper gorge hike</li><li>Longonot views</li><li>Lodge farewell</li><li>Nairobi return</li></ul>
       </div>
     </div>
+    </div>
 
-    <div class="pkg-inclusions reveal">
+    <div class="pkg-tab-panel" id="panel-inclusions">
+      <div class="pkg-inclusions reveal">
       <div class="inclusion-group">
         <span class="sec-label">What's Included</span>
         <h3 class="sec-title" style="font-size:22px">Included</h3>
@@ -112,8 +124,10 @@
         <ul class="inclusion-list excl"><li>International flights to/from Nairobi</li><li>Kenya visa fees (currently $50 USD / eVisa)</li><li>Personal travel insurance (strongly recommended)</li><li>Laundry services</li><li>Personal shopping and curios</li><li>Gratuities and tips (discretionary)</li><li>Any services not specified in itinerary</li></ul>
       </div>
     </div>
+    </div>
 
-    <div class="pkg-practical reveal">
+    <div class="pkg-tab-panel" id="panel-practical">
+      <div class="pkg-practical reveal">
       <span class="sec-label">Good to Know</span>
       <h2 class="sec-title">Practical Information</h2>
       <div class="practical-grid"><div class="practical-item"><span class="practical-item-label">Best Season</span><span class="practical-item-value">Year-round · Avoid April–May heavy rains for gorge</span></div><div class="practical-item"><span class="practical-item-label">Fitness Level</span><span class="practical-item-value">Moderate — cycling 15–20km, gorge walk 2 hrs</span></div><div class="practical-item"><span class="practical-item-label">Age</span><span class="practical-item-value">Minimum 12 years for rappelling. Gorge walk: any age.</span></div><div class="practical-item"><span class="practical-item-label">Group Size</span><span class="practical-item-value">Min 2 · Max 8</span></div><div class="practical-item"><span class="practical-item-label">Accommodation</span><span class="practical-item-value">Naivasha lodge with geothermal spa pools</span></div><div class="practical-item"><span class="practical-item-label">Booking Lead Time</span><span class="practical-item-value">Minimum 14 days</span></div><div class="practical-item"><span class="practical-item-label">Deposit</span><span class="practical-item-value">40% at confirmation</span></div><div class="practical-item"><span class="practical-item-label">What to Pack</span><span class="practical-item-value">Closed-toe hiking shoes, lightweight active wear, swimwear for spa</span></div></div>
@@ -128,7 +142,6 @@
       </div>
     </div>
 
-  
   </div>
 
   <div class="pkg-sidebar">

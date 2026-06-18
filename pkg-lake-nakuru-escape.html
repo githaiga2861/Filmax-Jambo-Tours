@@ -67,19 +67,29 @@
 
 <div class="mobile-quote-inject" id="mobileQuoteInject"></div>
 <div class="pkg-main" id="pkgMain">
-  <div class="pkg-content">
-    
+    <div class="pkg-content">
+    <div class="pkg-tabs-wrapper" id="pkgTabsWrapper">
+      <div class="pkg-tabs" role="tablist">
+        <button class="pkg-tab active" data-tab="overview" role="tab">Overview</button>
+        <button class="pkg-tab" data-tab="itinerary" role="tab">Day by Day</button>
+        <button class="pkg-tab" data-tab="inclusions" role="tab">Inclusions</button>
+        <button class="pkg-tab" data-tab="practical" role="tab">Good to Know</button>
+      </div>
+    </div>
 
-    <div class="pkg-overview reveal">
+    <div class="pkg-tab-panel active" id="panel-overview">
+      <div class="pkg-overview reveal">
       <span class="sec-label">The Journey</span>
       <h2 class="sec-title">Pink Horizons, Rhinos and Rift Valley Drama</h2>
       <p>Lake Nakuru is one of the Rift Valley's great spectacles — an alkaline soda lake that at its peak hosted more than a million flamingos, turning the entire shoreline a vivid, impossible pink. The lake fluctuates with the rains, but even in quieter years the flamingo flocks number in the hundreds of thousands.</p><p>Beyond the flamingos, Nakuru National Park protects both black and white rhino — Kenya's strongest rhino population — alongside lion, leopard, giraffe, and waterbuck. The Baboon Cliff viewpoint surveys the entire lake from above. Three days is the perfect amount of time to absorb this underrated jewel of Kenya.</p>
       <div class="sec-divider"></div>
     </div>
 
-    <div class="pkg-highlights reveal"><div class="pkg-highlight-item"><span class="phi-icon">🦩</span><span class="phi-label">Spectacle</span><span class="phi-value">Flamingo Pink Horizons</span></div><div class="pkg-highlight-item"><span class="phi-icon">🦏</span><span class="phi-label">Rare</span><span class="phi-value">Black & White Rhino Tracking</span></div><div class="pkg-highlight-item"><span class="phi-icon">🏔️</span><span class="phi-label">Views</span><span class="phi-value">Rift Valley Viewpoints</span></div><div class="pkg-highlight-item"><span class="phi-icon">🏨</span><span class="phi-label">Stay</span><span class="phi-value">Luxury Lake-View Lodge</span></div><div class="pkg-highlight-item"><span class="phi-icon">🚗</span><span class="phi-label">Transfers</span><span class="phi-value">Private 4x4 Vehicle</span></div><div class="pkg-highlight-item"><span class="phi-icon">✦</span><span class="phi-label">Board Basis</span><span class="phi-value">Full Board</span></div></div>
+    <div class="pkg-highlights reveal"><div class="pkg-highlight-item"><span class="phi-icon">🦩</span><span class="phi-label">Spectacle</span><span class="phi-value">Flamingo Pink Horizons</span></div>
+    </div>
 
-    <div class="pkg-itinerary reveal">
+    <div class="pkg-tab-panel" id="panel-itinerary">
+      <div class="pkg-itinerary reveal">
       <span class="sec-label">Day by Day</span>
       <h2 class="sec-title">Your Itinerary</h2>
       <div class="sec-divider"></div>
@@ -106,8 +116,10 @@
         <ul class="day-activities"><li>Final dawn drive</li><li>Lake terrace breakfast</li><li>Return to Nairobi</li><li>Transfer assistance</li></ul>
       </div>
     </div>
+    </div>
 
-    <div class="pkg-inclusions reveal">
+    <div class="pkg-tab-panel" id="panel-inclusions">
+      <div class="pkg-inclusions reveal">
       <div class="inclusion-group">
         <span class="sec-label">What's Included</span>
         <h3 class="sec-title" style="font-size:22px">Included</h3>
@@ -119,8 +131,10 @@
         <ul class="inclusion-list excl"><li>International flights to/from Nairobi</li><li>Kenya visa fees (currently $50 USD / eVisa)</li><li>Personal travel insurance (strongly recommended)</li><li>Laundry services</li><li>Personal shopping and curios</li><li>Gratuities and tips (discretionary)</li><li>Any services not specified in itinerary</li></ul>
       </div>
     </div>
+    </div>
 
-    <div class="pkg-practical reveal">
+    <div class="pkg-tab-panel" id="panel-practical">
+      <div class="pkg-practical reveal">
       <span class="sec-label">Good to Know</span>
       <h2 class="sec-title">Practical Information</h2>
       <div class="practical-grid"><div class="practical-item"><span class="practical-item-label">Best Season</span><span class="practical-item-value">Year-round · Flamingos peak: Aug–Oct, Feb–Mar</span></div><div class="practical-item"><span class="practical-item-label">Fitness Level</span><span class="practical-item-value">Low — vehicle-based</span></div><div class="practical-item"><span class="practical-item-label">Group Size</span><span class="practical-item-value">Min 2 · Max 6</span></div><div class="practical-item"><span class="practical-item-label">Accommodation</span><span class="practical-item-value">Luxury lodge with lake views</span></div><div class="practical-item"><span class="practical-item-label">Booking Lead Time</span><span class="practical-item-value">Minimum 14 days</span></div><div class="practical-item"><span class="practical-item-label">Deposit</span><span class="practical-item-value">40% at confirmation</span></div><div class="practical-item"><span class="practical-item-label">What to Pack</span><span class="practical-item-value">Binoculars essential, camera, layers for morning</span></div><div class="practical-item"><span class="practical-item-label">From Nairobi</span><span class="practical-item-value">Approximately 2.5–3 hours drive</span></div></div>
@@ -135,7 +149,6 @@
       </div>
     </div>
 
-  
   </div>
 
   <div class="pkg-sidebar">

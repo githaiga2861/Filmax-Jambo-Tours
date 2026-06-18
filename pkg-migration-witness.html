@@ -67,19 +67,29 @@
 
 <div class="mobile-quote-inject" id="mobileQuoteInject"></div>
 <div class="pkg-main" id="pkgMain">
-  <div class="pkg-content">
-    
+    <div class="pkg-content">
+    <div class="pkg-tabs-wrapper" id="pkgTabsWrapper">
+      <div class="pkg-tabs" role="tablist">
+        <button class="pkg-tab active" data-tab="overview" role="tab">Overview</button>
+        <button class="pkg-tab" data-tab="itinerary" role="tab">Day by Day</button>
+        <button class="pkg-tab" data-tab="inclusions" role="tab">Inclusions</button>
+        <button class="pkg-tab" data-tab="practical" role="tab">Good to Know</button>
+      </div>
+    </div>
 
-    <div class="pkg-overview reveal">
+    <div class="pkg-tab-panel active" id="panel-overview">
+      <div class="pkg-overview reveal">
       <span class="sec-label">The Journey</span>
       <h2 class="sec-title">The Greatest Wildlife Spectacle on Earth</h2>
       <p>Between July and October, approximately 1.5 million wildebeest, 400,000 zebra and 200,000 Thomson's gazelle cross the Mara River. What happens at those crossings — the crocodiles, the panic, the courage, the drowning and the surviving — is the single most dramatic wildlife event on earth.</p><p>Migration Witness positions you at the river in total luxury, with a dedicated crossing spotter whose sole purpose is to be at the right place at the right time. When the crossing happens, you are there. In a private camp with your own guide, your own vehicle, and a dawn balloon flight to see the migration herds from above.</p>
       <div class="sec-divider"></div>
     </div>
 
-    <div class="pkg-highlights reveal"><div class="pkg-highlight-item"><span class="phi-icon">🌊</span><span class="phi-label">Signature</span><span class="phi-value">Mara River Crossing Attendance</span></div><div class="pkg-highlight-item"><span class="phi-icon">🔭</span><span class="phi-label">Exclusive</span><span class="phi-value">Dedicated Crossing Spotter</span></div><div class="pkg-highlight-item"><span class="phi-icon">🎈</span><span class="phi-label">Experience</span><span class="phi-value">Dawn Balloon Flight</span></div><div class="pkg-highlight-item"><span class="phi-icon">🏕️</span><span class="phi-label">Stay</span><span class="phi-value">Private Mara River Camp</span></div><div class="pkg-highlight-item"><span class="phi-icon">🍽️</span><span class="phi-label">Dining</span><span class="phi-value">Fine Dining Under Canvas</span></div><div class="pkg-highlight-item"><span class="phi-icon">✦</span><span class="phi-label">Guarantee</span><span class="phi-value">Migration Guarantee*</span></div></div>
+    <div class="pkg-highlights reveal"><div class="pkg-highlight-item"><span class="phi-icon">🌊</span><span class="phi-label">Signature</span><span class="phi-value">Mara River Crossing Attendance</span></div>
+    </div>
 
-    <div class="pkg-itinerary reveal">
+    <div class="pkg-tab-panel" id="panel-itinerary">
+      <div class="pkg-itinerary reveal">
       <span class="sec-label">Day by Day</span>
       <h2 class="sec-title">Your Itinerary</h2>
       <div class="sec-divider"></div>
@@ -120,8 +130,10 @@
         <ul class="day-activities"><li>Final morning river drive</li><li>Camp breakfast</li><li>Charter to Nairobi</li><li>Departure transfer</li></ul>
       </div>
     </div>
+    </div>
 
-    <div class="pkg-inclusions reveal">
+    <div class="pkg-tab-panel" id="panel-inclusions">
+      <div class="pkg-inclusions reveal">
       <div class="inclusion-group">
         <span class="sec-label">What's Included</span>
         <h3 class="sec-title" style="font-size:22px">Included</h3>
@@ -133,8 +145,10 @@
         <ul class="inclusion-list excl"><li>International flights to/from Nairobi</li><li>Kenya visa fees (currently $50 USD / eVisa)</li><li>Personal travel insurance (strongly recommended)</li><li>Laundry services</li><li>Personal shopping and curios</li><li>Gratuities and tips (discretionary)</li><li>Any services not specified in itinerary</li><li>*Migration guarantee subject to terms — force majeure events excluded</li></ul>
       </div>
     </div>
+    </div>
 
-    <div class="pkg-practical reveal">
+    <div class="pkg-tab-panel" id="panel-practical">
+      <div class="pkg-practical reveal">
       <span class="sec-label">Good to Know</span>
       <h2 class="sec-title">Practical Information</h2>
       <div class="practical-grid"><div class="practical-item"><span class="practical-item-label">Season</span><span class="practical-item-value">JULY–OCTOBER ONLY. This package operates exclusively in peak migration months.</span></div><div class="practical-item"><span class="practical-item-label">Fitness Level</span><span class="practical-item-value">Low — all vehicle and camp based</span></div><div class="practical-item"><span class="practical-item-label">Crossing Frequency</span><span class="practical-item-value">Crossings occur most days in peak season but are never guaranteed</span></div><div class="practical-item"><span class="practical-item-label">Group Size</span><span class="practical-item-value">Min 2 · Max 4 for this private camp</span></div><div class="practical-item"><span class="practical-item-label">Accommodation</span><span class="practical-item-value">Private riverside tented camp</span></div><div class="practical-item"><span class="practical-item-label">Booking Lead Time</span><span class="practical-item-value">Minimum 5–6 months for Jul–Oct dates</span></div><div class="practical-item"><span class="practical-item-label">Deposit</span><span class="practical-item-value">40% at confirmation. Balance 90 days before departure.</span></div><div class="practical-item"><span class="practical-item-label">What to Pack</span><span class="practical-item-value">Neutrals, binoculars, camera, layers for cool mornings</span></div></div>
@@ -149,7 +163,6 @@
       </div>
     </div>
 
-  
   </div>
 
   <div class="pkg-sidebar">

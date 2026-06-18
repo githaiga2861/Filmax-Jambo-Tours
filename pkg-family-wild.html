@@ -67,19 +67,29 @@
 
 <div class="mobile-quote-inject" id="mobileQuoteInject"></div>
 <div class="pkg-main" id="pkgMain">
-  <div class="pkg-content">
-    
+    <div class="pkg-content">
+    <div class="pkg-tabs-wrapper" id="pkgTabsWrapper">
+      <div class="pkg-tabs" role="tablist">
+        <button class="pkg-tab active" data-tab="overview" role="tab">Overview</button>
+        <button class="pkg-tab" data-tab="itinerary" role="tab">Day by Day</button>
+        <button class="pkg-tab" data-tab="inclusions" role="tab">Inclusions</button>
+        <button class="pkg-tab" data-tab="practical" role="tab">Good to Know</button>
+      </div>
+    </div>
 
-    <div class="pkg-overview reveal">
+    <div class="pkg-tab-panel active" id="panel-overview">
+      <div class="pkg-overview reveal">
       <span class="sec-label">The Journey</span>
       <h2 class="sec-title">Kenya Through Your Children's Eyes</h2>
       <p>Children who experience the wild before they experience the world — who learn the name of a giraffe before the name of a brand, who learn patience watching a lion before they learn impatience in a classroom — carry that knowledge differently. It reshapes them.</p><p>Family Wild is designed with this in mind. Every element — from the child-friendly Nairobi introductions to the Junior Ranger programme in the Mara — is calibrated to create wonder safely, joyfully, and unforgettably. No compromises on luxury. No compromises on wildlife. Simply Kenya, made accessible to every member of your family.</p>
       <div class="sec-divider"></div>
     </div>
 
-    <div class="pkg-highlights reveal"><div class="pkg-highlight-item"><span class="phi-icon">🦒</span><span class="phi-label">Nairobi</span><span class="phi-value">Giraffe Centre & Elephant Orphanage</span></div><div class="pkg-highlight-item"><span class="phi-icon">🎖️</span><span class="phi-label">Programme</span><span class="phi-value">Junior Ranger Certificate</span></div><div class="pkg-highlight-item"><span class="phi-icon">🏠</span><span class="phi-label">Stay</span><span class="phi-value">Family Suite Accommodation</span></div><div class="pkg-highlight-item"><span class="phi-icon">🚗</span><span class="phi-label">Vehicle</span><span class="phi-value">Private Vehicle — No Sharing</span></div><div class="pkg-highlight-item"><span class="phi-icon">🦁</span><span class="phi-label">Wildlife</span><span class="phi-value">Child-Friendly Game Drives</span></div><div class="pkg-highlight-item"><span class="phi-icon">✦</span><span class="phi-label">Board Basis</span><span class="phi-value">Full Board Included</span></div></div>
+    <div class="pkg-highlights reveal"><div class="pkg-highlight-item"><span class="phi-icon">🦒</span><span class="phi-label">Nairobi</span><span class="phi-value">Giraffe Centre & Elephant Orphanage</span></div>
+    </div>
 
-    <div class="pkg-itinerary reveal">
+    <div class="pkg-tab-panel" id="panel-itinerary">
+      <div class="pkg-itinerary reveal">
       <span class="sec-label">Day by Day</span>
       <h2 class="sec-title">Your Itinerary</h2>
       <div class="sec-divider"></div>
@@ -127,8 +137,10 @@
         <ul class="day-activities"><li>Final morning drive</li><li>Animal ID contest</li><li>Charter to Nairobi</li><li>Departure transfer</li></ul>
       </div>
     </div>
+    </div>
 
-    <div class="pkg-inclusions reveal">
+    <div class="pkg-tab-panel" id="panel-inclusions">
+      <div class="pkg-inclusions reveal">
       <div class="inclusion-group">
         <span class="sec-label">What's Included</span>
         <h3 class="sec-title" style="font-size:22px">Included</h3>
@@ -140,8 +152,10 @@
         <ul class="inclusion-list excl"><li>International flights to/from Nairobi</li><li>Kenya visa fees (currently $50 USD / eVisa)</li><li>Personal travel insurance (strongly recommended)</li><li>Laundry services</li><li>Personal shopping and curios</li><li>Gratuities and tips (discretionary)</li><li>Any services not specified in itinerary</li></ul>
       </div>
     </div>
+    </div>
 
-    <div class="pkg-practical reveal">
+    <div class="pkg-tab-panel" id="panel-practical">
+      <div class="pkg-practical reveal">
       <span class="sec-label">Good to Know</span>
       <h2 class="sec-title">Practical Information</h2>
       <div class="practical-grid"><div class="practical-item"><span class="practical-item-label">Minimum Age</span><span class="practical-item-value">Recommended 5 years and above</span></div><div class="practical-item"><span class="practical-item-label">Best Season</span><span class="practical-item-value">Year-round · School holidays book early</span></div><div class="practical-item"><span class="practical-item-label">Fitness Level</span><span class="practical-item-value">Low — all vehicle-based. Short walks are gentle.</span></div><div class="practical-item"><span class="practical-item-label">Accommodation</span><span class="practical-item-value">Family suites with interconnecting rooms, child-safe</span></div><div class="practical-item"><span class="practical-item-label">Malaria</span><span class="practical-item-value">Nairobi is malaria-free. Mara: prophylaxis recommended.</span></div><div class="practical-item"><span class="practical-item-label">Booking Lead Time</span><span class="practical-item-value">Minimum 45 days. School holiday periods: 3–4 months.</span></div><div class="practical-item"><span class="practical-item-label">Deposit</span><span class="practical-item-value">30% at confirmation</span></div><div class="practical-item"><span class="practical-item-label">What to Pack</span><span class="practical-item-value">Neutral safari wear for children, sunhat, insect repellent, small backpack for each child</span></div></div>
@@ -156,7 +170,6 @@
       </div>
     </div>
 
-  
   </div>
 
   <div class="pkg-sidebar">
