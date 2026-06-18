@@ -160,6 +160,8 @@
      All hint scheduling goes through this single chokepoint.
      ───────────────────────────────────────────────────────────────────── */
   function scheduleShow(idx, delayMs) {
+    /* Never interrupt an active hint — only schedule when mutex is free */
+    if (isHintActive) return;
     clearTimeout(mainTimer);
     mainTimer = setTimeout(function () {
       tryShow(idx);
@@ -197,7 +199,8 @@
         h._retries++;
         validHints.push(h);
       }
-      scheduleShow(idx + 1, GAP_MS);
+      /* Only schedule next if no hint is currently showing */
+      if (!isHintActive) scheduleShow(idx + 1, GAP_MS);
       return;
     }
 
@@ -301,7 +304,9 @@
      ───────────────────────────────────────────────────────────────────── */
   function onScroll() {
     if (engineDone || !isHintActive || !curEl) return;
-    positionBubble(curEl); /* fresh rect every scroll event */
+    requestAnimationFrame(function() {
+      if (curEl) positionBubble(curEl);
+    });
   }
 
   /* ─────────────────────────────────────────────────────────────────────
