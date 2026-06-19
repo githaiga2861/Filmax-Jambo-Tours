@@ -437,43 +437,75 @@
     </div>
   </div>
   <div class="highlights-grid reveal">
+
+    <!-- CARD 1 -->
     <div class="highlight-card reveal">
-      <video class="hc-bg" autoplay muted loop playsinline preload="auto" aria-hidden="true" style="object-fit:cover;width:100%;height:100%;position:absolute;inset:0;z-index:0;display:block;pointer-events:none;">
-        <source src="assets/highlight1.webm" type="video/webm">
-      </video>
-      <div class="card-number hc-fade-text">01</div>
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:20px;display:block;opacity:0.7;">
-        <path d="M4 14h20M14 4l10 10-10 10" stroke="#d4af37" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <h3 class="card-title hc-fade-text">Curated Journeys</h3>
-      <p class="card-text hc-fade-text">Every itinerary is thoughtfully designed to balance iconic wildlife encounters with hidden experiences, creating a safari that feels entirely your own.</p>
+      <!-- text above video -->
+      <div class="hc-top-content">
+        <div class="card-number">01</div>
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" class="hc-svg">
+          <path d="M4 14h20M14 4l10 10-10 10" stroke="#d4af37" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h3 class="card-title">Curated Journeys</h3>
+        <p class="card-text">Every itinerary is thoughtfully designed to balance iconic wildlife encounters with hidden experiences, creating a safari that feels entirely your own.</p>
+      </div>
+      <!-- video -->
+      <div class="hc-video-wrap">
+        <video class="hc-bg" id="hcVid1" autoplay muted loop playsinline preload="auto">
+          <source src="assets/highlight1.webm" type="video/webm">
+        </video>
+        <button class="hc-sound-btn" aria-label="Toggle sound" data-vid="hcVid1">
+          <svg class="hc-icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="hc-icon-sound" width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
     </div>
+
+    <!-- CARD 2 -->
     <div class="highlight-card reveal" style="transition-delay:0.1s">
-      <video class="hc-bg" autoplay muted loop playsinline preload="auto" aria-hidden="true" style="object-fit:cover;width:100%;height:100%;position:absolute;inset:0;z-index:0;display:block;pointer-events:none;">
-        <source src="assets/highlight2.webm" type="video/webm">
-      </video>
-      <div class="card-number hc-fade-text">02</div>
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:20px;display:block;opacity:0.7;">
-        <circle cx="14" cy="14" r="10" stroke="#d4af37" stroke-width="1"/>
-        <path d="M14 4v4M14 20v4M4 14h4M20 14h4" stroke="#d4af37" stroke-width="1" stroke-linecap="round"/>
-        <circle cx="14" cy="14" r="2.5" stroke="#d4af37" stroke-width="1"/>
-      </svg>
-      <h3 class="card-title hc-fade-text">Local Mastery</h3>
-      <p class="card-text hc-fade-text">Our guides and partners possess deep knowledge of Kenya's landscapes and rhythms of the wild — allowing you to experience moments most travelers never see.</p>
+      <div class="hc-top-content">
+        <div class="card-number">02</div>
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" class="hc-svg">
+          <circle cx="14" cy="14" r="10" stroke="#d4af37" stroke-width="1"/>
+          <path d="M14 4v4M14 20v4M4 14h4M20 14h4" stroke="#d4af37" stroke-width="1" stroke-linecap="round"/>
+          <circle cx="14" cy="14" r="2.5" stroke="#d4af37" stroke-width="1"/>
+        </svg>
+        <h3 class="card-title">Local Mastery</h3>
+        <p class="card-text">Our guides and partners possess deep knowledge of Kenya's landscapes and rhythms of the wild — allowing you to experience moments most travelers never see.</p>
+      </div>
+      <div class="hc-video-wrap">
+        <video class="hc-bg" id="hcVid2" autoplay muted loop playsinline preload="auto">
+          <source src="assets/highlight2.webm" type="video/webm">
+        </video>
+        <button class="hc-sound-btn" aria-label="Toggle sound" data-vid="hcVid2">
+          <svg class="hc-icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="hc-icon-sound" width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
     </div>
-     <div class="highlight-card reveal" style="transition-delay:0.2s">
-      <video class="hc-bg" autoplay muted loop playsinline preload="auto" aria-hidden="true" style="object-fit:cover;width:100%;height:100%;position:absolute;inset:0;z-index:0;display:block;pointer-events:none;">
-        <source src="assets/highlight3.webm" type="video/webm">
-      </video>
-      <div class="card-number hc-fade-text">03</div>
-      <svg width="28" height="28"
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:20px;display:block;opacity:0.7;">
-        <path d="M14 3v4M14 21v4M3 14h4M21 14h4M6.2 6.2l2.8 2.8M19 19l2.8 2.8M19 9l2.8-2.8M6.2 21.8l2.8-2.8" stroke="#d4af37" stroke-width="1" stroke-linecap="round"/>
-        <circle cx="14" cy="14" r="4.5" stroke="#d4af37" stroke-width="1"/>
-      </svg>
-      <h3 class="card-title hc-fade-text">Effortless Luxury</h3>
-      <p class="card-text hc-fade-text">From the moment you arrive to your final farewell, every detail is handled with precision so your only focus is the wonder of the journey.</p>
+
+    <!-- CARD 3 -->
+    <div class="highlight-card reveal" style="transition-delay:0.2s">
+      <div class="hc-top-content">
+        <div class="card-number">03</div>
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" class="hc-svg">
+          <path d="M14 3v4M14 21v4M3 14h4M21 14h4M6.2 6.2l2.8 2.8M19 19l2.8 2.8M19 9l2.8-2.8M6.2 21.8l2.8-2.8" stroke="#d4af37" stroke-width="1" stroke-linecap="round"/>
+          <circle cx="14" cy="14" r="4.5" stroke="#d4af37" stroke-width="1"/>
+        </svg>
+        <h3 class="card-title">Effortless Luxury</h3>
+        <p class="card-text">From the moment you arrive to your final farewell, every detail is handled with precision so your only focus is the wonder of the journey.</p>
+      </div>
+      <div class="hc-video-wrap">
+        <video class="hc-bg" id="hcVid3" autoplay muted loop playsinline preload="auto">
+          <source src="assets/highlight3.webm" type="video/webm">
+        </video>
+        <button class="hc-sound-btn" aria-label="Toggle sound" data-vid="hcVid3">
+          <svg class="hc-icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="hc-icon-sound" width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
     </div>
+
   </div>
   <div class="container">
     <div class="stats-bar reveal">
@@ -1566,4 +1598,19 @@
 })();
 </script>
 <script src="assets/js/fjt-locale.js" defer></script>
+
+<script>
+// ── Highlight video sound toggles ──
+document.querySelectorAll('.hc-sound-btn').forEach(function(btn) {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    var vid = document.getElementById(btn.dataset.vid);
+    if (!vid) return;
+    vid.muted = !vid.muted;
+    btn.querySelector('.hc-icon-muted').style.display = vid.muted ? '' : 'none';
+    btn.querySelector('.hc-icon-sound').style.display  = vid.muted ? 'none' : '';
+  });
+});
+</script>
+
 </body>

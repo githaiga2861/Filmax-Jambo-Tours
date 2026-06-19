@@ -7867,3 +7867,168 @@ body.light-mode #about-fjt [style*="background:var(--charcoal)"] {
     grid-template-columns: repeat(2,1fr) !important;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   HIGHLIGHTS REDESIGN — text above, video below, sound btn
+   ═══════════════════════════════════════════════════════════ */
+
+/* Grid: 3 cols desktop, 1 col mobile */
+.highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  background: transparent;
+  margin-top: 64px;
+}
+
+/* Each card: flex column — text on top, video below */
+.highlight-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--charcoal);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  border-right: 1px solid var(--border);
+}
+.highlight-card:last-child { border-right: none; }
+
+/* Remove old hover overlay effects */
+.highlight-card::before,
+.highlight-card::after { display: none !important; }
+.highlight-card:hover { background: var(--charcoal); }
+
+/* ── TOP TEXT BLOCK ── */
+.hc-top-content {
+  padding: 44px 36px 36px;
+  text-align: center;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hc-top-content .card-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--gold);
+  margin-bottom: 16px;
+  animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite;
+  display: block;
+}
+.highlight-card:nth-child(2) .hc-top-content .card-number { animation-delay: 1.6s; }
+.highlight-card:nth-child(3) .hc-top-content .card-number { animation-delay: 3.2s; }
+
+.hc-svg {
+  display: block;
+  margin: 0 auto 20px;
+  opacity: 0.8;
+  flex-shrink: 0;
+}
+
+.hc-top-content .card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.hc-top-content .card-text {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+  text-align: center;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+/* ── VIDEO BLOCK ── */
+.hc-video-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: #000;
+}
+
+.hc-video-wrap .hc-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  pointer-events: none;
+  filter: brightness(0.92) saturate(0.95);
+  transition: filter 0.5s ease;
+}
+
+.highlight-card:hover .hc-video-wrap .hc-bg {
+  filter: brightness(1) saturate(1.05);
+}
+
+/* ── SOUND BUTTON ── */
+.hc-sound-btn {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  z-index: 10;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(212,175,55,0.5);
+  background: rgba(8,8,8,0.65);
+  backdrop-filter: blur(6px);
+  color: rgba(212,175,55,0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s, transform 0.2s;
+  padding: 0;
+}
+.hc-sound-btn:hover {
+  background: rgba(212,175,55,0.15);
+  border-color: rgba(212,175,55,0.9);
+  transform: scale(1.08);
+}
+
+/* ── LIGHT MODE ── */
+body.light-mode .highlight-card {
+  background: var(--card);
+  border-color: rgba(122,79,0,0.15);
+}
+body.light-mode .hc-top-content .card-title { color: var(--text); }
+body.light-mode .hc-top-content .card-text  { color: var(--muted); }
+body.light-mode .hc-sound-btn {
+  border-color: rgba(122,79,0,0.5);
+  color: rgba(122,79,0,0.9);
+  background: rgba(255,255,255,0.7);
+}
+
+/* ── MOBILE: single column, centre-aligned ── */
+@media (max-width: 768px) {
+  .highlights-grid {
+    grid-template-columns: 1fr;
+  }
+  .highlight-card {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .highlight-card:last-child { border-bottom: none; }
+  .hc-top-content {
+    padding: 36px 24px 28px;
+    align-items: center;
+    text-align: center;
+  }
+  .hc-video-wrap {
+    aspect-ratio: 16 / 9;
+  }
+}
