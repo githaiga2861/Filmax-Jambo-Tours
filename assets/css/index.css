@@ -8032,3 +8032,137 @@ body.light-mode .hc-sound-btn {
     aspect-ratio: 16 / 9;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   DESTINATIONS GRID — 3×2 desktop, 2×3 mobile
+   ═══════════════════════════════════════════════════════════ */
+.dest-grid-wrap {
+  width: 100%;
+  margin-top: 64px;
+}
+
+.dest-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 0;
+  width: 100%;
+}
+
+/* Each cell is a link */
+.dest-cell {
+  display: block;
+  text-decoration: none;
+  position: relative;
+  border: 0.5px solid var(--border);
+  overflow: hidden;
+  background: var(--card);
+  transition: border-color 0.3s;
+}
+.dest-cell:hover { border-color: rgba(212,175,55,0.4); }
+
+/* Image wrapper — fixed aspect ratio */
+.dest-img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.dest-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              filter 0.4s ease;
+  filter: brightness(0.92) saturate(0.9);
+}
+.dest-cell:hover .dest-img-wrap img {
+  transform: scale(1.06);
+  filter: brightness(1) saturate(1.05);
+}
+
+/* Hover overlay */
+.dest-hover-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(8,8,8,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 2;
+}
+.dest-cell:hover .dest-hover-overlay { opacity: 1; }
+
+.dest-hover-cta {
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(212,175,55,0.6);
+  padding: 10px 20px;
+  background: rgba(8,8,8,0.5);
+  backdrop-filter: blur(4px);
+  white-space: nowrap;
+}
+
+/* Label below image */
+.dest-label-wrap {
+  padding: 16px 18px 18px;
+  background: var(--charcoal);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-top: 1px solid var(--border);
+  transition: background 0.3s;
+}
+.dest-cell:hover .dest-label-wrap {
+  background: var(--card);
+}
+
+.dest-sublabel {
+  font-family: 'Jost', sans-serif;
+  font-size: 8px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+}
+
+.dest-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  display: block;
+  line-height: 1.2;
+}
+
+/* ── Light mode ── */
+body.light-mode .dest-cell { border-color: rgba(122,79,0,0.15); }
+body.light-mode .dest-label-wrap { background: var(--card); }
+body.light-mode .dest-cell:hover .dest-label-wrap { background: var(--deep); }
+body.light-mode .dest-name { color: var(--text); }
+body.light-mode .dest-hover-overlay { background: rgba(255,255,255,0.15); }
+body.light-mode .dest-hover-cta {
+  color: var(--gold);
+  border-color: rgba(122,79,0,0.7);
+  background: rgba(255,255,255,0.7);
+}
+
+/* ── Mobile: 2 columns × 3 rows ── */
+@media (max-width: 768px) {
+  .dest-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+  }
+  .dest-img-wrap { aspect-ratio: 3 / 2; }
+  .dest-label-wrap { padding: 12px 14px 14px; }
+  .dest-name { font-size: 14px; }
+  .dest-sublabel { font-size: 7px; letter-spacing: 3px; }
+}
