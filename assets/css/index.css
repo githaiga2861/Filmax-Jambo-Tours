@@ -7840,3 +7840,30 @@ body.light-mode .user-menu-item.danger:hover {
 body.light-mode .nav-logo-img {
   filter: none !important;
 }
+
+/* ── ABOUT FJT SECTION — light mode overrides ── */
+body.light-mode #about-fjt {
+  background: var(--deep) !important;
+}
+body.light-mode #about-fjt h3 {
+  color: var(--text) !important;
+}
+body.light-mode #about-fjt p {
+  color: var(--muted) !important;
+}
+body.light-mode #about-fjt [style*="background:var(--deep)"] {
+  border: 1px solid rgba(122,79,0,0.12);
+}
+body.light-mode #about-fjt [style*="background:var(--charcoal)"] {
+  border: 1px solid rgba(122,79,0,0.12);
+}
+
+/* mobile responsive */
+@media (max-width: 768px) {
+  #about-fjt [style*="grid-template-columns:repeat(3"] {
+    grid-template-columns: 1fr !important;
+  }
+  #about-fjt [style*="grid-template-columns:repeat(4"] {
+    grid-template-columns: repeat(2,1fr) !important;
+  }
+}
