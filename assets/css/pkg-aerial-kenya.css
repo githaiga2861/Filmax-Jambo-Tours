@@ -1049,3 +1049,172 @@
 .pm-loader-hidden{opacity:0!important;pointer-events:none!important;}
 @keyframes pmSweep{0%{left:-60%;}100%{left:160%;}}
 @media(max-width:768px){#profileModalOverlay{padding:16px!important;align-items:flex-end!important;}#profileModalBox{width:100%!important;height:90dvh!important;}}
+
+/* ═══════════════════════════════════════════════════════════════
+   DAY-BY-DAY ACCOMMODATION SELECTOR — Aerial Kenya
+   ═══════════════════════════════════════════════════════════════ */
+.fjt-accom-toggle {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; margin-top: 20px; padding: 16px 20px;
+  background: var(--card); border: 1px solid var(--border);
+  cursor: pointer; transition: border-color .3s, background .3s;
+  font-family: 'Jost', sans-serif;
+}
+.fjt-accom-toggle:hover { border-color: var(--gold); }
+.fjt-accom-toggle-label {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold);
+}
+.fjt-accom-toggle-count {
+  font-size: 9px; letter-spacing: 1px; color: var(--muted); text-transform: none;
+}
+.fjt-accom-toggle-chevron { transition: transform .4s cubic-bezier(.22,1,.36,1); }
+.fjt-accom-wrap.open .fjt-accom-toggle-chevron { transform: rotate(180deg); }
+
+.fjt-accom-panel {
+  max-height: 0; overflow: hidden;
+  transition: max-height .55s cubic-bezier(.22,1,.36,1), opacity .4s, margin .4s;
+  opacity: 0; margin-top: 0;
+}
+.fjt-accom-wrap.open .fjt-accom-panel {
+  max-height: 4000px; opacity: 1; margin-top: 14px;
+}
+
+.fjt-accom-hint {
+  font-size: 12px; color: var(--muted); line-height: 1.6;
+  padding: 10px 14px; margin-bottom: 16px;
+  border-left: 2px solid var(--gold); background: rgba(212,175,55,.04);
+}
+
+.fjt-accom-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
+}
+@media (max-width: 760px) { .fjt-accom-grid { grid-template-columns: 1fr; } }
+
+.fjt-accom-card {
+  background: var(--charcoal); border: 1px solid var(--border-subtle);
+  overflow: hidden; position: relative; cursor: pointer;
+  transition: border-color .35s, transform .35s, box-shadow .35s;
+  display: flex; flex-direction: column;
+}
+.fjt-accom-card:hover { border-color: rgba(212,175,55,.5); transform: translateY(-2px); }
+.fjt-accom-card.selected {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 1px var(--gold), 0 16px 50px rgba(0,0,0,.5);
+}
+
+.fjt-accom-card-imgwrap { position: relative; height: 168px; overflow: hidden; background: var(--card); }
+.fjt-accom-card-imgwrap img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  filter: brightness(.85) saturate(.95); transition: transform .6s, filter .4s;
+}
+.fjt-accom-card:hover .fjt-accom-card-imgwrap img { transform: scale(1.06); filter: brightness(1) saturate(1.05); }
+
+.fjt-accom-flag {
+  position: absolute; top: 12px; left: 12px; z-index: 3;
+  font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
+  padding: 5px 11px; font-family: 'Jost', sans-serif; font-weight: 500;
+  background: rgba(8,8,8,.82); backdrop-filter: blur(6px);
+  border: 1px solid rgba(212,175,55,.45); color: var(--gold);
+}
+.fjt-accom-flag.is-default { background: var(--gold); color: #080808; border-color: var(--gold); }
+
+.fjt-accom-delta {
+  position: absolute; top: 12px; right: 12px; z-index: 3;
+  font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 5px 11px; font-family: 'Jost', sans-serif; font-weight: 600;
+  backdrop-filter: blur(6px);
+}
+.fjt-accom-delta.up   { background: rgba(212,175,55,.18); color: var(--gold); border: 1px solid rgba(212,175,55,.5); }
+.fjt-accom-delta.down { background: rgba(110,176,200,.16); color: #6eb0c8; border: 1px solid rgba(110,176,200,.5); }
+.fjt-accom-delta.flat { background: rgba(255,255,255,.08); color: var(--muted); border: 1px solid var(--border-subtle); }
+
+.fjt-accom-tick {
+  position: absolute; bottom: 12px; right: 12px; z-index: 3;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--gold); display: none; align-items: center; justify-content: center;
+}
+.fjt-accom-card.selected .fjt-accom-tick { display: flex; }
+
+.fjt-accom-card-body { padding: 18px 18px 20px; flex: 1; display: flex; flex-direction: column; }
+.fjt-accom-name {
+  font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700;
+  color: var(--text); line-height: 1.25; margin-bottom: 4px;
+}
+.fjt-accom-type { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+
+.fjt-accom-mini {
+  border-top: 1px solid var(--border-subtle); padding-top: 12px; margin-top: 4px;
+}
+.fjt-accom-mini + .fjt-accom-mini { margin-top: 10px; }
+.fjt-accom-mini-head {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 5px;
+}
+.fjt-accom-mini-text { font-size: 12.5px; color: var(--text); line-height: 1.55; margin-bottom: 5px; }
+.fjt-accom-mini-link {
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold);
+  background: none; border: none; cursor: pointer; padding: 0;
+  display: inline-flex; align-items: center; gap: 5px; transition: gap .25s;
+}
+.fjt-accom-mini-link:hover { gap: 9px; }
+
+.fjt-accom-viewbtn {
+  margin-top: 16px; width: 100%; padding: 12px;
+  background: transparent; border: 1px solid var(--gold); color: var(--gold);
+  font-family: 'Jost', sans-serif; font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+  cursor: pointer; transition: background .3s, color .3s;
+}
+.fjt-accom-viewbtn:hover { background: var(--gold); color: #080808; }
+
+.fjt-accom-confirm {
+  margin-top: 14px; font-size: 11px; color: var(--muted); text-align: center;
+  min-height: 16px; transition: color .3s;
+}
+.fjt-accom-confirm strong { color: var(--gold); }
+
+/* ── FLOATING MODAL ── */
+.fjt-modal-overlay {
+  position: fixed; inset: 0; z-index: 99990; display: none;
+  align-items: center; justify-content: center; padding: 24px;
+  background: rgba(4,3,1,.72); backdrop-filter: blur(8px);
+  opacity: 0; transition: opacity .35s;
+}
+.fjt-modal-overlay.open { display: flex; opacity: 1; }
+.fjt-modal {
+  position: relative; width: min(620px, 94vw); max-height: 88vh; overflow-y: auto;
+  background: var(--charcoal); border: 1px solid rgba(212,175,55,.25);
+  box-shadow: 0 50px 140px rgba(0,0,0,.8);
+  transform: translateY(30px) scale(.97); transition: transform .4s cubic-bezier(.22,1,.36,1);
+}
+.fjt-modal-overlay.open .fjt-modal { transform: translateY(0) scale(1); }
+.fjt-modal-img { width: 100%; height: 240px; object-fit: cover; display: block; }
+.fjt-modal-close {
+  position: absolute; top: 14px; right: 14px; z-index: 5;
+  width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+  background: rgba(8,8,8,.7); border: 1px solid rgba(212,175,55,.4); color: var(--gold);
+  font-size: 18px; line-height: 1; display: flex; align-items: center; justify-content: center;
+}
+.fjt-modal-close:hover { background: var(--gold); color: #080808; }
+.fjt-modal-body { padding: 30px 32px 36px; }
+.fjt-modal-eyebrow { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 12px; }
+.fjt-modal-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--text); line-height: 1.2; margin-bottom: 8px; }
+.fjt-modal-sub { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+.fjt-modal-p { font-size: 14px; color: var(--text); line-height: 1.85; margin-bottom: 16px; }
+.fjt-modal-divider { width: 50px; height: 1px; background: linear-gradient(to right, var(--gold), transparent); margin: 22px 0; }
+.fjt-modal-list { list-style: none; padding: 0; margin: 0; }
+.fjt-modal-list li {
+  font-size: 13.5px; color: var(--text); line-height: 1.5; padding: 9px 0 9px 22px; position: relative;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.fjt-modal-list li::before { content: ''; position: absolute; left: 0; top: 16px; width: 9px; height: 1px; background: var(--gold); }
+
+/* light mode */
+body.light-mode .fjt-accom-hint { background: rgba(122,79,0,.05); }
+body.light-mode .fjt-accom-card { border-color: rgba(122,79,0,.15); }
+body.light-mode .fjt-modal { background: var(--card); }
+body.light-mode .fjt-accom-name,
+body.light-mode .fjt-modal-title,
+body.light-mode .fjt-accom-mini-text,
+body.light-mode .fjt-modal-p,
+body.light-mode .fjt-modal-list li { color: var(--text); }
