@@ -1007,7 +1007,7 @@ window._fjt_fresh=!sessionStorage.getItem('loaderSeen');
   }
 
   document.addEventListener('DOMContentLoaded',function(){window.scrollTo(0,0);});
-  window.addEventListener('load',function(){window.scrollTo(0,0);});
+  window.addEventListener('load',function(){ if((window.scrollY||document.documentElement.scrollTop) < 5){ window.scrollTo(0,0); } });
 
   // Hero logo scroll-to-nav animation — single source of truth
   // Nav logo is ALWAYS hidden until JS explicitly shows it after flight
