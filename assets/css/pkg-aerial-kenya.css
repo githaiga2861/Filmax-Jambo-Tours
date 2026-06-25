@@ -1218,3 +1218,121 @@ body.light-mode .fjt-modal-title,
 body.light-mode .fjt-accom-mini-text,
 body.light-mode .fjt-modal-p,
 body.light-mode .fjt-modal-list li { color: var(--text); }
+
+/* ═══════════════════════════════════════════════════════════════
+   BOOKING-STYLE ACCOMMODATION MODAL — Aerial Kenya
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Make the modal a fixed-header scroll container */
+#fjtAccomModal .fjt-modal { width: min(820px, 96vw); max-height: 90vh; overflow: hidden; display: flex; flex-direction: column; padding: 0; }
+
+/* Fixed close button — stays put while body scrolls */
+.fjt-bk-closebar {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px; background: var(--charcoal);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+body.light-mode .fjt-bk-closebar { background: var(--card); }
+.fjt-bk-closebar-title {
+  font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gold);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.fjt-bk-close {
+  width: 34px; height: 34px; border-radius: 50%; cursor: pointer; flex-shrink: 0;
+  background: rgba(8,8,8,.5); border: 1px solid rgba(212,175,55,.45); color: var(--gold);
+  font-size: 18px; line-height: 1; display: flex; align-items: center; justify-content: center;
+  transition: background .25s, color .25s;
+}
+.fjt-bk-close:hover { background: var(--gold); color: #080808; }
+
+/* Scrollable body */
+.fjt-bk-scroll { overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; }
+
+/* ── PHOTO COLLAGE ── */
+.fjt-bk-collage {
+  display: grid; grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr; gap: 4px; height: 320px;
+}
+.fjt-bk-collage-cell { position: relative; overflow: hidden; cursor: pointer; background: var(--card); }
+.fjt-bk-collage-cell:nth-child(1) { grid-row: 1 / 3; }
+.fjt-bk-collage-cell img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s, filter .4s; filter: brightness(.92); }
+.fjt-bk-collage-cell:hover img { transform: scale(1.05); filter: brightness(1); }
+.fjt-bk-collage-more {
+  position: absolute; inset: 0; background: rgba(8,8,8,.66);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: #fff; gap: 4px; transition: background .3s;
+}
+.fjt-bk-collage-more:hover { background: rgba(8,8,8,.5); }
+.fjt-bk-collage-more-num { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; color: var(--gold); line-height: 1; }
+.fjt-bk-collage-more-label { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
+@media (max-width: 640px) {
+  .fjt-bk-collage { grid-template-columns: 1fr 1fr; height: 240px; }
+  .fjt-bk-collage-cell:nth-child(1) { grid-row: 1 / 2; grid-column: 1 / 3; }
+  .fjt-bk-collage-cell:nth-child(4),
+  .fjt-bk-collage-cell:nth-child(5) { display: none; }
+}
+
+/* ── BODY CONTENT ── */
+.fjt-bk-body { padding: 26px 30px 40px; }
+.fjt-bk-head-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 6px; }
+.fjt-bk-name { font-family: 'Playfair Display', serif; font-size: 27px; font-weight: 700; color: var(--text); line-height: 1.18; }
+.fjt-bk-type { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-top: 6px; }
+.fjt-bk-score { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.fjt-bk-score-num {
+  background: var(--gold); color: #080808; font-family: 'Jost', sans-serif; font-weight: 700;
+  font-size: 16px; padding: 8px 11px; line-height: 1; border-radius: 2px;
+}
+.fjt-bk-score-txt { font-size: 11px; color: var(--muted); line-height: 1.3; }
+.fjt-bk-score-txt strong { color: var(--text); display: block; font-size: 12px; }
+
+.fjt-bk-loc { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--muted); margin: 12px 0 22px; }
+
+.fjt-bk-section-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--text); margin: 28px 0 14px; }
+.fjt-bk-p { font-size: 14px; line-height: 1.85; color: var(--text); margin-bottom: 14px; }
+
+/* facility chips */
+.fjt-bk-facilities { display: flex; flex-wrap: wrap; gap: 8px; }
+.fjt-bk-facility {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 11.5px; color: var(--text); padding: 8px 13px;
+  background: var(--card); border: 1px solid var(--border-subtle);
+}
+.fjt-bk-facility svg { flex-shrink: 0; }
+
+/* room types */
+.fjt-bk-room { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border-subtle); }
+.fjt-bk-room:last-child { border-bottom: none; }
+.fjt-bk-room-img { width: 92px; height: 72px; object-fit: cover; flex-shrink: 0; background: var(--card); }
+.fjt-bk-room-info { flex: 1; }
+.fjt-bk-room-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.fjt-bk-room-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+/* good to know grid */
+.fjt-bk-gtk { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px; }
+@media (max-width: 560px) { .fjt-bk-gtk { grid-template-columns: 1fr; } }
+.fjt-bk-gtk-item { font-size: 12.5px; color: var(--text); line-height: 1.5; padding-left: 20px; position: relative; }
+.fjt-bk-gtk-item::before { content: ''; position: absolute; left: 0; top: 8px; width: 9px; height: 1px; background: var(--gold); }
+.fjt-bk-gtk-item strong { color: var(--gold); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 2px; }
+
+.fjt-bk-divider { width: 100%; height: 1px; background: var(--border-subtle); margin: 26px 0; }
+
+/* ── FULL GALLERY VIEW ── */
+.fjt-bk-gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 18px; }
+@media (max-width: 560px) { .fjt-bk-gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+.fjt-bk-gallery-grid img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; background: var(--card); }
+.fjt-bk-back {
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold);
+  background: none; border: 1px solid var(--gold); padding: 9px 16px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 7px; transition: background .25s, color .25s;
+}
+.fjt-bk-back:hover { background: var(--gold); color: #080808; }
+
+body.light-mode .fjt-bk-facility { border-color: rgba(122,79,0,.15); }
+body.light-mode .fjt-bk-name,
+body.light-mode .fjt-bk-section-title,
+body.light-mode .fjt-bk-p,
+body.light-mode .fjt-bk-room-name,
+body.light-mode .fjt-bk-gtk-item { color: var(--text); }
