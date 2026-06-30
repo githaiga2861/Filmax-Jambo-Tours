@@ -8371,10 +8371,7 @@ body.light-mode #testimonialFormOpen input {
 body.light-mode .highlight-card::after,
 body.light-mode .hc-top-content::after,
 body.light-mode #about-fjt .reveal > div[style*="background:var(--deep)"]::after,
-body.light-mode #about-fjt .reveal > div[style*="background:var(--charcoal)"]::after,
-body.light-mode .package-card::after,
-body.light-mode .blog-card::after,
-body.light-mode .team-card::after {
+body.light-mode #about-fjt .reveal > div[style*="background:var(--charcoal)"]::after {
   background: linear-gradient(
     120deg,
     transparent 0%,
