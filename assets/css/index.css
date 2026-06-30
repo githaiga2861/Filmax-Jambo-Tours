@@ -8257,3 +8257,11 @@ section .section-sub { margin-left: auto; margin-right: auto; }
   margin-left: calc(-50vw + 50%) !important;
   margin-right: calc(-50vw + 50%) !important;
 }
+
+/* Section subs: widen as much as possible while staying centred */
+.section-sub {
+  max-width: min(1000px, 92vw) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+}
