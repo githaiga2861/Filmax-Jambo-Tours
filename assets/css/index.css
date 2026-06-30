@@ -8307,3 +8307,12 @@ body.light-mode .hc-top-content .hc-svg circle {
 body:not(.light-mode) .hc-top-content .card-number {
   animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite;
 }
+
+/* Highlights card SVG icon — slight rotation on hover */
+.hc-svg {
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: center;
+}
+.highlight-card:hover .hc-svg {
+  transform: rotate(12deg) scale(1.08);
+}
