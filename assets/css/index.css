@@ -5777,12 +5777,13 @@ nav.scrolled .nav-brand-idle {
       rgba(212,175,55,0.015) 22px,
       rgba(212,175,55,0.015) 28px
     );
+  background-size: 200px 200px, 200px 200px;
   animation: loaderStripeShift 8s linear infinite;
 }
 
 @keyframes loaderStripeShift {
-  0%   { transform: translateX(0) translateY(0); }
-  100% { transform: translateX(40px) translateY(40px); }
+  0%   { background-position: 0 0, 0 0; }
+  100% { background-position: 200px 200px, 200px 200px; }
 }
 
 /* Paper tear pieces container */
