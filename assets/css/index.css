@@ -5753,11 +5753,10 @@ nav.scrolled .nav-brand-idle {
 #loader::before {
   content: '';
   position: fixed;
-  top: -20%;
-  left: -20%;
-  right: -20%;
-  bottom: -20%;
-  width: auto;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   z-index: 0;
   background-image:
     repeating-linear-gradient(
