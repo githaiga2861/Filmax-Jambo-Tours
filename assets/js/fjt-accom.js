@@ -5,6 +5,7 @@
 (function(){
   'use strict';
   var _curLodge = null;
+  window.FJT_SELECTED_ACCOM = window.FJT_SELECTED_ACCOM || {};
 
   // delta: 'flat' (Included/default), 'up' (Premium upgrade), 'down' (Lower cost)
   var DATA = {
@@ -307,7 +308,7 @@
     return ''+
     '<div class="fjt-accom-card'+(isDef?' selected':'')+'" data-day="'+day+'" data-idx="'+idx+'">'+
       '<div class="fjt-accom-card-imgwrap">'+
-        '<img src="'+a.img+'" alt="'+esc(a.name)+'" loading="lazy">'+
+        '<img src="'+a.img+'" alt="'+esc(a.name)+'" loading="lazy" onerror="this.onerror=null;this.src=\'assets/maasaimara.webp\'">'+
         '<span class="fjt-accom-flag '+fl.cls+'">'+fl.text+'</span>'+
         '<span class="fjt-accom-delta '+dl.cls+'">'+dl.text+'</span>'+
         '<span class="fjt-accom-tick">'+TICK+'</span>'+
@@ -334,12 +335,19 @@
     var day = mount.getAttribute('data-day');
     var list = DATA[day];
     if(!list){ return; }
+    var defIdx = list.findIndex(function(x){ return x.delta==='flat'; });
+    if(defIdx < 0) defIdx = 0;
+    var defName = list[defIdx].name;
+    // seed the global store with the default for this day (only if unset)
+    if(!window.FJT_SELECTED_ACCOM[day]){
+      window.FJT_SELECTED_ACCOM[day] = { idx:defIdx, name:defName, delta:list[defIdx].delta };
+    }
     var cards = list.map(function(a,i){ return cardHTML(day,i,a); }).join('');
     mount.innerHTML =
       '<div class="fjt-accom-wrap">'+
         '<div class="fjt-accom-toggle">'+
           '<span class="fjt-accom-toggle-label">🏕 Accommodation Options '+
-            '<span class="fjt-accom-toggle-count">'+list.length+' lodges for this night</span>'+
+            '<span class="fjt-accom-toggle-count">'+list.length+' '+(list.length===1?'lodge':'lodges')+' for this night · <span class="fjt-accom-current" data-current="'+day+'">'+defName+'</span></span>'+
           '</span>'+
           '<span class="fjt-accom-toggle-chevron">'+ARROW+'</span>'+
         '</div>'+
@@ -450,6 +458,17 @@
     var card = grid.querySelector('.fjt-accom-card[data-idx="'+idx+'"]');
     if(card) card.classList.add('selected');
     var a = DATA[day][idx];
+
+    // update the toggle line current-name (visible before/after dropdown is opened)
+    var cur = document.querySelector('.fjt-accom-current[data-current="'+day+'"]');
+    if(cur) cur.textContent = a.name;
+
+    // update the global selection store
+    window.FJT_SELECTED_ACCOM[day] = { idx:idx, name:a.name, delta:a.delta };
+
+    // reflect choices onto the reserve links so the booking carries them
+    updateReserveLinks();
+
     var conf = document.querySelector('[data-confirm="'+day+'"]');
     if(conf){
       if(a.delta==='flat') conf.innerHTML = '<strong>'+a.name+'</strong> is your default lodge for this night — included in your quoted price.';
@@ -458,9 +477,25 @@
     }
   }
 
+  function updateReserveLinks(){
+    var store = window.FJT_SELECTED_ACCOM || {};
+    var days = Object.keys(store).sort(function(x,y){ return (+x)-(+y); });
+    // build compact param: day1:LodgeName|day2:LodgeName...
+    var parts = days.map(function(d){ return d+':'+store[d].name; });
+    var encoded = encodeURIComponent(parts.join('|'));
+    ['sidebarReserveBtn','mobileReserveBtn','mobileBarBtn'].forEach(function(id){
+      var el = document.getElementById(id);
+      if(!el) return;
+      var base = el.getAttribute('href').split('?')[0];
+      el.setAttribute('href', base + '?pkg=aerial-kenya&accom=' + encoded);
+    });
+    try { sessionStorage.setItem('fjt_aerial_accom', JSON.stringify(store)); } catch(e){}
+  }
+
   function init(){
     var mounts = document.querySelectorAll('.fjt-accom-mount');
     mounts.forEach(render);
+    updateReserveLinks();
 
     document.addEventListener('click', function(e){
       var galBtn = e.target.closest('[data-gallery]');
