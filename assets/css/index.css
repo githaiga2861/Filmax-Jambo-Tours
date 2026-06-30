@@ -8249,3 +8249,11 @@ section .section-sub { margin-left: auto; margin-right: auto; }
 @media (max-width: 768px) {
   .dropdown-back-mobile { display: block; }
 }
+
+/* About-us cards: true full-bleed (override universal max-width:100%) */
+.about-fullbleed {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin-left: calc(-50vw + 50%) !important;
+  margin-right: calc(-50vw + 50%) !important;
+}
