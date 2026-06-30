@@ -46,15 +46,15 @@ body.light-mode .filter-system {
 
 <!-- NAV -->
 <nav id="navbar">
+  <!-- LEFT: logo -->
   <a href="index.html" class="nav-logo-link" aria-label="Filmax Jambo Tours Home">
     <img src="assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.webp" alt="Filmax Jambo Tours Logo" class="nav-logo-img" />
   </a>
-  <div style="display:flex;align-items:center;gap:16px;">
 
-    <!-- Sign in / Sign up flip — hidden once signed in -->
+  <!-- CENTER: Sign in / Sign up flip — hidden once signed in -->
+  <div class="nav-center-auth">
     <div id="pkgFlipWrap" style="position:relative;height:40px;width:114px;perspective:600px;flex-shrink:0;transition:opacity 0.3s ease;">
       <div id="pkgFlipInner" style="position:relative;width:100%;height:100%;transform-style:preserve-3d;animation:pkgAuthAutoFlip 12s ease-in-out infinite;">
-        <!-- Front: Sign In -->
         <button onclick="window._openAuth('signin')"
           style="position:absolute;top:0;left:0;width:100%;height:100%;
                  backface-visibility:hidden;-webkit-backface-visibility:hidden;
@@ -64,10 +64,9 @@ body.light-mode .filter-system {
                  color:var(--gold);background:transparent;
                  border:1.5px solid var(--gold);
                  box-shadow:0 0 12px rgba(212,175,55,0.18);
-                 transition:box-shadow 0.3s;">
+                 transition:box-shadow 0.3s;cursor:none;">
           Sign In
         </button>
-        <!-- Back: Sign Up -->
         <button onclick="window._openAuth('signup')"
           style="position:absolute;top:0;left:0;width:100%;height:100%;
                  backface-visibility:hidden;-webkit-backface-visibility:hidden;
@@ -77,15 +76,40 @@ body.light-mode .filter-system {
                  letter-spacing:4px;text-transform:uppercase;
                  color:#1a0e00;border:none;
                  background:linear-gradient(135deg,#f0c84a 0%,#d4af37 35%,#b8860b 65%,#c9921a 100%);
-                 box-shadow:0 2px 0 rgba(255,255,255,0.22) inset,0 4px 14px rgba(212,175,55,0.4);">
+                 box-shadow:0 2px 0 rgba(255,255,255,0.22) inset,0 4px 14px rgba(212,175,55,0.4);cursor:none;">
           Sign Up
         </button>
       </div>
     </div>
-
-    <a href="index.html#packages" class="nav-back">Back to home</a>
   </div>
+
+  <!-- RIGHT: hamburger -->
+  <button class="menu-btn" id="pkgMenuBtn" aria-label="Menu" style="background:transparent;border:none;padding:8px;cursor:none;">
+    <span style="display:block;width:28px;height:2px;background:var(--gold);flex-shrink:0;margin-bottom:6px;"></span>
+    <span style="display:block;width:28px;height:2px;background:var(--gold);flex-shrink:0;margin-bottom:6px;"></span>
+    <span style="display:block;width:28px;height:2px;background:var(--gold);flex-shrink:0;"></span>
+  </button>
 </nav>
+
+<!-- PACKAGES-PAGE DROPDOWN (unique: has Back to Home) -->
+<div class="pkg-dropdown" id="pkgDropdown">
+  <a href="index.html" class="pkg-dropdown-back">← Back to Home</a>
+  <a href="index.html#wildlife" class="pkg-dropdown-link">Destinations</a>
+  <a href="packages.html" class="pkg-dropdown-link">All Packages</a>
+  <a href="index.html#testimonials" class="pkg-dropdown-link">Testimonials</a>
+  <a href="index.html#gallery" class="pkg-dropdown-link">Gallery</a>
+  <a href="index.html#blog" class="pkg-dropdown-link">Journal</a>
+  <a href="index.html#contact" class="pkg-dropdown-link">Contact</a>
+  <button class="pkg-dropdown-link pkg-dropdown-auth" onclick="window._openAuth('signin');document.getElementById('pkgMenuBtn').classList.remove('open');document.getElementById('pkgDropdown').classList.remove('open');">
+    <svg width="18" height="18" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.1"/><path d="M1.5 12.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+    Sign In
+  </button>
+  <button class="pkg-dropdown-link pkg-dropdown-signup" onclick="window._openAuth('signup');document.getElementById('pkgMenuBtn').classList.remove('open');document.getElementById('pkgDropdown').classList.remove('open');">
+    <svg width="18" height="18" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;opacity:0.6;"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    Sign Up
+  </button>
+  <div class="pkg-dropdown-tagline">Kenya's most exclusive safari experience</div>
+</div>
 
 <!-- PAGE HERO -->
 <div class="page-hero">
@@ -113,7 +137,7 @@ body.light-mode .filter-system {
       <span class="filter-active-count" id="filterActiveCount">0 filters</span>
     </div>
     <div class="filter-toggle-right">
-      <span class="filter-results-count">Showing <span id="resultsCount">14</span> packages</span>
+      <span class="filter-results-count">Showing <span id="resultsCount">17</span> packages</span>
       <button class="filter-toggle-btn" id="filterToggleBtn">
         Filters
         <svg width="12" height="8" viewBox="0 0 12 8" fill="none">

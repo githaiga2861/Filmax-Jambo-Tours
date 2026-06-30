@@ -246,6 +246,7 @@ function applyFilters() {
 
   // Results count
   document.getElementById('resultsCount').textContent = visibleCount;
+  if(window._fjtRecountPackages) window._fjtRecountPackages();
 
   // No results state
   const noResults = document.getElementById('noResults');
@@ -1116,4 +1117,53 @@ document.querySelectorAll('.reveal').forEach(el => window._revealObserver.observ
     if (themeBtn) themeBtn.addEventListener('click', function(){ setTimeout(pmSyncTheme, 60); });
   });
 
+})();
+
+
+/* ── Packages page: authoritative counts + hamburger menu ── */
+(function(){
+  function recountCategories(){
+    document.querySelectorAll('.category-block').forEach(function(block){
+      var cards = block.querySelectorAll('.pkg-card:not(.filtered-out)').length;
+      var el = block.querySelector('.category-count');
+      if(el) el.textContent = cards + ' Package' + (cards === 1 ? '' : 's');
+    });
+  }
+  function recountTotal(){
+    var total = document.querySelectorAll('.pkg-card:not(.filtered-out)').length;
+    var rc = document.getElementById('resultsCount');
+    if(rc) rc.textContent = total;
+  }
+  function recountAll(){ recountCategories(); recountTotal(); }
+
+  // Run on load, and again shortly after (covers async dynamic package injection)
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', function(){ recountAll(); setTimeout(recountAll, 1200); });
+  } else {
+    recountAll(); setTimeout(recountAll, 1200);
+  }
+  // Expose so the filter routine can refresh counts after filtering
+  window._fjtRecountPackages = recountAll;
+
+  // ── Hamburger menu toggle (packages page only) ──
+  var btn = document.getElementById('pkgMenuBtn');
+  var dd  = document.getElementById('pkgDropdown');
+  if(btn && dd){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      btn.classList.toggle('open');
+      dd.classList.toggle('open');
+    });
+    // close when clicking outside
+    document.addEventListener('click', function(e){
+      if(dd.classList.contains('open') && !dd.contains(e.target) && !btn.contains(e.target)){
+        btn.classList.remove('open');
+        dd.classList.remove('open');
+      }
+    });
+    // close on Escape
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape'){ btn.classList.remove('open'); dd.classList.remove('open'); }
+    });
+  }
 })();
