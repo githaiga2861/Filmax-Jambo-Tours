@@ -8361,3 +8361,43 @@ body.light-mode #testimonialFormOpen input {
   color: #0a0a0a !important;
   border-color: rgba(0,0,0,0.15) !important;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   LIGHT MODE — make hover shine visible (dark sweep) on all cards
+   that already shine in dark mode. Colours only; effect unchanged.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Darker shine gradient for light mode — replaces the white sweep */
+body.light-mode .highlight-card::after,
+body.light-mode .hc-top-content::after,
+body.light-mode #about-fjt .reveal > div[style*="background:var(--deep)"]::after,
+body.light-mode #about-fjt .reveal > div[style*="background:var(--charcoal)"]::after,
+body.light-mode .package-card::after,
+body.light-mode .blog-card::after,
+body.light-mode .team-card::after {
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(122,79,0,0.05) 30%,
+    rgba(122,79,0,0.16) 50%,
+    rgba(122,79,0,0.05) 70%,
+    transparent 100%
+  ) !important;
+}
+
+/* Ensure the about-us + highlight cards keep their shine trigger in light mode */
+body.light-mode #about-fjt .reveal > div[style*="background:var(--deep)"]:hover::after,
+body.light-mode #about-fjt .reveal > div[style*="background:var(--charcoal)"]:hover::after {
+  animation: fjtCardShine 0.6s ease forwards;
+}
+body.light-mode .highlight-card:hover .hc-top-content::after {
+  animation: fjtCardShine 0.55s ease forwards;
+}
+body.light-mode .highlight-card:hover::after {
+  animation: highlightMetalShine 0.55s ease forwards;
+}
+
+/* SVG icon rotation also applies in light mode */
+body.light-mode .highlight-card:hover .hc-svg {
+  transform: rotate(12deg) scale(1.08);
+}
