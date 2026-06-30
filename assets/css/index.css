@@ -8166,3 +8166,86 @@ body.light-mode .dest-hover-cta {
   .dest-name { font-size: 14px; }
   .dest-sublabel { font-size: 7px; letter-spacing: 3px; }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   HOMEPAGE — shine hover animations + centre alignment
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Reusable side-to-side shine (same feel as .btn-primary) */
+@keyframes fjtCardShine {
+  0%   { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(200%)  skewX(-15deg); }
+}
+
+/* ── #3: About-us 3 story cards — shine on hover + centre-aligned ── */
+#about-fjt .reveal > div[style*="background:var(--deep)"],
+#about-fjt .reveal > div[style*="background:var(--charcoal)"] {
+  position: relative;
+  overflow: hidden;
+  text-align: center !important;
+}
+/* centre the inner label/title/text */
+#about-fjt .reveal > div[style*="background:var(--deep)"] > span,
+#about-fjt .reveal > div[style*="background:var(--deep)"] > h3,
+#about-fjt .reveal > div[style*="background:var(--deep)"] > p,
+#about-fjt .reveal > div[style*="background:var(--charcoal)"] > span,
+#about-fjt .reveal > div[style*="background:var(--charcoal)"] > h3,
+#about-fjt .reveal > div[style*="background:var(--charcoal)"] > p {
+  text-align: center !important;
+}
+/* shine sweep element */
+#about-fjt .reveal > div[style*="background:var(--deep)"]::after,
+#about-fjt .reveal > div[style*="background:var(--charcoal)"]::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 60%; height: 100%;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%);
+  transform: translateX(-120%) skewX(-15deg);
+  pointer-events: none;
+  z-index: 5;
+}
+#about-fjt .reveal > div[style*="background:var(--deep)"]:hover::after,
+#about-fjt .reveal > div[style*="background:var(--charcoal)"]:hover::after {
+  animation: fjtCardShine 0.6s ease forwards;
+}
+
+/* ── #4: Highlight cards above videos — shine on the text block on hover ── */
+.hc-top-content {
+  position: relative;
+  overflow: hidden;
+}
+.hc-top-content::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 60%; height: 100%;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.07) 50%, transparent 100%);
+  transform: translateX(-120%) skewX(-15deg);
+  pointer-events: none;
+  z-index: 4;
+}
+.highlight-card:hover .hc-top-content::after {
+  animation: fjtCardShine 0.55s ease forwards;
+}
+
+/* ── #5: Centre all section labels / titles / subs on the homepage ── */
+#hero ~ section .section-label,
+#hero ~ section .section-title,
+#hero ~ section .section-sub,
+section .section-label,
+section .section-title,
+section .section-sub {
+  text-align: center;
+}
+/* centre the section-sub block itself (it has max-width) */
+section .section-sub { margin-left: auto; margin-right: auto; }
+/* wildlife header is a 2-col flex with a side sub — let it centre too */
+.wildlife-header { flex-direction: column; align-items: center; text-align: center; }
+.wildlife-header .section-sub { max-width: 520px; }
+
+/* Homepage dropdown: Back to Home shows on phone only */
+.dropdown-back-mobile { display: none; }
+@media (max-width: 768px) {
+  .dropdown-back-mobile { display: block; }
+}

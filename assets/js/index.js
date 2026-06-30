@@ -598,7 +598,11 @@ window._fjt_fresh=!sessionStorage.getItem('loaderSeen');
         const { error } = await supa.from('enquiries').insert(payload);
         if (error) throw error;
 
-        showEnquiryMsg('success', '✓ Enquiry sent! We\'ll be in touch within 24 hours.');
+        showEnquiryMsg('success', '✓ Enquiry sent! Your email app will open to confirm. We reply within 24 hours.');
+        // Also open the user's email client pre-filled to our inbox
+        var _subj = encodeURIComponent('Safari Enquiry — ' + nameVal);
+        var _body = encodeURIComponent('Name: ' + nameVal + '\n' + 'Email: ' + emailVal + '\n' + 'Phone: ' + (phoneVal || '—') + '\n\n' + msgVal);
+        window.location.href = 'mailto:hello@filmaxjambotours.com?subject=' + _subj + '&body=' + _body;
         fields.forEach(function(f){ f.value = ''; });
 
       } catch(e) {
