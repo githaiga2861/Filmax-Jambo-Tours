@@ -8316,3 +8316,48 @@ body:not(.light-mode) .hc-top-content .card-number {
 .highlight-card:hover .hc-svg {
   transform: rotate(12deg) scale(1.08);
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   REVIEW CONTAINERS — light mode: match team-card bg + dark-gold buttons
+   (colours only; no HTML/size/function change)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Backgrounds → match team cards (#d8d4cc) */
+body.light-mode #testimonialFormLocked,
+body.light-mode #testimonialFormOpen > div {
+  background: #d8d4cc !important;
+  border: 1px solid rgba(0,0,0,0.10) !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important;
+}
+
+/* ALL buttons in both containers → filled dark gold (signup included) */
+body.light-mode #testimonialFormLocked button,
+body.light-mode #testimonialFormOpen button#testimonialSubmitBtn,
+body.light-mode #testimonialFormLocked button[onclick*="signup"] {
+  background: linear-gradient(135deg, #e8c84a, #d4af37) !important;
+  color: #080808 !important;
+  -webkit-text-fill-color: #080808 !important;
+  border: none !important;
+  filter: brightness(1.12) saturate(1.2) !important;
+  box-shadow: 0 8px 28px rgba(212,175,55,0.4) !important;
+}
+body.light-mode #testimonialFormLocked button:hover,
+body.light-mode #testimonialFormOpen button#testimonialSubmitBtn:hover,
+body.light-mode #testimonialFormLocked button[onclick*="signup"]:hover {
+  filter: brightness(1.22) saturate(1.3) !important;
+  box-shadow: 0 16px 48px rgba(212,175,55,0.7) !important;
+  transform: translateY(-2px) !important;
+  background: linear-gradient(135deg, #e8c84a, #d4af37) !important;
+}
+
+/* Text inside the open form → readable on light bg */
+body.light-mode #testimonialFormOpen p,
+body.light-mode #testimonialFormOpen span:not(.star-btn) {
+  color: #2a2a2a !important;
+}
+body.light-mode #testimonialFormOpen textarea,
+body.light-mode #testimonialFormOpen input {
+  background: #ffffff !important;
+  color: #0a0a0a !important;
+  border-color: rgba(0,0,0,0.15) !important;
+}
