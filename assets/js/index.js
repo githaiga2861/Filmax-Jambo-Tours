@@ -1465,7 +1465,7 @@ document.addEventListener('DOMContentLoaded',function(){
       function valid(){return inp.value.trim().length>=(step.minLength||1)&&(!step.pattern||step.pattern.test(inp.value.trim()));}
       inp.addEventListener('input',function(){answers[step.id]=inp.value.trim();nx.classList.toggle('ready',valid());});
       inp.addEventListener('keydown',function(e){if(e.key==='Enter'&&valid()){current++;renderStep(current);}});
-      setTimeout(function(){inp.focus();},80);
+      setTimeout(function(){inp.focus({preventScroll:true});},80);
     } else if(isMulti){
       document.getElementById('iqOpts').addEventListener('click',function(e){
         var btn=e.target.closest('.quiz-option');if(!btn)return;
