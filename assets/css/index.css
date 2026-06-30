@@ -8265,3 +8265,45 @@ section .section-sub { margin-left: auto; margin-right: auto; }
   margin-right: auto !important;
   text-align: center !important;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   HIGHLIGHTS TOP TEXT — correct light-mode colours
+   (overrides legacy white/cream rules written for old layout)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* LIGHT MODE: title / text / sub → black; number + icon → dark gold */
+body.light-mode .hc-top-content .card-title {
+  color: #0a0a0a !important;
+  -webkit-text-fill-color: #0a0a0a !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  text-shadow: none !important;
+}
+body.light-mode .hc-top-content .card-text,
+body.light-mode .hc-top-content .card-sub {
+  color: #0a0a0a !important;
+  -webkit-text-fill-color: #0a0a0a !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  text-shadow: none !important;
+}
+body.light-mode .hc-top-content .card-number {
+  color: #7a4f00 !important;
+  -webkit-text-fill-color: #7a4f00 !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  filter: none !important;
+  animation: none !important;   /* flash only in dark mode */
+}
+body.light-mode .hc-top-content .hc-svg path,
+body.light-mode .hc-top-content .hc-svg circle {
+  stroke: #7a4f00 !important;
+}
+
+/* DARK MODE: keep the card-number flash (light gold) */
+body:not(.light-mode) .hc-top-content .card-number {
+  animation: cardNumFlash 5s cubic-bezier(0.4,0,0.2,1) infinite;
+}
