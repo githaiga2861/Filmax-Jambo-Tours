@@ -286,6 +286,54 @@
   }
   enrich();
 
+
+  // ── Per-day activities (real-world, tailored to each location) ──
+  var ACTS_BY_DAY = {
+    1: { place:'Maasai Mara', items:[
+      ['Afternoon game drive','Head out as the light turns golden — prime time for lion, cheetah and elephant on the plains.'],
+      ['Sundowner on the savannah','Chilled drinks at a scenic viewpoint as the sun drops behind the acacias.'],
+      ['Maasai welcome & briefing','Meet your guide and photographer; plan the days around the wildlife and the light.']
+    ]},
+    2: { place:'Maasai Mara', items:[
+      ['Dawn big-cat drive','Pre-sunrise departure to find lion and cheetah hunting in first light.'],
+      ['Hot-air balloon safari','Optional sunrise flight over the Mara, followed by a champagne bush breakfast.'],
+      ['Photographic session','Work the herds and predators with your guide positioning the vehicle for the shot.'],
+      ['Mara River crossing watch','Seasonal — post up at the river for the drama of the wildebeest crossings.']
+    ]},
+    3: { place:'Amboseli', items:[
+      ['Scenic flight to Amboseli','Aerial transfer with Kilimanjaro filling the window on approach.'],
+      ['Elephant-herd game drive','Amboseli\'s big tuskers move across the marshes below the volcano.'],
+      ['Observation Hill viewpoint','Climb the only walkable hill for a 360° panorama of the swamps and plains.']
+    ]},
+    4: { place:'Amboseli', items:[
+      ['Sunrise with Kilimanjaro','Dawn drive for the mountain\'s clearest light before cloud builds.'],
+      ['Big-tusker tracking','Seek out Amboseli\'s famous large-tusked bulls with your guide.'],
+      ['Maasai village visit','Optional cultural visit to a local community with your guide interpreting.'],
+      ['Swamp birdlife drive','Pelicans, herons and crowned cranes gather in the spring-fed wetlands.']
+    ]},
+    5: { place:'Samburu', items:[
+      ['Flight to Samburu','Transfer north to the raw, arid beauty of the Ewaso Nyiro river country.'],
+      ['Special Five game drive','Grevy\'s zebra, gerenuk, reticulated giraffe, Beisa oryx and Somali ostrich.'],
+      ['Riverbank sundowner','Drinks along the Ewaso Nyiro as elephants come down to drink.']
+    ]},
+    6: { place:'Samburu', items:[
+      ['Dawn predator drive','Leopard and lion are active along the river at first light.'],
+      ['Samburu cultural encounter','Meet the Samburu people and learn their traditions with your guide.'],
+      ['Bush breakfast by the river','A full breakfast set up in the wild beside the Ewaso Nyiro.'],
+      ['Birding walk','Over 350 species — vulturine guineafowl and palm-nut vultures among them.']
+    ]},
+    7: { place:'Diani Beach', items:[
+      ['Flight to the coast','Transfer to Diani\'s white sand and warm Indian Ocean waters.'],
+      ['Beach & reef time','Swim, snorkel the reef, or simply unwind after the safari circuit.'],
+      ['Dhow sunset cruise','Sail a traditional dhow as the sun sets over the channel.']
+    ]},
+    8: { place:'Diani Beach', items:[
+      ['Sunrise beach walk','A final quiet morning along the shore before departure.'],
+      ['Optional water sports','Kitesurfing, diving or a marine-park excursion, subject to timing.'],
+      ['Transfer for departure','Coastal flight back to Nairobi to connect with onward flights.']
+    ]}
+  };
+
   function deltaLabel(d){
     if(d==='flat') return { cls:'flat', text:'Included · Default' };
     if(d==='up')   return { cls:'up',   text:'Premium upgrade' };
@@ -355,6 +403,32 @@
           '<div class="fjt-accom-hint">A default lodge is pre-selected and already included in your quoted price. Tap any other lodge to swap it into your journey — you\'ll see whether it\'s a premium upgrade or a lower-cost option.</div>'+
           '<div class="fjt-accom-grid">'+cards+'</div>'+
           '<div class="fjt-accom-confirm" data-confirm="'+day+'"></div>'+
+        '</div>'+
+      '</div>';
+  }
+
+
+  function renderActivities(mount){
+    var day = mount.getAttribute('data-day');
+    var data = ACTS_BY_DAY[day];
+    if(!data){ return; }
+    var rows = data.items.map(function(it){
+      return '<div class="fjt-act-item">'+
+        '<div class="fjt-act-name">'+it[0]+'</div>'+
+        '<div class="fjt-act-desc">'+it[1]+'</div>'+
+      '</div>';
+    }).join('');
+    mount.innerHTML =
+      '<div class="fjt-accom-wrap fjt-act-wrap">'+
+        '<div class="fjt-accom-toggle fjt-act-toggle">'+
+          '<span class="fjt-accom-toggle-label">✦ Activities '+
+            '<span class="fjt-accom-toggle-count">'+data.items.length+' experiences · '+data.place+'</span>'+
+          '</span>'+
+          '<span class="fjt-accom-toggle-chevron">'+ARROW+'</span>'+
+        '</div>'+
+        '<div class="fjt-accom-panel">'+
+          '<div class="fjt-accom-hint">A tailored selection of what your day can hold. Your guide adapts the plan to the wildlife, the light, and your pace.</div>'+
+          '<div class="fjt-act-list">'+rows+'</div>'+
         '</div>'+
       '</div>';
   }
@@ -495,6 +569,8 @@
   function init(){
     var mounts = document.querySelectorAll('.fjt-accom-mount');
     mounts.forEach(render);
+    var actMounts = document.querySelectorAll('.fjt-activities-mount');
+    actMounts.forEach(renderActivities);
     updateReserveLinks();
 
     document.addEventListener('click', function(e){

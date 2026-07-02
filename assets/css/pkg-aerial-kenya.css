@@ -332,7 +332,7 @@
   .itinerary-day.open .day-chevron { border-color: rgba(212,175,55,0.6); background: rgba(212,175,55,0.08); transform: rotate(180deg); }
   .day-chevron svg { display: block; }
   .day-body { overflow: hidden; max-height: 0; transition: max-height 0.55s cubic-bezier(0.22,1,0.36,1), opacity 0.4s ease, padding 0.4s ease; opacity: 0; padding: 0 0 0 32px; }
-  .itinerary-day.open .day-body { max-height: 1200px; opacity: 1; padding: 4px 0 36px 32px; }
+  .itinerary-day.open .day-body { max-height: 6000px; opacity: 1; padding: 4px 0 36px 32px; }
   .day-location { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
   .day-location::before { content: ''; width: 20px; height: 1px; background: var(--gold); flex-shrink: 0; }
   .day-desc { font-size: 15px; font-weight: 600; color: var(--muted); line-height: 1.85; margin-bottom: 16px; }
@@ -1396,3 +1396,36 @@ body.light-mode .itinerary-day.open .day-chevron {
   border-color: rgba(122,79,0,0.5);
   background: rgba(122,79,0,0.06);
 }
+
+/* ── Activities dropdown (parallel to accommodation) ── */
+.fjt-activities-mount { margin-top: 12px; }
+.fjt-act-toggle .fjt-accom-toggle-label { }
+.fjt-act-list { display: flex; flex-direction: column; gap: 2px; }
+.fjt-act-item {
+  padding: 14px 16px;
+  background: var(--charcoal);
+  border: 1px solid var(--border-subtle);
+  border-left: 2px solid var(--gold);
+  transition: background .3s, transform .3s, border-color .3s;
+}
+.fjt-act-item:hover {
+  background: rgba(212,175,55,.05);
+  border-left-color: var(--gold);
+  transform: translateX(3px);
+}
+.fjt-act-name {
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .5px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.fjt-act-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+body.light-mode .fjt-act-item { background: var(--card); border-color: rgba(122,79,0,.12); border-left-color: #7a4f00; }
+body.light-mode .fjt-act-item:hover { background: rgba(122,79,0,.05); }
+body.light-mode .fjt-act-name { color: #0a0a0a; }
