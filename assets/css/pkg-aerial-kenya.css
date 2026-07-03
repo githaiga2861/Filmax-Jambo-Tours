@@ -820,90 +820,90 @@
   .theme-toggle:hover .theme-tooltip { opacity: 1; transform: translateX(0); }
   body.light-mode .theme-tooltip { background: #d4d0c8; color: #0a0a0a; }
 
-  body.light-mode { background: #ebebea; color: #0a0a0a; --gold: #7a4f00; --amber: #7a5500; --text: #0a0a0a; --muted: #2a2a2a; --border: rgba(0,0,0,0.15); --card: #e4e4e2; --charcoal: #dcdcda; --black: #ebebea; --border-subtle: rgba(0,0,0,0.06); }
+  body.light-mode { background: #ebebea; color: #0a0a0a; --gold: #7a4f00; --amber: #7a5500; --text: #0a0a0a; --muted: #141414; --border: rgba(0,0,0,0.15); --card: #e4e4e2; --charcoal: #dcdcda; --black: #ebebea; --border-subtle: rgba(0,0,0,0.06); }
   body.light-mode nav { background: rgba(220,216,210,0.95); border-bottom-color: rgba(184,134,11,0.2); }
   body.light-mode .pkg-hero-overlay { background: linear-gradient(to top, rgba(240,236,228,0.97) 0%, rgba(240,236,228,0.4) 55%, transparent 80%); }
   body.light-mode .pkg-hero-title { color: #0a0a0a; }
   body.light-mode .pkg-hero-meta-value { color: #0a0a0a; }
-  body.light-mode .pkg-hero-meta-label { color: #5e5040; }
+  body.light-mode .pkg-hero-meta-label { color: #1a1a1a; }
   body.light-mode .pkg-hero-price-hero { color: #7a4f00; }
   body.light-mode .pkg-tabs-wrapper { background: rgba(240,236,228,0.97); border-bottom-color: rgba(0,0,0,0.1); }
-  body.light-mode .pkg-tab { color: #5e5040; }
+  body.light-mode .pkg-tab { color: #1a1a1a; }
   body.light-mode .pkg-tab:hover { color: #0a0a0a; }
   body.light-mode .pkg-tab.active { color: #7a4f00; border-bottom-color: #7a4f00; }
   body.light-mode .pkg-content { border-right-color: rgba(0,0,0,0.08); }
   body.light-mode .sec-label { color: #7a4f00; }
   body.light-mode .sec-title { color: #0a0a0a; }
-  body.light-mode .overview-intro p { color: #2a2a2a; }
+  body.light-mode .overview-intro p { color: #141414; }
   body.light-mode .pkg-highlight-item { background: #d8d4cc; }
-  body.light-mode .phi-label { color: #5e5040; }
+  body.light-mode .phi-label { color: #1a1a1a; }
   body.light-mode .phi-value { color: #0a0a0a; }
-  body.light-mode .kenya-map-container { background: #d8d4cc; border-color: rgba(154,111,0,0.2); }
+  body.light-mode .kenya-map-container { background: #d8d4cc; border-color: rgba(154,111,0,0.55); }
   body.light-mode .day-header { border-bottom-color: rgba(0,0,0,0.06); }
   body.light-mode .day-header:hover { background: rgba(154,111,0,0.04); }
   body.light-mode .day-number { color: #7a4f00; }
   body.light-mode .day-title { color: #0a0a0a; }
   body.light-mode .itinerary-day.open .day-title { color: #7a4f00; }
-  body.light-mode .day-location { color: #5e5040; }
-  body.light-mode .day-desc { color: #2a2a2a; }
-  body.light-mode .day-activities li { border-color: rgba(0,0,0,0.08); color: #2a2a2a; }
-  body.light-mode .sidebar-card { background: #d8d4cc; border-color: rgba(154,111,0,0.2); }
+  body.light-mode .day-location { color: #1a1a1a; }
+  body.light-mode .day-desc { color: #141414; }
+  body.light-mode .day-activities li { border-color: rgba(0,0,0,0.08); color: #141414; }
+  body.light-mode .sidebar-card { background: #d8d4cc; border-color: rgba(154,111,0,0.55); }
   body.light-mode .sidebar-price { color: #7a4f00; }
-  body.light-mode .sidebar-per { color: #5e5040; }
-  body.light-mode .sidebar-detail-label { color: #5e5040; }
+  body.light-mode .sidebar-per { color: #1a1a1a; }
+  body.light-mode .sidebar-detail-label { color: #1a1a1a; }
   body.light-mode .sidebar-detail-value { color: #0a0a0a; }
-  body.light-mode .sidebar-note { color: #5e5040; }
+  body.light-mode .sidebar-note { color: #1a1a1a; }
   body.light-mode .sq-price-num { color: #7a4f00; }
   body.light-mode .sq-total-val { color: #7a4f00; }
-  body.light-mode .sq-field-label { color: #5e5040; }
-  body.light-mode .sq-date-input { background: #dcdcda; border-color: rgba(154,111,0,0.3); color: #0a0a0a; }
+  body.light-mode .sq-field-label { color: #1a1a1a; }
+  body.light-mode .sq-date-input { background: #dcdcda; border-color: rgba(154,111,0,0.5); color: #0a0a0a; }
   body.light-mode .sq-counter { border-color: rgba(0,0,0,0.15); }
   body.light-mode .sq-counter-btn { background: #dcdcda; color: #7a4f00; }
   body.light-mode .sq-counter-val { color: #0a0a0a; }
   body.light-mode .sq-breakdown { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.08); }
-  body.light-mode .sq-breakdown-row { color: #2a2a2a; border-bottom-color: rgba(0,0,0,0.06); }
+  body.light-mode .sq-breakdown-row { color: #141414; border-bottom-color: rgba(0,0,0,0.06); }
   body.light-mode .rates-season-card { background: #d8d4cc; }
   body.light-mode .rates-season-title { color: #0a0a0a; }
   body.light-mode .rates-season-price { color: #7a4f00; }
-  body.light-mode .rates-season-note { color: #2a2a2a; }
-  body.light-mode .rates-table tbody td { color: #2a2a2a; }
+  body.light-mode .rates-season-note { color: #141414; }
+  body.light-mode .rates-table tbody td { color: #141414; }
   body.light-mode .rates-table tbody td:first-child { color: #0a0a0a; }
   body.light-mode .rates-table thead th { color: #7a4f00; }
   body.light-mode .rates-table tbody tr:hover { background: rgba(154,111,0,0.04); }
-  body.light-mode .inclusion-list li { color: #2a2a2a; border-bottom-color: rgba(0,0,0,0.06); }
+  body.light-mode .inclusion-list li { color: #141414; border-bottom-color: rgba(0,0,0,0.06); }
   body.light-mode .lodge-card { background: #d8d4cc; border-color: rgba(154,111,0,0.1); }
   body.light-mode .lodge-card-name { color: #0a0a0a; }
-  body.light-mode .lodge-card-desc { color: #2a2a2a; }
+  body.light-mode .lodge-card-desc { color: #141414; }
   body.light-mode .gt-card { background: #d8d4cc; border-color: rgba(154,111,0,0.1); }
   body.light-mode .gt-card-title { color: #0a0a0a; }
-  body.light-mode .gt-card-desc { color: #2a2a2a; }
+  body.light-mode .gt-card-desc { color: #141414; }
   body.light-mode .practical-item { background: #d8d4cc; border-color: rgba(154,111,0,0.1); }
   body.light-mode .practical-item-label { color: #7a4f00; }
   body.light-mode .practical-item-value { color: #0a0a0a; }
-  body.light-mode .operator-intro { color: #2a2a2a; }
+  body.light-mode .operator-intro { color: #141414; }
   body.light-mode .operator-stat { background: #d8d4cc; }
   body.light-mode .operator-stat-num { color: #7a4f00; }
-  body.light-mode .operator-stat-label { color: #5e5040; }
+  body.light-mode .operator-stat-label { color: #1a1a1a; }
   body.light-mode .operator-value-card { background: #dcdcda; border-color: rgba(154,111,0,0.1); border-top-color: #7a4f00; }
   body.light-mode .operator-value-title { color: #0a0a0a; }
-  body.light-mode .operator-value-desc { color: #2a2a2a; }
+  body.light-mode .operator-value-desc { color: #141414; }
   body.light-mode .related-card { background: #d8d4cc; border-color: rgba(154,111,0,0.1); }
   body.light-mode .related-name { color: #0a0a0a; }
   body.light-mode .related-price { color: #7a4f00; }
   body.light-mode .related-cta-text { color: #7a4f00; }
-  body.light-mode .related-card:hover { border-color: rgba(154,111,0,0.4); }
+  body.light-mode .related-card:hover { border-color: rgba(154,111,0,0.55); }
   body.light-mode footer, body.light-mode .pkg-related { background: #d8d4cc; }
   body.light-mode .footer-brand h2 { color: #7a4f00; }
-  body.light-mode .footer-brand p, body.light-mode .footer-col a { color: #5e5040; }
+  body.light-mode .footer-brand p, body.light-mode .footer-col a { color: #1a1a1a; }
   body.light-mode .footer-col a:hover { color: #0a0a0a; }
-  body.light-mode .footer-bottom span { color: #5e5040; }
+  body.light-mode .footer-bottom span { color: #1a1a1a; }
   body.light-mode .nav-back { color: #7a4f00; }
   body.light-mode .nav-logo-img { filter: drop-shadow(0 0 8px rgba(184,134,11,0.5)); }
   body.light-mode ::-webkit-scrollbar-track { background: #ebebea; }
   body.light-mode ::-webkit-scrollbar-thumb { background: #9a6f00; }
   body.light-mode .mobile-book-bar { background: rgba(240,236,228,0.97); border-top-color: rgba(0,0,0,0.1); }
   body.light-mode .mobile-book-price-num { color: #7a4f00; }
-  body.light-mode .mobile-book-price-label { color: #5e5040; }
+  body.light-mode .mobile-book-price-label { color: #1a1a1a; }
   /* Match index.html font-weight and text-fill rules for light mode */
   body.light-mode * { font-weight: 500 !important; }
   body.light-mode h1, body.light-mode h2, body.light-mode h3, body.light-mode h4, body.light-mode h5 { font-weight: 700; }
@@ -946,7 +946,7 @@
   .site-hint-label { font-family: 'Jost', sans-serif; font-size: 8px; letter-spacing: 4px; text-transform: uppercase; color: #d4af37; display: block; margin-bottom: 5px; }
   body.light-mode .site-hint-label { color: #7a4f00; }
   .site-hint-text { font-family: 'Cormorant Garamond', serif; font-size: 13px; font-style: italic; color: rgba(240,236,228,0.9); line-height: 1.5; }
-  body.light-mode .site-hint-text { color: #2a2a2a; }
+  body.light-mode .site-hint-text { color: #141414; }
   .site-hint-close { position: absolute; top: 8px; right: 8px; background: none; border: none; color: rgba(212,175,55,0.5); font-size: 14px; line-height: 1; cursor: none; padding: 2px 5px; transition: color 0.2s; }
   .site-hint-close:hover { color: #d4af37; }
   body.light-mode .site-hint-close { color: rgba(154,111,0,0.5); }
@@ -1391,9 +1391,9 @@ body.light-mode .pkg-tabs-wrapper::after {
 body.light-mode .day-chevron svg path {
   stroke: #7a4f00 !important;
 }
-body.light-mode .day-chevron { border-color: rgba(122,79,0,0.25); }
+body.light-mode .day-chevron { border-color: rgba(122,79,0,0.45); }
 body.light-mode .itinerary-day.open .day-chevron {
-  border-color: rgba(122,79,0,0.5);
+  border-color: rgba(122,79,0,0.7);
   background: rgba(122,79,0,0.06);
 }
 
