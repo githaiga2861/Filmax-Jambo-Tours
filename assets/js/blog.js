@@ -293,7 +293,7 @@ async function loadBlogs() {
 }
 
 function buildCard(blog) {
-  const page = blog.slug.startsWith('http') ? blog.slug : `blog/${blog.slug}.html`;
+  const page = blog.slug.startsWith('http') ? blog.slug : `/journal/${blog.slug}/`;
   return `<a href="${page}" class="blog-post-card reveal">
     <div class="blog-post-card-img-wrap">
       <img class="blog-post-card-img" src="${blog.cover_image}" alt="${blog.cover_alt||blog.title}" loading="lazy">
