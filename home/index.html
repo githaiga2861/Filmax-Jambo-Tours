@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: auto;" onbeforeunload="window.scrollTo(0,0)">
+<head>
+<script src="/assets/js/index.head.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="favicon.ico">
+<title>Filmax Jamb🐾 Tours — Premium Kenyan Safaris</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,400&family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@200;400;500;500&display=swap" rel="stylesheet">
+<link rel="preload" href="/assets/landscape.webm" as="video" crossorigin="anonymous">
+<link rel="preload" as="image" href="/assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.webp" fetchpriority="high">
+<link rel="stylesheet" href="/assets/css/index.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+<meta name="google-translate-customization" content="YOUR_ID">    
+<link rel="stylesheet" href="/assets/css/fjt-animations.css">
+
+<style id="pkg-filter-float-style">
+/* pkg-filter-bar floating */
+#pkgFilterBar.floating {
+  position: fixed;
+  top: 88px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 560px;
+  max-width: calc(100vw - 48px);
+  transform: none;
+  z-index: 89;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background: rgba(8,8,8,0.55);
+}
+@media(max-width:768px){
+  #pkgFilterBar.floating { top: 74px; }
+}
+</style>
+
+<style id="hc-modal-style">
+/* Highlight video modal */
+#hcModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99990;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+#hcModalOverlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+#hcModalBlur {
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(14px) brightness(0.55);
+  -webkit-backdrop-filter: blur(14px) brightness(0.55);
+  background: rgba(4,3,1,0.15);
+  z-index: -1;
+}
+#hcModalBox {
+  position: relative;
+  width: 100%;
+  max-width: 860px;
+  max-height: 90vh;
+  border: 1px solid rgba(212,175,55,0.35);
+  background: #000;
+  overflow: hidden;
+  transform: scale(0.95);
+  transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+  box-shadow: 0 0 0 1px rgba(212,175,55,0.12), 0 32px 80px rgba(0,0,0,0.7);
+}
+#hcModalOverlay.open #hcModalBox {
+  transform: scale(1);
+}
+#hcModalVideo {
+  width: 100%;
+  max-height: 85vh;
+  display: block;
+  object-fit: cover;
+}
+#hcModalClose {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  background: rgba(8,8,8,0.8);
+  border: 1px solid rgba(212,175,55,0.55);
+  color: #d4af37;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: none;
+  z-index: 10;
+  transition: background .25s, border-color .25s;
+  backdrop-filter: blur(6px);
+}
+#hcModalClose:hover { background: rgba(212,175,55,0.15); border-color: #d4af37; }
+#hcModalMeta {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 48px 28px 20px;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+#hcModalNum {
+  font-family: 'Playfair Display', serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: rgba(212,175,55,0.7);
+  flex-shrink: 0;
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(8,8,8,0.7);
+  padding: 5px 10px;
+  border: 1px solid rgba(212,175,55,0.2);
+  backdrop-filter: blur(6px);
+}
+#hcModalTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(18px, 3vw, 26px);
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  width: 100%;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.8);
+}
+@media(max-width:600px){
+  #hcModalBox { max-height: 70vh; }
+  #hcModalTitle { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- QUESTIONNAIRE OVERLAY -->
+<div id="quiz-overlay">
+  <div class="quiz-box">
+    <div class="quiz-top-line"></div>
+    <button class="quiz-skip" id="quizSkip">Skip</button>
+    <div class="quiz-progress-bar">
+      <div class="quiz-progress-fill" id="quizProgress" style="width:20%"></div>
+    </div>
+    <div id="quizStepContainer"></div>
+  </div>
+</div>
+
+<!-- Shutter panels -->
+<div class="shutter-wrap" id="shutterWrap">
+  <div class="shutter-panel"></div>
+  <div class="shutter-panel"></div>
+  <div class="shutter-panel"></div>
+  <div class="shutter-panel"></div>
+  <div class="shutter-panel"></div>
+  <div class="shutter-panel"></div>
+  <div class="shutter-panel"></div>
+  <div class="shutter-panel"></div>
+</div>
+    
+<div id="loader">
+  <img class="loader-logo" src="/assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.webp" alt="Filmax Jambo Tours"/>
+</div>
+  
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Nav -->
+<nav id="navbar">
+<a href="#" class="nav-logo-link" aria-label="Filmax Jambo Tours Home">
+  <img
+    src="/assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.webp"
+    alt="Filmax Jambo Tours Logo"
+    class="nav-logo-img"
+  />
+</a>
+<div class="nav-brand-idle">
+  <div class="nav-idle-words">
+    <span class="nav-idle-bottom">Est. <em>2025</em></span>
+  </div>
+</div>
+<div style="display:flex;align-items:center;gap:16px;position:relative;z-index:110;">
+  
+
+<div class="auth-flip-wrap" id="authFlipWrap">
+  <!-- Signed-in chip (hidden until logged in) -->
+  <button class="auth-user-chip" id="authUserChip"
+    onclick="document.getElementById('userMenu').classList.toggle('open')">
+    <svg width="28" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.1"/><path d="M1.5 12.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+    <span id="authNavLabel">My Account</span>
+  </button>
+  <!-- Flip faces (shown when logged out) -->
+  <div class="auth-flip-inner auto-cycling" id="authFlipInner">
+    <button class="auth-flip-face auth-flip-signin" id="authNavBtn"
+      onclick="window._openAuth('signin')">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.5 12.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      Sign In
+    </button>
+    <button class="auth-flip-face auth-flip-signup" id="authNavBtnBack"
+      onclick="window._openAuth('signup')">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      Sign Up
+    </button>
+  </div>
+</div>
+  <div id="userMenu" style="position:absolute;top:calc(100% + 10px);right:0;background:rgba(12,12,12,0.97);border:1px solid rgba(212,175,55,0.2);min-width:200px;z-index:200;backdrop-filter:blur(20px);opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity 0.3s,transform 0.3s;">
+    <div id="userMenuName" style="padding:14px 20px 10px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border-bottom:1px solid rgba(212,175,55,0.1);">Welcome</div>
+    <a href="#" class="user-menu-item" onclick="event.preventDefault();document.getElementById('userMenu').classList.remove('open');window._openProfile();">My Profile</a>
+    <a href="#" class="user-menu-item" onclick="event.preventDefault();document.getElementById('userMenu').classList.remove('open');window._openProfile();">My Bookings</a>
+    <button class="user-menu-item" id="userMenuSignOut">Sign Out</button>
+  </div>
+</div>
+<button class="menu-btn" id="menuBtn" aria-label="Menu" style="background:transparent;border:none;padding:8px;">
+  <span style="display:block;width:28px;height:2px;background:var(--gold);flex-shrink:0;margin-bottom:6px;"></span>
+  <span style="display:block;width:28px;height:2px;background:var(--gold);flex-shrink:0;margin-bottom:6px;"></span>
+  <span style="display:block;width:28px;height:2px;background:var(--gold);flex-shrink:0;"></span>
+</button>
+</nav>
+
+<!-- Dropdown -->
+<div class="dropdown" id="dropdown">
+  <a href="/home/" class="dropdown-back dropdown-back-mobile">← Back to Home</a>
+  <!-- Signed-in user header — hidden when logged out -->
+  <div id="dropdownUserHeader" style="display:none;margin-bottom:24px;padding:20px 0 20px;border-bottom:1px solid rgba(212,175,55,0.15);">
+    <span style="font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:6px;font-family:'Jost',sans-serif;">Signed In As</span>
+    <span id="dropdownUserName" style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text);display:block;margin-bottom:16px;"></span>
+    <div style="display:flex;gap:8px;flex-direction:column;">
+      <a href="#" onclick="event.preventDefault();document.getElementById('menuBtn').classList.remove('open');document.getElementById('dropdown').classList.remove('open');setTimeout(function(){window._openProfile();},120);" style="font-family:'Jost',sans-serif;font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#d4af37;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.3);padding:10px 20px;cursor:none;width:100%;text-decoration:none;display:block;text-align:center;transition:background 0.3s;" onmouseenter="this.style.background='rgba(212,175,55,0.15)'" onmouseleave="this.style.background='rgba(212,175,55,0.08)'">My Profile</a>
+      <button id="dropdownLogoutBtn" style="font-family:'Jost',sans-serif;font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#e05555;background:transparent;border:1px solid rgba(224,85,85,0.35);padding:10px 20px;cursor:none;width:100%;transition:background 0.3s,border-color 0.3s;" onmouseenter="this.style.background='rgba(224,85,85,0.1)'" onmouseleave="this.style.background='transparent'">Sign Out</button>
+    </div>
+  </div>
+<a href="#wildlife" class="dropdown-link">Destinations</a>
+  <a href="#packages" class="dropdown-link">Packages</a>
+  <a href="#testimonials" class="dropdown-link">Testimonials</a>
+  <a href="#gallery" class="dropdown-link">Gallery</a>
+  <a href="#blog" class="dropdown-link">Journal</a>
+  <a href="#contact" class="dropdown-link">Contact</a>
+    <button class="dropdown-link" id="dropdownAuthBtn"
+    onclick="document.getElementById('menuBtn').classList.remove('open');document.getElementById('dropdown').classList.remove('open');if(window._fjCurrentUser){setTimeout(function(){window._openProfile();},120);}else{window._openAuth('signin');}"
+    style="background:none;border:none;text-align:left;width:100%;cursor:none;font-family:'Playfair Display',serif;font-size:32px;font-weight:500;color:var(--gold);display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+    <svg width="18" height="18" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;">
+      <circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.1"/>
+      <path d="M1.5 12.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+    </svg>
+    <span id="dropdownAuthLabel">Sign In</span>
+  </button>
+  <button class="dropdown-link" id="dropdownSignupBtn"
+    onclick="window._openAuth('signup');document.getElementById('menuBtn').classList.remove('open');document.getElementById('dropdown').classList.remove('open');"
+    style="background:none;border:none;text-align:left;width:100%;cursor:none;font-family:'Playfair Display',serif;font-size:32px;font-weight:500;color:var(--text);display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+    <svg width="18" height="18" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;opacity:0.6;">
+      <path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    Sign Up
+  </button>
+  <a href="/admin/" class="dropdown-link" style="font-size:13px;letter-spacing:4px;color:var(--muted);border-top:1px solid var(--border);margin-top:12px;padding-top:20px;display:flex;align-items:center;gap:12px;" target="_blank" rel="noopener">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;opacity:0.7;">
+      <circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.1"/>
+      <path d="M1.5 12.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+    </svg>
+    Admin
+  </a>
+  <div class="dropdown-tagline">Kenya's most exclusive safari experience</div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto">
+    <source src="/assets/landscape.webm" type="video/webm">
+    <source src="/assets/landscape.mp4" type="video/mp4">  
+  </video>
+    <div class="hero-overlay"></div>
+  </div>
+
+  <div class="hero-content">
+    <span class="hero-eyebrow">Kenya's Finest Safari House</span>
+    <img id="hero-logo" src="/assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.webp" alt="Filmax Jambo Tours" />
+    <p class="hero-subtitle">The wild calls, will you answer?</p>
+    <div class="hero-actions">
+      <a href="#packages" class="btn-primary">Book Your Safari</a>
+      <a href="#wildlife" class="btn-ghost">Explore Destinations</a>
+    </div>
+  </div>
+
+  <div class="scroll-cue">
+    <span>Discover</span>
+    <div class="scroll-line"></div>
+  </div>
+
+  <!-- Ambient hero audio -->
+  <audio id="heroAudio" loop preload="auto" style="display:none;">
+    <source src="/assets/hero-ambient.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Sound toggle -->
+  <button id="heroSoundBtn" aria-label="Toggle sound" style="
+    position:absolute;
+    bottom:44px;
+    right:48px;
+    z-index:6;
+    background:rgba(8,8,8,0.55);
+    border:1px solid rgba(212,175,55,0.4);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    width:44px;height:44px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:none;
+    transition:border-color 0.3s,background 0.3s;
+    opacity:0;
+    animation:fadeIn 1s 2.5s forwards;
+  ">
+    <!-- Muted icon (shown by default) -->
+    <svg id="heroIconMuted" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M11 5L6 9H2v6h4l5 4V5z" stroke="rgba(212,175,55,0.85)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="23" y1="9" x2="17" y2="15" stroke="rgba(212,175,55,0.85)" stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="17" y1="9" x2="23" y2="15" stroke="rgba(212,175,55,0.85)" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <!-- Unmuted icon (hidden by default) -->
+    <svg id="heroIconSound" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+      <path d="M11 5L6 9H2v6h4l5 4V5z" stroke="rgba(212,175,55,0.85)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="rgba(212,175,55,0.85)" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14" stroke="rgba(212,175,55,0.85)" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+  </button>
+</section>
+
+<!-- ABOUT FILMAX JAMBO TOURS -->
+<section id="about-fjt" style="background:var(--deep);padding:120px 0;position:relative;">
+
+  <!-- subtle background texture lines -->
+  <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden;">
+    <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--border),transparent);"></div>
+    <div style="position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--border),transparent);"></div>
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;border-radius:50%;border:1px solid var(--border);opacity:0.18;pointer-events:none;"></div>
+  </div>
+
+  <div class="container" style="position:relative;z-index:1;">
+
+    <!-- top label + title -->
+    <div style="max-width:800px;margin:0 auto;text-align:center;">
+      <span class="section-label reveal">Who We Are</span>
+      <h2 class="section-title reveal" style="transition-delay:0.12s;">
+        Born in the Wild,<br><em style="color:var(--gold);">Built for You</em>
+      </h2>
+      <p class="section-sub reveal" style="transition-delay:0.24s;margin:0 auto 56px;max-width:620px;text-align:center;">
+        Filmax Jambo Tours is Kenya's most intentional safari house — where every journey is composed like a piece of music, and no two guests ever hear the same song.
+      </p>
+    </div>
+
+    <!-- three-column story -->
+    <div class="reveal about-fullbleed" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-bottom:80px;position:relative;">
+
+      <div style="background:var(--deep);padding:48px 36px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;width:100%;height:2px;background:linear-gradient(to right,var(--gold),transparent);"></div>
+        <span style="font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:20px;">Our Origin</span>
+        <h3 style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:16px;line-height:1.3;">A Love Letter<br>to Kenya</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.9;">Filmax Jambo Tours was born from a single obsession: Kenya deserved a safari company as extraordinary as its wilderness. Founded by guides who grew up tracking lion in the Mara and counting flamingos on Nakuru's shores, we know this land in a way that cannot be learned from a brochure.</p>
+      </div>
+
+      <div style="background:var(--charcoal);padding:48px 36px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;width:100%;height:2px;background:linear-gradient(to right,var(--gold),transparent);"></div>
+        <span style="font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:20px;">Our Promise</span>
+        <h3 style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:16px;line-height:1.3;">No Templates.<br>Only Journeys.</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.9;">We refuse to run the same safari twice. Every itinerary we build is a bespoke composition — shaped by who you are, what moves you, and what you've never yet allowed yourself to dream. Luxury here is not thread-count. It is the quality of the silence between lion calls at 3am.</p>
+      </div>
+
+      <div style="background:var(--deep);padding:48px 36px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;width:100%;height:2px;background:linear-gradient(to right,var(--gold),transparent);"></div>
+        <span style="font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:20px;">Our Standard</span>
+        <h3 style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:16px;line-height:1.3;">Excellence<br>Without Effort</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.9;">From the moment you enquire to the evening you return home with dust still on your boots and wonder still in your eyes — every detail is attended to. Our concierge team operates around the clock. Your guide is not an employee; they are a storyteller, a naturalist, and a friend.</p>
+      </div>
+
+    </div>
+
+    <!-- stat row -->
+    <div class="reveal" style="transition-delay:0.4s;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-bottom:80px;">
+      <div style="background:var(--deep);padding:36px 28px;text-align:center;">
+        <span style="font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:var(--gold);display:block;line-height:1;">100%</span>
+        <span style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--muted);display:block;margin-top:10px;">Private Safaris</span>
+      </div>
+      <div style="background:var(--charcoal);padding:36px 28px;text-align:center;">
+        <span style="font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:var(--gold);display:block;line-height:1;">16+</span>
+        <span style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--muted);display:block;margin-top:10px;">Curated Journeys</span>
+      </div>
+      <div style="background:var(--deep);padding:36px 28px;text-align:center;">
+        <span style="font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:var(--gold);display:block;line-height:1;">24/7</span>
+        <span style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--muted);display:block;margin-top:10px;">Concierge Support</span>
+      </div>
+      <div style="background:var(--charcoal);padding:36px 28px;text-align:center;">
+        <span style="font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:var(--gold);display:block;line-height:1;">5★</span>
+        <span style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--muted);display:block;margin-top:10px;">Guest Rating</span>
+      </div>
+    </div>
+
+    <!-- bottom manifesto quote -->
+    <div class="reveal" style="transition-delay:0.5s;text-align:center;padding:0 40px;max-width:780px;margin:0 auto;position:relative;">
+      <div aria-hidden="true" style="font-family:'Playfair Display',serif;font-size:120px;line-height:0.6;color:var(--gold);opacity:0.08;position:absolute;top:0;left:50%;transform:translateX(-50%);pointer-events:none;user-select:none;">"</div>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:var(--text);line-height:1.7;margin-bottom:24px;position:relative;z-index:1;">
+        We do not sell safaris. We craft the moments that become the stories you tell for the rest of your life — and the reason you always find your way back to Kenya.
+      </p>
+      <span style="font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);">Filmax Jambo Tours · Nairobi, Kenya</span>
+    </div>
+
+  </div>
+</section>
+<!-- /ABOUT FILMAX JAMBO TOURS -->
+
+
+
+<!-- HIGHLIGHTS -->
+<section id="highlights">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-label reveal">Why Choose Us</span>
+      <h2 class="section-title reveal" style="transition-delay:0.12s">Curated for the <br><em style="color: var(--gold);">Discerning</em> Traveller</h2>
+      <p class="section-sub reveal" style="transition-delay:0.24s">Every detail of your journey is orchestrated with the precision of a master conductor and the soul of an explorer.</p>
+    </div>
+  </div>
+  <div class="highlights-grid reveal">
+
+    <!-- CARD 1 -->
+    <div class="highlight-card reveal">
+      <!-- text above video -->
+      <div class="hc-top-content">
+        <div class="card-number">01</div>
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" class="hc-svg">
+          <path d="M4 14h20M14 4l10 10-10 10" stroke="#d4af37" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h3 class="card-title">Curated Journeys</h3>
+        <p class="card-text">Every itinerary is thoughtfully designed to balance iconic wildlife encounters with hidden experiences, creating a safari that feels entirely your own.</p>
+      </div>
+      <!-- video -->
+      <div class="hc-video-wrap">
+        <video class="hc-bg" id="hcVid1" autoplay muted loop playsinline preload="auto">
+          <source src="/assets/highlight1.webm" type="video/webm">
+        </video>
+        <button class="hc-sound-btn" aria-label="Toggle sound" data-vid="hcVid1">
+          <svg class="hc-icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="hc-icon-sound" width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="highlight-card reveal" style="transition-delay:0.1s">
+      <div class="hc-top-content">
+        <div class="card-number">02</div>
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" class="hc-svg">
+          <circle cx="14" cy="14" r="10" stroke="#d4af37" stroke-width="1"/>
+          <path d="M14 4v4M14 20v4M4 14h4M20 14h4" stroke="#d4af37" stroke-width="1" stroke-linecap="round"/>
+          <circle cx="14" cy="14" r="2.5" stroke="#d4af37" stroke-width="1"/>
+        </svg>
+        <h3 class="card-title">Local Mastery</h3>
+        <p class="card-text">Our guides and partners possess deep knowledge of Kenya's landscapes and rhythms of the wild — allowing you to experience moments most travelers never see.</p>
+      </div>
+      <div class="hc-video-wrap">
+        <video class="hc-bg" id="hcVid2" autoplay muted loop playsinline preload="auto">
+          <source src="/assets/highlight2.webm" type="video/webm">
+        </video>
+        <button class="hc-sound-btn" aria-label="Toggle sound" data-vid="hcVid2">
+          <svg class="hc-icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="hc-icon-sound" width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="highlight-card reveal" style="transition-delay:0.2s">
+      <div class="hc-top-content">
+        <div class="card-number">03</div>
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" class="hc-svg">
+          <path d="M14 3v4M14 21v4M3 14h4M21 14h4M6.2 6.2l2.8 2.8M19 19l2.8 2.8M19 9l2.8-2.8M6.2 21.8l2.8-2.8" stroke="#d4af37" stroke-width="1" stroke-linecap="round"/>
+          <circle cx="14" cy="14" r="4.5" stroke="#d4af37" stroke-width="1"/>
+        </svg>
+        <h3 class="card-title">Effortless Luxury</h3>
+        <p class="card-text">From the moment you arrive to your final farewell, every detail is handled with precision so your only focus is the wonder of the journey.</p>
+      </div>
+      <div class="hc-video-wrap">
+        <video class="hc-bg" id="hcVid3" autoplay muted loop playsinline preload="auto">
+          <source src="/assets/highlight3.webm" type="video/webm">
+        </video>
+        <button class="hc-sound-btn" aria-label="Toggle sound" data-vid="hcVid3">
+          <svg class="hc-icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="hc-icon-sound" width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+  <div class="container">
+    <div class="stats-bar reveal">
+      <div class="stat-item">
+        <span class="stat-num">153+</span>
+        <span class="stat-label">Guests Hosted</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">27</span>
+        <span class="stat-label">Unique Destinations</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Bespoke Itineraries</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">1+</span>
+        <span class="stat-label">Years of Excellence</span>
+      </div>
+    </div>
+  </div>
+</section>
+  
+  <!-- DESTINATIONS SECTION HEADER -->
+<section id="wildlife" style="padding-bottom: 0;">
+  <div class="container">
+    <div class="wildlife-header reveal">
+      <div>
+        <span class="section-label reveal">Kenya's Icons</span>
+        <h2 class="section-title reveal" style="transition-delay:0.12s">Discover the <br><em style="color: var(--gold);">Extraordinary</em></h2>
+      </div>
+      <p class="section-sub" style="max-width: 320px; font-size: 15px;">From the sweeping Maasai Mara to the pristine Diani coast — each destination a world unto itself.</p>
+    </div>
+  </div>
+</section>
+
+<div class="dest-grid-wrap">
+  <div class="dest-grid">
+
+    <a href="/packages/?destination=maasai-mara" class="dest-cell reveal">
+      <div class="dest-img-wrap">
+        <img src="/assets/maasaimara.webp" alt="Maasai Mara" loading="lazy">
+        <div class="dest-hover-overlay">
+          <span class="dest-hover-cta">View Packages</span>
+        </div>
+      </div>
+      <div class="dest-label-wrap">
+        <span class="dest-sublabel">Kenya's Crown Jewel</span>
+        <span class="dest-name">Maasai Mara</span>
+      </div>
+    </a>
+
+    <a href="/packages/?destination=diani-beach" class="dest-cell reveal" style="transition-delay:0.08s">
+      <div class="dest-img-wrap">
+        <img src="/assets/dianibeach.webp" alt="Diani Beach" loading="lazy">
+        <div class="dest-hover-overlay">
+          <span class="dest-hover-cta">View Packages</span>
+        </div>
+      </div>
+      <div class="dest-label-wrap">
+        <span class="dest-sublabel">Indian Ocean Coast</span>
+        <span class="dest-name">Diani Beach</span>
+      </div>
+    </a>
+
+    <a href="/packages/?destination=amboseli" class="dest-cell reveal" style="transition-delay:0.16s">
+      <div class="dest-img-wrap">
+        <img src="/assets/amboseli.webp" alt="Amboseli" loading="lazy">
+        <div class="dest-hover-overlay">
+          <span class="dest-hover-cta">View Packages</span>
+        </div>
+      </div>
+      <div class="dest-label-wrap">
+        <span class="dest-sublabel">Elephant Kingdom</span>
+        <span class="dest-name">Amboseli</span>
+      </div>
+    </a>
+
+    <a href="/packages/?destination=lake-nakuru" class="dest-cell reveal" style="transition-delay:0.24s">
+      <div class="dest-img-wrap">
+        <img src="/assets/lakenakuru.webp" alt="Lake Nakuru" loading="lazy">
+        <div class="dest-hover-overlay">
+          <span class="dest-hover-cta">View Packages</span>
+        </div>
+      </div>
+      <div class="dest-label-wrap">
+        <span class="dest-sublabel">Rift Valley Jewel</span>
+        <span class="dest-name">Lake Nakuru</span>
+      </div>
+    </a>
+
+    <a href="/packages/?destination=mount-kenya" class="dest-cell reveal" style="transition-delay:0.32s">
+      <div class="dest-img-wrap">
+        <img src="/assets/mountkenya.webp" alt="Mount Kenya" loading="lazy">
+        <div class="dest-hover-overlay">
+          <span class="dest-hover-cta">View Packages</span>
+        </div>
+      </div>
+      <div class="dest-label-wrap">
+        <span class="dest-sublabel">Alpine Crown</span>
+        <span class="dest-name">Mount Kenya</span>
+      </div>
+    </a>
+
+    <a href="/packages/?destination=samburu" class="dest-cell reveal" style="transition-delay:0.40s">
+      <div class="dest-img-wrap">
+        <img src="/assets/maasaimara.webp" alt="Samburu" loading="lazy">
+        <div class="dest-hover-overlay">
+          <span class="dest-hover-cta">View Packages</span>
+        </div>
+      </div>
+      <div class="dest-label-wrap">
+        <span class="dest-sublabel">Kenya's Wild North</span>
+        <span class="dest-name">Samburu</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+</section>
+
+  <!-- PACKAGES -->
+<section id="packages">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-label reveal">Curated Journeys</span>
+      <h2 class="section-title reveal" style="transition-delay:0.12s">Safari <em style="color: var(--gold);">Collections</em></h2>
+      <p class="section-sub reveal" style="transition-delay:0.24s">Distinct expressions of the African wild. Each meticulously crafted for a different desire.</p>
+    </div>
+   <div class="pkg-filter-bar reveal" id="pkgFilterBar">
+  <div class="pkg-filter-glow" id="pkgFilterGlow"></div>
+  <button class="pkg-filter-btn active" data-filter="all">All</button>
+  <button class="pkg-filter-btn" data-filter="luxury">Luxury</button>
+  <button class="pkg-filter-btn" data-filter="mid">Mid</button>
+  <button class="pkg-filter-btn" data-filter="budget">Budget</button>
+</div>
+<p class="pkg-filter-label" id="pkgFilterLabel">Showing all collections</p>
+<div class="packages-grid reveal" id="packagesGrid">
+  <div class="package-card reveal" id="pkgCard0"></div>
+  <div class="package-card featured reveal" id="pkgCard1" style="transition-delay:0.1s"></div>
+  <div class="package-card reveal" id="pkgCard2" style="transition-delay:0.2s"></div>
+</div>
+
+<!-- View More button stays here unchanged -->
+<!-- VIEW MORE -->
+
+
+<div style="display:flex;align-items:center;justify-content:center;margin-top:52px;padding-top:40px;border-top:1px solid rgba(212,175,55,0.1);">
+  <a href="/packages/" class="view-all-btn">
+    View All Packages
+    <span class="btn-arrow">
+      <svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 5H17M17 5L12.5 1M17 5L12.5 9" stroke="#080808" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+     </span>
+    </a>
+   </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-label reveal">Guest Chronicles</span>
+      <h2 class="section-title reveal" style="transition-delay:0.12s">Stories That <br><em style="color: var(--gold);">Stay Forever</em></h2>
+    </div>
+
+    <div class="testimonials-slider">
+      <div class="testimonial reveal">
+        <span class="quote-mark">"</span>
+        <p class="testimonial-text">Filmax Jambo didn't just give us a safari — they gave us a transformation. Watching lions hunt at dusk from our private cruiser, champagne in hand... words fail.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">S</div>
+          <div class="author-info">
+            <span class="author-name">Sophie Githaiga</span>
+            <span class="author-loc">Paris, France</span>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial reveal" style="transition-delay:0.1s">
+        <span class="quote-mark">"</span>
+        <p class="testimonial-text">The balloon at sunrise over the Mara, with elephants moving like shadows below — I've been to 80 countries. Nothing compares. Absolute perfection.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">J</div>
+          <div class="author-info">
+            <span class="author-name">Richarlison Kinuuthia</span>
+            <span class="author-loc">London, UK</span>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial reveal" style="transition-delay:0.2s">
+        <span class="quote-mark">"</span>
+        <p class="testimonial-text">Our guide knew every animal by name, every track by memory. This is not a tour company — it is a fellowship of people who genuinely love the wild.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">A</div>
+          <div class="author-info">
+            <span class="author-name">Amara Omwami</span>
+            <span class="author-loc">Dubai, UAE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div id="testimonialFormLocked" style="text-align:center;max-width:600px;margin:48px auto 0;padding:44px 40px;border:1px solid rgba(212,175,55,0.12);position:relative;background:rgba(13,13,13,0.6);" class="testimonial-locked-container">
+      <div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,0.4),transparent);"></div>
+      <div style="font-size:32px;margin-bottom:16px;">✦</div>
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:10px;">Share Your Safari Experience</div>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--muted);margin-bottom:28px;line-height:1.7;">Your words help future travellers discover their perfect Kenyan adventure. Sign in to leave a review.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <button onclick="window._openAuth('signin')" style="font-family:'Jost',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:16px 36px;background:linear-gradient(135deg,#f0c84a,#d4af37,#b8860b);color:#080808;border:none;cursor:none;position:relative;overflow:hidden;transition:transform 0.3s,box-shadow 0.3s;box-shadow:0 4px 20px rgba(212,175,55,0.35);" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 36px rgba(212,175,55,0.5)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(212,175,55,0.35)'">Sign In to Review</button>
+        <button onclick="window._openAuth('signup')" style="font-family:'Jost',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:16px 36px;background:transparent;color:var(--gold);border:1px solid rgba(212,175,55,0.4);cursor:none;transition:all 0.3s;" onmouseover="this.style.background='rgba(212,175,55,0.08)';this.style.borderColor='var(--gold)'" onmouseout="this.style.background='transparent'">Create Free Account</button>
+      </div>
+    </div>
+    </div>
+
+    <div id="testimonialFormOpen" style="display:none;max-width:640px;margin:56px auto 0;">
+      <div style="position:relative;background:rgba(13,13,13,0.8);border:1px solid rgba(212,175,55,0.18);padding:44px 48px 40px;">
+        <!-- top gold line -->
+        <div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,0.45),transparent);"></div>
+
+        <div style="margin-bottom:28px;">
+          <span style="font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(212,175,55,0.6);font-family:'Jost',sans-serif;font-weight:700;display:block;margin-bottom:10px;">Share Your Experience</span>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--muted);line-height:1.7;margin:0;">Your words help future travellers discover their perfect Kenyan adventure.</p>
+        </div>
+
+        <!-- Star rating row -->
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(212,175,55,0.08);">
+          <span style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(138,128,116,0.7);font-family:'Jost',sans-serif;font-weight:700;flex-shrink:0;">Your Rating</span>
+          <div id="starRating" style="display:flex;gap:4px;align-items:center;">
+            <span class="star-btn" data-val="1" style="font-size:24px;cursor:none;opacity:0.28;color:var(--gold);transition:opacity 0.2s,transform 0.15s;display:inline-block;">★</span>
+            <span class="star-btn" data-val="2" style="font-size:24px;cursor:none;opacity:0.28;color:var(--gold);transition:opacity 0.2s,transform 0.15s;display:inline-block;">★</span>
+            <span class="star-btn" data-val="3" style="font-size:24px;cursor:none;opacity:0.28;color:var(--gold);transition:opacity 0.2s,transform 0.15s;display:inline-block;">★</span>
+            <span class="star-btn" data-val="4" style="font-size:24px;cursor:none;opacity:0.28;color:var(--gold);transition:opacity 0.2s,transform 0.15s;display:inline-block;">★</span>
+            <span class="star-btn" data-val="5" style="font-size:24px;cursor:none;opacity:0.28;color:var(--gold);transition:opacity 0.2s,transform 0.15s;display:inline-block;">★</span>
+          </div>
+          <span id="starLabel" style="font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:rgba(138,128,116,0.5);margin-left:4px;transition:color 0.2s;"></span>
+        </div>
+
+        <!-- Textarea -->
+        <div style="position:relative;margin-bottom:28px;">
+          <label style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(212,175,55,0.55);font-family:'Jost',sans-serif;font-weight:700;display:block;margin-bottom:10px;">Your Review</label>
+          <textarea id="testimonialText"
+            style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:var(--text);font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;line-height:1.8;padding:10px 0 14px;outline:none;resize:none;min-height:120px;transition:border-color 0.3s;"
+            placeholder="Describe your safari experience in your own words…"
+            onfocus="this.style.borderBottomColor='rgba(212,175,55,0.6)'"
+            onblur="this.style.borderBottomColor='rgba(212,175,55,0.18)'"
+            oninput="document.getElementById('charCount').textContent=this.value.length+' / 500';"
+            maxlength="500"></textarea>
+          <span id="charCount" style="position:absolute;bottom:-18px;right:0;font-size:9px;letter-spacing:2px;color:rgba(138,128,116,0.4);font-family:'Jost',sans-serif;">0 / 500</span>
+        </div>
+
+        <!-- Destination tag (optional) -->
+        <div style="margin-bottom:28px;">
+          <label style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(212,175,55,0.55);font-family:'Jost',sans-serif;font-weight:700;display:block;margin-bottom:10px;">Destination (Optional)</label>
+          <select id="testimonialDestination"
+            style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.18);color:var(--muted);font-family:'Jost',sans-serif;font-size:13px;padding:10px 0;outline:none;appearance:none;cursor:none;transition:border-color 0.3s;"
+            onfocus="this.style.borderBottomColor='rgba(212,175,55,0.6)'"
+            onblur="this.style.borderBottomColor='rgba(212,175,55,0.18)'">
+            <option value="">Select destination…</option>
+            <option>Maasai Mara</option>
+            <option>Amboseli</option>
+            <option>Diani Beach</option>
+            <option>Lake Nakuru</option>
+            <option>Mount Kenya</option>
+            <option>Samburu</option>
+            <option>Tsavo</option>
+            <option>Full Kenya Circuit</option>
+          </select>
+        </div>
+
+        <!-- Message -->
+        <div id="testimonialFormMsg" style="display:none;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:1px;padding:13px 18px;margin-bottom:18px;border-radius:0;"></div>
+
+        <!-- Actions -->
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+          <p style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:rgba(138,128,116,0.55);margin:0;line-height:1.6;">Reviews are moderated<br>before publishing.</p>
+          <button class="btn-primary" id="testimonialSubmitBtn" style="padding:16px 36px;cursor:none;font-size:10px;letter-spacing:4px;">Submit Review</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+  
+  <!-- TEAM -->
+<section id="team">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-label reveal">Our Team</span>
+      <h2 class="section-title reveal" style="transition-delay:0.12s">Guided by <br><em style="color: var(--gold);">Passion</em></h2>
+      <p class="section-sub reveal" style="transition-delay:0.24s">Every journey is shaped by people who genuinely love the wild — and Kenya.</p>
+    </div>
+    <div class="team-grid reveal">
+     <div class="team-card reveal" id="teamCardFirst" data-member="filmer" style="cursor:none;">
+     <div class="team-avatar">
+       <img src="data:image/webp;base64," alt="Filmer Mageto" onerror="this.style.display='none';this.parentNode.innerHTML='F';">
+        </div>
+        <h3 class="team-name">Filmer Mageto</h3>
+        <span class="team-role">Founder & Lead Guide</span>
+        <p class="team-bio">Over a decade navigating Kenya's finest reserves. Filmax brings an intimate knowledge of the land and an unshakeable love for every creature within it.</p>
+        <div style="margin-top:20px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px;">
+          View Profile <span style="width:18px;height:1px;background:var(--gold);display:inline-block;"></span>
+        </div>
+      </div>
+       <div class="team-card reveal" data-member="amara" style="transition-delay:0.1s;cursor:none;">
+        <div class="team-avatar">
+          <img src="data:image/webp;base64," alt="Amara Wanjiku" onerror="this.style.display='none';this.parentNode.innerHTML='A';">
+        </div>
+        <h3 class="team-name">Amara Wanjiku</h3>
+        <span class="team-role">Safari Experience Director</span>
+        <p class="team-bio">A master of logistics and luxury, Amara ensures every detail — from arrival transfers to sunset dinners — is orchestrated to perfection.</p>
+        <div style="margin-top:20px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px;">
+          View Profile <span style="width:18px;height:1px;background:var(--gold);display:inline-block;"></span>
+        </div>
+      </div>
+       <div class="team-card reveal" data-member="githaiga" style="transition-delay:0.2s;cursor:none;">
+        <div class="team-avatar">
+          <img src="/assets/team-githaiga.webp" alt="Githaiga Njoroge" onerror="this.style.display='none';this.parentNode.innerHTML='J';">
+        </div>
+        <h3 class="team-name">Githaiga Njoroge</h3>
+        <span class="team-role">Wildlife Naturalist</span>
+        <p class="team-bio">Born in the shadow of the Mara, Githaiga reads the wilderness like a living book — anticipating migrations, tracking the Big Five, and sharing stories the bush whispers.</p>
+        <div style="margin-top:20px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px;">
+          View Profile <span style="width:18px;height:1px;background:var(--gold);display:inline-block;"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+  
+
+<div style="
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent 0%, rgba(212,175,55,0.15) 15%, rgba(212,175,55,0.55) 40%, var(--gold) 50%, rgba(212,175,55,0.55) 60%, rgba(212,175,55,0.15) 85%, transparent 100%);
+  position: relative;
+  overflow: visible;
+">
+  <div style="
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    rotate: 45deg;
+    box-shadow: 0 0 8px rgba(212,175,55,0.6), 0 0 20px rgba(212,175,55,0.25);
+  "></div>
+</div>
+
+  <!-- GALLERY -->
+<section id="gallery">
+  <div class="container">
+    <div class="gallery-intro reveal">
+      <div>
+        <span class="section-label reveal">The Kenya Edit</span>
+        <h2 class="section-title reveal" style="transition-delay:0.12s">Moments <br><em style="color: var(--gold);">Suspended in Time</em></h2>
+      </div>
+      <div class="gallery-intro-right">
+        <p>Every frame here was lived, not staged. Kenya does not perform for the camera — it simply exists, and the extraordinary happens on its own terms.</p>
+      </div>
+    </div>
+  </div>
+
+  
+
+  <div class="gc-grid reveal" id="galCollage">
+
+    <div class="gc-item gc-big" tabindex="0" role="button" aria-label="Open Where Silence Has a Pulse" data-type="image" data-src="/assets/maasaimara.webp">
+      <img class="gc-media" src="/assets/maasaimara.webp" alt="Maasai Mara" loading="lazy">
+      <div class="gc-scrim"></div>
+      <div class="gc-cap"><span class="gc-eyebrow">Maasai Mara · Kenya</span><h3 class="gc-title">Where Silence Has a Pulse</h3></div>
+    </div>
+
+    <div class="gc-item gc-reg" tabindex="0" role="button" aria-label="Open The Mountain Watches" data-type="image" data-src="/assets/amboseli.webp">
+      <img class="gc-media" src="/assets/amboseli.webp" alt="Amboseli" loading="lazy">
+      <div class="gc-scrim"></div>
+      <div class="gc-cap"><span class="gc-eyebrow">Amboseli · Kenya</span><h3 class="gc-title">The Mountain Watches</h3></div>
+    </div>
+
+    <div class="gc-item gc-reg gc-mobile-only" tabindex="0" role="button" aria-label="Open Gentle Giant" data-type="image" data-src="/assets/Coolelephant.webp">
+      <img class="gc-media" src="/assets/Coolelephant.webp" alt="Elephant" loading="lazy">
+      <div class="gc-scrim"></div>
+      <div class="gc-cap"><span class="gc-eyebrow">Maasai Mara · Wildlife</span><h3 class="gc-title">Gentle Giant</h3></div>
+    </div>
+
+    <div class="gc-item gc-wide" tabindex="0" role="button" aria-label="Open The Land, Seen Whole" data-type="video" data-src="/assets/landscape.webm">
+      <video class="gc-media gc-video" data-src="/assets/landscape.webm" muted loop playsinline preload="none"></video>
+      <div class="gc-scrim"></div>
+      <span class="gc-play"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 1.5v9l7-4.5-7-4.5z" fill="#f0ece4"/></svg></span>
+      <div class="gc-cap"><span class="gc-eyebrow">Kenya, From Above</span><h3 class="gc-title">The Land, Seen Whole</h3></div>
+    </div>
+
+    <div class="gc-item gc-reg" tabindex="0" role="button" aria-label="Open Keepers of the Land" data-type="image" data-src="/assets/maasaimen.webp">
+      <img class="gc-media" src="/assets/maasaimen.webp" alt="Maasai Culture" loading="lazy">
+      <div class="gc-scrim"></div>
+      <div class="gc-cap"><span class="gc-eyebrow">Maasai Mara · Cultural Immersion</span><h3 class="gc-title">Keepers of the Land</h3></div>
+    </div>
+
+    <div class="gc-item gc-tall" tabindex="0" role="button" aria-label="Open Full Stride" data-type="video" data-src="/assets/girraffesrunnning.webm">
+      <video class="gc-media gc-video" data-src="/assets/girraffesrunnning.webm" muted loop playsinline preload="none"></video>
+      <div class="gc-scrim"></div>
+      <span class="gc-play"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 1.5v9l7-4.5-7-4.5z" fill="#f0ece4"/></svg></span>
+      <div class="gc-cap"><span class="gc-eyebrow">Maasai Mara · Wildlife</span><h3 class="gc-title">Full Stride</h3></div>
+    </div>
+
+    <div class="gc-item gc-reg" tabindex="0" role="button" aria-label="Open The Ocean After the Bush" data-type="image" data-src="/assets/dianibeach.webp">
+      <img class="gc-media" src="/assets/dianibeach.webp" alt="Diani Beach" loading="lazy">
+      <div class="gc-scrim"></div>
+      <div class="gc-cap"><span class="gc-eyebrow">Diani Coast · Kenya</span><h3 class="gc-title">The Ocean After the Bush</h3></div>
+    </div>
+
+    <div class="gc-item gc-reg" tabindex="0" role="button" aria-label="Open Pink Horizons, Still Waters" data-type="image" data-src="/assets/lakenakuru.webp">
+      <img class="gc-media" src="/assets/lakenakuru.webp" alt="Lake Nakuru" loading="lazy">
+      <div class="gc-scrim"></div>
+      <div class="gc-cap"><span class="gc-eyebrow">Lake Nakuru · Rift Valley</span><h3 class="gc-title">Pink Horizons, Still Waters</h3></div>
+    </div>
+
+    <div class="gc-item gc-wide" tabindex="0" role="button" aria-label="Open A Herd in Motion" data-type="video" data-src="/assets/herdofelephants.webm">
+      <video class="gc-media gc-video" data-src="/assets/herdofelephants.webm" muted loop playsinline preload="none"></video>
+      <div class="gc-scrim"></div>
+      <span class="gc-play"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 1.5v9l7-4.5-7-4.5z" fill="#f0ece4"/></svg></span>
+      <div class="gc-cap"><span class="gc-eyebrow">Maasai Mara · Wildlife</span><h3 class="gc-title">A Herd in Motion</h3></div>
+    </div>
+
+    <div class="gc-item gc-tall" tabindex="0" role="button" aria-label="Open Above the Clouds, Beyond Time" data-type="image" data-src="/assets/mountkenya.webp">
+      <img class="gc-media" src="/assets/mountkenya.webp" alt="Mount Kenya" loading="lazy">
+      <div class="gc-scrim"></div>
+      <div class="gc-cap"><span class="gc-eyebrow">Mount Kenya · Central Highlands</span><h3 class="gc-title">Above the Clouds, Beyond Time</h3></div>
+    </div>
+
+    <div class="gc-item gc-reg" tabindex="0" role="button" aria-label="Open The Unscripted Moment" data-type="video" data-src="/assets/highlight1.webm">
+      <video class="gc-media gc-video" data-src="/assets/highlight1.webm" muted loop playsinline preload="none"></video>
+      <div class="gc-scrim"></div>
+      <span class="gc-play"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 1.5v9l7-4.5-7-4.5z" fill="#f0ece4"/></svg></span>
+      <div class="gc-cap"><span class="gc-eyebrow">Safari, As It Happens</span><h3 class="gc-title">The Unscripted Moment</h3></div>
+    </div>
+
+    <div class="gc-item gc-reg" tabindex="0" role="button" aria-label="Open Eye to Eye with the Extraordinary" data-type="image" data-src="/assets/girraffefeeding.webp">
+      <img class="gc-media" src="/assets/girraffefeeding.webp" alt="Giraffe Feeding" loading="lazy">
+      <div class="gc-scrim"></div>
+      <div class="gc-cap"><span class="gc-eyebrow">Nairobi Giraffe Centre · Kenya</span><h3 class="gc-title">Eye to Eye with the Extraordinary</h3></div>
+    </div>
+
+    <div class="gc-item gc-reg" tabindex="0" role="button" aria-label="Open The Art of Refined Refuge" data-type="image" data-src="/assets/jwmarriott.webp">
+      <img class="gc-media" src="/assets/jwmarriott.webp" alt="Luxury Lodge" loading="lazy">
+      <div class="gc-scrim"></div>
+      <div class="gc-cap"><span class="gc-eyebrow">Nairobi · Luxury Accommodation</span><h3 class="gc-title">The Art of Refined Refuge</h3></div>
+    </div>
+
+    <div class="gc-item gc-tall" tabindex="0" role="button" aria-label="Open Light Across the Plains" data-type="video" data-src="/assets/highlight2.webm">
+      <video class="gc-media gc-video" data-src="/assets/highlight2.webm" muted loop playsinline preload="none"></video>
+      <div class="gc-scrim"></div>
+      <span class="gc-play"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 1.5v9l7-4.5-7-4.5z" fill="#f0ece4"/></svg></span>
+      <div class="gc-cap"><span class="gc-eyebrow">Golden Hour</span><h3 class="gc-title">Light Across the Plains</h3></div>
+    </div>
+
+    <div class="gc-item gc-reg" tabindex="0" role="button" aria-label="Open Into the Green Cathedral" data-type="image" data-src="/assets/jungle.webp">
+      <img class="gc-media" src="/assets/jungle.webp" alt="Jungle Safari" loading="lazy">
+      <div class="gc-scrim"></div>
+      <div class="gc-cap"><span class="gc-eyebrow">Kenya Highlands · Forest</span><h3 class="gc-title">Into the Green Cathedral</h3></div>
+    </div>
+
+    <div class="gc-item gc-wide" tabindex="0" role="button" aria-label="Open Every Moment, Alive" data-type="video" data-src="/assets/highlight3.webm">
+      <video class="gc-media gc-video" data-src="/assets/highlight3.webm" muted loop playsinline preload="none"></video>
+      <div class="gc-scrim"></div>
+      <span class="gc-play"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 1.5v9l7-4.5-7-4.5z" fill="#f0ece4"/></svg></span>
+      <div class="gc-cap"><span class="gc-eyebrow">The Wild, Unscripted</span><h3 class="gc-title">Every Moment, Alive</h3></div>
+    </div>
+
+    <div class="gc-item gc-reg" tabindex="0" role="button" aria-label="Open Nature's Perfect Geometry" data-type="image" data-src="/assets/zebra.webp">
+      <img class="gc-media" src="/assets/zebra.webp" alt="Zebra" loading="lazy">
+      <div class="gc-scrim"></div>
+      <div class="gc-cap"><span class="gc-eyebrow">Maasai Mara · Wildlife</span><h3 class="gc-title">Nature's Perfect Geometry</h3></div>
+    </div>
+
+    <div class="gc-item gc-reg" tabindex="0" role="button" aria-label="Open Gentle Giant" data-type="image" data-src="/assets/Coolelephant.webp">
+      <img class="gc-media" src="/assets/Coolelephant.webp" alt="Elephant" loading="lazy">
+      <div class="gc-scrim"></div>
+      <div class="gc-cap"><span class="gc-eyebrow">Maasai Mara · Wildlife</span><h3 class="gc-title">Gentle Giant</h3></div>
+    </div>
+
+  </div>
+
+  <div class="gc-viewall-wrap reveal">
+    <button class="gc-viewall-btn" id="galViewAllBtn" type="button">
+      <span>View All Moments</span>
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h11M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+
+  <div class="gc-lb" id="galLightbox" aria-hidden="true">
+    <div class="gc-lb-backdrop" id="galLbBackdrop"></div>
+    <button class="gc-lb-close" id="galLbClose" aria-label="Close">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="#f0ece4" stroke-width="1.3" stroke-linecap="round"/></svg>
+    </button>
+    <button class="gc-lb-nav gc-lb-prev" id="galLbPrev" aria-label="Previous">
+      <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><path d="M8 2L2 8l6 6" stroke="#f0ece4" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="gc-lb-stage" id="galLbStage"></div>
+    <div class="gc-lb-info">
+      <span class="gc-lb-eyebrow" id="galLbEyebrow"></span>
+      <h3 class="gc-lb-title" id="galLbTitle"></h3>
+      <span class="gc-lb-counter"><span id="galLbCur">1</span> / <span id="galLbTotal">17</span></span>
+    </div>
+    <button class="gc-lb-nav gc-lb-next" id="galLbNext" aria-label="Next">
+      <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><path d="M2 2l6 6-6 6" stroke="#f0ece4" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+
+</section>
+
+  
+  <!-- BLOG -->
+<section id="blog">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-label reveal">Safari Journal</span>
+      <h2 class="section-title reveal" style="transition-delay:0.12s">Stories from <br><em style="color: var(--gold);">the Wild</em></h2>
+      <p class="section-sub reveal" style="transition-delay:0.24s">Dispatches, guides, and intimate encounters — written by those who live and breathe Kenya.</p>
+    </div>
+
+    <div class="blog-grid reveal" id="blogGrid">
+      <div class="blog-card reveal" id="blogCard0" style="min-height:420px;"></div>
+      <div class="blog-card reveal" id="blogCard1" style="transition-delay:0.1s;min-height:420px;"></div>
+      <div class="blog-card reveal" id="blogCard2" style="transition-delay:0.2s;min-height:420px;"></div>
+    </div>
+
+    <div class="blog-view-all reveal">
+      <a href="/journal/" class="blog-view-all-btn">View all Blogs</a>
+    </div>
+
+  </div>
+</section>
+    
+      <!-- INLINE QUIZ -->
+<section id="inline-quiz" data-noscroll="true" style="background: var(--black); padding: 120px 0;">
+  <div class="container">
+
+    <div class="reveal" style="margin-bottom: 64px;">
+      <span class="section-label reveal">Safari Matchmaker</span>
+      <h2 class="section-title">Let Us Find Your <br><em style="color: var(--gold);">Perfect Safari</em></h2>
+      <p class="section-sub">Five considered questions. Three curated matches. Your Kenya, precisely yours.</p>
+    </div>
+
+    <div class="reveal" style="display:flex; justify-content:center;">
+      <div class="quiz-box" style="position:relative; transform:none; max-width:640px; width:100%;">
+        <div class="quiz-top-line"></div>
+        <div class="quiz-progress-bar">
+          <div class="quiz-progress-fill" id="iqProgress" style="width:20%"></div>
+        </div>
+        <div id="iqStepContainer"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+    
+  <!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-label">Begin Your Journey</span>
+      <h2 class="section-title">Let's Craft Your <br><em style="color: var(--gold);">Safari Story</em></h2>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <p>Every great expedition begins with a conversation. Tell us your vision and we will orchestrate an experience that exceeds every expectation — from the first email to your final sunset.</p>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📍</div>
+          <div class="contact-detail-text">
+            <span class="contact-detail-label">Office</span>
+            <span class="contact-detail-value">Nairobi, Kenya</span>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📞</div>
+          <div class="contact-detail-text">
+            <span class="contact-detail-label">Direct Line</span>
+            <span class="contact-detail-value">+34672304384</span>
+           </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">✉️</div>
+          <div class="contact-detail-text">
+            <span class="contact-detail-label">Email</span>
+            <span class="contact-detail-value">hello@filmaxjambotours.com</span>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">🕐</div>
+          <div class="contact-detail-text">
+            <span class="contact-detail-label">Availability</span>
+            <span class="contact-detail-value">Mon–Sat, 8am–7pm EAT</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form reveal" style="transition-delay:0.15s">
+        <input type="text" placeholder="Full Name">
+        <input type="email" placeholder="Email Address">
+        <input type="tel" placeholder="Phone / WhatsApp">
+        <textarea placeholder="Tell us your dream safari..."></textarea>
+        <div id="enquiryMsg" style="display:none;font-family:'Jost',sans-serif;font-size:12px;padding:13px 18px;margin-bottom:12px;letter-spacing:1px;"></div>
+        <button class="btn-primary" id="sendEnquiryBtn" type="button" style="cursor: none;">Send Enquiry</button>
+      </div>
+    </div>
+  </div>
+</section>
+  
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-bottom" style="
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    ">
+      <div style="display:flex; align-items:center; gap:32px; flex-wrap:wrap;">
+        <img
+          src="/assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.webp"
+          alt="Filmax Jambo Tours"
+          style="height:44px; width:auto; opacity:0.85; filter:drop-shadow(0 0 8px rgba(212,175,55,0.3));"
+        >
+        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+          <a href="#highlights" style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;cursor:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Safaris</a>
+          <a href="#wildlife"   style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;cursor:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Destinations</a>
+          <a href="#packages"   style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;cursor:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Packages</a>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
+        <span style="font-size:11px;color:var(--muted);">© 2025 Filmax Jambo Tours · All rights reserved</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- AUTH MODAL — REDESIGNED -->
+
+
+<div id="authOverlay" style="display:none;opacity:0;pointer-events:none;">
+  <div id="authModal">
+    <div class="auth-modal-gold-line"></div>
+    <button id="authModalClose">Close</button>
+
+    <div class="auth-modal-inner">
+      <span class="auth-modal-eyebrow">Filmax Jambo Tours</span>
+      <h2 class="auth-modal-title" id="authModalTitle">Welcome<br><em>Back</em></h2>
+      <p class="auth-modal-sub" id="authModalSub">Sign in to your account or create one to unlock your safari journey.</p>
+
+      <div class="auth-tabs-row">
+       <button class="auth-tab-btn active" id="tabSignin" onclick="window._switchAuthTab('signin')">Sign In</button>
+        <button class="auth-tab-btn" id="tabSignup" onclick="window._switchAuthTab('signup')">Create Account</button>
+      </div>
+
+      <!-- Messages now appear inline above each panel's button -->
+
+      <!-- SIGN IN PANEL -->
+      <div id="authPanelSignin">
+        <span class="auth-section-label">Your Credentials</span>
+        <input id="siEmail" class="auth-input" type="email" placeholder="Email Address *" autocomplete="email"
+          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+        <div style="position:relative;">
+          <input id="siPassword" class="auth-input" type="password" placeholder="Password *" autocomplete="current-password"
+            style="padding-right:36px;"
+            onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+          <button type="button" onclick="(function(){var f=document.getElementById('siPassword');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'👁':'🙈';}).call(this)"
+            style="position:absolute;right:0;top:14px;background:none;border:none;cursor:none;color:rgba(138,128,116,0.6);font-size:14px;padding:0;line-height:1;transition:color 0.2s;"
+            onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'">👁</button>
+        </div>
+        <div style="text-align:right;margin-bottom:8px;">
+          <button id="forgotPwBtn" onclick="window._showForgotPassword()" style="background:none;border:none;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;color:rgba(212,175,55,0.6);cursor:none;padding:4px 0;transition:color 0.3s;" onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(212,175,55,0.6)'">Forgot Password?</button>
+        </div>
+        <div id="authMsgErrorSignin" class="auth-msg error"></div>
+        <div id="authMsgSuccessSignin" class="auth-msg success"></div>
+        <button class="auth-submit-btn" id="siSubmitBtn" onclick="window._doSignIn()">
+          Sign In to Your Account
+        </button>
+
+        <div style="display:flex;align-items:center;gap:12px;margin:20px 0 4px;">
+          <div style="flex:1;height:1px;background:rgba(212,175,55,0.15);"></div>
+          <span style="font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(138,128,116,0.5);">or</span>
+          <div style="flex:1;height:1px;background:rgba(212,175,55,0.15);"></div>
+        </div>
+
+        <button onclick="window._doGoogleAuth()" style="width:100%;display:flex;align-items:center;justify-content:center;gap:12px;padding:13px 20px;background:transparent;border:1px solid rgba(212,175,55,0.25);color:var(--text);font-family:'Jost',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;cursor:none;transition:border-color 0.3s,background 0.3s;margin-bottom:4px;" onmouseover="this.style.borderColor='rgba(212,175,55,0.6)';this.style.background='rgba(212,175,55,0.05)';" onmouseout="this.style.borderColor='rgba(212,175,55,0.25)';this.style.background='transparent';">
+          <svg width="18" height="18" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+          Continue with Google
+        </button>
+
+        <p class="auth-alt-link" style="margin-top:16px;">No account? <button onclick="window._switchAuthTab('signup')">Create one free</button></p>
+      </div>
+
+      <!-- FORGOT PASSWORD PANEL -->
+      <div id="authPanelForgot" style="display:none;">
+        <span class="auth-section-label">Reset Your Password</span>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--muted);margin-bottom:24px;line-height:1.7;">Enter the email address on your account and we will send you a secure reset link.</p>
+        <input id="forgotEmail" class="auth-input" type="email" placeholder="Your Email Address *" autocomplete="email"
+          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+        <div id="authMsgErrorForgot" class="auth-msg error"></div>
+        <div id="authMsgSuccessForgot" class="auth-msg success"></div>
+        <button class="auth-submit-btn" id="forgotSubmitBtn" onclick="window._doForgotPassword()" style="margin-top:16px;">
+          Send Reset Link
+        </button>
+        <p class="auth-alt-link" style="margin-top:16px;"><button onclick="window._switchAuthTab('signin')">← Back to Sign In</button></p>
+      </div>
+
+      <!-- SIGN UP PANEL -->
+      <div id="authPanelSignup" style="display:none;">
+
+        <span class="auth-section-label">Your Details</span>
+
+        <input id="suFirstName" class="auth-input" type="text" placeholder="First Name *" autocomplete="given-name"
+          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+
+        <input id="suEmail" class="auth-input" type="email" placeholder="Email Address *" autocomplete="email"
+          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+
+        <div style="display:flex;gap:0;align-items:flex-end;margin-bottom:0;">
+          <div class="auth-select-wrap" style="flex:0 0 110px;margin-bottom:0;">
+            <select id="suPhoneCode" class="auth-input auth-select" style="padding-right:24px;font-size:12px;">
+              <option value="+254">🇰🇪 +254</option>
+              <option value="+1">🇺🇸 +1</option>
+              <option value="+44">🇬🇧 +44</option>
+              <option value="+33">🇫🇷 +33</option>
+              <option value="+49">🇩🇪 +49</option>
+              <option value="+34">🇪🇸 +34</option>
+              <option value="+39">🇮🇹 +39</option>
+              <option value="+31">🇳🇱 +31</option>
+              <option value="+32">🇧🇪 +32</option>
+              <option value="+41">🇨🇭 +41</option>
+              <option value="+43">🇦🇹 +43</option>
+              <option value="+46">🇸🇪 +46</option>
+              <option value="+47">🇳🇴 +47</option>
+              <option value="+45">🇩🇰 +45</option>
+              <option value="+358">🇫🇮 +358</option>
+              <option value="+48">🇵🇱 +48</option>
+              <option value="+7">🇷🇺 +7</option>
+              <option value="+380">🇺🇦 +380</option>
+              <option value="+351">🇵🇹 +351</option>
+              <option value="+30">🇬🇷 +30</option>
+              <option value="+90">🇹🇷 +90</option>
+              <option value="+971">🇦🇪 +971</option>
+              <option value="+966">🇸🇦 +966</option>
+              <option value="+974">🇶🇦 +974</option>
+              <option value="+965">🇰🇼 +965</option>
+              <option value="+968">🇴🇲 +968</option>
+              <option value="+962">🇯🇴 +962</option>
+              <option value="+961">🇱🇧 +961</option>
+              <option value="+20">🇪🇬 +20</option>
+              <option value="+212">🇲🇦 +212</option>
+              <option value="+213">🇩🇿 +213</option>
+              <option value="+216">🇹🇳 +216</option>
+              <option value="+218">🇱🇾 +218</option>
+              <option value="+251">🇪🇹 +251</option>
+              <option value="+255">🇹🇿 +255</option>
+              <option value="+256">🇺🇬 +256</option>
+              <option value="+250">🇷🇼 +250</option>
+              <option value="+257">🇧🇮 +257</option>
+              <option value="+253">🇩🇯 +253</option>
+              <option value="+252">🇸🇴 +252</option>
+              <option value="+249">🇸🇩 +249</option>
+              <option value="+263">🇿🇼 +263</option>
+              <option value="+260">🇿🇲 +260</option>
+              <option value="+27">🇿🇦 +27</option>
+              <option value="+264">🇳🇦 +264</option>
+              <option value="+267">🇧🇼 +267</option>
+              <option value="+265">🇲🇼 +265</option>
+              <option value="+258">🇲🇿 +258</option>
+              <option value="+261">🇲🇬 +261</option>
+              <option value="+233">🇬🇭 +233</option>
+              <option value="+234">🇳🇬 +234</option>
+              <option value="+225">🇨🇮 +225</option>
+              <option value="+221">🇸🇳 +221</option>
+              <option value="+237">🇨🇲 +237</option>
+              <option value="+243">🇨🇩 +243</option>
+              <option value="+91">🇮🇳 +91</option>
+              <option value="+92">🇵🇰 +92</option>
+              <option value="+880">🇧🇩 +880</option>
+              <option value="+94">🇱🇰 +94</option>
+              <option value="+977">🇳🇵 +977</option>
+              <option value="+86">🇨🇳 +86</option>
+              <option value="+81">🇯🇵 +81</option>
+              <option value="+82">🇰🇷 +82</option>
+              <option value="+65">🇸🇬 +65</option>
+              <option value="+60">🇲🇾 +60</option>
+              <option value="+66">🇹🇭 +66</option>
+              <option value="+62">🇮🇩 +62</option>
+              <option value="+63">🇵🇭 +63</option>
+              <option value="+84">🇻🇳 +84</option>
+              <option value="+61">🇦🇺 +61</option>
+              <option value="+64">🇳🇿 +64</option>
+              <option value="+55">🇧🇷 +55</option>
+              <option value="+54">🇦🇷 +54</option>
+              <option value="+56">🇨🇱 +56</option>
+              <option value="+57">🇨🇴 +57</option>
+              <option value="+52">🇲🇽 +52</option>
+              <option value="+1-CA">🇨🇦 +1</option>
+            </select>
+          </div>
+          <input id="suPhone" class="auth-input" type="tel" placeholder="Phone / WhatsApp Number *" autocomplete="tel" style="flex:1;margin-left:8px;"
+            onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+        </div>
+
+        <input id="suNationality" class="auth-input" type="text" placeholder="Country of Residence *" autocomplete="country-name"
+          onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+
+        <span class="auth-section-label" style="margin-top:28px;">Security</span>
+
+        <div style="position:relative;">
+          <input id="suPassword" class="auth-input" type="password" placeholder="Create Password (min 8 characters) *" autocomplete="new-password"
+            style="padding-right:36px;"
+            onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+          <button type="button" onclick="(function(){var f=document.getElementById('suPassword');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'👁':'🙈';}).call(this)"
+            style="position:absolute;right:0;top:14px;background:none;border:none;cursor:none;color:rgba(138,128,116,0.6);font-size:14px;padding:0;line-height:1;transition:color 0.2s;"
+            onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'">👁</button>
+        </div>
+
+        <div style="position:relative;">
+          <input id="suPassConf" class="auth-input" type="password" placeholder="Confirm Password *" autocomplete="new-password"
+            style="padding-right:36px;"
+            onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
+          <button type="button" onclick="(function(){var f=document.getElementById('suPassConf');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'👁':'🙈';}).call(this)"
+            style="position:absolute;right:0;top:14px;background:none;border:none;cursor:none;color:rgba(138,128,116,0.6);font-size:14px;padding:0;line-height:1;transition:color 0.2s;"
+            onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'">👁</button>
+        </div>
+
+        <div id="authMsgErrorSignup" class="auth-msg error" style="margin-top:12px;"></div>
+        <div id="authMsgSuccessSignup" class="auth-msg success" style="margin-top:12px;"></div>
+
+        <button class="auth-submit-btn" id="suSubmitBtn" onclick="window._doSignUp()" style="margin-top:20px;">
+          Create My Safari Account
+        </button>
+
+        <div style="display:flex;align-items:center;gap:12px;margin:20px 0 4px;">
+          <div style="flex:1;height:1px;background:rgba(212,175,55,0.15);"></div>
+          <span style="font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(138,128,116,0.5);">or</span>
+          <div style="flex:1;height:1px;background:rgba(212,175,55,0.15);"></div>
+        </div>
+
+        <button onclick="window._doGoogleAuth()" style="width:100%;display:flex;align-items:center;justify-content:center;gap:12px;padding:13px 20px;background:transparent;border:1px solid rgba(212,175,55,0.25);color:var(--text);font-family:'Jost',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;cursor:none;transition:border-color 0.3s,background 0.3s;margin-bottom:4px;" onmouseover="this.style.borderColor='rgba(212,175,55,0.6)';this.style.background='rgba(212,175,55,0.05)';" onmouseout="this.style.borderColor='rgba(212,175,55,0.25)';this.style.background='transparent';">
+          <svg width="18" height="18" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+          Sign up with Google
+        </button>
+
+        <p class="auth-alt-link" style="margin-top:16px;">Already have an account? <button onclick="window._switchAuthTab('signin')">Sign in here</button></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- USER PROFILE — redirects to profile.html -->
+<div id="profileOverlay" style="display:none;"></div>
+<div id="profilePanel" style="display:none;">
+  <div id="profileTabDashboard"></div>
+  <div id="profileTabDetails"></div>
+  <div id="profileTabPackages"></div>
+  <div id="profileTabCart"></div>
+  <div id="profileTabSettings"></div>
+  <input id="pfFirstName" style="display:none;">
+  <input id="pfLastName" style="display:none;">
+  <input id="pfEmail" style="display:none;">
+  <input id="pfPhone" style="display:none;">
+  <input id="pfNationality" style="display:none;">
+  <input id="pfDob" style="display:none;">
+  <input id="pfDuration" style="display:none;">
+  <input id="pfBudget" style="display:none;">
+  <input id="pfInterests" style="display:none;">
+  <input id="pfTravelDate" style="display:none;">
+  <input id="pfEmergName" style="display:none;">
+  <input id="pfEmergPhone" style="display:none;">
+  <div id="profileSaveNotif"></div>
+  <div id="profileAvatar"></div>
+  <div id="profileDisplayName"></div>
+  <div id="profileDisplayEmail"></div>
+  <div id="profileMemberBadge"></div>
+  <div id="dashStatSaved"></div>
+  <div id="dashStatCart"></div>
+  <div id="dashStatDays"></div>
+  <div id="dashStatBudget"></div>
+  <div id="dashActivity"></div>
+  <div id="profilePkgList"></div>
+  <div id="profileCartList"></div>
+  <div id="profileCartTotal"></div>
+  <div id="profileCartTotalNum"></div>
+  <button id="settingsThemeBtn" style="display:none;"></button>
+  <button id="settingsHintsBtn" style="display:none;"></button>
+</div>
+
+<!-- PROFILE MODAL — profile.html rendered in iframe -->
+<div id="profileModalOverlay" role="dialog" aria-modal="true" aria-label="User Profile">
+  <div id="profileModalBox">
+
+    <!-- Close handled by top bar inside profile.html iframe -->
+
+    <div id="profileModalLoader">
+      <img class="pm-loader-logo" src="/assets/FILMAX_JAMBO_TOURS__1_-removebg-preview.webp" alt="">
+      <div class="pm-loader-bar"></div>
+      <span class="pm-loader-text">Loading your profile</span>
+    </div>
+
+    <iframe id="profileModalIframe" title="User Profile"></iframe>
+
+  </div>
+</div>
+
+<!-- TEAM MEMBER POPUP -->
+<div class="team-popup-overlay" id="teamPopupOverlay">
+  <div class="team-popup" id="teamPopup">
+    <div class="team-popup-top-line"></div>
+    <button class="team-popup-close" id="teamPopupClose">Close</button>
+    <div class="team-popup-hero" id="teamPopupHero">
+      <img id="teamPopupHeroImg" src="" alt="">
+      <div class="team-popup-hero-overlay"></div>
+      <div class="team-popup-avatar-wrap">
+        <img id="teamPopupAvatarImg" src="" alt="">
+      </div>
+    </div>
+    <div class="team-popup-body">
+      <span class="team-popup-role" id="teamPopupRole"></span>
+      <div class="team-popup-name" id="teamPopupName"></div>
+      <div class="team-popup-divider"></div>
+      <p class="team-popup-bio" id="teamPopupBio"></p>
+      <div class="team-popup-details" id="teamPopupDetails"></div>
+    </div>
+  </div>
+</div>
+
+ <!-- Theme Toggle -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
+  <span class="theme-tooltip" id="themeTooltip">Light Mode</span>
+  <div class="theme-toggle-icon">
+    <svg class="sun" width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <circle cx="9" cy="9" r="3.5" stroke="rgba(212,175,55,0.8)" stroke-width="1.2"/>
+      <path d="M9 1v2M9 15v2M1 9h2M15 9h2M3.22 3.22l1.42 1.42M13.36 13.36l1.42 1.42M3.22 14.78l1.42-1.42M13.36 4.64l1.42-1.42" stroke="rgba(212,175,55,0.8)" stroke-width="1.2" stroke-linecap="round"/>
+    </svg>
+    <svg class="moon" width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <path d="M15.5 11.5A7 7 0 0 1 6.5 2.5a7 7 0 1 0 9 9z" stroke="rgba(184,134,11,0.9)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+</button>
+  
+<!-- WhatsApp FAB -->
+<a href="https://wa.me/34672304384?text=Hello%20Filmax%20Jambo%20Tours%2C%20I'd%20like%20to%20book%20a%20safari!" class="whatsapp-fab" target="_blank" rel="noopener">
+  <span class="wa-tooltip">Book via WhatsApp</span>
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<div id="google_translate_element" style="
+  position: fixed;
+  bottom: 100px;
+  left: 36px;
+  z-index: 200;
+  transition: opacity 1.2s ease;
+"></div>
+
+
+
+
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     LOADER REFINEMENT — smoother animation, gold progress, tagline
+     (new CSS only; does not alter any existing classes or keyframes)
+     ═══════════════════════════════════════════════════════════════════════ -->
+
+
+
+
+<script src="hints.js"></script>
+<script src="/assets/js/index.js" defer></script>
+<script src="/assets/js/fjt-audio.js" defer></script>
+<script>
+// ── PKG FILTER BAR FLOATING ──────────────────────────────────────
+(function(){
+  var bar = document.getElementById('pkgFilterBar');
+  var sec = document.getElementById('packages');
+  if (!bar || !sec) return;
+  var ticking = false;
+  window.addEventListener('scroll', function(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){
+      ticking = false;
+      var rect = sec.getBoundingClientRect();
+      var barH = bar.offsetHeight;
+      var inSection = rect.top <= 82 && rect.bottom >= barH + 82;
+      bar.classList.toggle('floating', inSection);
+    });
+  }, { passive: true });
+})();
+</script>
+
+
+
+<!-- HIGHLIGHT VIDEO MODAL -->
+<div id="hcModalOverlay">
+  <div id="hcModalBlur" style="position:fixed;inset:0;backdrop-filter:blur(14px) brightness(0.55);-webkit-backdrop-filter:blur(14px) brightness(0.55);background:rgba(4,3,1,0.15);z-index:-1;"></div>
+  <div id="hcModalBox" style="position:relative;width:100%;max-width:860px;max-height:90vh;border:1px solid rgba(212,175,55,0.35);background:#000;overflow:hidden;transform:scale(0.95);transition:transform 0.35s cubic-bezier(0.22,1,0.36,1);box-shadow:0 0 0 1px rgba(212,175,55,0.12),0 32px 80px rgba(0,0,0,0.7);">
+    <button id="hcModalClose" style="position:absolute;top:14px;right:14px;width:36px;height:36px;background:rgba(8,8,8,0.8);border:1px solid rgba(212,175,55,0.55);color:#d4af37;font-size:16px;display:flex;align-items:center;justify-content:center;cursor:none;z-index:10;transition:background .25s;backdrop-filter:blur(6px);">✕</button>
+    <div id="hcModalNum" style="position:absolute;top:14px;left:14px;font-family:'Playfair Display',serif;font-size:11px;font-weight:800;letter-spacing:4px;color:rgba(212,175,55,0.7);background:rgba(8,8,8,0.7);padding:5px 10px;border:1px solid rgba(212,175,55,0.2);backdrop-filter:blur(6px);z-index:10;"></div>
+    <video id="hcModalVideo" playsinline controls style="width:100%;max-height:85vh;display:block;object-fit:cover;"></video>
+    <div style="position:absolute;bottom:0;left:0;right:0;padding:48px 28px 20px;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,transparent 100%);display:flex;align-items:flex-end;">
+      <div id="hcModalTitle" style="font-family:'Playfair Display',serif;font-size:clamp(18px,3vw,26px);font-weight:700;color:#ffffff;text-align:center;width:100%;text-shadow:0 2px 12px rgba(0,0,0,0.8);"></div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var overlay = document.getElementById('hcModalOverlay');
+  var video   = document.getElementById('hcModalVideo');
+  var closeBtn= document.getElementById('hcModalClose');
+  var numEl   = document.getElementById('hcModalNum');
+  var titleEl = document.getElementById('hcModalTitle');
+  if (!overlay || !video) return;
+  var cards = [
+    { num:'01', title:'Curated Journeys',   src:'/assets/highlight1.webm' },
+    { num:'02', title:'Local Mastery',       src:'/assets/highlight2.webm' },
+    { num:'03', title:'Effortless Luxury',   src:'/assets/highlight3.webm' },
+  ];
+  document.querySelectorAll('.highlight-card').forEach(function(card, i){
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      var c = cards[i];
+      if (!c) return;
+      numEl.textContent   = c.num;
+      titleEl.textContent = c.title;
+      video.src = c.src;
+      video.muted = false;
+      video.volume = 1.0;
+      video.load();
+      video.play().catch(function(err){ console.warn('video play:', err); });
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      var amb = document.getElementById('fjtAmbientAudio');
+      if (amb && !amb.paused) { amb.dataset.wasPlaying = '1'; amb.pause(); }
+    });
+  });
+  function closeModal(){
+    var fadeOut = setInterval(function(){
+      if (video.volume > 0.1) {
+        video.volume -= 0.1;
+      } else {
+        clearInterval(fadeOut);
+        video.pause();
+        video.src = '';
+        video.volume = 1.0;
+      }
+    }, 40);
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    var amb = document.getElementById('fjtAmbientAudio');
+    if (amb && amb.dataset.wasPlaying === '1') {
+      amb.dataset.wasPlaying = '';
+      amb.volume = 0;
+      amb.play().catch(function(){});
+      var fadeIn = setInterval(function(){
+        if (amb.volume < 0.9) { amb.volume += 0.1; }
+        else { amb.volume = 1.0; clearInterval(fadeIn); }
+      }, 50);
+    }
+  }
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e){
+    if (e.target === overlay) closeModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeModal();
+  });
+})();
+</script>
+<script src="/assets/js/fjt-locale.js" defer></script>
+
+<script>
+// ── Highlight video sound toggles ──
+document.querySelectorAll('.hc-sound-btn').forEach(function(btn) {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    var vid = document.getElementById(btn.dataset.vid);
+    if (!vid) return;
+    vid.muted = !vid.muted;
+    btn.querySelector('.hc-icon-muted').style.display = vid.muted ? '' : 'none';
+    btn.querySelector('.hc-icon-sound').style.display  = vid.muted ? 'none' : '';
+  });
+});
+</script>
+
+</body>

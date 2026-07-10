@@ -257,12 +257,12 @@ async function blogSignUp() {
 // ── END AUTH GATE ──────────────────────────────────────────────────
 
 const fallbackBlogs = [
-  { slug:'great-migration-guide', title:'The Great Migration: Everything You Need to Know Before You Go', excerpt:'Two million wildebeest. One river. An annual crossing that redefines what it means to witness nature at full force.', category:'Wildlife', date:'March 2025', read_time:'8 min read', cover_image:'assets/maasaimara.webp' },
-  { slug:'best-time-kenya-safari', title:"When to Go: Kenya's Safari Seasons Decoded", excerpt:'Peak, shoulder, green — each season unlocks a different Kenya. Here is how to choose yours.', category:'Planning', date:'February 2025', read_time:'5 min read', cover_image:'assets/amboseli.webp' },
-  { slug:'diani-beach-guide', title:"Diani Beach: Africa's Finest Coastline After Your Safari", excerpt:'Where the bush ends and the ocean begins. Why Diani is the perfect safari finale for every traveller.', category:'Coast', date:'January 2025', read_time:'6 min read', cover_image:'assets/dianibeach.webp' },
-  { slug:'amboseli-elephants', title:'Amboseli at Dawn: Elephants, Kilimanjaro, and Perfect Silence', excerpt:"Africa's most iconic photograph is not taken — it is lived, early morning, in Amboseli.", category:'Wildlife', date:'April 2025', read_time:'6 min read', cover_image:'assets/amboseli.webp' },
-  { slug:'maasai-culture', title:'The Maasai: Warriors, Guardians, and Storytellers of the Plains', excerpt:'A culture unchanged by centuries. What happens when the wild invites you in.', category:'Culture', date:'May 2025', read_time:'7 min read', cover_image:'assets/maasaimen.webp' },
-  { slug:'luxury-lodges-kenya', title:"The Art of Sleeping in the Wild: Kenya's Best Luxury Camps", excerpt:'Canvas walls, starlit ceilings, and a lion coughing somewhere in the darkness.', category:'Luxury', date:'June 2025', read_time:'5 min read', cover_image:'assets/jwmarriott.webp' },
+  { slug:'great-migration-guide', title:'The Great Migration: Everything You Need to Know Before You Go', excerpt:'Two million wildebeest. One river. An annual crossing that redefines what it means to witness nature at full force.', category:'Wildlife', date:'March 2025', read_time:'8 min read', cover_image:'/assets/maasaimara.webp' },
+  { slug:'best-time-kenya-safari', title:"When to Go: Kenya's Safari Seasons Decoded", excerpt:'Peak, shoulder, green — each season unlocks a different Kenya. Here is how to choose yours.', category:'Planning', date:'February 2025', read_time:'5 min read', cover_image:'/assets/amboseli.webp' },
+  { slug:'diani-beach-guide', title:"Diani Beach: Africa's Finest Coastline After Your Safari", excerpt:'Where the bush ends and the ocean begins. Why Diani is the perfect safari finale for every traveller.', category:'Coast', date:'January 2025', read_time:'6 min read', cover_image:'/assets/dianibeach.webp' },
+  { slug:'amboseli-elephants', title:'Amboseli at Dawn: Elephants, Kilimanjaro, and Perfect Silence', excerpt:"Africa's most iconic photograph is not taken — it is lived, early morning, in Amboseli.", category:'Wildlife', date:'April 2025', read_time:'6 min read', cover_image:'/assets/amboseli.webp' },
+  { slug:'maasai-culture', title:'The Maasai: Warriors, Guardians, and Storytellers of the Plains', excerpt:'A culture unchanged by centuries. What happens when the wild invites you in.', category:'Culture', date:'May 2025', read_time:'7 min read', cover_image:'/assets/maasaimen.webp' },
+  { slug:'luxury-lodges-kenya', title:"The Art of Sleeping in the Wild: Kenya's Best Luxury Camps", excerpt:'Canvas walls, starlit ceilings, and a lion coughing somewhere in the darkness.', category:'Luxury', date:'June 2025', read_time:'5 min read', cover_image:'/assets/jwmarriott.webp' },
 ];
 
 let allBlogs = [...fallbackBlogs];
@@ -282,7 +282,7 @@ async function loadBlogs() {
         category: b.category||'Safari',
         date: b.published_date ? new Date(b.published_date).toLocaleDateString('en-US',{month:'long',year:'numeric'}) : '',
         read_time: b.read_time||'5 min read',
-        cover_image: b.cover_image_url||'assets/maasaimara.webp',
+        cover_image: b.cover_image_url||'/assets/maasaimara.webp',
         cover_alt: b.cover_alt||b.title,
       }));
       const slugSet = new Set(supaBlogs.map(b=>b.slug));

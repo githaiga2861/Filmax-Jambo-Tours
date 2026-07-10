@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Governors\' Camp', type:'Classic Luxury Tented', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Charter Wilson to Musiara airstrip, then a short transfer to the riverside camp.',
       gettingFull:'A charter from Wilson lands at Musiara airstrip in the heart of the reserve. A short transfer brings you to Governors\' on the Mara River, straight into an afternoon game drive as the plains turn gold.',
       acts:'Charter · Afternoon game drive · Riverside sundowner.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Governors\' Camp', type:'Classic Luxury Tented', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at camp — a full day in the Mara.',
       gettingFull:'No transfer today. A pre-dawn big-cat drive, a bush breakfast in the field, and an afternoon on the Mara River for hippo and crocodile.',
       acts:'Big-cat drive · Bush breakfast · Mara River drive.',
@@ -56,7 +56,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Governors\' Camp', type:'Classic Luxury Tented', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at camp — full day with a Maasai village visit.',
       gettingFull:'No transfer today. A morning drive following specific wildlife, a Maasai village visit at midday, and an afternoon drive ending in a crimson Mara sunset.',
       acts:'Morning drive · Maasai village · Sunset drive.',
@@ -82,7 +82,7 @@ window.FJT_ACCOM_DATA = {
   ],
   4: [
     { name:'Baobab Beach Resort & Spa', type:'Beach Resort', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Morning Mara drive, then charter to Mombasa and transfer to Diani.',
       gettingFull:'A final morning Mara drive precedes your charter to Mombasa and coastal transfer to Diani. The Indian Ocean replaces the savannah — a sunset swim and a beachside dinner welcome you to the coast.',
       acts:'Morning drive · Charter to Mombasa · Sunset swim.',
@@ -108,7 +108,7 @@ window.FJT_ACCOM_DATA = {
   ],
   5: [
     { name:'Baobab Beach Resort & Spa', type:'Beach Resort', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Remain at the resort — boat to Kisite Marine Park.',
       gettingFull:'No transfer today. A morning boat to Kisite Marine Park to snorkel coral gardens with turtles and dolphins, then a beach afternoon.',
       acts:'Kisite snorkel · Dolphins · Beach afternoon.',
@@ -134,7 +134,7 @@ window.FJT_ACCOM_DATA = {
   ],
   6: [
     { name:'Baobab Beach Resort & Spa', type:'Beach Resort', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Remain at the resort — dhow sailing and a beach leisure day.',
       gettingFull:'No transfer today. A morning dhow sail along the reef, then a full beach afternoon — swimming, relaxing and a sunset stroll along the sand.',
       acts:'Dhow sail · Beach leisure · Sunset stroll.',
@@ -160,7 +160,7 @@ window.FJT_ACCOM_DATA = {
   ],
   7: [
     { name:'Baobab Beach Resort & Spa', type:'Beach Resort', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Final ocean morning, then transfer to Mombasa for onward connections.',
       gettingFull:'A final morning at the ocean — a last swim and a relaxed breakfast — then a transfer to Mombasa for onward connections, or a charter back to Nairobi.',
       acts:'Final ocean morning · Late breakfast · Transfer to Mombasa.',
@@ -170,7 +170,7 @@ window.FJT_ACCOM_DATA = {
   ]  ,
   8: [
     { name:"Baobab Beach Resort & Spa", type:"Beach Resort", delta:"flat",
-      img:"assets/dianibeach.webp",
+      img:"/assets/dianibeach.webp",
       getting:"Final ocean morning, then transfer to Mombasa for onward connections.",
       gettingFull:"A final morning at the ocean — a last swim and a relaxed breakfast — then a transfer to Mombasa airport for onward connections, or a charter back to Nairobi.",
       acts:"Final ocean morning · Late breakfast · Transfer to Mombasa.",

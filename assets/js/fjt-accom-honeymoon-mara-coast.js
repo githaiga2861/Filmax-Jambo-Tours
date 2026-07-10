@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Angama Mara', type:'Designer Honeymoon Lodge', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Private charter Wilson to Angama airstrip, then a short transfer up the escarpment.',
       gettingFull:'A dedicated concierge escorts you to your private charter at Wilson. The lodge has been notified — rose petals, champagne and a private welcome dinner await. Your suite floats above the Mara Triangle with the most celebrated view in Africa.',
       acts:'Honeymoon suite preparation · Welcome champagne · Candlelit dinner.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Angama Mara', type:'Designer Honeymoon Lodge', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at the lodge — sunrise balloon flight over the Mara.',
       gettingFull:'A pre-dawn wake — your butler brings coffee to the suite — then the balloon lifts off at first light. Drifting in silence over the Mara, champagne in hand, followed by a champagne bush breakfast and an afternoon private drive.',
       acts:'Balloon flight · Champagne breakfast · Private game drive.',
@@ -56,7 +56,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Angama Mara', type:'Designer Honeymoon Lodge', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at the lodge — full day with a private sundowner setup.',
       gettingFull:'No transfer today. A full day of drives with a private sundowner picnic set up at a secret spot — a hill over a river bend, linen and candles, the sun setting behind you both — and a night drive home.',
       acts:'Morning drive · Bush picnic · Private sundowner · Night drive.',
@@ -82,7 +82,7 @@ window.FJT_ACCOM_DATA = {
   ],
   4: [
     { name:'Angama Mara', type:'Designer Honeymoon Lodge', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Final Mara morning, then charter to Mombasa and transfer to Diani.',
       gettingFull:'A last morning drive before a late bush breakfast. Your guide presents a memento — pressed Mara wildflowers in a hand-stamped envelope — then a charter to Mombasa and coastal transfer to Diani.',
       acts:'Final morning drive · Late breakfast · Charter to Mombasa.',
@@ -108,7 +108,7 @@ window.FJT_ACCOM_DATA = {
   ],
   5: [
     { name:'Almanara Luxury Villas', type:'Private Beach Villa', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Coastal transfer to your private villa on Diani Beach.',
       gettingFull:'Your beach villa is revealed — direct ocean access, a private pool, and a four-poster facing the sea through open doors. A sunset swim, then a private seafood dinner on your terrace.',
       acts:'Villa arrival · Private pool · Sunset swim · Terrace dinner.',
@@ -134,7 +134,7 @@ window.FJT_ACCOM_DATA = {
   ],
   6: [
     { name:'Almanara Luxury Villas', type:'Private Beach Villa', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Remain at the villa — boat to Kisite Marine Park, beach afternoon.',
       gettingFull:'No transfer today. A morning boat to Kisite Marine Park to snorkel coral gardens with turtles and dolphins, then a beach afternoon at leisure.',
       acts:'Kisite boat · Dolphins · Reef snorkel · Beach afternoon.',
@@ -160,7 +160,7 @@ window.FJT_ACCOM_DATA = {
   ],
   7: [
     { name:'Almanara Luxury Villas', type:'Private Beach Villa', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Remain at the villa — full leisure day, private dhow sunset cruise.',
       gettingFull:'No transfer today. A full day at leisure — Diani\'s sand is yours — with optional watersports or a villa massage, then a private dhow chartered for a sunset cruise with seafood served on the water.',
       acts:'Beach leisure · Villa massage · Private dhow sunset cruise.',
@@ -186,7 +186,7 @@ window.FJT_ACCOM_DATA = {
   ],
   8: [
     { name:'Almanara Luxury Villas', type:'Private Beach Villa', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Final ocean morning, then transfer to Mombasa for onward connections.',
       gettingFull:'A final morning at the ocean — coffee on your terrace as the Indian Ocean catches first light — then a transfer to Mombasa for onward connections, or a charter back to Nairobi.',
       acts:'Final ocean morning · Late breakfast · Transfer to Mombasa.',

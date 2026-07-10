@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Governors\' Il Moran Camp', type:'Riverside Luxury Tented', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Charter Wilson to Musiara airstrip, then short transfer to the riverside camp.',
       gettingFull:'A charter from Wilson lands at Musiara airstrip in the heart of the reserve. A short transfer brings you to Il Moran, set directly on the Mara River within walking distance of the most active crossing points.',
       acts:'Spotter briefing · Afternoon river watch · Riverside dinner.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Governors\' Il Moran Camp', type:'Riverside Luxury Tented', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at camp — balloon safari at dawn, then straight to the crossings.',
       gettingFull:'No transfer today. A pre-dawn balloon launch is followed by a champagne breakfast, then straight to the live crossing point for the day\'s vigil.',
       acts:'Balloon launch · Champagne breakfast · Crossing vigil.',
@@ -56,7 +56,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Governors\' Il Moran Camp', type:'Riverside Luxury Tented', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at camp — a full day at the river crossing points.',
       gettingFull:'No transfer today. An entire day is devoted to the river, where crossings can happen at any moment and the build-up is as compelling as the event.',
       acts:'Full-day river vigil · In-field lunch · Camp debrief.',
@@ -82,7 +82,7 @@ window.FJT_ACCOM_DATA = {
   ],
   4: [
     { name:'Governors\' Il Moran Camp', type:'Riverside Luxury Tented', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at camp — open plains in the morning, river again in the afternoon.',
       gettingFull:'No transfer today. A morning on the open plains for predators — superabundant during the migration — then a return to the river for a second crossing vigil.',
       acts:'Plains big-cat drive · Cheetah & lion · Afternoon crossing vigil.',
@@ -108,7 +108,7 @@ window.FJT_ACCOM_DATA = {
   ],
   5: [
     { name:'Governors\' Il Moran Camp', type:'Riverside Luxury Tented', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Final morning at the river, then charter back to Nairobi.',
       gettingFull:'One final morning at the river — breakfast at camp with the sound of wildebeest in the distance — then a charter to Nairobi with a migration memory that will outlast everything.',
       acts:'Final river drive · Camp breakfast · Charter to Nairobi.',

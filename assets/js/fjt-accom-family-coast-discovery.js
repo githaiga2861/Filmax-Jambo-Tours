@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Baobab Beach Resort & Spa', type:'Family Beach Resort', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Charter Nairobi to Mombasa (1 hr), then 30km road transfer south to Diani Beach.',
       gettingFull:'A one-hour charter from Nairobi to Mombasa is followed by a 30km transfer south to Diani — the children spotting the Indian Ocean for the first time from the vehicle. Your family villa opens straight onto the garden and beach.',
       acts:'Family villa arrival · First ocean swim · Beach dinner.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Baobab Beach Resort & Spa', type:'Family Beach Resort', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Remain at the resort — boat excursion to Kisite Marine Park.',
       gettingFull:'No change of base. A morning boat excursion heads to Kisite-Mpunguti Marine Park, where the children snorkel coral gardens for the first time, then back to the resort beach for the afternoon.',
       acts:'Kisite snorkel · Sea turtles · Dolphins · Beach afternoon.',
@@ -56,7 +56,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Baobab Beach Resort & Spa', type:'Family Beach Resort', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Remain at the resort — excursion to Shimba Hills National Reserve.',
       gettingFull:'No change of base. A morning excursion heads inland to Shimba Hills — coastal forest, sable antelope, elephant and colobus monkeys — with a ranger-guided nature walk, then back to the beach.',
       acts:'Shimba Hills drive · Forest walk · Colobus monkeys.',
@@ -82,7 +82,7 @@ window.FJT_ACCOM_DATA = {
   ],
   4: [
     { name:'Baobab Beach Resort & Spa', type:'Family Beach Resort', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Remain at the resort — dhow sailing and a pure beach day.',
       gettingFull:'No change of base. A morning family dhow sail along the reef — the children holding the ropes — then the purest beach afternoon of buckets, spades and the Indian Ocean.',
       acts:'Dhow sailing · Rock pools · Sandcastle afternoon.',
@@ -108,7 +108,7 @@ window.FJT_ACCOM_DATA = {
   ],
   5: [
     { name:'Baobab Beach Resort & Spa', type:'Family Beach Resort', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Final beach morning, then transfer to Mombasa for charter or road to Nairobi.',
       gettingFull:'A final morning at the beach — sandy feet one last time — then a late breakfast and transfer to Mombasa for the charter or road return to Nairobi.',
       acts:'Final beach morning · Late breakfast · Transfer to Mombasa.',

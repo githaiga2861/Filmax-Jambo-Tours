@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Mara Serena Safari Lodge', type:'Classic Lodge', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Private 4x4 from Nairobi (~5–6 hrs) via the Rift Valley escarpment into the Mara Triangle.',
       gettingFull:'An early departure from Nairobi drives southwest through the Great Rift Valley escarpment, with a coffee stop at a viewpoint before the descent into the Mara. You reach the lodge by early afternoon and head straight into an evening game drive as the savannah turns amber.',
       acts:'Afternoon game drive · Welcome dinner · Sundowner ritual.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Mara Serena Safari Lodge', type:'Classic Lodge', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at the lodge — a full day in the Mara Triangle.',
       gettingFull:'No transfer today. From the Serena\'s hilltop you head out pre-dawn for big cats and spend the day exploring the Triangle and the Mara River.',
       acts:'Pre-dawn big-cat drive · Bush breakfast · Mara River drive.',
@@ -56,7 +56,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Mara Serena Safari Lodge', type:'Classic Lodge', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at the lodge — reserve drive plus an adjoining private-conservancy excursion.',
       gettingFull:'No transfer today. A dawn predator drive is followed by an afternoon excursion into an adjoining private conservancy where vehicle numbers are strictly limited.',
       acts:'Dawn predators · Private conservancy · Sunset drive.',
@@ -82,7 +82,7 @@ window.FJT_ACCOM_DATA = {
   ],
   4: [
     { name:'Mara Serena Safari Lodge', type:'Classic Lodge', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Final morning drive, then private 4x4 back to Nairobi via the Rift Valley.',
       gettingFull:'A final early drive before a relaxed camp breakfast, then your private vehicle departs for Nairobi via the Rift Valley, arriving mid-afternoon.',
       acts:'Final dawn drive · Bush breakfast · Scenic return.',

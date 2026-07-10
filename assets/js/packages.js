@@ -276,23 +276,23 @@ document.getElementById('filterClearBtn').addEventListener('click', () => {
 
 
 const pkgDetailMap = {
-  'Grand Odyssey':                'pkg-grand-odyssey.html',
-  'Mara Awakening':               'pkg-mara-awakening.html',
-  'Ultimate Kenya':               'pkg-ultimate-kenya.html',
-  'Tsavo Red Earth':              'pkg-tsavo-red-earth.html',
-  'Samburu Secrets':              'pkg-samburu-secrets.html',
-  'Private Conservancy Sojourn':  'pkg-private-conservancy.html',
-  'Migration Witness':            'pkg-migration-witness.html',
-  'Aerial Kenya':                 'pkg-aerial-kenya.html',
-  'Safari & Sea':                 'pkg-safari-and-sea.html',
-  'Lamu Archipelago':             'pkg-lamu-archipelago.html',
-  'Photography Expedition':       'pkg-photography-expedition.html',
-  'Birding Kenya':                'pkg-birding-kenya.html',
-  'Family Wild':                  'pkg-family-wild.html',
-  'Nairobi Wild':                 'pkg-nairobi-wild.html',
-  'Lake Nakuru Escape':           'pkg-lake-nakuru-escape.html',
-  'Amboseli Express':             'pkg-amboseli-express.html',
-  "Hell's Gate Trek":             'pkg-hells-gate-trek.html',
+  'Grand Odyssey':                '/packages/grand-odyssey/',
+  'Mara Awakening':               '/packages/mara-awakening/',
+  'Ultimate Kenya':               '/packages/ultimate-kenya/',
+  'Tsavo Red Earth':              '/packages/tsavo-red-earth/',
+  'Samburu Secrets':              '/packages/samburu-secrets/',
+  'Private Conservancy Sojourn':  '/packages/private-conservancy/',
+  'Migration Witness':            '/packages/migration-witness/',
+  'Aerial Kenya':                 '/packages/aerial-kenya/',
+  'Safari & Sea':                 '/packages/safari-and-sea/',
+  'Lamu Archipelago':             '/packages/lamu-archipelago/',
+  'Photography Expedition':       '/packages/photography-expedition/',
+  'Birding Kenya':                '/packages/birding-kenya/',
+  'Family Wild':                  '/packages/family-wild/',
+  'Nairobi Wild':                 '/packages/nairobi-wild/',
+  'Lake Nakuru Escape':           '/packages/lake-nakuru-escape/',
+  'Amboseli Express':             '/packages/amboseli-express/',
+  "Hell's Gate Trek":             '/packages/hells-gate-trek/',
 };
 
 document.querySelectorAll('.pkg-card').forEach(card => {
@@ -771,7 +771,7 @@ document.querySelectorAll('.reveal').forEach(el => window._revealObserver.observ
         pmSyncTheme();
         setTimeout(function(){ if (ld) ld.classList.add('hidden'); }, 280);
       };
-      fr.src = 'profile.html';
+      fr.src = '/profile/';
     } else {
       if (ld) ld.classList.add('hidden');
       pmSyncTheme();

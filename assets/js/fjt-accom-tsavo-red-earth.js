@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Kilaguni Serena Safari Lodge', type:'Classic Lodge', delta:'flat',
-      img:'assets/amboseli.webp',
+      img:'/assets/amboseli.webp',
       getting:'Private 4x4 from Nairobi (~5 hrs) via the Mombasa highway into Tsavo West.',
       gettingFull:'A drive southeast from Nairobi follows the Mombasa highway before turning into Tsavo West. The first encounter with the landscape — volcanic hills, open plains, red-stained elephants in the distance — is unforgettable. You reach Kilaguni by mid-afternoon.',
       acts:'Afternoon game drive · Red elephants · Sundowner on the plains.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Kilaguni Serena Safari Lodge', type:'Classic Lodge', delta:'flat',
-      img:'assets/amboseli.webp',
+      img:'/assets/amboseli.webp',
       getting:'Remain at the lodge — Mzima Springs and Chaimu Crater.',
       gettingFull:'No transfer today. A morning at Mzima Springs and its underwater hippo chamber is followed by an afternoon hike up Chaimu Crater and an evening game drive.',
       acts:'Mzima Springs · Underwater hippos · Chaimu Crater hike.',
@@ -56,7 +56,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Kilaguni Serena Safari Lodge', type:'Classic Lodge', delta:'flat',
-      img:'assets/amboseli.webp',
+      img:'/assets/amboseli.webp',
       getting:'Remain at the lodge — a full day across Tsavo West.',
       gettingFull:'No transfer today. A full day explores Tsavo West\'s diverse habitats, from the Ngulia rhino sanctuary to the volcanic plains, ending at the Roaring Rocks viewpoint at sunset.',
       acts:'Ngulia rhino sanctuary · Big cats · Roaring Rocks sunset.',

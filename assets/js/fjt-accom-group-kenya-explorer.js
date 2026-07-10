@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Eka Hotel Nairobi', type:'Group City Hotel', delta:'flat',
-      img:'assets/nairobi.webp',
+      img:'/assets/nairobi.webp',
       getting:'Airport transfers to the hotel on Mombasa Road, convenient for the wildlife circuit.',
       gettingFull:'The group gathers at the Eka Hotel on Mombasa Road, well placed for Nairobi National Park, the Giraffe Centre and the elephant orphanage, with ample rooms and communal spaces to convene.',
       acts:'Nairobi NP drive · Giraffe Centre · DSWT · Rooftop dinner.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Amboseli Serena Safari Lodge', type:'Group Lodge', delta:'flat',
-      img:'assets/amboseli.webp',
+      img:'/assets/amboseli.webp',
       getting:'Convoy south through Emali to Amboseli (~4 hrs), with Chyulu Hills views.',
       gettingFull:'The convoy heads south through Emali with Chyulu Hills views, reaching Amboseli in the early afternoon as Kilimanjaro reveals itself. A first drive finds elephant herds beneath the mountain.',
       acts:'Convoy to Amboseli · Chyulu viewpoint · Elephant drives.',
@@ -56,7 +56,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Amboseli Serena Safari Lodge', type:'Group Lodge', delta:'flat',
-      img:'assets/amboseli.webp',
+      img:'/assets/amboseli.webp',
       getting:'Remain at the lodge — a full day in the elephant kingdom.',
       gettingFull:'No transfer today. Dawn-to-dusk in Amboseli — bull elephants, cheetah on the plains, Observation Hill, and a group lunch with Kilimanjaro in view.',
       acts:'Dawn elephant drives · Big cats · Observation Hill · Bush lunch.',
@@ -82,7 +82,7 @@ window.FJT_ACCOM_DATA = {
   ],
   4: [
     { name:'Mara Sopa Lodge', type:'Group Lodge', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Convoy northwest via Narok into the Mara (full-day drive).',
       gettingFull:'The convoy heads northwest through Narok into the Mara, the landscape opening as you enter the reserve. An afternoon drive is followed by a group dinner with an arranged Maasai cultural performance.',
       acts:'Convoy with stops · Mara arrival drive · Maasai performance.',
@@ -108,7 +108,7 @@ window.FJT_ACCOM_DATA = {
   ],
   5: [
     { name:'Mara Sopa Lodge', type:'Group Lodge', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at the lodge — split-vehicle drives and a group bonfire.',
       gettingFull:'No transfer today. Split vehicles cover maximum ground with radio-coordinated big-cat tracking, a bush breakfast, a private conservancy afternoon and a group bonfire.',
       acts:'Split drives · Coordinated tracking · Conservancy · Bonfire.',
@@ -134,7 +134,7 @@ window.FJT_ACCOM_DATA = {
   ],
   6: [
     { name:'Mara Sopa Lodge', type:'Group Lodge', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at the lodge — village immersion, drives, signature bush dinner.',
       gettingFull:'No transfer today. A morning Maasai village immersion, flexible afternoon drives, and the evening centrepiece — a private group bush dinner in the field — followed by a night drive.',
       acts:'Maasai village · Afternoon drives · Bush dinner · Night drive.',
@@ -160,7 +160,7 @@ window.FJT_ACCOM_DATA = {
   ],
   7: [
     { name:'Mara Sopa Lodge', type:'Group Lodge', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Final dawn drive, then convoy return to Nairobi.',
       gettingFull:'A final dawn drive, then the convoy returns to Nairobi by mid-afternoon, with the group coordinator assisting airport transfers and onward logistics.',
       acts:'Final dawn drive · Camp breakfast · Return convoy.',

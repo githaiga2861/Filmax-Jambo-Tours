@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Elephant Bedroom Camp', type:'Riverside Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Charter Wilson to Samburu airstrip (45 min), then short transfer to the riverside camp.',
       gettingFull:'A 45-minute charter from Wilson Airport lands at Samburu airstrip, with the Ewaso Nyiro river winding below. A short transfer brings you to camp — elephants may be crossing the river as you check in.',
       acts:'Samburu Five afternoon drive · River sundowner.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Elephant Bedroom Camp', type:'Riverside Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at camp — a full day across Samburu National Reserve.',
       gettingFull:'No transfer today. You stay riverside for a full day exploring Samburu — dawn for predators, midday in the shade, and a night drive after dark.',
       acts:'Pre-dawn predators · Gerenuk & giraffe · Bush lunch · Night drive.',
@@ -56,7 +56,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Elephant Bedroom Camp', type:'Riverside Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at camp — game drive plus a Samburu village visit and a leisurely afternoon.',
       gettingFull:'No transfer today. A morning drive is followed by a cultural visit, then an afternoon at leisure in camp — the hammock between the doum palms above the river.',
       acts:'Morning drive · Samburu village · Riverside leisure.',
@@ -82,7 +82,7 @@ window.FJT_ACCOM_DATA = {
   ],
   4: [
     { name:'Elephant Bedroom Camp', type:'Riverside Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Final morning drive along the river, then charter or road transfer to Nairobi.',
       gettingFull:'A last unhurried drive along the Ewaso Nyiro — lion often rest in the riverine trees — then breakfast at camp before the charter or road return to Nairobi.',
       acts:'Final dawn drive · River tree-lion · Bush breakfast.',

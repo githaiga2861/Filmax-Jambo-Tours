@@ -117,7 +117,7 @@
     return ''+
     '<div class="fjt-accom-card'+(isDef?' selected':'')+'" data-day="'+day+'" data-idx="'+idx+'">'+
       '<div class="fjt-accom-card-imgwrap">'+
-        '<img src="'+a.img+'" alt="'+esc(a.name)+'" loading="lazy" onerror="this.onerror=null;this.src=\'assets/maasaimara.webp\'">'+
+        '<img src="'+a.img+'" alt="'+esc(a.name)+'" loading="lazy" onerror="this.onerror=null;this.src=\'/assets/maasaimara.webp\'">'+
         '<span class="fjt-accom-flag '+fl.cls+'">'+fl.text+'</span>'+
         '<span class="fjt-accom-delta '+dl.cls+'">'+dl.text+'</span>'+
         '<span class="fjt-accom-tick">'+TICK+'</span>'+

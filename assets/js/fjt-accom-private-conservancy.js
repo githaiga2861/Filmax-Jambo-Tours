@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Mara Plains Camp', type:'Ultra-Luxury Tented', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Private charter Wilson to the conservancy airstrip; ranger and butler greet you at the aircraft.',
       gettingFull:'Your private charter delivers you directly to the conservancy airstrip — no waiting, no other guests. Your ranger and butler meet you at the aircraft steps for a welcome drive through your private wilderness before your tented villa is revealed.',
       acts:'Welcome drive · Villa orientation · Champagne sundowner.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Mara Plains Camp', type:'Ultra-Luxury Tented', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain in camp — dawn drive in an ecosystem entirely your own.',
       gettingFull:'No transfer today. Your ranger has been tracking the lion pride since yesterday. In a conservancy without vehicle competition, the big cats behave naturally.',
       acts:'Dawn lion drive · Bush breakfast · Optional helicopter · Bush walk.',
@@ -56,7 +56,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Mara Plains Camp', type:'Ultra-Luxury Tented', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain in camp — a full day on foot with ranger and armed tracker.',
       gettingFull:'No transfer today. A full day on foot with your private ranger and armed tracker — the most intimate wildlife experience Kenya offers.',
       acts:'Full-day walking safari · Tracking · Private bush dinner.',
@@ -82,7 +82,7 @@ window.FJT_ACCOM_DATA = {
   ],
   4: [
     { name:'Mara Plains Camp', type:'Ultra-Luxury Tented', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Overnight sleep-out on a raised starbed platform deep in the conservancy.',
       gettingFull:'As darkness falls, your butler accompanies you to a raised starbed platform deep in the conservancy. No tent, no walls — just you beneath the Kenyan sky, hippos grunting below and lions calling in the distance.',
       acts:'Sunset walk to starbed · Sleep-out · Dawn lion chorus.',
@@ -108,7 +108,7 @@ window.FJT_ACCOM_DATA = {
   ],
   5: [
     { name:'Mara Plains Camp', type:'Ultra-Luxury Tented', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Helicopter flight along the Mara River, then leopard tracking in the afternoon.',
       gettingFull:'A morning helicopter flight follows the Mara River and the open plains, landing for a private champagne picnic. The afternoon focuses on leopard in the riverine forest.',
       acts:'Helicopter flight · Mara River picnic · Leopard tracking.',
@@ -134,7 +134,7 @@ window.FJT_ACCOM_DATA = {
   ],
   6: [
     { name:'Mara Plains Camp', type:'Ultra-Luxury Tented', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Final morning of your choosing, then private charter to Nairobi.',
       gettingFull:'A last unhurried morning in your private kingdom — breakfast wherever you choose, the ranger\'s favourite outcrop or the fig tree by the river — then your charter returns you to Nairobi.',
       acts:'Farewell drive · Breakfast of your choosing · Charter departure.',

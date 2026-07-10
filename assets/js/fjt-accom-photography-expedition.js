@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Kicheche Mara Camp', type:'Photographic Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Charter Wilson to the Mara airstrip, then transfer to the photographic camp.',
       gettingFull:'A charter from Wilson lands at the Mara airstrip. A late-afternoon equipment orientation with your lead photographer — rig setup, bean-bag technique, low-light limitations — is followed by a brief calibration drive at sunset.',
       acts:'Camera rig setup · Photographer briefing · Calibration drive.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Kicheche Mara Camp', type:'Photographic Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at camp — pre-dawn big-cat first-light session.',
       gettingFull:'No transfer today. A pre-dawn departure to a predetermined position where lion are most likely — the 40-minute golden hour producing the defining images — with an afternoon cheetah session.',
       acts:'First-light big cats · Image review · Cheetah session.',
@@ -56,7 +56,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Kicheche Mara Camp', type:'Photographic Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at camp — full range of Mara subjects, Lightroom evening.',
       gettingFull:'No transfer today. A day covering the full range — the river\'s hippos and crocodiles for action, landscape compositions, and forest bird photography — with an evening Lightroom RAW workflow session.',
       acts:'River action · Landscape · Birds · Lightroom workshop.',
@@ -82,7 +82,7 @@ window.FJT_ACCOM_DATA = {
   ],
   4: [
     { name:'Kicheche Mara Camp', type:'Photographic Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at camp — herd photography and backlit silhouette work.',
       gettingFull:'No transfer today. Focus on the wildebeest and zebra herds — dust, movement and chaos, with moments of stillness — and a backlit late-afternoon session for silhouettes.',
       acts:'Herd photography · Dust & movement · Backlit silhouettes.',
@@ -108,7 +108,7 @@ window.FJT_ACCOM_DATA = {
   ],
   5: [
     { name:'Amboseli Serena Safari Lodge', type:'Lodge', delta:'flat',
-      img:'assets/amboseli.webp',
+      img:'/assets/amboseli.webp',
       getting:'Charter from the Mara to Amboseli; the photographic priority shifts to Kilimanjaro.',
       gettingFull:'A charter south to Amboseli shifts the focus to the iconic — elephant and Kilimanjaro compositions that have defined the image of Africa for generations.',
       acts:'Kilimanjaro orientation · Elephant arrival · Mountain session.',
@@ -134,7 +134,7 @@ window.FJT_ACCOM_DATA = {
   ],
   6: [
     { name:'Amboseli Serena Safari Lodge', type:'Lodge', delta:'flat',
-      img:'assets/amboseli.webp',
+      img:'/assets/amboseli.webp',
       getting:'Remain at the lodge — pre-dawn Kilimanjaro and last-light cheetah.',
       gettingFull:'No transfer today. The clearest Kilimanjaro comes before 8am — a pre-dawn departure with elephant herds against the mountain — and an evening cheetah session in last light, closing with a portfolio editing workshop.',
       acts:'Pre-dawn Kilimanjaro · Elephant & mountain · Cheetah last light · Editing.',
@@ -160,7 +160,7 @@ window.FJT_ACCOM_DATA = {
   ],
   7: [
     { name:'Amboseli Serena Safari Lodge', type:'Lodge', delta:'flat',
-      img:'assets/amboseli.webp',
+      img:'/assets/amboseli.webp',
       getting:'One last dawn session, then charter to Nairobi.',
       gettingFull:'One last dawn session — you now read light, anticipate behaviour and manage your equipment differently from a week ago — then a review and print selection before the charter to Nairobi.',
       acts:'Final dawn session · Review & print selection · Charter to Nairobi.',

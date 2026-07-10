@@ -5,7 +5,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Amboseli Serena Safari Lodge', type:'Luxury Lodge', delta:'flat',
-      img:'assets/amboseli.webp',
+      img:'/assets/amboseli.webp',
       getting:'Charter from Wilson to Amboseli airstrip (45 min), then 20-min transfer to the lodge.',
       gettingFull:'A private charter from Nairobi\'s Wilson Airport lands at Amboseli airstrip in around 45 minutes, with Kilimanjaro filling the window on approach. A 20-minute game-drive transfer brings you to the lodge, set among acacia and olive trees within the park itself.',
       acts:'Elephant swamp circuit · Kilimanjaro sunset from the terrace.',
@@ -31,7 +31,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Amboseli Serena Safari Lodge', type:'Luxury Lodge', delta:'flat',
-      img:'assets/amboseli.webp',
+      img:'/assets/amboseli.webp',
       getting:'Remain at the lodge — full day in the park, no transfer.',
       gettingFull:'No transfer today. You stay at the Serena for a full immersive day in Amboseli, letting your guide plan around the light on Kilimanjaro and the movement of the elephant herds.',
       acts:'Pre-dawn Kilimanjaro · Bull-elephant tracking · Observation Hill sundowner.',
@@ -57,7 +57,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Amboseli Serena Safari Lodge', type:'Luxury Lodge', delta:'flat',
-      img:'assets/amboseli.webp',
+      img:'/assets/amboseli.webp',
       getting:'Final morning at the lodge, then charter or road transfer to Nairobi.',
       gettingFull:'A final dawn drive from the lodge, breakfast with the mountain in view, then your charter or private road transfer back to Nairobi, arriving mid-afternoon.',
       acts:'Final dawn drive · Swamp elephants · Breakfast with Kilimanjaro.',

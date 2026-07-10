@@ -5,7 +5,7 @@
 window.FJT_ACCOM_DATA = {
     1: [
       { name:'Mara Plains Camp', type:'Ultra-Luxury Tented', delta:'flat',
-        img:'assets/maasaimara.webp',
+        img:'/assets/maasaimara.webp',
         getting:'Private charter Wilson Airport to Mara airstrip, then 20-min game-drive transfer to camp.',
         gettingFull:'Your journey begins at Nairobi\'s Wilson Airport where a private light aircraft awaits. The 45-minute scenic flight crosses the Great Rift Valley escarpment before descending onto the Mara airstrip. From there, a 20-minute game-drive transfer brings you to camp — your first wildlife sightings happen before you even check in.',
         acts:'Afternoon game drive · Photographer briefing · Sundowner on the plains.',
@@ -31,7 +31,7 @@ window.FJT_ACCOM_DATA = {
     ],
     2: [
       { name:'Mara Plains Camp', type:'Ultra-Luxury Tented', delta:'flat',
-        img:'assets/maasaimara.webp',
+        img:'/assets/maasaimara.webp',
         getting:'Remain at camp — no transfer. Full day in the conservancy.',
         gettingFull:'No transfer today. You remain at Mara Plains Camp for a full immersive day, allowing your guide and photographer to plan around the light and the movements of the wildlife rather than logistics.',
         acts:'Dawn big-cat drive · Balloon safari · Photographic session.',
@@ -57,7 +57,7 @@ window.FJT_ACCOM_DATA = {
     ],
     3: [
       { name:'Tortilis Camp', type:'Luxury Tented · Amboseli', delta:'flat',
-        img:'assets/amboseli.webp',
+        img:'/assets/amboseli.webp',
         getting:'Light aircraft Mara to Amboseli airstrip, 15-min transfer to camp.',
         gettingFull:'A private aircraft carries you from the Mara across to Amboseli airstrip (roughly 1 hour 15 minutes with a brief Nairobi touchdown). From the airstrip, a 15-minute transfer delivers you to camp, with Kilimanjaro filling the horizon as you arrive.',
         acts:'Afternoon elephant drive · Kilimanjaro sundowner.',
@@ -83,7 +83,7 @@ window.FJT_ACCOM_DATA = {
     ],
     4: [
       { name:'Tortilis Camp', type:'Luxury Tented · Amboseli', delta:'flat',
-        img:'assets/amboseli.webp',
+        img:'/assets/amboseli.webp',
         getting:'Remain at camp — full day in Amboseli.',
         gettingFull:'No transfer today. A full day in Amboseli allows for both the clearest dawn Kilimanjaro views and the rich late-afternoon light on the elephant herds.',
         acts:'Dawn Kili shoot · Swamp drive · Maasai village.',
@@ -117,7 +117,7 @@ window.FJT_ACCOM_DATA = {
         desc:'Sasaab is a striking Moroccan-influenced lodge of nine open-fronted rooms, each with a private plunge pool, set high above the Ewaso Ng\'iro in the Westgate Conservancy. Camel rides, river access, and authentic Samburu cultural connection set it apart.',
         facts:[['Rooms','9 open rooms + pools'],['Setting','Westgate Conservancy'],['Standout','Private plunge pools'],['Board','All-inclusive premium']] },
       { name:'Samburu Intrepids', type:'Classic Tented · Riverside', delta:'down',
-        img:'assets/zebra.webp',
+        img:'/assets/zebra.webp',
         getting:'Samburu airstrip, 15-min transfer to the riverside camp.',
         gettingFull:'Land at Samburu airstrip and transfer 15 minutes to Intrepids, set directly on the banks of the Ewaso Ng\'iro within the national reserve itself.',
         acts:'Reserve game drive · River hippo watch.',
@@ -143,7 +143,7 @@ window.FJT_ACCOM_DATA = {
         desc:'A second day at Sasaab opens up its signature experiences — camel-back exploration, a deeper cultural connection with the Samburu community, and unhurried river-valley game drives.',
         facts:[['Rooms','9 open rooms + pools'],['Setting','Westgate Conservancy'],['Standout','Camel safaris'],['Board','All-inclusive premium']] },
       { name:'Elephant Bedroom Camp', type:'Intimate Tented', delta:'down',
-        img:'assets/Coolelephant.webp',
+        img:'/assets/Coolelephant.webp',
         getting:'Short reserve transfer if switching lodges.',
         gettingFull:'A short transfer into the national reserve brings you to Elephant Bedroom Camp, set among doum palms on the riverbank where elephants frequently wander between the tents.',
         acts:'River drive · Elephant watch · Plunge pool.',
@@ -161,7 +161,7 @@ window.FJT_ACCOM_DATA = {
     ],
     7: [
       { name:'Giraffe Manor', type:'Iconic Boutique · Nairobi', delta:'flat',
-        img:'assets/girraffefeeding.webp',
+        img:'/assets/girraffefeeding.webp',
         getting:'Aircraft Samburu to Nairobi Wilson, 40-min transfer to Karen.',
         gettingFull:'A private aircraft returns you from Samburu to Nairobi\'s Wilson Airport, followed by a 40-minute transfer to the Karen suburb and the gates of Giraffe Manor.',
         acts:'Giraffe breakfast · Sheldrick elephants · Karen Blixen.',

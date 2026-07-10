@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Lake Nakuru Lodge', type:'Family Parkland Lodge', delta:'flat',
-      img:'assets/lakenakuru.webp',
+      img:'/assets/lakenakuru.webp',
       getting:'Comfortable road transfer Nairobi to Lake Nakuru (~2.5 hrs) through the Rift Valley.',
       gettingFull:'A comfortable 2.5-hour drive west through the Rift Valley — children spotting zebra and giraffe from the highway — brings the family to Lake Nakuru by lunchtime, with the flamingo shore the immediate afternoon priority.',
       acts:'Flamingo lake shore · Rhino tracking · Family dinner.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Lake Nakuru Lodge', type:'Family Parkland Lodge', delta:'flat',
-      img:'assets/lakenakuru.webp',
+      img:'/assets/lakenakuru.webp',
       getting:'Remain at the lodge — a full family day in Lake Nakuru NP.',
       gettingFull:'No transfer today. A full day exploring the compact park — Baboon Cliff for aerial flamingo photos, the rhino sanctuary track, and a picnic lunch with lake views.',
       acts:'Dawn flamingo shore · Baboon Cliff · Rhino sanctuary · Picnic.',
@@ -56,7 +56,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Mara Intrepids Camp', type:'Family Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Road transfer via Narok from Nakuru to the Mara (family camp).',
       gettingFull:'A morning drive through the Rift Valley and into the Mara — the escarpment giving way to open savannah — brings the family to camp in the afternoon, with a first evening drive to sense the Mara\'s scale.',
       acts:'Scenic transfer · Mara arrival drive · Evening game drive.',
@@ -82,7 +82,7 @@ window.FJT_ACCOM_DATA = {
   ],
   4: [
     { name:'Mara Intrepids Camp', type:'Family Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at camp — the Junior Ranger programme day.',
       gettingFull:'No transfer today. The centrepiece: your guide runs the Junior Ranger programme — tracking, bird ID, insect study, food chains — ending in a sunset certificate ceremony.',
       acts:'Footprint tracking · Bird workshop · Junior Ranger ceremony.',
@@ -108,7 +108,7 @@ window.FJT_ACCOM_DATA = {
   ],
   5: [
     { name:'Mara Intrepids Camp', type:'Family Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at camp — full family day with a Maasai village visit.',
       gettingFull:'No transfer today. A full day at the family\'s pace — no rushing — with a bush picnic and a Maasai village visit where children love the jumping game, ending in an evening bonfire.',
       acts:'Family game drives · Bush picnic · Maasai village · Bonfire.',
@@ -134,7 +134,7 @@ window.FJT_ACCOM_DATA = {
   ],
   6: [
     { name:'Mara Intrepids Camp', type:'Family Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Final morning drive, then road transfer to Nairobi.',
       gettingFull:'A last morning drive before the road return to Nairobi — certificates already out of the bags, children quizzing each other on animals the whole way home.',
       acts:'Final morning drive · Animal ID quiz · Road return.',

@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════════ */
 window.FJT_ACCOM_DATA = {
   1: [
-    { name:"Mara Plains Camp", type:"Ultra-Luxury Tented", delta:"flat", img:"assets/maasaimara.webp",
+    { name:"Mara Plains Camp", type:"Ultra-Luxury Tented", delta:"flat", img:"/assets/maasaimara.webp",
       getting:"Private charter Wilson to the Mara airstrip, then transfer to camp.", gettingFull:"A private charter from Wilson crosses the Rift Valley into the Mara. Your tented suite has a private plunge pool; the afternoon brings your first game drive and a sundowner on the plains.",
       acts:"Charter · Afternoon drive · Sundowner.", actsFull:["Private charter to the Mara","Afternoon game drive","First sundowner on the plains","Welcome dinner"],
       desc:"Mara Plains Camp is a flagship ultra-luxury camp of seven suites on the Olare Motorogi Conservancy with exclusive traversing and superb big-cat guiding — a fitting start to the ultimate journey.",
@@ -20,7 +20,7 @@ window.FJT_ACCOM_DATA = {
       facts:[["Suites","30 glass-fronted suites"],["Setting","Oloololo escarpment"],["Standout","The famous Mara view"],["Board","All-inclusive"]] }
   ],
   2: [
-    { name:"Mara Plains Camp", type:"Ultra-Luxury Tented", delta:"flat", img:"assets/maasaimara.webp",
+    { name:"Mara Plains Camp", type:"Ultra-Luxury Tented", delta:"flat", img:"/assets/maasaimara.webp",
       getting:"Remain at camp — dawn-to-dusk in the Mara.", gettingFull:"No transfer today. Big-cat tracking at sunrise, a bush breakfast, a private conservancy afternoon, and a Maasai village visit at golden hour.",
       acts:"Big-cat tracking · Bush breakfast · Conservancy · Maasai visit.", actsFull:["Sunrise big-cat tracking","Bush breakfast in the field","Private conservancy afternoon","Maasai village at golden hour"],
       desc:"Mara Plains' exclusive traversing makes the full Mara day exceptional.",
@@ -37,7 +37,7 @@ window.FJT_ACCOM_DATA = {
       facts:[["Suites","30 glass-fronted suites"],["Setting","Oloololo escarpment"],["Standout","Densest game"],["Board","All-inclusive"]] }
   ],
   3: [
-    { name:"Mara Plains Camp", type:"Ultra-Luxury Tented", delta:"flat", img:"assets/maasaimara.webp",
+    { name:"Mara Plains Camp", type:"Ultra-Luxury Tented", delta:"flat", img:"/assets/maasaimara.webp",
       getting:"Remain at camp — sunrise balloon and the Mara River.", gettingFull:"A pre-dawn balloon flight over the Mara ecosystem, a champagne bush breakfast, then an afternoon Mara River drive for crocodile and hippo.",
       acts:"Balloon flight · Champagne breakfast · River drive.", actsFull:["Pre-dawn balloon launch","One-hour flight over the Mara","Champagne bush breakfast","Afternoon Mara River drive"],
       desc:"The balloon dawn is a highlight, effortless from Mara Plains, then straight to the river.",
@@ -54,7 +54,7 @@ window.FJT_ACCOM_DATA = {
       facts:[["Suites","30 glass-fronted suites"],["Setting","Oloololo escarpment"],["Standout","Triangle balloon"],["Board","All-inclusive"]] }
   ],
   4: [
-    { name:"Tortilis Camp", type:"Eco-Luxury Tented", delta:"flat", img:"assets/amboseli.webp",
+    { name:"Tortilis Camp", type:"Eco-Luxury Tented", delta:"flat", img:"/assets/amboseli.webp",
       getting:"Charter south to Amboseli, then transfer to the private conservancy.", gettingFull:"A charter south to Amboseli, Kilimanjaro revealing itself above the treeline on the descent. An afternoon drive finds the elephant herds, with Observation Hill at sunset.",
       acts:"Charter south · Elephant drives · Observation Hill sunset.", actsFull:["Charter flight to Amboseli","Afternoon elephant game drives","Observation Hill at sunset","Kilimanjaro views from camp"],
       desc:"Tortilis Camp is Amboseli's eco-luxury benchmark with the finest Kilimanjaro views and private-conservancy exclusivity.",
@@ -71,7 +71,7 @@ window.FJT_ACCOM_DATA = {
       facts:[["Suites","10 suites"],["Setting","Chyulu Hills conservancy"],["Standout","Star-beds + Kilimanjaro"],["Board","All-inclusive"]] }
   ],
   5: [
-    { name:"Tortilis Camp", type:"Eco-Luxury Tented", delta:"flat", img:"assets/amboseli.webp",
+    { name:"Tortilis Camp", type:"Eco-Luxury Tented", delta:"flat", img:"/assets/amboseli.webp",
       getting:"Remain at camp — a full Amboseli day.", gettingFull:"No transfer today. Bull elephants with magnificent tusks against Kilimanjaro's changing light, cheetah on the plains, and a swamp walk with an armed ranger.",
       acts:"Elephant drives · Swamp walk · Observation Hill.", actsFull:["All-day elephant game drives","Swamp walk with armed ranger","Big-cat tracking","Observation Hill sundowner"],
       desc:"Tortilis' conservancy adds walking to the full Amboseli day beneath the mountain.",
@@ -88,7 +88,7 @@ window.FJT_ACCOM_DATA = {
       facts:[["Suites","10 suites"],["Setting","Chyulu Hills conservancy"],["Standout","Riding + star-beds"],["Board","All-inclusive"]] }
   ],
   6: [
-    { name:"Sarova Lion Hill Lodge", type:"Hillside Lodge", delta:"flat", img:"assets/lakenakuru.webp",
+    { name:"Sarova Lion Hill Lodge", type:"Hillside Lodge", delta:"flat", img:"/assets/lakenakuru.webp",
       getting:"Charter north to Lake Nakuru, then to the hillside lodge.", gettingFull:"A charter north to Lake Nakuru. Rhino tracking — both black and white rhino inhabit the park — the flamingo spectacle at the lakeshore, and Baboon Cliff viewpoints.",
       acts:"Charter · Rhino tracking · Flamingos · Baboon Cliff.", actsFull:["Charter to Lake Nakuru","Rhino tracking","Flamingo lakeshore","Baboon Cliff viewpoint"],
       desc:"Sarova Lion Hill sits on a wooded hillside inside the park with commanding lake views and quick access to the rhino areas.",
@@ -105,7 +105,7 @@ window.FJT_ACCOM_DATA = {
       facts:[["Suites","12 glass-fronted suites"],["Setting","Escarpment above the park"],["Standout","Private plunge pools"],["Board","Full board"]] }
   ],
   7: [
-    { name:"Elephant Bedroom Camp", type:"Riverside Tented Camp", delta:"flat", img:"assets/maasaimara.webp",
+    { name:"Elephant Bedroom Camp", type:"Riverside Tented Camp", delta:"flat", img:"/assets/maasaimara.webp",
       getting:"Charter north to Samburu, then to the riverside camp.", gettingFull:"A charter north to Samburu, the landscape and wildlife transforming completely — Grevy's zebra, reticulated giraffe, gerenuk on two legs. A riverside camp with hippo at dusk.",
       acts:"Charter · Samburu Five drive · River sundowner.", actsFull:["Charter to Samburu","Afternoon Samburu Special Five drive","Ewaso Nyiro river walk","Sundowner as hippo surface"],
       desc:"Elephant Bedroom Camp sits on the Ewaso Nyiro under doum palms, elephants wandering through, each tent with a private plunge pool.",
@@ -122,7 +122,7 @@ window.FJT_ACCOM_DATA = {
       facts:[["Rooms","9 open-fronted rooms"],["Setting","West Gate Conservancy"],["Standout","Camel treks + pools"],["Board","All-inclusive"]] }
   ],
   8: [
-    { name:"Elephant Bedroom Camp", type:"Riverside Tented Camp", delta:"flat", img:"assets/maasaimara.webp",
+    { name:"Elephant Bedroom Camp", type:"Riverside Tented Camp", delta:"flat", img:"/assets/maasaimara.webp",
       getting:"Remain at camp — a full Samburu day with a photography guide.", gettingFull:"No transfer today. The Samburu Five are the focus, with a professional photography guide joining for the full day and custom camera rigs on the vehicle.",
       acts:"Samburu Five · Photography guiding · Night drive.", actsFull:["Full-day Samburu Special Five tracking","Professional photography guiding","Custom camera rigs on the vehicle","After-dark night drive"],
       desc:"Elephant Bedroom's riverside setting suits the full photographic Samburu day.",

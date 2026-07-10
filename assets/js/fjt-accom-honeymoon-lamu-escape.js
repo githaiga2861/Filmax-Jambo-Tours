@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Peponi Hotel', type:'Heritage Beach Hotel', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Charter Wilson to Lamu (Manda) airstrip, then a private dhow across the channel to Shela.',
       gettingFull:'A charter to Manda airstrip is followed by a private dhow across the channel to Shela village, the porter navigating the coral-stone alleys. Champagne awaits on your terrace as the harbour glows amber.',
       acts:'Private dhow transfer · Heritage arrival · Champagne sunset.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Peponi Hotel', type:'Heritage Beach Hotel', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Remain at the hotel — Old Town walk and Shela Beach afternoon.',
       gettingFull:'No transfer today. A private guided walk through Lamu Old Town — carved doors, the 14th-century Fort, the Friday Mosque — a waterfront lunch, then the 12km of Shela Beach at your door.',
       acts:'Old Town walk · Lamu Fort · Shela Beach · Rooftop dinner.',
@@ -56,7 +56,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Peponi Hotel', type:'Heritage Beach Hotel', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Remain at the hotel — a full private dhow day in the archipelago.',
       gettingFull:'No transfer today. Your dhow and crew are yours all day — sailing to Manda\'s uninhabited beaches, snorkelling off Manda Toto, a fresh seafood lunch with champagne on the sand, and a sunset sail home.',
       acts:'Private dhow day · Uninhabited beach · Snorkel · Champagne lunch.',
@@ -82,7 +82,7 @@ window.FJT_ACCOM_DATA = {
   ],
   4: [
     { name:'Peponi Hotel', type:'Heritage Beach Hotel', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Remain at the hotel — private Swahili cooking class, then leisure.',
       gettingFull:'No transfer today. A private Swahili cooking masterclass for two — a celebrated chef teaching pilau, coconut fish curry and Lamu sambuza, with ingredients from the morning market — then a free afternoon.',
       acts:'Spice market walk · Private cooking class · Free afternoon.',
@@ -108,7 +108,7 @@ window.FJT_ACCOM_DATA = {
   ],
   5: [
     { name:'Peponi Hotel', type:'Heritage Beach Hotel', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Remain at the hotel — mangrove kayak, then leisure and final dinner.',
       gettingFull:'No transfer today. A morning sea-kayak through the mangrove channels — a silent, bird-filled world — then a hammock afternoon and a final rooftop dinner with the dhow lights below.',
       acts:'Mangrove kayak · Birding · Leisure · Final dinner.',
@@ -134,7 +134,7 @@ window.FJT_ACCOM_DATA = {
   ],
   6: [
     { name:'Peponi Hotel', type:'Heritage Beach Hotel', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Final morning, then dhow to Manda airstrip and charter to Nairobi.',
       gettingFull:'One final coffee on the rooftop as the harbour wakes, then a dhow transfer to Manda airstrip and the charter to Nairobi — with a Lamu-shaped space in your hearts.',
       acts:'Final morning at leisure · Dhow to airstrip · Charter to Nairobi.',

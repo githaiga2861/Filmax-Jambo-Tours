@@ -6,13 +6,13 @@
 (function () {
   'use strict';
 
-  var AUDIO_SRC = 'assets/hero-ambient.mp3';
+  var AUDIO_SRC = '/assets/hero-ambient.mp3';
   (function(){
     var scripts = document.getElementsByTagName('script');
     for (var i = 0; i < scripts.length; i++) {
       var ss = scripts[i].getAttribute('src');
       if (ss && ss.indexOf('fjt-audio.js') > -1) {
-        AUDIO_SRC = ss.replace(/assets\/js\/fjt-audio\.js.*$/, 'assets/hero-ambient.mp3');
+        AUDIO_SRC = ss.replace(/assets\/js\/fjt-audio\.js.*$/, '/assets/hero-ambient.mp3');
         break;
       }
     }

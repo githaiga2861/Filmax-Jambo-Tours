@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Lamu House', type:'Heritage Boutique Hotel', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Charter Wilson to Manda airstrip, then a traditional dhow crossing to Lamu Old Town.',
       gettingFull:'A charter to Manda airstrip is followed by the traditional dhow crossing to Lamu Island, a porter navigating your bags through the narrow alleys to a restored Swahili house on the waterfront.',
       acts:'Dhow crossing · Heritage arrival · Old Town walk.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Lamu House', type:'Heritage Boutique Hotel', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Remain at the hotel — Old Town heritage sites and Shela Beach.',
       gettingFull:'No transfer today. Lamu Fort, the Lamu Museum and the Friday Mosque with your guide, a rooftop waterfront lunch, then the 12km of Shela Beach in the afternoon.',
       acts:'Lamu Fort · Museum tour · Waterfront lunch · Shela Beach.',
@@ -56,7 +56,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Lamu House', type:'Heritage Boutique Hotel', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Remain at the hotel — a full private dhow day in the archipelago.',
       gettingFull:'No transfer today. A private dhow for the day — sailing to Manda\'s uninhabited beaches, snorkelling the reef off Manda Toto, a fresh seafood lunch on the sand, and a sunset return.',
       acts:'Private dhow · Manda beach · Coral snorkel · Beach lunch.',
@@ -82,7 +82,7 @@ window.FJT_ACCOM_DATA = {
   ],
   4: [
     { name:'Lamu House', type:'Heritage Boutique Hotel', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Remain at the hotel — Swahili cooking masterclass, free afternoon.',
       gettingFull:'No transfer today. A morning Swahili cooking masterclass with a celebrated chef — pilau, biryani, coconut fish curry and Lamu sambuza — with a market ingredient tour, then a free afternoon.',
       acts:'Market tour · Cooking class · Free afternoon.',
@@ -108,7 +108,7 @@ window.FJT_ACCOM_DATA = {
   ],
   5: [
     { name:'Lamu House', type:'Heritage Boutique Hotel', delta:'flat',
-      img:'assets/dianibeach.webp',
+      img:'/assets/dianibeach.webp',
       getting:'Final morning, then dhow to Manda airstrip and charter to Nairobi.',
       gettingFull:'One final coffee on the rooftop above the dhow harbour, then a dhow water transfer to Manda airstrip and the charter to Nairobi.',
       acts:'Final morning at leisure · Dhow to airstrip · Charter to Nairobi.',

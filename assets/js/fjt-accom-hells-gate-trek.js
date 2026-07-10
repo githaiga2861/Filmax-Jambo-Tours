@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Lake Naivasha Sopa Resort', type:'Lakeside Resort', delta:'flat',
-      img:'assets/lakenakuru.webp',
+      img:'/assets/lakenakuru.webp',
       getting:'Road transfer Nairobi to Naivasha (~2 hrs), then short drive to the lakeshore resort.',
       gettingFull:'A scenic 2-hour drive from Nairobi descends the Rift Valley escarpment to Lake Naivasha. After a day at Hell\'s Gate, you settle into the lakeside resort as hippos surface offshore and fish eagles call across the water.',
       acts:'Geothermal spa · Lakeside dinner · Hippo watching from the lawns.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Lake Naivasha Sopa Resort', type:'Lakeside Resort', delta:'flat',
-      img:'assets/lakenakuru.webp',
+      img:'/assets/lakenakuru.webp',
       getting:'Final morning at the resort before the upper-gorge hike and return to Nairobi.',
       gettingFull:'Your last morning on the lakeshore. After the upper-gorge trail and a farewell coffee, it\'s a 2-hour transfer back to Nairobi, arriving by midday.',
       acts:'Upper-gorge hike · Longonot views · Lakeside breakfast.',

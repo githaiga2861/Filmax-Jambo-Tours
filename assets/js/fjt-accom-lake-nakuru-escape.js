@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Sarova Lion Hill Lodge', type:'Hillside Lodge', delta:'flat',
-      img:'assets/lakenakuru.webp',
+      img:'/assets/lakenakuru.webp',
       getting:'Road transfer Nairobi to Lake Nakuru NP (~2.5 hrs) via the Rift Valley escarpment.',
       gettingFull:'A 2.5-hour drive from Nairobi crosses the Rift Valley, with a stop at the Naivasha escarpment viewpoint. You enter Lake Nakuru National Park and climb to the lodge, set on Lion Hill overlooking the flamingo-fringed lake below.',
       acts:'Afternoon rhino tracking · Flamingo lakeshore · Lodge sunset.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Sarova Lion Hill Lodge', type:'Hillside Lodge', delta:'flat',
-      img:'assets/lakenakuru.webp',
+      img:'/assets/lakenakuru.webp',
       getting:'Remain at the lodge — a full day exploring Lake Nakuru National Park.',
       gettingFull:'No transfer today. You stay at Lion Hill for a full day in the park, with dawn on the lakeshore and the acacia forest for leopard.',
       acts:'Dawn flamingo shore · Leopard forest · Baboon Cliff · Rhino sanctuary.',
@@ -56,7 +56,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Sarova Lion Hill Lodge', type:'Hillside Lodge', delta:'flat',
-      img:'assets/lakenakuru.webp',
+      img:'/assets/lakenakuru.webp',
       getting:'Final morning drive, then road transfer back to Nairobi.',
       gettingFull:'A final early game drive — often the most productive of all — then breakfast with the lake in view before the 2.5-hour transfer to Nairobi, arriving mid-afternoon.',
       acts:'Final dawn drive · Lake-terrace breakfast · Return to Nairobi.',

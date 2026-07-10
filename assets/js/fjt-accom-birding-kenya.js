@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Lake Nakuru Lodge', type:'Parkland Lodge', delta:'flat',
-      img:'assets/lakenakuru.webp',
+      img:'/assets/lakenakuru.webp',
       getting:'Road transfer Nairobi to Lake Nakuru, stopping at Lake Naivasha wetlands en route.',
       gettingFull:'The drive west from Nairobi pauses at Lake Naivasha — a productive wetland for pelicans, cormorants and African fish eagle — before continuing to Lake Nakuru National Park and the lodge on its wooded eastern side.',
       acts:'Naivasha wetland stop · Flamingo lake walk · Acacia woodland birding.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Lake Nakuru Lodge', type:'Parkland Lodge', delta:'flat',
-      img:'assets/lakenakuru.webp',
+      img:'/assets/lakenakuru.webp',
       getting:'Remain at the lodge — a full birding day in Lake Nakuru NP.',
       gettingFull:'No transfer today. A full day covers Nakuru\'s flamingo flocks, its specialities and its raptors, with Baboon Cliff for the aerial flamingo spectacle.',
       acts:'Dawn waterbird survey · Flamingo count · Raptor cliff watch.',
@@ -56,7 +56,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Rondo Retreat Centre', type:'Forest Garden Lodge', delta:'flat',
-      img:'assets/mountkenya.webp',
+      img:'/assets/mountkenya.webp',
       getting:'Road transfer west to Kakamega Forest; the retreat sits within the forest itself.',
       gettingFull:'A drive west brings you to Kakamega — Kenya\'s only tropical rainforest — and Rondo Retreat, a tranquil set of cottages within the forest, gardens ringing with birdsong.',
       acts:'Forest arrival walk · Sunset raptor watch · Checklist dinner.',
@@ -82,7 +82,7 @@ window.FJT_ACCOM_DATA = {
   ],
   4: [
     { name:'Rondo Retreat Centre', type:'Forest Garden Lodge', delta:'flat',
-      img:'assets/mountkenya.webp',
+      img:'/assets/mountkenya.webp',
       getting:'Remain at the retreat — a full day inside Kakamega Forest.',
       gettingFull:'No transfer today. A full day inside one of Africa\'s most biodiverse forests, from the 5:30am dawn chorus to an evening owl search.',
       acts:'Pre-dawn chorus · Great Blue Turaco · Understorey specialists.',
@@ -108,7 +108,7 @@ window.FJT_ACCOM_DATA = {
   ],
   5: [
     { name:'Mara Serena Safari Lodge', type:'Classic Lodge', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Half-day transfer from Kakamega to the Mara through several distinct habitats.',
       gettingFull:'A half-day drive from Kakamega crosses the Rift Valley and several habitats — each producing new species — before arriving in the Mara for afternoon savannah birding.',
       acts:'Transfer birding stops · Rift Valley viewpoint · Raptor evening drive.',
@@ -134,7 +134,7 @@ window.FJT_ACCOM_DATA = {
   ],
   6: [
     { name:'Mara Serena Safari Lodge', type:'Classic Lodge', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Final morning of savannah birding, then road transfer to Nairobi.',
       gettingFull:'A final morning dedicated to Mara savannah specialities — Secretary Bird, Martial Eagle, Kori Bustard and Lilac-breasted Roller — before the road transfer to Nairobi.',
       acts:'Dawn raptor drive · Secretary bird · Roller & bustard session.',

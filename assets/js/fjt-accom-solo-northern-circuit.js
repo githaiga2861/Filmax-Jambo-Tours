@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Sweetwaters Serena Camp', type:'Tented Camp', delta:'flat',
-      img:'assets/mountkenya.webp',
+      img:'/assets/mountkenya.webp',
       getting:'Private 4x4 from Nairobi (~3.5 hrs) via Nyeri and the Mount Kenya foothills into Ol Pejeta.',
       gettingFull:'You depart Nairobi northwest through Nyeri and the Mount Kenya foothills, the landscape shifting from highland farmland to open savannah as you enter Ol Pejeta. An afternoon drive visits the northern white rhino enclosure, where Najin and Fatu live under armed protection.',
       acts:'Ol Pejeta drive · Northern white rhino · Black rhino tracking.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Sweetwaters Serena Camp', type:'Tented Camp', delta:'flat',
-      img:'assets/mountkenya.webp',
+      img:'/assets/mountkenya.webp',
       getting:'Remain at camp — a full day across Ol Pejeta Conservancy.',
       gettingFull:'No transfer today. A full day in Kenya\'s highest-density wildlife conservancy — the chimpanzee sanctuary, black rhino tracking, and a sundowner at the equator marker.',
       acts:'Full-day drives · Chimpanzee sanctuary · Equator sundowner.',
@@ -56,7 +56,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Elephant Bedroom Camp', type:'Riverside Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Road transfer north through Isiolo into Samburu, to the riverside camp.',
       gettingFull:'A road transfer north through Isiolo and into Samburu — the landscape ever more arid and magnificent, doum palms and red earth — ends at your riverside camp, with an afternoon drive for the Samburu Five.',
       acts:'Scenic transfer · Samburu arrival drive · Ewaso Nyiro walk.',
@@ -82,7 +82,7 @@ window.FJT_ACCOM_DATA = {
   ],
   4: [
     { name:'Elephant Bedroom Camp', type:'Riverside Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at camp — a full day in Samburu National Reserve.',
       gettingFull:'No transfer today. A full day for Samburu\'s biodiversity — dawn predators in the riverine trees, the Special Five, a cultural visit and a night drive.',
       acts:'Dawn predators · Samburu Five · Village visit · Night drive.',
@@ -108,7 +108,7 @@ window.FJT_ACCOM_DATA = {
   ],
   5: [
     { name:'Elephant Bedroom Camp', type:'Riverside Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Morning drive, then road south via Nanyuki and Mount Kenya to Nairobi.',
       gettingFull:'A morning game drive, then the road south through Nanyuki at the foot of Mount Kenya, with a cedar-forest viewpoint where the mountain reveals itself through the cloud, arriving Nairobi by late afternoon.',
       acts:'Final morning drive · Mount Kenya forest stop · Cedar viewpoint.',

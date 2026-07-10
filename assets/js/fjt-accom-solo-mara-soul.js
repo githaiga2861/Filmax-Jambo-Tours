@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Kicheche Mara Camp', type:'Intimate Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Private 4x4 from Nairobi (~5–6 hrs), your guide at the wheel from the first minute.',
       gettingFull:'You depart Nairobi early by private 4x4, your guide with you from the first minute. The Rift Valley escarpment drive is itself a spectacle. You reach camp by early afternoon — your tent private, your veranda facing the plains.',
       acts:'Camp check-in · Evening game drive · Solo welcome dinner.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Kicheche Mara Camp', type:'Intimate Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at camp — a full day in the Mara.',
       gettingFull:'No transfer today. Your guide has been tracking a resident lion pride — you\'re positioned before first light. Afternoon at leisure to read, write, or simply watch the waterhole.',
       acts:'Pre-dawn lion tracking · Bush breakfast · Leisure · Sundowner drive.',
@@ -56,7 +56,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Kicheche Mara Camp', type:'Intimate Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at camp — a full day in an adjoining private conservancy.',
       gettingFull:'No transfer today. A full day in the private conservancy where vehicle numbers are capped in single digits — no competing radios, just you and the wildlife, with a guided walk and a night drive.',
       acts:'Conservancy drives · Guided bush walk · Night drive.',
@@ -82,7 +82,7 @@ window.FJT_ACCOM_DATA = {
   ],
   4: [
     { name:'Kicheche Mara Camp', type:'Intimate Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Final morning drive, then private 4x4 back to Nairobi.',
       gettingFull:'A last unhurried morning drive — your eye now trained by three days of expert guidance — then camp breakfast and the road return to Nairobi, your guide dropping you wherever you need to be.',
       acts:'Final dawn drive · Camp breakfast · Road return.',

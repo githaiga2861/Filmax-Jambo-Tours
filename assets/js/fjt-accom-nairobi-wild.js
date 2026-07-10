@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'The Emakoko', type:'Boutique Safari Lodge', delta:'flat',
-      img:'assets/nairobi.webp',
+      img:'/assets/nairobi.webp',
       getting:'Transfer from the city or airport to the lodge, on the southern boundary of Nairobi National Park.',
       gettingFull:'The Emakoko sits on the southern edge of Nairobi National Park, tucked against the Mbagathi River. A transfer from the city or JKIA brings you to a private, tucked-away lodge that feels a world away from the capital, yet minutes from the park gate.',
       acts:'Nairobi NP dawn drive · Giraffe Centre · DSWT elephant feeding.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'The Emakoko', type:'Boutique Safari Lodge', delta:'flat',
-      img:'assets/nairobi.webp',
+      img:'/assets/nairobi.webp',
       getting:'Final morning at the lodge before the Nairobi cultural circuit and departure.',
       gettingFull:'A final morning at The Emakoko, then into the city for the cultural circuit — museum, Karen Blixen, and a farewell lunch before your airport or onward transfer.',
       acts:'Nairobi Museum · Karen Blixen homestead · Farewell lunch.',

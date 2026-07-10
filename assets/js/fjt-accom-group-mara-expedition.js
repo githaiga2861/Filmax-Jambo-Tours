@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Mara Sopa Lodge', type:'Group Lodge', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Two private 4x4 vehicles depart Nairobi in convoy (~5–6 hrs) to the Oloolaimutia gate.',
       gettingFull:'Two private 4x4s depart Nairobi in convoy — the group bonding over the journey itself. You arrive at the Mara by early afternoon for a camp briefing, then an evening drive split across both vehicles for maximum coverage.',
       acts:'Convoy arrival · Camp briefing · Split-vehicle drives.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Mara Sopa Lodge', type:'Group Lodge', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at the lodge — split-vehicle dawn drives across the reserve.',
       gettingFull:'No transfer today. Dawn drives with split vehicles cover different areas, sharing sightings by radio — if one finds a leopard, both converge. Bush breakfast follows.',
       acts:'Split dawn drives · Radio-coordinated sightings · Bush breakfast.',
@@ -56,7 +56,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Mara Sopa Lodge', type:'Group Lodge', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at the lodge — game drive, Maasai village immersion, conservancy drives.',
       gettingFull:'No transfer today. A morning drive, then a genuine Maasai village immersion — a real arranged visit with a local family — followed by afternoon drives in an adjoining private conservancy.',
       acts:'Morning drives · Maasai village · Conservancy drives.',
@@ -82,7 +82,7 @@ window.FJT_ACCOM_DATA = {
   ],
   4: [
     { name:'Mara Sopa Lodge', type:'Group Lodge', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at the lodge — full drives, signature bush dinner, night drive.',
       gettingFull:'No transfer today. A full day of game drives culminates in the signature group experience: a private bush dinner set up in the field — long table, lanterns, wine and the sounds of the Mara — followed by a night drive.',
       acts:'Full drives · Private bush dinner · Night drive.',
@@ -108,7 +108,7 @@ window.FJT_ACCOM_DATA = {
   ],
   5: [
     { name:'Mara Sopa Lodge', type:'Group Lodge', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Final morning drive, then convoy return to Nairobi.',
       gettingFull:'A final morning drive before the convoy returns to Nairobi — the journey home full of replayed highlights and friendly debate over who saw the leopard first.',
       acts:'Final morning drive · Camp breakfast · Return convoy.',

@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Ololo Safari Lodge', type:'Family Farmhouse Lodge', delta:'flat',
-      img:'assets/nairobi.webp',
+      img:'/assets/nairobi.webp',
       getting:'Transfer from the airport or city to the lodge on the park\'s southern edge.',
       gettingFull:'A short transfer from the airport or city brings the family to Ololo, a working-farm lodge on the southern edge of Nairobi National Park — space to roam, animals to meet, and easy access to the Giraffe Centre and elephant orphanage.',
       acts:'Giraffe Centre · DSWT elephants · Farm exploring.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Ololo Safari Lodge', type:'Family Farmhouse Lodge', delta:'flat',
-      img:'assets/nairobi.webp',
+      img:'/assets/nairobi.webp',
       getting:'Remain at the lodge — Nairobi NP game drive and the museum.',
       gettingFull:'No transfer today. A morning game drive in Nairobi National Park — lions against the skyline — is followed by the Nairobi National Museum\'s natural-history collection.',
       acts:'Nairobi NP drive · Museum · City tour.',
@@ -56,7 +56,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Mara Intrepids Camp', type:'Family Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Charter Wilson to the Mara airstrip, then transfer to the family camp.',
       gettingFull:'A charter to the Mara has the children glued to the windows as the city gives way to the escarpment. Your family tented suite has interconnecting rooms, child-safe nets and a private terrace.',
       acts:'Family suite arrival · First elephant encounter · Sundowner.',
@@ -82,7 +82,7 @@ window.FJT_ACCOM_DATA = {
   ],
   4: [
     { name:'Mara Intrepids Camp', type:'Family Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at camp — the Junior Ranger programme day.',
       gettingFull:'No transfer today. The centrepiece family experience: your guide runs the Junior Ranger programme — tracking, birdcalls, insects and the food chain — ending in a certificate ceremony.',
       acts:'Animal tracking · Bird & insect study · Junior Ranger ceremony.',
@@ -108,7 +108,7 @@ window.FJT_ACCOM_DATA = {
   ],
   5: [
     { name:'Mara Intrepids Camp', type:'Family Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at camp — full family day with a Maasai village visit.',
       gettingFull:'No transfer today. A full day at your family\'s pace: bush lunch in the field and a Maasai village visit where children are entranced by the jumping game and ochre dress.',
       acts:'Family game drives · Bush lunch · Maasai village.',
@@ -134,7 +134,7 @@ window.FJT_ACCOM_DATA = {
   ],
   6: [
     { name:'Mara Intrepids Camp', type:'Family Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Final morning drive, then charter back to Nairobi.',
       gettingFull:'A final unhurried morning drive — by now the children spot animals faster than the adults — then a charter back to Nairobi. The Junior Ranger certificate gets framed at home.',
       acts:'Final morning drive · Animal ID contest · Charter to Nairobi.',

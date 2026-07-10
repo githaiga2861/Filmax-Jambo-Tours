@@ -4,7 +4,7 @@
 window.FJT_ACCOM_DATA = {
   1: [
     { name:'Mara Plains Camp', type:'Ultra-Luxury Tented', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Private charter Wilson to the Mara airstrip (45 min), then transfer to camp.',
       gettingFull:'Your journey begins at Wilson Airport, where a private charter awaits. The 45-minute flight crosses the Great Rift Valley escarpment before descending into the Mara. By afternoon you\'re on your first game drive, with sundowner cocktails as the savannah turns gold.',
       acts:'Afternoon game drive · Welcome sundowner · Camp dinner.',
@@ -30,7 +30,7 @@ window.FJT_ACCOM_DATA = {
   ],
   2: [
     { name:'Mara Plains Camp', type:'Ultra-Luxury Tented', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at camp — full Mara day with a private conservancy excursion.',
       gettingFull:'No transfer today. A dawn drive before sunrise, a gourmet bush breakfast, a private conservancy excursion in the afternoon, a Maasai village visit at golden hour, and a night drive.',
       acts:'Dawn drive · Bush breakfast · Conservancy · Maasai visit · Night drive.',
@@ -56,7 +56,7 @@ window.FJT_ACCOM_DATA = {
   ],
   3: [
     { name:'Mara Plains Camp', type:'Ultra-Luxury Tented', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Remain at camp — sunrise balloon flight over the Mara.',
       gettingFull:'A pre-dawn departure for the centrepiece — a private hot-air balloon flight over the Mara at sunrise, drifting above wildebeest and lions, champagne in hand — followed by a champagne bush breakfast and a Mara River drive.',
       acts:'Balloon flight · Champagne breakfast · Mara River drive.',
@@ -82,7 +82,7 @@ window.FJT_ACCOM_DATA = {
   ],
   4: [
     { name:'Tortilis Camp', type:'Eco-Luxury Tented', delta:'flat',
-      img:'assets/amboseli.webp',
+      img:'/assets/amboseli.webp',
       getting:'Morning Mara drive, then charter south to Amboseli.',
       gettingFull:'A morning Mara drive precedes your charter south to Amboseli, Kenya\'s elephant kingdom. A late-afternoon drive introduces the park\'s legendary, much-studied elephant herds.',
       acts:'Morning drive · Charter south · Elephant drives · Kilimanjaro sunset.',
@@ -108,7 +108,7 @@ window.FJT_ACCOM_DATA = {
   ],
   5: [
     { name:'Tortilis Camp', type:'Eco-Luxury Tented', delta:'flat',
-      img:'assets/amboseli.webp',
+      img:'/assets/amboseli.webp',
       getting:'Remain at camp — a full Amboseli day.',
       gettingFull:'No transfer today. Bull elephants with sweeping tusks, cheetah and lion, and Observation Hill at dusk for a panorama as the mountain catches the last amber light, then stargazing.',
       acts:'All-day drives · Guided swamp walk · Observation Hill · Stargazing.',
@@ -134,7 +134,7 @@ window.FJT_ACCOM_DATA = {
   ],
   6: [
     { name:'Elephant Bedroom Camp', type:'Riverside Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Charter north to Samburu, then transfer to the riverside camp.',
       gettingFull:'Your charter takes you north into the arid beauty of Samburu — dry riverbeds, doum palms and acacia scrub. An afternoon drive introduces the Samburu Five, endemic species found nowhere else in Kenya.',
       acts:'Charter north · Samburu drive · Ewaso river walk · River cocktails.',
@@ -160,7 +160,7 @@ window.FJT_ACCOM_DATA = {
   ],
   7: [
     { name:'Elephant Bedroom Camp', type:'Riverside Tented Camp', delta:'flat',
-      img:'assets/maasaimara.webp',
+      img:'/assets/maasaimara.webp',
       getting:'Final dawn drive, then charter to Nairobi.',
       gettingFull:'A final dawn drive in Samburu — perhaps the most intimate of the journey in this quieter, wilder north — then a leisurely breakfast and the charter back to Nairobi.',
       acts:'Final dawn drive · Bush breakfast · Charter to Nairobi.',
