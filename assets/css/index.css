@@ -2197,6 +2197,8 @@ body.light-mode .quiz-top-line {
   .theme-tooltip {
     position: absolute;
     left: 58px;
+    max-width: none;
+    width: max-content;
     white-space: nowrap;
     background: var(--charcoal);
     border: 1px solid var(--border);
