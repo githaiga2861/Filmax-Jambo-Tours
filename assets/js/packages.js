@@ -518,6 +518,8 @@ document.querySelectorAll('.reveal').forEach(el => window._revealObserver.observ
   var container = document.getElementById('hintsContainer');
   var shown = new Set();
   var DURATION = 5000;
+  var BETWEEN_HINTS = 4000;
+  var activeHint = null;
 
   var hints = [
     {
@@ -572,8 +574,9 @@ document.querySelectorAll('.reveal').forEach(el => window._revealObserver.observ
   }
 
   function showHint(hint) {
-    if (shown.has(hint.id)) return;
+    if (shown.has(hint.id) || activeHint) return;
     shown.add(hint.id);
+    activeHint = hint.id;
 
     var box = document.createElement('div');
     box.className = 'site-hint';
@@ -615,7 +618,11 @@ document.querySelectorAll('.reveal').forEach(el => window._revealObserver.observ
     function dismiss() {
       box.classList.add('hiding');
       window.removeEventListener('scroll', positionBox);
-      setTimeout(function(){ if (box.parentNode) box.parentNode.removeChild(box); }, 380);
+      setTimeout(function(){
+        if (box.parentNode) box.parentNode.removeChild(box);
+        activeHint = null;
+        setTimeout(checkHints, BETWEEN_HINTS);
+      }, 380);
     }
 
     var autoTimer = setTimeout(dismiss, DURATION);
@@ -626,9 +633,10 @@ document.querySelectorAll('.reveal').forEach(el => window._revealObserver.observ
   }
 
   function checkHints() {
+    if (activeHint) return;
     var scrollY = window.pageYOffset;
     hints.forEach(function(hint) {
-      if (shown.has(hint.id)) return;
+      if (shown.has(hint.id) || activeHint) return;
       if (hint.triggerScrollY && scrollY >= hint.triggerScrollY) { showHint(hint); return; }
       if (hint.triggerElId) {
         var el = document.getElementById(hint.triggerElId);
