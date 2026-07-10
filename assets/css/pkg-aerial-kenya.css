@@ -1381,10 +1381,16 @@ body.light-mode .pkg-tabs-wrapper::after {
   background: linear-gradient(to right, transparent, rgba(240,236,228,0.85)) !important;
 }
 
-/* 2. Lift WhatsApp fab above the reserve button / footer (this page) */
-.whatsapp-fab { bottom: 104px !important; }
+/* 2. Stack floating buttons above the reserve bar (this page) — bar shows at <=1100px */
+@media (min-width: 1101px) {
+  .whatsapp-fab { bottom: 36px !important; }
+  #fjtSoundBtn { bottom: 100px !important; }
+  .theme-toggle { bottom: 36px !important; }
+}
 @media (max-width: 1100px) {
-  .whatsapp-fab { bottom: 120px !important; }
+  .whatsapp-fab { bottom: 96px !important; }
+  #fjtSoundBtn { bottom: 156px !important; }
+  .theme-toggle { bottom: 96px !important; }
 }
 
 /* 3. Day-by-day chevrons → dark gold in light mode (override inline stroke) */
