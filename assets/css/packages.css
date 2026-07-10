@@ -1372,12 +1372,13 @@ body.light-mode .pkg-dropdown { background: rgba(255,255,255,0.97); border-left-
 body.light-mode .pkg-dropdown-link { border-bottom-color: rgba(0,0,0,0.06); }
 .pkg-dropdown-auth { color: var(--gold); }
 .pkg-dropdown-tagline {
-  margin-top: auto;
+  margin-top: 32px;
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
   font-size: 16px;
   color: var(--muted);
   padding-top: 28px;
+  padding-bottom: 8px;
 }
 
 /* ── FILTER FIXES ── */
