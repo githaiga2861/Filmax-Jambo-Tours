@@ -201,6 +201,11 @@ body.light-mode .nav-logo-img {
   transition: color 0.2s;
 }
 .site-hint-close:hover { color: var(--gold); }
+body.light-mode .site-hint { background: rgba(240,236,228,0.97); border-color: rgba(154,111,0,0.45); box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+body.light-mode .site-hint-label { color: #7a4f00; }
+body.light-mode .site-hint-text { color: #141414; }
+body.light-mode .site-hint-close { color: rgba(154,111,0,0.5); }
+body.light-mode .site-hint-close:hover { color: #7a4f00; }
 .site-hint-bar {
   position: absolute;
   bottom: 0; left: 0;

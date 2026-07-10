@@ -1036,7 +1036,7 @@
     .mobile-book-price{display:flex;flex-direction:column}
     .mobile-book-price-num{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold);line-height:1}
     .mobile-book-price-label{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-top:2px}
-    .mobile-book-btn{font-family:'Jost',sans-serif;font-size:9px;font-weight:500;letter-spacing:3px;text-transform:uppercase;padding:14px 20px;background:linear-gradient(135deg,var(--gold),var(--amber));color:var(--black);text-decoration:none;cursor:none;white-space:nowrap;flex-shrink:0}
+    .mobile-book-btn{font-family:'Jost',sans-serif;font-size:9px;font-weight:500;letter-spacing:3px;text-transform:uppercase;padding:14px 20px;background:linear-gradient(135deg,#f0c84a,#d4af37,#b8860b,#c9921a);color:#1a0e00;text-decoration:none;cursor:none;white-space:nowrap;flex-shrink:0}
   }
   @media(min-width:1101px){
     .mobile-book-bar{display:none}
@@ -1165,7 +1165,7 @@
   font-family: 'Jost', sans-serif; font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
   cursor: pointer; transition: background .3s, color .3s;
 }
-.fjt-accom-viewbtn:hover { background: var(--gold); color: #080808; }
+.fjt-accom-viewbtn:hover { background: linear-gradient(135deg,#f0c84a,#d4af37,#b8860b,#c9921a); color: #080808; }
 
 .fjt-accom-confirm {
   margin-top: 14px; font-size: 11px; color: var(--muted); text-align: center;
