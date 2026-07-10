@@ -143,7 +143,7 @@
 
     // Add keyframe
     var style = document.createElement('style');
-    style.textContent = '@keyframes fjtBtnFadeIn{to{opacity:1}}';
+    style.textContent = '@keyframes fjtBtnFadeIn{to{opacity:1}} @keyframes fjtBtnBreathe{0%,61.5%{opacity:1}73.1%,88.5%{opacity:0.15}100%{opacity:1}} #fjtSoundBtn{animation:fjtBtnFadeIn .5s .8s forwards, fjtBtnBreathe 13s 1.3s ease-in-out infinite}';
     document.head.appendChild(style);
 
     btn.addEventListener('click', function () {
