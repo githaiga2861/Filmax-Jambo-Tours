@@ -324,31 +324,53 @@ init();
   if (!container) return;
   var shown = new Set();
   var DURATION = 5000;
-
+  var BETWEEN_HINTS = 4000;
+  var activeHint = null;
   var hints = [
     {
       id: 'journal-hint',
       label: 'Safari Journal',
       text: 'Click "Back to Journal" to explore all our stories and guides.',
-      targetId: null,
-      fixedPos: { top: 80, left: 80 },
+      targetId: 'backToJournalBtn',
       pointer: 'up',
+      offsetX: 0, offsetY: 34,
       triggerScrollY: 400
     },
     {
       id: 'book-hint',
       label: 'Ready to go?',
       text: 'Inspired? Hit "Book Your Safari" at the bottom of the page to start planning.',
-      targetId: null,
-      fixedPos: { bottom: 104, right: 100 },
-      pointer: 'right',
+      targetId: 'bookSafariBtn',
+      pointer: 'up',
+      offsetX: 0, offsetY: 34,
       triggerScrollY: 900
     }
   ];
-
+  function getTargetRect(hint) {
+    if (hint.targetId) {
+      var el = document.getElementById(hint.targetId);
+      if (!el) return null;
+      return el.getBoundingClientRect();
+    }
+    return null;
+  }
+  function positionBox(box, hint) {
+    if (hint.fixedPos) {
+      box.style.position = 'fixed';
+      Object.keys(hint.fixedPos).forEach(function(k){ box.style[k] = hint.fixedPos[k] + 'px'; });
+      return;
+    }
+    var rect = getTargetRect(hint);
+    if (!rect) return;
+    var scrollY = window.pageYOffset, scrollX = window.pageXOffset;
+    box.style.position = 'absolute';
+    box.style.top = (rect.top + scrollY + (hint.offsetY||0)) + 'px';
+    box.style.left = Math.max(8, Math.min(rect.left + scrollX + (hint.offsetX||0), window.innerWidth - 280)) + 'px';
+  }
   function showHint(hint) {
-    if (shown.has(hint.id)) return;
+    if (shown.has(hint.id) || activeHint) return;
     shown.add(hint.id);
+    activeHint = hint.id;
     var box = document.createElement('div');
     box.className = 'site-hint';
     box.innerHTML =
@@ -357,28 +379,30 @@ init();
       '<button class="site-hint-close" aria-label="Dismiss">×</button>' +
       '<div class="site-hint-pointer ' + (hint.pointer||'down') + '"></div>' +
       '<div class="site-hint-bar"></div>';
-
-    if (hint.fixedPos) {
-      box.style.position = 'fixed';
-      Object.keys(hint.fixedPos).forEach(function(k){ box.style[k] = hint.fixedPos[k] + 'px'; });
-    }
-
+    var scrollHandler = function(){ positionBox(box, hint); };
+    positionBox(box, hint);
     container.appendChild(box);
+    if (!hint.fixedPos) window.addEventListener('scroll', scrollHandler, { passive: true });
     function dismiss() {
       box.classList.add('hiding');
-      setTimeout(function(){ if (box.parentNode) box.parentNode.removeChild(box); }, 380);
+      if (!hint.fixedPos) window.removeEventListener('scroll', scrollHandler);
+      setTimeout(function(){
+        if (box.parentNode) box.parentNode.removeChild(box);
+        activeHint = null;
+        setTimeout(checkHints, BETWEEN_HINTS);
+      }, 380);
     }
     var autoTimer = setTimeout(dismiss, DURATION);
     box.querySelector('.site-hint-close').addEventListener('click', function(){ clearTimeout(autoTimer); dismiss(); });
   }
-
   function checkHints() {
+    if (activeHint) return;
     var scrollY = window.pageYOffset;
     hints.forEach(function(hint){
-      if (shown.has(hint.id)) return;
+      if (shown.has(hint.id) || activeHint) return;
       if (hint.triggerScrollY && scrollY >= hint.triggerScrollY) showHint(hint);
     });
   }
-
   window.addEventListener('scroll', checkHints, { passive: true });
 })();
+
