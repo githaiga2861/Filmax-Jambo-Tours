@@ -7055,6 +7055,7 @@ body.light-mode .pkg-cta:hover {
 
 /* light-mode collage adjustments */
 body.light-mode .gc-item { background: var(--card); }
+body.light-mode .gc-eyebrow, body.light-mode .gc-lb-eyebrow { color: #d4af37 !important; }
 body.light-mode .gc-media { filter: saturate(0.95) brightness(1); }
 body.light-mode .gc-viewall-btn { color: #7a4f00; border-color: rgba(122,79,0,0.45); }
 body.light-mode .gc-viewall-btn:hover { background: rgba(122,79,0,0.08); border-color: #7a4f00; }
