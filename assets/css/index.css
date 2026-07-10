@@ -208,6 +208,16 @@ body.light-mode .nav-logo-img {
   background: linear-gradient(to right, var(--gold), rgba(212,175,55,0.3));
   animation: hintBar 5s linear forwards;
 }
+.site-hint-pointer { position: absolute; width: 0; height: 0; pointer-events: none; }
+.site-hint-pointer.down { bottom: -8px; left: 20px; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 8px solid rgba(212,175,55,0.4); }
+.site-hint-pointer.up { top: -8px; left: 20px; border-left: 8px solid transparent; border-right: 8px solid transparent; border-bottom: 8px solid rgba(212,175,55,0.4); }
+.site-hint-pointer.right { right: -8px; top: 14px; border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-left: 8px solid rgba(212,175,55,0.4); }
+.site-hint-pointer.left { left: -8px; top: 14px; border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-right: 8px solid rgba(212,175,55,0.4); }
+body.light-mode .site-hint-pointer.down { border-top-color: rgba(154,111,0,0.45); }
+body.light-mode .site-hint-pointer.up { border-bottom-color: rgba(154,111,0,0.45); }
+body.light-mode .site-hint-pointer.right { border-left-color: rgba(154,111,0,0.45); }
+body.light-mode .site-hint-pointer.left { border-right-color: rgba(154,111,0,0.45); }
+
 @keyframes hintSlideIn {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }

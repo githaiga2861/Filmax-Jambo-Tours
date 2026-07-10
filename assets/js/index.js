@@ -2108,197 +2108,216 @@ window.addEventListener('load', function() {
   // Respect user preference saved from 3rd hint
   if(localStorage.getItem('fj-hints-disabled')==='true') return;
 
-  var PAGE_LOAD_TIME = Date.now();
+  var container = document.body;
   var FIRST_HINT_DELAY = 15000; // 15 seconds before first hint
   var BETWEEN_HINTS = 5000;     // 5 seconds between hints
+  var DURATION = 5200;
   var shown = new Set();
   var activeHint = null;
-  var hintsQueue = [];
-  var hintsStarted = false;
   var hintCount = 0;
-  var processingQueue = false;
 
   var hints = [
-    {id:'theme',    label:'Tip',         text:'Switch between dark and light mode using the sun/moon button at bottom-left.'},
-    {id:'slides',   label:'Navigate',    text:'Swipe left or right — or click the glowing arrows — to explore each Kenyan destination.'},
-    {id:'quiz',     label:'Safari Match',text:'Answer 5 quick questions below and we\'ll find your perfect safari package instantly.'},
-    {id:'gallery',  label:'Gallery',     text:'Click the magnify icon on any gallery image to view it in stunning full screen.'},
-    {id:'packages', label:'Filter',      text:'Use the filter bar to sort safari packages by budget — from backpacker to ultra-luxury.'},
-    {id:'whatsapp', label:'Quick action',text:'Tap the green WhatsApp button at bottom-right to reach our team within the hour.'},
-    {id:'team',     label:'Meet Us',     text:'Click "View Profile" on any team member card to learn more about your guide.'},
-    {id:'review',   label:'Your Voice',  text:'Scroll to the bottom of testimonials to leave your own review after your safari.'},
+    {id:'theme', label:'Tip', text:'Switch between dark and light mode using this button.',
+      fixedPos:{bottom:100, left:20}, pointer:'down', triggerScrollY:0},
+    {id:'quiz', label:'Safari Match', text:'Answer 5 quick questions below and we\'ll find your perfect safari package instantly.',
+      targetId:'inline-quiz', pointer:'up', offsetX:0, offsetY:-56, triggerElId:'inline-quiz', triggerOffset:window.innerHeight*0.85},
+    {id:'gallery', label:'Gallery', text:'Hover any photo or video, or hit "View All Moments" to browse the full collection full-screen.',
+      targetId:'galViewAllBtn', pointer:'down', offsetX:-100, offsetY:-58, triggerElId:'galViewAllBtn', triggerOffset:window.innerHeight*0.85},
+    {id:'packages', label:'Filter', text:'Use the filter bar to sort safari packages by budget — from backpacker to ultra-luxury.',
+      targetId:'packagesGrid', pointer:'up', offsetX:0, offsetY:-56, triggerElId:'packagesGrid', triggerOffset:window.innerHeight*0.8},
+    {id:'whatsapp', label:'Quick action', text:'Tap the green WhatsApp button to reach our team within the hour.',
+      fixedPos:{bottom:104, right:100}, pointer:'right', triggerScrollY:600},
+    {id:'team', label:'Meet Us', text:'Click "View Profile" on any team member card to learn more about your guide.',
+      targetId:'teamCardFirst', pointer:'down', offsetX:0, offsetY:-58, triggerElId:'teamCardFirst', triggerOffset:window.innerHeight*0.8},
+    {id:'review', label:'Your Voice', text:'Scroll to the bottom of testimonials to leave your own review after your safari.',
+      targetId:'testimonials', pointer:'up', offsetX:0, offsetY:-56, triggerElId:'testimonials', triggerOffset:window.innerHeight*0.4}
   ];
 
-  function buildHintBox(hint, isThird) {
-    var box = document.createElement('div');
-    box.className = 'site-hint';
-    box.id = 'fj-hint-' + hint.id;
-    box.style.cssText = 'position:fixed;bottom:160px;right:36px;z-index:99980;max-width:280px;';
-    var inner = '<span class="site-hint-label">' + hint.label + '</span>' +
-      '<span class="site-hint-text">' + hint.text + '</span>';
-    if (isThird) {
-      inner += '<div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">' +
-        '<button id="fj-hint-yes" style="font-family:Jost,sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:8px 16px;background:var(--gold);color:#080808;border:none;cursor:none;font-weight:700;">Yes, keep them</button>' +
-        '<button id="fj-hint-no" style="font-family:Jost,sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:8px 16px;background:transparent;color:var(--muted);border:1px solid var(--border);cursor:none;">No thanks</button>' +
+  function getTargetRect(hint){
+    if(hint.targetId){
+      var el=document.getElementById(hint.targetId);
+      if(!el)return null;
+      return el.getBoundingClientRect();
+    }
+    return null;
+  }
+
+  function buildHintBox(hint, isThird){
+    var box=document.createElement('div');
+    box.className='site-hint';
+    box.id='fj-hint-'+hint.id;
+    var inner='<span class="site-hint-label">'+hint.label+'</span>'+
+      '<span class="site-hint-text">'+hint.text+'</span>';
+    if(isThird){
+      inner+='<div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">'+
+        '<button id="fj-hint-yes" style="font-family:Jost,sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:8px 16px;background:var(--gold);color:#080808;border:none;cursor:none;font-weight:700;">Yes, keep them</button>'+
+        '<button id="fj-hint-no" style="font-family:Jost,sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:8px 16px;background:transparent;color:var(--muted);border:1px solid var(--border);cursor:none;">No thanks</button>'+
         '</div>';
     }
-    inner += '<button class="site-hint-close" aria-label="Dismiss" style="position:absolute;top:10px;right:10px;background:none;border:none;color:var(--muted);font-size:14px;cursor:none;padding:2px 5px;">×</button>';
-    inner += '<div class="site-hint-bar"></div>';
-    box.innerHTML = inner;
+    inner+='<button class="site-hint-close" aria-label="Dismiss">×</button>';
+    inner+='<div class="site-hint-pointer '+(hint.pointer||'down')+'"></div>';
+    inner+='<div class="site-hint-bar"></div>';
+    box.innerHTML=inner;
     return box;
   }
 
-  function showNextHint() {
-    if (processingQueue || activeHint || localStorage.getItem('fj-hints-disabled')==='true') return;
-    if (!hintsQueue.length) return;
-    processingQueue = true;
-    var hint = hintsQueue.shift();
-    if (shown.has(hint.id)) { processingQueue = false; showNextHint(); return; }
-    shown.add(hint.id);
-    hintCount++;
-    activeHint = hint.id;
-    var isThird = hintCount === 3;
-    var box = buildHintBox(hint, isThird);
-    document.body.appendChild(box);
-    requestAnimationFrame(function(){ box.style.opacity = '1'; });
+  function positionBox(box, hint){
+    if(hint.fixedPos){
+      box.style.position='fixed';
+      if(hint.fixedPos.bottom!==undefined)box.style.bottom=hint.fixedPos.bottom+'px';
+      if(hint.fixedPos.right!==undefined)box.style.right=hint.fixedPos.right+'px';
+      if(hint.fixedPos.left!==undefined)box.style.left=hint.fixedPos.left+'px';
+      if(hint.fixedPos.top!==undefined)box.style.top=hint.fixedPos.top+'px';
+      return;
+    }
+    var rect=getTargetRect(hint);
+    if(!rect)return;
+    var scrollY=window.pageYOffset, scrollX=window.pageXOffset;
+    var top=rect.top+scrollY+(hint.offsetY||0);
+    var left=rect.left+scrollX+(hint.offsetX||0);
+    box.style.position='absolute';
+    box.style.top=top+'px';
+    box.style.left=Math.max(8, Math.min(left, window.innerWidth-280))+'px';
+  }
 
-    function dismiss(scheduleNext) {
+  function showHint(hint){
+    if(shown.has(hint.id) || activeHint) return;
+    shown.add(hint.id);
+    activeHint=hint.id;
+    hintCount++;
+    var isThird=hintCount===3;
+    var box=buildHintBox(hint, isThird);
+    var scrollHandler=function(){ positionBox(box, hint); };
+    positionBox(box, hint);
+    document.body.appendChild(box);
+    if(!hint.fixedPos) window.addEventListener('scroll', scrollHandler, {passive:true});
+    requestAnimationFrame(function(){ box.style.opacity='1'; });
+
+    function dismiss(scheduleNext){
       box.classList.add('hiding');
+      if(!hint.fixedPos) window.removeEventListener('scroll', scrollHandler);
       setTimeout(function(){
         if(box.parentNode) box.parentNode.removeChild(box);
-        activeHint = null;
-        processingQueue = false;
-        if (scheduleNext !== false && localStorage.getItem('fj-hints-disabled') !== 'true') {
-          setTimeout(showNextHint, BETWEEN_HINTS);
+        activeHint=null;
+        if(scheduleNext!==false && localStorage.getItem('fj-hints-disabled')!=='true'){
+          setTimeout(checkHints, BETWEEN_HINTS);
         }
-      }, 380);
+      },380);
     }
 
-    box.querySelector('.site-hint-close').addEventListener('click', function(){ dismiss(true); });
+    box.querySelector('.site-hint-close').addEventListener('click', function(){ clearTimeout(autoTimer); dismiss(true); });
 
-    if (isThird) {
-      var yesBtn = box.querySelector('#fj-hint-yes');
-      var noBtn  = box.querySelector('#fj-hint-no');
-      if (yesBtn) yesBtn.addEventListener('click', function(){ localStorage.setItem('fj-hints-disabled','false'); dismiss(true); });
-      if (noBtn)  noBtn.addEventListener('click',  function(){ localStorage.setItem('fj-hints-disabled','true');  dismiss(false); hintsQueue = []; });
+    if(isThird){
+      var yesBtn=box.querySelector('#fj-hint-yes');
+      var noBtn=box.querySelector('#fj-hint-no');
+      if(yesBtn) yesBtn.addEventListener('click', function(){ localStorage.setItem('fj-hints-disabled','false'); dismiss(true); });
+      if(noBtn) noBtn.addEventListener('click', function(){ localStorage.setItem('fj-hints-disabled','true'); dismiss(false); });
     }
 
-    var autoTimer = isThird ? null : setTimeout(function(){ dismiss(true); }, 5200);
-    if (!isThird && box.querySelector('.site-hint-close')) {
-      box.querySelector('.site-hint-close').addEventListener('click', function(){ clearTimeout(autoTimer); });
-    }
+    var autoTimer = isThird ? null : setTimeout(function(){ dismiss(true); }, DURATION);
   }
 
-  function queueHint(hint) {
-    if (shown.has(hint.id)) return;
-    if (hintsQueue.find(function(h){ return h.id === hint.id; })) return;
-    hintsQueue.push(hint);
-  }
-
-  // ===========================
-// SITE SETTINGS — LIVE APPLY
-// ===========================
-(function() {
-  const SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
-  const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
-  const supa = window.supabase ? window.supabase.createClient(SUPA_URL, SUPA_KEY) : null;
-  if (!supa) return;
-
-  function applySettings(row) {
-    const v = row.value || {};
-    if (row.id === 'concierge') {
-      // Concierge name
-      document.querySelectorAll('.concierge-name').forEach(el => el.textContent = v.name || el.textContent);
-      // WhatsApp links sitewide
-      if (v.whatsapp) {
-        const num = v.whatsapp.replace(/\D/g, '');
-        document.querySelectorAll('a[href*="wa.me"]').forEach(el => {
-          const msg = el.href.split('?text=')[1] || '';
-          el.href = 'https://wa.me/' + num + (msg ? '?text=' + msg : '');
-        });
-        document.querySelectorAll('.whatsapp-fab').forEach(el => {
-          const msg = el.href.split('?text=')[1] || '';
-          el.href = 'https://wa.me/' + num + (msg ? '?text=' + msg : '');
-        });
+  function checkHints(){
+    if(activeHint || localStorage.getItem('fj-hints-disabled')==='true') return;
+    var scrollY=window.pageYOffset;
+    for(var i=0;i<hints.length;i++){
+      var hint=hints[i];
+      if(shown.has(hint.id) || activeHint) continue;
+      if(hint.triggerScrollY!==undefined && scrollY>=hint.triggerScrollY){ showHint(hint); return; }
+      if(hint.triggerElId){
+        var el=document.getElementById(hint.triggerElId);
+        if(!el) continue;
+        var rect=el.getBoundingClientRect();
+        if(rect.top<=(hint.triggerOffset||window.innerHeight*0.75)){ showHint(hint); return; }
       }
-      // Contact email
-      document.querySelectorAll('.contact-detail-value').forEach(el => {
-        if (el.textContent.includes('@filmaxjambotours') && v.email) el.textContent = v.email;
-      });
-      // Concierge bio
-      document.querySelectorAll('.concierge-bio').forEach(el => {
-        if (v.bio) el.textContent = v.bio;
-      });
-    }
-    if (row.id === 'hero') {
-      if (v.eyebrow) {
-        const ey = document.querySelector('.hero-eyebrow');
-        if (ey) ey.textContent = v.eyebrow;
-      }
-      if (v.subtitle) {
-        const sub = document.querySelector('.hero-subtitle');
-        if (sub) sub.textContent = v.subtitle;
-      }
-    }
-    if (row.id === 'business') {
-      document.querySelectorAll('.contact-detail-value').forEach(el => {
-        if (el.textContent.includes('Mon') && v.hours) el.textContent = v.hours;
-        if (el.textContent.includes('Nairobi') && v.office) el.textContent = v.office;
-      });
-      if (v.footer_desc) {
-        const fb = document.querySelector('.footer-brand p');
-        if (fb) fb.textContent = v.footer_desc;
-      }
-    }
-    if (row.id === 'stats') {
-      const statNums   = document.querySelectorAll('.stat-num');
-      const statLabels = document.querySelectorAll('.stat-label');
-      const vals = [
-        { num: v.stat1_num, label: v.stat1_label },
-        { num: v.stat2_num, label: v.stat2_label },
-        { num: v.stat3_num, label: v.stat3_label },
-        { num: v.stat4_num, label: v.stat4_label },
-      ];
-      vals.forEach((s, i) => {
-        if (statNums[i]   && s.num)   statNums[i].textContent   = s.num;
-        if (statLabels[i] && s.label) statLabels[i].textContent = s.label;
-      });
     }
   }
-
-  // Load on page visit
-  async function loadSiteSettings() {
-    const { data } = await supa.from('site_settings').select('*');
-    if (data) data.forEach(applySettings);
-  }
-
-  // Real-time: apply instantly when admin saves
-  supa.channel('site-settings-live')
-    .on('postgres_changes', {
-      event: 'UPDATE', schema: 'public', table: 'site_settings'
-    }, payload => {
-      applySettings(payload.new);
-    })
-    .subscribe();
-
-  loadSiteSettings();
-})();
-
-  // Pre-queue all hints immediately, but don't show until 15s in
-  hints.forEach(function(h){ queueHint(h); });
 
   setTimeout(function(){
-    hintsStarted = true;
-    showNextHint();
-    // Also keep checking scroll for more
-    window.addEventListener('scroll', function(){
-      if (!hintsStarted) return;
-      if (!activeHint && hintsQueue.length && !processingQueue) {
-        setTimeout(showNextHint, BETWEEN_HINTS);
-      }
-    }, { passive: true });
+    checkHints();
+    window.addEventListener('scroll', checkHints, {passive:true});
   }, FIRST_HINT_DELAY);
+
+  // ===========================
+  // SITE SETTINGS — LIVE APPLY
+  // ===========================
+  (function() {
+    const SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
+    const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
+    const supa = window.supabase ? window.supabase.createClient(SUPA_URL, SUPA_KEY) : null;
+    if (!supa) return;
+    function applySettings(row) {
+      const v = row.value || {};
+      if (row.id === 'concierge') {
+        document.querySelectorAll('.concierge-name').forEach(el => el.textContent = v.name || el.textContent);
+        if (v.whatsapp) {
+          const num = v.whatsapp.replace(/\D/g, '');
+          document.querySelectorAll('a[href*="wa.me"]').forEach(el => {
+            const msg = el.href.split('?text=')[1] || '';
+            el.href = 'https://wa.me/' + num + (msg ? '?text=' + msg : '');
+          });
+          document.querySelectorAll('.whatsapp-fab').forEach(el => {
+            const msg = el.href.split('?text=')[1] || '';
+            el.href = 'https://wa.me/' + num + (msg ? '?text=' + msg : '');
+          });
+        }
+        document.querySelectorAll('.contact-detail-value').forEach(el => {
+          if (el.textContent.includes('@filmaxjambotours') && v.email) el.textContent = v.email;
+        });
+        document.querySelectorAll('.concierge-bio').forEach(el => {
+          if (v.bio) el.textContent = v.bio;
+        });
+      }
+      if (row.id === 'hero') {
+        if (v.eyebrow) {
+          const ey = document.querySelector('.hero-eyebrow');
+          if (ey) ey.textContent = v.eyebrow;
+        }
+        if (v.subtitle) {
+          const sub = document.querySelector('.hero-subtitle');
+          if (sub) sub.textContent = v.subtitle;
+        }
+      }
+      if (row.id === 'business') {
+        document.querySelectorAll('.contact-detail-value').forEach(el => {
+          if (el.textContent.includes('Mon') && v.hours) el.textContent = v.hours;
+          if (el.textContent.includes('Nairobi') && v.office) el.textContent = v.office;
+        });
+        if (v.footer_desc) {
+          const fb = document.querySelector('.footer-brand p');
+          if (fb) fb.textContent = v.footer_desc;
+        }
+      }
+      if (row.id === 'stats') {
+        const statNums   = document.querySelectorAll('.stat-num');
+        const statLabels = document.querySelectorAll('.stat-label');
+        const vals = [
+          { num: v.stat1_num, label: v.stat1_label },
+          { num: v.stat2_num, label: v.stat2_label },
+          { num: v.stat3_num, label: v.stat3_label },
+          { num: v.stat4_num, label: v.stat4_label },
+        ];
+        vals.forEach((s, i) => {
+          if (statNums[i]   && s.num)   statNums[i].textContent   = s.num;
+          if (statLabels[i] && s.label) statLabels[i].textContent = s.label;
+        });
+      }
+    }
+    async function loadSiteSettings() {
+      const { data } = await supa.from('site_settings').select('*');
+      if (data) data.forEach(applySettings);
+    }
+    supa.channel('site-settings-live')
+      .on('postgres_changes', {
+        event: 'UPDATE', schema: 'public', table: 'site_settings'
+      }, payload => {
+        applySettings(payload.new);
+      })
+      .subscribe();
+    loadSiteSettings();
+  })();
 })();
+
 
 
 // Google Translate periodic fade
