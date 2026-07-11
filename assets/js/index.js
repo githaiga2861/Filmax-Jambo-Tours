@@ -2840,3 +2840,26 @@ window.addEventListener('load', function() {
     });
   });
 })();
+
+// ===========================
+// FOOTER "DESTINATION" DEEP-LINK HIGHLIGHT
+// If the URL hash matches a #dest-* cell, scroll to it and glow it gold
+// ===========================
+(function(){
+  function highlightDestFromHash(){
+    var hash = window.location.hash;
+    if (!hash || hash.indexOf('#dest-') !== 0) return;
+    var el = document.getElementById(hash.slice(1));
+    if (!el) return;
+    setTimeout(function(){
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      el.classList.add('dest-cell-glow');
+      setTimeout(function(){ el.classList.remove('dest-cell-glow'); }, 2600);
+    }, 400);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', highlightDestFromHash);
+  } else {
+    highlightDestFromHash();
+  }
+})();
