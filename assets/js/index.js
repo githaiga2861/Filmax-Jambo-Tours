@@ -2754,3 +2754,89 @@ window.addEventListener('load', function() {
     }, 500);
   }, 3900);
 })();
+
+// ===========================
+// CONTACT FORM — real Supabase submission (enquiries table)
+// ===========================
+(function(){
+  var btn = document.getElementById('sendEnquiryBtn');
+  if (!btn) return;
+  var SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
+  var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
+  var form = btn.closest('.contact-form');
+  var msgEl = document.getElementById('enquiryMsg');
+
+  function showMsg(text, isError) {
+    msgEl.textContent = text;
+    msgEl.style.display = 'block';
+    msgEl.style.background = isError ? 'rgba(180,60,60,0.12)' : 'rgba(90,190,90,0.12)';
+    msgEl.style.color = isError ? '#e05555' : '#7bb56e';
+    msgEl.style.border = '1px solid ' + (isError ? 'rgba(180,60,60,0.35)' : 'rgba(90,190,90,0.35)');
+  }
+
+  btn.addEventListener('click', function(){
+    var inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea');
+    var nameEl = inputs[0], emailEl = inputs[1], phoneEl = inputs[2], msgFieldEl = form.querySelector('textarea');
+    var consentOffers = document.getElementById('consentOffers');
+    var consentData = document.getElementById('consentData');
+
+    var name = (nameEl.value || '').trim();
+    var email = (emailEl.value || '').trim();
+    var phone = (phoneEl.value || '').trim();
+    var message = (msgFieldEl.value || '').trim();
+
+    if (!name || !email) {
+      showMsg('Please enter your name and email address.', true);
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showMsg('Please enter a valid email address.', true);
+      return;
+    }
+    if (!consentData.checked) {
+      showMsg('Please confirm you consent to us storing your information to respond to your enquiry.', true);
+      return;
+    }
+
+    var nameParts = name.split(' ');
+    var firstName = nameParts[0] || '';
+    var lastName = nameParts.slice(1).join(' ') || '';
+
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
+    fetch(SUPA_URL + '/rest/v1/enquiries', {
+      method: 'POST',
+      headers: {
+        'apikey': SUPA_KEY,
+        'Authorization': 'Bearer ' + SUPA_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        phone: phone,
+        message: message,
+        status: 'new',
+        consent_offers: consentOffers.checked,
+        consent_data: consentData.checked
+      })
+    }).then(function(res){
+      btn.textContent = 'Send Enquiry';
+      btn.disabled = false;
+      if (res.ok) {
+        showMsg('Thank you — your enquiry has been received. Our team will be in touch shortly.', false);
+        nameEl.value = ''; emailEl.value = ''; phoneEl.value = ''; msgFieldEl.value = '';
+        consentOffers.checked = false; consentData.checked = false;
+      } else {
+        showMsg('Something went wrong sending your enquiry. Please try again or contact us directly on WhatsApp.', true);
+      }
+    }).catch(function(){
+      btn.textContent = 'Send Enquiry';
+      btn.disabled = false;
+      showMsg('Something went wrong sending your enquiry. Please try again or contact us directly on WhatsApp.', true);
+    });
+  });
+})();

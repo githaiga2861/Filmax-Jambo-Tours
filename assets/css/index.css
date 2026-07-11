@@ -7888,3 +7888,35 @@ body.light-mode .faq-item:first-child { border-top-color: rgba(0,0,0,0.12); }
   .faq-question { font-size: 14px; }
   .faq-answer { font-size: 15.5px; }
 }
+
+/* ═══════════════════════════════════════════
+   CONTACT FORM — consent checkboxes + privacy note
+   ═══════════════════════════════════════════ */
+.contact-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  margin-bottom: 14px;
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.contact-consent input[type="checkbox"] {
+  margin-top: 3px;
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  accent-color: var(--gold);
+  cursor: pointer;
+}
+.contact-consent .req { color: rgba(212,175,55,0.85); }
+.google-privacy-note a {
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(212,175,55,0.3);
+}
+.google-privacy-note a:hover { border-bottom-color: var(--gold); }
+body.light-mode .contact-consent { color: #1a1a1a; }
+body.light-mode .google-privacy-note { color: #1a1a1a; }
