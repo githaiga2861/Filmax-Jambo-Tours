@@ -367,6 +367,7 @@ function persistFormToStorage() {
     shortHighlights:  document.getElementById('f-short-highlights')?.value || '',
     detailPageUrl:    document.getElementById('f-detail-page-url')?.value || '',
     tier:             document.getElementById('f-tier')?.value || '',
+    labels:           Array.from(document.querySelectorAll('.f-label-opt:checked')).map(el => el.value),
     // Pricing
     pricePeak:        document.getElementById('f-price-peak')?.value || '',
     priceHigh:        document.getElementById('f-price-high')?.value || '',
@@ -835,21 +836,42 @@ function clearEmptyState(repId) {
 function addDayRow(data = {}) {
   clearEmptyState('daysRepeater');
   dayCount++;
+  const dnum = data.day_number || dayCount;
   const id = 'day-' + dayCount;
+  const accoms = data.accommodations || {};
+  const tierLabels = { flat: 'Standard Choice', down: 'Budget-Friendly Alternative', up: 'Premium Upgrade' };
+  const tierBlocks = ['flat','down','up'].map(function(tier){
+    const a = accoms[tier] || {};
+    return `
+      <div class="accom-tier-card" data-tier="${tier}">
+        <div class="accom-tier-header">${tierLabels[tier]} <span style="font-weight:400;opacity:0.6;">(shown to guests as the ${tier==='flat'?'default':tier==='down'?'lower-cost':'upgrade'} option)</span></div>
+        <div class="form-grid">
+          <div class="form-group"><label>Lodge / Camp Name <span class="req">*</span></label><input type="text" class="accom-name" data-tier="${tier}" value="${a.name||''}" placeholder="e.g. Mara Plains Camp"></div>
+          <div class="form-group"><label>Type</label><input type="text" class="accom-type" data-tier="${tier}" value="${a.type||''}" placeholder="e.g. Ultra-Luxury Tented"></div>
+          ${imgUploadFieldHTML('accom-image-'+id+'-'+tier, 'Lodge Photo', a.image_url||'', 'accommodations/day-'+dnum+'-'+tier, true)}
+          <div class="form-group full"><label>Description <span class="req">*</span> <span style="font-weight:400;font-size:8px;color:var(--muted);text-transform:none;">(min 40 chars \u2014 what makes this lodge special)</span></label><textarea class="accom-desc" data-tier="${tier}" rows="2" placeholder="Describe the lodge, its setting and standout features...">${a.description||''}</textarea></div>
+          <div class="form-group full"><label>Getting There</label><input type="text" class="accom-getting" data-tier="${tier}" value="${a.getting_there||''}" placeholder="e.g. Charter Wilson to Mara airstrip, then 20-min transfer"></div>
+        </div>
+      </div>`;
+  }).join('');
   const html = `
     <div class="repeater-row" id="${id}">
       <div class="repeater-row-header">
-        <span class="repeater-row-title">Day ${data.day_number || dayCount}</span>
+        <span class="repeater-row-title">Day ${dnum}</span>
         <button class="btn btn-danger btn-sm" onclick="document.getElementById('${id}').remove()">Remove</button>
       </div>
       <div class="form-grid">
-        <div class="form-group"><label>Day Number</label><input type="number" class="day-num" value="${data.day_number || dayCount}"></div>
-        <div class="form-group"><label>Title <span class="req">*</span></label><input type="text" class="day-title" value="${data.title || ''}" placeholder="e.g. Nairobi → Maasai Mara"></div>
-        <div class="form-group"><label>Location <span class="req">*</span></label><input type="text" class="day-location" value="${data.location || ''}" placeholder="e.g. Wilson Airport · Mara"></div>
+        <div class="form-group"><label>Day Number</label><input type="number" class="day-num" value="${dnum}"></div>
+        <div class="form-group"><label>Title <span class="req">*</span></label><input type="text" class="day-title" value="${data.title || ''}" placeholder="e.g. Nairobi to Maasai Mara"></div>
+        <div class="form-group"><label>Location <span class="req">*</span></label><input type="text" class="day-location" value="${data.location || ''}" placeholder="e.g. Wilson Airport, Mara"></div>
         <div class="form-group"><label>Description <span class="req">*</span> <span style="font-weight:400;font-size:8px;color:var(--muted);text-transform:none;">(min 40 chars)</span></label><textarea class="day-desc" rows="3" placeholder="What happens this day...">${data.description || ''}</textarea></div>
         <div class="form-group"><label>Activities <span style="font-weight:400;font-size:8px;color:var(--muted);text-transform:none;">(comma separated)</span></label><input type="text" class="day-activities" value="${(data.activities||[]).join(', ')}" placeholder="Private aircraft, Afternoon drive"></div>
-        <div class="form-group"><label>Highlight Badges <span style="font-weight:400;font-size:8px;color:var(--muted);text-transform:none;">(comma separated)</span></label><input type="text" class="day-badges" value="${(data.highlight_badges||[]).join(', ')}" placeholder="✈️ Private Charter, 📷 Photographer"></div>
+        <div class="form-group"><label>Highlight Badges <span style="font-weight:400;font-size:8px;color:var(--muted);text-transform:none;">(comma separated)</span></label><input type="text" class="day-badges" value="${(data.highlight_badges||[]).join(', ')}" placeholder="Private Charter, Photographer"></div>
         <div class="form-group full"><label>Day Photo Gallery <span style="font-weight:400;font-size:8px;color:rgba(212,175,55,0.6);text-transform:none;">(up to 4 image URLs, one per line, .webp only)</span></label><textarea class="day-gallery" rows="4" placeholder="https://assets/day1-a.webp&#10;https://assets/day1-b.webp&#10;https://assets/day1-c.webp&#10;https://assets/day1-d.webp">${(data.gallery_images||[]).join('\n')}</textarea></div><div class="form-group full"><label>Gallery Image Captions <span style="font-weight:400;font-size:8px;color:var(--muted);text-transform:none;">(comma separated, matching order above)</span></label><input type="text" class="day-gallery-captions" value="${(data.gallery_captions||[]).join(', ')}" placeholder="Mara Plains, Private Charter, Lodge Pool, Afternoon Drive"></div>
+      </div>
+      <div class="accom-section">
+        <div class="accom-section-title">Accommodation Options for This Day <span style="font-weight:400;font-size:9px;color:var(--muted);text-transform:none;">\u2014 guests will see all three and can choose</span></div>
+        ${tierBlocks}
       </div>
     </div>`;
   document.getElementById('daysRepeater').insertAdjacentHTML('beforeend', html);
@@ -916,6 +938,11 @@ function addRouteRow(data = {}) {
 
 // ── SAVE PACKAGE ──
 async function savePackage(publish = false) {
+  if (publish && !validatePackageForm()) {
+    showToast('Please fix the highlighted fields before publishing. Draft saves are still allowed with incomplete fields.', 'error');
+    return;
+  }
+  validatePackageForm(); // always run to show inline warnings, even on draft save
   const statusEl = document.getElementById('savingStatus');
   const publishBtn = document.getElementById('publishBtn');
   statusEl.textContent = publish ? 'Publishing...' : 'Saving draft...';
@@ -977,7 +1004,35 @@ async function savePackage(publish = false) {
     gallery_captions: (row.querySelector('.day-gallery-captions')?.value||'').split(',').map(s=>s.trim()).filter(Boolean),
     sort_order: i
   }));
-  if (days.length) await db.from('package_days').insert(days);
+  let insertedDays = [];
+  if (days.length) {
+    const dayRes = await db.from('package_days').insert(days).select();
+    insertedDays = dayRes.data || [];
+  }
+  // Save per-day accommodation tiers (flat/down/up), linked to their day row
+  const dayRows = Array.from(document.querySelectorAll('#daysRepeater .repeater-row'));
+  for (let i = 0; i < dayRows.length; i++) {
+    const dayId = insertedDays[i]?.id;
+    if (!dayId) continue;
+    await db.from('package_day_accommodations').delete().eq('package_day_id', dayId);
+    const row = dayRows[i];
+    const tierEls = row.querySelectorAll('.accom-tier-card');
+    const accomRows = Array.from(tierEls).map((card, ti) => {
+      const tier = card.dataset.tier;
+      return {
+        package_day_id: dayId,
+        tier: tier,
+        name: card.querySelector('.accom-name')?.value || '',
+        type: card.querySelector('.accom-type')?.value || '',
+        image_url: card.querySelector('input[type=hidden][class*="accom-image"]')?.value || '',
+        description: card.querySelector('.accom-desc')?.value || '',
+        getting_there: card.querySelector('.accom-getting')?.value || '',
+        facts: [],
+        sort_order: ti
+      };
+    }).filter(a => a.name); // skip empty tier cards
+    if (accomRows.length) await db.from('package_day_accommodations').insert(accomRows);
+  }
 
   await db.from('package_lodges').delete().eq('package_id', packageId);
   const lodges = Array.from(document.querySelectorAll('#lodgesRepeater .repeater-row')).map((row, i) => ({
@@ -1037,6 +1092,16 @@ async function editPackage(id) {
     db.from('package_inclusions').select('*').eq('package_id', id),
     db.from('package_route_stops').select('*').eq('package_id', id).order('sort_order'),
   ]);
+  // Fetch accommodation tiers for all this package's days in one query, then attach to each day
+  if (days && days.length) {
+    const dayIds = days.map(function(d){ return d.id; });
+    const accomRes = await db.from('package_day_accommodations').select('*').in('package_day_id', dayIds);
+    const accomRows = accomRes.data || [];
+    days.forEach(function(d){
+      d.accommodations = {};
+      accomRows.filter(function(a){ return a.package_day_id === d.id; }).forEach(function(a){ d.accommodations[a.tier] = a; });
+    });
+  }
 
   document.getElementById('f-name').value           = pkg.name||'';
   document.getElementById('f-slug').value           = pkg.slug||'';
@@ -1064,6 +1129,7 @@ async function editPackage(id) {
   document.getElementById('f-short-highlights').value = (pkg.short_highlights||[]).join('\n');
   document.getElementById('f-detail-page-url').value  = pkg.detail_page_url||'';
   document.getElementById('f-overview-body-2').value = pkg.overview_body_2 || '';
+  document.querySelectorAll('.f-label-opt').forEach(el => { el.checked = (pkg.labels||[]).includes(el.value); });
 
   days?.forEach(d => addDayRow(d));
   lodges?.forEach(l => addLodgeRow(l));
@@ -2477,43 +2543,46 @@ function resetForm(keepEditing = false) {
 }
 
 // ── IMAGE UPLOADS ──
-function handleHeroUpload(input) {
+async function handleHeroUpload(input) {
   const file = input.files[0];
   if (!file) return;
-  if (!file.name.toLowerCase().endsWith('.webp')) {
-    showToast('Hero image must be a .webp file', 'error');
-    input.value = '';
-    return;
-  }
-  const reader = new FileReader();
-  reader.onload = e => {
-    const img = document.getElementById('heroPreview');
-    img.src = e.target.result;
+  const img = document.getElementById('heroPreview');
+  try {
+    showToast('Uploading hero image...');
+    const ext = file.name.split('.').pop().toLowerCase();
+    const path = 'hero/' + Date.now() + '-' + Math.random().toString(36).slice(2,8) + '.' + ext;
+    const upRes = await db.storage.from('package-images').upload(path, file);
+    if (upRes.error) throw upRes.error;
+    const pub = db.storage.from('package-images').getPublicUrl(path);
+    img.src = pub.data.publicUrl;
     img.style.display = 'block';
-    // Also populate the URL field with a placeholder note
-    document.getElementById('f-hero-image-url').value = '/assets/' + file.name;
-  };
-  reader.readAsDataURL(file);
+    document.getElementById('f-hero-image-url').value = pub.data.publicUrl;
+    showToast('Hero image uploaded');
+  } catch (e) {
+    showToast('Upload failed: ' + e.message, 'error');
+    input.value = '';
+  }
 }
-
-function handleCardBgUpload(input) {
+async function handleCardBgUpload(input) {
   const file = input.files[0];
   if (!file) return;
-  if (!file.name.toLowerCase().endsWith('.webp')) {
-    showToast('Card background must be a .webp file', 'error');
-    input.value = '';
-    return;
-  }
-  const reader = new FileReader();
-  reader.onload = e => {
-    const img = document.getElementById('cardBgPreview');
-    img.src = e.target.result;
+  const img = document.getElementById('cardBgPreview');
+  try {
+    showToast('Uploading card background...');
+    const ext = file.name.split('.').pop().toLowerCase();
+    const path = 'card-bg/' + Date.now() + '-' + Math.random().toString(36).slice(2,8) + '.' + ext;
+    const upRes = await db.storage.from('package-images').upload(path, file);
+    if (upRes.error) throw upRes.error;
+    const pub = db.storage.from('package-images').getPublicUrl(path);
+    img.src = pub.data.publicUrl;
     img.style.display = 'block';
-    document.getElementById('f-card-bg-url').value = '/assets/' + file.name;
-  };
-  reader.readAsDataURL(file);
+    document.getElementById('f-card-bg-url').value = pub.data.publicUrl;
+    showToast('Card background uploaded');
+  } catch (e) {
+    showToast('Upload failed: ' + e.message, 'error');
+    input.value = '';
+  }
 }
-
 // ── TOAST ──
 function showToast(msg, type = '') {
   const t = document.getElementById('toast');
@@ -3843,4 +3912,316 @@ function exportReservationsCSV() {
   const a = document.createElement('a');
   a.href = url; a.download = 'reservations.csv'; a.click();
   URL.revokeObjectURL(url);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// IMAGE UPLOAD — Supabase Storage ('package-images' bucket)
+// Reusable across hero image, per-day accommodation images, activity images
+// ═══════════════════════════════════════════════════════════════
+function imgUploadFieldHTML(fieldClass, labelText, currentUrl, folder, required) {
+  const req = required ? '<span class="req">*</span>' : '';
+  return `
+    <div class="form-group full">
+      <label>${labelText} ${req} <span style="font-weight:400;font-size:8px;color:rgba(212,175,55,0.6);text-transform:none;">(upload an image, max 5MB)</span></label>
+      <div class="img-upload-widget" data-folder="${folder}">
+        <input type="hidden" class="${fieldClass}" value="${currentUrl||''}">
+        <div class="img-upload-preview" style="${currentUrl?'':'display:none;'}">
+          <img src="${currentUrl||''}" alt="">
+          <button type="button" class="img-upload-remove" onclick="(function(btn){const w=btn.closest('.img-upload-widget');w.querySelector('input[type=hidden]').value='';w.querySelector('.img-upload-preview').style.display='none';w.querySelector('.img-upload-preview img').src='';}).call(this,this)">✕ Remove</button>
+        </div>
+        <input type="file" accept="image/*" class="img-upload-input" onchange="handleImageUpload(this)">
+        <span class="img-upload-status"></span>
+      </div>
+    </div>`;
+}
+
+async function handleImageUpload(inputEl) {
+  const file = inputEl.files[0];
+  if (!file) return;
+  const widget = inputEl.closest('.img-upload-widget');
+  const hiddenField = widget.querySelector('input[type=hidden]');
+  const preview = widget.querySelector('.img-upload-preview');
+  const previewImg = preview.querySelector('img');
+  const status = widget.querySelector('.img-upload-status');
+  const folder = widget.dataset.folder || 'misc';
+
+  if (!file.type.startsWith('image/')) {
+    status.textContent = 'Please choose an image file.'; status.style.color = '#e05555';
+    return;
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    status.textContent = 'Image must be under 5MB.'; status.style.color = '#e05555';
+    return;
+  }
+
+  status.textContent = 'Uploading...'; status.style.color = 'var(--muted)';
+  try {
+    const ext = file.name.split('.').pop().toLowerCase();
+    const path = folder + '/' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.' + ext;
+    const { error: upErr } = await db.storage.from('package-images').upload(path, file);
+    if (upErr) throw upErr;
+    const { data } = db.storage.from('package-images').getPublicUrl(path);
+    hiddenField.value = data.publicUrl;
+    previewImg.src = data.publicUrl;
+    preview.style.display = 'flex';
+    status.textContent = 'Uploaded ✓'; status.style.color = '#7bb56e';
+    inputEl.value = '';
+    setTimeout(() => { status.textContent = ''; }, 2500);
+  } catch (e) {
+    status.textContent = 'Upload failed: ' + e.message; status.style.color = '#e05555';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PACKAGE FORM VALIDATION
+// ═══════════════════════════════════════════════════════════════
+function validatePackageForm() {
+  document.querySelectorAll('#view-new-package .invalid').forEach(el => el.classList.remove('invalid'));
+  document.querySelectorAll('#view-new-package .field-error.show').forEach(el => el.classList.remove('show'));
+
+  let valid = true;
+  function flag(fieldId, errId) {
+    const f = document.getElementById(fieldId);
+    const e = document.getElementById(errId);
+    if (f) f.classList.add('invalid');
+    if (e) e.classList.add('show');
+    valid = false;
+  }
+
+  const name = document.getElementById('f-name')?.value.trim() || '';
+  if (name.length < 5) flag('f-name', 'err-name');
+
+  const slug = document.getElementById('f-slug')?.value.trim() || '';
+  if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) flag('f-slug', 'err-slug');
+
+  const tagline = document.getElementById('f-tagline')?.value.trim() || '';
+  if (tagline.length < 10) flag('f-tagline', 'err-tagline');
+
+  const badge = document.getElementById('f-badge')?.value.trim() || '';
+  if (!badge) flag('f-badge', 'err-badge');
+
+  const category = document.getElementById('f-category')?.value || '';
+  if (!category) flag('f-category', 'err-category');
+
+  const transport = document.getElementById('f-transport')?.value || '';
+  if (!transport) flag('f-transport', 'err-transport');
+
+  const days = parseInt(document.getElementById('f-days')?.value) || 0;
+  if (days < 1) flag('f-days', 'err-days');
+
+  const nights = document.getElementById('f-nights')?.value;
+  if (!nights) flag('f-nights', 'err-nights');
+
+  const destinations = (document.getElementById('f-destinations')?.value || '').split(',').map(s=>s.trim()).filter(Boolean);
+  if (destinations.length < 2) flag('f-destinations', 'err-destinations');
+
+  const overviewTitle = document.getElementById('f-overview-title')?.value.trim() || '';
+  if (overviewTitle.length < 10) flag('f-overview-title', 'err-overview-title');
+
+  const overviewBody = document.getElementById('f-overview-body')?.value.trim() || '';
+  if (overviewBody.length < 80) flag('f-overview-body', 'err-overview-body');
+
+  const heroUrl = document.getElementById('f-hero-image-url')?.value.trim() || '';
+  if (!heroUrl) flag('f-hero-image-url', 'err-hero');
+
+  const cardBgUrl = document.getElementById('f-card-bg-url')?.value.trim() || '';
+  if (!cardBgUrl) flag('f-card-bg-url', 'err-card-bg');
+
+  const highlights = (document.getElementById('f-short-highlights')?.value || '').split('\n').map(s=>s.trim()).filter(Boolean);
+  if (highlights.length < 4 || highlights.length > 7) flag('f-short-highlights', 'err-highlights');
+
+  const pricePeak = document.getElementById('f-price-peak')?.value;
+  if (!pricePeak) flag('f-price-peak', 'err-price-peak');
+  const priceHigh = document.getElementById('f-price-high')?.value;
+  if (!priceHigh) flag('f-price-high', 'err-price-high');
+  const priceGreen = document.getElementById('f-price-green')?.value;
+  if (!priceGreen) flag('f-price-green', 'err-price-green');
+  const priceSolo = document.getElementById('f-price-solo')?.value;
+  if (!priceSolo) flag('f-price-solo', 'err-price-solo');
+  const priceDuo = document.getElementById('f-price-duo')?.value;
+  if (!priceDuo) flag('f-price-duo', 'err-price-duo');
+  const priceGroup = document.getElementById('f-price-group')?.value;
+  if (!priceGroup) flag('f-price-group', 'err-price-group');
+
+  const peakMonths = document.getElementById('f-peak-months')?.value.trim() || '';
+  if (!/^\d+(,\s*\d+)*$/.test(peakMonths)) flag('f-peak-months', 'err-peak-months');
+  const highMonths = document.getElementById('f-high-months')?.value.trim() || '';
+  if (!/^\d+(,\s*\d+)*$/.test(highMonths)) flag('f-high-months', 'err-high-months');
+  const greenMonths = document.getElementById('f-green-months')?.value.trim() || '';
+  if (!/^\d+(,\s*\d+)*$/.test(greenMonths)) flag('f-green-months', 'err-green-months');
+
+  // Days repeater: require at least 1 day, and each day's title/location/description filled with enough length
+  const dayRows = document.querySelectorAll('#daysRepeater .repeater-row');
+  const dayIssues = [];
+  if (dayRows.length === 0) {
+    dayIssues.push('Add at least one day to the itinerary.');
+    valid = false;
+  }
+  dayRows.forEach((row, i) => {
+    const dTitle = row.querySelector('.day-title');
+    const dLoc = row.querySelector('.day-location');
+    const dDesc = row.querySelector('.day-desc');
+    if (!dTitle?.value.trim()) { dTitle?.classList.add('invalid'); dayIssues.push(`Day ${i+1}: title is required.`); valid = false; }
+    if (!dLoc?.value.trim()) { dLoc?.classList.add('invalid'); dayIssues.push(`Day ${i+1}: location is required.`); valid = false; }
+    if ((dDesc?.value.trim()||'').length < 40) { dDesc?.classList.add('invalid'); dayIssues.push(`Day ${i+1}: description needs at least 40 characters (currently ${dDesc?.value.trim().length||0}) or it will look empty on the live page.`); valid = false; }
+
+    // Each day's 3 accommodation tiers: name + description required
+    const tierCards = row.querySelectorAll('.accom-tier-card');
+    tierCards.forEach(card => {
+      const tier = card.dataset.tier;
+      const aName = card.querySelector('.accom-name');
+      const aDesc = card.querySelector('.accom-desc');
+      const aImg = card.querySelector('input[type=hidden][class*="accom-image"]');
+      const hasAnyInput = aName?.value.trim() || aDesc?.value.trim();
+      if (hasAnyInput) {
+        // If they've started filling this tier, require it to be complete
+        if (!aName?.value.trim()) { aName?.classList.add('invalid'); dayIssues.push(`Day ${i+1}, ${tier} option: lodge name is required.`); valid = false; }
+        if ((aDesc?.value.trim()||'').length < 40) { aDesc?.classList.add('invalid'); dayIssues.push(`Day ${i+1}, ${tier} option: description needs at least 40 characters or it will look empty.`); valid = false; }
+        if (!aImg?.value.trim()) { dayIssues.push(`Day ${i+1}, ${tier} option: no photo uploaded — this option will show a blank image.`); }
+      }
+    });
+  });
+
+  if (dayIssues.length) {
+    let box = document.getElementById('dayValidationBox');
+    if (!box) {
+      box = document.createElement('div');
+      box.id = 'dayValidationBox';
+      box.style.cssText = 'background:rgba(180,60,60,0.08);border:1px solid rgba(180,60,60,0.4);padding:14px 16px;margin-bottom:16px;font-size:12px;line-height:1.7;color:#e05555;';
+      const repeater = document.getElementById('daysRepeater');
+      repeater?.parentNode.insertBefore(box, repeater);
+    }
+    box.innerHTML = '<strong>Fix these before publishing:</strong><ul style="margin:8px 0 0 18px;">' + dayIssues.map(m => `<li>${m}</li>`).join('') + '</ul>';
+  } else {
+    document.getElementById('dayValidationBox')?.remove();
+  }
+
+  return valid;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PACKAGE FORM VALIDATION
+// ═══════════════════════════════════════════════════════════════
+function validatePackageForm() {
+  document.querySelectorAll('#view-new-package .invalid').forEach(el => el.classList.remove('invalid'));
+  document.querySelectorAll('#view-new-package .field-error.show').forEach(el => el.classList.remove('show'));
+
+  let valid = true;
+  function flag(fieldId, errId) {
+    const f = document.getElementById(fieldId);
+    const e = document.getElementById(errId);
+    if (f) f.classList.add('invalid');
+    if (e) e.classList.add('show');
+    valid = false;
+  }
+
+  const name = document.getElementById('f-name')?.value.trim() || '';
+  if (name.length < 5) flag('f-name', 'err-name');
+
+  const slug = document.getElementById('f-slug')?.value.trim() || '';
+  if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) flag('f-slug', 'err-slug');
+
+  const tagline = document.getElementById('f-tagline')?.value.trim() || '';
+  if (tagline.length < 10) flag('f-tagline', 'err-tagline');
+
+  const badge = document.getElementById('f-badge')?.value.trim() || '';
+  if (!badge) flag('f-badge', 'err-badge');
+
+  const category = document.getElementById('f-category')?.value || '';
+  if (!category) flag('f-category', 'err-category');
+
+  const transport = document.getElementById('f-transport')?.value || '';
+  if (!transport) flag('f-transport', 'err-transport');
+
+  const days = parseInt(document.getElementById('f-days')?.value) || 0;
+  if (days < 1) flag('f-days', 'err-days');
+
+  const nights = document.getElementById('f-nights')?.value;
+  if (!nights) flag('f-nights', 'err-nights');
+
+  const destinations = (document.getElementById('f-destinations')?.value || '').split(',').map(s=>s.trim()).filter(Boolean);
+  if (destinations.length < 2) flag('f-destinations', 'err-destinations');
+
+  const overviewTitle = document.getElementById('f-overview-title')?.value.trim() || '';
+  if (overviewTitle.length < 10) flag('f-overview-title', 'err-overview-title');
+
+  const overviewBody = document.getElementById('f-overview-body')?.value.trim() || '';
+  if (overviewBody.length < 80) flag('f-overview-body', 'err-overview-body');
+
+  const heroUrl = document.getElementById('f-hero-image-url')?.value.trim() || '';
+  if (!heroUrl) flag('f-hero-image-url', 'err-hero');
+
+  const cardBgUrl = document.getElementById('f-card-bg-url')?.value.trim() || '';
+  if (!cardBgUrl) flag('f-card-bg-url', 'err-card-bg');
+
+  const highlights = (document.getElementById('f-short-highlights')?.value || '').split('\n').map(s=>s.trim()).filter(Boolean);
+  if (highlights.length < 4 || highlights.length > 7) flag('f-short-highlights', 'err-highlights');
+
+  const pricePeak = document.getElementById('f-price-peak')?.value;
+  if (!pricePeak) flag('f-price-peak', 'err-price-peak');
+  const priceHigh = document.getElementById('f-price-high')?.value;
+  if (!priceHigh) flag('f-price-high', 'err-price-high');
+  const priceGreen = document.getElementById('f-price-green')?.value;
+  if (!priceGreen) flag('f-price-green', 'err-price-green');
+  const priceSolo = document.getElementById('f-price-solo')?.value;
+  if (!priceSolo) flag('f-price-solo', 'err-price-solo');
+  const priceDuo = document.getElementById('f-price-duo')?.value;
+  if (!priceDuo) flag('f-price-duo', 'err-price-duo');
+  const priceGroup = document.getElementById('f-price-group')?.value;
+  if (!priceGroup) flag('f-price-group', 'err-price-group');
+
+  const peakMonths = document.getElementById('f-peak-months')?.value.trim() || '';
+  if (!/^\d+(,\s*\d+)*$/.test(peakMonths)) flag('f-peak-months', 'err-peak-months');
+  const highMonths = document.getElementById('f-high-months')?.value.trim() || '';
+  if (!/^\d+(,\s*\d+)*$/.test(highMonths)) flag('f-high-months', 'err-high-months');
+  const greenMonths = document.getElementById('f-green-months')?.value.trim() || '';
+  if (!/^\d+(,\s*\d+)*$/.test(greenMonths)) flag('f-green-months', 'err-green-months');
+
+  // Days repeater: require at least 1 day, and each day's title/location/description filled with enough length
+  const dayRows = document.querySelectorAll('#daysRepeater .repeater-row');
+  const dayIssues = [];
+  if (dayRows.length === 0) {
+    dayIssues.push('Add at least one day to the itinerary.');
+    valid = false;
+  }
+  dayRows.forEach((row, i) => {
+    const dTitle = row.querySelector('.day-title');
+    const dLoc = row.querySelector('.day-location');
+    const dDesc = row.querySelector('.day-desc');
+    if (!dTitle?.value.trim()) { dTitle?.classList.add('invalid'); dayIssues.push(`Day ${i+1}: title is required.`); valid = false; }
+    if (!dLoc?.value.trim()) { dLoc?.classList.add('invalid'); dayIssues.push(`Day ${i+1}: location is required.`); valid = false; }
+    if ((dDesc?.value.trim()||'').length < 40) { dDesc?.classList.add('invalid'); dayIssues.push(`Day ${i+1}: description needs at least 40 characters (currently ${dDesc?.value.trim().length||0}) or it will look empty on the live page.`); valid = false; }
+
+    // Each day's 3 accommodation tiers: name + description required
+    const tierCards = row.querySelectorAll('.accom-tier-card');
+    tierCards.forEach(card => {
+      const tier = card.dataset.tier;
+      const aName = card.querySelector('.accom-name');
+      const aDesc = card.querySelector('.accom-desc');
+      const aImg = card.querySelector('input[type=hidden][class*="accom-image"]');
+      const hasAnyInput = aName?.value.trim() || aDesc?.value.trim();
+      if (hasAnyInput) {
+        // If they've started filling this tier, require it to be complete
+        if (!aName?.value.trim()) { aName?.classList.add('invalid'); dayIssues.push(`Day ${i+1}, ${tier} option: lodge name is required.`); valid = false; }
+        if ((aDesc?.value.trim()||'').length < 40) { aDesc?.classList.add('invalid'); dayIssues.push(`Day ${i+1}, ${tier} option: description needs at least 40 characters or it will look empty.`); valid = false; }
+        if (!aImg?.value.trim()) { dayIssues.push(`Day ${i+1}, ${tier} option: no photo uploaded — this option will show a blank image.`); }
+      }
+    });
+  });
+
+  if (dayIssues.length) {
+    let box = document.getElementById('dayValidationBox');
+    if (!box) {
+      box = document.createElement('div');
+      box.id = 'dayValidationBox';
+      box.style.cssText = 'background:rgba(180,60,60,0.08);border:1px solid rgba(180,60,60,0.4);padding:14px 16px;margin-bottom:16px;font-size:12px;line-height:1.7;color:#e05555;';
+      const repeater = document.getElementById('daysRepeater');
+      repeater?.parentNode.insertBefore(box, repeater);
+    }
+    box.innerHTML = '<strong>Fix these before publishing:</strong><ul style="margin:8px 0 0 18px;">' + dayIssues.map(m => `<li>${m}</li>`).join('') + '</ul>';
+  } else {
+    document.getElementById('dayValidationBox')?.remove();
+  }
+
+  return valid;
 }
