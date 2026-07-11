@@ -150,6 +150,7 @@ function showView(name) {
     'new-blog':     { navId:'nav-new-blog',     group:'group-blog',     loader: null },
     'members':      { navId:'nav-members',      group:'group-members',  loader: loadMembers },
     'testimonials': { navId:'nav-testimonials', group:'group-members',  loader: () => loadTestimonials('pending') },
+    'gallery':      { navId:'nav-gallery-manage', group:'group-gallery', loader: loadGalleryItems },
     'team':         { navId:'nav-team',         group:'group-settings', loader: null },
     'site-settings':{ navId:'nav-site',         group:'group-settings', loader: loadSiteSettings },
   };
@@ -4249,3 +4250,108 @@ function toggleAuthPassword() {
   }
   animateRing();
 })();
+
+// ═══════════════════════════════════════════════════════════════
+// GALLERY MANAGEMENT (homepage collage — 17 fixed tiles)
+// ═══════════════════════════════════════════════════════════════
+let allGalleryItems = [];
+
+async function loadGalleryItems() {
+  const list = document.getElementById('galleryItemsList');
+  if (!list) return;
+  list.innerHTML = '<p style="color:var(--muted);">Loading gallery...</p>';
+
+  const { data, error } = await db.from('gallery_items').select('*').order('tile_index', { ascending: true });
+  if (error) { list.innerHTML = '<p style="color:var(--muted);">Error: ' + error.message + '</p>'; return; }
+  allGalleryItems = data || [];
+
+  if (!allGalleryItems.length) {
+    list.innerHTML = '<p style="color:var(--muted);">No gallery items found.</p>';
+    return;
+  }
+
+  list.innerHTML = allGalleryItems.map((item, i) => `
+    <div style="background:var(--charcoal);border:1px solid var(--border);overflow:hidden;">
+      <div style="position:relative;aspect-ratio:4/3;background:#000;">
+        ${item.media_type === 'video'
+          ? `<video src="${item.image_url}" muted loop autoplay playsinline style="width:100%;height:100%;object-fit:cover;"></video>`
+          : `<img src="${item.image_url}" alt="${item.alt_text||item.title}" style="width:100%;height:100%;object-fit:cover;">`
+        }
+        <span style="position:absolute;top:8px;left:8px;background:rgba(8,8,8,0.75);color:var(--gold);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;">Tile ${i} \u00b7 ${item.size_class}</span>
+        ${item.media_type === 'video' ? `<span style="position:absolute;top:8px;right:8px;background:rgba(8,8,8,0.75);color:var(--text);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;">Video</span>` : ''}
+      </div>
+      <div style="padding:16px;">
+        <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">${item.eyebrow}</div>
+        <div style="font-size:15px;font-weight:600;margin-bottom:12px;">${item.title}</div>
+        <button class="btn btn-outline btn-sm" style="width:100%;" onclick="openGalleryItemEditor('${item.id}')">Edit / Replace Photo</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openGalleryItemEditor(id) {
+  const item = allGalleryItems.find(g => g.id === id);
+  if (!item) return;
+
+  let overlay = document.getElementById('galleryEditOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'galleryEditOverlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:99988;background:rgba(2,2,2,0.88);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;padding:24px;';
+    document.body.appendChild(overlay);
+  }
+
+  overlay.innerHTML = `
+    <div style="background:var(--charcoal);border:1px solid var(--border);max-width:520px;width:100%;max-height:88vh;overflow-y:auto;position:relative;padding:32px;">
+      <button onclick="document.getElementById('galleryEditOverlay').remove()" style="position:absolute;top:14px;right:14px;background:var(--card);border:1px solid var(--border);color:var(--gold);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 14px;cursor:pointer;">Close</button>
+      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Tile ${item.tile_index} \u00b7 ${item.size_class} \u00b7 ${item.media_type}</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:24px;">Edit Gallery Tile</h2>
+
+      <div class="form-group" style="margin-bottom:16px;">
+        <label>Eyebrow / Location Label <span class="req">*</span></label>
+        <input type="text" id="gi-eyebrow" value="${item.eyebrow}" placeholder="e.g. Maasai Mara \u00b7 Kenya">
+      </div>
+      <div class="form-group" style="margin-bottom:16px;">
+        <label>Title <span class="req">*</span></label>
+        <input type="text" id="gi-title" value="${item.title}" placeholder="e.g. Where Silence Has a Pulse">
+      </div>
+      ${imgUploadFieldHTML('gi-image-url', item.media_type === 'video' ? 'Replace Video' : 'Replace Photo', item.image_url, 'gallery/tile-' + item.tile_index, true)}
+      <div style="font-size:10px;color:var(--muted);margin:-8px 0 20px;font-style:italic;">
+        Uploading a new ${item.media_type} here replaces what shows in this exact tile position \u2014 the tile's size and place in the layout never changes.
+      </div>
+
+      <button class="btn btn-gold" style="width:100%;" onclick="saveGalleryItem('${item.id}')">Save Changes</button>
+      <p id="giSaveStatus" style="font-size:11px;color:var(--muted);margin-top:10px;text-align:center;"></p>
+    </div>
+  `;
+}
+
+async function saveGalleryItem(id) {
+  const statusEl = document.getElementById('giSaveStatus');
+  const eyebrow = document.getElementById('gi-eyebrow')?.value.trim();
+  const title = document.getElementById('gi-title')?.value.trim();
+  const imageUrl = document.getElementById('gi-image-url')?.value.trim();
+
+  if (!eyebrow || !title || !imageUrl) {
+    statusEl.textContent = 'Eyebrow, title and image are all required.';
+    statusEl.style.color = '#e05555';
+    return;
+  }
+
+  statusEl.textContent = 'Saving...';
+  statusEl.style.color = 'var(--muted)';
+
+  const { error } = await db.from('gallery_items').update({
+    eyebrow, title, image_url: imageUrl
+  }).eq('id', id);
+
+  if (error) {
+    statusEl.textContent = 'Error: ' + error.message;
+    statusEl.style.color = '#e05555';
+    return;
+  }
+
+  showToast('Gallery tile updated \u2014 now live on the homepage');
+  document.getElementById('galleryEditOverlay')?.remove();
+  loadGalleryItems();
+}

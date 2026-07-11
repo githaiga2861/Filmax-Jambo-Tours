@@ -95,6 +95,14 @@
       <div class="nav-sub-item" onclick="showView('blog-drafts')" id="nav-blog-drafts">Draft Posts</div>
     </div>
 
+    <!-- Gallery group -->
+    <div class="nav-group-header" onclick="toggleNavGroup('group-gallery')" id="nav-gallery-header">
+      <span>🖼 Gallery</span>
+      <span class="nav-group-arrow" id="arrow-group-gallery">▾</span>
+    </div>
+    <div class="nav-group" id="group-gallery">
+      <div class="nav-sub-item" onclick="showView('gallery')" id="nav-gallery-manage">Manage Gallery</div>
+    </div>
     <!-- Members group -->
     <div class="nav-group-header" onclick="toggleNavGroup('group-members')" id="nav-members-header">
       <span>👥 Members</span>
@@ -902,6 +910,21 @@
   </div>
 </div>
 
+<!-- VIEW: Gallery -->
+<div class="view" id="view-gallery">
+  <div class="view-header">
+    <div class="view-title"><span>Homepage</span>Gallery</div>
+  </div>
+  <p style="color:var(--muted);font-size:12px;margin-bottom:24px;line-height:1.7;">
+    These are the 17 fixed tiles shown in the homepage gallery collage. Each tile's
+    photo, title and caption can be edited or replaced here \u2014 the number of tiles
+    cannot be increased or decreased, since each one has a specific size and position
+    in the collage layout.
+  </p>
+  <div id="galleryItemsList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;">
+    <p style="color:var(--muted);">Loading gallery...</p>
+  </div>
+</div>
 <!-- VIEW: Testimonials -->
 <div class="view" id="view-testimonials">
   <div class="view-header">
