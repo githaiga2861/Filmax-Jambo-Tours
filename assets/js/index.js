@@ -1694,3 +1694,91 @@ window.addEventListener('load', function() {
     }, 500);
   }, 3900);
 })();
+
+// ===========================
+// HOMEPAGE PACKAGE CARDS (dynamic, Supabase-backed)
+// ===========================
+(function(){
+  var SUPA_URL = 'https://kwriicxzkgkcseorcqdi.supabase.co';
+  var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
+  var grid = document.getElementById('packagesGrid');
+  if (!grid) return;
+  var filterBar = document.getElementById('pkgFilterBar');
+  var filterLabel = document.getElementById('pkgFilterLabel');
+  var glow = document.getElementById('pkgFilterGlow');
+  var allPackages = [];
+  var rotateIndex = 0;
+  var rotateTimer = null;
+
+  function cardHTML(pkg) {
+    var price = pkg.price_high_season || pkg.price_duo || 0;
+    var detailPage = pkg.detail_page_url || ('/packages/' + pkg.slug + '/');
+    var badge = pkg.badge || null;
+    var duration = pkg.duration_days ? (pkg.duration_days + ' Days · ' + (pkg.duration_nights||'') + ' Nights') : '';
+    var highlights = pkg.short_highlights || [];
+    var destinations = pkg.destinations || [];
+    return '' +
+      '<img class="pkg-bg" src="' + (pkg.card_bg_image_url || pkg.hero_image_url || '') + '" alt="" loading="lazy">' +
+      '<div class="pkg-bg-overlay"></div>' +
+      (badge ? '<span class="pkg-badge">' + badge + '</span>' : '') +
+      '<span class="pkg-duration">' + duration + '</span>' +
+      '<h3 class="pkg-name">' + (pkg.name||'') + '</h3>' +
+      (pkg.tagline ? '<p class="pkg-tagline">' + pkg.tagline + '</p>' : '') +
+      '<div class="divider"></div>' +
+      '<div class="pkg-price">$' + Number(price).toLocaleString() + ' <span>/ person</span></div>' +
+      (destinations.length ? '<div class="pkg-destinations">' + destinations.map(function(d){return '<span class="dest-tag">'+d+'</span>';}).join('') + '</div>' : '') +
+      '<ul class="pkg-features">' + highlights.slice(0,4).map(function(h){return '<li>'+h+'</li>';}).join('') + '</ul>' +
+      '<a href="' + detailPage + '" class="pkg-cta">Unveil This Journey</a>';
+  }
+
+  function renderThree(list) {
+    var ids = ['pkgCard0','pkgCard1','pkgCard2'];
+    ids.forEach(function(id, i) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var pkg = list[i];
+      if (pkg) { el.innerHTML = cardHTML(pkg); el.style.display = ''; }
+      else { el.innerHTML = ''; el.style.display = 'none'; }
+    });
+  }
+
+  function applyFilter(tier) {
+    var filtered = tier === 'all' ? allPackages : allPackages.filter(function(p){ return p.tier === tier; });
+    rotateIndex = 0;
+    renderThree(filtered.slice(0, 3));
+    if (filterLabel) {
+      var label = tier === 'all' ? 'Showing all collections' :
+        'Showing ' + filtered.length + ' ' + tier + ' collection' + (filtered.length===1?'':'s');
+      filterLabel.textContent = label;
+    }
+    clearInterval(rotateTimer);
+    if (filtered.length > 3) {
+      rotateTimer = setInterval(function(){
+        rotateIndex = (rotateIndex + 3) % filtered.length;
+        var next = filtered.slice(rotateIndex, rotateIndex + 3);
+        if (next.length < 3) next = next.concat(filtered.slice(0, 3 - next.length));
+        renderThree(next);
+      }, 6000);
+    }
+  }
+
+  if (filterBar) {
+    filterBar.querySelectorAll('.pkg-filter-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        filterBar.querySelectorAll('.pkg-filter-btn').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        applyFilter(btn.dataset.filter);
+      });
+    });
+  }
+
+  fetch(SUPA_URL + '/rest/v1/packages?select=*&is_published=eq.true&order=created_at.desc', {
+    headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    allPackages = Array.isArray(data) ? data : [];
+    applyFilter('all');
+  })
+  .catch(function(){ /* fail silently — cards stay empty rather than broken */ });
+})();
