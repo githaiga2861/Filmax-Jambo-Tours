@@ -57,6 +57,7 @@ function apply(loc){
   showBadge(loc);
   triggerTranslate(loc.lang);
 }
+window.fjtReapplyLocale = function(){ if(window._fjtLocale) convertPrices(window._fjtLocale); };
 
 function run(){
   var cached=sessionStorage.getItem(CACHE_KEY);

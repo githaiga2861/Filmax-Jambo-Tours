@@ -589,9 +589,9 @@ document.addEventListener('DOMContentLoaded',function(){
 
   function renderCard(el,pkgIndex,isFeatured,animate,bgIndex){
     const pkg=allPackages[pkgIndex%allPackages.length];
-    if(!animate){el.innerHTML=buildCard(pkg,isFeatured,bgIndex);return;}
+    if(!animate){el.innerHTML=buildCard(pkg,isFeatured,bgIndex);if(window.fjtReapplyLocale)window.fjtReapplyLocale();return;}
     el.style.transition='opacity 0.5s ease,transform 0.5s ease';el.style.opacity='0';el.style.transform='translateY(16px)';
-    setTimeout(function(){el.innerHTML=buildCard(pkg,isFeatured,bgIndex);el.style.opacity='1';el.style.transform='translateY(0)';},500);
+    setTimeout(function(){el.innerHTML=buildCard(pkg,isFeatured,bgIndex);el.style.opacity='1';el.style.transform='translateY(0)';if(window.fjtReapplyLocale)window.fjtReapplyLocale();},500);
   }
 
   filterBtns.forEach(function(btn){
