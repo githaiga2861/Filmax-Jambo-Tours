@@ -4250,9 +4250,8 @@ function toggleAuthPassword() {
   }
   animateRing();
 })();
-
 // ═══════════════════════════════════════════════════════════════
-// GALLERY MANAGEMENT (homepage collage — 17 fixed tiles)
+// GALLERY MANAGEMENT (17 fixed homepage tiles + growable photo pool)
 // ═══════════════════════════════════════════════════════════════
 let allGalleryItems = [];
 
@@ -4261,32 +4260,64 @@ async function loadGalleryItems() {
   if (!list) return;
   list.innerHTML = '<p style="color:var(--muted);">Loading gallery...</p>';
 
-  const { data, error } = await db.from('gallery_items').select('*').order('tile_index', { ascending: true });
+  const { data, error } = await db.from('gallery_items').select('*').order('tile_index', { ascending: true, nullsFirst: false }).order('sort_order', { ascending: true });
   if (error) { list.innerHTML = '<p style="color:var(--muted);">Error: ' + error.message + '</p>'; return; }
   allGalleryItems = data || [];
 
-  if (!allGalleryItems.length) {
-    list.innerHTML = '<p style="color:var(--muted);">No gallery items found.</p>';
-    return;
-  }
+  const tileItems = allGalleryItems.filter(g => g.tile_index !== null).sort((a,b) => a.tile_index - b.tile_index);
+  const poolItems = allGalleryItems.filter(g => g.tile_index === null);
 
-  list.innerHTML = allGalleryItems.map((item, i) => `
+  function cardHTML(item, isTile) {
+    return `
     <div style="background:var(--charcoal);border:1px solid var(--border);overflow:hidden;">
       <div style="position:relative;aspect-ratio:4/3;background:#000;">
         ${item.media_type === 'video'
           ? `<video src="${item.image_url}" muted loop autoplay playsinline style="width:100%;height:100%;object-fit:cover;"></video>`
           : `<img src="${item.image_url}" alt="${item.alt_text||item.title}" style="width:100%;height:100%;object-fit:cover;">`
         }
-        <span style="position:absolute;top:8px;left:8px;background:rgba(8,8,8,0.75);color:var(--gold);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;">Tile ${i} \u00b7 ${item.size_class}</span>
+        <span style="position:absolute;top:8px;left:8px;background:rgba(8,8,8,0.75);color:var(--gold);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;">${isTile ? 'Tile ' + item.tile_index + ' \u00b7 ' + item.size_class : 'Pool photo'}</span>
         ${item.media_type === 'video' ? `<span style="position:absolute;top:8px;right:8px;background:rgba(8,8,8,0.75);color:var(--text);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;">Video</span>` : ''}
       </div>
       <div style="padding:16px;">
         <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">${item.eyebrow}</div>
         <div style="font-size:15px;font-weight:600;margin-bottom:12px;">${item.title}</div>
-        <button class="btn btn-outline btn-sm" style="width:100%;" onclick="openGalleryItemEditor('${item.id}')">Edit / Replace Photo</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-outline btn-sm" style="flex:1;" onclick="openGalleryItemEditor('${item.id}')">Edit / Replace</button>
+          ${isTile
+            ? `<button class="btn btn-outline btn-sm" onclick="unassignFromTile('${item.id}')" title="Move to pool, freeing this tile">To Pool</button>`
+            : `<button class="btn btn-outline btn-sm" onclick="promptAssignToTile('${item.id}')">Use In Tile\u2026</button><button class="btn btn-danger btn-sm" onclick="deleteGalleryPhoto('${item.id}')">Delete</button>`
+          }
+        </div>
       </div>
+    </div>`;
+  }
+
+  list.innerHTML = `
+    <div style="grid-column:1/-1;">
+      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Homepage Grid \u2014 17 fixed slots</div>
+      <p style="color:var(--muted);font-size:12px;margin-bottom:16px;line-height:1.7;">
+        These are the exact tiles shown in the homepage collage. Each one always has a photo \u2014
+        edit its text or replace its photo directly, or move it "To Pool" and assign a different
+        photo into this slot instead. The number of tiles here can never change.
+      </p>
     </div>
-  `).join('');
+    <div style="grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:36px;">
+      ${tileItems.map(item => cardHTML(item, true)).join('')}
+    </div>
+    <div style="grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);">Additional Gallery Photos \u2014 ${poolItems.length}</div>
+      <button class="btn btn-gold btn-sm" onclick="openAddGalleryPhotoModal()">+ Add Photo</button>
+    </div>
+    <p style="color:var(--muted);font-size:12px;margin-bottom:16px;line-height:1.7;grid-column:1/-1;">
+      These photos are not shown as homepage tiles \u2014 they're only visible to visitors who open
+      the gallery and click "View All Moments" to browse further. Use "Use In Tile\u2026" to swap
+      any of these into one of the 17 fixed slots above (the photo currently in that slot moves
+      here automatically, nothing is ever lost).
+    </p>
+    <div style="grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;">
+      ${poolItems.length ? poolItems.map(item => cardHTML(item, false)).join('') : '<p style="color:var(--muted);">No additional photos yet. Click "+ Add Photo" to add one.</p>'}
+    </div>
+  `;
 }
 
 function openGalleryItemEditor(id) {
@@ -4301,11 +4332,12 @@ function openGalleryItemEditor(id) {
     document.body.appendChild(overlay);
   }
 
+  const isTile = item.tile_index !== null;
   overlay.innerHTML = `
     <div style="background:var(--charcoal);border:1px solid var(--border);max-width:520px;width:100%;max-height:88vh;overflow-y:auto;position:relative;padding:32px;">
       <button onclick="document.getElementById('galleryEditOverlay').remove()" style="position:absolute;top:14px;right:14px;background:var(--card);border:1px solid var(--border);color:var(--gold);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 14px;cursor:pointer;">Close</button>
-      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Tile ${item.tile_index} \u00b7 ${item.size_class} \u00b7 ${item.media_type}</div>
-      <h2 style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:24px;">Edit Gallery Tile</h2>
+      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">${isTile ? 'Tile ' + item.tile_index + ' \u00b7 ' + item.size_class : 'Pool photo'} \u00b7 ${item.media_type}</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:24px;">Edit ${isTile ? 'Gallery Tile' : 'Pool Photo'}</h2>
 
       <div class="form-group" style="margin-bottom:16px;">
         <label>Eyebrow / Location Label <span class="req">*</span></label>
@@ -4315,10 +4347,7 @@ function openGalleryItemEditor(id) {
         <label>Title <span class="req">*</span></label>
         <input type="text" id="gi-title" value="${item.title}" placeholder="e.g. Where Silence Has a Pulse">
       </div>
-      ${imgUploadFieldHTML('gi-image-url', item.media_type === 'video' ? 'Replace Video' : 'Replace Photo', item.image_url, 'gallery/tile-' + item.tile_index, true)}
-      <div style="font-size:10px;color:var(--muted);margin:-8px 0 20px;font-style:italic;">
-        Uploading a new ${item.media_type} here replaces what shows in this exact tile position \u2014 the tile's size and place in the layout never changes.
-      </div>
+      ${imgUploadFieldHTML('gi-image-url', item.media_type === 'video' ? 'Replace Video' : 'Replace Photo', item.image_url, 'gallery/' + item.id, true)}
 
       <button class="btn btn-gold" style="width:100%;" onclick="saveGalleryItem('${item.id}')">Save Changes</button>
       <p id="giSaveStatus" style="font-size:11px;color:var(--muted);margin-top:10px;text-align:center;"></p>
@@ -4341,9 +4370,7 @@ async function saveGalleryItem(id) {
   statusEl.textContent = 'Saving...';
   statusEl.style.color = 'var(--muted)';
 
-  const { error } = await db.from('gallery_items').update({
-    eyebrow, title, image_url: imageUrl
-  }).eq('id', id);
+  const { error } = await db.from('gallery_items').update({ eyebrow, title, image_url: imageUrl }).eq('id', id);
 
   if (error) {
     statusEl.textContent = 'Error: ' + error.message;
@@ -4351,7 +4378,133 @@ async function saveGalleryItem(id) {
     return;
   }
 
-  showToast('Gallery tile updated \u2014 now live on the homepage');
+  showToast('Saved \u2014 now live on the homepage');
   document.getElementById('galleryEditOverlay')?.remove();
+  loadGalleryItems();
+}
+
+function openAddGalleryPhotoModal() {
+  let overlay = document.getElementById('galleryEditOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'galleryEditOverlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:99988;background:rgba(2,2,2,0.88);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;padding:24px;';
+    document.body.appendChild(overlay);
+  }
+
+  overlay.innerHTML = `
+    <div style="background:var(--charcoal);border:1px solid var(--border);max-width:520px;width:100%;max-height:88vh;overflow-y:auto;position:relative;padding:32px;">
+      <button onclick="document.getElementById('galleryEditOverlay').remove()" style="position:absolute;top:14px;right:14px;background:var(--card);border:1px solid var(--border);color:var(--gold);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 14px;cursor:pointer;">Close</button>
+      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">New Pool Photo</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:12px;">Add Gallery Photo</h2>
+      <p style="color:var(--muted);font-size:12px;margin-bottom:24px;line-height:1.6;">
+        This photo joins the gallery pool \u2014 visible when visitors click "View All Moments", but
+        not shown as a homepage tile unless you assign it to one afterward.
+      </p>
+
+      <div class="form-group" style="margin-bottom:16px;">
+        <label>Media Type</label>
+        <select id="ga-type">
+          <option value="image">Image</option>
+          <option value="video">Video</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:16px;">
+        <label>Eyebrow / Location Label <span class="req">*</span></label>
+        <input type="text" id="ga-eyebrow" placeholder="e.g. Maasai Mara \u00b7 Kenya">
+      </div>
+      <div class="form-group" style="margin-bottom:16px;">
+        <label>Title <span class="req">*</span></label>
+        <input type="text" id="ga-title" placeholder="e.g. Golden Hour Over the Plains">
+      </div>
+      ${imgUploadFieldHTML('ga-image-url', 'Photo / Video', '', 'gallery/pool-' + Date.now(), true)}
+
+      <button class="btn btn-gold" style="width:100%;" onclick="saveNewGalleryPhoto()">Add to Gallery</button>
+      <p id="gaSaveStatus" style="font-size:11px;color:var(--muted);margin-top:10px;text-align:center;"></p>
+    </div>
+  `;
+}
+
+async function saveNewGalleryPhoto() {
+  const statusEl = document.getElementById('gaSaveStatus');
+  const mediaType = document.getElementById('ga-type')?.value;
+  const eyebrow = document.getElementById('ga-eyebrow')?.value.trim();
+  const title = document.getElementById('ga-title')?.value.trim();
+  const imageUrl = document.getElementById('ga-image-url')?.value.trim();
+
+  if (!eyebrow || !title || !imageUrl) {
+    statusEl.textContent = 'Eyebrow, title and photo are all required.';
+    statusEl.style.color = '#e05555';
+    return;
+  }
+
+  statusEl.textContent = 'Adding...';
+  statusEl.style.color = 'var(--muted)';
+
+  const maxSort = allGalleryItems.reduce((m, g) => Math.max(m, g.sort_order || 0), 0);
+
+  const { error } = await db.from('gallery_items').insert({
+    tile_index: null,
+    size_class: 'reg',
+    media_type: mediaType,
+    eyebrow, title,
+    image_url: imageUrl,
+    alt_text: title,
+    sort_order: maxSort + 1
+  });
+
+  if (error) {
+    statusEl.textContent = 'Error: ' + error.message;
+    statusEl.style.color = '#e05555';
+    return;
+  }
+
+  showToast('Photo added to gallery pool');
+  document.getElementById('galleryEditOverlay')?.remove();
+  loadGalleryItems();
+}
+
+async function promptAssignToTile(id) {
+  const item = allGalleryItems.find(g => g.id === id);
+  if (!item) return;
+  const input = prompt('Which tile number should this photo occupy? Enter 0\u201316.\n\nWhatever photo is currently in that tile will automatically move to the pool \u2014 nothing is deleted.');
+  if (input === null) return;
+  const tileIndex = parseInt(input, 10);
+  if (isNaN(tileIndex) || tileIndex < 0 || tileIndex > 16) {
+    showToast('Please enter a number between 0 and 16', 'error');
+    return;
+  }
+
+  const occupying = allGalleryItems.find(g => g.tile_index === tileIndex);
+  if (occupying) {
+    const { error: unassignErr } = await db.from('gallery_items').update({ tile_index: null }).eq('id', occupying.id);
+    if (unassignErr) { showToast('Error freeing existing tile: ' + unassignErr.message, 'error'); return; }
+  }
+
+  const { error } = await db.from('gallery_items').update({ tile_index: tileIndex }).eq('id', id);
+  if (error) { showToast('Error: ' + error.message, 'error'); return; }
+
+  showToast('Photo moved into Tile ' + tileIndex + ' \u2014 now live on the homepage');
+  loadGalleryItems();
+}
+
+async function unassignFromTile(id) {
+  if (!confirm('Move this photo to the pool? The tile will need a replacement photo assigned before publishing looks complete \u2014 you can immediately "Use In Tile" a pool photo to fill it.')) return;
+  const { error } = await db.from('gallery_items').update({ tile_index: null }).eq('id', id);
+  if (error) { showToast('Error: ' + error.message, 'error'); return; }
+  showToast('Moved to pool \u2014 this tile now has no photo assigned');
+  loadGalleryItems();
+}
+
+async function deleteGalleryPhoto(id) {
+  const item = allGalleryItems.find(g => g.id === id);
+  if (item && item.tile_index !== null) {
+    showToast('Move this photo to the pool first before deleting it', 'error');
+    return;
+  }
+  if (!confirm('Permanently delete this gallery photo?')) return;
+  const { error } = await db.from('gallery_items').delete().eq('id', id);
+  if (error) { showToast('Error: ' + error.message, 'error'); return; }
+  showToast('Photo deleted');
   loadGalleryItems();
 }
