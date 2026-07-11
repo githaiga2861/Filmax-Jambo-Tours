@@ -91,7 +91,6 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 document.querySelectorAll('.blog-filter-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    if (!_blogCurrentUser) { openBlogAuth('signin'); return; }
     document.querySelectorAll('.blog-filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     activeFilter = btn.dataset.filter;
@@ -99,8 +98,8 @@ document.querySelectorAll('.blog-filter-btn').forEach(btn => {
   });
 });
 
-// Only load blogs if already authenticated (checkBlogAuth runs first)
-if (_blogCurrentUser) loadBlogs();
+// Load blogs for everyone — reading requires no account
+loadBlogs();
 
 
 (function(){
