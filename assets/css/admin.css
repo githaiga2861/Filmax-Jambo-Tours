@@ -1601,3 +1601,68 @@ body.admin-modal-open {
   border-color: var(--gold);
   color: var(--gold);
 }
+
+/* ═══════════════════════════════════════════
+   ADMIN LOGIN — redesigned, bigger + more polished
+   ═══════════════════════════════════════════ */
+.auth-screen {
+  background: radial-gradient(ellipse at top, rgba(212,175,55,0.06), transparent 60%), var(--bg, #0a0a0a);
+}
+.auth-box {
+  max-width: 460px;
+  padding: 56px 48px;
+  position: relative;
+  background: var(--charcoal);
+  border: 1px solid var(--border);
+  box-shadow: 0 0 0 1px rgba(212,175,55,0.05), 0 40px 100px rgba(0,0,0,0.6);
+}
+.auth-box-top-line {
+  position: absolute;
+  top: 0; left: 12%; right: 12%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #d4af37, transparent);
+}
+.auth-box-eyebrow {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.65);
+  margin-bottom: 14px;
+}
+.auth-box h1 {
+  font-size: 28px;
+  color: var(--gold);
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+.auth-box p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 36px;
+}
+.auth-password-wrap {
+  position: relative;
+}
+.auth-password-wrap input {
+  padding-right: 44px;
+}
+.auth-password-toggle {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 6px 8px;
+  opacity: 0.75;
+  transition: opacity 0.2s;
+}
+.auth-password-toggle:hover { opacity: 1; }
+@media (max-width: 520px) {
+  .auth-box { padding: 36px 26px; max-width: 100%; }
+  .auth-box h1 { font-size: 23px; }
+}

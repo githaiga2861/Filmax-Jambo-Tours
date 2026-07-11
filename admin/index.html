@@ -18,15 +18,20 @@
 <!-- AUTH SCREEN -->
 <div class="auth-screen" id="authScreen">
   <div class="auth-box">
-    <h1>Filmax Admin</h1>
-    <p>Sign in to manage packages</p>
-    <div class="form-group" style="margin-bottom:16px;">
+    <div class="auth-box-top-line"></div>
+    <span class="auth-box-eyebrow">Filmax Jambo Tours</span>
+    <h1>Admin Portal</h1>
+    <p>Sign in to manage packages, journal posts, reservations and more.</p>
+    <div class="form-group" style="margin-bottom:20px;">
       <label>Email</label>
       <input type="email" id="authEmail" placeholder="admin@filmaxjambo.com">
     </div>
-    <div class="form-group" style="margin-bottom:24px;">
+    <div class="form-group" style="margin-bottom:28px;">
       <label>Password</label>
-      <input type="password" id="authPassword" placeholder="••••••••">
+      <div class="auth-password-wrap">
+        <input type="password" id="authPassword" placeholder="••••••••">
+        <button type="button" class="auth-password-toggle" id="authPwToggle" onclick="toggleAuthPassword()">👁</button>
+      </div>
     </div>
     <button class="btn btn-gold" style="width:100%" onclick="signIn()">Sign In</button>
     <p id="authError" style="color:var(--red);font-size:11px;margin-top:12px;display:none;"></p>

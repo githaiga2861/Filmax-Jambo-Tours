@@ -4225,3 +4225,9 @@ function validatePackageForm() {
 
   return valid;
 }
+function toggleAuthPassword() {
+  var f = document.getElementById('authPassword');
+  var btn = document.getElementById('authPwToggle');
+  if (f.type === 'password') { f.type = 'text'; btn.textContent = '🙈'; }
+  else { f.type = 'password'; btn.textContent = '👁'; }
+}
