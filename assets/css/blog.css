@@ -34,7 +34,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; j
 .gold-line span { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); }
 
 /* FILTER BAR */
-.blog-filter-bar { display: flex; align-items: center; gap: 0; margin: 52px auto 0; position: relative; width: fit-content; flex-wrap: nowrap; }
+.blog-filter-bar { display: flex; align-items: center; gap: 0; margin: 52px auto 0; position: relative; width: fit-content; max-width: 100%; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
 .blog-filter-bar::before { content: ''; position: absolute; inset: 0; border: 1px solid rgba(212,175,55,0.15); pointer-events: none; }
 .blog-filter-btn { font-family: 'Jost', sans-serif; font-size: 9px; font-weight: 400; letter-spacing: 5px; text-transform: uppercase; padding: 16px 32px; background: transparent; color: var(--muted); border: none; border-right: 1px solid rgba(212,175,55,0.12); cursor: none; transition: color 0.4s ease, background 0.4s ease; }
 .blog-filter-btn:last-child { border-right: none; }
