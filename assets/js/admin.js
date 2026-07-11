@@ -144,7 +144,7 @@ function showView(name) {
     'categories':   { navId:'nav-categories',   group:'group-packages', loader: loadCategoriesList },
     'new-package':  { navId:'nav-new',          group:'group-packages', loader: null },
     'enquiries':    { navId:'nav-enquiries',    group:'group-bookings', loader: () => loadEnquiries('all') },
-    'confirmed':    { navId:'nav-confirmed',    group:'group-bookings', loader: null },
+    'confirmed':    { navId:'nav-confirmed',    group:'group-bookings', loader: () => loadReservations('all') },
     'blog-posts':   { navId:'nav-blog-posts',   group:'group-blog',     loader: loadBlogPosts },
     'blog-drafts':  { navId:'nav-blog-drafts',  group:'group-blog',     loader: loadBlogDrafts },
     'new-blog':     { navId:'nav-new-blog',     group:'group-blog',     loader: null },
@@ -3672,3 +3672,175 @@ async function deleteBlogPost(id) {
   loadBlogAdmin();
 }
   
+
+// ===========================
+// RESERVATIONS (Bookings from reserve.html)
+// ===========================
+let allReservations = [];
+
+async function loadReservations(statusFilter = 'all') {
+  const list = document.getElementById('reservationsList');
+  if (!list) return;
+  list.innerHTML = '<p style="color:var(--muted);">Loading reservations...</p>';
+
+  let query = db.from('reservations').select('*').order('created_at', { ascending: false });
+  if (statusFilter !== 'all') query = query.eq('status', statusFilter);
+  const { data, error } = await query;
+
+  if (error) { list.innerHTML = '<p style="color:var(--muted);">Error: ' + error.message + '</p>'; return; }
+  allReservations = data || [];
+
+  const [pendingCount, confirmedCount] = await Promise.all([
+    db.from('reservations').select('*', { count:'exact', head:true }).eq('status','pending'),
+    db.from('reservations').select('*', { count:'exact', head:true }).eq('status','confirmed'),
+  ]);
+  document.getElementById('res-pending').textContent = pendingCount.count ?? '—';
+  document.getElementById('res-confirmed').textContent = confirmedCount.count ?? '—';
+
+  const totalTravellers = (data||[]).reduce((sum,r) => sum + (r.adults||0) + (r.children||0), 0);
+  document.getElementById('res-travellers').textContent = totalTravellers;
+
+  const now = new Date();
+  const thisMonthCount = (data||[]).filter(r => {
+    const d = new Date(r.created_at);
+    return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+  }).length;
+  document.getElementById('res-month').textContent = thisMonthCount;
+
+  if (!data?.length) {
+    list.innerHTML = '<p style="color:var(--muted);">No reservations found.</p>';
+    return;
+  }
+
+  list.innerHTML = data.map(r => {
+    const fullName = ((r.first_name||'') + ' ' + (r.last_name||'')).trim() || 'Unknown';
+    const date = r.created_at
+      ? new Date(r.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' })
+      : '—';
+    const travellers = (r.adults||0) + ' Adult' + (r.adults===1?'':'s') + (r.children ? ' · ' + r.children + ' Child' + (r.children===1?'':'ren') : '');
+    return `
+      <div class="enquiry-card status-${r.status||'pending'}" style="cursor:pointer;" onclick="openReservationDetail('${r.id}')">
+        <div class="enquiry-header">
+          <div>
+            <div class="enquiry-name">${fullName} <span style="color:var(--muted);font-weight:400;font-size:11px;">— ${r.ref_number||''}</span></div>
+            ${r.package_name ? `<div class="enquiry-package">${r.package_name}</div>` : ''}
+          </div>
+          <div class="enquiry-date">${date}</div>
+        </div>
+        <div class="enquiry-contact">
+          ${r.email ? `<span>✉️ ${r.email}</span>` : ''}
+          ${r.phone ? `<span>📞 ${r.phone}</span>` : ''}
+          ${r.country ? `<span>🌍 ${r.country}</span>` : ''}
+          <span>👥 ${travellers}</span>
+          ${r.travel_date ? `<span>📅 ${new Date(r.travel_date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</span>` : ''}
+        </div>
+        <div class="enquiry-actions" onclick="event.stopPropagation()">
+          <select class="enquiry-status-select" onchange="updateReservationStatus('${r.id}',this.value)">
+            <option value="pending"   ${r.status==='pending'   ?'selected':''}>Pending</option>
+            <option value="confirmed" ${r.status==='confirmed' ?'selected':''}>Confirmed</option>
+            <option value="cancelled" ${r.status==='cancelled' ?'selected':''}>Cancelled</option>
+          </select>
+          <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();openReservationDetail('${r.id}')">View Full Details</button>
+          <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deleteReservation('${r.id}')">Delete</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function openReservationDetail(id) {
+  const r = allReservations.find(x => x.id === id);
+  if (!r) return;
+  const fullName = ((r.first_name||'') + ' ' + (r.last_name||'')).trim() || 'Unknown';
+  const date = r.created_at ? new Date(r.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit' }) : '—';
+  const travelDate = r.travel_date ? new Date(r.travel_date).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' }) : 'Not specified';
+  document.getElementById('resDetailContent').innerHTML = `
+    <h2 style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;">${fullName}</h2>
+    <p style="color:var(--gold);font-size:12px;letter-spacing:1px;margin-bottom:24px;">Reference: ${r.ref_number||'—'} · Submitted ${date}</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;">
+      <div>
+        <span style="display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Package</span>
+        <span style="font-size:14px;">${r.package_name||'—'}</span>
+      </div>
+      <div>
+        <span style="display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Status</span>
+        <span style="font-size:14px;text-transform:capitalize;">${r.status||'pending'}</span>
+      </div>
+      <div>
+        <span style="display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Travellers</span>
+        <span style="font-size:14px;">${r.adults||0} Adults, ${r.children||0} Children</span>
+      </div>
+      <div>
+        <span style="display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Preferred Travel Date</span>
+        <span style="font-size:14px;">${travelDate}</span>
+      </div>
+      <div>
+        <span style="display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Email</span>
+        <span style="font-size:14px;"><a href="mailto:${r.email||''}" style="color:var(--gold);">${r.email||'—'}</a></span>
+      </div>
+      <div>
+        <span style="display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Phone / WhatsApp</span>
+        <span style="font-size:14px;">${r.phone||'—'}</span>
+      </div>
+      <div>
+        <span style="display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Country</span>
+        <span style="font-size:14px;">${r.country||'—'}</span>
+      </div>
+      <div>
+        <span style="display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">How They Heard About Us</span>
+        <span style="font-size:14px;">${r.how_heard||'—'}</span>
+      </div>
+    </div>
+
+    ${r.message ? `
+    <div style="margin-bottom:24px;">
+      <span style="display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Message / Special Requests</span>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--text);line-height:1.6;background:var(--card);padding:16px;border-left:2px solid var(--gold);">"${r.message}"</p>
+    </div>` : ''}
+
+    ${r.invoice_total ? `
+    <div style="margin-bottom:24px;">
+      <span style="display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Invoice Total</span>
+      <span style="font-size:22px;color:var(--gold);font-family:'Playfair Display',serif;">$${Number(r.invoice_total).toLocaleString()}</span>
+    </div>` : ''}
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;border-top:1px solid var(--border);padding-top:20px;">
+      ${r.email ? `<a href="mailto:${r.email}" class="btn btn-outline btn-sm" style="text-decoration:none;">✉️ Email Traveller</a>` : ''}
+      ${r.phone ? `<a href="https://wa.me/${r.phone.replace(/\D/g,'')}" target="_blank" class="btn btn-outline btn-sm" style="text-decoration:none;color:#25D366;border-color:rgba(37,211,102,0.4);">💬 WhatsApp</a>` : ''}
+    </div>
+  `;
+  document.getElementById('resDetailOverlay').style.display = 'flex';
+}
+
+function closeReservationDetail() {
+  document.getElementById('resDetailOverlay').style.display = 'none';
+}
+
+async function updateReservationStatus(id, status) {
+  const { error } = await db.from('reservations').update({ status }).eq('id', id);
+  if (error) { showToast('Error: ' + error.message, 'error'); return; }
+  showToast('Reservation status updated to ' + status);
+  loadReservations(document.getElementById('resStatusFilter')?.value || 'all');
+}
+
+async function deleteReservation(id) {
+  if (!confirm('Delete this reservation permanently?')) return;
+  await db.from('reservations').delete().eq('id', id);
+  showToast('Reservation deleted');
+  loadReservations(document.getElementById('resStatusFilter')?.value || 'all');
+}
+
+function exportReservationsCSV() {
+  if (!allReservations.length) { showToast('No reservations to export', 'error'); return; }
+  const headers = ['Reference','Name','Email','Phone','Country','Package','Adults','Children','Travel Date','Status','Submitted'];
+  const rows = allReservations.map(r => [
+    r.ref_number, ((r.first_name||'')+' '+(r.last_name||'')).trim(), r.email, r.phone, r.country,
+    r.package_name, r.adults, r.children, r.travel_date, r.status, r.created_at
+  ]);
+  const csv = [headers, ...rows].map(row => row.map(v => `"${(v??'').toString().replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'reservations.csv'; a.click();
+  URL.revokeObjectURL(url);
+}

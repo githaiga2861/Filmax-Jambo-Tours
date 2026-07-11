@@ -74,7 +74,7 @@
     </div>
     <div class="nav-group" id="group-bookings">
       <div class="nav-sub-item" onclick="showView('enquiries')" id="nav-enquiries">Enquiries</div>
-      <div class="nav-sub-item" onclick="showView('confirmed')" id="nav-confirmed">Confirmed</div>
+      <div class="nav-sub-item" onclick="showView('confirmed')" id="nav-confirmed">Reservations</div>
     </div>
 
     <!-- Blog group -->
@@ -675,10 +675,49 @@
 <!-- VIEW: Confirmed -->
 <div class="view" id="view-confirmed">
   <div class="view-header">
-    <div class="view-title"><span>Bookings</span>Confirmed</div>
+    <div class="view-title"><span>Bookings</span>Reservations</div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <select id="resStatusFilter" onchange="loadReservations(this.value)"
+        style="background:var(--card);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:11px;padding:8px 12px;outline:none;">
+        <option value="all">All Reservations</option>
+        <option value="pending">Pending</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+      <button class="btn btn-outline btn-sm" onclick="exportReservationsCSV()">↓ Export CSV</button>
+    </div>
   </div>
-  <div style="background:var(--charcoal);border:1px solid var(--border);padding:40px;text-align:center;">
-    <p style="color:var(--muted);font-size:13px;line-height:1.8;">Confirmed bookings coming soon.</p>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;">
+    <div class="dash-kpi">
+      <span class="dash-kpi-label">Pending</span>
+      <span class="dash-kpi-num" id="res-pending">—</span>
+      <span class="dash-kpi-sub">Awaiting confirmation</span>
+    </div>
+    <div class="dash-kpi">
+      <span class="dash-kpi-label">Confirmed</span>
+      <span class="dash-kpi-num" id="res-confirmed">—</span>
+      <span class="dash-kpi-sub">Bookings secured</span>
+    </div>
+    <div class="dash-kpi">
+      <span class="dash-kpi-label">Total Travellers</span>
+      <span class="dash-kpi-num" id="res-travellers">—</span>
+      <span class="dash-kpi-sub">Adults + children, all bookings</span>
+    </div>
+    <div class="dash-kpi">
+      <span class="dash-kpi-label">This Month</span>
+      <span class="dash-kpi-num" id="res-month">—</span>
+      <span class="dash-kpi-sub">New reservations</span>
+    </div>
+  </div>
+  <div id="reservationsList" style="display:flex;flex-direction:column;gap:12px;">
+    <p style="color:var(--muted);">Loading reservations...</p>
+  </div>
+</div>
+<!-- RESERVATION DETAIL MODAL -->
+<div id="resDetailOverlay" style="display:none;position:fixed;inset:0;z-index:99988;background:rgba(2,2,2,0.85);backdrop-filter:blur(16px);align-items:center;justify-content:center;padding:24px;">
+  <div id="resDetailPanel" style="background:var(--charcoal);border:1px solid var(--border);max-width:640px;width:100%;max-height:88vh;overflow-y:auto;position:relative;padding:36px;">
+    <button onclick="closeReservationDetail()" style="position:absolute;top:16px;right:16px;background:var(--card);border:1px solid var(--border);color:var(--gold);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 14px;cursor:pointer;">Close</button>
+    <div id="resDetailContent"></div>
   </div>
 </div>
 
