@@ -1113,7 +1113,7 @@ document.addEventListener('DOMContentLoaded',function(){
       if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openLb(2); }
     });
   }
-  if(viewAllBtn) viewAllBtn.addEventListener('click',function(){ openLb(0); });
+  if(viewAllBtn) viewAllBtn.addEventListener('click',function(){ window.location.href='/gallery/'; });
   if(lbClose) lbClose.addEventListener('click',closeLb);
   if(lbBackdrop) lbBackdrop.addEventListener('click',closeLb);
   if(lbPrev) lbPrev.addEventListener('click',function(){ nav(-1); });
