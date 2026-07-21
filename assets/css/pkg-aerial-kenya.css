@@ -897,7 +897,8 @@
   body.light-mode .footer-brand p, body.light-mode .footer-col a { color: #1a1a1a; }
   body.light-mode .footer-col a:hover { color: #0a0a0a; }
   body.light-mode .footer-bottom span { color: #1a1a1a; }
-  body.light-mode .nav-back { color: #7a4f00; }
+  body.light-mode .nav-back { color: var(--gold) !important; }
+  body.light-mode .nav-back::before { background: var(--gold) !important; }
   body.light-mode .nav-logo-img { filter: drop-shadow(0 0 8px rgba(184,134,11,0.5)); }
   body.light-mode ::-webkit-scrollbar-track { background: #ebebea; }
   body.light-mode ::-webkit-scrollbar-thumb { background: #9a6f00; }

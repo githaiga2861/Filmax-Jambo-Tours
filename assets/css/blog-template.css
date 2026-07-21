@@ -70,10 +70,10 @@ body.light-mode .theme-tooltip { background: #d4d0c8; color: #0a0a0a; }
 
 body.light-mode { background: #ebebea; color: #0a0a0a; --gold: #c9960c; --amber: #7a5500; --text: #0a0a0a; --muted: #2a2a2a; --border: rgba(0,0,0,0.15); --charcoal: #dcdcda; --black: #ebebea; }
 body.light-mode nav { background: rgba(220,216,210,0.97); border-bottom-color: rgba(184,134,11,0.2); }
-body.light-mode .nav-back { color: #5e5040; }
-body.light-mode .nav-back:hover { color: #9a6f00; }
-body.light-mode .nav-back::before { background: #5e5040; }
-body.light-mode .nav-back:hover::before { background: #9a6f00; }
+body.light-mode .nav-back { color: var(--gold) !important; }
+body.light-mode .nav-back:hover { color: var(--gold) !important; }
+body.light-mode .nav-back::before { background: var(--gold) !important; }
+body.light-mode .nav-back:hover::before { background: var(--gold) !important; }
 body.light-mode .nav-logo-img { filter: drop-shadow(0 0 8px rgba(184,134,11,0.4)); }
 body.light-mode .post-hero-overlay { background: linear-gradient(to top, rgba(240,236,228,0.97) 0%, rgba(240,236,228,0.35) 55%, transparent 80%); }
 body.light-mode .post-title { color: #0a0a0a; }

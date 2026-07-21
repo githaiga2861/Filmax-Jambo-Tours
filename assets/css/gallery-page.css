@@ -105,7 +105,7 @@ body.light-mode .fg-item { border-color: rgba(0,0,0,0.12); }
 }
 .nav-back:hover { color: var(--gold); }
 .nav-back:hover::before { width: 40px; background: var(--gold); }
-body.light-mode .nav-back { color: #5e5040; }
-body.light-mode .nav-back:hover { color: #9a6f00; }
-body.light-mode .nav-back::before { background: #5e5040; }
-body.light-mode .nav-back:hover::before { background: #9a6f00; }
+body.light-mode .nav-back { color: var(--gold) !important; }
+body.light-mode .nav-back:hover { color: var(--gold) !important; }
+body.light-mode .nav-back::before { background: var(--gold) !important; }
+body.light-mode .nav-back:hover::before { background: var(--gold) !important; }

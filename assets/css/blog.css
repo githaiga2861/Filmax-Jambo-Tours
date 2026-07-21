@@ -118,10 +118,10 @@ body.light-mode .blog-post-card-cta::after { background: #9a6f00; }
 body.light-mode footer { background: #d8d4cc; border-top-color: rgba(0,0,0,0.1); }
 body.light-mode ::-webkit-scrollbar-track { background: #ebebea; }
 body.light-mode ::-webkit-scrollbar-thumb { background: #9a6f00; }
-body.light-mode .nav-back { color: #5e5040; }
-body.light-mode .nav-back:hover { color: #9a6f00; }
-body.light-mode .nav-back::before { background: #5e5040; }
-body.light-mode .nav-back:hover::before { background: #9a6f00; }
+body.light-mode .nav-back { color: var(--gold) !important; }
+body.light-mode .nav-back:hover { color: var(--gold) !important; }
+body.light-mode .nav-back::before { background: var(--gold) !important; }
+body.light-mode .nav-back:hover::before { background: var(--gold) !important; }
 body.light-mode .nav-logo-img { filter: drop-shadow(0 0 8px rgba(184,134,11,0.5)); }
 /* Match index.html light-mode font weight and text-fill rules */
 body.light-mode * { font-weight: 500 !important; }
