@@ -77,3 +77,35 @@ body.light-mode .fg-item { border-color: rgba(0,0,0,0.12); }
   .fg-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .fg-title { font-size: 13px; }
 }
+
+/* ═══════════════════════════════════════════
+   NAV BACK LINK — matches the rest of the site
+   (gallery-page.css doesn't otherwise load blog-template.css)
+   ═══════════════════════════════════════════ */
+.nav-back {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: color 0.3s;
+  cursor: none;
+}
+.nav-back::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--muted);
+  transition: width 0.3s, background 0.3s;
+}
+.nav-back:hover { color: var(--gold); }
+.nav-back:hover::before { width: 40px; background: var(--gold); }
+body.light-mode .nav-back { color: #5e5040; }
+body.light-mode .nav-back:hover { color: #9a6f00; }
+body.light-mode .nav-back::before { background: #5e5040; }
+body.light-mode .nav-back:hover::before { background: #9a6f00; }
