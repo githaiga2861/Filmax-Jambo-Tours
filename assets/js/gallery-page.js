@@ -88,6 +88,23 @@
       });
     });
 
+    // Reveal animation — pkg-shared.js's observer only watches .reveal
+    // elements present at page load; these are inserted dynamically after
+    // the Supabase fetch, so they need their own observer here.
+    if ('IntersectionObserver' in window) {
+      var revealObs = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if (en.isIntersecting) {
+            en.target.classList.add('visible');
+            revealObs.unobserve(en.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      grid.querySelectorAll('.fg-item').forEach(function(el){ revealObs.observe(el); });
+    } else {
+      grid.querySelectorAll('.fg-item').forEach(function(el){ el.classList.add('visible'); });
+    }
+
     // Autoplay muted videos once visible
     var vids = Array.from(grid.querySelectorAll('video.fg-media'));
     if ('IntersectionObserver' in window) {
