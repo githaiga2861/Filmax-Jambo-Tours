@@ -21,9 +21,11 @@
   var curIndex = 0;
   var lockedScrollY = 0;
   var curScale = 1;
+  var autoResetTimer = null;
 
   function resetZoom(){
     curScale = 1;
+    clearTimeout(autoResetTimer);
     var el = lbStage.querySelector('img, video');
     if (el) el.style.transform = 'scale(1)';
   }
@@ -78,11 +80,27 @@
   (function(){
     var touchStartX = 0, touchStartY = 0, isSwiping = false;
     var pinchStartDist = 0, pinchStartScale = 1, isPinching = false;
+    var lastTapTime = 0, lastTapX = 0, lastTapY = 0;
+    var ZOOM_IN_SCALE = 2.5;
 
     function touchDist(touches){
       var dx = touches[0].clientX - touches[1].clientX;
       var dy = touches[0].clientY - touches[1].clientY;
       return Math.sqrt(dx*dx + dy*dy);
+    }
+
+    function applyScale(scale){
+      curScale = Math.min(Math.max(scale, 1), 4);
+      var el = lbStage.querySelector('img, video');
+      if (el) el.style.transform = 'scale(' + curScale + ')';
+      clearTimeout(autoResetTimer);
+      if (curScale > 1) {
+        autoResetTimer = setTimeout(function(){ applyScale(1); }, 6000);
+      }
+    }
+
+    function toggleDoubleTapZoom(){
+      applyScale(curScale > 1 ? 1 : ZOOM_IN_SCALE);
     }
 
     lbStage.addEventListener('touchstart', function(e){
@@ -102,22 +120,34 @@
       if (isPinching && e.touches.length === 2) {
         e.preventDefault();
         var newDist = touchDist(e.touches);
-        var scale = pinchStartScale * (newDist / pinchStartDist);
-        curScale = Math.min(Math.max(scale, 1), 4);
-        var el = lbStage.querySelector('img, video');
-        if (el) el.style.transform = 'scale(' + curScale + ')';
+        applyScale(pinchStartScale * (newDist / pinchStartDist));
       }
     }, { passive: false });
 
     lbStage.addEventListener('touchend', function(e){
       if (e.touches.length < 2) isPinching = false;
-      if (isSwiping && e.touches.length === 0 && curScale <= 1) {
+
+      if (isSwiping && e.touches.length === 0) {
         var endX = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientX : touchStartX;
         var endY = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientY : touchStartY;
         var dx = endX - touchStartX;
         var dy = endY - touchStartY;
-        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+        var moved = Math.sqrt(dx*dx + dy*dy);
+
+        if (curScale <= 1 && Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
           nav(dx < 0 ? 1 : -1);
+        } else if (moved < 12) {
+          // Treat as a tap (not a swipe) — check for double-tap
+          var now = Date.now();
+          var closeToLastTap = Math.abs(endX - lastTapX) < 40 && Math.abs(endY - lastTapY) < 40;
+          if (now - lastTapTime < 320 && closeToLastTap) {
+            toggleDoubleTapZoom();
+            lastTapTime = 0;
+          } else {
+            lastTapTime = now;
+            lastTapX = endX;
+            lastTapY = endY;
+          }
         }
       }
       isSwiping = false;

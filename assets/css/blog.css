@@ -73,7 +73,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; j
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
 /* FOOTER */
-footer { background: var(--black); border-top: 1px solid var(--border); padding: 40px 0; }
+footer { background: var(--black); border-top: 1px solid var(--border); padding: 40px 0 max(40px, env(safe-area-inset-bottom)); padding-left: max(0px, env(safe-area-inset-left)); padding-right: max(0px, env(safe-area-inset-right)); }
 
 /* WHATSAPP */
 .whatsapp-fab { position: fixed; bottom: 36px; right: 36px; width: 60px; height: 60px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 90; text-decoration: none; box-shadow: 0 8px 30px rgba(37,211,102,0.4); cursor: none; transition: transform 0.3s, box-shadow 0.3s; }

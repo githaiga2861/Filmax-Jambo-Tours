@@ -7951,7 +7951,7 @@ body.light-mode .google-privacy-note { color: #1a1a1a; }
 /* ═══════════════════════════════════════════
    FOOTER — full rebuild (dropdowns, socials, legal)
    ═══════════════════════════════════════════ */
-footer { background: var(--black); border-top: 1px solid var(--border); padding: 64px 0 0; }
+footer { background: var(--black); border-top: 1px solid var(--border); padding: 64px 0 max(24px, env(safe-area-inset-bottom)); padding-left: max(0px, env(safe-area-inset-left)); padding-right: max(0px, env(safe-area-inset-right)); }
 .footer-main {
   display: flex;
   justify-content: space-between;
