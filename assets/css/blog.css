@@ -124,7 +124,10 @@ body.light-mode .nav-back::before { background: var(--gold) !important; }
 body.light-mode .nav-back:hover::before { background: var(--gold) !important; }
 body.light-mode .nav-logo-img { filter: drop-shadow(0 0 8px rgba(184,134,11,0.5)); }
 /* Match index.html light-mode font weight and text-fill rules */
-body.light-mode * { font-weight: 500 !important; }
+body.light-mode * { font-weight: 700 !important; }
+@media (max-width: 640px) {
+  body.light-mode * { font-weight: 600 !important; }
+}
 body.light-mode h1, body.light-mode h2, body.light-mode h3, body.light-mode h4 { font-weight: 700; }
 body.light-mode .section-title { color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 700; background: none !important; -webkit-background-clip: unset !important; }
 body.light-mode .section-label { color: #9a6f00 !important; }

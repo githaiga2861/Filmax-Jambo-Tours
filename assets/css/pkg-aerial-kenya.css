@@ -906,7 +906,10 @@
   body.light-mode .mobile-book-price-num { color: #7a4f00; }
   body.light-mode .mobile-book-price-label { color: #1a1a1a; }
   /* Match index.html font-weight and text-fill rules for light mode */
-  body.light-mode * { font-weight: 500 !important; }
+  body.light-mode * { font-weight: 700 !important; }
+  @media (max-width: 640px) {
+    body.light-mode * { font-weight: 600 !important; }
+  }
   body.light-mode h1, body.light-mode h2, body.light-mode h3, body.light-mode h4, body.light-mode h5 { font-weight: 700; }
   body.light-mode .sec-title { color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 700; background: none !important; -webkit-background-clip: unset !important; }
   body.light-mode .sec-label { color: #7a4f00 !important; }

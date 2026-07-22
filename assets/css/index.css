@@ -49,7 +49,10 @@ body.light-mode {
   }
 
   body.light-mode * {
-    font-weight: 500 !important;
+    font-weight: 700 !important;
+  }
+  @media (max-width: 640px) {
+    body.light-mode * { font-weight: 600 !important; }
   }
 
   body.light-mode h1,
