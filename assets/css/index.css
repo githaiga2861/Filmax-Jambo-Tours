@@ -7031,12 +7031,15 @@ body.light-mode .pkg-cta:hover {
   width: min(84vw, 1100px);
   max-height: 78vh;
   display: flex; align-items: center; justify-content: center;
+  touch-action: none;
 }
 .gc-lb-stage img, .gc-lb-stage video {
   max-width: 100%; max-height: 78vh;
   object-fit: contain;
   border-radius: 2px;
   box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  transform-origin: center center;
+  transition: transform 0.15s ease-out;
 }
 .gc-lb-info {
   position: absolute; left: 0; right: 0; bottom: 34px;

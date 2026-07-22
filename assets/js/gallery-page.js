@@ -19,6 +19,14 @@
 
   var media = [];
   var curIndex = 0;
+  var lockedScrollY = 0;
+  var curScale = 1;
+
+  function resetZoom(){
+    curScale = 1;
+    var el = lbStage.querySelector('img, video');
+    if (el) el.style.transform = 'scale(1)';
+  }
 
   function buildStage(idx){
     var m = media[idx];
@@ -38,23 +46,83 @@
     lbCur.textContent = idx + 1;
     lbTotal.textContent = media.length;
     curIndex = idx;
+    resetZoom();
   }
   function openLb(idx){
     buildStage(idx);
     lb.classList.add('gc-lb-open');
     lb.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
+    lockedScrollY = window.scrollY || window.pageYOffset || 0;
+    document.body.style.position = 'fixed';
+    document.body.style.top = (-lockedScrollY) + 'px';
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.width = '100%';
   }
   function closeLb(){
     lb.classList.remove('gc-lb-open');
     lb.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.width = '';
+    window.scrollTo(0, lockedScrollY);
     var v = lbStage.querySelector('video'); if (v) v.pause();
   }
   function nav(dir){
     var next = (curIndex + dir + media.length) % media.length;
     buildStage(next);
   }
+
+  (function(){
+    var touchStartX = 0, touchStartY = 0, isSwiping = false;
+    var pinchStartDist = 0, pinchStartScale = 1, isPinching = false;
+
+    function touchDist(touches){
+      var dx = touches[0].clientX - touches[1].clientX;
+      var dy = touches[0].clientY - touches[1].clientY;
+      return Math.sqrt(dx*dx + dy*dy);
+    }
+
+    lbStage.addEventListener('touchstart', function(e){
+      if (e.touches.length === 2) {
+        isPinching = true;
+        isSwiping = false;
+        pinchStartDist = touchDist(e.touches);
+        pinchStartScale = curScale;
+      } else if (e.touches.length === 1 && !isPinching) {
+        isSwiping = true;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    lbStage.addEventListener('touchmove', function(e){
+      if (isPinching && e.touches.length === 2) {
+        e.preventDefault();
+        var newDist = touchDist(e.touches);
+        var scale = pinchStartScale * (newDist / pinchStartDist);
+        curScale = Math.min(Math.max(scale, 1), 4);
+        var el = lbStage.querySelector('img, video');
+        if (el) el.style.transform = 'scale(' + curScale + ')';
+      }
+    }, { passive: false });
+
+    lbStage.addEventListener('touchend', function(e){
+      if (e.touches.length < 2) isPinching = false;
+      if (isSwiping && e.touches.length === 0 && curScale <= 1) {
+        var endX = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientX : touchStartX;
+        var endY = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientY : touchStartY;
+        var dx = endX - touchStartX;
+        var dy = endY - touchStartY;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+          nav(dx < 0 ? 1 : -1);
+        }
+      }
+      isSwiping = false;
+    }, { passive: true });
+  })();
   if (lbClose) lbClose.addEventListener('click', closeLb);
   if (lbBackdrop) lbBackdrop.addEventListener('click', closeLb);
   if (lbPrev) lbPrev.addEventListener('click', function(){ nav(-1); });
