@@ -1,3 +1,11 @@
+footer .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+@media (max-width: 640px) {
+  footer .container { padding: 0 20px; }
+}
 /* ═══════════════════════════════════════════════════════════════
    FJT FOOTER — shared CSS for pages that don't load index.css
    (package pages, journal pages, legal pages, etc.)
@@ -170,7 +178,9 @@ body.light-mode .footer-legal-links a:hover { color: #7a4f00; }
   .footer-main { gap: 32px; }
   .footer-columns { flex-direction: column; gap: 8px; width: 100%; }
   .footer-col { border-bottom: 1px solid var(--border); padding: 14px 0; }
-  .footer-socials { gap: 14px; justify-content: flex-start; padding: 24px 4px; }
+  .footer-socials { gap: 14px; justify-content: center; padding: 24px 4px; flex-wrap: wrap; }
+  .footer-social-icon { width: 34px; height: 34px; }
+  .footer-social-icon svg { width: 15px; height: 15px; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
 }
 
@@ -198,14 +208,17 @@ body.light-mode .google-privacy-note a { color: #4a3000 !important; font-weight:
     gap: 24px;
     align-items: center;
   }
-  .footer-brand { max-width: 220px; }
-  .footer-logo { height: 28px; margin-bottom: 4px; }
-  .footer-tagline { font-size: 12px; }
+  .footer-brand { max-width: 240px; }
+  .footer-logo { height: 30px; margin-bottom: 4px; }
+  .footer-tagline { font-size: 14px; }
   .footer-columns { gap: 32px; }
-  .footer-col-toggle { padding: 0 0 8px; font-size: 10px; }
+  .footer-col-toggle { padding: 0 0 8px; font-size: 12px; }
+  .footer-col-list a { font-size: 14px; }
   .footer-col-list { gap: 8px; padding-bottom: 4px; }
   .footer-socials { padding: 10px 0; gap: 12px; }
-  .footer-social-icon { width: 28px; height: 28px; }
-  .footer-social-icon svg { width: 13px; height: 13px; }
+  .footer-social-icon { width: 40px; height: 40px; }
+  .footer-social-icon svg { width: 18px; height: 18px; }
   .footer-bottom { padding: 10px 0 14px; }
+  .footer-copyright { font-size: 13px; }
+  .footer-legal-links a { font-size: 13px; }
 }
