@@ -965,6 +965,8 @@ async function savePackage(publish = false) {
     overview_body:      document.getElementById('f-overview-body').value,
     overview_body_2:    document.getElementById('f-overview-body-2').value,
     hero_image_url:     document.getElementById('f-hero-image-url').value,
+    hero_media_type:    document.getElementById('f-hero-media-type')?.value || 'image',
+    hero_video_url:     document.getElementById('f-hero-video-url')?.value || '',
     price_peak_season:  parseFloat(document.getElementById('f-price-peak').value) || null,
     price_high_season:  parseFloat(document.getElementById('f-price-high').value) || null,
     price_green_season: parseFloat(document.getElementById('f-price-green').value) || null,
@@ -1116,6 +1118,11 @@ async function editPackage(id) {
   document.getElementById('f-overview-title').value = pkg.overview_title||'';
   document.getElementById('f-overview-body').value  = pkg.overview_body||'';
   document.getElementById('f-hero-image-url').value = pkg.hero_image_url||'';
+  if (document.getElementById('f-hero-media-type')) {
+    document.getElementById('f-hero-media-type').value = pkg.hero_media_type || 'image';
+    document.getElementById('f-hero-video-url').value = pkg.hero_video_url || '';
+    toggleHeroMediaType();
+  }
   document.getElementById('f-price-peak').value     = pkg.price_peak_season||'';
   document.getElementById('f-price-high').value     = pkg.price_high_season||'';
   document.getElementById('f-price-green').value    = pkg.price_green_season||'';
@@ -4507,4 +4514,31 @@ async function deleteGalleryPhoto(id) {
   if (error) { showToast('Error: ' + error.message, 'error'); return; }
   showToast('Photo deleted');
   loadGalleryItems();
+}
+
+// ── HERO MEDIA TYPE (image/video toggle) ──
+function toggleHeroMediaType() {
+  const type = document.getElementById('f-hero-media-type').value;
+  document.getElementById('heroImageFieldWrap').style.display = type === 'video' ? 'none' : 'block';
+  document.getElementById('heroVideoFieldWrap').style.display = type === 'video' ? 'block' : 'none';
+}
+
+async function handleHeroVideoUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const vid = document.getElementById('heroVideoPreview');
+  try {
+    showToast('Uploading hero video...');
+    const ext = file.name.split('.').pop().toLowerCase();
+    const path = 'hero-video/' + Date.now() + '-' + Math.random().toString(36).slice(2,8) + '.' + ext;
+    const upRes = await db.storage.from('package-images').upload(path, file);
+    if (upRes.error) throw upRes.error;
+    const pub = db.storage.from('package-images').getPublicUrl(path);
+    vid.src = pub.data.publicUrl;
+    document.getElementById('f-hero-video-url').value = pub.data.publicUrl;
+    showToast('Hero video uploaded');
+  } catch (e) {
+    showToast('Upload failed: ' + e.message, 'error');
+    input.value = '';
+  }
 }

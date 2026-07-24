@@ -376,6 +376,14 @@
             <span class="field-error" id="err-overview-body">Minimum 80 characters required</span>
           </div>
           <div class="form-group full">
+            <label>Hero Media Type</label>
+            <select id="f-hero-media-type" onchange="toggleHeroMediaType()">
+              <option value="image">Image</option>
+              <option value="video">Video</option>
+            </select>
+            <span class="field-hint">Video plays muted, looping, in the background of the hero — use short (under 20s), landscape-orientation footage for best results.</span>
+          </div>
+          <div class="form-group full" id="heroImageFieldWrap">
             <label>Hero Image <span class="req">*</span> <span style="font-weight:400;font-size:8px;letter-spacing:1px;color:rgba(212,175,55,0.6);text-transform:none;">(.webp format only)</span></label>
             <div class="img-upload-box" id="heroUploadBox">
               <input type="file" id="heroImageFile" accept=".webp" onchange="handleHeroUpload(this)">
@@ -386,6 +394,17 @@
             </div>
             <input type="text" id="f-hero-image-url" placeholder="Or paste .webp image URL directly (must end in .webp)" style="margin-top:8px;">
             <span class="field-error" id="err-hero">Hero image URL required and must be a .webp file</span>
+          </div>
+          <div class="form-group full" id="heroVideoFieldWrap" style="display:none;">
+            <label>Hero Video <span style="font-weight:400;font-size:8px;letter-spacing:1px;color:rgba(212,175,55,0.6);text-transform:none;">(.mp4 format only — NOT .webm, even if a file is named .webm it must genuinely be VP9/WebM-encoded; when in doubt use .mp4)</span></label>
+            <div class="img-upload-box" id="heroVideoUploadBox">
+              <input type="file" id="heroVideoFile" accept=".mp4" onchange="handleHeroVideoUpload(this)">
+              <div style="font-size:24px;">🎥</div>
+              <p>Click to upload hero video</p>
+              <p class="format-note">⚠ .mp4 format only, ideally under 5MB for fast loading</p>
+              <video id="heroVideoPreview" class="img-preview" muted loop autoplay playsinline></video>
+            </div>
+            <input type="text" id="f-hero-video-url" placeholder="Or paste .mp4 video URL directly (must end in .mp4)" style="margin-top:8px;">
           </div>
           <div class="form-group full">
             <label>Card Background Image <span class="req">*</span> <span style="font-weight:400;font-size:8px;letter-spacing:1px;color:rgba(212,175,55,0.6);text-transform:none;">(.webp only — homepage rotating cards)</span></label>
