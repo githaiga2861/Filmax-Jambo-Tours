@@ -111,6 +111,7 @@
     <div class="nav-group" id="group-members">
       <div class="nav-sub-item" onclick="showView('members')" id="nav-members">All Members</div>
       <div class="nav-sub-item" onclick="showView('testimonials')" id="nav-testimonials">Testimonials</div>
+      <div class="nav-sub-item" onclick="showView('team')" id="nav-team-manage">Team</div>
     </div>
   
     <!-- Settings group -->
@@ -942,6 +943,16 @@
   </p>
   <div id="galleryItemsList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;">
     <p style="color:var(--muted);">Loading gallery...</p>
+  </div>
+</div>
+<!-- VIEW: Team -->
+<div class="view" id="view-team">
+  <div class="view-header">
+    <div class="view-title"><span>About</span>Team Members</div>
+  </div>
+  <p style="color:var(--muted);font-size:12px;margin-bottom:24px;">Edit each team member's name, role, bio, photos, and contact/detail rows (direct line, email, certifications, etc). Rows can be added or removed freely.</p>
+  <div id="teamMembersList" style="display:flex;flex-direction:column;gap:16px;">
+    <p style="color:var(--muted);">Loading team members...</p>
   </div>
 </div>
 <!-- VIEW: Testimonials -->

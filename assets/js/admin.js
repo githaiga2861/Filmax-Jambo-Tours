@@ -150,6 +150,7 @@ function showView(name) {
     'new-blog':     { navId:'nav-new-blog',     group:'group-blog',     loader: null },
     'members':      { navId:'nav-members',      group:'group-members',  loader: loadMembers },
     'testimonials': { navId:'nav-testimonials', group:'group-members',  loader: () => loadTestimonials('pending') },
+    'team':         { navId:'nav-team-manage', group:'group-members',  loader: loadTeamMembers },
     'gallery':      { navId:'nav-gallery-manage', group:'group-gallery', loader: loadGalleryItems },
     'team':         { navId:'nav-team',         group:'group-settings', loader: null },
     'site-settings':{ navId:'nav-site',         group:'group-settings', loader: loadSiteSettings },
@@ -4541,4 +4542,156 @@ async function handleHeroVideoUpload(input) {
     showToast('Upload failed: ' + e.message, 'error');
     input.value = '';
   }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TEAM MEMBERS (about section modal)
+// ═══════════════════════════════════════════════════════════════
+let allTeamMembers = [];
+
+const TEAM_ICON_OPTIONS = {
+  email: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 6l10 7 10-7"/></svg>',
+  phone: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h4l2 5-2.5 2.5a12 12 0 0 0 5 5L17 13l5 2v4a2 2 0 0 1-2 2C10.5 21 3 13.5 3 5a2 2 0 0 1 2-2z"/></svg>',
+  star: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.5L22 9.3l-5 4.9 1.2 7.1L12 17.8l-6.2 3.5L7 14.2l-5-4.9 7.1-.8z"/></svg>',
+  calendar: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+  globe: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>',
+  award: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="15" r="6"/><path d="M9 4h6l2 6-4 2-4-2 2-6z"/></svg>',
+  chat: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v11H8l-4 4V4z"/></svg>',
+  graduation: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5-10-5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg>',
+  paw: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="11" r="4"/><path d="M12 2c-2 1-2 3-1 4M12 2c2 1 2 3 1 4M5 6c-1 2 0 4 1 5M19 6c1 2 0 4-1 5"/></svg>',
+};
+
+async function loadTeamMembers() {
+  const list = document.getElementById('teamMembersList');
+  if (!list) return;
+  list.innerHTML = '<p style="color:var(--muted);">Loading team members...</p>';
+
+  const { data, error } = await db.from('team_members').select('*').order('sort_order', { ascending: true });
+  if (error) { list.innerHTML = '<p style="color:var(--muted);">Error: ' + error.message + '</p>'; return; }
+  allTeamMembers = data || [];
+
+  if (!allTeamMembers.length) {
+    list.innerHTML = '<p style="color:var(--muted);">No team members found.</p>';
+    return;
+  }
+
+  list.innerHTML = allTeamMembers.map(m => `
+    <div style="background:var(--charcoal);border:1px solid var(--border);padding:20px;display:flex;gap:16px;align-items:center;">
+      <img src="${m.img}" alt="${m.name}" style="width:60px;height:60px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+      <div style="flex:1;">
+        <div style="font-size:16px;font-weight:600;">${m.name}</div>
+        <div style="font-size:11px;color:var(--gold);letter-spacing:1px;text-transform:uppercase;">${m.role}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px;">${(m.details||[]).length} detail rows</div>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="openTeamEditor('${m.id}')">Edit</button>
+    </div>
+  `).join('');
+}
+
+function teamDetailRowHTML(d, idx) {
+  const d2 = d || { icon: 'email', label: '', value: '', href: '' };
+  const iconKey = Object.keys(TEAM_ICON_OPTIONS).find(k => TEAM_ICON_OPTIONS[k] === d2.icon) || 'email';
+  return `
+    <div class="repeater-row" id="team-detail-${idx}">
+      <div class="repeater-row-header">
+        <span class="repeater-row-title">Detail ${idx+1}</span>
+        <button class="btn btn-danger btn-sm" onclick="document.getElementById('team-detail-${idx}').remove()">Remove</button>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Icon</label>
+          <select class="team-detail-icon">
+            ${Object.keys(TEAM_ICON_OPTIONS).map(k => `<option value="${k}" ${k===iconKey?'selected':''}>${k.charAt(0).toUpperCase()+k.slice(1)}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-group"><label>Label</label><input type="text" class="team-detail-label" value="${d2.label||''}" placeholder="e.g. Direct Line"></div>
+        <div class="form-group full"><label>Value</label><input type="text" class="team-detail-value" value="${d2.value||''}" placeholder="e.g. +254 700 000 001"></div>
+        <div class="form-group full"><label>Link (optional \u2014 e.g. tel:+254700000001 or mailto:hello@filmaxjambotours.com)</label><input type="text" class="team-detail-href" value="${d2.href||''}" placeholder="Leave blank for plain text"></div>
+      </div>
+    </div>`;
+}
+
+function openTeamEditor(id) {
+  const m = allTeamMembers.find(t => t.id === id);
+  if (!m) return;
+
+  let overlay = document.getElementById('teamEditOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'teamEditOverlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:99988;background:rgba(2,2,2,0.88);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;padding:24px;';
+    document.body.appendChild(overlay);
+  }
+
+  overlay.innerHTML = `
+    <div style="background:var(--charcoal);border:1px solid var(--border);max-width:600px;width:100%;max-height:88vh;overflow-y:auto;position:relative;padding:32px;">
+      <button onclick="document.getElementById('teamEditOverlay').remove()" style="position:absolute;top:14px;right:14px;background:var(--card);border:1px solid var(--border);color:var(--gold);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 14px;cursor:pointer;">Close</button>
+      <h2 style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:24px;">Edit Team Member</h2>
+
+      <div class="form-group" style="margin-bottom:16px;"><label>Name</label><input type="text" id="tm-name" value="${m.name}"></div>
+      <div class="form-group" style="margin-bottom:16px;"><label>Role</label><input type="text" id="tm-role" value="${m.role}"></div>
+      <div class="form-group" style="margin-bottom:16px;"><label>Bio</label><textarea id="tm-bio" rows="4">${m.bio}</textarea></div>
+      ${imgUploadFieldHTML('tm-img', 'Profile Photo', m.img, 'team/' + m.id, true)}
+      ${imgUploadFieldHTML('tm-wildlife-img', 'Hero Background Photo (optional)', m.wildlife_img || '', 'team/' + m.id + '-hero', false)}
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:24px 0 12px;">
+        <span class="section-label" style="margin:0;">Detail Rows</span>
+        <button class="btn btn-outline btn-sm" onclick="addTeamDetailRow()">+ Add Detail</button>
+      </div>
+      <div class="repeater" id="teamDetailsRepeater">
+        ${(m.details||[]).map((d,i) => teamDetailRowHTML(d, i)).join('')}
+      </div>
+
+      <button class="btn btn-gold" style="width:100%;margin-top:20px;" onclick="saveTeamMember('${m.id}')">Save Changes</button>
+      <p id="tmSaveStatus" style="font-size:11px;color:var(--muted);margin-top:10px;text-align:center;"></p>
+    </div>
+  `;
+}
+
+function addTeamDetailRow() {
+  const repeater = document.getElementById('teamDetailsRepeater');
+  const idx = repeater.querySelectorAll('.repeater-row').length;
+  repeater.insertAdjacentHTML('beforeend', teamDetailRowHTML(null, idx));
+}
+
+async function saveTeamMember(id) {
+  const statusEl = document.getElementById('tmSaveStatus');
+  const name = document.getElementById('tm-name').value.trim();
+  const role = document.getElementById('tm-role').value.trim();
+  const bio = document.getElementById('tm-bio').value.trim();
+  const img = document.getElementById('tm-img').value.trim();
+  const wildlifeImg = document.getElementById('tm-wildlife-img')?.value.trim() || null;
+
+  if (!name || !role || !bio || !img) {
+    statusEl.textContent = 'Name, role, bio and photo are all required.';
+    statusEl.style.color = '#e05555';
+    return;
+  }
+
+  const details = Array.from(document.querySelectorAll('#teamDetailsRepeater .repeater-row')).map(row => {
+    const iconKey = row.querySelector('.team-detail-icon').value;
+    return {
+      icon: TEAM_ICON_OPTIONS[iconKey],
+      label: row.querySelector('.team-detail-label').value.trim(),
+      value: row.querySelector('.team-detail-value').value.trim(),
+      href: row.querySelector('.team-detail-href').value.trim() || undefined
+    };
+  }).filter(d => d.label && d.value);
+
+  statusEl.textContent = 'Saving...';
+  statusEl.style.color = 'var(--muted)';
+
+  const { error } = await db.from('team_members').update({
+    name, role, bio, img, wildlife_img: wildlifeImg, details
+  }).eq('id', id);
+
+  if (error) {
+    statusEl.textContent = 'Error: ' + error.message;
+    statusEl.style.color = '#e05555';
+    return;
+  }
+
+  showToast('Team member updated \u2014 now live on the homepage');
+  document.getElementById('teamEditOverlay')?.remove();
+  loadTeamMembers();
 }

@@ -1463,6 +1463,21 @@ window.addEventListener('load', function() {
     }
   };
   var overlay=document.getElementById('teamPopupOverlay');
+  (function(){
+    var SUPA_URL='https://kwriicxzkgkcseorcqdi.supabase.co';
+    var SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
+    fetch(SUPA_URL+'/rest/v1/team_members?select=*&order=sort_order.asc', {
+      headers:{ 'apikey':SUPA_KEY, 'Authorization':'Bearer '+SUPA_KEY }
+    }).then(function(r){ return r.json(); }).then(function(data){
+      if(!Array.isArray(data)||!data.length) return;
+      data.forEach(function(m){
+        members[m.member_key] = {
+          name: m.name, role: m.role, bio: m.bio, img: m.img,
+          wildlifeImg: m.wildlife_img, details: m.details || []
+        };
+      });
+    }).catch(function(){ /* keep hardcoded fallback */ });
+  })();
   var closeBtn=document.getElementById('teamPopupClose');
   if(!overlay)return;
   function hideFabs(hide){
