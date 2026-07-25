@@ -1384,7 +1384,7 @@ window._addToCart = function(pkg) {
   localStorage.setItem('fj-cart', JSON.stringify(cart));
   var t = document.createElement('div');
   t.style.cssText = 'position:fixed;bottom:120px;right:36px;z-index:99999;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;font-family:Jost,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:14px 24px;box-shadow:0 8px 32px rgba(212,175,55,0.4);opacity:0;transition:opacity 0.35s ease;';
-  t.textContent = '✓ ' + pkg.name.replace(/<br>/g,' ') + ' added to cart';
+  t.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> ' + pkg.name.replace(/<br>/g,' ') + ' added to cart';
   document.body.appendChild(t);
   requestAnimationFrame(function(){ t.style.opacity='1'; });
   setTimeout(function(){ t.style.opacity='0'; setTimeout(function(){t.remove();},350); },2200);
@@ -2365,7 +2365,7 @@ window._addToCart = function(pkg) {
   localStorage.setItem('fj-cart', JSON.stringify(cart));
   var t = document.createElement('div');
   t.style.cssText = 'position:fixed;bottom:120px;right:36px;z-index:99999;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;font-family:Jost,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:14px 24px;box-shadow:0 8px 32px rgba(212,175,55,0.4);opacity:0;transition:opacity 0.35s ease;';
-  t.textContent = '✓ ' + pkg.name.replace(/<br>/g,' ') + ' added to cart';
+  t.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> ' + pkg.name.replace(/<br>/g,' ') + ' added to cart';
   document.body.appendChild(t);
   requestAnimationFrame(function(){ t.style.opacity='1'; });
   setTimeout(function(){ t.style.opacity='0'; setTimeout(function(){t.remove();},350); },2200);

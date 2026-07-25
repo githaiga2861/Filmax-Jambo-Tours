@@ -77,29 +77,29 @@ h1 em{color:var(--gold);font-style:italic;}
       <div class="field">
         <label for="newPassword">New Password</label>
         <input type="password" id="newPassword" placeholder="Minimum 8 characters" autocomplete="new-password" oninput="checkStrength(this.value)">
-        <button type="button" class="eye-btn" id="eyeNew" onclick="toggleEye('newPassword','eyeNew')">👁</button>
+        <button type="button" class="eye-btn" id="eyeNew" onclick="toggleEye('newPassword','eyeNew')"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z&quot;/><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;3&quot;/></svg></button>
         <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
         <div class="strength-label" id="strengthLabel"></div>
       </div>
       <div class="field">
         <label for="confirmPassword">Confirm Password</label>
         <input type="password" id="confirmPassword" placeholder="Re-enter your password" autocomplete="new-password">
-        <button type="button" class="eye-btn" id="eyeConf" onclick="toggleEye('confirmPassword','eyeConf')">👁</button>
+        <button type="button" class="eye-btn" id="eyeConf" onclick="toggleEye('confirmPassword','eyeConf')"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z&quot;/><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;3&quot;/></svg></button>
       </div>
       <div class="msg" id="msg"></div>
       <button class="submit-btn" id="submitBtn" onclick="doReset()">Save New Password</button>
-      <a href="/home/" class="back-link">← Return to Website</a>
+      <a href="/home/" class="back-link"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Return to Website</a>
     </div>
 
     <div id="errorState" style="display:none;text-align:center;padding:8px 0;">
-      <div style="font-size:40px;margin-bottom:16px;">🔗</div>
+      <div style="font-size:40px;margin-bottom:16px;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M9 15l6-6M8 12L4 16a3 3 0 0 0 4 4l4-4M16 12l4-4a3 3 0 0 0-4-4l-4 4"/></svg></div>
       <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:10px;">Link Expired or Invalid</div>
       <p style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--muted);margin-bottom:24px;line-height:1.6;">This reset link has expired or already been used.<br>Please request a new one from the sign-in page.</p>
       <a href="/home/" class="action-btn">Return to Website</a>
     </div>
 
     <div class="success-wrap" id="successState">
-      <div class="success-icon">✓</div>
+      <div class="success-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg></div>
       <div class="success-title">Password Updated</div>
       <p class="success-sub">Your password has been saved successfully.<br>You can now sign in with your new password.</p>
       <a href="/home/" class="action-btn">Sign In Now</a>
@@ -118,7 +118,7 @@ document.querySelectorAll('a,button,input').forEach(el=>{
 const SUPA_URL='https://kwriicxzkgkcseorcqdi.supabase.co';
 const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
 const supa=supabase.createClient(SUPA_URL,SUPA_KEY);
-function toggleEye(inputId,btnId){const inp=document.getElementById(inputId),btn=document.getElementById(btnId);if(!inp||!btn)return;inp.type=inp.type==='password'?'text':'password';btn.textContent=inp.type==='password'?'👁':'🙈';}
+function toggleEye(inputId,btnId){const inp=document.getElementById(inputId),btn=document.getElementById(btnId);if(!inp||!btn)return;inp.type=inp.type==='password'?'text':'password';btn.textContent=inp.type==='password'?'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>':'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="13" r="7"/><path d="M9 12h.01M15 12h.01M9 16c1 1 5 1 6 0"/><path d="M6 8l-2-3M18 8l2-3"/></svg>';}
 function checkStrength(val){const fill=document.getElementById('strengthFill'),label=document.getElementById('strengthLabel');if(!val){fill.style.width='0';label.textContent='';return;}let s=0;if(val.length>=8)s++;if(val.length>=12)s++;if(/[A-Z]/.test(val))s++;if(/[0-9]/.test(val))s++;if(/[^A-Za-z0-9]/.test(val))s++;const lvls=[{w:'20%',c:'#e05555',t:'Too weak'},{w:'40%',c:'#e08855',t:'Weak'},{w:'60%',c:'#e0c055',t:'Fair'},{w:'80%',c:'#a0c855',t:'Good'},{w:'100%',c:'#7bb56e',t:'Strong'}];const l=lvls[Math.min(s,4)];fill.style.width=l.w;fill.style.background=l.c;label.textContent=l.t;label.style.color=l.c;}
 function showMsg(type,text){const el=document.getElementById('msg');el.className='msg '+type;el.textContent=text;el.style.display='block';}
 function showForm(){document.getElementById('loadingState').style.display='none';document.getElementById('formState').style.display='block';}

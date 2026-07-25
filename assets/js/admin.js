@@ -113,7 +113,7 @@ function showAdmin() {
   setTimeout(() => {
     const restored = restoreFormFromStorage();
     if (restored) {
-      showToast('Unsaved draft restored — your progress was kept 💾');
+      showToast('Unsaved draft restored — your progress was kept <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 4v5h8V4M6 14h12v6H6z"/></svg>');
       showView('new-package');
     }
   }, 400);
@@ -136,7 +136,7 @@ function showView(name) {
     return;
   }
 
-  // Map of view name → { navId, groupId, loader }
+  // Map of view name <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 12h14M13 6l6 6-6 6"/></svg> { navId, groupId, loader }
   const viewMap = {
     'dashboard':    { navId:'nav-dashboard',    group:null,             loader: loadDashboard },
     'packages':     { navId:'nav-packages',     group:'group-packages', loader: loadPackages },
@@ -665,10 +665,10 @@ function buildReviewSummary() {
       <div style="padding:16px;border:1px solid rgba(255,255,255,0.06);">
         <span style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);">Content</span>
         <div style="font-size:12px;color:var(--text);margin-top:6px;line-height:1.9;">
-          ✓ ${daysCount} itinerary days<br>
-          ✓ ${lodgesCount} lodge${lodgesCount !== 1 ? 's' : ''}<br>
-          ✓ ${incCount} included / ${excCount} excluded<br>
-          ✓ ${stopsCount} route stops
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> ${daysCount} itinerary days<br>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> ${lodgesCount} lodge${lodgesCount !== 1 ? 's' : ''}<br>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> ${incCount} included / ${excCount} excluded<br>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> ${stopsCount} route stops
         </div>
       </div>
     </div>
@@ -678,13 +678,13 @@ function buildReviewSummary() {
 // ── LOAD PACKAGES & DRAFTS ──
 async function loadPackages() {
   const { data, error } = await db.from('packages').select('*').eq('is_published', true).order('created_at', { ascending: false });
-  console.log('📦 Published packages:', data, '| Error:', error);
+  console.log('<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M3 8l9-5 9 5-9 5-9-5z"/><path d="M3 8v9l9 5 9-5V8M12 13v9"/></svg> Published packages:', data, '| Error:', error);
   renderPackageList(data, 'packageList', true);
 }
 
 async function loadDrafts() {
   const { data, error } = await db.from('packages').select('*').eq('is_published', false).order('created_at', { ascending: false });
-  console.log('📝 Draft packages:', data, '| Error:', error);
+  console.log('<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1z"/></svg> Draft packages:', data, '| Error:', error);
   renderPackageList(data, 'draftList', false);
 }
 
@@ -761,10 +761,10 @@ function renderPackageList(data, containerId, isPublished) {
       <span class="badge ${p.is_published ? 'badge-published' : 'badge-draft'}">${p.is_published ? 'Published' : 'Draft'}</span>
       ${p.is_featured ? '<span class="badge badge-featured">Featured</span>' : '<span></span>'}
       <div class="list-action-btn">
-        ${!p.is_published ? `<button class="btn btn-publish btn-sm" onclick="publishPackage('${p.id}')">🚀 Publish</button>` : `<button class="btn btn-outline btn-sm" onclick="unpublishPackage('${p.id}')">Unpublish</button>`}
+        ${!p.is_published ? `<button class="btn btn-publish btn-sm" onclick="publishPackage('${p.id}')"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 2c3 2 4 6 4 10-1 1-2 2-4 2s-3-1-4-2c0-4 1-8 4-10z"/><path d="M8 15l-3 5 5-3M16 15l3 5-5-3"/></svg> Publish</button>` : `<button class="btn btn-outline btn-sm" onclick="unpublishPackage('${p.id}')">Unpublish</button>`}
         <button class="btn btn-outline btn-sm" onclick="editPackage('${p.id}')">Edit</button>
         <button class="btn btn-danger btn-sm" onclick="deletePackage('${p.id}')">Delete</button>
-        <button class="btn btn-outline btn-sm" onclick="generateDetailPage('${p.id}')">📄 Generate Page</button>
+        <button class="btn btn-outline btn-sm" onclick="generateDetailPage('${p.id}')"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M6 2h9l5 5v15H6z"/><path d="M15 2v5h5"/></svg> Generate Page</button>
       </div>
     </div>
   `).join('');
@@ -773,7 +773,7 @@ function renderPackageList(data, containerId, isPublished) {
 async function publishPackage(id) {
   const { error } = await db.from('packages').update({ is_published: true }).eq('id', id);
   if (error) return showToast('Error: ' + error.message, 'error');
-  showToast('Package published — now live on site ✓', 'success');
+  showToast('Package published — now live on site <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg>', 'success');
   loadDrafts();
   loadPackages();
 }
@@ -909,7 +909,7 @@ function addInclusionRow(included = true, data = {}) {
       <div style="display:flex;gap:12px;align-items:center;">
         <input type="hidden" class="inc-type" value="${included}">
         <input type="text" class="inc-text" value="${data.text||''}" placeholder="${included ? 'e.g. All private charter flights within Kenya' : 'e.g. International flights to Nairobi'}" style="flex:1;">
-        <button class="btn btn-danger btn-sm" onclick="document.getElementById('${id}').remove()">✕</button>
+        <button class="btn btn-danger btn-sm" onclick="document.getElementById('${id}').remove()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
       </div>
     </div>`;
   document.getElementById(repId).insertAdjacentHTML('beforeend', html);
@@ -1068,7 +1068,7 @@ async function savePackage(publish = false) {
   clearStorageDraft();
 
   if (publish) {
-    showToast('Package published — now live on the website 🚀', 'success');
+    showToast('Package published — now live on the website <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 2c3 2 4 6 4 10-1 1-2 2-4 2s-3-1-4-2c0-4 1-8 4-10z"/><path d="M8 15l-3 5 5-3M16 15l3 5-5-3"/></svg>', 'success');
     setTimeout(() => showView('packages'), 1800);
   } else {
     showToast('Saved as draft. You can publish anytime from the Drafts section.', '');
@@ -1557,7 +1557,7 @@ async function deletePackage(id) {
     padding: 6px 0 6px 24px;
   }
   .map-flight-line span { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
-  .map-flight-line::before { content: '✈'; font-size: 9px; color: rgba(212,175,55,0.4); }
+  .map-flight-line::before { content: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12l20-7-7 7 7 7-20-7z"/><path d="M2 12h20"/></svg>'; font-size: 9px; color: rgba(212,175,55,0.4); }
 
   /* ============================================================
      PANEL 2 — DAY BY DAY
@@ -1777,7 +1777,7 @@ async function deletePackage(id) {
   .operator-certifications { margin-bottom: 48px; }
   .cert-grid { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
   .cert-badge { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); border: 1px solid var(--border); padding: 8px 16px; display: flex; align-items: center; gap: 8px; }
-  .cert-badge::before { content: '✓'; color: var(--gold); font-size: 10px; }
+  .cert-badge::before { content: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg>'; color: var(--gold); font-size: 10px; }
 
   /* Seasonal calendar */
   .pkg-seasons { margin-bottom: 56px; }
@@ -2241,7 +2241,7 @@ async function deletePackage(id) {
             <span class="rates-group-size">2 Guests · Most Popular</span>
             <div class="rates-group-title">Couple / Duo</div>
             <div class="rates-group-price">$${priceDuo.toLocaleString()}</div>
-            <p class="rates-group-saving">✓ Best value per person</p>
+            <p class="rates-group-saving"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> Best value per person</p>
           </div>
           <div class="rates-group-card">
             <span class="rates-group-size">3–4 Guests</span>
@@ -2282,10 +2282,10 @@ async function deletePackage(id) {
         <p class="getting-there-intro">Your international journey ends at Jomo Kenyatta International Airport (NBO) in Nairobi. From there, Filmax Jambo takes complete charge — a dedicated transfer vehicle meets you at arrivals and delivers you to Wilson Airport or your pre-departure hotel.</p>
       </div>
       <div class="gt-grid reveal">
-        <div class="gt-card"><span class="gt-card-icon">🛬</span><span class="gt-card-label">Your Gateway</span><div class="gt-card-title">Jomo Kenyatta International Airport</div><p class="gt-card-desc">IATA: NBO. 15 km from Nairobi CBD. All airport transfers arranged in private air-conditioned vehicles.</p></div>
-        <div class="gt-card"><span class="gt-card-icon">✈️</span><span class="gt-card-label">Transport Type</span><div class="gt-card-title">${pkg.transport_type||'Safari Vehicle'}</div><p class="gt-card-desc">All internal transfers for this package are by ${pkg.transport_type||'private vehicle'}. Your concierge coordinates all logistics.</p></div>
-        <div class="gt-card"><span class="gt-card-icon">🏨</span><span class="gt-card-label">Pre-Safari Option</span><div class="gt-card-title">Nairobi Pre-Safari Night</div><p class="gt-card-desc">We recommend arriving the night before. Hemingways Nairobi, The Norfolk, and Giraffe Manor available on request.</p></div>
-        <div class="gt-card"><span class="gt-card-icon">💊</span><span class="gt-card-label">Health</span><div class="gt-card-title">Malaria &amp; Vaccinations</div><p class="gt-card-desc">Malaria prophylaxis required. Yellow fever certificate may be required depending on your origin country. Consult your GP 6–8 weeks before travel.</p></div>
+        <div class="gt-card"><span class="gt-card-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 16l20 4-3-8-4 1-3-3-2 1 2 3-7 1z"/></svg></span><span class="gt-card-label">Your Gateway</span><div class="gt-card-title">Jomo Kenyatta International Airport</div><p class="gt-card-desc">IATA: NBO. 15 km from Nairobi CBD. All airport transfers arranged in private air-conditioned vehicles.</p></div>
+        <div class="gt-card"><span class="gt-card-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12l20-7-7 7 7 7-20-7z"/><path d="M2 12h20"/></svg>️</span><span class="gt-card-label">Transport Type</span><div class="gt-card-title">${pkg.transport_type||'Safari Vehicle'}</div><p class="gt-card-desc">All internal transfers for this package are by ${pkg.transport_type||'private vehicle'}. Your concierge coordinates all logistics.</p></div>
+        <div class="gt-card"><span class="gt-card-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-6h6v6M3 12h18"/></svg></span><span class="gt-card-label">Pre-Safari Option</span><div class="gt-card-title">Nairobi Pre-Safari Night</div><p class="gt-card-desc">We recommend arriving the night before. Hemingways Nairobi, The Norfolk, and Giraffe Manor available on request.</p></div>
+        <div class="gt-card"><span class="gt-card-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><rect x="4" y="10" width="16" height="8" rx="4" transform="rotate(-45 12 12)"/><path d="M9 9l6 6"/></svg></span><span class="gt-card-label">Health</span><div class="gt-card-title">Malaria &amp; Vaccinations</div><p class="gt-card-desc">Malaria prophylaxis required. Yellow fever certificate may be required depending on your origin country. Consult your GP 6–8 weeks before travel.</p></div>
       </div>
     </div>
 
@@ -2340,7 +2340,7 @@ async function deletePackage(id) {
         <label class="sq-field-label">Departure Date</label>
         <div class="sq-date-wrap">
           <input type="text" id="sqDateInput" class="sq-date-input" placeholder="Select a date" readonly>
-          <span class="sq-date-icon">📅</span>
+          <span class="sq-date-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span>
         </div>
         <div class="sq-calendar" id="sqCalendar">
           <div class="sq-cal-header">
@@ -2434,7 +2434,7 @@ async function deletePackage(id) {
     </div>
     <div class="footer-bottom">
       <span>© 2025 Filmax Jambo Tours · All rights reserved</span>
-      <span>Crafted with passion in Nairobi 🌍</span>
+      <span>Crafted with passion in Nairobi <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>
     </div>
   </div>
 </footer>
@@ -2777,8 +2777,8 @@ function viewMemberDetail(id) {
         <div><span style="color:var(--gold);font-size:9px;letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:4px;">Destinations Preferred</span><span style="color:var(--text);">${m.preferred_destinations||'—'}</span></div>
       </div>
       <div style="display:flex;gap:10px;margin-top:24px;flex-wrap:wrap;">
-        <a href="mailto:${m.email}" class="btn btn-gold btn-sm" style="text-decoration:none;">✉️ Email Member</a>
-        ${m.phone ? `<a href="https://wa.me/${m.phone.replace(/\D/g,'')}" target="_blank" class="btn btn-outline btn-sm" style="text-decoration:none;">💬 WhatsApp</a>` : ''}
+        <a href="mailto:${m.email}" class="btn btn-gold btn-sm" style="text-decoration:none;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 6l10 7 10-7"/></svg>️ Email Member</a>
+        ${m.phone ? `<a href="https://wa.me/${m.phone.replace(/\D/g,'')}" target="_blank" class="btn btn-outline btn-sm" style="text-decoration:none;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 4h16v11H8l-4 4V4z"/></svg> WhatsApp</a>` : ''}
         <button class="btn btn-danger btn-sm" onclick="deleteMember('${m.id}','${fullName}')">Remove Account</button>
       </div>
     </div>`;
@@ -2823,7 +2823,7 @@ function exportMembersCSV() {
   a.download = 'filmax-members-' + new Date().toISOString().split('T')[0] + '.csv';
   a.click();
   URL.revokeObjectURL(url);
-  showToast('Members exported as CSV ✓', 'success');
+  showToast('Members exported as CSV <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg>', 'success');
 }
 
 // ===========================
@@ -2850,7 +2850,7 @@ async function loadTestimonials(filter = 'pending') {
   if (!data?.length) { list.innerHTML = '<p style="color:var(--muted);">No ' + filter + ' testimonials.</p>'; return; }
 
   list.innerHTML = data.map(t => {
-    const stars = '★'.repeat(t.rating||5) + '☆'.repeat(5-(t.rating||5));
+    const stars = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 2l2.9 6.5L22 9.3l-5 4.9 1.2 7.1L12 17.8l-6.2 3.5L7 14.2l-5-4.9 7.1-.8z"/></svg>'.repeat(t.rating||5) + '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 3l2.5 5.5L20 9.3l-4.3 4.2L17 19.5 12 16.7l-5 2.8 1.3-6-4.3-4.2 5.5-.8L12 3z"/></svg>'.repeat(5-(t.rating||5));
     const date  = t.created_at ? new Date(t.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }) : '—';
     return `
       <div class="testimonial-admin-card ${t.status||'pending'}">
@@ -2867,8 +2867,8 @@ async function loadTestimonials(filter = 'pending') {
         <div class="testimonial-admin-rating">${stars}</div>
         <div class="testimonial-admin-text">"${t.text||''}"</div>
         <div class="testimonial-admin-actions">
-          ${t.status !== 'approved'  ? `<button class="btn btn-publish btn-sm" onclick="updateTestimonialStatus('${t.id}','approved')">✓ Approve</button>` : ''}
-          ${t.status !== 'rejected'  ? `<button class="btn btn-danger btn-sm" onclick="updateTestimonialStatus('${t.id}','rejected')">✕ Reject</button>` : ''}
+          ${t.status !== 'approved'  ? `<button class="btn btn-publish btn-sm" onclick="updateTestimonialStatus('${t.id}','approved')"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> Approve</button>` : ''}
+          ${t.status !== 'rejected'  ? `<button class="btn btn-danger btn-sm" onclick="updateTestimonialStatus('${t.id}','rejected')"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 5l14 14M19 5L5 19"/></svg> Reject</button>` : ''}
           ${t.status !== 'pending'   ? `<button class="btn btn-outline btn-sm" onclick="updateTestimonialStatus('${t.id}','pending')">Reset to Pending</button>` : ''}
           <button class="btn btn-danger btn-sm" onclick="deleteTestimonial('${t.id}')">Delete</button>
         </div>
@@ -2951,9 +2951,9 @@ async function loadEnquiries(statusFilter = 'all') {
           <div class="enquiry-date">${date}</div>
         </div>
         <div class="enquiry-contact">
-          ${e.email ? `<span>✉️ <a href="mailto:${e.email}" style="color:var(--gold);text-decoration:none;">${e.email}</a></span>` : ''}
-          ${e.phone ? `<span>📞 ${e.phone}</span>` : ''}
-          ${e.country ? `<span>🌍 ${e.country}</span>` : ''}
+          ${e.email ? `<span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 6l10 7 10-7"/></svg>️ <a href="mailto:${e.email}" style="color:var(--gold);text-decoration:none;">${e.email}</a></span>` : ''}
+          ${e.phone ? `<span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M6 3h4l2 5-2.5 2.5a12 12 0 0 0 5 5L17 13l5 2v4a2 2 0 0 1-2 2C10.5 21 3 13.5 3 5a2 2 0 0 1 2-2z"/></svg> ${e.phone}</span>` : ''}
+          ${e.country ? `<span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg> ${e.country}</span>` : ''}
         </div>
         ${e.message ? `<div class="enquiry-message">"${e.message}"</div>` : ''}
         <div class="enquiry-actions">
@@ -2963,8 +2963,8 @@ async function loadEnquiries(statusFilter = 'all') {
             <option value="confirmed" ${e.status==='confirmed' ?'selected':''}>Confirmed</option>
             <option value="closed"    ${e.status==='closed'    ?'selected':''}>Closed</option>
           </select>
-          ${e.email ? `<a href="mailto:${e.email}?subject=Your Filmax Jambo Safari Enquiry" class="btn btn-outline btn-sm" style="text-decoration:none;">✉️ Email</a>` : ''}
-          ${e.phone ? `<a href="https://wa.me/${e.phone.replace(/\D/g,'')}?text=${waMsg}" target="_blank" class="btn btn-outline btn-sm" style="text-decoration:none;color:#25D366;border-color:rgba(37,211,102,0.4);">💬 WhatsApp</a>` : ''}
+          ${e.email ? `<a href="mailto:${e.email}?subject=Your Filmax Jambo Safari Enquiry" class="btn btn-outline btn-sm" style="text-decoration:none;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 6l10 7 10-7"/></svg>️ Email</a>` : ''}
+          ${e.phone ? `<a href="https://wa.me/${e.phone.replace(/\D/g,'')}?text=${waMsg}" target="_blank" class="btn btn-outline btn-sm" style="text-decoration:none;color:#25D366;border-color:rgba(37,211,102,0.4);"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 4h16v11H8l-4 4V4z"/></svg> WhatsApp</a>` : ''}
           <button class="btn btn-danger btn-sm" onclick="deleteEnquiry('${e.id}')">Delete</button>
         </div>
       </div>`;
@@ -3001,7 +3001,7 @@ function exportEnquiriesCSV() {
   a.download = 'filmax-enquiries-' + new Date().toISOString().split('T')[0] + '.csv';
   a.click();
   URL.revokeObjectURL(url);
-  showToast('Enquiries exported ✓', 'success');
+  showToast('Enquiries exported <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg>', 'success');
 }
 
 // ===========================
@@ -3013,9 +3013,9 @@ function initRealtime() {
   db.channel('admin-members')
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'profiles' }, payload => {
       const name = ((payload.new.first_name||'') + ' ' + (payload.new.last_name||'')).trim() || 'New member';
-      showToast('🎉 New signup: ' + name, 'success');
+      showToast('<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M3 21l6-15 12 12-15 3z"/><circle cx="18" cy="4" r="1"/><circle cx="21" cy="8" r="1"/><circle cx="14" cy="3" r="1"/></svg> New signup: ' + name, 'success');
       // Refresh members count in dashboard
-      document.getElementById('kpi-enquiries-num').textContent = '↑';
+      document.getElementById('kpi-enquiries-num').innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 19V5M6 11l6-6 6 6"/></svg>';
       if (document.getElementById('view-members').classList.contains('active')) loadMembers();
     })
     .subscribe();
@@ -3024,7 +3024,7 @@ function initRealtime() {
   db.channel('admin-enquiries')
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'enquiries' }, payload => {
       const name = ((payload.new.first_name||'') + ' ' + (payload.new.last_name||'')).trim() || 'Someone';
-      showToast('📋 New enquiry from ' + name + (payload.new.package_name ? ' — ' + payload.new.package_name : ''), 'success');
+      showToast('<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><rect x="5" y="4" width="14" height="17" rx="2"/><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h6"/></svg> New enquiry from ' + name + (payload.new.package_name ? ' — ' + payload.new.package_name : ''), 'success');
       if (document.getElementById('view-enquiries').classList.contains('active')) {
         loadEnquiries(document.getElementById('enqStatusFilter')?.value || 'all');
       }
@@ -3121,9 +3121,9 @@ async function saveSiteSettings() {
     if (error) { showToast('Error saving ' + row.id + ': ' + error.message, 'error'); return; }
   }
 
-  showToast('Site settings saved — website updates automatically ✓', 'success');
+  showToast('Site settings saved — website updates automatically <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg>', 'success');
   const status = document.getElementById('siteSettingsSaveStatus');
-  if (status) { status.textContent = '✓ Saved at ' + new Date().toLocaleTimeString(); status.style.opacity = '1'; setTimeout(() => status.style.opacity = '0', 3000); }
+  if (status) { status.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> Saved at ' + new Date().toLocaleTimeString(); status.style.opacity = '1'; setTimeout(() => status.style.opacity = '0', 3000); }
 }
   
 let editingBlogId = null;
@@ -3221,7 +3221,7 @@ function updateBlogPreviewUrl(slug) {
   const el = document.getElementById('bf-preview-url');
   if (!el) return;
   if (slug) {
-    el.textContent = `blog/${slug}.html → loads from Supabase automatically`;
+    el.textContent = `blog/${slug}.html <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 12h14M13 6l6 6-6 6"/></svg> loads from Supabase automatically`;
     el.style.color = 'var(--gold)';
   } else {
     el.textContent = 'Fill in a slug to see the preview URL';
@@ -3340,7 +3340,7 @@ async function saveBlogPost(publish) {
     return;
   }
 
-  showToast(publish ? 'Post published — live on the website 🚀' : 'Saved as draft ✓', publish ? 'success' : '');
+  showToast(publish ? 'Post published — live on the website <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 2c3 2 4 6 4 10-1 1-2 2-4 2s-3-1-4-2c0-4 1-8 4-10z"/><path d="M8 15l-3 5 5-3M16 15l3 5-5-3"/></svg>' : 'Saved as draft <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg>', publish ? 'success' : '');
   setTimeout(() => showView(publish ? 'blog-posts' : 'blog-drafts'), 1600);
   loadBlogPosts();
   loadBlogDrafts();
@@ -3435,7 +3435,7 @@ async function editBlogPost(id) {
 async function toggleBlogPublish(id, current) {
   const { error } = await db.from('blogs').update({ is_published: !current, updated_at: new Date().toISOString() }).eq('id', id);
   if (error) { showToast('Error: ' + error.message, 'error'); return; }
-  showToast(!current ? 'Post published — now live ✓' : 'Moved to drafts', !current ? 'success' : '');
+  showToast(!current ? 'Post published — now live <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg>' : 'Moved to drafts', !current ? 'success' : '');
   loadBlogPosts();
   loadBlogDrafts();
 }
@@ -3583,7 +3583,7 @@ async function sendReply(id, toEmail, toName) {
       msg.style.background = 'rgba(123,181,110,0.1)';
       msg.style.border = '1px solid rgba(123,181,110,0.3)';
       msg.style.color = '#7bb56e';
-      msg.textContent = '✓ Reply saved. Your email client opened to send the message.';
+      msg.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> Reply saved. Your email client opened to send the message.';
     }
     if (ta) ta.value = '';
     markEnquiry(id, 'replied');
@@ -3637,7 +3637,7 @@ function adminDiscardChanges() {
 function showAdminToast(msg, isError) {
   var toast = document.createElement('div');
   toast.style.cssText = 'position:fixed;top:24px;right:24px;z-index:99999;font-family:Jost,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:14px 24px;box-shadow:0 8px 32px rgba(0,0,0,0.4);opacity:0;transform:translateY(-8px);transition:all .35s;pointer-events:none;' + (isError ? 'background:rgba(224,85,85,0.9);color:#fff;' : 'background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;');
-  toast.textContent = (isError ? '✕  ' : '✓  ') + msg;
+  toast.textContent = (isError ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 5l14 14M19 5L5 19"/></svg>  ' : '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg>  ') + msg;
   document.body.appendChild(toast);
   requestAnimationFrame(function(){ toast.style.opacity='1'; toast.style.transform='translateY(0)'; });
   setTimeout(function(){ toast.style.opacity='0'; setTimeout(function(){ toast.remove(); }, 400); }, 2800);
@@ -3676,12 +3676,12 @@ async function loadTestimonialsAdmin() {
             <div style="font-size:10px;letter-spacing:2px;color:#8a8074;margin-bottom:12px;">${escHtml(t.author_loc||'')} · ${new Date(t.created_at).toLocaleDateString('en-GB')}</div>
             <div style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:#8a8074;line-height:1.7;">"${escHtml(t.text)}"</div>
             <div style="margin-top:8px;">
-              ${'★'.repeat(t.rating||5)}<span style="color:rgba(212,175,55,0.3)">${'★'.repeat(5-(t.rating||5))}</span>
+              ${'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 2l2.9 6.5L22 9.3l-5 4.9 1.2 7.1L12 17.8l-6.2 3.5L7 14.2l-5-4.9 7.1-.8z"/></svg>'.repeat(t.rating||5)}<span style="color:rgba(212,175,55,0.3)">${'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 2l2.9 6.5L22 9.3l-5 4.9 1.2 7.1L12 17.8l-6.2 3.5L7 14.2l-5-4.9 7.1-.8z"/></svg>'.repeat(5-(t.rating||5))}</span>
             </div>
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0;">
-            <button onclick="approveTestimonial('${t.id}')" style="font-family:'Jost',sans-serif;font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:8px 14px;background:rgba(123,181,110,0.1);border:1px solid rgba(123,181,110,0.35);color:#7bb56e;cursor:pointer;">✓ Approve</button>
-            <button onclick="rejectTestimonial('${t.id}')" style="font-family:'Jost',sans-serif;font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:8px 14px;background:rgba(224,85,85,0.08);border:1px solid rgba(224,85,85,0.25);color:#e05555;cursor:pointer;">✕ Reject</button>
+            <button onclick="approveTestimonial('${t.id}')" style="font-family:'Jost',sans-serif;font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:8px 14px;background:rgba(123,181,110,0.1);border:1px solid rgba(123,181,110,0.35);color:#7bb56e;cursor:pointer;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> Approve</button>
+            <button onclick="rejectTestimonial('${t.id}')" style="font-family:'Jost',sans-serif;font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:8px 14px;background:rgba(224,85,85,0.08);border:1px solid rgba(224,85,85,0.25);color:#e05555;cursor:pointer;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 5l14 14M19 5L5 19"/></svg> Reject</button>
           </div>
         </div>
       </div>`;
@@ -3805,11 +3805,11 @@ async function loadReservations(statusFilter = 'all') {
           <div class="enquiry-date">${date}</div>
         </div>
         <div class="enquiry-contact">
-          ${r.email ? `<span>✉️ ${r.email}</span>` : ''}
-          ${r.phone ? `<span>📞 ${r.phone}</span>` : ''}
-          ${r.country ? `<span>🌍 ${r.country}</span>` : ''}
-          <span>👥 ${travellers}</span>
-          ${r.travel_date ? `<span>📅 ${new Date(r.travel_date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</span>` : ''}
+          ${r.email ? `<span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 6l10 7 10-7"/></svg>️ ${r.email}</span>` : ''}
+          ${r.phone ? `<span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M6 3h4l2 5-2.5 2.5a12 12 0 0 0 5 5L17 13l5 2v4a2 2 0 0 1-2 2C10.5 21 3 13.5 3 5a2 2 0 0 1 2-2z"/></svg> ${r.phone}</span>` : ''}
+          ${r.country ? `<span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg> ${r.country}</span>` : ''}
+          <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.5 2.5-6 6-6s6 2.5 6 6M15 20c0-2.5 1.5-4.5 4-4.5s4.5 2 4.5 4.5"/></svg> ${travellers}</span>
+          ${r.travel_date ? `<span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg> ${new Date(r.travel_date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</span>` : ''}
         </div>
         <div class="enquiry-actions" onclick="event.stopPropagation()">
           <select class="enquiry-status-select" onchange="updateReservationStatus('${r.id}',this.value)">
@@ -3882,8 +3882,8 @@ function openReservationDetail(id) {
     </div>` : ''}
 
     <div style="display:flex;gap:10px;flex-wrap:wrap;border-top:1px solid var(--border);padding-top:20px;">
-      ${r.email ? `<a href="mailto:${r.email}" class="btn btn-outline btn-sm" style="text-decoration:none;">✉️ Email Traveller</a>` : ''}
-      ${r.phone ? `<a href="https://wa.me/${r.phone.replace(/\D/g,'')}" target="_blank" class="btn btn-outline btn-sm" style="text-decoration:none;color:#25D366;border-color:rgba(37,211,102,0.4);">💬 WhatsApp</a>` : ''}
+      ${r.email ? `<a href="mailto:${r.email}" class="btn btn-outline btn-sm" style="text-decoration:none;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 6l10 7 10-7"/></svg>️ Email Traveller</a>` : ''}
+      ${r.phone ? `<a href="https://wa.me/${r.phone.replace(/\D/g,'')}" target="_blank" class="btn btn-outline btn-sm" style="text-decoration:none;color:#25D366;border-color:rgba(37,211,102,0.4);"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 4h16v11H8l-4 4V4z"/></svg> WhatsApp</a>` : ''}
     </div>
   `;
   document.getElementById('resDetailOverlay').style.display = 'flex';
@@ -3935,7 +3935,7 @@ function imgUploadFieldHTML(fieldClass, labelText, currentUrl, folder, required)
         <input type="hidden" class="${fieldClass}" value="${currentUrl||''}">
         <div class="img-upload-preview" style="${currentUrl?'':'display:none;'}">
           <img src="${currentUrl||''}" alt="">
-          <button type="button" class="img-upload-remove" onclick="(function(btn){const w=btn.closest('.img-upload-widget');w.querySelector('input[type=hidden]').value='';w.querySelector('.img-upload-preview').style.display='none';w.querySelector('.img-upload-preview img').src='';}).call(this,this)">✕ Remove</button>
+          <button type="button" class="img-upload-remove" onclick="(function(btn){const w=btn.closest('.img-upload-widget');w.querySelector('input[type=hidden]').value='';w.querySelector('.img-upload-preview').style.display='none';w.querySelector('.img-upload-preview img').src='';}).call(this,this)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 5l14 14M19 5L5 19"/></svg> Remove</button>
         </div>
         <input type="file" accept="image/*" class="img-upload-input" onchange="handleImageUpload(this)">
         <span class="img-upload-status"></span>
@@ -3972,7 +3972,7 @@ async function handleImageUpload(inputEl) {
     hiddenField.value = data.publicUrl;
     previewImg.src = data.publicUrl;
     preview.style.display = 'flex';
-    status.textContent = 'Uploaded ✓'; status.style.color = '#7bb56e';
+    status.textContent = 'Uploaded <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg>'; status.style.color = '#7bb56e';
     inputEl.value = '';
     setTimeout(() => { status.textContent = ''; }, 2500);
   } catch (e) {
@@ -4236,8 +4236,8 @@ function validatePackageForm() {
 function toggleAuthPassword() {
   var f = document.getElementById('authPassword');
   var btn = document.getElementById('authPwToggle');
-  if (f.type === 'password') { f.type = 'text'; btn.textContent = '🙈'; }
-  else { f.type = 'password'; btn.textContent = '👁'; }
+  if (f.type === 'password') { f.type = 'text'; btn.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="13" r="7"/><path d="M9 12h.01M15 12h.01M9 16c1 1 5 1 6 0"/><path d="M6 8l-2-3M18 8l2-3"/></svg>'; }
+  else { f.type = 'password'; btn.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>'; }
 }
 
 // ── CUSTOM CURSOR ──

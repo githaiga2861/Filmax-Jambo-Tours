@@ -215,7 +215,7 @@ window.FJT_ACTS_DATA = {
     ['Private sundowner setup','Linen and candles at a secret hilltop spot.'],
     ['Night drive with guide','After-dark wildlife on the way back.']
   ]},
-  4: { place:'Maasai Mara → Coast', items:[
+  4: { place:'Maasai Mara <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 12h14M13 6l6 6-6 6"/></svg> Coast', items:[
     ['Final morning drive','A last Mara drive at dawn.'],
     ['Late camp breakfast','A relaxed breakfast and a wildflower memento.'],
     ['Charter to Mombasa','The flight to the coast.'],

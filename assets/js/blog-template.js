@@ -48,7 +48,7 @@ function showPostAuthGate() {
           <button onclick="openPostAuth('signup')" style="flex:1;min-width:140px;font-family:'Jost',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:18px 20px;background:linear-gradient(135deg,#f0c84a 0%,#d4af37 35%,#b8860b 70%,#c9921a 100%);color:#080808;border:none;cursor:pointer;box-shadow:0 2px 0 rgba(255,255,255,0.22) inset,0 -2px 0 rgba(0,0,0,0.35) inset,0 8px 28px rgba(212,175,55,0.3);transition:filter 0.2s,transform 0.2s;" onmouseover="this.style.filter='brightness(1.1)';this.style.transform='translateY(-2px)'" onmouseout="this.style.filter='';this.style.transform=''">Join Free</button>
           <button onclick="openPostAuth('signin')" style="flex:1;min-width:120px;font-family:'Jost',sans-serif;font-size:10px;font-weight:600;letter-spacing:4px;text-transform:uppercase;padding:18px 20px;background:transparent;color:#d4af37;border:1.5px solid #d4af37;cursor:pointer;transition:background 0.25s,transform 0.2s;" onmouseover="this.style.background='rgba(212,175,55,0.09)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='transparent';this.style.transform=''">Sign In</button>
         </div>
-        <a href="../blog.html" style="display:block;text-align:center;font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:rgba(138,128,116,0.6);text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'">← Back to Journal</a>
+        <a href="../blog.html" style="display:block;text-align:center;font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:rgba(138,128,116,0.6);text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Back to Journal</a>
       </div>
     </div>
   </div>`;
@@ -173,7 +173,7 @@ document.addEventListener('mousemove', e=>{ mx=e.clientX;my=e.clientY;cursor.sty
 function animateRing(){ rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animateRing); }
 animateRing();
 
-// Get slug from filename (e.g. great-migration-guide.html → great-migration-guide)
+// Get slug from filename (e.g. great-migration-guide.html <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 12h14M13 6l6 6-6 6"/></svg> great-migration-guide)
 // OR from URL param ?slug=...
 function getSlug() {
   const params = new URLSearchParams(window.location.search);

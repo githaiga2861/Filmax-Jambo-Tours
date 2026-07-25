@@ -106,7 +106,7 @@ body.light-mode .filter-system {
 
 <!-- PACKAGES-PAGE DROPDOWN (unique: has Back to Home) -->
 <div class="pkg-dropdown" id="pkgDropdown">
-  <a href="/home/" class="pkg-dropdown-back">← Back to Home</a>
+  <a href="/home/" class="pkg-dropdown-back"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Back to Home</a>
   <a href="/home/#wildlife" class="pkg-dropdown-link">Destinations</a>
   <a href="/packages/" class="pkg-dropdown-link">All Packages</a>
   <a href="/home/#testimonials" class="pkg-dropdown-link">Testimonials</a>
@@ -344,7 +344,7 @@ body.light-mode .filter-system {
     gap: 12px;
   ">
     <span id="filterLabel"></span>
-    <a href="/packages/" style="color:var(--black); text-decoration:none; opacity:0.6;">✕ clear</a>
+    <a href="/packages/" style="color:var(--black); text-decoration:none; opacity:0.6;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 5l14 14M19 5L5 19"/></svg> clear</a>
   </span>
 </div>
 
@@ -875,9 +875,9 @@ body.light-mode .filter-system {
         <div style="position:relative;">
           <input id="siPassword" class="auth-input" type="password" placeholder="Password *" autocomplete="current-password" style="padding-right:36px;"
             onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-          <button type="button" onclick="(function(){var f=document.getElementById('siPassword');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'👁':'🙈';}).call(this)"
+          <button type="button" onclick="(function(){var f=document.getElementById('siPassword');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'<svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z&quot;/><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;3&quot;/></svg>':'<svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><circle cx=&quot;12&quot; cy=&quot;13&quot; r=&quot;7&quot;/><path d=&quot;M9 12h.01M15 12h.01M9 16c1 1 5 1 6 0&quot;/><path d=&quot;M6 8l-2-3M18 8l2-3&quot;/></svg>';}).call(this)"
             style="position:absolute;right:0;top:14px;background:none;border:none;cursor:none;color:rgba(138,128,116,0.6);font-size:14px;padding:0;line-height:1;transition:color 0.2s;"
-            onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'">👁</button>
+            onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
         </div>
         <div style="text-align:right;margin-bottom:8px;">
           <button id="forgotPwBtn" onclick="window._showForgotPassword()" style="background:none;border:none;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;color:rgba(212,175,55,0.6);cursor:none;padding:4px 0;transition:color 0.3s;" onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(212,175,55,0.6)'">Forgot Password?</button>
@@ -903,7 +903,7 @@ body.light-mode .filter-system {
         <input id="forgotEmail" class="auth-input" type="email" placeholder="Your Email Address *" autocomplete="email"
           onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
         <button class="auth-submit-btn" id="forgotSubmitBtn" onclick="window._doForgotPassword()" style="margin-top:16px;">Send Reset Link</button>
-        <p class="auth-alt-link" style="margin-top:16px;"><button onclick="window._switchAuthTab('signin')">← Back to Sign In</button></p>
+        <p class="auth-alt-link" style="margin-top:16px;"><button onclick="window._switchAuthTab('signin')"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M19 12H5M11 6l-6 6 6 6&quot;/></svg> Back to Sign In</button></p>
       </div>
 
       <!-- SIGN UP PANEL -->
@@ -941,16 +941,16 @@ body.light-mode .filter-system {
         <div style="position:relative;">
           <input id="suPassword" class="auth-input" type="password" placeholder="Create Password (min 8 characters) *" autocomplete="new-password" style="padding-right:36px;"
             onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-          <button type="button" onclick="(function(){var f=document.getElementById('suPassword');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'👁':'🙈';}).call(this)"
+          <button type="button" onclick="(function(){var f=document.getElementById('suPassword');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'<svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z&quot;/><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;3&quot;/></svg>':'<svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><circle cx=&quot;12&quot; cy=&quot;13&quot; r=&quot;7&quot;/><path d=&quot;M9 12h.01M15 12h.01M9 16c1 1 5 1 6 0&quot;/><path d=&quot;M6 8l-2-3M18 8l2-3&quot;/></svg>';}).call(this)"
             style="position:absolute;right:0;top:14px;background:none;border:none;cursor:none;color:rgba(138,128,116,0.6);font-size:14px;padding:0;line-height:1;transition:color 0.2s;"
-            onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'">👁</button>
+            onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
         </div>
         <div style="position:relative;">
           <input id="suPassConf" class="auth-input" type="password" placeholder="Confirm Password *" autocomplete="new-password" style="padding-right:36px;"
             onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-          <button type="button" onclick="(function(){var f=document.getElementById('suPassConf');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'👁':'🙈';}).call(this)"
+          <button type="button" onclick="(function(){var f=document.getElementById('suPassConf');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'<svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z&quot;/><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;3&quot;/></svg>':'<svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><circle cx=&quot;12&quot; cy=&quot;13&quot; r=&quot;7&quot;/><path d=&quot;M9 12h.01M15 12h.01M9 16c1 1 5 1 6 0&quot;/><path d=&quot;M6 8l-2-3M18 8l2-3&quot;/></svg>';}).call(this)"
             style="position:absolute;right:0;top:14px;background:none;border:none;cursor:none;color:rgba(138,128,116,0.6);font-size:14px;padding:0;line-height:1;transition:color 0.2s;"
-            onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'">👁</button>
+            onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
         </div>
         <button class="auth-submit-btn" id="suSubmitBtn" onclick="window._doSignUp()" style="margin-top:20px;">Create My Safari Account</button>
         <div style="display:flex;align-items:center;gap:12px;margin:20px 0 4px;">

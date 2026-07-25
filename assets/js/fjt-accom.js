@@ -126,12 +126,12 @@
         '<div class="fjt-accom-name">'+a.name+'</div>'+
         '<div class="fjt-accom-type">'+a.type+'</div>'+
         '<div class="fjt-accom-mini">'+
-          '<div class="fjt-accom-mini-head">📍 Getting There</div>'+
+          '<div class="fjt-accom-mini-head"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg> Getting There</div>'+
           '<div class="fjt-accom-mini-text">'+a.getting+'</div>'+
           '<button class="fjt-accom-mini-link" data-modal="getting" data-day="'+day+'" data-idx="'+idx+'">More details '+ARROW+'</button>'+
         '</div>'+
         '<div class="fjt-accom-mini">'+
-          '<div class="fjt-accom-mini-head">✦ Activity Highlights</div>'+
+          '<div class="fjt-accom-mini-head"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg> Activity Highlights</div>'+
           '<div class="fjt-accom-mini-text">'+a.acts+'</div>'+
           '<button class="fjt-accom-mini-link" data-modal="acts" data-day="'+day+'" data-idx="'+idx+'">More details '+ARROW+'</button>'+
         '</div>'+
@@ -155,7 +155,7 @@
     mount.innerHTML =
       '<div class="fjt-accom-wrap">'+
         '<div class="fjt-accom-toggle">'+
-          '<span class="fjt-accom-toggle-label">🏕 Accommodation Options '+
+          '<span class="fjt-accom-toggle-label"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 3l9 17H3l9-17z"/><path d="M12 3v17M8 20l4-9 4 9"/></svg> Accommodation Options '+
             '<span class="fjt-accom-toggle-count">'+list.length+' '+(list.length===1?'lodge':'lodges')+' for this night · <span class="fjt-accom-current" data-current="'+day+'">'+defName+'</span></span>'+
           '</span>'+
           '<span class="fjt-accom-toggle-chevron">'+ARROW+'</span>'+
@@ -182,7 +182,7 @@
     mount.innerHTML =
       '<div class="fjt-accom-wrap fjt-act-wrap">'+
         '<div class="fjt-accom-toggle fjt-act-toggle">'+
-          '<span class="fjt-accom-toggle-label">✦ Activities '+
+          '<span class="fjt-accom-toggle-label"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg> Activities '+
             '<span class="fjt-accom-toggle-count">'+data.items.length+' experiences · '+data.place+'</span>'+
           '</span>'+
           '<span class="fjt-accom-toggle-chevron">'+ARROW+'</span>'+
@@ -249,7 +249,7 @@
           '<div><div class="fjt-bk-name">'+a.name+'</div><div class="fjt-bk-type">'+a.type+'</div></div>'+
           '<div class="fjt-bk-score"><span class="fjt-bk-score-num">'+a.score+'</span><span class="fjt-bk-score-txt"><strong>'+a.scoreWord+'</strong>'+a.reviews+' reviews</span></div>'+
         '</div>'+
-        '<div class="fjt-bk-loc">📍 '+a.location+'</div>'+
+        '<div class="fjt-bk-loc"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg> '+a.location+'</div>'+
         '<p class="fjt-bk-p">'+a.desc+'</p>'+
         '<div class="fjt-bk-divider"></div>'+
         '<div class="fjt-bk-section-title">Most popular facilities</div>'+

@@ -34,9 +34,9 @@
           <input id="siPassword" class="auth-input" type="password" placeholder="Password *" autocomplete="current-password"
             style="padding-right:36px;"
             onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-          <button type="button" onclick="(function(){var f=document.getElementById('siPassword');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'👁':'🙈';}).call(this)"
+          <button type="button" onclick="(function(){var f=document.getElementById('siPassword');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>':'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="13" r="7"/><path d="M9 12h.01M15 12h.01M9 16c1 1 5 1 6 0"/><path d="M6 8l-2-3M18 8l2-3"/></svg>';}).call(this)"
             style="position:absolute;right:0;top:14px;background:none;border:none;cursor:none;color:rgba(138,128,116,0.6);font-size:14px;padding:0;line-height:1;transition:color 0.2s;"
-            onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'">👁</button>
+            onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
         </div>
         <div style="text-align:right;margin-bottom:8px;">
           <button id="forgotPwBtn" onclick="window._showForgotPassword()" style="background:none;border:none;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;color:rgba(212,175,55,0.6);cursor:none;padding:4px 0;transition:color 0.3s;" onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(212,175,55,0.6)'">Forgot Password?</button>
@@ -72,7 +72,7 @@
         <button class="auth-submit-btn" id="forgotSubmitBtn" onclick="window._doForgotPassword()" style="margin-top:16px;">
           Send Reset Link
         </button>
-        <p class="auth-alt-link" style="margin-top:16px;"><button onclick="window._switchAuthTab('signin')">← Back to Sign In</button></p>
+        <p class="auth-alt-link" style="margin-top:16px;"><button onclick="window._switchAuthTab('signin')"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Back to Sign In</button></p>
       </div>
 
       <!-- SIGN UP PANEL -->
@@ -181,18 +181,18 @@
           <input id="suPassword" class="auth-input" type="password" placeholder="Create Password (min 8 characters) *" autocomplete="new-password"
             style="padding-right:36px;"
             onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-          <button type="button" onclick="(function(){var f=document.getElementById('suPassword');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'👁':'🙈';}).call(this)"
+          <button type="button" onclick="(function(){var f=document.getElementById('suPassword');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>':'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="13" r="7"/><path d="M9 12h.01M15 12h.01M9 16c1 1 5 1 6 0"/><path d="M6 8l-2-3M18 8l2-3"/></svg>';}).call(this)"
             style="position:absolute;right:0;top:14px;background:none;border:none;cursor:none;color:rgba(138,128,116,0.6);font-size:14px;padding:0;line-height:1;transition:color 0.2s;"
-            onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'">👁</button>
+            onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
         </div>
 
         <div style="position:relative;">
           <input id="suPassConf" class="auth-input" type="password" placeholder="Confirm Password *" autocomplete="new-password"
             style="padding-right:36px;"
             onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-          <button type="button" onclick="(function(){var f=document.getElementById('suPassConf');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'👁':'🙈';}).call(this)"
+          <button type="button" onclick="(function(){var f=document.getElementById('suPassConf');f.type=f.type==='password'?'text':'password';this.textContent=f.type==='password'?'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>':'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="13" r="7"/><path d="M9 12h.01M15 12h.01M9 16c1 1 5 1 6 0"/><path d="M6 8l-2-3M18 8l2-3"/></svg>';}).call(this)"
             style="position:absolute;right:0;top:14px;background:none;border:none;cursor:none;color:rgba(138,128,116,0.6);font-size:14px;padding:0;line-height:1;transition:color 0.2s;"
-            onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'">👁</button>
+            onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
         </div>
 
         <div id="authMsgErrorSignup" class="auth-msg error" style="margin-top:12px;"></div>
@@ -342,7 +342,7 @@
         // Distinguish "invalid credentials" from "user not found"
         const msg = (error.message || '').toLowerCase();
         if (msg.includes('invalid') || msg.includes('wrong') || msg.includes('credentials') || msg.includes('not found') || msg.includes('no user')) {
-          showMsgSignin('error', '❌ No account found with this email. Please create an account first.');
+          showMsgSignin('error', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg> No account found with this email. Please create an account first.');
           setTimeout(function(){ window._switchAuthTab('signup'); const el=document.getElementById('suEmail'); if(el){el.value=email;} }, 1800);
         } else {
           showMsgSignin('error', error.message || 'Sign in failed. Please try again.');
@@ -363,13 +363,13 @@
         _welcomeSupa.from('profiles').select('first_name').eq('id', data.user.id).single()
           .then(({ data: pd }) => {
             if (pd?.first_name) _welcomeName = pd.first_name;
-            showMsgSignin('success', '✓ Welcome back, ' + _welcomeName + '! You are now signed in.');
+            showMsgSignin('success', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> Welcome back, ' + _welcomeName + '! You are now signed in.');
           })
           .catch(() => {
-            showMsgSignin('success', '✓ Welcome back, ' + _welcomeName + '! You are now signed in.');
+            showMsgSignin('success', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> Welcome back, ' + _welcomeName + '! You are now signed in.');
           });
       } else {
-        showMsgSignin('success', '✓ Welcome back, ' + _welcomeName + '! You are now signed in.');
+        showMsgSignin('success', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> Welcome back, ' + _welcomeName + '! You are now signed in.');
       }
       updateNavForUser(data.user);
       setTimeout(function(){
@@ -377,7 +377,7 @@
         // Brief in-page toast
         const toast = document.createElement('div');
         toast.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:99999;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;font-family:Jost,sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:18px 40px;box-shadow:0 8px 40px rgba(212,175,55,0.5);opacity:0;transition:opacity 0.4s ease;';
-        toast.textContent = '✓ Signed in successfully';
+        toast.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> Signed in successfully';
         document.body.appendChild(toast);
         requestAnimationFrame(function(){ toast.style.opacity='1'; });
         setTimeout(function(){ toast.style.opacity='0'; setTimeout(function(){toast.remove();},400); },2400);
@@ -419,10 +419,10 @@
 
   if (input.type === "password") {
     input.type = "text";
-    eye.textContent = "🙈";
+    eye.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="13" r="7"/><path d="M9 12h.01M15 12h.01M9 16c1 1 5 1 6 0"/><path d="M6 8l-2-3M18 8l2-3"/></svg>';
   } else {
     input.type = "password";
-    eye.textContent = "👁";
+    eye.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>';
   }
 }
 
@@ -471,7 +471,7 @@
         redirectTo: 'https://filmaxjambotours.com/reset-password.html'
       });
       if (error) throw error;
-      showMsgForgot('success', '✓ Reset link sent! Check your inbox (and spam folder). You can close this.');
+      showMsgForgot('success', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> Reset link sent! Check your inbox (and spam folder). You can close this.');
     } catch(e) {
       showMsgForgot('error', JSON.stringify(e) + ' | ' + (e.message||'') + ' | status:' + (e.status||'') + ' | code:' + (e.code||''));
     }
@@ -505,13 +505,13 @@
     const emergPhone= v('suEmergPhone');
 
     // Validate required fields
-    if (!firstName)   { showMsgSignup('error','⚠ First name is required.'); return; }
-    if (!email)       { showMsgSignup('error','⚠ Email address is required.'); return; }
-    if (!phoneRaw)    { showMsgSignup('error','⚠ Phone number is required.'); return; }
-    if (!nationality) { showMsgSignup('error','⚠ Country of residence is required.'); return; }
-    if (!pass)        { showMsgSignup('error','⚠ Please create a password.'); return; }
-    if (pass.length < 8) { showMsgSignup('error','⚠ Password must be at least 8 characters.'); return; }
-    if (pass !== passConf) { showMsgSignup('error','⚠ Passwords do not match.'); return; }
+    if (!firstName)   { showMsgSignup('error','<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v4M12 17h.01"/></svg> First name is required.'); return; }
+    if (!email)       { showMsgSignup('error','<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v4M12 17h.01"/></svg> Email address is required.'); return; }
+    if (!phoneRaw)    { showMsgSignup('error','<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v4M12 17h.01"/></svg> Phone number is required.'); return; }
+    if (!nationality) { showMsgSignup('error','<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v4M12 17h.01"/></svg> Country of residence is required.'); return; }
+    if (!pass)        { showMsgSignup('error','<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v4M12 17h.01"/></svg> Please create a password.'); return; }
+    if (pass.length < 8) { showMsgSignup('error','<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v4M12 17h.01"/></svg> Password must be at least 8 characters.'); return; }
+    if (pass !== passConf) { showMsgSignup('error','<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v4M12 17h.01"/></svg> Passwords do not match.'); return; }
     const btn = document.getElementById('suSubmitBtn');
     if (btn) { btn.textContent = 'Creating account…'; btn.disabled = true; }
     try {
@@ -531,12 +531,12 @@
       if (error) {
         // Handle specific "User already registered" error
         if (error.message && (error.message.toLowerCase().includes('already') || error.message.toLowerCase().includes('registered'))) {
-          showMsgSignup('error', '⚠ An account with this email already exists.');
+          showMsgSignup('error', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v4M12 17h.01"/></svg> An account with this email already exists.');
           setTimeout(function(){
             window._switchAuthTab('signin');
             var siEmail = document.getElementById('siEmail');
             if (siEmail) siEmail.value = email;
-            showMsgSignin('error', '⚠ Account already exists. Please sign in with your password.');
+            showMsgSignin('error', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v4M12 17h.01"/></svg> Account already exists. Please sign in with your password.');
           }, 1400);
           return;
         }
@@ -544,12 +544,12 @@
       }
       if (data?.user?.identities?.length === 0) {
         // Supabase signals existing account this way
-        showMsgSignup('error', '⚠ An account with this email already exists.');
+        showMsgSignup('error', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v4M12 17h.01"/></svg> An account with this email already exists.');
         setTimeout(function(){
           window._switchAuthTab('signin');
           var siEmail = document.getElementById('siEmail');
           if (siEmail) siEmail.value = email;
-          showMsgSignin('error', '⚠ Account found. Please sign in with your password.');
+          showMsgSignin('error', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v4M12 17h.01"/></svg> Account found. Please sign in with your password.');
         }, 1400);
         return;
       } else {
@@ -580,14 +580,14 @@
         // If Supabase returned a session (no email confirmation required), sign in and open profile
         if (data.session) {
           updateNavForUser(data.user);
-          showMsgSignup('success', '✓ Account created! Welcome to Filmax Jambo Tours.');
+          showMsgSignup('success', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> Account created! Welcome to Filmax Jambo Tours.');
           setTimeout(function(){
             window._closeAuth();
             setTimeout(function(){ if(window._fjCurrentUser) window._openProfile(); }, 520);
           }, 1200);
         } else {
           // Email confirmation required — prompt user to confirm then sign in
-          showMsgSignup('success', '✓ Account created! Check your email to confirm, then sign in.');
+          showMsgSignup('success', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> Account created! Check your email to confirm, then sign in.');
           setTimeout(function(){
             window._switchAuthTab('signin');
             var siEmail = document.getElementById('siEmail');
@@ -707,7 +707,7 @@
         var isNew = session.user.created_at && (Date.now() - new Date(session.user.created_at).getTime()) < 10000;
         var toast = document.createElement('div');
         toast.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:99999;background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;font-family:Jost,sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:18px 40px;box-shadow:0 8px 40px rgba(212,175,55,0.5);opacity:0;transition:opacity 0.4s ease;white-space:nowrap;';
-        toast.textContent = isNew ? '✓ Welcome to Filmax Jambo Tours, ' + name + '!' : '✓ Welcome back, ' + name + '!';
+        toast.textContent = isNew ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> Welcome to Filmax Jambo Tours, ' + name + '!' : '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> Welcome back, ' + name + '!';
         document.body.appendChild(toast);
         requestAnimationFrame(function(){ toast.style.opacity = '1'; });
         setTimeout(function(){ toast.style.opacity = '0'; setTimeout(function(){ toast.remove(); }, 400); }, 3500);
@@ -782,11 +782,11 @@
       }
 
       if (!nameVal || !emailVal || !msgVal) {
-        showEnquiryMsg('error', '⚠ Please fill in your name, email and message.');
+        showEnquiryMsg('error', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v4M12 17h.01"/></svg> Please fill in your name, email and message.');
         return;
       }
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
-        showEnquiryMsg('error', '⚠ Please enter a valid email address.');
+        showEnquiryMsg('error', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v4M12 17h.01"/></svg> Please enter a valid email address.');
         return;
       }
 
@@ -816,7 +816,7 @@
         const { error } = await supa.from('enquiries').insert(payload);
         if (error) throw error;
 
-        showEnquiryMsg('success', '✓ Enquiry sent! Your email app will open to confirm. We reply within 24 hours.');
+        showEnquiryMsg('success', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> Enquiry sent! Your email app will open to confirm. We reply within 24 hours.');
         // Also open the user's email client pre-filled to our inbox
         var _subj = encodeURIComponent('Safari Enquiry — ' + nameVal);
         var _body = encodeURIComponent('Name: ' + nameVal + '\n' + 'Email: ' + emailVal + '\n' + 'Phone: ' + (phoneVal || '—') + '\n\n' + msgVal);
@@ -825,7 +825,7 @@
 
       } catch(e) {
         console.error('Enquiry error:', e);
-        showEnquiryMsg('error', '⚠ Could not send enquiry. Please email us directly at hello@filmaxjambotours.co.ke');
+        showEnquiryMsg('error', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v4M12 17h.01"/></svg> Could not send enquiry. Please email us directly at hello@filmaxjambotours.co.ke');
       }
 
       btn.textContent = 'Send Enquiry';
