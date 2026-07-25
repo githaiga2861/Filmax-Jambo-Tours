@@ -3575,7 +3575,7 @@ async function sendReply(id, toEmail, toName) {
 
     // Show mailto fallback (server email requires backend — use mailto for now)
     const subject = encodeURIComponent('Re: Your Filmax Jambo Tours Enquiry');
-    const body    = encodeURIComponent(reply + '\n\n— Filmax Jambo Tours Team\nhello@filmaxjambotours.co.ke');
+    const body    = encodeURIComponent(reply + '\n\n— Filmax Jambo Tours Team\nhello@filmaxjambotours.com');
     window.open(`mailto:${toEmail}?subject=${subject}&body=${body}`);
 
     if (msg) {

@@ -825,7 +825,7 @@
 
       } catch(e) {
         console.error('Enquiry error:', e);
-        showEnquiryMsg('error', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v4M12 17h.01"/></svg> Could not send enquiry. Please email us directly at hello@filmaxjambotours.co.ke');
+        showEnquiryMsg('error', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v4M12 17h.01"/></svg> Could not send enquiry. Please email us directly at hello@filmaxjambotours.com');
       }
 
       btn.textContent = 'Send Enquiry';
