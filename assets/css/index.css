@@ -1931,7 +1931,7 @@ body.light-mode .quiz-top-line {
   }
   .team-popup-details { display: flex; flex-direction: column; gap: 14px; }
   .team-popup-detail {
-    display: flex; align-items: flex-start; gap: 14px;
+    display: flex; align-items: center; gap: 14px;
     padding-bottom: 14px;
     border-bottom: 1px solid rgba(255,255,255,0.04);
   }

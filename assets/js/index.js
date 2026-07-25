@@ -1416,15 +1416,15 @@ window.addEventListener('load', function() {
       wildlifeImg:'/assets/maasaimara.webp',
       bio:'Over a decade navigating Kenya\'s finest reserves. Filmer founded Filmax Jambo Tours with one unwavering conviction — that a safari should be as extraordinary in its execution as Kenya is in its raw, untamed beauty. He has guided guests across the Mara, Amboseli, Samburu, Tsavo, and the Kenyan coast, accumulating an intimate knowledge of the land and an unshakeable love for every creature within it.',
       details:[
-        {icon:'✉️',label:'Email',value:'filmer@filmaxjambotours.co.ke',href:'mailto:filmer@filmaxjambotours.co.ke'},
-        {icon:'📞',label:'Direct Line',value:'+254 700 000 001',href:'tel:+254700000001'},
-        {icon:'🏆',label:'Certification',value:'KPSGA Gold — Senior Wildlife Guide'},
-        {icon:'🌍',label:'Speciality',value:'Maasai Mara · Amboseli · Samburu · Tsavo'},
-        {icon:'📅',label:'Experience',value:'12+ years in Kenyan wilderness'},
-        {icon:'🦁',label:'Favourite Animal',value:'The African Leopard'},
-        {icon:'🗣️',label:'Languages',value:'English · Swahili · Basic Maasai'},
-        {icon:'🎓',label:'Education',value:'Tourism Management, University of Nairobi'},
-        {icon:'⭐',label:'Achievement',value:'Led 500+ successful safaris across all major Kenyan parks'}
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 6l10 7 10-7"/></svg>',label:'Email',value:'hello@filmaxjambotours.com',href:'mailto:hello@filmaxjambotours.com'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h4l2 5-2.5 2.5a12 12 0 0 0 5 5L17 13l5 2v4a2 2 0 0 1-2 2C10.5 21 3 13.5 3 5a2 2 0 0 1 2-2z"/></svg>',label:'Direct Line',value:'+254 700 000 001',href:'tel:+254700000001'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v4a6 6 0 0 1-12 0V3z"/><path d="M6 5H3a3 3 0 0 0 3 5M18 5h3a3 3 0 0 1-3 5"/><path d="M9 15v3h6v-3M9 21h6"/></svg>',label:'Certification',value:'KPSGA Gold — Senior Wildlife Guide'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>',label:'Speciality',value:'Maasai Mara · Amboseli · Samburu · Tsavo'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',label:'Experience',value:'12+ years in Kenyan wilderness'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a5 5 0 0 0-5 5c0 2 1 3 1 5-2 0-4 1-4 4 0 3 3 4 8 4s8-1 8-4c0-3-2-4-4-4 0-2 1-3 1-5a5 5 0 0 0-5-5z"/></svg>',label:'Favourite Animal',value:'The African Leopard'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v11H8l-4 4V4z"/></svg>',label:'Languages',value:'English · Swahili · Basic Maasai'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5-10-5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg>',label:'Education',value:'Tourism Management, University of Nairobi'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.5L22 9.3l-5 4.9 1.2 7.1L12 17.8l-6.2 3.5L7 14.2l-5-4.9 7.1-.8z"/></svg>',label:'Achievement',value:'Led 500+ successful safaris across all major Kenyan parks'}
       ]
     },
     amara:{
@@ -1433,15 +1433,15 @@ window.addEventListener('load', function() {
       wildlifeImg:'/assets/amboseli.webp',
       bio:'A master of logistics and luxury, Amara orchestrates every detail of your Filmax Jambo safari — from the timing of your arrival transfer to the fine details of your farewell dinner under the Mara sky. With a background in luxury hospitality and a deep passion for Kenya, she ensures the gap between what you imagined and what you actually experience is as close to zero as humanly possible.',
       details:[
-        {icon:'✉️',label:'Email',value:'amara@filmaxjambotours.co.ke',href:'mailto:amara@filmaxjambotours.co.ke'},
-        {icon:'📞',label:'Direct Line',value:'+254 700 000 002',href:'tel:+254700000002'},
-        {icon:'🏅',label:'Background',value:'Luxury Hospitality & Tourism Management (Moi University)'},
-        {icon:'✨',label:'Speciality',value:'Itinerary Design · Lodge Relations · Client Experience'},
-        {icon:'📅',label:'Experience',value:'8 years in luxury safari operations'},
-        {icon:'🦒',label:'Favourite Animal',value:'The Reticulated Giraffe'},
-        {icon:'🗣️',label:'Languages',value:'English · Swahili · French (conversational)'},
-        {icon:'🌐',label:'Handled',value:'Guests from 40+ countries worldwide'},
-        {icon:'⭐',label:'Achievement',value:'Recipient of Kenya Tourism Board Excellence Award 2024'}
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 6l10 7 10-7"/></svg>',label:'Email',value:'hello@filmaxjambotours.com',href:'mailto:hello@filmaxjambotours.com'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h4l2 5-2.5 2.5a12 12 0 0 0 5 5L17 13l5 2v4a2 2 0 0 1-2 2C10.5 21 3 13.5 3 5a2 2 0 0 1 2-2z"/></svg>',label:'Direct Line',value:'+254 700 000 002',href:'tel:+254700000002'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="15" r="6"/><path d="M9 4h6l2 6-4 2-4-2 2-6z"/></svg>',label:'Background',value:'Luxury Hospitality & Tourism Management (Moi University)'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/></svg>',label:'Speciality',value:'Itinerary Design · Lodge Relations · Client Experience'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',label:'Experience',value:'8 years in luxury safari operations'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a5 5 0 0 0-5 5c0 2 1 3 1 5-2 0-4 1-4 4 0 3 3 4 8 4s8-1 8-4c0-3-2-4-4-4 0-2 1-3 1-5a5 5 0 0 0-5-5z"/></svg>',label:'Favourite Animal',value:'The Reticulated Giraffe'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v11H8l-4 4V4z"/></svg>',label:'Languages',value:'English · Swahili · French (conversational)'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>',label:'Handled',value:'Guests from 40+ countries worldwide'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.5L22 9.3l-5 4.9 1.2 7.1L12 17.8l-6.2 3.5L7 14.2l-5-4.9 7.1-.8z"/></svg>',label:'Achievement',value:'Recipient of Kenya Tourism Board Excellence Award 2024'}
       ]
     },
     githaiga:{
@@ -1450,15 +1450,15 @@ window.addEventListener('load', function() {
       wildlifeImg:'/assets/zebra.webp',
       bio:'Born in the shadow of the Mara, Githaiga reads the wilderness like a living book. He anticipates migrations before they happen, tracks the Big Five with a quiet precision that borders on the supernatural, and shares stories the bush whispers only to those who have earned its trust. He has spent his entire career within 50 kilometres of where he was born — and that intimacy with the land is something no amount of international training can replicate.',
       details:[
-        {icon:'✉️',label:'Email',value:'githaiga@filmaxjambotours.co.ke',href:'mailto:githaiga@filmaxjambotours.co.ke'},
-        {icon:'📞',label:'Direct Line',value:'+254 700 000 003',href:'tel:+254700000003'},
-        {icon:'🏆',label:'Certification',value:'KPSGA Silver — Wildlife Naturalist'},
-        {icon:'🌍',label:'Speciality',value:'Big Five Tracking · Bird Watching · Migration Patterns'},
-        {icon:'📅',label:'Experience',value:'15+ years — born and raised in the Mara region'},
-        {icon:'🐘',label:'Favourite Animal',value:'The African Elephant'},
-        {icon:'🗣️',label:'Languages',value:'English · Swahili · Kikuyu · Maasai'},
-        {icon:'🔭',label:'Record',value:'Identified 312 bird species in a single Mara season'},
-        {icon:'⭐',label:'Achievement',value:'Featured in BBC Africa documentary "Eyes of the Mara" 2023'}
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 6l10 7 10-7"/></svg>',label:'Email',value:'hello@filmaxjambotours.com',href:'mailto:hello@filmaxjambotours.com'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h4l2 5-2.5 2.5a12 12 0 0 0 5 5L17 13l5 2v4a2 2 0 0 1-2 2C10.5 21 3 13.5 3 5a2 2 0 0 1 2-2z"/></svg>',label:'Direct Line',value:'+254 700 000 003',href:'tel:+254700000003'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v4a6 6 0 0 1-12 0V3z"/><path d="M6 5H3a3 3 0 0 0 3 5M18 5h3a3 3 0 0 1-3 5"/><path d="M9 15v3h6v-3M9 21h6"/></svg>',label:'Certification',value:'KPSGA Silver — Wildlife Naturalist'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>',label:'Speciality',value:'Big Five Tracking · Bird Watching · Migration Patterns'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',label:'Experience',value:'15+ years — born and raised in the Mara region'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a5 5 0 0 0-5 5c0 2 1 3 1 5-2 0-4 1-4 4 0 3 3 4 8 4s8-1 8-4c0-3-2-4-4-4 0-2 1-3 1-5a5 5 0 0 0-5-5z"/></svg>',label:'Favourite Animal',value:'The African Elephant'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v11H8l-4 4V4z"/></svg>',label:'Languages',value:'English · Swahili · Kikuyu · Maasai'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l7-7M10 14l8-8 3 3-8 8-3-3z"/><circle cx="6" cy="18" r="2"/></svg>',label:'Record',value:'Identified 312 bird species in a single Mara season'},
+        {icon:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(212,175,55,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.5L22 9.3l-5 4.9 1.2 7.1L12 17.8l-6.2 3.5L7 14.2l-5-4.9 7.1-.8z"/></svg>',label:'Achievement',value:'Featured in BBC Africa documentary "Eyes of the Mara" 2023'}
       ]
     }
   };
@@ -2386,87 +2386,6 @@ window.addEventListener('load', function() {
   }
 });  
 
-// ===========================
-// TEAM POPUP
-// ===========================
-(function(){
-  var members={
-    filmer:{
-      name:'Filmer Mageto', role:'Founder & Lead Guide',
-      img:'/assets/team-filmer.webp',
-      wildlifeImg:'/assets/maasaimara.webp',
-      bio:'Over a decade navigating Kenya\'s finest reserves. Filmer founded Filmax Jambo Tours with one unwavering conviction — that a safari should be as extraordinary in its execution as Kenya is in its raw, untamed beauty. He has guided guests across the Mara, Amboseli, Samburu, Tsavo, and the Kenyan coast, accumulating an intimate knowledge of the land and an unshakeable love for every creature within it.',
-      details:[
-        {icon:'✉️',label:'Email',value:'filmer@filmaxjambotours.co.ke',href:'mailto:filmer@filmaxjambotours.co.ke'},
-        {icon:'📞',label:'Direct Line',value:'+254 700 000 001',href:'tel:+254700000001'},
-        {icon:'🏆',label:'Certification',value:'KPSGA Gold — Senior Wildlife Guide'},
-        {icon:'🌍',label:'Speciality',value:'Maasai Mara · Amboseli · Samburu · Tsavo'},
-        {icon:'📅',label:'Experience',value:'12+ years in Kenyan wilderness'},
-        {icon:'🦁',label:'Favourite Animal',value:'The African Leopard'},
-        {icon:'🗣️',label:'Languages',value:'English · Swahili · Basic Maasai'},
-        {icon:'🎓',label:'Education',value:'Tourism Management, University of Nairobi'},
-        {icon:'⭐',label:'Achievement',value:'Led 500+ successful safaris across all major Kenyan parks'}
-      ]
-    },
-    amara:{
-      name:'Amara Wanjiku', role:'Safari Experience Director',
-      img:'/assets/team-amara.webp',
-      wildlifeImg:'/assets/amboseli.webp',
-      bio:'A master of logistics and luxury, Amara orchestrates every detail of your Filmax Jambo safari — from the timing of your arrival transfer to the fine details of your farewell dinner under the Mara sky. With a background in luxury hospitality and a deep passion for Kenya, she ensures the gap between what you imagined and what you actually experience is as close to zero as humanly possible.',
-      details:[
-        {icon:'✉️',label:'Email',value:'amara@filmaxjambotours.co.ke',href:'mailto:amara@filmaxjambotours.co.ke'},
-        {icon:'📞',label:'Direct Line',value:'+254 700 000 002',href:'tel:+254700000002'},
-        {icon:'🏅',label:'Background',value:'Luxury Hospitality & Tourism Management (Moi University)'},
-        {icon:'✨',label:'Speciality',value:'Itinerary Design · Lodge Relations · Client Experience'},
-        {icon:'📅',label:'Experience',value:'8 years in luxury safari operations'},
-        {icon:'🦒',label:'Favourite Animal',value:'The Reticulated Giraffe'},
-        {icon:'🗣️',label:'Languages',value:'English · Swahili · French (conversational)'},
-        {icon:'🌐',label:'Handled',value:'Guests from 40+ countries worldwide'},
-        {icon:'⭐',label:'Achievement',value:'Recipient of Kenya Tourism Board Excellence Award 2024'}
-      ]
-    },
-    githaiga:{
-      name:'Githaiga Njoroge', role:'Wildlife Naturalist',
-      img:'/assets/team-githaiga.webp',
-      wildlifeImg:'/assets/zebra.webp',
-      bio:'Born in the shadow of the Mara, Githaiga reads the wilderness like a living book. He anticipates migrations before they happen, tracks the Big Five with a quiet precision that borders on the supernatural, and shares stories the bush whispers only to those who have earned its trust. He has spent his entire career within 50 kilometres of where he was born — and that intimacy with the land is something no amount of international training can replicate.',
-      details:[
-        {icon:'✉️',label:'Email',value:'githaiga@filmaxjambotours.co.ke',href:'mailto:githaiga@filmaxjambotours.co.ke'},
-        {icon:'📞',label:'Direct Line',value:'+254 700 000 003',href:'tel:+254700000003'},
-        {icon:'🏆',label:'Certification',value:'KPSGA Silver — Wildlife Naturalist'},
-        {icon:'🌍',label:'Speciality',value:'Big Five Tracking · Bird Watching · Migration Patterns'},
-        {icon:'📅',label:'Experience',value:'15+ years — born and raised in the Mara region'},
-        {icon:'🐘',label:'Favourite Animal',value:'The African Elephant'},
-        {icon:'🗣️',label:'Languages',value:'English · Swahili · Kikuyu · Maasai'},
-        {icon:'🔭',label:'Record',value:'Identified 312 bird species in a single Mara season'},
-        {icon:'⭐',label:'Achievement',value:'Featured in BBC Africa documentary "Eyes of the Mara" 2023'}
-      ]
-    }
-  };
-  var overlay=document.getElementById('teamPopupOverlay');
-  var closeBtn=document.getElementById('teamPopupClose');
-  if(!overlay)return;
-  function hideFabs(hide){
-    [document.querySelector('.whatsapp-fab'),document.getElementById('themeToggle'),document.getElementById('google_translate_element')].forEach(function(el){if(el){el.style.transition='opacity 0.3s ease';el.style.opacity=hide?'0':'1';el.style.pointerEvents=hide?'none':'';}});
-  }
-  function openPopup(key){
-    hideFabs(true);
-    var m=members[key];if(!m)return;
-    var heroImg = document.getElementById('teamPopupHeroImg');
-    if(heroImg){ heroImg.src = m.wildlifeImg || m.img; heroImg.className = 'team-popup-hero-wildlife'; }
-    document.getElementById('teamPopupAvatarImg').src=m.img;
-    document.getElementById('teamPopupRole').textContent=m.role;document.getElementById('teamPopupName').textContent=m.name;
-    document.getElementById('teamPopupBio').textContent=m.bio;
-    var det=document.getElementById('teamPopupDetails');
-    det.innerHTML=m.details.map(function(d){return'<div class="team-popup-detail"><div class="team-popup-detail-icon">'+d.icon+'</div><div class="team-popup-detail-text"><span class="team-popup-detail-label">'+d.label+'</span>'+(d.href?'<a href="'+d.href+'" class="team-popup-detail-value">'+d.value+'</a>':'<span class="team-popup-detail-value">'+d.value+'</span>')+'</div></div>';}).join('');
-    overlay.classList.add('open');document.body.style.overflow='hidden';
-  }
-  function closePopup(){overlay.classList.remove('open');document.body.style.overflow='';hideFabs(false);}
-  document.querySelectorAll('.team-card[data-member]').forEach(function(card){card.addEventListener('click',function(){openPopup(card.dataset.member);});});
-  if(closeBtn)closeBtn.addEventListener('click',closePopup);
-  overlay.addEventListener('click',function(e){if(e.target===overlay)closePopup();});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape')closePopup();});
-})();
 
 // ===========================
 // SITE HINTS
