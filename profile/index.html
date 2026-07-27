@@ -2185,7 +2185,7 @@ const notifyEl = document.getElementById('notify');
 let notifyTimer;
 function showNotify(msg,isError=false) {
   clearTimeout(notifyTimer);
-  notifyEl.textContent = (isError ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 5l14 14M19 5L5 19"/></svg>  ' : '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg>  ') + msg;
+  notifyEl.innerHTML = (isError ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 5l14 14M19 5L5 19"/></svg>  ' : '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg>  ') + msg;
   notifyEl.style.background = isError
     ? 'linear-gradient(135deg,#e05555,#b83333)'
     : 'linear-gradient(135deg,var(--gold-lt),var(--gold),var(--amber))';
@@ -2204,7 +2204,7 @@ function toggleChip(el) { el.classList.toggle('selected'); markDirty(); }
 function toggleCard(el) {
   el.classList.toggle('selected-card');
   const check = el.querySelector('.pref-check');
-  if (check) check.textContent = el.classList.contains('selected-card') ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg>' : '';
+  if (check) check.innerHTML = el.classList.contains('selected-card') ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg>' : '';
   markDirty();
 }
 // Toggle switches
@@ -2552,7 +2552,7 @@ function populateUI(m, userEmail) {
   document.getElementById('heroName').textContent    = displayName;
   // Greeting
   const greetingEl = document.getElementById('heroGreeting');
-  if (greetingEl) {greetingEl.textContent = getGreeting(firstName, m.timezone);}
+  if (greetingEl) {greetingEl.innerHTML = getGreeting(firstName, m.timezone);}
   document.getElementById('heroInitial').textContent = initial;
   document.getElementById('sbName').textContent      = fullName;
   document.getElementById('sbEmail').textContent     = userEmail || '';

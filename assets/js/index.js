@@ -1200,7 +1200,7 @@ document.addEventListener('DOMContentLoaded',function(){
         // Short grace period so iframe paints before hiding loader
         setTimeout(() => { if (ld) ld.classList.add('hidden'); }, 280);
       };
-      fr.src = '/profile/';
+      fr.src = '/profile/?_cb=' + Date.now();
     } else {
       // Already loaded — hide loader immediately, re-sync theme
       if (ld) ld.classList.add('hidden');

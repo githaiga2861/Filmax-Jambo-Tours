@@ -3222,7 +3222,7 @@ function updateBlogPreviewUrl(slug) {
   const el = document.getElementById('bf-preview-url');
   if (!el) return;
   if (slug) {
-    el.textContent = `blog/${slug}.html <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 12h14M13 6l6 6-6 6"/></svg> loads from Supabase automatically`;
+    el.innerHTML = `blog/${slug}.html <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 12h14M13 6l6 6-6 6"/></svg> loads from Supabase automatically`;
     el.style.color = 'var(--gold)';
   } else {
     el.textContent = 'Fill in a slug to see the preview URL';
@@ -3638,7 +3638,7 @@ function adminDiscardChanges() {
 function showAdminToast(msg, isError) {
   var toast = document.createElement('div');
   toast.style.cssText = 'position:fixed;top:24px;right:24px;z-index:99999;font-family:Jost,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:14px 24px;box-shadow:0 8px 32px rgba(0,0,0,0.4);opacity:0;transform:translateY(-8px);transition:all .35s;pointer-events:none;' + (isError ? 'background:rgba(224,85,85,0.9);color:#fff;' : 'background:linear-gradient(135deg,#d4af37,#b8860b);color:#080808;');
-  toast.textContent = (isError ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 5l14 14M19 5L5 19"/></svg>  ' : '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg>  ') + msg;
+  toast.innerHTML = (isError ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 5l14 14M19 5L5 19"/></svg>  ' : '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg>  ') + msg;
   document.body.appendChild(toast);
   requestAnimationFrame(function(){ toast.style.opacity='1'; toast.style.transform='translateY(0)'; });
   setTimeout(function(){ toast.style.opacity='0'; setTimeout(function(){ toast.remove(); }, 400); }, 2800);
@@ -3973,7 +3973,7 @@ async function handleImageUpload(inputEl) {
     hiddenField.value = data.publicUrl;
     previewImg.src = data.publicUrl;
     preview.style.display = 'flex';
-    status.textContent = 'Uploaded <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg>'; status.style.color = '#7bb56e';
+    status.innerHTML = 'Uploaded <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg>'; status.style.color = '#7bb56e';
     inputEl.value = '';
     setTimeout(() => { status.textContent = ''; }, 2500);
   } catch (e) {
