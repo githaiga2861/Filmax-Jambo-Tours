@@ -456,6 +456,7 @@ function buildPackageCard(pkg) {
     <img src="${pkg.card_bg_image_url}" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.18) saturate(0.7);" loading="lazy">
     <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(8,8,8,0.55) 0%,rgba(8,8,8,0.3) 40%,rgba(8,8,8,0.65) 100%);"></div>
   </div>` : ''}
+    ${(typeof window.fjtWishBtn==='function')?window.fjtWishBtn(pkg.slug,pkg.name,detailPage,pkg.card_bg_image_url||''):''}
     ${badge ? `<span class="pkg-badge ${badgeClass}">${badge}</span>` : ''}
     <span class="pkg-duration">${duration}</span>
     <h3 class="pkg-name">${pkg.name}</h3>

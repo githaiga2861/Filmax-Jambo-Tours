@@ -556,7 +556,9 @@ function buildCard(pkg,isFeatured,bgIndex){
   const maxF=isFeatured?7:6, features=[].concat(pkg.features);
   while(features.length<maxF)features.push(null);
   const bg=pkg.cardBg||cardBgs[bgIndex!==undefined?bgIndex:0];
-  return '<img class="pkg-bg" src="'+bg+'" alt="" aria-hidden="true"><div class="pkg-bg-overlay"></div>'+
+  var _wslug=(pkg.page||'').replace(/\/+$/,'').split('/').pop()||pkg.name;
+  var _wish=(typeof window.fjtWishBtn==='function')?window.fjtWishBtn(_wslug,pkg.name,pkg.page||'',bg):'';
+  return '<img class="pkg-bg" src="'+bg+'" alt="" aria-hidden="true"><div class="pkg-bg-overlay"></div>'+_wish+
     (pkg.badge?'<span class="pkg-badge">'+pkg.badge+'</span>':'<span style="display:block;height:29px;margin-bottom:28px;position:relative;z-index:3;"></span>')+
     '<span class="pkg-duration">'+pkg.duration+'</span><h3 class="pkg-name">'+pkg.name+'</h3>'+
     '<div class="divider" style="position:relative;z-index:3;"></div>'+

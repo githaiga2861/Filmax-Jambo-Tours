@@ -8109,3 +8109,34 @@ body.light-mode .google-privacy-note a { color: #4a3000 !important; font-weight:
   .footer-copyright { font-size: 13px; }
   .footer-legal-links a { font-size: 13px; }
 }
+
+/* ═══════════════════════════════════════════
+   WISHLIST HEART — package cards
+   ═══════════════════════════════════════════ */
+.pkg-wish-btn{
+  position:absolute; top:14px; right:14px; z-index:6;
+  width:36px; height:36px; display:flex; align-items:center; justify-content:center;
+  background:rgba(8,8,8,0.55); border:1px solid rgba(212,175,55,0.3); border-radius:50%;
+  color:rgba(240,236,228,0.75); cursor:none; padding:0;
+  -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+  transition:color .3s ease,border-color .3s ease,transform .3s ease,background .3s ease;
+}
+.pkg-wish-btn svg{width:17px;height:17px;display:block;}
+.pkg-wish-btn:hover{color:var(--gold);border-color:var(--gold);transform:scale(1.12);}
+.pkg-wish-btn.is-saved{color:#e0555f;border-color:rgba(224,85,95,0.6);background:rgba(224,85,95,0.12);}
+.pkg-wish-btn.is-saved:hover{color:#e0555f;border-color:#e0555f;}
+body.light-mode .pkg-wish-btn{
+  background:rgba(255,255,255,0.8); border-color:rgba(138,90,0,0.35); color:#5c5347;
+}
+body.light-mode .pkg-wish-btn:hover{color:#8a5a00;border-color:#8a5a00;}
+body.light-mode .pkg-wish-btn.is-saved{color:#c0392b;border-color:rgba(192,57,43,0.6);background:rgba(192,57,43,0.1);}
+
+#fjtWishToast{
+  position:fixed; left:50%; bottom:28px; transform:translateX(-50%) translateY(70px);
+  background:rgba(12,12,12,0.96); border:1px solid var(--gold); color:#f0ece4;
+  font-family:'Jost',sans-serif; font-size:12px; letter-spacing:1px;
+  padding:13px 24px; z-index:99999; opacity:0; pointer-events:none;
+  transition:opacity .35s ease, transform .35s ease;
+}
+#fjtWishToast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+body.light-mode #fjtWishToast{background:#fff;color:#14100a;border-color:#8a5a00;}
