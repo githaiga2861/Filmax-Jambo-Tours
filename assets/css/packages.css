@@ -1437,3 +1437,13 @@ body.light-mode #fjtWishToast{background:#fff;color:#14100a;border-color:#8a5a00
 
 /* Ensure cards anchor the wishlist heart correctly */
 .package-card{position:relative;}
+
+/* Second CTA — Reserve This Journey (shaded variant) */
+.pkg-cta-reserve{
+  margin-top:10px;
+  background:rgba(212,175,55,0.12);
+  border-color:rgba(212,175,55,0.55);
+}
+.pkg-cta-reserve:hover{ background:var(--gold); color:#0a0a0a; }
+body.light-mode .pkg-cta-reserve{ background:rgba(138,90,0,0.10); border-color:rgba(138,90,0,0.5); }
+body.light-mode .pkg-cta-reserve:hover{ background:#8a5a00; color:#fff; }

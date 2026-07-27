@@ -564,7 +564,8 @@ function buildCard(pkg,isFeatured,bgIndex){
     '<div class="divider" style="position:relative;z-index:3;"></div>'+
     '<div class="pkg-price">'+pkg.price+' <span>/ person</span></div>'+
     '<ul class="pkg-features">'+features.map(function(f){return f?'<li>'+f+'</li>':'<li style="visibility:hidden;border-bottom-color:transparent;">—</li>';}).join('')+'</ul>'+
-    '<a href="'+(pkg.page||'#contact')+'" class="pkg-cta">Unveil This Journey</a>';
+    '<a href="'+(pkg.page||'#contact')+'" class="pkg-cta">Unveil This Journey</a>'+
+    (pkg.page?'<a href="'+pkg.page+'?view=reserve" class="pkg-cta pkg-cta-reserve">Reserve This Journey</a>':'');
 }
 
 document.addEventListener('DOMContentLoaded',function(){

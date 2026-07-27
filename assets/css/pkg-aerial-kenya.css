@@ -1439,3 +1439,24 @@ body.light-mode .itinerary-day.open .day-chevron {
 body.light-mode .fjt-act-item { background: var(--card); border-color: rgba(122,79,0,.12); border-left-color: #7a4f00; }
 body.light-mode .fjt-act-item:hover { background: rgba(122,79,0,.05); }
 body.light-mode .fjt-act-name { color: #0a0a0a; }
+
+/* ═══════════════════════════════════════════
+   RESERVE VIEW — ?view=reserve shows only the
+   hero and the Plan Your Journey card
+   ═══════════════════════════════════════════ */
+body.fj-reserve-view .pkg-content,
+body.fj-reserve-view .pkg-tabs,
+body.fj-reserve-view .pkg-related,
+body.fj-reserve-view .pkg-accom,
+body.fj-reserve-view .pkg-gallery,
+body.fj-reserve-view .pkg-faq,
+body.fj-reserve-view .pkg-itinerary,
+body.fj-reserve-view .pkg-inclusions,
+body.fj-reserve-view .pkg-route,
+body.fj-reserve-view .back-to-top { display:none !important; }
+body.fj-reserve-view .pkg-main{ display:block !important; }
+body.fj-reserve-view .pkg-sidebar{
+  position:static !important;
+  max-width:520px; margin:0 auto 60px;
+}
+body.fj-reserve-view .sidebar-card{ position:static !important; }

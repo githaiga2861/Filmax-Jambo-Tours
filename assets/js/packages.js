@@ -472,6 +472,7 @@ function buildPackageCard(pkg) {
       ${highlights.slice(0,6).map(h => `<li>${h}</li>`).join('')}
     </ul>
     <a href="${detailPage}" class="pkg-cta">Unveil This Journey</a>
+    <a href="${detailPage}?view=reserve" class="pkg-cta pkg-cta-reserve">Reserve This Journey</a>
   `;
 
   // Attach filter data attributes
