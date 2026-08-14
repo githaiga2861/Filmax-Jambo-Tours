@@ -712,6 +712,7 @@
   .whatsapp-fab svg { width: 28px; height: 28px; fill: white; }
   .wa-tooltip {
     position: absolute;
+    top: 50%;
     right: 70px;
     white-space: nowrap;
     background: rgba(10,10,10,0.9);
@@ -727,7 +728,7 @@
     transition: opacity 0.3s, transform 0.3s;
     pointer-events: none;
   }
-  .whatsapp-fab:hover .wa-tooltip { opacity: 1; transform: translateX(0); }
+  .whatsapp-fab:hover .wa-tooltip { opacity: 1; transform: translateY(-50%) translateX(0); }
 
   /* Responsive */
   @media (max-width: 1100px) {

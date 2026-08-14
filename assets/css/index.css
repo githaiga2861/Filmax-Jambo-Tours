@@ -4942,6 +4942,7 @@ nav.scrolled .nav-brand-idle {
 
   .wa-tooltip {
     position: absolute;
+    top: 50%;
     right: 70px;
     white-space: nowrap;
     background: rgba(10,10,10,0.9);
@@ -4957,7 +4958,7 @@ nav.scrolled .nav-brand-idle {
     transition: opacity 0.3s, transform 0.3s;
     pointer-events: none;
   }
-  .whatsapp-fab:hover .wa-tooltip { opacity: 1; transform: translateX(0); }
+  .whatsapp-fab:hover .wa-tooltip { opacity: 1; transform: translateY(-50%) translateX(0); }
 
   /* Intersection observer animations */
   .reveal {
