@@ -821,7 +821,7 @@
   body.light-mode .theme-tooltip { background: #d4d0c8; color: #0a0a0a; }
 
   body.light-mode { background: #ebebea; color: #0a0a0a; --gold: #7a4f00; --amber: #7a5500; --text: #0a0a0a; --muted: #141414; --border: rgba(0,0,0,0.15); --card: #e4e4e2; --charcoal: #dcdcda; --black: #ebebea; --border-subtle: rgba(0,0,0,0.06); }
-  body.light-mode nav { background: rgba(220,216,210,0.95); border-bottom-color: rgba(184,134,11,0.2); }
+  body.light-mode nav.scrolled { background: rgba(235,235,234,0.95); border-bottom-color: rgba(184,134,11,0.2); }
   body.light-mode .pkg-hero-overlay { background: linear-gradient(to top, rgba(240,236,228,0.97) 0%, rgba(240,236,228,0.4) 55%, transparent 80%); }
   body.light-mode .pkg-hero-title { color: #0a0a0a; }
   body.light-mode .pkg-hero-meta-value { color: #0a0a0a; }
