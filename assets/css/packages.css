@@ -1446,5 +1446,27 @@ body.light-mode #fjtWishToast{background:#fff;color:#14100a;border-color:#8a5a00
   border-color:rgba(212,175,55,0.55);
 }
 .pkg-cta-reserve:hover{ background:var(--gold); color:#0a0a0a; }
-body.light-mode .pkg-cta-reserve{ background:rgba(138,90,0,0.10); border-color:rgba(138,90,0,0.5); }
-body.light-mode .pkg-cta-reserve:hover{ background:#8a5a00; color:#fff; }
+body.light-mode .pkg-cta-reserve{ background:rgba(138,90,0,0.10) !important; border-color:rgba(138,90,0,0.5) !important; color:#8a5a00 !important; -webkit-text-fill-color:#8a5a00 !important; }
+body.light-mode .pkg-cta-reserve:hover{ background:#8a5a00 !important; color:#fff !important; -webkit-text-fill-color:#fff !important; }
+
+/* Rotating shiny glow border — Reserve This Journey */
+.pkg-cta-reserve{ position: relative; z-index: 1; isolation: isolate; }
+.pkg-cta-reserve::before{
+  content: '';
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg, var(--gold) 25deg, #fffbe8 45deg, var(--gold) 65deg,
+    transparent 110deg, transparent 250deg,
+    var(--gold) 295deg, transparent 340deg, transparent 360deg
+  );
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  animation: pkgReserveGlowSpin 3.2s linear infinite;
+  animation-play-state: paused;
+  pointer-events: none;
+}
+.pkg-cta-reserve:hover::before{ opacity: 1; animation-play-state: running; }
+@keyframes pkgReserveGlowSpin{ to{ transform: rotate(360deg); } }
