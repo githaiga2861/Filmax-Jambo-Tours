@@ -1708,10 +1708,42 @@ document.addEventListener('DOMContentLoaded',function(){
     setProgress(steps.length);
     var results=getResults();
     var name=_iqUserName||(answers.name?answers.name.split(' ')[0]:'Explorer');
-    container.innerHTML='<div class="quiz-step"><div class="quiz-results-intro"><span class="quiz-step-label">Curated For You</span><h2 class="quiz-question">Your Safari Awaits,<br>'+name+'.</h2><p class="quiz-sub">Based on your preferences, these experiences were made for you.</p></div><div class="quiz-result-cards">'+
+    container.innerHTML='<div class="quiz-step"><div class="quiz-results-intro"><span class="quiz-step-label">Curated For You</span><h2 class="quiz-question">Your Safari Awaits,<br>'+name+'.</h2><p class="quiz-sub" id="iqResultSub">Based on your preferences, these experiences were made for you.</p></div><div class="quiz-result-cards">'+
       results.map(function(pkg){return'<div class="quiz-result-card"><div class="quiz-result-info"><div class="quiz-result-name">'+pkg.name+'</div><div class="quiz-result-meta">'+pkg.duration+' · '+pkg.tier+'</div></div><div class="quiz-result-price">'+pkg.price+'</div><a href="'+pkg.page+'" class="quiz-result-link">View</a></div>';}).join('')+
       '</div><button class="quiz-btn-next ready" id="iqCont" style="width:100%;text-align:center;margin-top:24px;">Speak to Our Safari Team</button></div>';
     document.getElementById('iqCont').addEventListener('click',function(){document.querySelector('#contact').scrollIntoView({behavior:'smooth',block:'start'});});
+    fetchPersonalizedNarrative(name, results);
+  }
+
+  // Calls the quiz-narrative Supabase Edge Function to replace the generic
+  // subtitle with a genuinely personalized 2-sentence note from Claude.
+  // Safe no-op if the API key isn't configured yet, or on any failure —
+  // the generic text is already showing, so nothing visibly changes.
+  function fetchPersonalizedNarrative(name, results){
+    try {
+      var SUPA_URL='https://kwriicxzkgkcseorcqdi.supabase.co';
+      var SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo';
+      fetch(SUPA_URL+'/functions/v1/quiz-narrative', {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+SUPA_KEY },
+        body: JSON.stringify({
+          name: name,
+          answers: { vibe: answers.vibe||[], duration: answers.duration||'', budget: answers.budget||'' },
+          packages: results.map(function(pkg){ return { name: pkg.name, duration: pkg.duration, tier: pkg.tier, price: pkg.price }; })
+        })
+      }).then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(data){
+          if(!data || !data.narrative) return;
+          var sub = document.getElementById('iqResultSub');
+          if(!sub) return; // user may have navigated away already
+          sub.style.transition = 'opacity 0.3s ease';
+          sub.style.opacity = '0';
+          setTimeout(function(){
+            sub.textContent = data.narrative;
+            sub.style.opacity = '1';
+          }, 300);
+        }).catch(function(){ /* silent — generic text already showing */ });
+    } catch(e) { /* silent */ }
   }
 
   initQuiz();
