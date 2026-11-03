@@ -1694,3 +1694,35 @@ body.admin-modal-open {
   transition: transform 0.15s ease-out, width 0.4s, height 0.4s, opacity 0.3s;
 }
 body:hover .cursor-ring { opacity: 1; }
+
+/* ══════════════════════════════════════════════
+   Layout fixes (2026-11-03)
+   ══════════════════════════════════════════════ */
+/* Sidebar scrolls when groups are expanded; Sign Out sits at the bottom instead of over the menu */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.sidebar > * { flex-shrink: 0; }
+.sidebar-footer {
+  position: sticky;
+  bottom: -24px;
+  margin-top: auto;
+  padding: 16px 24px 24px;
+  background: var(--charcoal);
+}
+.admin-layout.sidebar-collapsed .sidebar { overflow: hidden; }
+
+/* Buttons keep their label on one line */
+.btn { white-space: nowrap; }
+.view-header { gap: 16px; flex-wrap: wrap; }
+
+@media (max-width: 767px) {
+  /* clear the floating menu button above the page title */
+  .main { padding-top: 76px; }
+  .view-header > div:last-child { flex-wrap: wrap; }
+}

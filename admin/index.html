@@ -7,9 +7,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-<link rel="apple-touch-icon" href="favicon.ico">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/favicon.ico">
 <title>Filmax Admin — Package Manager</title>
 <meta name="robots" content="noindex, nofollow">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -35,7 +35,7 @@
       <label>Password</label>
       <div class="auth-password-wrap">
         <input type="password" id="authPassword" placeholder="••••••••">
-        <button type="button" class="auth-password-toggle" id="authPwToggle" onclick="toggleAuthPassword()"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z&quot;/><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;3&quot;/></svg></button>
+        <button type="button" class="auth-password-toggle" id="authPwToggle" onclick="toggleAuthPassword()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
       </div>
     </div>
     <button class="btn btn-gold" style="width:100%" onclick="signIn()">Sign In</button>
@@ -63,7 +63,7 @@
       </div>
     </div>
 
-    <div class="nav-item active" onclick="showView('dashboard')" id="nav-dashboard"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M3 12l9-8 9 8&quot;/><path d=&quot;M5 10v10h14V10&quot;/></svg> Dashboard</div>
+    <div class="nav-item active" onclick="showView('dashboard')" id="nav-dashboard"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M3 12l9-8 9 8"/><path d="M5 10v10h14V10"/></svg> Dashboard</div>
 
     <!-- Packages group -->
     <div class="nav-group-header" onclick="toggleNavGroup('group-packages')" id="nav-packages-header">
@@ -71,7 +71,7 @@
       <span class="nav-group-arrow" id="arrow-group-packages">▾</span>
     </div>
     <div class="nav-group" id="group-packages">
-      <div class="nav-sub-item" onclick="startNewPackage()" id="nav-new"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M4 12l5 5L20 6&quot;/></svg> New Package</div>
+      <div class="nav-sub-item" onclick="startNewPackage()" id="nav-new"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> New Package</div>
       <div class="nav-sub-item" onclick="showView('packages')" id="nav-packages">All Packages</div>
     <div class="nav-sub-item" onclick="showView('drafts')" id="nav-drafts">Drafts</div>
     <div class="nav-sub-item" onclick="showView('categories')" id="nav-categories">Categories</div>
@@ -93,7 +93,7 @@
       <span class="nav-group-arrow" id="arrow-group-blog">▾</span>
     </div>
     <div class="nav-group" id="group-blog">
-      <div class="nav-sub-item" onclick="startNewBlog()" id="nav-new-blog"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M4 12l5 5L20 6&quot;/></svg> New Post</div>
+      <div class="nav-sub-item" onclick="startNewBlog()" id="nav-new-blog"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> New Post</div>
       <div class="nav-sub-item" onclick="showView('blog-posts')" id="nav-blog-posts">All Posts</div>
       <div class="nav-sub-item" onclick="showView('blog-drafts')" id="nav-blog-drafts">Draft Posts</div>
     </div>
@@ -123,7 +123,6 @@
       <span class="nav-group-arrow" id="arrow-group-settings">▾</span>
     </div>
     <div class="nav-group" id="group-settings">
-      <div class="nav-sub-item" onclick="showView('team')" id="nav-team">Team Access</div>
       <div class="nav-sub-item" onclick="showView('site-settings')" id="nav-site">Site Settings</div>
     </div>
 
@@ -197,10 +196,10 @@
             </div>
             <div id="dash-quick-actions">
             <div style="display:flex;flex-direction:column;gap:10px;">
-              <button class="btn btn-gold" style="width:100%;text-align:center;" onclick="startNewPackage()"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M4 12l5 5L20 6&quot;/></svg> New Package</button>
-              <button class="btn btn-outline" style="width:100%;text-align:center;" onclick="showView('drafts')"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M4 20l1-4L16 5l3 3L8 19l-4 1z&quot;/></svg> View Drafts</button>
-              <button class="btn btn-outline" style="width:100%;text-align:center;" onclick="showView('categories')"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M3 3h8l10 10-8 8L3 11V3z&quot;/><circle cx=&quot;7&quot; cy=&quot;7&quot; r=&quot;1.5&quot;/></svg> Manage Categories</button>
-              <button class="btn btn-outline" style="width:100%;text-align:center;" onclick="showView('enquiries')"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><rect x=&quot;5&quot; y=&quot;4&quot; width=&quot;14&quot; height=&quot;17&quot; rx=&quot;2&quot;/><rect x=&quot;9&quot; y=&quot;2&quot; width=&quot;6&quot; height=&quot;4&quot; rx=&quot;1&quot;/><path d=&quot;M9 12h6M9 16h6&quot;/></svg> View Enquiries</button>
+              <button class="btn btn-gold" style="width:100%;text-align:center;" onclick="startNewPackage()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> New Package</button>
+              <button class="btn btn-outline" style="width:100%;text-align:center;" onclick="showView('drafts')"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1z"/></svg> View Drafts</button>
+              <button class="btn btn-outline" style="width:100%;text-align:center;" onclick="showView('categories')"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M3 3h8l10 10-8 8L3 11V3z"/><circle cx="7" cy="7" r="1.5"/></svg> Manage Categories</button>
+              <button class="btn btn-outline" style="width:100%;text-align:center;" onclick="showView('enquiries')"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><rect x="5" y="4" width="14" height="17" rx="2"/><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h6"/></svg> View Enquiries</button>
             </div>
           </div>
 
@@ -223,11 +222,11 @@
                 <span style="font-size:18px;color:var(--green);font-weight:700;" id="dash-confirmed">—</span>
               </div>
               <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;">
-                <span style="font-size:11px;color:var(--muted);letter-spacing:1px;">Pending Response</span>
+                <span style="font-size:11px;color:var(--muted);letter-spacing:1px;">In Discussion</span>
                 <span style="font-size:18px;color:var(--amber);font-weight:700;" id="dash-pending">—</span>
               </div>
             </div>
-            <p style="font-size:10px;color:var(--muted);margin-top:16px;font-style:italic;">Booking management coming soon — connect your enquiries table to activate.</p>
+            <p style="font-size:10px;color:var(--muted);margin-top:16px;font-style:italic;"><a href="#" onclick="showView('enquiries');return false;" style="color:var(--gold);">Open enquiries →</a></p>
             </div><!-- /dash-bookings collapse -->
           </div>
 
@@ -277,7 +276,7 @@
           <span id="formModeLabel">Create</span>
           <span id="formTitleText">New Package</span>
         </div>
-        <button class="btn btn-outline" onclick="showView('packages')"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M19 12H5M11 6l-6 6 6 6&quot;/></svg> Back to Packages</button>
+        <button class="btn btn-outline" onclick="showView('packages')"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Back to Packages</button>
       </div>
 
       <!-- Wizard Progress -->
@@ -461,7 +460,7 @@
         <div class="wizard-nav">
           <div class="wizard-nav-left"></div>
           <div class="wizard-nav-right">
-            <button class="btn btn-gold" onclick="nextStep(0)">Next: Pricing <svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M5 12h14M13 6l6 6-6 6&quot;/></svg></button>
+            <button class="btn btn-gold" onclick="nextStep(0)">Next: Pricing <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
           </div>
         </div>
       </div>
@@ -532,10 +531,10 @@
         </div>
         <div class="wizard-nav">
           <div class="wizard-nav-left">
-            <button class="btn btn-outline" onclick="prevStep(1)"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M19 12H5M11 6l-6 6 6 6&quot;/></svg> Back</button>
+            <button class="btn btn-outline" onclick="prevStep(1)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Back</button>
           </div>
           <div class="wizard-nav-right">
-            <button class="btn btn-gold" onclick="nextStep(1)">Next: Itinerary <svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M5 12h14M13 6l6 6-6 6&quot;/></svg></button>
+            <button class="btn btn-gold" onclick="nextStep(1)">Next: Itinerary <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
           </div>
         </div>
       </div>
@@ -557,10 +556,10 @@
         </div>
         <div class="wizard-nav">
           <div class="wizard-nav-left">
-            <button class="btn btn-outline" onclick="prevStep(2)"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M19 12H5M11 6l-6 6 6 6&quot;/></svg> Back</button>
+            <button class="btn btn-outline" onclick="prevStep(2)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Back</button>
           </div>
           <div class="wizard-nav-right">
-            <button class="btn btn-gold" onclick="nextStep(2)">Next: Accommodation <svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M5 12h14M13 6l6 6-6 6&quot;/></svg></button>
+            <button class="btn btn-gold" onclick="nextStep(2)">Next: Accommodation <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
           </div>
         </div>
       </div>
@@ -582,10 +581,10 @@
         </div>
         <div class="wizard-nav">
           <div class="wizard-nav-left">
-            <button class="btn btn-outline" onclick="prevStep(3)"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M19 12H5M11 6l-6 6 6 6&quot;/></svg> Back</button>
+            <button class="btn btn-outline" onclick="prevStep(3)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Back</button>
           </div>
           <div class="wizard-nav-right">
-            <button class="btn btn-gold" onclick="nextStep(3)">Next: Inclusions <svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M5 12h14M13 6l6 6-6 6&quot;/></svg></button>
+            <button class="btn btn-gold" onclick="nextStep(3)">Next: Inclusions <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
           </div>
         </div>
       </div>
@@ -615,10 +614,10 @@
         </div>
         <div class="wizard-nav">
           <div class="wizard-nav-left">
-            <button class="btn btn-outline" onclick="prevStep(4)"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M19 12H5M11 6l-6 6 6 6&quot;/></svg> Back</button>
+            <button class="btn btn-outline" onclick="prevStep(4)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Back</button>
           </div>
           <div class="wizard-nav-right">
-            <button class="btn btn-gold" onclick="nextStep(4)">Next: Route <svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M5 12h14M13 6l6 6-6 6&quot;/></svg></button>
+            <button class="btn btn-gold" onclick="nextStep(4)">Next: Route <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
           </div>
         </div>
       </div>
@@ -640,10 +639,10 @@
         </div>
         <div class="wizard-nav">
           <div class="wizard-nav-left">
-            <button class="btn btn-outline" onclick="prevStep(5)"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M19 12H5M11 6l-6 6 6 6&quot;/></svg> Back</button>
+            <button class="btn btn-outline" onclick="prevStep(5)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Back</button>
           </div>
           <div class="wizard-nav-right">
-            <button class="btn btn-gold" onclick="nextStep(5)">Review & Publish <svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M5 12h14M13 6l6 6-6 6&quot;/></svg></button>
+            <button class="btn btn-gold" onclick="nextStep(5)">Review & Publish <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
           </div>
         </div>
       </div>
@@ -683,7 +682,7 @@
 
         <div class="wizard-nav">
           <div class="wizard-nav-left">
-            <button class="btn btn-outline" onclick="prevStep(6)"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M19 12H5M11 6l-6 6 6 6&quot;/></svg> Back to Route</button>
+            <button class="btn btn-outline" onclick="prevStep(6)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Back to Route</button>
           </div>
           <div class="wizard-nav-right"></div>
         </div>
@@ -711,15 +710,6 @@
       <div id="categoriesList" style="display:flex;flex-direction:column;gap:8px;"></div>
     </div>
     <!-- VIEW: Enquiries -->
-<div class="view" id="view-enquiries">
-  <div class="view-header">
-    <div class="view-title"><span>Bookings</span>Enquiries</div>
-  </div>
-  <div style="background:var(--charcoal);border:1px solid var(--border);padding:40px;text-align:center;">
-    <p style="color:var(--muted);font-size:13px;line-height:1.8;">Enquiries management coming soon.<br>Connect your enquiries table in Supabase to activate this section.</p>
-  </div>
-</div>
-
 <!-- VIEW: Confirmed -->
 <div class="view" id="view-confirmed">
   <div class="view-header">
@@ -732,7 +722,7 @@
         <option value="confirmed">Confirmed</option>
         <option value="cancelled">Cancelled</option>
       </select>
-      <button class="btn btn-outline btn-sm" onclick="exportReservationsCSV()"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M12 5v14M18 13l-6 6-6-6&quot;/></svg> Export CSV</button>
+      <button class="btn btn-outline btn-sm" onclick="exportReservationsCSV()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 5v14M18 13l-6 6-6-6"/></svg> Export CSV</button>
     </div>
   </div>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;">
@@ -770,15 +760,6 @@
 </div>
 
 <!-- VIEW: Team -->
-<div class="view" id="view-team">
-  <div class="view-header">
-    <div class="view-title"><span>Settings</span>Team Access</div>
-  </div>
-  <div style="background:var(--charcoal);border:1px solid var(--border);padding:40px;text-align:center;">
-    <p style="color:var(--muted);font-size:13px;line-height:1.8;">Team access management coming soon.</p>
-  </div>
-</div>
-
 <!-- VIEW: Site Settings -->
 <div class="view" id="view-site-settings">
   <div class="view-header">
@@ -902,7 +883,7 @@
       <input type="text" id="memberSearch" placeholder="Search by name or email..." 
         style="background:var(--card);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:12px;padding:10px 14px;outline:none;width:280px;"
         oninput="filterMembers(this.value)">
-      <button class="btn btn-outline btn-sm" onclick="exportMembersCSV()"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M12 5v14M18 13l-6 6-6-6&quot;/></svg> Export CSV</button>
+      <button class="btn btn-outline btn-sm" onclick="exportMembersCSV()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 5v14M18 13l-6 6-6-6"/></svg> Export CSV</button>
     </div>
   </div>
   <!-- Stats row -->
@@ -987,7 +968,7 @@
         <option value="confirmed">Confirmed</option>
         <option value="closed">Closed</option>
       </select>
-      <button class="btn btn-outline btn-sm" onclick="exportEnquiriesCSV()"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M12 5v14M18 13l-6 6-6-6&quot;/></svg> Export CSV</button>
+      <button class="btn btn-outline btn-sm" onclick="exportEnquiriesCSV()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 5v14M18 13l-6 6-6-6"/></svg> Export CSV</button>
     </div>
   </div>
   <!-- Enquiry KPIs -->
@@ -1044,7 +1025,7 @@
           <span id="blogFormModeLabel">Create</span>
           <span id="blogFormTitleText">New Blog Post</span>
         </div>
-        <button class="btn btn-outline" onclick="showView('blog-posts')"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M19 12H5M11 6l-6 6 6 6&quot;/></svg> Back to Posts</button>
+        <button class="btn btn-outline" onclick="showView('blog-posts')"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Back to Posts</button>
       </div>
 
       <div style="background:var(--charcoal);border:1px solid var(--border);padding:40px;margin-bottom:32px;">
@@ -1154,8 +1135,8 @@
 
       <!-- Save buttons -->
       <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
-        <button class="btn btn-draft" onclick="saveBlogPost(false)"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><rect x=&quot;4&quot; y=&quot;4&quot; width=&quot;16&quot; height=&quot;16&quot; rx=&quot;2&quot;/><path d=&quot;M8 4v5h8V4M6 14h12v6H6z&quot;/></svg> Save as Draft</button>
-        <button class="btn btn-publish" onclick="saveBlogPost(true)"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M12 2c3 2 4 6 4 10-1 1-2 2-4 2s-3-1-4-2c0-4 1-8 4-10z&quot;/><path d=&quot;M8 15l-3 5 5-3M16 15l3 5-5-3&quot;/></svg> Publish Now</button>
+        <button class="btn btn-draft" onclick="saveBlogPost(false)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 4v5h8V4M6 14h12v6H6z"/></svg> Save as Draft</button>
+        <button class="btn btn-publish" onclick="saveBlogPost(true)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M12 2c3 2 4 6 4 10-1 1-2 2-4 2s-3-1-4-2c0-4 1-8 4-10z"/><path d="M8 15l-3 5 5-3M16 15l3 5-5-3"/></svg> Publish Now</button>
         <span id="blogSaveStatus" style="font-size:12px;color:var(--gold);opacity:0;transition:opacity 0.4s;"></span>
       </div>
 
@@ -1173,10 +1154,9 @@
   <span class="admin-save-msg">You have unsaved changes</span>
   <div style="display:flex;gap:10px;">
     <button class="admin-discard-btn" onclick="adminDiscardChanges()">Discard</button>
-    <button class="admin-save-btn" onclick="adminSaveChanges()"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M4 12l5 5L20 6&quot;/></svg> Save Changes</button>
+    <button class="admin-save-btn" onclick="adminSaveChanges()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> Save Changes</button>
   </div>
 </div>
-<script src="hints.js"></script>
 <script src="/assets/js/admin.js?v=20260722" defer></script>
 <script src="/assets/js/fjt-audio.js?v=20260722" defer></script>
 <script src="/assets/js/fjt-locale.js?v=20260722" defer></script>

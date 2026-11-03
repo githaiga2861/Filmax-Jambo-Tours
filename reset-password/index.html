@@ -80,14 +80,14 @@ h1 em{color:var(--gold);font-style:italic;}
       <div class="field">
         <label for="newPassword">New Password</label>
         <input type="password" id="newPassword" placeholder="Minimum 8 characters" autocomplete="new-password" oninput="checkStrength(this.value)">
-        <button type="button" class="eye-btn" id="eyeNew" onclick="toggleEye('newPassword','eyeNew')"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z&quot;/><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;3&quot;/></svg></button>
+        <button type="button" class="eye-btn" id="eyeNew" onclick="toggleEye('newPassword','eyeNew')"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
         <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
         <div class="strength-label" id="strengthLabel"></div>
       </div>
       <div class="field">
         <label for="confirmPassword">Confirm Password</label>
         <input type="password" id="confirmPassword" placeholder="Re-enter your password" autocomplete="new-password">
-        <button type="button" class="eye-btn" id="eyeConf" onclick="toggleEye('confirmPassword','eyeConf')"><svg viewBox=&quot;0 0 24 24&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;display:inline-block;vertical-align:-3px;&quot;><path d=&quot;M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z&quot;/><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;3&quot;/></svg></button>
+        <button type="button" class="eye-btn" id="eyeConf" onclick="toggleEye('confirmPassword','eyeConf')"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
       </div>
       <div class="msg" id="msg"></div>
       <button class="submit-btn" id="submitBtn" onclick="doReset()">Save New Password</button>

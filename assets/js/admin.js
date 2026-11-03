@@ -722,10 +722,19 @@ async function loadDashboard() {
     enqKpi.querySelector('.dash-kpi-sub').textContent   = 'Registered users';
   }
 
-  // Booking placeholders
-  document.getElementById('dash-new-enq').textContent  = '—';
-  document.getElementById('dash-confirmed').textContent = '—';
-  document.getElementById('dash-pending').textContent   = '—';
+  // Booking counts (same enquiries table the Enquiries view uses)
+  try {
+    const [newQ, confQ, contQ] = await Promise.all([
+      db.from('enquiries').select('*', { count:'exact', head:true }).eq('status','new'),
+      db.from('enquiries').select('*', { count:'exact', head:true }).eq('status','confirmed'),
+      db.from('enquiries').select('*', { count:'exact', head:true }).eq('status','contacted'),
+    ]);
+    document.getElementById('dash-new-enq').textContent   = newQ.count  ?? '—';
+    document.getElementById('dash-confirmed').textContent = confQ.count ?? '—';
+    document.getElementById('dash-pending').textContent   = contQ.count ?? '—';
+  } catch (_) {
+    ['dash-new-enq','dash-confirmed','dash-pending'].forEach(id => { document.getElementById(id).textContent = '—'; });
+  }
 
   // Recent packages
   const container = document.getElementById('dashRecentPackages');

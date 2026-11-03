@@ -212,6 +212,8 @@ body.light-mode {
 5. **18a1740** - Enhanced site hints with precise targeting and refined logo loader
 
 ### Major Enhancements Completed
+- Private Concierge chat (Gemini via Supabase Edge Function `gemini-chat`; widget in assets/js/gemini-chat.js + assets/css/gemini-chat.css). On the homepage it replaces the WhatsApp FAB; WhatsApp is inside the chat. The function reads live packages, itineraries, team, journal and site_settings from Supabase.
+- Admin layout fixes: repaired escaped SVG icons, removed "coming soon" placeholders that shadowed the real Enquiries/Team views, scrollable sidebar, live dashboard booking counts
 - JS/CSS separation for all pages (was inline, now external files)
 - Site hints system v2.0 with precise positioning and queue management
 - Logo loader refinement
@@ -240,7 +242,7 @@ body.light-mode {
 - **Preserve the exact gold gradient**: `linear-gradient(135deg, #f0c84a 0%, #d4af37 35%, #b8860b 65%, #c9921a 100%)`
 - **All primary CTAs must match View All Packages button style exactly**
 - **Test both dark and light modes after any change**
-- **Ensure WhatsApp FAB is present on all pages**
+- **Ensure WhatsApp FAB is present on all pages** (homepage: WhatsApp is reached through the concierge chat, which takes the FAB's spot)
 - **Ensure theme toggle works on all pages**
 - **Run `git push` after completing changes**
 - **Keep external CSS/JS file structure (don't inline)**
@@ -312,4 +314,4 @@ Always end with `git push` to deploy changes to GitHub Pages.
 
 ---
 
-*Last Updated: 2026-06-09*
+*Last Updated: 2026-11-03*
