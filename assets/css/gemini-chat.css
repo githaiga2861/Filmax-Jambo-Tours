@@ -1,0 +1,67 @@
+/* Safari concierge chat widget — uses site theme variables (dark + light mode) */
+#fjt-chat-btn{
+  position:fixed;right:20px;bottom:90px;z-index:9998;
+  font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;
+  padding:14px 26px;background:var(--black);color:var(--gold);
+  border:1px solid var(--border);cursor:none;
+  box-shadow:0 4px 16px rgba(0,0,0,.35);
+  transition:background .3s,border-color .3s;
+}
+#fjt-chat-btn:hover{background:rgba(212,175,55,0.08);border-color:var(--gold)}
+
+#fjt-chat{
+  position:fixed;right:20px;bottom:150px;z-index:9999;
+  width:350px;max-width:calc(100vw - 32px);height:470px;max-height:70vh;
+  display:none;flex-direction:column;overflow:hidden;
+  background:var(--card);color:var(--text);border:1px solid var(--border);
+  box-shadow:0 10px 40px rgba(0,0,0,.45);
+}
+#fjt-chat.open{display:flex}
+
+#fjt-chat header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 16px;background:var(--deep);border-bottom:1px solid var(--border);
+}
+#fjt-chat header strong{font-family:'Playfair Display',serif;font-weight:500;font-size:17px;color:var(--gold)}
+#fjt-close{
+  background:transparent;color:var(--gold);border:1px solid var(--border);
+  width:30px;height:30px;font-size:16px;line-height:1;cursor:none;
+  transition:background .3s,border-color .3s;
+}
+#fjt-close:hover{background:rgba(212,175,55,0.08);border-color:var(--gold)}
+
+#fjt-log{flex:1;overflow-y:auto;padding:14px;background:var(--charcoal)}
+.fjt-msg{
+  max-width:85%;margin:7px 0;padding:9px 12px;white-space:pre-wrap;word-wrap:break-word;
+  font-family:'Cormorant Garamond',serif;font-size:17px;line-height:1.4;
+}
+.fjt-user{margin-left:auto;background:var(--gold-dim);border:1px solid var(--border);color:var(--text)}
+.fjt-model{background:var(--card);border:1px solid var(--border);color:var(--text)}
+
+#fjt-form{display:flex;margin:0;border-top:1px solid var(--border);background:var(--deep)}
+#fjt-input{
+  flex:1;min-width:0;border:0;outline:none;padding:13px 14px;
+  background:transparent;color:var(--text);font-family:'Jost',sans-serif;font-size:14px;
+}
+#fjt-input::placeholder{color:var(--muted);opacity:.55}
+
+/* Primary button — matches .btn-primary / .view-all-btn */
+#fjt-send{
+  font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;
+  padding:0 20px;border:none;cursor:none;color:#080808;position:relative;overflow:hidden;
+  background:linear-gradient(135deg, #f0c84a 0%, #d4af37 35%, #b8860b 65%, #c9921a 100%);
+  box-shadow:0 2px 0 rgba(255,255,255,0.25) inset,0 -2px 0 rgba(0,0,0,0.35) inset;
+  transition:filter .3s;
+}
+#fjt-send::before{
+  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.08) 30%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0.08) 70%, transparent 100%);
+  transform:skewX(-15deg);transition:left .6s;
+}
+#fjt-send:hover::before{left:140%}
+#fjt-send:disabled{filter:grayscale(.6) brightness(.8)}
+
+@media (max-width:480px){
+  #fjt-chat{right:16px;bottom:140px}
+  #fjt-chat-btn{right:16px;padding:12px 18px;letter-spacing:3px}
+}
