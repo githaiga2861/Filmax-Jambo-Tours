@@ -226,7 +226,7 @@
       var dots = typing();
 
       var ctrl = window.AbortController ? new AbortController() : null;
-      var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 30000);
+      var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 45000);
 
       fetch(ENDPOINT, {
         method: 'POST',
@@ -252,7 +252,7 @@
             });
             return;
           }
-          if (res.status === 429) {
+          if (res.status === 429 || d.error === 'busy' || d.error === 'rate_limited') {
             fallbackCard("Our concierge is attending to many travellers right now. Please try again in a moment, or reach our team directly:");
           } else {
             fallbackCard();

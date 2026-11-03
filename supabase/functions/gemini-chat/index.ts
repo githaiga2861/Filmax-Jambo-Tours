@@ -285,7 +285,8 @@ serve(async (req) => {
   if (!rateLimitOk(ip)) return json(429, { error: "rate_limited", contact });
 
   try {
-    const body = await req.json();
+    let body: any = {};
+    try { body = await req.json(); } catch { return json(400, { error: "bad_json", contact }); }
     const message = String(body.message || "").trim().slice(0, MAX_MESSAGE_CHARS);
     if (!message) return json(400, { error: "empty", contact });
 
@@ -298,28 +299,65 @@ serve(async (req) => {
       .filter((m: any) => m.parts[0].text);
     contents.push({ role: "user", parts: [{ text: message }] });
 
-    const model = Deno.env.get("GEMINI_MODEL") || "gemini-flash-latest";
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
-        body: JSON.stringify({
-          system_instruction: { parts: [{ text: systemPrompt(knowledge.text, c) }] },
-          contents,
-          generationConfig: { temperature: 0.6, maxOutputTokens: 500 },
-        }),
-        signal: AbortSignal.timeout(25000),
-      },
-    );
+    // Try the configured model first, then lighter fallbacks. Free-tier models are often
+    // briefly overloaded (503) or slow, so each attempt gets a short timeout and the
+    // whole request stays within ~40s.
+    const models = [
+      ...(Deno.env.get("GEMINI_MODEL") || "").split(",").map((m) => m.trim()).filter(Boolean),
+      "gemini-flash-latest",
+      "gemini-flash-lite-latest",
+    ].filter((m, i, a) => a.indexOf(m) === i);
 
-    if (res.status === 429) return json(429, { error: "busy", contact });
-    if (!res.ok) {
-      console.error("Gemini API error:", res.status, (await res.text()).slice(0, 600));
-      return json(502, { error: "upstream_failed", status: res.status, contact });
+    const sys = systemPrompt(knowledge.text, c);
+    const started = Date.now();
+    let data: any = null;
+    let lastStatus = 0;
+
+    attempts:
+    for (const model of models) {
+      // First try with "thinking" switched off (much faster); if this model rejects that
+      // option (400), retry the same model without it.
+      for (const fast of [true, false]) {
+        const remaining = 40000 - (Date.now() - started);
+        if (remaining < 4000) break attempts;
+        try {
+          const res = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+              body: JSON.stringify({
+                system_instruction: { parts: [{ text: sys }] },
+                contents,
+                generationConfig: {
+                  temperature: 0.6,
+                  maxOutputTokens: 600,
+                  ...(fast ? { thinkingConfig: { thinkingBudget: 0 } } : {}),
+                },
+              }),
+              signal: AbortSignal.timeout(Math.min(18000, remaining)),
+            },
+          );
+          lastStatus = res.status;
+          if (res.ok) { data = await res.json(); break attempts; }
+          const errText = (await res.text()).slice(0, 400);
+          console.error(`Gemini ${model} (${fast ? "fast" : "std"}) HTTP ${res.status}:`, errText);
+          if (res.status === 400 && fast) continue;   // option not supported → retry without it
+          if (res.status === 401 || res.status === 403) break attempts; // key problem; fallbacks won't help
+          break; // 404/429/500/503 → next model
+        } catch (err) {
+          lastStatus = 504;
+          console.error(`Gemini ${model} attempt failed:`, String(err));
+          break; // timeout/network → next model
+        }
+      }
     }
 
-    const data = await res.json();
+    if (!data) {
+      if ([429, 500, 503, 504].includes(lastStatus)) return json(503, { error: "busy", status: lastStatus, contact });
+      return json(502, { error: "upstream_failed", status: lastStatus, contact });
+    }
+
     let reply = (data?.candidates?.[0]?.content?.parts || [])
       .map((p: any) => p.text || "")
       .join("")
