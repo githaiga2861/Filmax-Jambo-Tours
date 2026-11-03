@@ -308,7 +308,7 @@ Always end with `git push` to deploy changes to GitHub Pages.
 ## 10. CONTACT & BUSINESS INFO
 
 - **WhatsApp:** +34672304384
-- **Email:** hello@filmaxjambotours.co.ke
+- **Email:** hello@filmaxjambotours.com — the ONLY address to use anywhere (site, chat, emails, admin). Ignore any other address unless the owner says otherwise.
 - **Office:** Nairobi, Kenya
 - **Hours:** Mon–Sat, 8am–7pm EAT
 

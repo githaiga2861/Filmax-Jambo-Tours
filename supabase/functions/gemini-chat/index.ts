@@ -151,7 +151,7 @@ async function loadKnowledge() {
     const v = row?.value || {};
     if (row.id === "concierge") {
       if (v.whatsapp) contact.whatsapp = String(v.whatsapp).replace(/\D/g, "") || contact.whatsapp;
-      if (v.email) contact.email = v.email;
+      // Email is fixed to hello@filmaxjambotours.com — settings never override it.
     }
     if (row.id === "business") {
       if (v.phone) contact.phone = v.phone;

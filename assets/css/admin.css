@@ -1726,3 +1726,29 @@ body:hover .cursor-ring { opacity: 1; }
   .main { padding-top: 76px; }
   .view-header > div:last-child { flex-wrap: wrap; }
 }
+
+/* ── Ease-of-use fixes (2026-11-03, round 2) ── */
+.sidebar-footer { display: flex; flex-direction: column; gap: 8px; }
+.sidebar-site-link { display: block; width: 100%; text-align: center; text-decoration: none; }
+
+@media (max-width: 767px) {
+  /* 4-up stat rows (Reservations, Enquiries, Members) become 2-up so numbers fit */
+  .view [style*="grid-template-columns:repeat(4,1fr)"],
+  .view [style*="grid-template-columns: repeat(4, 1fr)"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+  .dash-kpi { min-width: 0; }
+  .dash-kpi-label { letter-spacing: 2px; }
+
+  /* Package wizard steps scroll sideways instead of running off screen */
+  .wizard-progress {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .wizard-progress::-webkit-scrollbar { display: none; }
+  .wizard-step { flex: 0 0 auto; min-width: 84px; }
+  .wizard-step-label { display: block !important; font-size: 8px; letter-spacing: 1.5px; }
+}

@@ -13,7 +13,7 @@
 <title>Filmax Admin — Package Manager</title>
 <meta name="robots" content="noindex, nofollow">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link rel="stylesheet" href="/assets/css/admin.css?v=20260722">
+<link rel="stylesheet" href="/assets/css/admin.css?v=20261103">
 <link rel="stylesheet" href="/assets/css/fjt-animations.css?v=20260722">
 </head>
 <body>
@@ -127,6 +127,7 @@
     </div>
 
     <div class="sidebar-footer">
+      <a class="btn btn-outline sidebar-site-link" href="/home/" target="_blank" rel="noopener">View live site ↗</a>
       <button class="btn btn-outline" style="width:100%" onclick="signOut()">Sign Out</button>
     </div>
   </div>
@@ -786,7 +787,7 @@
       </div>
       <div class="form-group">
         <label>Contact Email</label>
-        <input type="text" id="ss-email" placeholder="hello@filmaxjambotours.com">
+        <input type="text" id="ss-email" value="hello@filmaxjambotours.com" readonly title="The site always uses hello@filmaxjambotours.com" style="opacity:0.7;">
       </div>
       <div class="form-group full">
         <label>Concierge Bio</label>
@@ -1157,7 +1158,7 @@
     <button class="admin-save-btn" onclick="adminSaveChanges()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> Save Changes</button>
   </div>
 </div>
-<script src="/assets/js/admin.js?v=20260722" defer></script>
+<script src="/assets/js/admin.js?v=20261103" defer></script>
 <script src="/assets/js/fjt-audio.js?v=20260722" defer></script>
 <script src="/assets/js/fjt-locale.js?v=20260722" defer></script>
 </body>

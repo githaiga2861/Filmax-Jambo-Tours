@@ -1229,7 +1229,7 @@ document.addEventListener('DOMContentLoaded',function(){
     document.getElementById('teamPopupRole').textContent=m.role;document.getElementById('teamPopupName').textContent=m.name;
     document.getElementById('teamPopupBio').textContent=m.bio;
     var det=document.getElementById('teamPopupDetails');
-    det.innerHTML=m.details.map(function(d){return'<div class="team-popup-detail"><div class="team-popup-detail-icon">'+d.icon+'</div><div class="team-popup-detail-text"><span class="team-popup-detail-label">'+d.label+'</span>'+(d.href?'<a href="'+d.href+'" class="team-popup-detail-value">'+d.value+'</a>':'<span class="team-popup-detail-value">'+d.value+'</span>')+'</div></div>';}).join('');
+    det.innerHTML=m.details.map(function(d){if(/@/.test(String(d.value||''))||/^mailto:/i.test(String(d.href||''))){d={icon:d.icon,label:d.label||'Email',value:'hello@filmaxjambotours.com',href:'mailto:hello@filmaxjambotours.com'};}return'<div class="team-popup-detail"><div class="team-popup-detail-icon">'+d.icon+'</div><div class="team-popup-detail-text"><span class="team-popup-detail-label">'+d.label+'</span>'+(d.href?'<a href="'+d.href+'" class="team-popup-detail-value">'+d.value+'</a>':'<span class="team-popup-detail-value">'+d.value+'</span>')+'</div></div>';}).join('');
     overlay.classList.add('open');document.body.style.overflow='hidden';
   }
   function closePopup(){overlay.classList.remove('open');document.body.style.overflow='';hideFabs(false);}
@@ -1400,7 +1400,7 @@ document.addEventListener('DOMContentLoaded',function(){
           });
         }
         document.querySelectorAll('.contact-detail-value').forEach(el => {
-          if (el.textContent.includes('@filmaxjambotours') && v.email) el.textContent = v.email;
+          if (el.textContent.includes('@')) el.textContent = 'hello@filmaxjambotours.com'; // single company address
         });
         document.querySelectorAll('.concierge-bio').forEach(el => {
           if (v.bio) el.textContent = v.bio;
@@ -2052,7 +2052,7 @@ document.addEventListener('DOMContentLoaded',function(){
           });
         }
         document.querySelectorAll('.contact-detail-value').forEach(el => {
-          if (el.textContent.includes('@filmaxjambotours') && v.email) el.textContent = v.email;
+          if (el.textContent.includes('@')) el.textContent = 'hello@filmaxjambotours.com'; // single company address
         });
         document.querySelectorAll('.concierge-bio').forEach(el => {
           if (v.bio) el.textContent = v.bio;

@@ -26,17 +26,30 @@ function toggleSidebar() {
 }
 
   // ── NAV GROUP TOGGLE ──
+// One menu section open at a time keeps the sidebar short and easy to scan.
+function closeOtherNavGroups(keepId) {
+  document.querySelectorAll('.sidebar [id^="group-"]').forEach(g => {
+    if (g.id === keepId) return;
+    g.classList.remove('open');
+    const h = document.getElementById('nav-' + g.id.replace('group-','') + '-header');
+    if (h) h.classList.remove('open');
+  });
+}
+
 function toggleNavGroup(groupId) {
   const group = document.getElementById(groupId);
   const header = document.getElementById('nav-' + groupId.replace('group-','')+'-header');
+  if (!group) return;
   const isOpen = group.classList.contains('open');
+  if (!isOpen) closeOtherNavGroups(groupId);
   group.classList.toggle('open', !isOpen);
-  header.classList.toggle('open', !isOpen);
+  if (header) header.classList.toggle('open', !isOpen);
 }
 
 function openNavGroup(groupId) {
   const group = document.getElementById(groupId);
   const header = document.getElementById('nav-' + groupId.replace('group-','')+'-header');
+  closeOtherNavGroups(groupId);
   if (group) group.classList.add('open');
   if (header) header.classList.add('open');
 }  
@@ -152,7 +165,6 @@ function showView(name) {
     'testimonials': { navId:'nav-testimonials', group:'group-members',  loader: () => loadTestimonials('pending') },
     'team':         { navId:'nav-team-manage', group:'group-members',  loader: loadTeamMembers },
     'gallery':      { navId:'nav-gallery-manage', group:'group-gallery', loader: loadGalleryItems },
-    'team':         { navId:'nav-team',         group:'group-settings', loader: null },
     'site-settings':{ navId:'nav-site',         group:'group-settings', loader: loadSiteSettings },
   };
 
@@ -3063,7 +3075,7 @@ async function loadSiteSettings() {
       setVal('ss-concierge-name', v.name);
       setVal('ss-concierge-role', v.role);
       setVal('ss-whatsapp',       v.whatsapp);
-      setVal('ss-email',          v.email);
+      setVal('ss-email',          'hello@filmaxjambotours.com');
       setVal('ss-concierge-bio',  v.bio);
     }
     if (row.id === 'hero') {
@@ -3100,7 +3112,7 @@ async function saveSiteSettings() {
       name:     document.getElementById('ss-concierge-name')?.value || '',
       role:     document.getElementById('ss-concierge-role')?.value || '',
       whatsapp: document.getElementById('ss-whatsapp')?.value || '',
-      email:    document.getElementById('ss-email')?.value || '',
+      email:    'hello@filmaxjambotours.com',
       bio:      document.getElementById('ss-concierge-bio')?.value || '',
     }},
     { id: 'hero', value: {

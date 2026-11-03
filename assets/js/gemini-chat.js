@@ -241,7 +241,6 @@
           if (d.contact) {
             if (d.contact.whatsapp) contact.whatsapp = d.contact.whatsapp;
             if (d.contact.phone) contact.phone = d.contact.phone;
-            if (d.contact.email) contact.email = d.contact.email;
           }
           if (res.ok && d.reply) {
             bubble('model', d.reply);
@@ -284,7 +283,6 @@
           var v = row.value || {};
           if (row.id === 'concierge') {
             if (v.whatsapp) contact.whatsapp = String(v.whatsapp).replace(/\D/g, '') || contact.whatsapp;
-            if (v.email) contact.email = v.email;
           }
           if (row.id === 'business' && v.phone) contact.phone = v.phone;
         });
