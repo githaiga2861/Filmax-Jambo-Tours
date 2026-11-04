@@ -517,6 +517,7 @@ document.querySelectorAll('.reveal').forEach(el => window._revealObserver.observ
 })();
 
 (function(){
+  return; // replaced by the site-wide /assets/js/fjt-hints.js
   var container = document.getElementById('hintsContainer');
   var shown = new Set();
   var DURATION = 5000;
@@ -918,13 +919,26 @@ document.querySelectorAll('.reveal').forEach(el => window._revealObserver.observ
     }
   };
 
+
+  // Messages: our own leading icon is trusted markup; anything after it is shown as plain text.
+  function _fjtSetMsg(el, text) {
+    text = String(text == null ? '' : text);
+    var m = text.match(/^\s*(<svg[\s\S]*?<\/svg>)\s*([\s\S]*)$/);
+    if (m) {
+      el.innerHTML = m[1];
+      el.appendChild(document.createTextNode(' ' + m[2]));
+    } else {
+      el.textContent = text;
+    }
+  }
+
   function showMsg(panelSuffix, type, text) {
     var errEl = document.getElementById('authMsgError' + panelSuffix);
     var okEl  = document.getElementById('authMsgSuccess' + panelSuffix);
     if (errEl) errEl.style.display = 'none';
     if (okEl)  okEl.style.display  = 'none';
-    if (type === 'error'   && errEl) { errEl.textContent = text; errEl.style.display = 'block'; }
-    if (type === 'success' && okEl)  { okEl.textContent  = text; okEl.style.display  = 'block'; }
+    if (type === 'error'   && errEl) { _fjtSetMsg(errEl, text); errEl.style.display = 'block'; }
+    if (type === 'success' && okEl)  { _fjtSetMsg(okEl, text); okEl.style.display  = 'block'; }
   }
 
   window._doSignIn = async function() {
@@ -941,9 +955,10 @@ document.querySelectorAll('.reveal').forEach(el => window._revealObserver.observ
       setTimeout(function(){ window._fjSigningInViaForm = false; }, 200);
       if (res.error) {
         var msg = (res.error.message || '').toLowerCase();
-        if (msg.includes('invalid') || msg.includes('wrong') || msg.includes('credentials') || msg.includes('not found') || msg.includes('no user')) {
-          showMsg('Signin','error','<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg> No account found with this email. Please create an account first.');
-          setTimeout(function(){ window._switchAuthTab('signup'); var el=document.getElementById('suEmail');if(el)el.value=email; }, 1800);
+        if (msg.includes('not confirmed')) {
+          showMsg('Signin','error', 'Please confirm your email first — open the link we sent to ' + email + ' (check spam too), then sign in.');
+        } else if (msg.includes('invalid') || msg.includes('wrong') || msg.includes('credentials') || msg.includes('not found') || msg.includes('no user')) {
+          showMsg('Signin','error', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg> That email and password don\'t match. Check your password, use Forgot Password, or create a free account if you\'re new.');
         } else {
           showMsg('Signin','error', res.error.message || 'Sign in failed. Please try again.');
         }
@@ -1020,7 +1035,7 @@ document.querySelectorAll('.reveal').forEach(el => window._revealObserver.observ
     try {
       var res = await supa.auth.signInWithOAuth({
         provider: 'google',
-        options: { redirectTo: window.location.origin + '/packages.html' }
+        options: { redirectTo: window.location.origin + '/packages/', queryParams: { prompt: 'select_account' } }
       });
       if (res.error) throw res.error;
     } catch(e) { showMsg('Signin','error', e.message || 'Google sign-in failed.'); }
@@ -1048,7 +1063,7 @@ document.querySelectorAll('.reveal').forEach(el => window._revealObserver.observ
     if (btn) { btn.textContent = 'Sending…'; btn.disabled = true; }
     try {
       var res = await supa.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.origin + '/packages.html?reset=true'
+        redirectTo: window.location.origin + '/reset-password/'
       });
       if (res.error) throw res.error;
       showMsg('Forgot','success','<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> Reset link sent! Check your inbox.');
@@ -1176,4 +1191,22 @@ document.querySelectorAll('.reveal').forEach(el => window._revealObserver.observ
       if(e.key === 'Escape'){ btn.classList.remove('open'); dd.classList.remove('open'); }
     });
   }
+})();
+
+/* Password show/hide (replaces broken inline handlers) */
+(function(){
+  if (window.__fjtEyeBound) return; window.__fjtEyeBound = true;
+  var OPEN = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>';
+  var SHUT = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M3 3l18 18M10.6 10.6a2 2 0 0 0 2.8 2.8M9.9 5.1A10.4 10.4 0 0 1 12 5c6 0 10 7 10 7a17 17 0 0 1-3.2 3.9M6.6 6.6A17 17 0 0 0 2 12s4 7 10 7a9.9 9.9 0 0 0 5.4-1.6"/></svg>';
+  document.addEventListener('click', function(e){
+    var b = e.target.closest && e.target.closest('.auth-eye[data-eye]');
+    if (!b) return;
+    e.preventDefault();
+    var f = document.getElementById(b.getAttribute('data-eye'));
+    if (!f) return;
+    var show = f.type === 'password';
+    f.type = show ? 'text' : 'password';
+    b.innerHTML = show ? SHUT : OPEN;
+    b.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+  });
 })();

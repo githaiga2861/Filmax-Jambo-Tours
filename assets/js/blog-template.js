@@ -154,6 +154,7 @@ init();
 })();
 
 (function(){
+  return; // replaced by the site-wide /assets/js/fjt-hints.js
   var container = document.getElementById('hintsContainer');
   if (!container) return;
   var shown = new Set();

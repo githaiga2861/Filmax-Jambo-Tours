@@ -14,6 +14,7 @@
 })();
 
 (function(){
+  return; // replaced by the site-wide /assets/js/fjt-hints.js
   var container = document.getElementById('hintsContainer');
   var shown = new Set();
   var DURATION = 5000;

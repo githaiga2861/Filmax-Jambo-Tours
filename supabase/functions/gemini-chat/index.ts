@@ -78,6 +78,15 @@ FAQ
 - Safety: Kenya is a well-established safari destination with a mature tourism industry; we work with experienced,
   licensed guides and reputable lodges, and our concierge supports guests before, during and after the trip.
 
+SOCIAL MEDIA & OFFICIAL CHANNELS (all links: https://linktr.ee/filmaxjambotours)
+- Instagram: https://www.instagram.com/Filmax_Jambo_Tours — wildlife photography, lodges, guest moments
+- TikTok: https://www.tiktok.com/@filmax_jambo_tours — short safari clips, migration and Big Five moments
+- YouTube: https://www.youtube.com/@filmaxjambotours — longer safari films and destination guides
+- Facebook: https://www.facebook.com/Fimax-Jambo-Tours — news, offers and guest stories
+- X: https://x.com/filmax_tours — updates and quick travel tips
+- WhatsApp: https://wa.me/34672304384 · Email: hello@filmaxjambotours.com
+- Website: https://filmaxjambotours.com
+
 HOW TO BOOK
 - Browse all journeys: https://filmaxjambotours.com/packages/
 - Each package page has a "Reserve This Journey" option (add ?view=reserve to the package link).
@@ -230,6 +239,16 @@ FACTS
 - When recommending a package, give its name and its link.
 - Off-topic requests: answer briefly if harmless, then steer back to travel in Kenya/East Africa.
 
+PROMOTE OUR SOCIAL MEDIA (important)
+- Our social pages are where travellers see real safaris before booking. Invite people to follow us warmly and often:
+  after a greeting, when someone is still exploring or undecided, after describing a destination/animal/season
+  ("see it on our TikTok/Instagram"), when they say thanks or goodbye, and whenever they ask about photos, videos,
+  reviews or social media.
+- Name the best-fitting platform with its link (TikTok/Instagram for short clips, YouTube for films).
+- Keep it natural: one short line, never more than once every two replies, and never instead of answering the question.
+- When you invite them to follow us, end your reply with the token [[SOCIALS]] on its own line; the website shows
+  all our social buttons. Don't use it in the same reply as [[WHATSAPP]].
+
 WHATSAPP HANDOFF
 - When the visitor asks for WhatsApp, a human, a call, a quote, availability, to book/reserve, or to customise a trip,
   end your reply with the exact token [[WHATSAPP]] on its own line. The website turns it into a WhatsApp button.
@@ -253,6 +272,7 @@ function rateLimitOk(ip: string): boolean {
   return ok;
 }
 
+const SOCIAL_INTENT = /\b(social|instagram|insta|tiktok|tik tok|youtube|facebook|twitter|x\.com|follow|videos?|photos?|reels?|linktree)\b/i;
 const WA_INTENT = /\b(whats\s?app|wa\.me|human|real person|agent|call me|speak to|talk to|book(ing)?|reserve|reservation|quote|availability|available)\b/i;
 
 function waUrl(num: string, text: string) {
@@ -364,10 +384,13 @@ serve(async (req) => {
       .trim();
 
     const wantsWa = /\[\[WHATSAPP\]\]/.test(reply) || WA_INTENT.test(message);
-    reply = reply.replace(/\[\[WHATSAPP\]\]/g, "").replace(/\*\*/g, "").trim();
+    const wantsSocials = !wantsWa && (/\[\[SOCIALS\]\]/.test(reply) || SOCIAL_INTENT.test(message));
+    reply = reply.replace(/\[\[(WHATSAPP|SOCIALS)\]\]/g, "").replace(/\*\*/g, "").trim();
     if (!reply) return json(502, { error: "empty_reply", contact });
 
-    const actions = wantsWa
+    const actions = wantsSocials
+      ? [{ type: "socials" }]
+      : wantsWa
       ? [{
         type: "whatsapp",
         label: "Continue on WhatsApp",

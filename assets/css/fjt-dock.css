@@ -1,0 +1,230 @@
+/* ==========================================================
+   FJT DOCK — one bar for Language · Theme · Sound · Concierge
+   Fixed bottom-right, always on top, glass + gold glow.
+   Dims while the page scrolls so content stays readable.
+   ========================================================== */
+
+/* Old floating controls are replaced by the dock (kept in the DOM for their logic). */
+body.fjt-dock-on .whatsapp-fab,
+body.fjt-dock-on #themeToggle,
+body.fjt-dock-on .theme-toggle,
+body.fjt-dock-on #fjtSoundBtn,
+body.fjt-dock-on #heroSoundBtn,
+body.fjt-dock-on .fjt-fab { display: none !important; }
+
+/* Google's own widget stays hidden; the dock drives it. */
+#google_translate_element {
+  position: fixed !important;
+  left: -9999px !important;
+  bottom: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+iframe.skiptranslate, .goog-te-banner-frame { display: none !important; }
+body { top: 0 !important; }
+#goog-gt-tt, .goog-te-balloon-frame { display: none !important; }
+.goog-text-highlight { background: none !important; box-shadow: none !important; }
+
+.fjt-dock {
+  --dk-bg: rgba(10, 10, 10, 0.72);
+  --dk-icon: #d4af37;
+  --dk-line: rgba(212, 175, 55, 0.28);
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 2147483000;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 42px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--dk-bg);
+  border: 1px solid var(--dk-line);
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  box-shadow:
+    0 0 0 1px rgba(212, 175, 55, 0.05),
+    0 6px 22px rgba(0, 0, 0, 0.45),
+    0 0 18px rgba(212, 175, 55, 0.16);
+  font-family: 'Jost', sans-serif;
+  transition: opacity 0.35s ease, background 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+  animation: fjtDockIn 0.6s ease 0.4s both;
+}
+body.light-mode .fjt-dock {
+  --dk-bg: rgba(240, 236, 228, 0.78);
+  --dk-icon: #996515;
+  --dk-line: rgba(153, 101, 21, 0.3);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14), 0 0 16px rgba(153, 101, 21, 0.14);
+}
+/* While scrolling: step back so the page underneath stays readable. */
+.fjt-dock.is-scrolling {
+  opacity: 0.42;
+  box-shadow: none;
+  background: rgba(10, 10, 10, 0.35);
+}
+body.light-mode .fjt-dock.is-scrolling { background: rgba(240, 236, 228, 0.4); }
+.fjt-dock:hover, .fjt-dock:focus-within, .fjt-dock.is-active { opacity: 1; }
+@keyframes fjtDockIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+.fjt-dock-sep { width: 1px; height: 18px; background: var(--dk-line); margin: 0 3px; }
+
+.fjt-dk-btn {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--dk-icon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: none;
+  transition: background 0.25s, color 0.25s, transform 0.25s, box-shadow 0.25s;
+}
+.fjt-dk-btn svg { width: 17px; height: 17px; pointer-events: none; }
+.fjt-dk-btn:hover, .fjt-dk-btn:focus-visible, .fjt-dk-btn[aria-expanded="true"] {
+  background: rgba(212, 175, 55, 0.12);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.28);
+  outline: none;
+}
+.fjt-dk-btn:active { transform: scale(0.94); }
+.fjt-dk-btn .fjt-dk-off { display: none; }
+.fjt-dk-btn.is-off .fjt-dk-on { display: none; }
+.fjt-dk-btn.is-off .fjt-dk-off { display: block; }
+.fjt-dk-btn.is-off { color: rgba(212, 175, 55, 0.55); }
+body.light-mode .fjt-dk-btn.is-off { color: rgba(153, 101, 21, 0.55); }
+
+/* Concierge: the one filled gold button */
+.fjt-dk-chat {
+  width: 32px;
+  height: 32px;
+  color: #080808;
+  background: linear-gradient(135deg, #f0c84a 0%, #d4af37 35%, #b8860b 65%, #c9921a 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.25) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.3) inset,
+    0 0 14px rgba(212, 175, 55, 0.45);
+  margin-left: 2px;
+}
+.fjt-dk-chat:hover, .fjt-dk-chat:focus-visible, .fjt-dk-chat[aria-expanded="true"] {
+  background: linear-gradient(135deg, #f0c84a 0%, #d4af37 35%, #b8860b 65%, #c9921a 100%);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.65);
+  color: #080808;
+}
+.fjt-dk-chat svg { width: 16px; height: 16px; }
+.fjt-dk-dot {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #25d366;
+  border: 1.5px solid #0a0a0a;
+}
+.fjt-dk-chat[aria-expanded="true"] .fjt-dk-dot { display: none; }
+
+/* Small rounded labels */
+.fjt-dk-tip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translate(-50%, 4px);
+  white-space: nowrap;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  line-height: 1;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: #f5efe0;
+  background: rgba(10, 10, 10, 0.92);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+body.light-mode .fjt-dk-tip { color: #1a1a1a; background: rgba(245, 241, 233, 0.97); border-color: rgba(153, 101, 21, 0.35); }
+.fjt-dk-btn:hover .fjt-dk-tip,
+.fjt-dk-btn:focus-visible .fjt-dk-tip,
+.fjt-dk-btn.tip-show .fjt-dk-tip { opacity: 1; transform: translate(-50%, 0); }
+.fjt-dk-btn[aria-expanded="true"] .fjt-dk-tip { opacity: 0 !important; }
+/* keep the right-most label inside the screen */
+.fjt-dock > .fjt-dk-btn:last-child .fjt-dk-tip { left: auto; right: -4px; transform: translateY(4px); }
+.fjt-dock > .fjt-dk-btn:last-child:hover .fjt-dk-tip,
+.fjt-dock > .fjt-dk-btn:last-child.tip-show .fjt-dk-tip { transform: none; }
+
+/* Language picker */
+.fjt-lang-pop {
+  position: fixed;
+  right: 18px;
+  bottom: 70px;
+  z-index: 2147483001;
+  width: 210px;
+  max-height: min(60vh, 380px);
+  overflow-y: auto;
+  padding: 6px;
+  border-radius: 14px;
+  background: rgba(12, 12, 12, 0.96);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5), 0 0 16px rgba(212, 175, 55, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.2s, transform 0.2s, visibility 0s linear 0.2s;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212, 175, 55, 0.3) transparent;
+}
+.fjt-lang-pop.open { opacity: 1; visibility: visible; transform: none; transition: opacity 0.2s, transform 0.2s; }
+body.light-mode .fjt-lang-pop { background: rgba(245, 241, 233, 0.98); border-color: rgba(153, 101, 21, 0.3); box-shadow: 0 14px 34px rgba(0, 0, 0, 0.16); }
+.fjt-lang-head {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #d4af37;
+  padding: 8px 10px 6px;
+}
+body.light-mode .fjt-lang-head { color: #996515; }
+.fjt-lang-opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #eee6d4;
+  font-family: 'Jost', sans-serif;
+  font-size: 12.5px;
+  text-align: left;
+  cursor: none;
+  transition: background 0.2s, color 0.2s;
+}
+body.light-mode .fjt-lang-opt { color: #1a1a1a; }
+.fjt-lang-opt small { font-size: 10px; letter-spacing: 1px; opacity: 0.55; }
+.fjt-lang-opt:hover, .fjt-lang-opt:focus-visible { background: rgba(212, 175, 55, 0.1); outline: none; }
+.fjt-lang-opt.is-current { color: #d4af37; }
+body.light-mode .fjt-lang-opt.is-current { color: #996515; }
+.fjt-lang-opt.is-current small:after { content: ' ✓'; }
+
+@media (max-width: 600px) {
+  .fjt-dock { right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); height: 40px; padding: 0 4px; }
+  .fjt-dk-btn { width: 31px; height: 31px; }
+  .fjt-lang-pop { right: 12px; bottom: 62px; }
+  .fjt-dk-tip { display: none; }
+  .fjt-dk-btn.tip-show .fjt-dk-tip { display: block; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fjt-dock { animation: none; transition: none; }
+}
+@media print { .fjt-dock, .fjt-lang-pop { display: none !important; } }
+
+/* While the chat or language list is open, only state flashes show (no hover labels over the panel). */
+.fjt-dock.is-active .fjt-dk-btn:not(.tip-show) .fjt-dk-tip { opacity: 0 !important; }

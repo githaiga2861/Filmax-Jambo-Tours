@@ -34,7 +34,7 @@
           <input id="siPassword" class="auth-input" type="password" placeholder="Password *" autocomplete="current-password"
             style="padding-right:36px;"
             onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-          <button type="button" onclick="(function(){var f=document.getElementById('siPassword');f.type=f.type==='password'?'text':'password';this.innerHTML=f.type==='password'?'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>':'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="13" r="7"/><path d="M9 12h.01M15 12h.01M9 16c1 1 5 1 6 0"/><path d="M6 8l-2-3M18 8l2-3"/></svg>';}).call(this)"
+          <button type="button" class="auth-eye" data-eye="siPassword" aria-label="Show password"
             style="position:absolute;right:0;top:14px;background:none;border:none;cursor:none;color:rgba(138,128,116,0.6);font-size:14px;padding:0;line-height:1;transition:color 0.2s;"
             onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
         </div>
@@ -181,7 +181,7 @@
           <input id="suPassword" class="auth-input" type="password" placeholder="Create Password (min 8 characters) *" autocomplete="new-password"
             style="padding-right:36px;"
             onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-          <button type="button" onclick="(function(){var f=document.getElementById('suPassword');f.type=f.type==='password'?'text':'password';this.innerHTML=f.type==='password'?'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>':'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="13" r="7"/><path d="M9 12h.01M15 12h.01M9 16c1 1 5 1 6 0"/><path d="M6 8l-2-3M18 8l2-3"/></svg>';}).call(this)"
+          <button type="button" class="auth-eye" data-eye="suPassword" aria-label="Show password"
             style="position:absolute;right:0;top:14px;background:none;border:none;cursor:none;color:rgba(138,128,116,0.6);font-size:14px;padding:0;line-height:1;transition:color 0.2s;"
             onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
         </div>
@@ -190,7 +190,7 @@
           <input id="suPassConf" class="auth-input" type="password" placeholder="Confirm Password *" autocomplete="new-password"
             style="padding-right:36px;"
             onfocus="this.style.borderBottomColor='#d4af37'" onblur="this.style.borderBottomColor=''">
-          <button type="button" onclick="(function(){var f=document.getElementById('suPassConf');f.type=f.type==='password'?'text':'password';this.innerHTML=f.type==='password'?'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>':'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="13" r="7"/><path d="M9 12h.01M15 12h.01M9 16c1 1 5 1 6 0"/><path d="M6 8l-2-3M18 8l2-3"/></svg>';}).call(this)"
+          <button type="button" class="auth-eye" data-eye="suPassConf" aria-label="Show password"
             style="position:absolute;right:0;top:14px;background:none;border:none;cursor:none;color:rgba(138,128,116,0.6);font-size:14px;padding:0;line-height:1;transition:color 0.2s;"
             onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(138,128,116,0.6)'"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
         </div>
@@ -240,15 +240,48 @@
     return _supaInstance;
   }
 
+
+  // Some pages (all package pages) don't include the Supabase library; load it on demand.
+  var _fjtSupaPromise = null;
+  function _fjtLoadSupa() {
+    if (window.supabase) return Promise.resolve(getSupabase());
+    if (_fjtSupaPromise) return _fjtSupaPromise;
+    _fjtSupaPromise = new Promise(function (resolve) {
+      var existing = document.querySelector('script[src*="supabase-js"]');
+      var tag = existing || document.createElement('script');
+      tag.addEventListener('load', function () { resolve(getSupabase()); });
+      tag.addEventListener('error', function () { resolve(null); });
+      if (!existing) {
+        tag.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+        document.head.appendChild(tag);
+      }
+    });
+    return _fjtSupaPromise;
+  }
+  if (!window.supabase) _fjtLoadSupa();
+
   function v(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
 
+
+  // Messages: our own leading icon is trusted markup; anything after it is shown as plain text.
+  function _fjtSetMsg(el, text) {
+    text = String(text == null ? '' : text);
+    var m = text.match(/^\s*(<svg[\s\S]*?<\/svg>)\s*([\s\S]*)$/);
+    if (m) {
+      el.innerHTML = m[1];
+      el.appendChild(document.createTextNode(' ' + m[2]));
+    } else {
+      el.textContent = text;
+    }
+  }
+
   function showMsg(type, text) {
-    const err = document.getElementById('authMsgError');
-    const ok  = document.getElementById('authMsgSuccess');
+    const err = document.getElementById('authMsgError') || document.getElementById('authMsgErrorSignin');
+    const ok  = document.getElementById('authMsgSuccess') || document.getElementById('authMsgSuccessSignin');
     if (!err || !ok) return;
     err.style.display = 'none'; ok.style.display = 'none';
-    if (type === 'error')   { err.textContent = text; err.style.display = 'block'; }
-    if (type === 'success') { ok.textContent  = text; ok.style.display  = 'block'; }
+    if (type === 'error')   { _fjtSetMsg(err, text); err.style.display = 'block'; }
+    if (type === 'success') { _fjtSetMsg(ok, text); ok.style.display  = 'block'; }
   }
 
   function clearMessages() {
@@ -272,7 +305,7 @@
     if (!ov) return;
     // Hide FABs
     [document.querySelector('.whatsapp-fab'),document.getElementById('themeToggle'),document.getElementById('google_translate_element')].forEach(function(el){if(el){el.style.transition='opacity 0.3s ease';el.style.opacity='0';el.style.pointerEvents='none';}});
-    ov.style.cssText = 'display:flex;opacity:0;pointer-events:none;position:fixed;inset:0;z-index:99990;background:rgba(8,6,2,0.45);backdrop-filter:blur(12px) saturate(1.4) brightness(0.7);-webkit-backdrop-filter:blur(12px) saturate(1.4) brightness(0.7);align-items:center;justify-content:center;padding:20px;transition:opacity 0.4s ease;';
+    ov.style.cssText = 'display:flex;opacity:0;pointer-events:none;position:fixed;inset:0;z-index:99990;background:rgba(8,6,2,0.45);backdrop-filter:blur(12px) saturate(1.4) brightness(0.7);-webkit-backdrop-filter:blur(12px) saturate(1.4) brightness(0.7);align-items:flex-start;justify-content:center;padding:max(20px,6vh) 16px 20px;overflow-y:auto;transition:opacity 0.4s ease;';
     clearMessages();
     window._switchAuthTab(tab || 'signin');
     document.body.style.overflow = 'hidden';
@@ -326,7 +359,7 @@
   };
 
   window._doSignIn = async function() {
-    const supa = getSupabase();
+    const supa = getSupabase() || await _fjtLoadSupa();
     if (!supa) { showMsg('error','Auth service unavailable. Please refresh.'); return; }
     const email = v('siEmail');
     const pass  = v('siPassword');
@@ -341,9 +374,10 @@
       if (error) {
         // Distinguish "invalid credentials" from "user not found"
         const msg = (error.message || '').toLowerCase();
-        if (msg.includes('invalid') || msg.includes('wrong') || msg.includes('credentials') || msg.includes('not found') || msg.includes('no user')) {
-          showMsgSignin('error', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg> No account found with this email. Please create an account first.');
-          setTimeout(function(){ window._switchAuthTab('signup'); const el=document.getElementById('suEmail'); if(el){el.value=email;} }, 1800);
+        if (msg.includes('not confirmed')) {
+          showMsgSignin('error', 'Please confirm your email first — open the link we sent to ' + email + ' (check spam too), then sign in.');
+        } else if (msg.includes('invalid') || msg.includes('wrong') || msg.includes('credentials') || msg.includes('not found') || msg.includes('no user')) {
+          showMsgSignin('error', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg> That email and password don\'t match. Check your password, use Forgot Password, or create a free account if you\'re new.');
         } else {
           showMsgSignin('error', error.message || 'Sign in failed. Please try again.');
         }
@@ -352,12 +386,7 @@
       }
       // Success — show joy message, auto-close
       // Fetch real first name from profiles table for welcome message
-      const _welcomeSupa = window.supabase
-        ? window.supabase.createClient(
-            'https://kwriicxzkgkcseorcqdi.supabase.co',
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cmlpY3h6a2drY3Nlb3JjcWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTk2NzcsImV4cCI6MjA4OTQ5NTY3N30.h886_IAOxXkaW1m9mtFX4zLJRhTN-v9N4EF_yrpAkJo'
-          )
-        : null;
+      const _welcomeSupa = getSupabase();
       let _welcomeName = data.user?.user_metadata?.first_name || 'Explorer';
       if (_welcomeSupa && data.user?.id) {
         _welcomeSupa.from('profiles').select('first_name').eq('id', data.user.id).single()
@@ -382,7 +411,7 @@
         requestAnimationFrame(function(){ toast.style.opacity='1'; });
         setTimeout(function(){ toast.style.opacity='0'; setTimeout(function(){toast.remove();},400); },2400);
         // Open profile modal after auth modal finishes closing
-        setTimeout(function(){ if(window._fjCurrentUser) window._openProfile(); }, 520);
+        setTimeout(function(){ if(window._fjCurrentUser && typeof window._openProfile==='function') window._openProfile(); }, 520);
       }, 1200);
     } catch(e) {
       showMsgSignin('error', e.message || 'Sign in failed. Please try again.');
@@ -395,24 +424,24 @@
     var ok  = document.getElementById('authMsgSuccessSignin');
     if (err) err.style.display = 'none';
     if (ok)  ok.style.display  = 'none';
-    if (type === 'error'   && err) { err.textContent = text; err.style.display = 'block'; }
-    if (type === 'success' && ok)  { ok.textContent  = text; ok.style.display  = 'block'; }
+    if (type === 'error'   && err) { _fjtSetMsg(err, text); err.style.display = 'block'; }
+    if (type === 'success' && ok)  { _fjtSetMsg(ok, text); ok.style.display  = 'block'; }
   }
   function showMsgSignup(type, text) {
     var err = document.getElementById('authMsgErrorSignup');
     var ok  = document.getElementById('authMsgSuccessSignup');
     if (err) err.style.display = 'none';
     if (ok)  ok.style.display  = 'none';
-    if (type === 'error'   && err) { err.textContent = text; err.style.display = 'block'; }
-    if (type === 'success' && ok)  { ok.textContent  = text; ok.style.display  = 'block'; }
+    if (type === 'error'   && err) { _fjtSetMsg(err, text); err.style.display = 'block'; }
+    if (type === 'success' && ok)  { _fjtSetMsg(ok, text); ok.style.display  = 'block'; }
   }
   function showMsgForgot(type, text) {
     var err = document.getElementById('authMsgErrorForgot');
     var ok  = document.getElementById('authMsgSuccessForgot');
     if (err) err.style.display = 'none';
     if (ok)  ok.style.display  = 'none';
-    if (type === 'error'   && err) { err.textContent = text; err.style.display = 'block'; }
-    if (type === 'success' && ok)  { ok.textContent  = text; ok.style.display  = 'block'; }
+    if (type === 'error'   && err) { _fjtSetMsg(err, text); err.style.display = 'block'; }
+    if (type === 'success' && ok)  { _fjtSetMsg(ok, text); ok.style.display  = 'block'; }
   }
   function togglePassword(id, eye) {
   const input = document.getElementById(id);
@@ -439,17 +468,14 @@
   };
 
   window._doGoogleAuth = async function() {
-    const supa = getSupabase();
+    const supa = getSupabase() || await _fjtLoadSupa();
     if (!supa) { showMsgSignin('error','Auth service unavailable. Please refresh.'); return; }
     try {
       const { error } = await supa.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: 'https://githaiga2861.github.io/Filmax-Jambo-Tours/index.html',
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'consent',
-          }
+          redirectTo: window.location.origin + window.location.pathname.replace(/index\.html$/, ''),
+          queryParams: { prompt: 'select_account' }
         }
       });
       if (error) throw error;
@@ -460,7 +486,7 @@
   };
 
   window._doForgotPassword = async function() {
-    const supa = getSupabase();
+    const supa = getSupabase() || await _fjtLoadSupa();
     if (!supa) { showMsgForgot('error','Auth service unavailable.'); return; }
     const email = v('forgotEmail');
     if (!email) { showMsgForgot('error','Please enter your email address.'); return; }
@@ -468,7 +494,7 @@
     if (btn) { btn.textContent = 'Sending…'; btn.disabled = true; }
     try {
       const { error } = await supa.auth.resetPasswordForEmail(email, {
-        redirectTo: 'https://filmaxjambotours.com/reset-password.html'
+        redirectTo: window.location.origin + '/reset-password/'
       });
       if (error) throw error;
       showMsgForgot('success', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> Reset link sent! Check your inbox (and spam folder). You can close this.');
@@ -479,7 +505,7 @@
   };
 
   window._doSignUp = async function() {
-    const supa = getSupabase();
+    const supa = getSupabase() || await _fjtLoadSupa();
     if (!supa) { showMsgSignup('error','Auth service unavailable. Please refresh.'); return; }
 
     // Clear previous messages
@@ -526,7 +552,7 @@
       const { data, error } = await supa.auth.signUp({
         email:    email,
         password: pass,
-        options:  { data: meta }
+        options:  { data: meta, emailRedirectTo: window.location.origin + '/home/' }
       });
       if (error) {
         // Handle specific "User already registered" error
@@ -583,7 +609,7 @@
           showMsgSignup('success', '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M4 12l5 5L20 6"/></svg> Account created! Welcome to Filmax Jambo Tours.');
           setTimeout(function(){
             window._closeAuth();
-            setTimeout(function(){ if(window._fjCurrentUser) window._openProfile(); }, 520);
+            setTimeout(function(){ if(window._fjCurrentUser && typeof window._openProfile==='function') window._openProfile(); }, 520);
           }, 1200);
         } else {
           // Email confirmation required — prompt user to confirm then sign in
@@ -686,8 +712,8 @@
   };
 
   // Init session on load
-  document.addEventListener('DOMContentLoaded', function() {
-    const supa = getSupabase();
+  document.addEventListener('DOMContentLoaded', async function() {
+    const supa = getSupabase() || await _fjtLoadSupa();
     if (!supa) return;
 
     var _hadSessionOnLoad = false;
@@ -749,7 +775,7 @@
     const chip = document.getElementById('authUserChip');
     if (chip) chip.addEventListener('click', function () {
       document.getElementById('userMenu')?.classList.remove('open');
-      window._fjCurrentUser ? window._openProfile() : window._openAuth('signin');
+      window._fjCurrentUser ? (typeof window._openProfile==='function' ? window._openProfile() : (window.location.href='/profile/')) : window._openAuth('signin');
     });
 
     // Close user menu on outside click
@@ -920,3 +946,20 @@
 
 })();
 
+/* Password show/hide (replaces broken inline handlers) */
+(function(){
+  if (window.__fjtEyeBound) return; window.__fjtEyeBound = true;
+  var OPEN = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>';
+  var SHUT = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;"><path d="M3 3l18 18M10.6 10.6a2 2 0 0 0 2.8 2.8M9.9 5.1A10.4 10.4 0 0 1 12 5c6 0 10 7 10 7a17 17 0 0 1-3.2 3.9M6.6 6.6A17 17 0 0 0 2 12s4 7 10 7a9.9 9.9 0 0 0 5.4-1.6"/></svg>';
+  document.addEventListener('click', function(e){
+    var b = e.target.closest && e.target.closest('.auth-eye[data-eye]');
+    if (!b) return;
+    e.preventDefault();
+    var f = document.getElementById(b.getAttribute('data-eye'));
+    if (!f) return;
+    var show = f.type === 'password';
+    f.type = show ? 'text' : 'password';
+    b.innerHTML = show ? SHUT : OPEN;
+    b.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+  });
+})();

@@ -212,6 +212,11 @@ body.light-mode {
 5. **18a1740** - Enhanced site hints with precise targeting and refined logo loader
 
 ### Major Enhancements Completed
+- Bottom dock (assets/js/fjt-dock.js + css/fjt-dock.css) on every public page: Language · Theme · Sound · Concierge in one fixed bar (z-index top). It hides the old WhatsApp FAB, theme toggle, sound button and Google Translate gadget (their logic still runs) and loads fjt-audio.js, gemini-chat.js, fjt-google-signin.js and fjt-hints.js.
+- Sound (fjt-audio.js): /assets/hero-ambient.mp3; starts on first interaction; preference in localStorage fjt_sound; auto-fades out while any video with sound plays, back after unless muted. API window.FJTAudio.
+- Hints (fjt-hints.js): the only hint system (old copies in index/blog/blog-template/packages/pkg-aerial-kenya are disabled). 5s on, 6s gap after it disappears, short text, target must be on screen.
+- Socials (from linktr.ee/filmaxjambotours): Instagram, TikTok, YouTube, Facebook, X, WhatsApp, email — in every footer (fjt-footer.js fills missing ones) and in the concierge chat; the chatbot promotes them.
+- Google sign-in via Google Identity Services (fjt-google-signin.js) once GOOGLE_CLIENT_ID is filled in; otherwise the Supabase redirect flow.
 - Private Concierge chat (Gemini via Supabase Edge Function `gemini-chat`; widget in assets/js/gemini-chat.js + assets/css/gemini-chat.css). On the homepage it replaces the WhatsApp FAB; WhatsApp is inside the chat. The function reads live packages, itineraries, team, journal and site_settings from Supabase.
 - Admin layout fixes: repaired escaped SVG icons, removed "coming soon" placeholders that shadowed the real Enquiries/Team views, scrollable sidebar, live dashboard booking counts
 - JS/CSS separation for all pages (was inline, now external files)
@@ -242,8 +247,9 @@ body.light-mode {
 - **Preserve the exact gold gradient**: `linear-gradient(135deg, #f0c84a 0%, #d4af37 35%, #b8860b 65%, #c9921a 100%)`
 - **All primary CTAs must match View All Packages button style exactly**
 - **Test both dark and light modes after any change**
-- **Ensure WhatsApp FAB is present on all pages** (homepage: WhatsApp is reached through the concierge chat, which takes the FAB's spot)
-- **Ensure theme toggle works on all pages**
+- **Ensure the bottom dock (fjt-dock.js) is on all public pages** — it replaces the WhatsApp FAB; WhatsApp is reached through the concierge chat and footer
+- **Ensure theme toggle works on all pages** (the dock's theme button clicks each page's own #themeToggle)
+- **Never put icons/SVG markup inside on* attributes** (e.g. onclick="...'<svg viewBox="..."'") — it breaks the HTML; use a class + JS handler
 - **Run `git push` after completing changes**
 - **Keep external CSS/JS file structure (don't inline)**
 
