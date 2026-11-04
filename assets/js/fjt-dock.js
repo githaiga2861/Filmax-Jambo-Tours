@@ -8,7 +8,7 @@
 (function () {
   'use strict';
   if (window.FJTDock) return;
-  var V = '20261104d';
+  var V = '20261104e';
 
   var ICON = {
     lang: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>',
@@ -240,6 +240,7 @@
 
     /* Shared pieces this bar relies on */
     loadJs('/assets/js/fjt-audio.js?v=' + V);
+    loadJs('/assets/js/fjt-bgvideo.js?v=' + V);
     loadJs('/assets/js/gemini-chat.js?v=' + V);
     loadJs('/assets/js/fjt-google-signin.js?v=' + V);
     loadJs('/assets/js/fjt-hints.js?v=' + V);
