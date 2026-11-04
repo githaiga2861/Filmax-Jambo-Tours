@@ -82,7 +82,7 @@ SOCIAL MEDIA & OFFICIAL CHANNELS (all links: https://linktr.ee/filmaxjambotours)
 - Instagram: https://www.instagram.com/Filmax_Jambo_Tours — wildlife photography, lodges, guest moments
 - TikTok: https://www.tiktok.com/@filmax_jambo_tours — short safari clips, migration and Big Five moments
 - YouTube: https://www.youtube.com/@filmaxjambotours — longer safari films and destination guides
-- Facebook: https://www.facebook.com/Fimax-Jambo-Tours — news, offers and guest stories
+- Facebook: https://www.facebook.com/Filmax-Jambo-Tours — news, offers and guest stories
 - X: https://x.com/filmax_tours — updates and quick travel tips
 - WhatsApp: https://wa.me/34672304384 · Email: hello@filmaxjambotours.com
 - Website: https://filmaxjambotours.com

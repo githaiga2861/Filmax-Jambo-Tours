@@ -13,7 +13,7 @@
    ═══════════════════════════════════════════════════════════════ */
 (function () {
   'use strict';
-  var GOOGLE_CLIENT_ID = ''; // e.g. '1234567890-abc123.apps.googleusercontent.com'
+  var GOOGLE_CLIENT_ID = '839673401261-rfeth1ekn1as5u927l9lva4il2b831bv.apps.googleusercontent.com'; // e.g. '1234567890-abc123.apps.googleusercontent.com'
 
   if (!GOOGLE_CLIENT_ID || window.__fjtGsi) return;
   window.__fjtGsi = true;

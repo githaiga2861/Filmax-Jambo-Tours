@@ -30,7 +30,7 @@
       svg: '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M16.5 2c.3 2.2 1.8 3.9 4 4.2v3c-1.5 0-2.9-.5-4-1.3v6.6a5.9 5.9 0 1 1-5.9-5.9c.3 0 .6 0 .9.1v3.1a2.8 2.8 0 1 0 2 2.7V2h3z"/></svg>' },
     { id: 'youtube', label: 'YouTube', url: 'https://www.youtube.com/@filmaxjambotours',
       svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.3l5 2.7-5 2.7z" fill="currentColor" stroke="none"/></svg>' },
-    { id: 'facebook', label: 'Facebook', url: 'https://www.facebook.com/Fimax-Jambo-Tours',
+    { id: 'facebook', label: 'Facebook', url: 'https://www.facebook.com/Filmax-Jambo-Tours',
       svg: '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8v3h2.5V21z"/></svg>' },
     { id: 'x', label: 'X', url: 'https://x.com/filmax_tours',
       svg: '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M17.8 3h3.1l-6.8 7.7 8 10.3h-6.2l-4.9-6.3L5.4 21H2.3l7.3-8.3L2 3h6.4l4.4 5.8zm-1.1 16.2h1.7L7.4 4.7H5.6z"/></svg>' },
