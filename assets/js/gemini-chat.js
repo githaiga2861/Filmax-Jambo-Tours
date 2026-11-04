@@ -315,6 +315,20 @@
         });
     }
 
+    // Wheel/touch over the panel's fixed parts (header, chips, input) must not scroll the page;
+    // over the conversation it scrolls the conversation only.
+    function trapScroll(e) {
+      if (!panel.classList.contains('open')) return;
+      var inLog = log.contains(e.target);
+      if (!inLog) { e.preventDefault(); return; }
+      if (e.type === 'wheel') {
+        var atTop = log.scrollTop <= 0, atEnd = log.scrollTop + log.clientHeight >= log.scrollHeight - 1;
+        if ((e.deltaY < 0 && atTop) || (e.deltaY > 0 && atEnd)) e.preventDefault();
+      }
+    }
+    panel.addEventListener('wheel', trapScroll, { passive: false });
+    panel.addEventListener('touchmove', trapScroll, { passive: false });
+
     window.FJTChat = {
       open: function () { setOpen(true); },
       close: function () { setOpen(false); },

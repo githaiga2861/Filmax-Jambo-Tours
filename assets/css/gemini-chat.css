@@ -456,3 +456,14 @@ body.light-mode .fjt-panel {
   --gold: #996515; --gold-dim: rgba(153,101,21,0.18);
   --text: #0a0a0a; --muted: #2a2a2a; --border: rgba(0,0,0,0.15);
 }
+
+/* Scroll the conversation, never the page behind it */
+.fjt-panel .fjt-log {
+  min-height: 0;                 /* lets the flex child shrink so overflow-y:auto can work */
+  overflow-y: auto;
+  overscroll-behavior: contain;  /* reaching the top/bottom doesn't hand the scroll to the page */
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+}
+.fjt-panel { overscroll-behavior: contain; }
+.fjt-lang-pop { overscroll-behavior: contain; }
