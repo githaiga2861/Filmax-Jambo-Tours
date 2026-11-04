@@ -247,12 +247,66 @@
       renderChips();
     }
 
+    // ── Phones: freeze the page behind the chat and fit the chat above the keyboard ──
+    var isPhone = function () { return window.matchMedia('(max-width: 600px)').matches; };
+    var lockedY = null;
+    function lockPage() {
+      if (lockedY !== null || !isPhone()) return;
+      lockedY = window.scrollY;
+      var b = document.body.style;
+      b.position = 'fixed'; b.top = (-lockedY) + 'px'; b.left = '0'; b.right = '0'; b.width = '100%'; b.overflow = 'hidden';
+    }
+    function unlockPage() {
+      if (lockedY === null) return;
+      var y = lockedY; lockedY = null;
+      var b = document.body.style;
+      b.position = ''; b.top = ''; b.left = ''; b.right = ''; b.width = ''; b.overflow = '';
+      var html = document.documentElement, prev = html.style.scrollBehavior;
+      html.style.scrollBehavior = 'auto';
+      window.scrollTo(0, y);
+      html.style.scrollBehavior = prev;
+    }
+    function fitToViewport() {
+      var vv = window.visualViewport;
+      if (!vv || !panel.classList.contains('open') || !isPhone()) {
+        panel.style.top = ''; panel.style.bottom = ''; panel.style.height = '';
+        return;
+      }
+      var keyboardUp = window.innerHeight - vv.height > 120;
+      if (keyboardUp) {
+        // occupy the visible area above the keyboard
+        panel.style.top = Math.round(vv.offsetTop + 8) + 'px';
+        panel.style.bottom = 'auto';
+        panel.style.height = Math.round(vv.height - 16) + 'px';
+      } else {
+        panel.style.top = ''; panel.style.bottom = ''; panel.style.height = '';
+      }
+      scroll();
+    }
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', fitToViewport);
+      window.visualViewport.addEventListener('scroll', fitToViewport);
+    }
+    input.addEventListener('blur', function () {
+      // keyboard closing: put the page back exactly where it was (iOS nudges it)
+      setTimeout(function () {
+        fitToViewport();
+        if (lockedY !== null) { document.body.style.top = (-lockedY) + 'px'; window.scrollTo(0, 0); }
+      }, 60);
+    });
+
     function setOpen(open) {
       panel.classList.toggle('open', open);
       changeListeners.forEach(function (cb) { try { cb(open); } catch (e) {} });
       if (open) {
+        lockPage();
+        fitToViewport();
         if (!log.children.length) greet();
-        setTimeout(function () { input.focus(); }, 150);
+        if (!isPhone()) setTimeout(function () { input.focus(); }, 150); // no surprise keyboard on phones
+      } else {
+        input.blur();
+        unlockPage();
+        fitToViewport();
       }
     }
 

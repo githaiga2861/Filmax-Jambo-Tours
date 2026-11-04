@@ -467,3 +467,9 @@ body.light-mode .fjt-panel {
 }
 .fjt-panel { overscroll-behavior: contain; }
 .fjt-lang-pop { overscroll-behavior: contain; }
+
+/* Phones: 16px text in the box stops iOS from zooming the page when it's tapped */
+@media (max-width: 600px) {
+  .fjt-panel .fjt-input { font-size: 16px; }
+  .fjt-panel { max-width: calc(100vw - 20px); box-sizing: border-box; }
+}
